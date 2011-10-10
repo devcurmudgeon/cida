@@ -3,6 +3,7 @@
     "kind": "system",
     "disk-size": "1G",
     "strata": [
-        "core"
+        "core",
+        "linux-kernel"
     ]
 }
