@@ -4,6 +4,6 @@
     "disk-size": "1G",
     "strata": [
         "core",
-        "linux-kernel"
+        "linux-stratum"
     ]
 }
