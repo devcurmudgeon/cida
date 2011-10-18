@@ -1,0 +1,10 @@
+{
+    "name": "linux-stratum",
+    "kind": "stratum",
+    "sources": {
+        "linux": {
+            "repo": "linux",
+            "ref": "baserock"
+        }
+    }
+}
