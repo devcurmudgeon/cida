@@ -1,0 +1,10 @@
+{
+    "name": "devel",
+    "kind": "stratum",
+    "sources": {
+        "binutils": {
+            "repo": "binutils",
+            "ref": "baserock"
+        }
+    }
+}
