@@ -23,7 +23,7 @@
             "ref": "baserock"
         },
         "parted": {
-            "repo": "automake",
+            "repo": "parted",
             "ref": "baserock"
         }
     }
