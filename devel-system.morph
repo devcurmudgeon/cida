@@ -1,0 +1,10 @@
+{
+    "name": "devel-system",
+    "kind": "system",
+    "disk-size": "10G",
+    "strata": [
+        "linux-stratum",
+        "core",
+        "devel"
+    ]
+}
