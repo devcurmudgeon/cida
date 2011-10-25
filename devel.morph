@@ -10,6 +10,10 @@
             "repo": "gawk",
             "ref": "baserock"
         },
+        "autoconf": {
+            "repo": "autoconf",
+            "ref": "baserock"
+        },
         "make": {
             "repo": "make",
             "ref": "baserock"
