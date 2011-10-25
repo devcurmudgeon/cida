@@ -2,14 +2,6 @@
     "name": "devel",
     "kind": "stratum",
     "sources": {
-        "binutils": {
-            "repo": "binutils",
-            "ref": "baserock"
-        },
-        "gawk": {
-            "repo": "gawk",
-            "ref": "baserock"
-        },
         "autoconf": {
             "repo": "autoconf",
             "ref": "baserock"
@@ -18,8 +10,20 @@
             "repo": "automake",
             "ref": "baserock"
         },
+        "binutils": {
+            "repo": "binutils",
+            "ref": "baserock"
+        },
+        "gawk": {
+            "repo": "gawk",
+            "ref": "baserock"
+        },
         "make": {
             "repo": "make",
+            "ref": "baserock"
+        },
+        "parted": {
+            "repo": "automake",
             "ref": "baserock"
         }
     }
