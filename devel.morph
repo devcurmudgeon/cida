@@ -18,6 +18,10 @@
             "repo": "bison",
             "ref": "baserock"
         },
+        "flex": {
+            "repo": "flex",
+            "ref": "baserock"
+        },
         "gawk": {
             "repo": "gawk",
             "ref": "baserock"
