@@ -18,6 +18,10 @@
             "repo": "gawk",
             "ref": "baserock"
         },
+        "gcc": {
+            "repo": "gcc",
+            "ref": "baserock"
+        },
         "make": {
             "repo": "make",
             "ref": "baserock"
