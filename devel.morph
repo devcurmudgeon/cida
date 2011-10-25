@@ -6,8 +6,8 @@
             "repo": "binutils",
             "ref": "baserock"
         },
-        "gcc": {
-            "repo": "gcc",
+        "make": {
+            "repo": "make",
             "ref": "baserock"
         }
     }
