@@ -6,6 +6,10 @@
             "repo": "binutils",
             "ref": "baserock"
         },
+        "gawk": {
+            "repo": "gawk",
+            "ref": "baserock"
+        },
         "make": {
             "repo": "make",
             "ref": "baserock"
