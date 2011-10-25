@@ -22,6 +22,10 @@
             "repo": "gcc",
             "ref": "baserock"
         },
+        "m4": {
+            "repo": "m4",
+            "ref": "baserock"
+        },
         "make": {
             "repo": "make",
             "ref": "baserock"
