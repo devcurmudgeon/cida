@@ -14,6 +14,10 @@
             "repo": "binutils",
             "ref": "baserock"
         },
+        "bison": {
+            "repo": "bison",
+            "ref": "baserock"
+        },
         "gawk": {
             "repo": "gawk",
             "ref": "baserock"
