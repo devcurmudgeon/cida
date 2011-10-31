@@ -2,52 +2,8 @@
     "name": "devel",
     "kind": "stratum",
     "sources": {
-        "autoconf": {
-            "repo": "autoconf",
-            "ref": "baserock"
-        },
-        "automake": {
-            "repo": "automake",
-            "ref": "baserock"
-        },
         "binutils": {
             "repo": "binutils",
-            "ref": "baserock"
-        },
-        "bison": {
-            "repo": "bison",
-            "ref": "baserock"
-        },
-        "flex": {
-            "repo": "flex",
-            "ref": "baserock"
-        },
-        "gawk": {
-            "repo": "gawk",
-            "ref": "baserock"
-        },
-        "gcc": {
-            "repo": "gcc",
-            "ref": "baserock"
-        },
-        "gperf": {
-            "repo": "gperf",
-            "ref": "baserock"
-        },
-        "libtool": {
-            "repo": "libtool",
-            "ref": "baserock"
-        },
-        "m4": {
-            "repo": "m4",
-            "ref": "baserock"
-        },
-        "make": {
-            "repo": "make",
-            "ref": "baserock"
-        },
-        "parted": {
-            "repo": "parted",
             "ref": "baserock"
         }
     }
