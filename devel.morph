@@ -5,6 +5,10 @@
         "binutils": {
             "repo": "binutils",
             "ref": "baserock"
+        },
+        "gcc": {
+            "repo": "gcc",
+            "ref": "baserock"
         }
     }
 }
