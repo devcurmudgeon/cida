@@ -12,6 +12,9 @@
         },
         "gmp": {
             "ref": "baserock"
+        },
+        "mpc": {
+            "ref": "baserock"
         }
     }
 }
