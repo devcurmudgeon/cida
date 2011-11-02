@@ -9,6 +9,9 @@
         "gcc": {
             "repo": "gcc",
             "ref": "baserock"
+        },
+        "gmp": {
+            "ref": "baserock"
         }
     }
 }
