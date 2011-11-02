@@ -15,6 +15,9 @@
         },
         "mpc": {
             "ref": "baserock"
+        },
+        "mpfr": {
+            "ref": "baserock"
         }
     }
 }
