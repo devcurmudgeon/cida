@@ -1,10 +1,10 @@
 {
     "name": "gnome-platform",
     "kind": "stratum",
-    "sources": {
-        "glib": {
-            "repo": "glib",
+    "sources": [
+        {
+            "name": "glib",
             "ref": "baserock"
         }
-    }
+    ]
 }

@@ -1,18 +1,18 @@
 {
     "name": "core",
     "kind": "stratum",
-    "sources": {
-        "fhs-dirs": {
-            "repo": "fhs-dirs",
+    "sources": [
+        {
+            "name": "fhs-dirs",
             "ref": "master"
         },
-        "eglibc": {
-            "repo": "eglibc",
+        {
+            "name": "eglibc",
             "ref": "baserock"
         },
-        "busybox": {
-            "repo": "busybox",
+        {
+            "name": "busybox",
             "ref": "baserock"
         }
-    }
+    ]
 }

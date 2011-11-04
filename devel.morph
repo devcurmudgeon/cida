@@ -1,23 +1,26 @@
 {
     "name": "devel",
     "kind": "stratum",
-    "sources": {
-        "binutils": {
-            "repo": "binutils",
+    "sources": [
+        {
+            "name": "binutils",
             "ref": "baserock"
         },
-        "gcc": {
-            "repo": "gcc",
+        {
+            "name": "gcc",
             "ref": "baserock"
         },
-        "gmp": {
+        {
+            "name": "gmp",
             "ref": "baserock"
         },
-        "mpc": {
+        {
+            "name": "mpc",
             "ref": "baserock"
         },
-        "mpfr": {
+        {
+            "name": "mpfr",
             "ref": "baserock"
         }
-    }
+    ]
 }
