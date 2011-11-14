@@ -1,0 +1,15 @@
+{
+    "name": "devel-bootstrap",
+    "kind": "stratum",
+    "sources": [
+        {
+            "name": "fhs-dirs",
+            "ref": "baserocks/bootstrap"
+        },
+        {
+            "name": "binutils-pass-1",
+            "repo": "binutils",
+            "ref": "baserocks/bootstrap",
+            "morph": "binutils-pass-1.morph"
+    ]
+}
