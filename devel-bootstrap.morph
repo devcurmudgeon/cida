@@ -11,5 +11,6 @@
             "repo": "binutils",
             "ref": "baserocks/bootstrap",
             "morph": "binutils-pass-1.morph"
+        }
     ]
 }
