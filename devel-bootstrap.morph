@@ -10,7 +10,7 @@
             "name": "binutils-pass-1",
             "repo": "binutils",
             "ref": "baserocks/bootstrap",
-            "morph": "binutils-pass-1.morph"
+            "morph": "binutils-pass-1"
         }
     ]
 }
