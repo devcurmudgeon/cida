@@ -7,10 +7,6 @@
             "ref": "baserock"
         },
         {
-            "name": "gcc",
-            "ref": "baserock"
-        },
-        {
             "name": "gmp",
             "ref": "baserock"
         },
@@ -20,6 +16,10 @@
         },
         {
             "name": "mpfr",
+            "ref": "baserock"
+        },
+        {
+            "name": "gcc",
             "ref": "baserock"
         }
     ]
