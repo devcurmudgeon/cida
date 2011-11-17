@@ -8,7 +8,7 @@
         },
         {
             "name": "autoconf",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         }
     ]
 }
