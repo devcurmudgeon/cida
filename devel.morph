@@ -11,8 +11,8 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "m4",
-            "ref": "baserock/morph"
+            "name": "gcc",
+            "ref": "baserock/integration/stable"
         }
     ]
 }
