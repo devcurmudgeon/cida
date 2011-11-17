@@ -3,6 +3,18 @@
     "kind": "stratum",
     "sources": [
         {
+            "name": "fhs-dirs",
+            "ref": "liw/debug"
+        },
+        {
+            "name": "eglibc",
+            "ref": "baserock"
+        },
+        {
+            "name": "busybox",
+            "ref": "baserock"
+        },
+        {
             "name": "binutils",
             "ref": "baserock/bootstrap"
         },
