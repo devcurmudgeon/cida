@@ -17,6 +17,10 @@
         {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "gcc",
+            "ref": "baserock/integration/stable"
         }
     ]
 }
