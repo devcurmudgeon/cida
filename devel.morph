@@ -9,6 +9,10 @@
         {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "m4",
+            "ref": "baserock/morph"
         }
     ]
 }
