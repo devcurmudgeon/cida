@@ -7,20 +7,8 @@
             "ref": "baserocks/bootstrap"
         },
         {
-            "name": "gmp",
-            "ref": "baserock"
-        },
-        {
-            "name": "mpc",
-            "ref": "baserock"
-        },
-        {
-            "name": "mpfr",
-            "ref": "baserock"
-        },
-        {
-            "name": "gcc",
-            "ref": "baserock"
+            "name": "autoconf",
+            "ref": "baserock/morph"
         }
     ]
 }
