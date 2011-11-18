@@ -26,6 +26,10 @@
         {
             "name": "gcc",
             "ref": "liw/debug"
+        },
+        {
+            "name": "zlib",
+            "ref": "baserock/morph"
         }
     ]
 }
