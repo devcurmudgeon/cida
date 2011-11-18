@@ -20,16 +20,8 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "ncurses",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "automake",
-            "ref": "baserock/morph"
         },
         {
             "name": "gcc",
@@ -38,10 +30,6 @@
         {
             "name": "zlib",
             "ref": "baserock/morph"
-        },
-        {
-            "name": "busybox",
-            "ref": "baserock"
         }
     ]
 }
