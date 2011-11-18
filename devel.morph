@@ -7,6 +7,11 @@
             "ref": "liw/debug"
         },
         {
+            "name": "linux-api-headers",
+            "ref": "liw/api-headers",
+            "chunks": ["linux-api-headers"]
+        }
+        {
             "name": "eglibc",
             "ref": "baserock"
         },
