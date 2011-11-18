@@ -10,8 +10,6 @@
             "name": "linux-api-headers",
             "repo": "linux",
             "ref": "liw/api-headers",
-            "morph": "linux",
-            "chunks": ["linux-api-headers"]
         },
         {
             "name": "eglibc",
