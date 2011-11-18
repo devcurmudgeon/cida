@@ -24,6 +24,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "automake",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "gcc",
             "ref": "liw/debug"
         },
