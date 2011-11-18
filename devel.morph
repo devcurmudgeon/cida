@@ -30,6 +30,10 @@
         {
             "name": "zlib",
             "ref": "baserock/morph"
+        },
+        {
+            "name": "busybox",
+            "ref": "baserock"
         }
     ]
 }
