@@ -20,7 +20,7 @@
         },
         {
             "name": "gcc",
-            "ref": "baserock/integration/stable"
+            "ref": "liw/debug"
         }
     ]
 }
