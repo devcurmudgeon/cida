@@ -8,6 +8,7 @@
         },
         {
             "name": "linux-api-headers",
+            "repo": "linux",
             "ref": "liw/api-headers",
             "chunks": ["linux-api-headers"]
         },
