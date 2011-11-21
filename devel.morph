@@ -3,6 +3,11 @@
     "kind": "stratum",
     "sources": [
         {
+            "name": "linux",
+            "ref": "liw/api-headers",
+            "morph": "linux"
+        },
+        {
             "name": "fhs-dirs",
             "ref": "liw/debug"
         },
