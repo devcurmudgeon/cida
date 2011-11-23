@@ -21,6 +21,11 @@
             "ref": "baserock"
         },
         {
+            "name": "binutils-pass-1",
+            "ref": "baserock/bootstrap",
+            "morph": "binutils-pass-1"
+        },
+        {
             "name": "binutils",
             "ref": "baserock/bootstrap"
         },
