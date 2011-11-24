@@ -21,10 +21,8 @@
             "ref": "baserock"
         },
         {
-            "name": "binutils-pass-1",
-            "repo": "binutils",
-            "ref": "baserock/bootstrap",
-            "morph": "binutils-pass-1"
+            "name": "zlib",
+            "ref": "baserock/morph"
         },
         {
             "name": "binutils",
