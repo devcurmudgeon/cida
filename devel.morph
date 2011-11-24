@@ -22,7 +22,7 @@
         },
         {
             "name": "zlib",
-            "ref": "baserock/morph"
+            "ref": "liw/debug"
         },
         {
             "name": "binutils",
