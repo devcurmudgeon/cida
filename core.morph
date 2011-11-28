@@ -7,6 +7,11 @@
             "ref": "liw/debug"
         },
         {
+            "name": "linux-api-headers",
+            "repo": "linux",
+            "ref": "liw/api-headers"
+        },
+        {
             "name": "eglibc",
             "ref": "baserock"
         },
