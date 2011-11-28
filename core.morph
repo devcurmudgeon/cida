@@ -13,7 +13,7 @@
         },
         {
             "name": "eglibc",
-            "ref": "liw/debug"
+            "ref": "baserock"
         },
         {
             "name": "busybox",
