@@ -3,7 +3,7 @@
     "kind": "system",
     "disk-size": "1G",
     "strata": [
-        "foundation-stratum",
+        "foundation",
         "linux-stratum"
     ]
 }
