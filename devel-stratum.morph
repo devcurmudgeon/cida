@@ -4,25 +4,25 @@
     "sources": [
         {
             "name": "linux",
-            "ref": "liw/api-headers",
+            "ref": "baserock/morph",
             "morph": "linux"
         },
         {
             "name": "fhs-dirs",
-            "ref": "liw/debug"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "linux-api-headers",
             "repo": "linux",
-            "ref": "liw/api-headers"
+            "ref": "baserock/morph"
         },
         {
             "name": "eglibc",
-            "ref": "baserock"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "zlib",
-            "ref": "liw/debug"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "binutils",
@@ -34,11 +34,11 @@
         },
         {
             "name": "gcc",
-            "ref": "liw/debug"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "busybox",
-            "ref": "baserock"
+            "ref": "baserock/bootstrap"
         }
     ]
 }
