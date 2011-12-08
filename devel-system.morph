@@ -4,7 +4,7 @@
     "disk-size": "10G",
     "strata": [
         "linux-stratum",
-        "core",
+        "foundation",
         "devel"
     ]
 }
