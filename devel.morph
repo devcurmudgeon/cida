@@ -41,8 +41,12 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "m4",
+            "name": "automake",
             "ref": "baserock/morph"
+        },
+        {
+            "name": "m4",
+            "ref": "baserock/bootstrap"
         }
     ]
 }
