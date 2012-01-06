@@ -16,6 +16,10 @@
             "ref": "liw/foo"
         },
         {
+            "name": "hello",
+            "ref": "master"
+        },
+        {
             "name": "busybox",
             "ref": "baserock/bootstrap"
         }
