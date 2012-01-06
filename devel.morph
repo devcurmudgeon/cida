@@ -8,10 +8,6 @@
             "morph": "linux"
         },
         {
-            "name": "fhs-dirs",
-            "ref": "baserock/bootstrap"
-        },
-        {
             "name": "linux-api-headers",
             "repo": "linux",
             "ref": "baserock/morph"
