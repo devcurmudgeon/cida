@@ -13,7 +13,7 @@
         },
         {
             "name": "eglibc",
-            "ref": "baserock/bootstrap"
+            "ref": "liw/foo"
         },
         {
             "name": "busybox",
