@@ -13,10 +13,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "eglibc",
-            "ref": "baserock/bootstrap"
-        },
-        {
             "name": "zlib",
             "ref": "baserock/bootstrap"
         },
@@ -30,10 +26,6 @@
         },
         {
             "name": "gcc",
-            "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "busybox",
             "ref": "baserock/bootstrap"
         }
     ]
