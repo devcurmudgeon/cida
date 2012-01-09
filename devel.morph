@@ -49,8 +49,8 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "libtool",
-            "ref": "baserock/bootstrap"
+            "name": "gperf",
+            "ref": "baserock/morph"
         },
         {
             "name": "m4",
