@@ -53,6 +53,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "diffutils",
+            "ref": "baserock/bootstrap"
+        },
+        {
             "name": "m4",
             "ref": "baserock/bootstrap"
         }
