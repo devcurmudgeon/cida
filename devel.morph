@@ -45,6 +45,14 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "xz",
+            "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "libtool",
+            "ref": "baserock/bootstrap"
+        },
+        {
             "name": "m4",
             "ref": "baserock/bootstrap"
         }
