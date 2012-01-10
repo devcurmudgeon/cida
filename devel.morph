@@ -45,6 +45,18 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "ncurses",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "util-linux",
+            "ref": "baserock/bootstrap",
+        },
+        {
+            "name": "psmisc",
+            "ref": "baserock/bootstrap",
+        },
+        {
             "name": "automake",
             "ref": "baserock/morph"
         },
