@@ -37,8 +37,12 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "busybox",
+            "name": "sed",
             "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "bzip2",
+            "ref": "baserock/morph"
         },
         {
             "name": "automake",
