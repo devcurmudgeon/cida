@@ -50,11 +50,11 @@
         },
         {
             "name": "util-linux",
-            "ref": "baserock/bootstrap",
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "psmisc",
-            "ref": "baserock/bootstrap",
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "automake",
