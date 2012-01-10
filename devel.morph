@@ -57,6 +57,18 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "e2fsprogs",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "coreutils",
+            "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "iana-etc",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "automake",
             "ref": "baserock/morph"
         },
