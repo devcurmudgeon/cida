@@ -4,7 +4,7 @@
     "sources": [
         {
             "name": "fhs-dirs",
-            "ref": "baserock/bootstrap"
+            "ref": "liw/foo"
         },
         {
             "name": "linux-api-headers",
@@ -13,7 +13,11 @@
         },
         {
             "name": "eglibc",
-            "ref": "baserock/bootstrap"
+            "ref": "liw/foo"
+        },
+        {
+            "name": "hello",
+            "ref": "master"
         },
         {
             "name": "busybox",
