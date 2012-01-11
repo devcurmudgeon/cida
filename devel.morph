@@ -73,6 +73,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "procps",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
         },
