@@ -121,6 +121,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "findutils",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "xz",
             "ref": "baserock/bootstrap"
         }
