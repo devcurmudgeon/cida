@@ -89,6 +89,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "libtool",
+            "ref": "baserock/bootstrap"
+        },
+        {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
         },
