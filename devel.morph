@@ -85,6 +85,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "bash",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
         },
