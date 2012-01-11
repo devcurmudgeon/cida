@@ -77,6 +77,14 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "grep",
+            "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "readline",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
         },
