@@ -117,6 +117,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "gawk",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "xz",
             "ref": "baserock/bootstrap"
         }
