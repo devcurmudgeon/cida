@@ -29,10 +29,6 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "autoconf",
-            "ref": "baserock/bootstrap"
-        },
-        {
             "name": "gcc",
             "ref": "baserock/bootstrap"
         },
@@ -69,12 +65,20 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "automake",
-            "ref": "baserock/morph"
+            "name": "m4",
+            "ref": "baserock/bootstrap"
         },
         {
-            "name": "xz",
+            "name": "bison",
             "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "autoconf",
+            "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "automake",
+            "ref": "baserock/morph"
         },
         {
             "name": "gperf",
@@ -83,10 +87,10 @@
         {
             "name": "diffutils",
             "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "m4",
-            "ref": "baserock/bootstrap"
         }
+        {
+            "name": "xz",
+            "ref": "baserock/bootstrap"
+        },
     ]
 }
