@@ -87,10 +87,10 @@
         {
             "name": "diffutils",
             "ref": "baserock/bootstrap"
-        }
+        },
         {
             "name": "xz",
             "ref": "baserock/bootstrap"
-        },
+        }
     ]
 }
