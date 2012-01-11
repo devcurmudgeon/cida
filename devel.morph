@@ -93,6 +93,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "gdbm",
+            "ref": "baserock/bootstrap"
+        },
+        {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
         },
