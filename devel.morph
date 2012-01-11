@@ -97,6 +97,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "perl",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
         },
