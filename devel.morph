@@ -14,11 +14,11 @@
         },
         {
             "name": "zlib",
-            "ref": "liw/foo"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "binutils",
-            "ref": "liw/foo"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "autoconf",
