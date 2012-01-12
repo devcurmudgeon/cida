@@ -125,6 +125,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "help2man",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "flex",
             "ref": "baserock/bootstrap"
         },
