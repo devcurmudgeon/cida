@@ -57,6 +57,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "gperf",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "coreutils",
             "ref": "baserock/bootstrap"
         },
@@ -106,10 +110,6 @@
         },
         {
             "name": "automake",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "gperf",
             "ref": "baserock/morph"
         },
         {
