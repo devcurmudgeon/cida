@@ -133,6 +133,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "gettext",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "xz",
             "ref": "baserock/bootstrap"
         }
