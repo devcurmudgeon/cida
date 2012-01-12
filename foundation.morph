@@ -16,10 +16,6 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "hello",
-            "ref": "master"
-        },
-        {
             "name": "busybox",
             "ref": "baserock/bootstrap"
         }
