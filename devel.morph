@@ -137,6 +137,22 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "groff",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "gzip",
+            "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "libpipeline",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "make",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "xz",
             "ref": "baserock/bootstrap"
         }
