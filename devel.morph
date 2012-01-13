@@ -141,6 +141,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "rsync",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "gzip",
             "ref": "baserock/bootstrap"
         },
