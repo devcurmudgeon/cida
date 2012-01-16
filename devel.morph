@@ -153,6 +153,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "gnutls",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "wget",
             "ref": "baserock/bootstrap"
         },
