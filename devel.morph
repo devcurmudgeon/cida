@@ -29,6 +29,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "gmp",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "gcc",
             "ref": "baserock/bootstrap"
         },
