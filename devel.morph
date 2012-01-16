@@ -176,6 +176,10 @@
         {
             "name": "xz",
             "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "man-db",
+            "ref": "baserock/morph"
         }
     ]
 }
