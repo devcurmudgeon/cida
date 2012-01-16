@@ -153,6 +153,11 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "libnettle",
+            "repo": "lsh",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "gnutls",
             "ref": "baserock/morph"
         },
