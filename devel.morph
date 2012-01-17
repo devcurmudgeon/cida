@@ -196,6 +196,14 @@
         {
             "name": "vim",
             "ref": "baserock/morph"
+        },
+        {
+            "name": "curl",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "git",
+            "ref": "baserock/morph"
         }
     ]
 }
