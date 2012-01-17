@@ -184,6 +184,10 @@
         {
             "name": "patch",
             "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "tar",
+            "ref": "baserock/bootstrap"
         }
     ]
 }
