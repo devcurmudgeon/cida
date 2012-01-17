@@ -198,11 +198,19 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "libexpat",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "curl",
             "ref": "baserock/morph"
         },
         {
             "name": "git",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "sudo",
             "ref": "baserock/morph"
         }
     ]
