@@ -141,6 +141,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "pkg-config",
+            "ref": "baserock/bootstrap"
+        },
+        {
             "name": "groff",
             "ref": "baserock/bootstrap"
         },
