@@ -190,6 +190,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "texinfo-tarball",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "vim",
             "ref": "baserock/morph"
         }
