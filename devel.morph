@@ -180,6 +180,10 @@
         {
             "name": "xz",
             "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "patch",
+            "ref": "baserock/morph"
         }
     ]
 }
