@@ -21,10 +21,6 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "gmp",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "gcc",
             "repo": "gcc-tarball",
             "ref": "baserock/bootstrap"
@@ -151,6 +147,10 @@
         },
         {
             "name": "libpipeline",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "gmp",
             "ref": "baserock/morph"
         },
         {
