@@ -14,10 +14,6 @@
         {
             "name": "eglibc",
             "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "busybox",
-            "ref": "baserock/bootstrap"
         }
     ]
 }
