@@ -3,16 +3,6 @@
     "kind": "stratum",
     "sources": [
         {
-            "name": "linux",
-            "ref": "baserock/morph",
-            "morph": "linux"
-        },
-        {
-            "name": "linux-api-headers",
-            "repo": "linux",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "zlib",
             "ref": "baserock/bootstrap"
         },
