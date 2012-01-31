@@ -76,10 +76,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "libtool",
-            "ref": "baserock/bootstrap"
-        },
-        {
             "name": "gdbm",
             "ref": "baserock/bootstrap"
         },
@@ -94,6 +90,10 @@
         {
             "name": "automake",
             "ref": "baserock/morph"
+        },
+        {
+            "name": "libtool",
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "diffutils",
