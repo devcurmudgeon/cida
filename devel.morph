@@ -197,6 +197,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "python",
+            "ref": "baserock/morph-2.7"
+        },
+        {
             "name": "sudo",
             "ref": "baserock/morph"
         }
