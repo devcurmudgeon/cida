@@ -189,6 +189,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "openssl",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "git",
             "ref": "baserock/morph"
         },
