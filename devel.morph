@@ -193,12 +193,12 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "git",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "python",
             "ref": "baserock/morph-2.7"
+        },
+        {
+            "name": "git",
+            "ref": "baserock/morph"
         },
         {
             "name": "sudo",
