@@ -203,6 +203,11 @@
         {
             "name": "sudo",
             "ref": "baserock/morph"
+        },
+        {
+            "name": "busybox-devel",
+            "repo": "busybox",
+            "ref": "baserock/bootstrap"
         }
     ]
 }
