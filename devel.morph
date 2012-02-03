@@ -197,6 +197,10 @@
             "ref": "baserock/morph-2.7"
         },
         {
+            "name": "cliapp",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "git",
             "ref": "baserock/morph"
         },
