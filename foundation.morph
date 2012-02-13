@@ -4,7 +4,7 @@
     "sources": [
         {
             "name": "fhs-dirs",
-            "ref": "baserock/bootstrap"
+            "ref": "master"
         },
         {
             "name": "linux-api-headers",
