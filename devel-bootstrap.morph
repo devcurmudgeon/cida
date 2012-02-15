@@ -4,7 +4,7 @@
     "sources": [
         {
             "name": "zlib",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/morph"
         },
         {
             "name": "binutils",
