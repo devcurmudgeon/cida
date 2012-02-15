@@ -146,7 +146,7 @@
         {
             "name": "libnettle",
             "repo": "lsh",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/morph"
         },
         {
             "name": "gnutls",
