@@ -162,7 +162,7 @@
         },
         {
             "name": "xz",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/morph"
         },
         {
             "name": "patch",
