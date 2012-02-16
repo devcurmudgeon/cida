@@ -211,7 +211,7 @@
         {
             "name": "busybox-devel",
             "repo": "busybox",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/morph"
         }
     ]
 }
