@@ -133,7 +133,7 @@
         },
         {
             "name": "gzip",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/morph"
         },
         {
             "name": "libpipeline",
