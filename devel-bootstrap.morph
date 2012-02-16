@@ -170,7 +170,7 @@
         },
         {
             "name": "tar",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/morph"
         },
         {
             "name": "texinfo-tarball",
