@@ -11,6 +11,18 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "gmp",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "mpfr",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "mpc",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "gcc",
             "repo": "gcc-tarball",
             "ref": "baserock/morph"
@@ -137,10 +149,6 @@
         },
         {
             "name": "libpipeline",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "gmp",
             "ref": "baserock/morph"
         },
         {
