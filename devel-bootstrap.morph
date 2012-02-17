@@ -154,7 +154,7 @@
         },
         {
             "name": "wget",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/morph"
         },
         {
             "name": "make",
