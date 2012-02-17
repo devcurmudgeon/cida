@@ -37,7 +37,7 @@
         },
         {
             "name": "e2fsprogs",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "gperf",
