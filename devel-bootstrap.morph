@@ -166,7 +166,7 @@
         },
         {
             "name": "patch",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/morph"
         },
         {
             "name": "tar",
