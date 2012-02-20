@@ -125,7 +125,7 @@
         },
         {
             "name": "groff",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/morph"
         },
         {
             "name": "rsync",
