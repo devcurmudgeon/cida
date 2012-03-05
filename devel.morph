@@ -220,6 +220,22 @@
             "name": "busybox-devel",
             "repo": "busybox",
             "ref": "baserock/morph"
+        },
+        {
+            "name": "openssh",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool",
+                "gettext",
+                "openssl"
+            ]
+        },
+        {
+            "name": "portmap",
+            "ref": "baserock/morph",
+            "build-depends": []
         }
     ]
 }
