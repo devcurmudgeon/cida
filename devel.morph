@@ -3,6 +3,12 @@
     "kind": "stratum",
     "sources": [
         {
+            "name": "eglibc-runtime",
+            "repo": "eglibc",
+            "morph": "eglibc",
+            "ref": "liw/split-chunk"
+        },
+        {
             "name": "zlib",
             "ref": "baserock/morph"
         },

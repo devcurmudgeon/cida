@@ -12,7 +12,8 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "eglibc",
+            "name": "eglibc-runtime",
+            "morph": "eglibc",
             "repo": "eglibc2",
             "ref": "baserock/morph"
         }
