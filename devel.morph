@@ -240,6 +240,10 @@
             "name": "portmap",
             "ref": "baserock/morph",
             "build-depends": []
+        },
+        {
+            "name": "syslinux",
+            "ref": "baserock/morph"
         }
     ]
 }
