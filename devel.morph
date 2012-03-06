@@ -244,6 +244,43 @@
         {
             "name": "syslinux",
             "ref": "baserock/morph"
+        },
+        {
+            "name": "python-setuptools",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python"
+            ]
+        },
+        {
+            "name": "python-coveragepy",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python",
+                "python-setuptools"
+            ]
+        },
+        {
+            "name": "python-coverage-test-runner",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python"
+            ]
+        },
+        {
+            "name": "python-ttystatus",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python"
+            ]
+        },
+        {
+            "name": "cmdtest",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python",
+                "python-ttystatus"
+            ]
         }
     ]
 }
