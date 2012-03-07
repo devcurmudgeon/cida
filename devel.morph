@@ -264,7 +264,8 @@
             "name": "python-coverage-test-runner",
             "ref": "baserock/morph",
             "build-depends": [
-                "python"
+                "python",
+                "python-coveragepy"
             ]
         },
         {
