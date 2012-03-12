@@ -4,9 +4,9 @@
     "sources": [
         {
             "name": "eglibc-runtime",
-            "repo": "eglibc",
+            "repo": "eglibc2",
             "morph": "eglibc",
-            "ref": "liw/split-chunk"
+            "ref": "baserock/morph"
         },
         {
             "name": "zlib",
