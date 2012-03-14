@@ -1,7 +1,7 @@
 {
     "name": "base",
     "kind": "system",
-    "disk-size": "1G",
+    "disk-size": "10G",
     "strata": [
         "foundation",
         "linux-stratum"
