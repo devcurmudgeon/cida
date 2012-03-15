@@ -223,11 +223,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "busybox-devel",
-            "repo": "busybox",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "nasm",
             "ref": "baserock/morph"
         },
