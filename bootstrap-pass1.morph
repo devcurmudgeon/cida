@@ -103,11 +103,6 @@
             "name": "make"
         },
         {
-            "repo": "make",
-            "ref": "baserock/morph",
-            "name": "make"
-        },
-        {
             "repo": "patch",
             "ref": "baserock/bootstrap-pass1",
             "name": "patch"
