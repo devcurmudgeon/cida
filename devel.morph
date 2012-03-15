@@ -6,7 +6,7 @@
             "name": "eglibc-runtime",
             "repo": "eglibc2",
             "morph": "eglibc",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph-2.15"
         },
         {
             "name": "zlib",
