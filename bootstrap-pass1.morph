@@ -9,7 +9,7 @@
         },
         {
             "repo": "gcc-tarball",
-            "ref": "baserock/bootstrap",
+            "ref": "baserock/bootstrap-pass1-1",
             "name": "gcc-bootstrap-pass1-1"
         },
         {
@@ -29,7 +29,7 @@
         },
         {
             "repo": "gcc-tarball",
-            "ref": "baserock/bootstrap",
+            "ref": "baserock/bootstrap-pass1-2",
             "name": "gcc-bootstrap-pass1-2"
         },
         {
