@@ -33,11 +33,6 @@
             "name": "gcc-bootstrap-pass1-2"
         },
         {
-            "repo": "zlib",
-            "ref": "baserock/morph",
-            "name": "zlib"
-        },
-        {
             "repo": "file",
             "ref": "baserock/morph",
             "name": "file"
