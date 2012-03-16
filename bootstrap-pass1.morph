@@ -38,6 +38,11 @@
             "name": "zlib"
         },
         {
+            "repo": "file",
+            "ref": "baserock/morph",
+            "name": "file"
+        },
+        {
             "repo": "ncurses",
             "ref": "baserock/bootstrap-pass1",
             "name": "ncurses"
@@ -61,11 +66,6 @@
             "repo": "diffutils",
             "ref": "baserock/bootstrap",
             "name": "diffutils"
-        },
-        {
-            "repo": "file",
-            "ref": "baserock/morph",
-            "name": "file"
         },
         {
             "repo": "findutils",
