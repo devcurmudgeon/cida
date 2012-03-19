@@ -18,6 +18,12 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "eglibc-devel",
+            "morph": "eglibc",
+            "repo": "eglibc2",
+            "ref": "jannis/eglibc-2.15"
+        },
+        {
             "name": "zlib",
             "ref": "baserock/morph"
         },
