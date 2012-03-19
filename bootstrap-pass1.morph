@@ -135,12 +135,36 @@
         {
             "repo": "cliapp",
             "ref": "baserock/morph",
-            "name": "cliapp"
+            "name": "cliapp",
+            "build-depends": [
+                "python"
+            ]
+        },
+        {
+            "name": "openssl",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "curl",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "openssl"
+            ]
+        },
+        {
+            "name": "libexpat",
+            "ref": "baserock/morph"
         },
         {
             "repo": "git",
             "ref": "baserock/morph",
-            "name": "git"
+            "name": "git",
+            "build-depends": [
+                "python",
+                "libexpat",
+                "curl",
+                "openssl"
+            ]
         }
     ]
 }
