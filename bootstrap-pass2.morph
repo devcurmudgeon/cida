@@ -1,11 +1,20 @@
 {
-    "name": "devel",
+    "name": "bootstrap-pass2",
     "kind": "stratum",
     "sources": [
         {
+            "name": "fhs-dirs",
+            "ref": "master"
+        },
+        {
+            "name": "linux-api-headers",
+            "repo": "linux",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "eglibc-runtime",
-            "repo": "eglibc2",
             "morph": "eglibc",
+            "repo": "eglibc2",
             "ref": "baserock/morph"
         },
         {
@@ -14,28 +23,16 @@
         },
         {
             "name": "binutils",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "gmp",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "mpfr",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "mpc",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "gcc",
             "repo": "gcc-tarball",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "sed",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "bzip2",
@@ -47,15 +44,15 @@
         },
         {
             "name": "util-linux",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "psmisc",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "e2fsprogs",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "gperf",
@@ -63,7 +60,7 @@
         },
         {
             "name": "coreutils",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "iana-etc",
@@ -71,11 +68,11 @@
         },
         {
             "name": "m4",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "bison",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "procps",
@@ -83,7 +80,7 @@
         },
         {
             "name": "grep",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "readline",
@@ -95,7 +92,7 @@
         },
         {
             "name": "gdbm",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "perl",
@@ -103,7 +100,7 @@
         },
         {
             "name": "autoconf",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "automake",
@@ -111,11 +108,11 @@
         },
         {
             "name": "libtool",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "diffutils",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "gawk",
@@ -123,7 +120,7 @@
         },
         {
             "name": "findutils",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "help2man",
@@ -131,15 +128,15 @@
         },
         {
             "name": "flex",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "gettext",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "pkg-config",
-            "ref": "baserock/morph"
+            "ref": "baserock/bootstrap"
         },
         {
             "name": "groff",
@@ -155,6 +152,10 @@
         },
         {
             "name": "libpipeline",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "gmp",
             "ref": "baserock/morph"
         },
         {
@@ -223,66 +224,13 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "nasm",
+            "name": "busybox-devel",
+            "repo": "busybox",
             "ref": "baserock/morph"
         },
         {
-            "name": "openssh",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "autoconf",
-                "automake",
-                "libtool",
-                "gettext",
-                "openssl"
-            ]
-        },
-        {
-            "name": "portmap",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
-            "name": "syslinux",
+            "name": "linux",
             "ref": "baserock/morph"
-        },
-        {
-            "name": "python-setuptools",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "python"
-            ]
-        },
-        {
-            "name": "python-coveragepy",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "python",
-                "python-setuptools"
-            ]
-        },
-        {
-            "name": "python-coverage-test-runner",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "python",
-                "python-coveragepy"
-            ]
-        },
-        {
-            "name": "python-ttystatus",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "python"
-            ]
-        },
-        {
-            "name": "cmdtest",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "python",
-                "python-ttystatus"
-            ]
         }
     ]
 }

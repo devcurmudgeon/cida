@@ -16,6 +16,12 @@
             "morph": "eglibc",
             "repo": "eglibc2",
             "ref": "baserock/morph"
+        },
+        {
+            "name": "busybox-devel",
+            "morph": "busybox-devel",
+            "repo": "busybox",
+            "ref": "baserock/morph"
         }
     ]
 }
