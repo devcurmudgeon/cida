@@ -165,11 +165,11 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "curl",
+            "name": "openssl",
             "ref": "baserock/morph"
         },
         {
-            "name": "openssl",
+            "name": "curl",
             "ref": "baserock/morph"
         },
         {
