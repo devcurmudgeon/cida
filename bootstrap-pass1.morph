@@ -43,6 +43,11 @@
             "name": "file"
         },
         {
+            "repo": "ccache",
+            "ref": "baserock/morph",
+            "name": "ccache"
+        },
+        {
             "repo": "ncurses",
             "ref": "baserock/bootstrap-pass1",
             "name": "ncurses"
