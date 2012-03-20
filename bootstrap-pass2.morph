@@ -15,13 +15,13 @@
             "name": "eglibc-runtime",
             "morph": "eglibc",
             "repo": "eglibc2",
-            "ref": "baserock/morph-2.15"
+            "ref": "baserock/2.15-morph"
         },
         {
             "name": "eglibc-devel",
             "morph": "eglibc",
             "repo": "eglibc2",
-            "ref": "baserock/morph-2.15"
+            "ref": "baserock/2.15-morph"
         },
         {
             "name": "zlib",
