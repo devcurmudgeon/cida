@@ -49,18 +49,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "util-linux",
-            "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "psmisc",
-            "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "e2fsprogs",
-            "ref": "baserock/bootstrap"
-        },
-        {
             "name": "gperf",
             "ref": "baserock/morph"
         },
@@ -69,20 +57,12 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "iana-etc",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "m4",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "bison",
             "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "procps",
-            "ref": "baserock/morph"
         },
         {
             "name": "grep",
@@ -149,10 +129,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "rsync",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "gzip",
             "ref": "baserock/morph"
         },
@@ -162,19 +138,6 @@
         },
         {
             "name": "gmp",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "libnettle",
-            "repo": "lsh",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "gnutls",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "wget",
             "ref": "baserock/morph"
         },
         {
@@ -195,10 +158,6 @@
         },
         {
             "name": "texinfo-tarball",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "vim",
             "ref": "baserock/morph"
         },
         {
@@ -223,19 +182,6 @@
         },
         {
             "name": "git",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "sudo",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "busybox-devel",
-            "repo": "busybox",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "linux",
             "ref": "baserock/morph"
         }
     ]
