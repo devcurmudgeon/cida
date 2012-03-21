@@ -37,11 +37,7 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "sed",
-            "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "bzip2",
+            "name": "busybox",
             "ref": "baserock/morph"
         },
         {
@@ -53,19 +49,11 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "coreutils",
-            "ref": "baserock/bootstrap"
-        },
-        {
             "name": "m4",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "bison",
-            "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "grep",
             "ref": "baserock/bootstrap"
         },
         {
@@ -97,16 +85,8 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "diffutils",
-            "ref": "baserock/bootstrap"
-        },
-        {
             "name": "gawk",
             "ref": "baserock/morph"
-        },
-        {
-            "name": "findutils",
-            "ref": "baserock/bootstrap"
         },
         {
             "name": "help2man",
@@ -129,27 +109,7 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "gzip",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "libpipeline",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "make",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "xz",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "patch",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "tar",
             "ref": "baserock/morph"
         },
         {
