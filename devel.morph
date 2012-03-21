@@ -34,11 +34,7 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "sed",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "bzip2",
+            "name": "busybox",
             "ref": "baserock/morph"
         },
         {
@@ -46,27 +42,7 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "util-linux",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "psmisc",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "e2fsprogs",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "gperf",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "coreutils",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "iana-etc",
             "ref": "baserock/morph"
         },
         {
@@ -75,14 +51,6 @@
         },
         {
             "name": "bison",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "procps",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "grep",
             "ref": "baserock/morph"
         },
         {
@@ -114,15 +82,7 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "diffutils",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "gawk",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "findutils",
             "ref": "baserock/morph"
         },
         {
@@ -146,44 +106,7 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "rsync",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "gzip",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "libpipeline",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "libnettle",
-            "repo": "lsh",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "gnutls",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "wget",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "make",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "xz",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "patch",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "tar",
             "ref": "baserock/morph"
         },
         {
@@ -199,12 +122,15 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "curl",
+            "name": "openssl",
             "ref": "baserock/morph"
         },
         {
-            "name": "openssl",
-            "ref": "baserock/morph"
+            "name": "curl",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "openssl"
+            ]
         },
         {
             "name": "python",
@@ -212,18 +138,27 @@
         },
         {
             "name": "cliapp",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python"
+            ]
         },
         {
             "name": "git",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "sudo",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": [
+                "libexpat",
+                "openssl",
+                "curl",
+                "python"
+            ]
         },
         {
             "name": "nasm",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "syslinux",
             "ref": "baserock/morph"
         },
         {
@@ -236,15 +171,6 @@
                 "gettext",
                 "openssl"
             ]
-        },
-        {
-            "name": "portmap",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
-            "name": "syslinux",
-            "ref": "baserock/morph"
         },
         {
             "name": "python-setuptools",
