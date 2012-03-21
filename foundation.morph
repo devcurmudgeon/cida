@@ -22,6 +22,10 @@
             "morph": "busybox-devel",
             "repo": "busybox",
             "ref": "baserock/morph"
+        },
+        {
+            "name": "attr",
+            "ref": "baserock/morph"
         }
     ]
 }
