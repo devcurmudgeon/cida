@@ -137,10 +137,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "gmp",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "make",
             "ref": "baserock/morph"
         },
