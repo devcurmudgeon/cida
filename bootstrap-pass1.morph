@@ -38,11 +38,6 @@
             "name": "zlib"
         },
         {
-            "repo": "file",
-            "ref": "baserock/morph",
-            "name": "file"
-        },
-        {
             "repo": "ncurses",
             "ref": "baserock/bootstrap-pass1",
             "name": "ncurses"
@@ -53,24 +48,9 @@
             "name": "bash"
         },
         {
-            "repo": "bzip2",
+            "repo": "busybox",
             "ref": "baserock/morph",
-            "name": "bzip2"
-        },
-        {
-            "repo": "coreutils",
-            "ref": "baserock/bootstrap-pass1",
-            "name": "coreutils"
-        },
-        {
-            "repo": "diffutils",
-            "ref": "baserock/bootstrap",
-            "name": "diffutils"
-        },
-        {
-            "repo": "findutils",
-            "ref": "baserock/bootstrap-pass1",
-            "name": "findutils"
+            "name": "busybox"
         },
         {
             "repo": "gawk",
@@ -83,16 +63,6 @@
             "name": "gettext"
         },
         {
-            "repo": "grep",
-            "ref": "baserock/bootstrap-pass1",
-            "name": "grep"
-        },
-        {
-            "repo": "gzip",
-            "ref": "baserock/bootstrap-pass1",
-            "name": "gzip"
-        },
-        {
             "repo": "m4",
             "ref": "baserock/bootstrap",
             "name": "m4"
@@ -103,34 +73,14 @@
             "name": "make"
         },
         {
-            "repo": "patch",
-            "ref": "baserock/bootstrap-pass1",
-            "name": "patch"
-        },
-        {
             "repo": "perl",
             "ref": "baserock/morph",
             "name": "perl"
         },
         {
-            "repo": "sed",
-            "ref": "baserock/bootstrap",
-            "name": "sed"
-        },
-        {
-            "repo": "tar",
-            "ref": "baserock/bootstrap-pass1",
-            "name": "tar"
-        },
-        {
             "repo": "texinfo-tarball",
             "ref": "baserock/bootstrap-pass1",
             "name": "texinfo-tarball"
-        },
-        {
-            "repo": "xz",
-            "ref": "baserock/morph",
-            "name": "xz"
         },
         {
             "repo": "python",
