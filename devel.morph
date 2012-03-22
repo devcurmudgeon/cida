@@ -46,10 +46,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "util-linux",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "psmisc",
             "ref": "baserock/morph"
         },

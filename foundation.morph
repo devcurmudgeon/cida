@@ -28,6 +28,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "util-linux",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "btrfs-progs",
             "ref": "baserock/morph"
         }
