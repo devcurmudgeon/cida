@@ -3,7 +3,7 @@
     "kind": "stratum",
     "sources": [
         {
-            "repo": "binutils",
+            "repo": "binutils-redhat",
             "ref": "baserock/bootstrap-pass1",
             "name": "binutils-1"
         },
@@ -19,11 +19,11 @@
         },
         {
             "repo": "eglibc2",
-            "ref": "baserock/bootstrap-pass1",
+            "ref": "baserock/2.15-bootstrap-pass1",
             "name": "eglibc"
         },
         {
-            "repo": "binutils",
+            "repo": "binutils-redhat",
             "ref": "baserock/bootstrap-pass1",
             "name": "binutils-2"
         },
