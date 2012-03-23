@@ -38,6 +38,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "patch",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "ncurses",
             "ref": "baserock/morph"
         },

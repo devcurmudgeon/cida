@@ -53,6 +53,10 @@
             "name": "busybox"
         },
         {
+            "name": "patch",
+            "ref": "baserock/bootstrap-pass1"
+        },
+        {
             "repo": "gawk",
             "ref": "baserock/morph",
             "name": "gawk"
