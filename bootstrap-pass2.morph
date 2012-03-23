@@ -41,10 +41,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "patch",
-            "ref": "baserock/bootstrap-pass2"
-        },
-        {
             "name": "ncurses",
             "ref": "baserock/morph"
         },
@@ -59,6 +55,10 @@
         {
             "name": "bison",
             "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "patch",
+            "ref": "baserock/bootstrap-pass2"
         },
         {
             "name": "readline",
