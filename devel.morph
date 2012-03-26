@@ -50,6 +50,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "coreutils",
+            "ref": "rm/no-bb-overlap/morph"
+        },
+        {
             "name": "m4",
             "ref": "baserock/morph"
         },
