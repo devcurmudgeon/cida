@@ -159,10 +159,6 @@
                 "openssl",
                 "libexpat"
             ]
-        },
-        {
-            "name": "linux",
-            "ref": "baserock/morph"
         }
     ]
 }
