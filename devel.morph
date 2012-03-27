@@ -78,6 +78,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "xz",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "autoconf",
             "ref": "baserock/morph"
         },
