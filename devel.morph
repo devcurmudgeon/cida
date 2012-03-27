@@ -3,6 +3,11 @@
     "kind": "stratum",
     "sources": [
         {
+            "name": "linux-api-headers",
+            "repo": "linux",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "eglibc-runtime",
             "repo": "eglibc2",
             "morph": "eglibc",

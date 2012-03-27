@@ -7,11 +7,6 @@
             "ref": "master"
         },
         {
-            "name": "linux-api-headers",
-            "repo": "linux",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "eglibc-runtime",
             "morph": "eglibc",
             "repo": "eglibc2",
