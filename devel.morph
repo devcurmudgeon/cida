@@ -50,6 +50,10 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "xz",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "coreutils",
             "ref": "rm/no-bb-overlap/morph"
         },
@@ -75,10 +79,6 @@
         },
         {
             "name": "perl",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "xz",
             "ref": "baserock/morph"
         },
         {
