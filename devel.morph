@@ -208,7 +208,7 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "python",
+            "name": "cpython",
             "ref": "baserock/morph-2.7"
         },
         {
@@ -251,14 +251,14 @@
             "name": "python-setuptools",
             "ref": "baserock/morph",
             "build-depends": [
-                "python"
+                "cpython"
             ]
         },
         {
             "name": "python-coveragepy",
             "ref": "baserock/morph",
             "build-depends": [
-                "python",
+                "cpython",
                 "python-setuptools"
             ]
         },
@@ -266,7 +266,7 @@
             "name": "python-coverage-test-runner",
             "ref": "baserock/morph",
             "build-depends": [
-                "python",
+                "cpython",
                 "python-coveragepy"
             ]
         },
@@ -274,14 +274,14 @@
             "name": "python-ttystatus",
             "ref": "baserock/morph",
             "build-depends": [
-                "python"
+                "cpython"
             ]
         },
         {
             "name": "cmdtest",
             "ref": "baserock/morph",
             "build-depends": [
-                "python",
+                "cpython",
                 "python-ttystatus"
             ]
         }

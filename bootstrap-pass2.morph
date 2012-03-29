@@ -214,7 +214,7 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "python",
+            "name": "cpython",
             "ref": "baserock/morph-2.7"
         },
         {

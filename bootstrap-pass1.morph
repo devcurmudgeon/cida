@@ -133,16 +133,16 @@
             "name": "xz"
         },
         {
-            "repo": "python",
+            "repo": "cpython",
             "ref": "baserock/morph-2.7",
-            "name": "python"
+            "name": "cpython"
         },
         {
             "repo": "cliapp",
             "ref": "baserock/morph",
             "name": "cliapp",
             "build-depends": [
-                "python"
+                "cpython"
             ]
         },
         {
@@ -165,7 +165,7 @@
             "ref": "baserock/morph",
             "name": "git",
             "build-depends": [
-                "python",
+                "cpython",
                 "libexpat",
                 "curl",
                 "openssl"
