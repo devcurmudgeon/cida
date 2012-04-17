@@ -1,0 +1,10 @@
+{
+    "name": "x86-morph-cache-server-system",
+    "kind": "system",
+    "disk-size": "1g",
+    "strata": [
+        "foundation",
+        "linux-stratum",
+        "morph-cache-server"
+    ]
+}
