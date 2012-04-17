@@ -1,0 +1,22 @@
+{
+    "name": "morph-cache-server",
+    "kind": "stratum",
+    "build-depends": [
+        "foundation"
+    ],
+    "sources": [
+        {
+            "name": "cpython",
+            "ref": "baserock/morph-2.7"
+        },
+        {
+            "name": "python-bottle",
+            "repo": "refnull/bottle",
+            "ref": "master"
+        },
+        {
+            "name": "morph-cache-server",
+            "ref": "master"
+        }
+    ]
+}
