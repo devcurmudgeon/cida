@@ -280,6 +280,23 @@
                 "cpython",
                 "python-ttystatus"
             ]
+        },
+        {
+            "name": "libxml2",
+            "ref": "master"
+        },
+        {
+            "name": "libxslt",
+            "ref": "master",
+            "build-depends": [
+                "libxml2"
+            ]
+        },
+        {
+            "name": "intltool",
+            "ref": "master": [
+                "perl"
+            ]
         }
     ]
 }
