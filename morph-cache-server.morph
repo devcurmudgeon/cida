@@ -6,6 +6,10 @@
     ],
     "sources": [
         {
+            "name": "git",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "openssl",
             "ref": "baserock/morph"
         },
