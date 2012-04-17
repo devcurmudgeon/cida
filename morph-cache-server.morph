@@ -11,7 +11,7 @@
         },
         {
             "name": "python-bottle",
-            "repo": "refnull/bottle.git",
+            "repo": "defnull/bottle.git",
             "ref": "master"
         },
         {
