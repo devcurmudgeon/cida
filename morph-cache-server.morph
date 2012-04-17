@@ -10,7 +10,11 @@
             "ref": "baserock/morph-2.7"
         },
         {
-            "name": "python-bottle",
+            "name": "cliapp",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "bottle",
             "repo": "defnull/bottle.git",
             "ref": "master"
         },
