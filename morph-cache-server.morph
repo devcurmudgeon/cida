@@ -6,6 +6,10 @@
     ],
     "sources": [
         {
+            "name": "openssl",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "cpython",
             "ref": "baserock/morph-2.7"
         },
