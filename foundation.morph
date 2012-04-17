@@ -33,6 +33,10 @@
         {
             "name": "tbdiff",
             "ref": "master"
+        },
+        {
+            "name": "zlib",
+            "ref": "baserock/morph"
         }
     ]
 }

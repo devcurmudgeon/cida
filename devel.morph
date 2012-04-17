@@ -14,10 +14,6 @@
             "ref": "baserock/2.15-morph"
         },
         {
-            "name": "zlib",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "binutils",
             "ref": "baserock/morph"
         },
