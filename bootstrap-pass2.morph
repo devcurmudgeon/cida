@@ -226,13 +226,19 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "sudo",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "busybox-devel",
             "repo": "busybox",
             "ref": "baserock/morph"
+        },
+        {   
+            "name": "linux-user-chroot",
+            "ref": "master",
+            "build-depends": [
+                "busybox-devel",
+                "autoconf",
+                "automake",
+                "libtool"
+            ]   
         },
         {
             "name": "linux",

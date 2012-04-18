@@ -139,6 +139,15 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "linux-user-chroot",
+            "ref": "master",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool"
+            ]
+        },
+        {
             "name": "groff",
             "ref": "baserock/morph"
         },

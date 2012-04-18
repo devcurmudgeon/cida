@@ -170,6 +170,13 @@
                 "curl",
                 "openssl"
             ]
+        },
+        {   
+            "name": "linux-user-chroot",
+            "ref": "baserock/bootstrap",
+            "build-depends": [
+                "gcc-bootstrap-pass1-2"
+            ]
         }
     ]
 }
