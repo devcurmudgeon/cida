@@ -294,7 +294,8 @@
         },
         {
             "name": "intltool",
-            "ref": "master": [
+            "ref": "master",
+            "build-depends": [
                 "perl"
             ]
         }
