@@ -303,7 +303,7 @@
         },
         {
             "name": "intltool",
-            "ref": "trunk",
+            "ref": "baserock/morph",
             "build-depends": [
                 "perl"
             ]
