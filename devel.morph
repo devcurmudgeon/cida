@@ -303,7 +303,7 @@
         },
         {
             "name": "intltool",
-            "ref": "master",
+            "ref": "trunk",
             "build-depends": [
                 "perl"
             ]
