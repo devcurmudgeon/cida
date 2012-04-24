@@ -302,10 +302,15 @@
             ]
         },
         {
+            "name": "XML-Parser",
+            "ref": "master"
+        },
+        {
             "name": "intltool",
             "ref": "baserock/morph",
             "build-depends": [
-                "perl"
+                "perl",
+                "XML-Parser"
             ]
         }
     ]
