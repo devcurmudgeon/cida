@@ -8,7 +8,7 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "eglibc
+            "name": "eglibc",
             "repo": "eglibc2",
             "morph": "eglibc",
             "ref": "baserock/2.15-morph"
