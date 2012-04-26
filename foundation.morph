@@ -7,7 +7,7 @@
             "ref": "master"
         },
         {
-            "name": "eglibc-runtime",
+            "name": "eglibc
             "morph": "eglibc",
             "repo": "eglibc2",
             "ref": "baserock/2.15-morph"
