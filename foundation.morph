@@ -10,33 +10,120 @@
             "name": "eglibc",
             "morph": "eglibc",
             "repo": "eglibc2",
-            "ref": "baserock/2.15-morph"
+            "ref": "baserock/2.15-morph",
+            "build-depends": []
+        },
+        {
+            "name": "zlib",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "eglibc"
+            ]
         },
         {
             "name": "busybox-devel",
             "morph": "busybox-devel",
             "repo": "busybox",
-            "ref": "baserock/morph"
+            "ref":  "baserock/morph",
+            "build-depends": [
+                "eglibc"
+            ]
         },
         {
             "name": "attr",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": [
+                "eglibc"
+            ]
         },
         {
             "name": "util-linux",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": [
+                "eglibc"
+            ]
+        },
+        {
+            "name": "libcap2",
+            "ref": "master",
+            "build-depends": [
+                "attr"
+            ]
         },
         {
             "name": "btrfs-progs",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": [
+                "eglibc"
+            ]
         },
         {
             "name": "tbdiff",
-            "ref": "master"
+            "ref": "master",
+            "build-depends": [
+                "eglibc",
+                "attr"
+            ]
         },
         {
-            "name": "zlib",
-            "ref": "baserock/morph"
+            "name": "libusb",
+            "ref": "master",
+            "build-depends": [
+                "eglibc"
+            ]
+        },
+        {
+            "name": "usbutils",
+            "ref": "master",
+            "build-depends": [
+                "libusb"
+            ]
+        },
+        {
+            "name": "pciutils",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "eglibc"
+            ]
+        },
+        {
+            "name": "libffi",
+            "ref": "master",
+            "build-depends": [
+                "eglibc"
+            ]
+        },
+        {
+            "name": "glib",
+            "ref": "master",
+            "build-depends": [
+                "libffi"
+            ]
+        },
+        {
+            "name": "dbus",
+            "ref": "master",
+            "build-depends": [
+                "glib"
+            ]
+        },
+        {
+            "name": "gobject-introspection",
+            "ref": "master",
+            "build-depends": [
+                "glib"
+            ]
+        },
+        {
+            "name": "systemd",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "dbus",
+                "gobject-introspection",
+                "libcap2",
+                "usbutils",
+                "pciutils"
+            ]
         }
     ]
 }
