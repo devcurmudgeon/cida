@@ -12,7 +12,7 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "eglibc",
+            "name": "eglibc-devel",
             "morph": "eglibc",
             "repo": "eglibc2",
             "ref": "baserock/2.15-morph"
