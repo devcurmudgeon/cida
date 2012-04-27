@@ -111,7 +111,7 @@
         },
         {
             "name": "gobject-introspection",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "glib"
             ]
