@@ -104,7 +104,7 @@
         },
         {
             "name": "dbus",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "glib"
             ]
