@@ -67,6 +67,7 @@
         },
         {
             "name": "libusb",
+            "repo": "git://git.libusb.org/libusb.git",
             "ref": "master",
             "build-depends": [
                 "eglibc"
