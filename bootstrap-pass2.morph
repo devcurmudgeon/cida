@@ -99,6 +99,14 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "XML-Parser",
+            "ref": "master"
+        },
+        {
+            "name": "intltool",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
         },
@@ -137,6 +145,23 @@
         {
             "name": "pkg-config",
             "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "libffi",
+            "ref": "master",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool"
+            ]
+        },
+        {
+            "name": "glib",
+            "ref": "mastrer",
+            "build-depends": [
+                "libffi",
+                "pkg-config"
+            ]
         },
         {
             "name": "groff",

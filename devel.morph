@@ -225,10 +225,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "sudo",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "nasm",
             "ref": "baserock/morph"
         },
@@ -242,11 +238,6 @@
                 "gettext",
                 "openssl"
             ]
-        },
-        {
-            "name": "portmap",
-            "ref": "baserock/morph",
-            "build-depends": []
         },
         {
             "name": "syslinux",
