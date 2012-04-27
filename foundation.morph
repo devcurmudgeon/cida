@@ -45,7 +45,7 @@
         },
         {
             "name": "libcap2",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "attr"
             ]
