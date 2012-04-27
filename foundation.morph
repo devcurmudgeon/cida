@@ -75,6 +75,7 @@
         },
         {
             "name": "usbutils",
+            "repo": "git://github.com/gregkh/usbutils.git",
             "ref": "master",
             "build-depends": [
                 "libusb"
