@@ -99,26 +99,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "libexpat",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "autotools",
-                "libtool"
-            ]
-        },
-        {
-            "name": "XML-Parser",
-            "ref": "master",
-            "build-depends": [
-                "libexpat",
-                "perl"
-            ]
-        },
-        {
-            "name": "intltool",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "autoconf",
             "ref": "baserock/bootstrap"
         },
@@ -157,6 +137,26 @@
         {
             "name": "pkg-config",
             "ref": "baserock/bootstrap"
+        },
+        {
+            "name": "libexpat",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autotools",
+                "libtool"
+            ]
+        },
+        {
+            "name": "XML-Parser",
+            "ref": "master",
+            "build-depends": [
+                "libexpat",
+                "perl"
+            ]
+        },
+        {
+            "name": "intltool",
+            "ref": "baserock/morph"
         },
         {
             "name": "libffi",
