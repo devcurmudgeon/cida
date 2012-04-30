@@ -157,7 +157,7 @@
         },
         {
             "name": "glib",
-            "ref": "mastrer",
+            "ref": "master",
             "build-depends": [
                 "libffi",
                 "pkg-config"
