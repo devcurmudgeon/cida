@@ -142,7 +142,7 @@
             "name": "libexpat",
             "ref": "baserock/morph",
             "build-depends": [
-                "autotools",
+                "autoconf",
                 "libtool"
             ]
         },
