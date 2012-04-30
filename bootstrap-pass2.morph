@@ -159,6 +159,12 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "gtk-doc-stub",
+            "ref": "master",
+            "build-depends": [
+            ]
+        },
+        {
             "name": "libffi",
             "ref": "master",
             "build-depends": [
@@ -171,6 +177,7 @@
             "name": "glib",
             "ref": "master",
             "build-depends": [
+                "gtk-doc-stub",
                 "libffi",
                 "pkg-config"
             ]
