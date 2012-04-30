@@ -99,8 +99,20 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "libexpat",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autotools",
+                "libtool"
+            ]
+        },
+        {
             "name": "XML-Parser",
-            "ref": "master"
+            "ref": "master",
+            "build-depends": [
+                "libexpat",
+                "perl"
+            ]
         },
         {
             "name": "intltool",
@@ -218,10 +230,6 @@
         },
         {
             "name": "vim",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "libexpat",
             "ref": "baserock/morph"
         },
         {
