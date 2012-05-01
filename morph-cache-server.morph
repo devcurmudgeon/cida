@@ -1,9 +1,6 @@
 {
     "name": "morph-cache-server",
     "kind": "stratum",
-    "build-depends": [
-        "foundation"
-    ],
     "sources": [
         {
             "name": "git",

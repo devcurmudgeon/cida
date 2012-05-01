@@ -1,9 +1,9 @@
 {
-    "name": "x86_64-morph-cache-server-system",
+    "name": "x86_64-generic-morph-cache-server-system",
     "kind": "system",
     "disk-size": "500m",
     "strata": [
-        "x86_64-bsp",
+        "x86_64-generic-bsp",
         "foundation",
         "morph-cache-server"
     ]

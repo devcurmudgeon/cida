@@ -1,9 +1,9 @@
 {
-    "name": "x86_64-devel-system",
+    "name": "x86_64-generic-devel-system",
     "kind": "system",
     "disk-size": "10G",
     "strata": [
-        "x86_64-bsp",
+        "x86_64-generic-bsp",
         "foundation",
         "devel"
     ]
