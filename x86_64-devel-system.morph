@@ -1,9 +1,9 @@
 {
-    "name": "devel-system",
+    "name": "x86_64-devel-system",
     "kind": "system",
     "disk-size": "10G",
     "strata": [
-        "linux-stratum",
+        "x86_64-bsp",
         "foundation",
         "devel"
     ]

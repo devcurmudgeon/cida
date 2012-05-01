@@ -249,10 +249,6 @@
             "build-depends": []
         },
         {
-            "name": "syslinux",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "python-setuptools",
             "ref": "baserock/morph",
             "build-depends": [

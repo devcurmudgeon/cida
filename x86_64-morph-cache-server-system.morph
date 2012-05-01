@@ -1,10 +1,10 @@
 {
-    "name": "x86-morph-cache-server-system",
+    "name": "x86_64-morph-cache-server-system",
     "kind": "system",
     "disk-size": "500m",
     "strata": [
+        "x86_64-bsp",
         "foundation",
-        "linux-stratum",
         "morph-cache-server"
     ]
 }

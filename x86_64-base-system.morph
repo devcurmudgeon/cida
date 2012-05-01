@@ -1,10 +1,10 @@
 {
-    "name": "base",
+    "name": "x86_64-base-system",
     "kind": "system",
     "disk-size": "10G",
     "strata": [
-        "foundation",
-        "linux-stratum"
+        "x86_64-bsp",
+        "foundation"
     ],
     "test-stories": [
         "stories/login.py"
