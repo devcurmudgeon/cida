@@ -181,7 +181,7 @@
             "name": "cliapp",
             "ref": "baserock/morph",
             "build-depends": [
-                "python"
+                "cpython"
             ]
         },
         {   
@@ -199,7 +199,7 @@
             "ref": "baserock/morph",
             "build-depends": [
                 "curl",
-                "python",
+                "cpython",
                 "openssl",
                 "libexpat"
             ]
