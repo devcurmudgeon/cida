@@ -107,6 +107,10 @@
             "ref": "baserock/bootstrap"
         },
         {
+            "name": "xz",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "libexpat",
             "ref": "baserock/morph",
             "build-depends": [

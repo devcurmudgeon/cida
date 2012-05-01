@@ -49,6 +49,10 @@
             "name": "busybox"
         },
         {
+            "name": "xz",
+            "ref": "baserock/morph"
+        },
+        {
             "name": "patch",
             "ref": "baserock/bootstrap-pass1"
         },
