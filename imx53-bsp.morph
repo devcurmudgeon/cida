@@ -1,0 +1,10 @@
+{
+    "name": "imx53-bsp",
+    "kind": "stratum",
+    "sources": [
+        {
+            "name": "linux",
+            "ref": "baserock/morph"
+        }
+    ]
+}
