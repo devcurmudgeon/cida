@@ -35,10 +35,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "busybox",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "patch",
             "ref": "baserock/morph"
         },

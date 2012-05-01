@@ -21,10 +21,15 @@
             ]
         },
         {
-            "name": "busybox-devel",
-            "morph": "busybox-devel",
-            "repo": "busybox",
+            "name": "busybox",
             "ref":  "baserock/morph",
+            "build-depends": [
+                "eglibc"
+            ]
+        },
+        {
+            "name": "kmod",
+            "ref": "baserock/morph",
             "build-depends": [
                 "eglibc"
             ]
