@@ -162,7 +162,7 @@
             "name": "cliapp",
             "ref": "baserock/morph",
             "build-depends": [
-                "python"
+                "cpython"
             ]
         },
         {
@@ -172,12 +172,8 @@
                 "libexpat",
                 "openssl",
                 "curl",
-                "python"
+                "cpython"
             ]
-        },
-        {
-            "name": "nasm",
-            "ref": "baserock/morph"
         },
         {
             "name": "openssh",
@@ -191,8 +187,19 @@
             ]
         },
         {
+            "name": "nasm",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf"
+            ]
+        },
+        {
             "name": "syslinux",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": [
+                "nasm",
+                "perl"
+            ]
         },
         {
             "name": "python-setuptools",
