@@ -31,11 +31,7 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "sed",
-            "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "bzip2",
+            "name": "busybox",
             "ref": "baserock/morph"
         },
         {
@@ -43,28 +39,12 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "util-linux",
-            "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "psmisc",
-            "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "e2fsprogs",
-            "ref": "baserock/bootstrap"
-        },
-        {
             "name": "gperf",
             "ref": "baserock/morph"
         },
         {
             "name": "coreutils",
-            "ref": "baserock/bootstrap"
-        },
-        {
-            "name": "iana-etc",
-            "ref": "baserock/morph"
+            "ref": "rm/no-bb-overlap/bootstrap-pass2"
         },
         {
             "name": "m4",
@@ -75,12 +55,8 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "procps",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "grep",
-            "ref": "baserock/bootstrap"
+            "name": "patch",
+            "ref": "baserock/bootstrap-pass2"
         },
         {
             "name": "readline",
@@ -111,16 +87,8 @@
             "ref": "baserock/bootstrap"
         },
         {
-            "name": "diffutils",
-            "ref": "baserock/bootstrap"
-        },
-        {
             "name": "gawk",
             "ref": "baserock/morph"
-        },
-        {
-            "name": "findutils",
-            "ref": "baserock/bootstrap"
         },
         {
             "name": "help2man",
@@ -187,48 +155,7 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "rsync",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "gzip",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "libpipeline",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "gmp",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "libnettle",
-            "repo": "lsh",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "gnutls",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "wget",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "make",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "xz",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "patch",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "tar",
             "ref": "baserock/morph"
         },
         {
@@ -236,16 +163,15 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "vim",
+            "name": "openssl",
             "ref": "baserock/morph"
         },
         {
             "name": "curl",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "openssl",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": [
+                "openssl"
+            ]
         },
         {
             "name": "cpython",
@@ -253,16 +179,10 @@
         },
         {
             "name": "cliapp",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "git",
-            "ref": "baserock/morph"
-        },
-        {
-            "name": "busybox-devel",
-            "repo": "busybox",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python"
+            ]
         },
         {   
             "name": "linux-user-chroot",
@@ -275,8 +195,14 @@
             ]   
         },
         {
-            "name": "linux",
-            "ref": "baserock/morph"
+            "name": "git",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "curl",
+                "python",
+                "openssl",
+                "libexpat"
+            ]
         }
     ]
 }
