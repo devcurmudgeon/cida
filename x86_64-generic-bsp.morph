@@ -8,7 +8,8 @@
         },
         {
             "name": "syslinux",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         }
     ]
 }
