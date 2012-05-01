@@ -188,7 +188,7 @@
             "name": "linux-user-chroot",
             "ref": "master",
             "build-depends": [
-                "busybox-devel",
+                "busybox",
                 "autoconf",
                 "automake",
                 "libtool"
