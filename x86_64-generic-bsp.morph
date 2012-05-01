@@ -8,7 +8,7 @@
         },
         {
             "name": "syslinux",
-            "ref": "bnaserock/morph"
+            "ref": "baserock/morph"
         }
     ]
 }
