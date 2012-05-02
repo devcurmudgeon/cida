@@ -5,8 +5,5 @@
     "strata": [
         "foundation",
         "linux-stratum"
-    ],
-    "test-stories": [
-        "stories/login.py"
     ]
 }
