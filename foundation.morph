@@ -72,7 +72,7 @@
         },
         {
             "name": "libusb",
-            "repo": "git://git.libusb.org/libusb.git",
+            "repo": "git://212.116.89.126/libusb.git",
             "ref": "master",
             "build-depends": [
                 "eglibc"
