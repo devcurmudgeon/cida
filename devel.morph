@@ -136,10 +136,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "libexpat",
-            "ref": "baserock/morph"
-        },
-        {
             "name": "openssl",
             "ref": "baserock/morph"
         },
@@ -165,7 +161,6 @@
             "name": "git",
             "ref": "baserock/morph",
             "build-depends": [
-                "libexpat",
                 "openssl",
                 "curl",
                 "cpython"

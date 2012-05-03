@@ -101,6 +101,13 @@
             ]
         },
         {
+            "name": "libexpat",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "eglibc"
+            ]
+        },
+        {
             "name": "glib",
             "ref": "master",
             "build-depends": [
@@ -111,6 +118,7 @@
             "name": "dbus",
             "ref": "baserock/morph",
             "build-depends": [
+                "libexpat",
                 "glib"
             ]
         },
