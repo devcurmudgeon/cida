@@ -131,7 +131,7 @@
         },
         {
             "name": "systemd",
-            "ref": "baserock/morph",
+            "ref": "rm/forwardpatch",
             "build-depends": [
                 "dbus",
                 "gobject-introspection",
