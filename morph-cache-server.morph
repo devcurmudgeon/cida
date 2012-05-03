@@ -4,27 +4,32 @@
     "sources": [
         {
             "name": "git",
+            "repo": "upstream:git",
             "ref": "baserock/morph"
         },
         {
             "name": "openssl",
+            "repo": "upstream:openssl",
             "ref": "baserock/morph"
         },
         {
             "name": "cpython",
+            "repo": "upstream:cpython",
             "ref": "baserock/morph-2.7"
         },
         {
             "name": "cliapp",
+            "repo": "upstream:cliapp",
             "ref": "baserock/morph"
         },
         {
             "name": "bottle",
-            "repo": "defnull/bottle.git",
+            "repo": "upstream:defnull/bottle.git",
             "ref": "master"
         },
         {
             "name": "morph-cache-server",
+            "repo": "baserock:morph-cache-server",
             "ref": "master"
         }
     ]

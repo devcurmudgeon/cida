@@ -4,38 +4,44 @@
     "sources": [
         {
             "name": "fhs-dirs",
+            "repo": "baserock:fhs-dirs",
             "ref": "master"
         },
         {
             "name": "eglibc",
             "morph": "eglibc",
-            "repo": "eglibc2",
+            "repo": "upstream:eglibc2",
             "ref": "baserock/2.15-morph"
         },
         {
             "name": "busybox-devel",
             "morph": "busybox-devel",
-            "repo": "busybox",
+            "repo": "upstream:busybox",
             "ref": "baserock/morph"
         },
         {
             "name": "attr",
+            "repo": "upstream:attr",
             "ref": "baserock/morph"
         },
         {
             "name": "util-linux",
+            "repo": "upstream:util-linux",
             "ref": "baserock/morph"
         },
         {
             "name": "btrfs-progs",
+            "repo": "upstream:btrfs-progs",
             "ref": "baserock/morph"
         },
         {
             "name": "tbdiff",
+            "repo": "baserock:tbdiff",
             "ref": "master"
         },
         {
             "name": "zlib",
+            "repo": "upstream:zlib",
             "ref": "baserock/morph"
         }
     ]
