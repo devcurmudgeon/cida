@@ -1,5 +1,5 @@
 {
-    "name": "linux-stratum",
+    "name": "imx53-bsp",
     "kind": "stratum",
     "sources": [
         {

@@ -185,14 +185,6 @@
             ]
         },
         {
-            "name": "syslinux",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "nasm",
-                "perl"
-            ]
-        },
-        {
             "name": "python-setuptools",
             "ref": "baserock/morph",
             "build-depends": [

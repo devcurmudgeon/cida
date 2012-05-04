@@ -1,0 +1,15 @@
+{
+    "name": "x86_64-generic-bsp",
+    "kind": "stratum",
+    "sources": [
+        {
+            "name": "linux",
+            "ref": "baserock/morph"
+        },
+        {
+            "name": "syslinux",
+            "ref": "baserock/morph",
+            "build-depends": []
+        }
+    ]
+}

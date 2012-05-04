@@ -1,0 +1,12 @@
+{
+    "name": "x86_64-generic-base-system",
+    "kind": "system",
+    "disk-size": "10G",
+    "strata": [
+        "x86_64-generic-bsp",
+        "foundation"
+    ],
+    "test-stories": [
+        "stories/login.py"
+    ]
+}
