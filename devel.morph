@@ -5,7 +5,7 @@
         {
             "name": "linux-api-headers",
             "repo": "upstream:linux",
-            "ref": "baserock/morph"
+            "ref": "baserock/3.2-headers"
         },
         {
             "name": "eglibc",

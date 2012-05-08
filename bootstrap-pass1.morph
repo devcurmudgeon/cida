@@ -14,7 +14,7 @@
         },
         {
             "repo": "upstream:linux",
-            "ref": "baserock/morph",
+            "ref": "baserock/3.2-headers",
             "name": "linux-api-headers"
         },
         {
