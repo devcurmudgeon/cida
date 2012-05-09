@@ -4,17 +4,19 @@
     "sources": [
         {
             "name": "fhs-dirs",
+            "repo": "baserock:fhs-dirs",
             "ref": "master"
         },
         {
             "name": "eglibc",
             "morph": "eglibc",
-            "repo": "eglibc2",
+            "repo": "upstream:eglibc2",
             "ref": "baserock/2.15-morph",
             "build-depends": []
         },
         {
             "name": "zlib",
+            "repo": "upstream:zlib",
             "ref": "baserock/morph",
             "build-depends": [
                 "eglibc"
@@ -22,6 +24,7 @@
         },
         {
             "name": "busybox",
+            "repo": "upstream:busybox",
             "ref":  "baserock/morph",
             "build-depends": [
                 "eglibc"
@@ -29,6 +32,7 @@
         },
         {
             "name": "kmod",
+            "repo": "upstream:kmod",
             "ref": "baserock/morph",
             "build-depends": [
                 "eglibc"
@@ -36,6 +40,7 @@
         },
         {
             "name": "attr",
+            "repo": "upstream:attr",
             "ref": "baserock/morph",
             "build-depends": [
                 "eglibc"
@@ -43,6 +48,7 @@
         },
         {
             "name": "util-linux",
+            "repo": "upstream:util-linux",
             "ref": "baserock/morph",
             "build-depends": [
                 "eglibc"
@@ -50,6 +56,7 @@
         },
         {
             "name": "libcap2",
+            "repo": "upstream:libcap2",
             "ref": "baserock/morph",
             "build-depends": [
                 "attr"
@@ -57,6 +64,7 @@
         },
         {
             "name": "btrfs-progs",
+            "repo": "upstream:btrfs-progs",
             "ref": "baserock/morph",
             "build-depends": [
                 "eglibc"
@@ -64,6 +72,7 @@
         },
         {
             "name": "tbdiff",
+            "repo": "baserock:tbdiff",
             "ref": "master",
             "build-depends": [
                 "eglibc",
@@ -72,7 +81,7 @@
         },
         {
             "name": "libusb",
-            "repo": "git://212.116.89.126/libusb.git",
+            "repo": "git://git.libusb.org/libusb.git",
             "ref": "master",
             "build-depends": [
                 "eglibc"
@@ -88,6 +97,7 @@
         },
         {
             "name": "pciutils",
+            "repo": "upstream:pciutils",
             "ref": "baserock/morph",
             "build-depends": [
                 "eglibc"
@@ -95,6 +105,7 @@
         },
         {
             "name": "libffi",
+            "repo": "upstream:libffi",
             "ref": "master",
             "build-depends": [
                 "eglibc"
@@ -102,6 +113,7 @@
         },
         {
             "name": "libexpat",
+            "repo": "upstream:libexpat",
             "ref": "baserock/morph",
             "build-depends": [
                 "eglibc"
@@ -109,6 +121,7 @@
         },
         {
             "name": "glib",
+            "repo": "upstream:glib",
             "ref": "master",
             "build-depends": [
                 "libffi"
@@ -116,6 +129,7 @@
         },
         {
             "name": "dbus",
+            "repo": "upstream:dbus",
             "ref": "baserock/morph",
             "build-depends": [
                 "libexpat",
@@ -124,6 +138,7 @@
         },
         {
             "name": "gobject-introspection",
+            "repo": "upstream:gobject-introspection",
             "ref": "baserock/morph",
             "build-depends": [
                 "glib"
@@ -131,6 +146,7 @@
         },
         {
             "name": "systemd",
+            "repo": "upstream:systemd",
             "ref": "rm/forwardpatch",
             "build-depends": [
                 "dbus",

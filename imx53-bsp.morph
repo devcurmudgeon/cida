@@ -4,6 +4,7 @@
     "sources": [
         {
             "name": "linux",
+            "repo": "upstream:linux",
             "ref": "baserock/morph"
         }
     ]

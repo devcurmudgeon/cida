@@ -4,213 +4,262 @@
     "sources": [
         {
             "name": "zlib",
+            "repo": "upstream:zlib",
             "ref": "baserock/morph"
         },
         {
             "name": "binutils",
+            "repo": "upstream:binutils",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "gcc",
-            "repo": "gcc-tarball",
+            "repo": "upstream:gcc-tarball",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "sed",
+            "repo": "upstream:sed",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "bzip2",
+            "repo": "upstream:bzip2",
             "ref": "baserock/morph"
         },
         {
             "name": "ncurses",
+            "repo": "upstream:ncurses",
             "ref": "baserock/morph"
         },
         {
             "name": "util-linux",
+            "repo": "upstream:util-linux",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "psmisc",
+            "repo": "upstream:psmisc",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "e2fsprogs",
+            "repo": "upstream:e2fsprogs",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "gperf",
+            "repo": "upstream:gperf",
             "ref": "baserock/morph"
         },
         {
             "name": "coreutils",
+            "repo": "upstream:coreutils",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "iana-etc",
+            "repo": "upstream:iana-etc",
             "ref": "baserock/morph"
         },
         {
             "name": "m4",
+            "repo": "upstream:m4",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "bison",
+            "repo": "upstream:bison",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "procps",
+            "repo": "upstream:procps",
             "ref": "baserock/morph"
         },
         {
             "name": "grep",
+            "repo": "upstream:grep",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "readline",
+            "repo": "upstream:readline",
             "ref": "baserock/morph"
         },
         {
             "name": "bash",
+            "repo": "upstream:bash",
             "ref": "baserock/morph"
         },
         {
             "name": "gdbm",
+            "repo": "upstream:gdbm",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "perl",
+            "repo": "upstream:perl",
             "ref": "baserock/morph"
         },
         {
             "name": "autoconf",
+            "repo": "upstream:autoconf",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "automake",
+            "repo": "upstream:automake",
             "ref": "baserock/morph"
         },
         {
             "name": "libtool",
+            "repo": "upstream:libtool",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "diffutils",
+            "repo": "upstream:diffutils",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "gawk",
+            "repo": "upstream:gawk",
             "ref": "baserock/morph"
         },
         {
             "name": "findutils",
+            "repo": "upstream:findutils",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "help2man",
+            "repo": "upstream:help2man",
             "ref": "baserock/morph"
         },
         {
             "name": "flex",
+            "repo": "upstream:flex",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "gettext",
+            "repo": "upstream:gettext",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "pkg-config",
+            "repo": "upstream:pkg-config",
             "ref": "baserock/bootstrap"
         },
         {
             "name": "groff",
+            "repo": "upstream:groff",
             "ref": "baserock/morph"
         },
         {
             "name": "rsync",
+            "repo": "upstream:rsync",
             "ref": "baserock/morph"
         },
         {
             "name": "gzip",
+            "repo": "upstream:gzip",
             "ref": "baserock/morph"
         },
         {
             "name": "libpipeline",
+            "repo": "upstream:libpipeline",
             "ref": "baserock/morph"
         },
         {
             "name": "gmp",
+            "repo": "upstream:gmp",
             "ref": "baserock/morph"
         },
         {
             "name": "libnettle",
-            "repo": "lsh",
+            "repo": "upstream:lsh",
             "ref": "baserock/morph"
         },
         {
             "name": "gnutls",
+            "repo": "upstream:gnutls",
             "ref": "baserock/morph"
         },
         {
             "name": "wget",
+            "repo": "upstream:wget",
             "ref": "baserock/morph"
         },
         {
             "name": "make",
+            "repo": "upstream:make",
             "ref": "baserock/morph"
         },
         {
             "name": "xz",
+            "repo": "upstream:xz",
             "ref": "baserock/morph"
         },
         {
             "name": "patch",
+            "repo": "upstream:patch",
             "ref": "baserock/morph"
         },
         {
             "name": "tar",
+            "repo": "upstream:tar",
             "ref": "baserock/morph"
         },
         {
             "name": "texinfo-tarball",
+            "repo": "upstream:texinfo-tarball",
             "ref": "baserock/morph"
         },
         {
             "name": "vim",
+            "repo": "upstream:vim",
             "ref": "baserock/morph"
         },
         {
             "name": "libexpat",
+            "repo": "upstream:libexpat",
             "ref": "baserock/morph"
         },
         {
             "name": "curl",
+            "repo": "upstream:curl",
             "ref": "baserock/morph"
         },
         {
             "name": "openssl",
+            "repo": "upstream:openssl",
             "ref": "baserock/morph"
         },
         {
             "name": "cpython",
+            "repo": "upstream:cpython",
             "ref": "baserock/morph-2.7"
         },
         {
             "name": "cliapp",
+            "repo": "upstream:cliapp",
             "ref": "baserock/morph"
         },
         {
             "name": "git",
+            "repo": "upstream:git",
             "ref": "baserock/morph"
         },
         {
             "name": "sudo",
+            "repo": "upstream:sudo",
             "ref": "baserock/morph"
         },
         {
             "name": "busybox-devel",
-            "repo": "busybox",
+            "repo": "upstream:busybox",
             "ref": "baserock/morph"
         }
     ]
