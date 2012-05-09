@@ -95,22 +95,22 @@
         },
         {
             "name": "autoconf",
-            "repo": "upstream:autoconf"
+            "repo": "upstream:autoconf",
             "ref": "baserock/morph"
         },
         {
             "name": "automake",
-            "repo": "upstream:automake"
+            "repo": "upstream:automake",
             "ref": "baserock/morph"
         },
         {
             "name": "libtool",
-            "repo": "upstream:libtool"
+            "repo": "upstream:libtool",
             "ref": "baserock/morph"
         },
         {
             "name": "gawk",
-            "repo": "upstream:gawk"
+            "repo": "upstream:gawk",
             "ref": "baserock/morph"
         },
         {
@@ -125,7 +125,7 @@
         },
         {
             "name": "gettext",
-            "upstream:gettext",
+            "repo": "upstream:gettext",
             "ref": "baserock/morph"
         },
         {
