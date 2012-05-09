@@ -134,6 +134,15 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "gtk-doc-stub",
+            "repo": "upstream:gtk-doc-stub",
+            "ref": "master",
+            "build-depends": [
+                "bash",
+                "make"
+            ]
+        },
+        {
             "name": "linux-user-chroot",
             "repo": "upstream:linux-user-chroot",
             "ref": "master",
