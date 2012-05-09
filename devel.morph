@@ -134,15 +134,6 @@
             "ref": "baserock/morph"
         },
         {
-            "name": "gtk-doc-stub",
-            "repo": "upstream:gtk-doc-stub",
-            "ref": "master",
-            "build-depends": [
-                "bash",
-                "make"
-            ]
-        },
-        {
             "name": "linux-user-chroot",
             "repo": "upstream:linux-user-chroot",
             "ref": "master",
@@ -163,9 +154,21 @@
             "ref": "baserock/morph"
         },
         {
+            "name": "gtk-doc-stub",
+            "repo": "upstream:gtk-doc-stub",
+            "ref": "master",
+            "build-depends": [
+                "bash",
+                "make"
+            ]
+        },
+        {
             "name": "texinfo-tarball",
             "repo": "upstream:texinfo-tarball",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": [
+                "make"
+            ]
         },
         {
             "name": "vim",
