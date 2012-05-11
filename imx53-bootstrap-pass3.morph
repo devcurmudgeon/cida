@@ -1,0 +1,9 @@
+{
+    "name": "imx53-bootstrap-pass3",
+    "kind": "stratum",
+    "build-depends": [
+        "foundation",
+        "devel",
+        "imx53-bsp"
+    ]
+}
