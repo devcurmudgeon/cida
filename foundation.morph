@@ -147,7 +147,7 @@
         {
             "name": "systemd",
             "repo": "upstream:systemd",
-            "ref": "rm/forwardpatch",
+            "ref": "baserock/morph",
             "build-depends": [
                 "dbus",
                 "gobject-introspection",
