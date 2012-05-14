@@ -170,6 +170,7 @@
         },
         {
             "name": "libffi",
+            "repo": "upstream:libffi",
             "ref": "master",
             "build-depends": [
                 "autoconf",
@@ -179,6 +180,7 @@
         },
         {
             "name": "glib",
+            "repo": "upstream:glib",
             "ref": "master",
             "build-depends": [
                 "gtk-doc-stub",
