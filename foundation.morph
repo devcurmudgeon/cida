@@ -151,6 +151,7 @@
             "build-depends": [
                 "dbus",
                 "gobject-introspection",
+                "kmod",
                 "libcap2",
                 "usbutils",
                 "pciutils"
