@@ -1,5 +1,6 @@
 {
     "name": "imx53-bsp",
+    "description": "The platform dependent components required to boot an i.MX 53 ARM development board.",
     "kind": "stratum",
     "sources": [
         {

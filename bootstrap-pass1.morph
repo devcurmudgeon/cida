@@ -1,5 +1,6 @@
 {
     "name": "bootstrap-pass1",
+    "description": "A minimal set of programs required to build from source code releases. This is designed to not use the host environment whenever possible, which leads to strangeness like building something multiple times. It uses special branches which have been prepared to reduce the number of dependencies.",
     "kind": "stratum",
     "sources": [
         {

@@ -1,5 +1,6 @@
 {
     "name": "x86_64-generic-base-system",
+    "description": "The set of strata required to have a minimal system for a 64-bit x86 system.",
     "kind": "system",
     "disk-size": "10G",
     "strata": [

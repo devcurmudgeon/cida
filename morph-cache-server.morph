@@ -1,5 +1,6 @@
 {
     "name": "morph-cache-server",
+    "description": "The unique components that are required for a morph cache server.",
     "kind": "stratum",
     "sources": [
         {

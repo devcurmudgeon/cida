@@ -1,5 +1,6 @@
 {
     "name": "devel",
+    "description": "The set of programs that, when combined with foundation, are able to build devel and foundation. This is somewhat analogous to debian's build-essential",
     "kind": "stratum",
     "sources": [
         {

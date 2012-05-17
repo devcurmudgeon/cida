@@ -1,5 +1,6 @@
 {
     "name": "bootstrap-pass2",
+    "description": "A set of programs that should allow anything to be built from source. This has no double-builds, but it does have some special branches.",
     "kind": "stratum",
     "sources": [
         {

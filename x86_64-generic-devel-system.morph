@@ -1,5 +1,6 @@
 {
     "name": "x86_64-generic-devel-system",
+    "description": "A system that is able to build other systems based on the 64-bit x86 architecture.",
     "kind": "system",
     "disk-size": "10G",
     "strata": [

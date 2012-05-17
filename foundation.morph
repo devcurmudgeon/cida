@@ -1,5 +1,6 @@
 {
     "name": "foundation",
+    "description": "The components that go into every system. This is a balance between minimal and functional. It should be platform independent.",
     "kind": "stratum",
     "sources": [
         {
