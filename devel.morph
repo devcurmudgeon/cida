@@ -300,6 +300,16 @@
                 "perl",
                 "XML-Parser"
             ]
+        },
+        {
+            "name": "morph",
+            "repo": "baserock:morph",
+            "ref": "master",
+            "build-depends": [
+                "cliapp",
+                "cmdtest",
+                "python-coverage-test-runner"
+            ]
         }
     ]
 }
