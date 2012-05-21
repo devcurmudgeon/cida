@@ -26,8 +26,8 @@
         },
         {
             "name": "binutils",
-            "repo": "upstream:binutils",
-            "ref": "baserock/bootstrap"
+            "repo": "upstream:binutils-redhat",
+            "ref": "baserock/bootstrap-pass2"
         },
         {
             "name": "gcc",

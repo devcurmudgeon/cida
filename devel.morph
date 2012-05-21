@@ -16,7 +16,7 @@
         },
         {
             "name": "binutils",
-            "repo": "upstream:binutils",
+            "repo": "upstream:binutils-redhat",
             "ref": "baserock/morph"
         },
         {
