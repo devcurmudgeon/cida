@@ -1,0 +1,12 @@
+{
+    "name": "scripting",
+    "kind": "stratum",
+    "description": "Interpreters for scripting languages.",
+    "sources": [
+        {
+            "name": "lua",
+            "repo": "upstream:lua",
+            "ref": "baserock/5.1-morph"
+        }
+    ]
+}
