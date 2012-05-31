@@ -1,0 +1,12 @@
+{
+    "name": "arm-versatile-bsp",
+    "description": "The platform dependent components required to boot an ARM versatile development board.",
+    "kind": "stratum",
+    "sources": [
+        {
+            "name": "linux",
+            "repo": "upstream:linux",
+            "ref": "baserock/arm/versatile"
+        }
+    ]
+}
