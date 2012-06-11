@@ -2,6 +2,7 @@
     "name": "x86_64-generic-morph-cache-server-system",
     "description": "A system that will be able to provide a remote repository or artifact cache for morph, designed to run on the 64-bit x86 architecture.",
     "kind": "system",
+    "arch": "x86",
     "disk-size": "500m",
     "strata": [
         "x86_64-generic-bsp",
