@@ -47,6 +47,12 @@
             "build-depends": [ "mpc", "binutils", "eglibc" ]
         },
         {
+            "name": "make",
+            "repo": "upstream:make",
+            "ref": "baserock/morph",
+            "build-depends": [ "gcc" ]
+        },
+        {
             "name": "patch",
             "repo": "upstream:patch",
             "ref": "baserock/morph",
@@ -176,12 +182,6 @@
             "repo": "upstream:groff",
             "ref": "baserock/morph",
             "build-depends": [ "make" ]
-        },
-        {
-            "name": "make",
-            "repo": "upstream:make",
-            "ref": "baserock/morph",
-            "build-depends": [ "gcc" ]
         },
         {
             "name": "gtk-doc-stub",
