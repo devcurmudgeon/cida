@@ -86,7 +86,7 @@
             "name": "bison",
             "repo": "upstream:bison",
             "ref": "baserock/morph",
-            "build-depends": [ "make" ],
+            "build-depends": [ "make" ]
         },
         {
             "name": "readline",
