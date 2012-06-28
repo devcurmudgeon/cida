@@ -6,7 +6,8 @@
         {
             "name": "linux",
             "repo": "upstream:linux",
-            "ref": "baserock/arm/versatile"
+            "ref": "baserock/arm/versatile",
+            "build-depends": []
         }
     ]
 }

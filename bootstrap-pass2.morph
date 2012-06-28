@@ -6,138 +6,165 @@
         {
             "name": "fhs-dirs",
             "repo": "baserock:fhs-dirs",
-            "ref": "master"
+            "ref": "master",
+            "build-depends": []
         },
         {
             "name": "linux-api-headers",
             "repo": "upstream:linux",
-            "ref": "baserock/3.2-headers"
+            "ref": "baserock/3.2-headers",
+            "build-depends": ["fhs-dirs"]
         },
         {
             "name": "eglibc",
             "morph": "eglibc",
             "repo": "upstream:eglibc2",
-            "ref": "baserock/2.15-morph"
+            "ref": "baserock/2.15-morph",
+            "build-depends": ["linux-api-headers"]
         },
         {
             "name": "zlib",
             "repo": "upstream:zlib",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["zlib"]
         },
         {
             "name": "binutils",
             "repo": "upstream:binutils-redhat",
-            "ref": "baserock/bootstrap-pass2"
+            "ref": "baserock/bootstrap-pass2",
+            "build-depends": ["zlib"]
         },
         {
             "name": "gcc",
             "repo": "upstream:gcc-tarball",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/bootstrap",
+            "build-depends": ["binutils"]
         },
         {
             "name": "busybox",
             "repo": "upstream:busybox",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["gcc"]
         },
         {
             "name": "ncurses",
             "repo": "upstream:ncurses",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["busybox"]
         },
         {
             "name": "util-linux",
             "repo": "upstream:util-linux",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/bootstrap",
+            "build-depends": ["ncurses"]
         },
         {
             "name": "gperf",
             "repo": "upstream:gperf",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["gperf"]
         },
         {
             "name": "coreutils",
             "repo": "upstream:coreutils",
-            "ref": "rm/no-bb-overlap/bootstrap-pass2"
+            "ref": "rm/no-bb-overlap/bootstrap-pass2",
+            "build-depends": ["gperf"]
         },
         {
             "name": "m4",
             "repo": "upstream:m4",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/bootstrap",
+            "build-depends": ["coreutils"]
         },
         {
             "name": "bison",
             "repo": "upstream:bison",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/bootstrap",
+            "build-depends": ["m4"]
         },
         {
             "name": "patch",
             "repo": "upstream:patch",
-            "ref": "baserock/bootstrap-pass2"
+            "ref": "baserock/bootstrap-pass2",
+            "build-depends": ["bison"]
         },
         {
             "name": "readline",
             "repo": "upstream:readline",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["patch"]
         },
         {
             "name": "bash",
             "repo": "upstream:bash",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["readline"]
         },
         {
             "name": "gdbm",
             "repo": "upstream:gdbm",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/bootstrap",
+            "build-depends": ["bash"]
         },
         {
             "name": "perl",
             "repo": "upstream:perl",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["gdbm"]
         },
         {
             "name": "autoconf",
             "repo": "upstream:autoconf",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/bootstrap",
+            "build-depends": ["perl"]
         },
         {
             "name": "automake",
             "repo": "upstream:automake",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["autoconf"]
         },
         {
             "name": "libtool",
             "repo": "upstream:libtool",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/bootstrap",
+            "build-depends": ["automake"]
         },
         {
             "name": "gawk",
             "repo": "upstream:gawk",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["libtool"]
         },
         {
             "name": "help2man",
             "repo": "upstream:help2man",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["gawk"]
         },
         {
             "name": "flex",
             "repo": "upstream:flex",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/bootstrap",
+            "build-depends": ["help2man"]
         },
         {
             "name": "gettext",
             "repo": "upstream:gettext",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/bootstrap",
+            "build-depends": ["flex"]
         },
         {
             "name": "pkg-config",
             "repo": "upstream:pkg-config",
-            "ref": "baserock/bootstrap"
+            "ref": "baserock/bootstrap",
+            "build-depends": ["gettext"]
         },
         {
             "name": "xz",
             "repo": "upstream:xz",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["pkg-config"]
         },
         {
             "name": "libexpat",
@@ -192,22 +219,26 @@
         {
             "name": "groff",
             "repo": "upstream:groff",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["glib"]
         },
         {
             "name": "make",
             "repo": "upstream:make",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["groff"]
         },
         {
             "name": "texinfo-tarball",
             "repo": "upstream:texinfo-tarball",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["make"]
         },
         {
             "name": "openssl",
             "repo": "upstream:openssl",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["texinfo-tarball"]
         },
         {
             "name": "curl",
@@ -220,7 +251,8 @@
         {
             "name": "cpython",
             "repo": "upstream:cpython",
-            "ref": "baserock/morph-2.7"
+            "ref": "baserock/morph-2.7",
+            "build-depends": ["curl"]
         },
         {
             "name": "cliapp",
