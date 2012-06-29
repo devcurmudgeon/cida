@@ -6,7 +6,8 @@
         {
             "name": "linux",
             "repo": "upstream:linux",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         }
     ]
 }
