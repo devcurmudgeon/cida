@@ -26,7 +26,7 @@
             "name": "zlib",
             "repo": "upstream:zlib",
             "ref": "baserock/morph",
-            "build-depends": ["zlib"]
+            "build-depends": ["eglibc"]
         },
         {
             "name": "binutils",
@@ -62,7 +62,7 @@
             "name": "gperf",
             "repo": "upstream:gperf",
             "ref": "baserock/morph",
-            "build-depends": ["gperf"]
+            "build-depends": ["util-linux"]
         },
         {
             "name": "coreutils",
@@ -187,7 +187,8 @@
         {
             "name": "intltool",
             "repo": "upstream:intltool",
-            "ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": ["XML-Parser"]
         },
         {
             "name": "gtk-doc-stub",
