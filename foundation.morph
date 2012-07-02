@@ -61,6 +61,7 @@
             "repo": "upstream:libcap2",
             "ref": "baserock/morph",
             "build-depends": [
+                "eglibc",
                 "attr"
             ]
         },
@@ -69,7 +70,8 @@
             "repo": "upstream:btrfs-progs",
             "ref": "baserock/morph",
             "build-depends": [
-                "eglibc"
+                "eglibc",
+                "attr"
             ]
         },
         {
@@ -94,6 +96,7 @@
             "repo": "git://github.com/gregkh/usbutils.git",
             "ref": "master",
             "build-depends": [
+                "eglibc",
                 "libusb"
             ]
         },
@@ -126,6 +129,7 @@
             "repo": "upstream:glib",
             "ref": "master",
             "build-depends": [
+                "eglibc",
                 "libffi"
             ]
         },
