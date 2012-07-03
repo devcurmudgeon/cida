@@ -260,15 +260,6 @@
             ]
         },
         {
-            "name": "nasm",
-            "repo": "upstream:nasm",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "make",
-                "autoconf"
-            ]
-        },
-        {
             "name": "python-setuptools",
             "repo": "upstream:python-setuptools",
             "ref": "baserock/morph",

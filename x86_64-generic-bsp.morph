@@ -10,10 +10,16 @@
             "build-depends": []
         },
         {
+            "name": "nasm",
+            "repo": "upstream:nasm",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
             "name": "syslinux",
             "repo": "upstream:syslinux",
             "ref": "baserock/morph",
-            "build-depends": []
+            "build-depends": ["nasm"]
         }
     ]
 }
