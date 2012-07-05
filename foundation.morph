@@ -84,8 +84,8 @@
             ]
         },
         {
-            "name": "libusb",
-            "repo": "git://git.libusb.org/libusb.git",
+            "name": "libusbx",
+            "repo": "upstream:libusbx",
             "ref": "master",
             "build-depends": [
                 "eglibc"
@@ -97,7 +97,7 @@
             "ref": "master",
             "build-depends": [
                 "eglibc",
-                "libusb"
+                "libusbx"
             ]
         },
         {
