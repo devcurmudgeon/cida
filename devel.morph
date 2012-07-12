@@ -79,7 +79,7 @@
         {
             "name": "coreutils",
             "repo": "upstream:coreutils",
-            "ref": "baserock/morph",
+            "ref": "liw/fox",
             "build-depends": [ "make" ]
         },
         {
