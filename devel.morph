@@ -283,7 +283,7 @@
             "ref": "trunk",
             "build-depends": [
                 "cpython",
-                "coverage-test-runner"
+                "python-coverage-test-runner"
             ]
         },
         {
