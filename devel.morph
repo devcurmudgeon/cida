@@ -79,7 +79,7 @@
         {
             "name": "coreutils",
             "repo": "upstream:coreutils",
-            "ref": "liw/fox",
+            "ref": "liw/fix",
             "build-depends": [ "make" ]
         },
         {
