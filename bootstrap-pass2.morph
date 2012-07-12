@@ -67,7 +67,7 @@
         {
             "name": "coreutils",
             "repo": "upstream:coreutils",
-            "ref": "rm/no-bb-overlap/bootstrap-pass2",
+            "ref": "baserock/bootstrap-pass2",
             "build-depends": ["gperf"]
         },
         {

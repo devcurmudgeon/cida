@@ -79,7 +79,7 @@
         {
             "name": "coreutils",
             "repo": "upstream:coreutils",
-            "ref": "rm/no-bb-overlap/morph",
+            "ref": "baserock/morph",
             "build-depends": [ "make" ]
         },
         {
