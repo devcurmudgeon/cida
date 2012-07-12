@@ -228,15 +228,6 @@
             "build-depends": [ "make", "readline", "openssl" ]
         },
         {
-            "name": "cliapp",
-            "repo": "upstream:cliapp",
-            "ref": "trunk",
-            "build-depends": [
-                "cpython",
-                "coverage-test-runner"
-            ]
-        },
-        {
             "name": "git",
             "repo": "upstream:git",
             "ref": "baserock/morph",
@@ -284,6 +275,15 @@
             "build-depends": [
                 "cpython",
                 "python-coveragepy"
+            ]
+        },
+        {
+            "name": "cliapp",
+            "repo": "upstream:cliapp",
+            "ref": "trunk",
+            "build-depends": [
+                "cpython",
+                "python-coverage-test-runner"
             ]
         },
         {
