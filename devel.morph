@@ -230,9 +230,10 @@
         {
             "name": "cliapp",
             "repo": "upstream:cliapp",
-            "ref": "baserock/morph",
+            "ref": "trunk",
             "build-depends": [
-                "cpython"
+                "cpython",
+                "coverage-test-runner"
             ]
         },
         {
