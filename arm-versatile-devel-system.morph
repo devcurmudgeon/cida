@@ -2,6 +2,7 @@
     "name": "arm-versatile-devel-system",
     "description": "A system that is able to build other systems based on the ARM versatile architecture.",
     "kind": "system",
+    "system-kind": "rootfs-tarball",
     "arch": "arm",
     "disk-size": "10G",
     "strata": [
