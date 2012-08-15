@@ -341,6 +341,16 @@
                 "cmdtest",
                 "python-coverage-test-runner"
             ]
+        },
+        {
+            "name": "vala",
+            "repo": "upstream:vala",
+            "ref": "master",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "make"
+            ]
         }
     ]
 }
