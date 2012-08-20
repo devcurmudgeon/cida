@@ -359,6 +359,12 @@
             "repo": "upstream:distcc",
             "ref": "master",
             "build-depends": [ "make", "lzo" ]
+        },
+        {
+            "name": "strace",
+            "repo": "upstream:strace",
+            "ref": "master",
+            "build-depends": [ "make" ]
         }
     ]
 }
