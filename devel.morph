@@ -365,6 +365,16 @@
             "repo": "upstream:strace",
             "ref": "master",
             "build-depends": [ "make" ]
+        },
+        {
+            "name": "vala",
+            "repo": "upstream:vala",
+            "ref": "master",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "make"
+            ]
         }
     ]
 }
