@@ -2,7 +2,7 @@
     "name": "scripting",
     "kind": "stratum",
     "description": "Interpreters for scripting languages.",
-    "sources": [
+    "chunks": [
         {
             "name": "lua",
             "repo": "upstream:lua",

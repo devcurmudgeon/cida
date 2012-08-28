@@ -2,7 +2,7 @@
     "name": "arm-versatile-bsp",
     "description": "The platform dependent components required to boot an ARM versatile development board.",
     "kind": "stratum",
-    "sources": [
+    "chunks": [
         {
             "name": "linux",
             "repo": "upstream:linux",
