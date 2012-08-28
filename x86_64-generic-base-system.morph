@@ -6,8 +6,16 @@
     "arch": "x86_64",
     "disk-size": "2G",
     "strata": [
-        "x86_64-generic-bsp",
-        "foundation"
+        {
+            "morph": "x86_64-generic-bsp",
+            "repo": "baserock:morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:morphs",
+            "ref": "master"
+        }
     ],
     "test-stories": [
         "stories/login.py"

@@ -6,8 +6,20 @@
     "arch": "arm",
     "disk-size": "10G",
     "strata": [
-        "arm-versatile-bsp",
-        "foundation",
-        "devel"
+        {
+            "morph": "arm-versatile-generic-bsp",
+            "repo": "baserock:morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "devel",
+            "repo": "baserock:morphs",
+            "ref": "master"
+        }
     ]
 }
