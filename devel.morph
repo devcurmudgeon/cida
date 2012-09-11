@@ -375,6 +375,12 @@
                 "automake",
                 "make"
             ]
+        },
+        {
+            "name": "cmake",
+            "repo": "upstream:cmake",
+            "ref": "master",
+            "build-depends": [ "bash", "make" ]
         }
     ]
 }
