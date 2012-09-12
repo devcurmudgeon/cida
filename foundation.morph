@@ -93,7 +93,7 @@
         },
         {
             "name": "usbutils",
-            "repo": "git://github.com/gregkh/usbutils.git",
+            "repo": "upstream:usbutils",
             "ref": "master",
             "build-depends": [
                 "eglibc",
