@@ -94,7 +94,7 @@
         {
             "name": "usbutils",
             "repo": "upstream:usbutils",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "eglibc",
                 "libusbx"
