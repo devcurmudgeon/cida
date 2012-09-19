@@ -387,6 +387,12 @@
             "repo": "upstream:less",
             "ref": "master",
             "build-depends": [ "make" ]
+        },
+        {
+            "name": "lsof",
+            "repo": "upstream:lsof",
+            "ref": "baserock/radiofree/lsof",
+            "build-depends": [ "make" ]
         }
     ]
 }
