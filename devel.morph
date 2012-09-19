@@ -381,6 +381,12 @@
             "repo": "upstream:cmake",
             "ref": "master",
             "build-depends": [ "bash", "make" ]
+        },
+        {
+            "name": "less",
+            "repo": "upstream:less",
+            "ref": "master",
+            "build-depends": [ "make" ]
         }
     ]
 }
