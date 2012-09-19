@@ -391,7 +391,7 @@
         {
             "name": "lsof",
             "repo": "upstream:lsof",
-            "ref": "baserock/radiofree/lsof",
+            "ref": "baserock/morph",
             "build-depends": [ "make" ]
         }
     ]
