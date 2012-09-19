@@ -19,7 +19,7 @@
         {
             "morph": "devel",
             "repo": "baserock:morphs",
-            "ref": "master"
+            "ref": "baserock/radiofree/less"
         }
     ]
 }
