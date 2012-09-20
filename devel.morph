@@ -393,6 +393,12 @@
             "repo": "upstream:lsof",
             "ref": "baserock/morph",
             "build-depends": [ "make" ]
+        },
+        {
+            "name": "gdb",
+            "repo": "upstream:gdb",
+            "ref": "refs/heads/master",
+            "build-depends": [ "make" ]
         }
     ]
 }
