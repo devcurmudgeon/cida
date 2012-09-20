@@ -1,10 +1,10 @@
 {
-    "name": "arm-versatile-base-system",
-    "description": "The set of strata required to have a minimal system for an ARM versatile system.",
+    "name": "arm-versatile-devel-system",
+    "description": "A system that is able to build other systems based on the ARM versatile architecture.",
     "kind": "system",
     "system-kind": "rootfs-tarball",
-    "arch": "arm",
-    "disk-size": "2G",
+    "arch": "armv7",
+    "disk-size": "10G",
     "strata": [
         {
             "morph": "arm-versatile-bsp",
@@ -13,6 +13,11 @@
         },
         {
             "morph": "foundation",
+            "repo": "baserock:morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "devel",
             "repo": "baserock:morphs",
             "ref": "master"
         }
