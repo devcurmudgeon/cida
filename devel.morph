@@ -393,6 +393,12 @@
             "repo": "upstream:lsof",
             "ref": "baserock/morph",
             "build-depends": [ "make" ]
+        },
+        {
+            "name": "rsync",
+            "repo": "upstream:rsync",
+            "ref": "v3.0.9",
+            "build-depends": [ "make" ]
         }
     ]
 }
