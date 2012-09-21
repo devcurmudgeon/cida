@@ -399,6 +399,12 @@
             "repo": "upstream:rsync",
             "ref": "v3.0.9",
             "build-depends": [ "make" ]
+        },
+        {
+            "name": "gdb",
+            "repo": "upstream:gdb",
+            "ref": "refs/heads/master",
+            "build-depends": [ "make" ]
         }
     ]
 }
