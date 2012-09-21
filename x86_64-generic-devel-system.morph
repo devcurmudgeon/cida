@@ -19,7 +19,7 @@
         {
             "morph": "devel",
             "repo": "baserock:morphs",
-            "ref": "baserock/radiofree/gdb"
+            "ref": "master"
         }
     ]
 }
