@@ -191,13 +191,6 @@
             "build-depends": ["XML-Parser"]
         },
         {
-            "name": "gtk-doc-stub",
-            "repo": "upstream:gtk-doc-stub",
-            "ref": "master",
-            "build-depends": [
-            ]
-        },
-        {
             "name": "libffi",
             "repo": "upstream:libffi",
             "ref": "master",
@@ -212,7 +205,6 @@
             "repo": "upstream:glib",
             "ref": "master",
             "build-depends": [
-                "gtk-doc-stub",
                 "libffi",
                 "pkg-config"
             ]
