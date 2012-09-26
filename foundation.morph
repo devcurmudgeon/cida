@@ -163,6 +163,14 @@
                 "usbutils",
                 "pciutils"
             ]
+        },
+        {
+            "name": "bzip2",
+            "repo": "upstream:bzip2",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "eglibc"
+            ]
         }
     ]
 }
