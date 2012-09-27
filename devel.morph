@@ -71,12 +71,6 @@
             "build-depends": [ "make" ]
         },
         {
-            "name": "xz",
-            "repo": "upstream:xz",
-            "ref": "baserock/morph",
-            "build-depends": [ "make" ]
-        },
-        {
             "name": "coreutils",
             "repo": "upstream:coreutils",
             "ref": "baserock/morph",

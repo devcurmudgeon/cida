@@ -151,10 +151,17 @@
             ]
         },
         {
+            "name": "xz",
+            "repo": "upstream:xz",
+            "ref": "baserock/morph",
+            "build-depends": [ ]
+        },
+        {
             "name": "systemd",
             "repo": "upstream:systemd",
             "ref": "baserock/morph",
             "build-depends": [
+                "xz",
                 "dbus",
                 "gobject-introspection",
                 "kmod",
