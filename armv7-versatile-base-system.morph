@@ -7,7 +7,7 @@
     "disk-size": "2G",
     "strata": [
         {
-            "morph": "arm-versatile-bsp",
+            "morph": "armv7-versatile-bsp",
             "repo": "baserock:morphs",
             "ref": "master"
         },
