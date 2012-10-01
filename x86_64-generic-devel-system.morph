@@ -4,7 +4,7 @@
     "kind": "system",
     "system-kind": "syslinux-disk",
     "arch": "x86_64",
-    "disk-size": "10G",
+    "disk-size": "2G",
     "strata": [
         {
             "morph": "x86_64-generic-bsp",

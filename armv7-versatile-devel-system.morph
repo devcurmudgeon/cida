@@ -4,7 +4,7 @@
     "kind": "system",
     "system-kind": "rootfs-tarball",
     "arch": "armv7",
-    "disk-size": "10G",
+    "disk-size": "2G",
     "strata": [
         {
             "morph": "armv7-versatile-bsp",
