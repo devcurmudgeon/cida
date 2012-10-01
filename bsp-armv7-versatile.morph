@@ -1,5 +1,5 @@
 {
-    "name": "armv7-versatile-bsp",
+    "name": "bsp-armv7-versatile",
     "description": "The platform dependent components required to boot an ARM versatile development board.",
     "kind": "stratum",
     "chunks": [
