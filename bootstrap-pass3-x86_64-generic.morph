@@ -1,5 +1,5 @@
 {
-    "name": "x86_64-generic-bootstrap-pass3",
+    "name": "bootstrap-pass3-x86_64-generic",
     "description": "The set of strata that constitute the final bootstrap for 64-bit x86 systems. This is a stratum rather than a system because a system image is not necessarily required to finish a bootstrap, and listing multiple strata on the command line doesn't share a staging area, so bsp-x86_64-generic fails to find what it needs from devel.",
     "kind": "stratum",
     "build-depends": [
