@@ -1,23 +1,18 @@
 {
-    "name": "x86_64-generic-devel-system",
-    "description": "A system that is able to build other systems based on the 64-bit x86 architecture.",
+    "name": "base-system-x86_64-generic",
+    "description": "The set of strata required to have a minimal system for a 64-bit x86 system.",
     "kind": "system",
     "system-kind": "syslinux-disk",
     "arch": "x86_64",
     "disk-size": "2G",
     "strata": [
         {
-            "morph": "x86_64-generic-bsp",
+            "morph": "bsp-x86_64-generic",
             "repo": "baserock:morphs",
             "ref": "master"
         },
         {
             "morph": "foundation",
-            "repo": "baserock:morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "devel",
             "repo": "baserock:morphs",
             "ref": "master"
         }
