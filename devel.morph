@@ -222,6 +222,12 @@
             "build-depends": [ "make", "readline", "openssl" ]
         },
         {
+            "name": "error-perl-tarball",
+            "repo": "upstream:error-perl-tarball",
+            "ref": "master",
+            "build-depends": [ "perl" ]
+        },
+        {
             "name": "git",
             "repo": "upstream:git",
             "ref": "baserock/morph",
@@ -229,7 +235,8 @@
                 "make",
                 "openssl",
                 "curl",
-                "cpython"
+                "cpython",
+                "error-perl-tarball"
             ]
         },
         {
