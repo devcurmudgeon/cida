@@ -3,8 +3,20 @@
     "description": "The set of strata that constitute the final bootstrap for the i.MX 53 ARM development board. This is a stratum rather than a system because a system image is not necessarily required to finish a bootstrap, and listing multiple strata on the command line doesn't share a staging area, so imx53-bsp fails to find what it needs from devel.",
     "kind": "stratum",
     "build-depends": [
-        "foundation",
-        "devel",
-        "imx53-bsp"
+        {
+            "morph": "foundation",
+            "repo": "baserock:morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "devel",
+            "repo": "baserock:morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "bsp-imx53",
+            "repo": "baserock:morphs",
+            "ref": "master"
+        }
     ]
 }
