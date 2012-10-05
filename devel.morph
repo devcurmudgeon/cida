@@ -398,7 +398,7 @@
         {
             "name": "rsync",
             "repo": "upstream:rsync",
-            "ref": "v3.0.9",
+            "ref": "baserock/morph",
             "build-depends": [ "make" ]
         },
         {
