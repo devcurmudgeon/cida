@@ -11,7 +11,6 @@
         },
         {
             "name": "eglibc",
-            "morph": "eglibc",
             "repo": "upstream:eglibc2",
             "ref": "baserock/2.15-morph",
             "build-depends": []
@@ -154,7 +153,7 @@
             "name": "xz",
             "repo": "upstream:xz",
             "ref": "baserock/morph",
-            "build-depends": [ ]
+            "build-depends": []
         },
         {
             "name": "systemd",
