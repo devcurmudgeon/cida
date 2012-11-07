@@ -8,12 +8,12 @@
     "strata": [
         {
             "morph": "bsp-armv7-versatile",
-            "repo": "baserock:morphs",
+            "repo": "baserock:baserock/morphs",
             "ref": "master"
         },
         {
             "morph": "foundation",
-            "repo": "baserock:morphs",
+            "repo": "baserock:baserock/morphs",
             "ref": "master"
         }
     ]

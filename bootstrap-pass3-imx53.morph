@@ -5,17 +5,17 @@
     "build-depends": [
         {
             "morph": "foundation",
-            "repo": "baserock:morphs",
+            "repo": "baserock:baserock/morphs",
             "ref": "master"
         },
         {
             "morph": "devel",
-            "repo": "baserock:morphs",
+            "repo": "baserock:baserock/morphs",
             "ref": "master"
         },
         {
             "morph": "bsp-imx53",
-            "repo": "baserock:morphs",
+            "repo": "baserock:baserock/morphs",
             "ref": "master"
         }
     ]
