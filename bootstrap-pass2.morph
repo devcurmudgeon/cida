@@ -5,7 +5,7 @@
     "chunks": [
         {
             "name": "fhs-dirs",
-            "repo": "baserock:fhs-dirs",
+            "repo": "baserock:baserock/fhs-dirs",
             "ref": "master",
             "build-depends": []
         },

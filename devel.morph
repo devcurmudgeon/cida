@@ -411,7 +411,7 @@
         },
         {
             "name": "morph",
-            "repo": "baserock:morph",
+            "repo": "baserock:baserock/morph",
             "ref": "master",
             "build-depends": [
                 "cliapp",

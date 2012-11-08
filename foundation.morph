@@ -5,7 +5,7 @@
     "chunks": [
         {
             "name": "fhs-dirs",
-            "repo": "baserock:fhs-dirs",
+            "repo": "baserock:baserock/fhs-dirs",
             "ref": "master",
             "build-depends": []
         },
@@ -75,7 +75,7 @@
         },
         {
             "name": "tbdiff",
-            "repo": "baserock:tbdiff",
+            "repo": "baserock:baserock/tbdiff",
             "ref": "master",
             "build-depends": [
                 "eglibc",
