@@ -502,6 +502,14 @@
             "build-depends": [
                 "make"
             ]
-        }
+        },
+	{
+            "name": "e2fsprogs",
+            "repo": "upstream:e2fsprogs",
+            "ref": "master",
+            "build-depends": [
+                "make"
+            ]
+	}
     ]
 }
