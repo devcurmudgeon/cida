@@ -26,7 +26,7 @@
         {
             "name": "busybox",
             "repo": "upstream:busybox",
-            "ref":  "baserock/morph",
+            "ref": "baserock/morph",
             "build-depends": [
                 "eglibc"
             ]
