@@ -19,7 +19,7 @@
         {
             "morph": "devel",
             "repo": "baserock:baserock/morphs",
-            "ref": "liw/e2fsprogs"
+            "ref": "master"
         }
     ]
 }
