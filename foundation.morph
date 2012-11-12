@@ -26,7 +26,7 @@
         {
             "name": "busybox",
             "repo": "upstream:busybox",
-            "ref":  "baserock/morph",
+            "ref": "baserock/morph",
             "build-depends": [
                 "eglibc"
             ]
@@ -50,7 +50,7 @@
         {
             "name": "util-linux",
             "repo": "upstream:util-linux",
-            "ref": "baserock/morph",
+            "ref": "baserock/S5178/update-util-linux",
             "build-depends": [
                 "eglibc"
             ]

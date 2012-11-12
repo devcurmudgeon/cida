@@ -14,7 +14,7 @@
         {
             "morph": "foundation",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/S5178/update-util-linux"
         },
         {
             "morph": "devel",
