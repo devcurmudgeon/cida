@@ -24,7 +24,7 @@
         {
             "name": "ti-rpc",
             "repo": "upstream:ti-rpc",
-            "ref": "libtirpc-0-2-2",
+            "ref": "baserock/master",
             "build-depends": []
         },
         {
