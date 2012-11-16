@@ -1,0 +1,21 @@
+{
+    "name": "nfs",
+    "kind": "stratum",
+    "description": "NFS utilities",
+    "chunks": [
+        {
+            "name": "sqlite3",
+            "repo": "upstream:sqlite3",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "nfs-utils",
+            "repo": "git://git.linux-nfs.org/projects/steved/nfs-utils.git",
+            "ref": "nfs-utils-1-2-7",
+            "build-depends": [
+                "sqlite3"
+            ]
+        }
+    ]
+}
