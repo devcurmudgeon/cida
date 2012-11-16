@@ -22,13 +22,26 @@
             "build-depends": []
         },
         {
+            "name": "ti-rpc",
+            "repo": "upstream:ti-rpc",
+            "ref": "libtirpc-0-2-2",
+            "build-depends": []
+        },
+        {
+            "name": "rpcbind",
+            "repo": "upstream:rpcbind",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
             "name": "nfs-utils",
             "repo": "upstream:nfs-utils",
             "ref": "baserock/master",
             "build-depends": [
                 "libevent",
                 "sqlite3",
-                "tcp-wrappers"
+                "tcp-wrappers",
+                "ti-rpc"
             ]
         }
     ]
