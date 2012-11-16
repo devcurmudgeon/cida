@@ -4,17 +4,31 @@
     "description": "NFS utilities",
     "chunks": [
         {
+            "name": "libevent",
+            "repo": "git://levent.git.sourceforge.net/gitroot/levent/libevent",
+            "ref": "release-2.0.20-stable",
+            "build-depends": []
+        },
+        {
             "name": "sqlite3",
             "repo": "upstream:sqlite3",
             "ref": "master",
             "build-depends": []
         },
         {
+            "name": "tcp-wrappers",
+            "repo": "upstream:tcp-wrappers",
+            "ref": "baserock/fedora-patches",
+            "build-depends": []
+        },
+        {
             "name": "nfs-utils",
-            "repo": "git://git.linux-nfs.org/projects/steved/nfs-utils.git",
-            "ref": "nfs-utils-1-2-7",
+            "repo": "upstream:nfs-utils",
+            "ref": "baserock/master",
             "build-depends": [
-                "sqlite3"
+                "libevent",
+                "sqlite3",
+                "tcp-wrappers"
             ]
         }
     ]
