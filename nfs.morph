@@ -24,14 +24,16 @@
         {
             "name": "ti-rpc",
             "repo": "upstream:ti-rpc",
-            "ref": "baserock/master",
+            "ref": "baserock/samthursfield/nfs",
             "build-depends": []
         },
         {
             "name": "rpcbind",
             "repo": "upstream:rpcbind",
             "ref": "master",
-            "build-depends": []
+            "build-depends": [
+                "ti-rpc"
+            ]
         },
         {
             "name": "nfs-utils",
