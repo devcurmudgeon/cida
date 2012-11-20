@@ -6,7 +6,7 @@
         {
             "name": "fhs-dirs",
             "repo": "baserock:baserock/fhs-dirs",
-            "ref": "master",
+            "ref": "baserock/samthursfield/nfs",
             "build-depends": []
         },
         {

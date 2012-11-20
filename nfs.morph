@@ -5,7 +5,7 @@
     "chunks": [
         {
             "name": "libevent",
-            "repo": "git://levent.git.sourceforge.net/gitroot/levent/libevent",
+            "repo": "upstream:libevent",
             "ref": "release-2.0.20-stable",
             "build-depends": []
         },
@@ -24,15 +24,16 @@
         {
             "name": "ti-rpc",
             "repo": "upstream:ti-rpc",
-            "ref": "baserock/samthursfield/nfs",
+            "ref": "baserock/master",
             "build-depends": []
         },
         {
             "name": "rpcbind",
             "repo": "upstream:rpcbind",
-            "ref": "master",
+            "ref": "baserock/master",
             "build-depends": [
-                "ti-rpc"
+                "ti-rpc",
+                "tcp-wrappers"
             ]
         },
         {

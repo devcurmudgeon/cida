@@ -6,7 +6,7 @@
         {
             "name": "linux",
             "repo": "upstream:linux",
-            "ref": "baserock/morph",
+            "ref": "baserock/samthursfield/nfs",
             "build-depends": []
         },
         {
@@ -19,7 +19,9 @@
             "name": "syslinux",
             "repo": "upstream:syslinux",
             "ref": "baserock/morph",
-            "build-depends": ["nasm"]
+            "build-depends": [
+                "nasm"
+            ]
         }
     ]
 }
