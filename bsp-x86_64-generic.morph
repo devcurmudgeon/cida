@@ -19,7 +19,9 @@
             "name": "syslinux",
             "repo": "upstream:syslinux",
             "ref": "baserock/morph",
-            "build-depends": ["nasm"]
+            "build-depends": [
+                "nasm"
+            ]
         }
     ]
 }

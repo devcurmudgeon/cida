@@ -1,0 +1,51 @@
+{
+    "name": "nfs",
+    "kind": "stratum",
+    "description": "NFS utilities",
+    "chunks": [
+        {
+            "name": "libevent",
+            "repo": "upstream:libevent",
+            "ref": "release-2.0.20-stable",
+            "build-depends": []
+        },
+        {
+            "name": "sqlite3",
+            "repo": "upstream:sqlite3",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "tcp-wrappers",
+            "repo": "upstream:tcp-wrappers",
+            "ref": "baserock/fedora-patches",
+            "build-depends": []
+        },
+        {
+            "name": "ti-rpc",
+            "repo": "upstream:ti-rpc",
+            "ref": "baserock/master",
+            "build-depends": []
+        },
+        {
+            "name": "rpcbind",
+            "repo": "upstream:rpcbind",
+            "ref": "baserock/master",
+            "build-depends": [
+                "ti-rpc",
+                "tcp-wrappers"
+            ]
+        },
+        {
+            "name": "nfs-utils",
+            "repo": "upstream:nfs-utils",
+            "ref": "baserock/master",
+            "build-depends": [
+                "libevent",
+                "sqlite3",
+                "tcp-wrappers",
+                "ti-rpc"
+            ]
+        }
+    ]
+}
