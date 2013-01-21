@@ -15,11 +15,6 @@
             "morph": "foundation",
             "repo": "baserock:baserock/morphs",
             "ref": "master"
-        },
-        {
-            "morph": "nfs",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
         }
     ]
 }
