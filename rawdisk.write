@@ -1,0 +1,70 @@
+#!/usr/bin/python
+# Copyright (C) 2012-2013  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+'''A Morph deployment write extension for raw disk images.'''
+
+
+import os
+import time
+import tempfile
+
+import morphlib.writeexts
+
+
+class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
+
+    '''Create a raw disk image during Morph's deployment.
+    
+    The location command line argument is the pathname of the disk image
+    to be created.
+    
+    '''
+
+    def process_args(self, args):
+        if len(args) != 2:
+            raise cliapp.AppException('Wrong number of command line args')
+        
+        temp_root, location = args
+        self.status(
+            msg='Temporary system root: %(temp_root)s',
+            temp_root=temp_root)
+        self.status(
+            msg='Disk image to create: %(location)s',
+            location=location)
+        
+        size = self.get_disk_size()
+        self.status(msg='Disk size is %(size)d bytes', size=size)
+        
+        self.create_raw_disk_image(location, size)
+        self.mkfs_btrfs(location)
+        mp = self.mount(location)
+        try:
+            self.create_factory(mp, temp_root)
+            self.create_fstab(mp)
+            self.install_extlinux(mp)
+        except BaseException, e:
+            self.status(msg='EEK')
+            self.unmount(mp)
+            raise
+        else:
+            self.unmount(mp)
+            
+        self.status(msg='Disk image has been created')
+
+
+RawDiskWriteExtension().run()
+
