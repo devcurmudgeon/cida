@@ -1,0 +1,108 @@
+{
+    "name": "tools",
+    "description": "Extra development tools included in the devel system",
+    "kind": "stratum",
+    "build-depends": [
+        {
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/build-essential",
+            "morph": "core"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "lzo",
+            "repo": "upstream:lzo",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "patch",
+            "repo": "upstream:patch",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "cmake",
+            "repo": "upstream:cmake",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "coreutils",
+            "repo": "upstream:coreutils",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "patch"
+            ]
+        },
+        {
+            "name": "distcc",
+            "repo": "upstream:distcc",
+            "ref": "master",
+            "build-depends": [
+                "lzo"
+            ]
+        },
+        {
+            "name": "e2fsprogs",
+            "repo": "upstream:e2fsprogs",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "gdb",
+            "repo": "upstream:gdb",
+            "ref": "refs/heads/master",
+            "build-depends": []
+        },
+        {
+            "name": "less",
+            "repo": "upstream:less",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "linux-user-chroot",
+            "repo": "upstream:linux-user-chroot",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "lsof",
+            "repo": "upstream:lsof",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "pv",
+            "repo": "upstream:pv",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "rsync",
+            "repo": "upstream:rsync",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "strace",
+            "repo": "upstream:strace",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "vala",
+            "repo": "upstream:vala",
+            "ref": "baserock/bootstrap",
+            "build-depends": []
+        },
+        {
+            "name": "vim",
+            "repo": "upstream:vim",
+            "ref": "baserock/morph",
+            "build-depends": []
+        }
+    ]
+}

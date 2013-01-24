@@ -1,0 +1,540 @@
+{
+    "name": "core",
+    "description": "Core components required to build a Baserock devel system",
+    "kind": "stratum",
+    "build-depends": [
+        {
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/build-essential",
+            "morph": "build-essential"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "gdbm",
+            "repo": "upstream:gdbm",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "gettext",
+            "repo": "upstream:gettext",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "gperf",
+            "repo": "upstream:gperf",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "libffi",
+            "repo": "upstream:libffi",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "m4",
+            "repo": "upstream:m4",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "mini-utils",
+            "repo": "baserock:baserock/mini-utils",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "ncurses",
+            "repo": "upstream:ncurses",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "pciutils",
+            "repo": "upstream:pciutils",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "perl",
+            "repo": "upstream:perl",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "gdbm"
+            ]
+        },
+        {
+            "name": "pkg-config",
+            "repo": "upstream:pkg-config",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "readline",
+            "repo": "upstream:readline",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "ncurses"
+            ]
+        },
+        {
+            "name": "texinfo-tarball",
+            "repo": "upstream:texinfo-tarball",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "ncurses"
+            ]
+        },
+        {
+            "name": "zlib",
+            "repo": "upstream:zlib",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "autoconf",
+            "repo": "upstream:autoconf",
+            "ref": "baserock/build-essential",
+            "build-depends": [
+                "m4",
+                "perl"
+            ]
+        },
+        {
+            "name": "automake",
+            "repo": "upstream:automake",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "perl",
+                "texinfo-tarball"
+            ]
+        },
+        {
+            "name": "bash",
+            "repo": "upstream:bash",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "readline"
+            ]
+        },
+        {
+            "name": "error-perl-tarball",
+            "repo": "upstream:error-perl-tarball",
+            "ref": "master",
+            "build-depends": [
+                "perl"
+            ]
+        },
+        {
+            "name": "flex",
+            "repo": "upstream:flex",
+            "ref": "baserock/build-essential",
+            "build-depends": [
+                "m4"
+            ]
+        },
+        {
+            "name": "libtool",
+            "repo": "upstream:libtool",
+            "ref": "baserock/build-essential",
+            "build-depends": [
+                "bash"
+            ]
+        },
+        {
+            "name": "libusbx",
+            "repo": "upstream:libusbx",
+            "ref": "master",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool"
+            ]
+        },
+        {
+            "name": "libxml2",
+            "repo": "upstream:libxml2",
+            "ref": "master",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool"
+            ]
+        },
+        {
+            "name": "openssl",
+            "repo": "upstream:openssl",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "perl"
+            ]
+        },
+        {
+            "name": "usbutils",
+            "repo": "upstream:usbutils",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libusbx",
+                "pkg-config"
+            ]
+        },
+        {
+            "name": "xz",
+            "repo": "upstream:xz",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "gettext",
+                "libtool"
+            ]
+        },
+        {
+            "name": "attr",
+            "repo": "upstream:attr",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "gettext",
+                "libtool"
+            ]
+        },
+        {
+            "name": "cpython",
+            "repo": "upstream:cpython",
+            "ref": "baserock/morph-2.7",
+            "build-depends": [
+                "openssl",
+                "readline",
+                "zlib"
+            ]
+        },
+        {
+            "name": "curl",
+            "repo": "upstream:curl",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool",
+                "openssl"
+            ]
+        },
+        {
+            "name": "glib",
+            "repo": "upstream:glib",
+            "ref": "master",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "cpython",
+                "gettext",
+                "libffi",
+                "libtool",
+                "pkg-config",
+                "zlib"
+            ]
+        },
+        {
+            "name": "kmod",
+            "repo": "upstream:kmod",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool",
+                "pkg-config",
+                "zlib"
+            ]
+        },
+        {
+            "name": "libcap2",
+            "repo": "upstream:libcap2",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "attr"
+            ]
+        },
+        {
+            "name": "libexpat",
+            "repo": "upstream:libexpat",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool"
+            ]
+        },
+        {
+            "name": "python-setuptools",
+            "repo": "upstream:python-setuptools",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cpython"
+            ]
+        },
+        {
+            "name": "python-ttystatus",
+            "repo": "upstream:python-ttystatus",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cpython"
+            ]
+        },
+        {
+            "name": "XML-Parser",
+            "repo": "upstream:XML-Parser",
+            "ref": "master",
+            "build-depends": [
+                "libexpat",
+                "libxml2",
+                "perl"
+            ]
+        },
+        {
+            "name": "dbus-pre",
+            "repo": "upstream:dbus",
+            "ref": "baserock/build-essential",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "glib",
+                "libexpat",
+                "libtool",
+                "pkg-config"
+            ]
+        },
+        {
+            "name": "git",
+            "repo": "upstream:git",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "cpython",
+                "curl",
+                "error-perl-tarball",
+                "gettext",
+                "libexpat",
+                "openssl",
+                "zlib"
+            ]
+        },
+        {
+            "name": "intltool",
+            "repo": "upstream:intltool",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "XML-Parser",
+                "autoconf",
+                "automake",
+                "perl"
+            ]
+        },
+        {
+            "name": "python-coveragepy",
+            "repo": "upstream:python-coveragepy",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cpython",
+                "python-setuptools"
+            ]
+        },
+        {
+            "name": "util-linux",
+            "repo": "upstream:util-linux",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "gettext",
+                "git",
+                "libtool",
+                "pkg-config"
+            ]
+        },
+        {
+            "name": "bison",
+            "repo": "upstream:bison",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "bash",
+                "flex",
+                "gettext",
+                "git",
+                "mini-utils"
+            ]
+        },
+        {
+            "name": "gobject-introspection",
+            "repo": "upstream:gobject-introspection",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "bison",
+                "cpython",
+                "flex",
+                "glib",
+                "libtool",
+                "pkg-config"
+            ]
+        },
+        {
+            "name": "groff",
+            "repo": "upstream:groff",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "bison",
+                "texinfo-tarball"
+            ]
+        },
+        {
+            "name": "python-coverage-test-runner",
+            "repo": "upstream:python-coverage-test-runner",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cpython",
+                "python-coveragepy"
+            ]
+        },
+        {
+            "name": "systemd",
+            "repo": "upstream:systemd",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "dbus-pre",
+                "gobject-introspection",
+                "gperf",
+                "intltool",
+                "kmod",
+                "libcap2",
+                "libtool",
+                "pciutils",
+                "usbutils",
+                "util-linux",
+                "xz"
+            ]
+        },
+        {
+            "name": "cliapp",
+            "repo": "upstream:cliapp",
+            "ref": "trunk",
+            "build-depends": [
+                "cpython",
+                "python-coverage-test-runner"
+            ]
+        },
+        {
+            "name": "cmdtest",
+            "repo": "upstream:cmdtest",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cliapp",
+                "cpython",
+                "python-ttystatus"
+            ]
+        },
+        {
+            "name": "btrfs-progs",
+            "repo": "upstream:btrfs-progs",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "attr",
+                "util-linux",
+                "zlib"
+            ]
+        },
+        {
+            "name": "bzip2",
+            "repo": "upstream:bzip2",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "dbus",
+            "repo": "upstream:dbus",
+            "ref": "baserock/build-essential",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "glib",
+                "libexpat",
+                "libtool",
+                "pkg-config",
+                "systemd"
+            ]
+        },
+        {
+            "name": "gtk-doc-stub",
+            "repo": "upstream:gtk-doc-stub",
+            "ref": "master",
+            "build-depends": [
+                "bash"
+            ]
+        },
+        {
+            "name": "help2man",
+            "repo": "upstream:help2man",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "perl",
+                "texinfo-tarball"
+            ]
+        },
+        {
+            "name": "libxslt",
+            "repo": "upstream:libxslt",
+            "ref": "master",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool",
+                "libxml2"
+            ]
+        },
+        {
+            "name": "morph",
+            "repo": "baserock:baserock/morph",
+            "ref": "master",
+            "build-depends": [
+                "cliapp",
+                "cmdtest",
+                "python-coverage-test-runner"
+            ]
+        },
+        {
+            "name": "openssh",
+            "repo": "upstream:openssh",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "groff",
+                "openssl",
+                "zlib"
+            ]
+        },
+        {
+            "name": "tbdiff",
+            "repo": "baserock:baserock/tbdiff",
+            "ref": "master",
+            "build-depends": [
+                "attr",
+                "autoconf",
+                "automake",
+                "libtool"
+            ]
+        }
+    ]
+}
