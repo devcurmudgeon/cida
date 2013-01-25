@@ -2,7 +2,7 @@
     "name": "base-system-x86_32-generic",
     "description": "The set of strata required to have a minimal system for a 32-bit x86 system.",
     "kind": "system",
-    "system-kind": "syslinux-disk",
+    "system-kind": "rootfs-tarball",
     "arch": "x86_32",
     "disk-size": "2G",
     "strata": [
