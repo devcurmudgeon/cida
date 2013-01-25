@@ -526,6 +526,15 @@
             ]
         },
         {
+            "name": "pyyaml",
+            "repo": "upstream:pyyaml",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cpython",
+                "python-setuptools"
+            ]
+        },
+        {
             "name": "tbdiff",
             "repo": "baserock:baserock/tbdiff",
             "ref": "master",
