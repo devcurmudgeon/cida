@@ -2,6 +2,13 @@
     "name": "bsp-armv7-versatile",
     "description": "The platform dependent components required to boot an ARM versatile development board.",
     "kind": "stratum",
+    "build-depends": [
+        {
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/build-essential",
+            "morph": "core"
+        }
+    ],
     "chunks": [
         {
             "name": "linux",

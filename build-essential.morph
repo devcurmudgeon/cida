@@ -1,0 +1,61 @@
+{
+    "name": "build-essential",
+    "description": "Toolchain stratum",
+    "kind": "stratum",
+    "chunks": [
+        {
+            "name": "binutils",
+            "repo": "upstream:binutils-redhat",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "busybox",
+            "repo": "upstream:busybox",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "eglibc",
+            "repo": "upstream:eglibc2",
+            "ref": "baserock/2.15-build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "fhs-dirs",
+            "repo": "baserock:baserock/fhs-dirs",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "gcc",
+            "repo": "upstream:gcc-tarball",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "linux-api-headers",
+            "repo": "upstream:linux",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "gawk",
+            "repo": "upstream:gawk",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "make",
+            "repo": "upstream:make",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
+            "name": "ccache",
+            "repo": "upstream:ccache",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        }
+    ]
+}

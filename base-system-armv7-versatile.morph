@@ -7,12 +7,17 @@
     "disk-size": "2G",
     "strata": [
         {
-            "morph": "bsp-armv7-versatile",
+            "morph": "build-essential",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/samthursfield/build-essential"
         },
         {
-            "morph": "foundation",
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/build-essential"
+        },
+        {
+            "morph": "bsp-armv7-versatile",
             "repo": "baserock:baserock/morphs",
             "ref": "master"
         }
