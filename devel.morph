@@ -383,6 +383,15 @@
             ]
         },
         {
+            "name": "pyyaml",
+            "repo": "upstream:pyyaml",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cpython",
+                "python-setuptools"
+            ]
+        },
+        {
             "name": "libxml2",
             "repo": "upstream:libxml2",
             "ref": "master",
