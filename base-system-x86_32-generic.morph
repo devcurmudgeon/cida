@@ -9,17 +9,17 @@
         {
             "morph": "build-essential",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential"
+            "ref": "master"
         },
         {
             "morph": "core",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential"
+            "ref": "master"
         },
         {
             "morph": "bsp-x86_32-generic",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential"
+            "ref": "master"
         }
     ]
 }
