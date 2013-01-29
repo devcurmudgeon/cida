@@ -163,6 +163,14 @@
             "build-depends": [
                 "gcc-bootstrap-pass1-2"
             ]
+        },
+        {   
+            "name": "pyyaml",
+            "repo": "upstream:pyyaml",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cpython"
+            ]
         }
     ]
 }

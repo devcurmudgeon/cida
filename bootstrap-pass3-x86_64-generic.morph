@@ -4,12 +4,7 @@
     "kind": "stratum",
     "build-depends": [
         {
-            "morph": "foundation",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "devel",
+            "morph": "core",
             "repo": "baserock:baserock/morphs",
             "ref": "master"
         },

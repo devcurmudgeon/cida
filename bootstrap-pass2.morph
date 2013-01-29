@@ -284,6 +284,14 @@
             "build-depends": [
                 "glib"
             ]
+        },
+        {
+            "name": "pyyaml",
+            "repo": "upstream:pyyaml",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cpython"
+            ]
         }
     ]
 }
