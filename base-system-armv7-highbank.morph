@@ -7,14 +7,19 @@
     "disk-size": "2G",
     "strata": [
         {
-            "morph": "bsp-armv7-highbank",
-            "repo": "baserock:baserock/morphs",
-            "ref": "jjardon/calxeda_highbank"
-        },
-        {
-            "morph": "foundation",
+            "morph": "build-essential",
             "repo": "baserock:baserock/morphs",
             "ref": "master"
+        },
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "bsp-armv7-highbank",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jjardon/highbank"
         }
     ]
 }
