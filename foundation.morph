@@ -55,26 +55,6 @@
             "build-depends": []
         },
         {
-            "name": "python-setuptools",
-            "repo": "upstream:python-setuptools",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
-            "name": "python-ttystatus",
-            "repo": "upstream:python-ttystatus",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
-            "name": "pyyaml",
-            "repo": "upstream:pyyaml",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "python-setuptools"
-            ]
-        },
-        {
             "name": "usbutils",
             "repo": "upstream:usbutils",
             "ref": "baserock/morph",
@@ -105,27 +85,11 @@
             ]
         },
         {
-            "name": "python-coveragepy",
-            "repo": "upstream:python-coveragepy",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "python-setuptools"
-            ]
-        },
-        {
             "name": "dbus-pre",
             "repo": "upstream:dbus",
             "ref": "baserock/build-essential",
             "build-depends": [
                 "glib"
-            ]
-        },
-        {
-            "name": "python-coverage-test-runner",
-            "repo": "upstream:python-coverage-test-runner",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "python-coveragepy"
             ]
         },
         {
@@ -140,23 +104,6 @@
                 "pciutils",
                 "usbutils",
                 "util-linux"
-            ]
-        },
-        {
-            "name": "cliapp",
-            "repo": "upstream:cliapp",
-            "ref": "trunk",
-            "build-depends": [
-                "python-coverage-test-runner"
-            ]
-        },
-        {
-            "name": "cmdtest",
-            "repo": "upstream:cmdtest",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "cliapp",
-                "python-ttystatus"
             ]
         },
         {
@@ -194,17 +141,6 @@
             "repo": "upstream:libxslt",
             "ref": "master",
             "build-depends": []
-        },
-        {
-            "name": "morph",
-            "repo": "baserock:baserock/morph",
-            "ref": "master",
-            "build-depends": [
-                "cliapp",
-                "cmdtest",
-                "python-coverage-test-runner",
-                "pyyaml"
-            ]
         },
         {
             "name": "openssh",
