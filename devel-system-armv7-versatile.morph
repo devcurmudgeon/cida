@@ -14,17 +14,22 @@
         {
             "morph": "core",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/samthursfield/minimal-core"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/minimal-core"
         },
         {
             "morph": "bsp-armv7-versatile",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/samthursfield/minimal-core"
         },
         {
             "morph": "tools",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/samthursfield/minimal-core"
         }
     ]
 }

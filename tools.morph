@@ -5,8 +5,8 @@
     "build-depends": [
         {
             "repo": "baserock:baserock/morphs",
-            "ref": "master",
-            "morph": "core"
+            "ref": "baserock/samthursfield/minimal-core",
+            "morph": "foundation"
         }
     ],
     "chunks": [

@@ -1,0 +1,226 @@
+{
+    "name": "foundation",
+    "kind": "stratum",
+    "description": "Non-build components of a Baserock base system",
+    "build-depends": [
+        {
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/minimal-core",
+            "morph": "core"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "attr",
+            "repo": "upstream:attr",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "groff",
+            "repo": "upstream:groff",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "kmod",
+            "repo": "upstream:kmod",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "libcap2",
+            "repo": "upstream:libcap2",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "attr"
+            ]
+        },
+        {
+            "name": "libffi",
+            "repo": "upstream:libffi",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "libusbx",
+            "repo": "upstream:libusbx",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "pciutils",
+            "repo": "upstream:pciutils",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "python-setuptools",
+            "repo": "upstream:python-setuptools",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "python-ttystatus",
+            "repo": "upstream:python-ttystatus",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "pyyaml",
+            "repo": "upstream:pyyaml",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python-setuptools"
+            ]
+        },
+        {
+            "name": "usbutils",
+            "repo": "upstream:usbutils",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "libusbx"
+            ]
+        },
+        {
+            "name": "util-linux",
+            "repo": "upstream:util-linux",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "glib",
+            "repo": "upstream:glib",
+            "ref": "master",
+            "build-depends": [
+                "libffi"
+            ]
+        },
+        {
+            "name": "gobject-introspection",
+            "repo": "upstream:gobject-introspection",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "glib"
+            ]
+        },
+        {
+            "name": "python-coveragepy",
+            "repo": "upstream:python-coveragepy",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python-setuptools"
+            ]
+        },
+        {
+            "name": "dbus-pre",
+            "repo": "upstream:dbus",
+            "ref": "baserock/build-essential",
+            "build-depends": [
+                "glib"
+            ]
+        },
+        {
+            "name": "python-coverage-test-runner",
+            "repo": "upstream:python-coverage-test-runner",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python-coveragepy"
+            ]
+        },
+        {
+            "name": "systemd",
+            "repo": "upstream:systemd",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "dbus-pre",
+                "gobject-introspection",
+                "kmod",
+                "libcap2",
+                "pciutils",
+                "usbutils",
+                "util-linux"
+            ]
+        },
+        {
+            "name": "cliapp",
+            "repo": "upstream:cliapp",
+            "ref": "trunk",
+            "build-depends": [
+                "python-coverage-test-runner"
+            ]
+        },
+        {
+            "name": "cmdtest",
+            "repo": "upstream:cmdtest",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cliapp",
+                "python-ttystatus"
+            ]
+        },
+        {
+            "name": "btrfs-progs",
+            "repo": "upstream:btrfs-progs",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "attr",
+                "util-linux"
+            ]
+        },
+        {
+            "name": "dbus",
+            "repo": "upstream:dbus",
+            "ref": "baserock/build-essential",
+            "build-depends": [
+                "glib",
+                "systemd"
+            ]
+        },
+        {
+            "name": "gtk-doc-stub",
+            "repo": "upstream:gtk-doc-stub",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "help2man",
+            "repo": "upstream:help2man",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "libxslt",
+            "repo": "upstream:libxslt",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "morph",
+            "repo": "baserock:baserock/morph",
+            "ref": "master",
+            "build-depends": [
+                "cliapp",
+                "cmdtest",
+                "python-coverage-test-runner",
+                "pyyaml"
+            ]
+        },
+        {
+            "name": "openssh",
+            "repo": "upstream:openssh",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "groff"
+            ]
+        },
+        {
+            "name": "tbdiff",
+            "repo": "baserock:baserock/tbdiff",
+            "ref": "master",
+            "build-depends": [
+                "attr"
+            ]
+        }
+    ]
+}
