@@ -63,12 +63,6 @@
             ]
         },
         {
-            "name": "util-linux",
-            "repo": "upstream:util-linux",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
             "name": "glib",
             "repo": "upstream:glib",
             "ref": "master",
@@ -102,8 +96,7 @@
                 "kmod",
                 "libcap2",
                 "pciutils",
-                "usbutils",
-                "util-linux"
+                "usbutils"
             ]
         },
         {
@@ -111,8 +104,7 @@
             "repo": "upstream:btrfs-progs",
             "ref": "baserock/morph",
             "build-depends": [
-                "attr",
-                "util-linux"
+                "attr"
             ]
         },
         {

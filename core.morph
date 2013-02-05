@@ -49,6 +49,12 @@
             ]
         },
         {
+            "name": "pkg-config",
+            "repo": "upstream:pkg-config",
+            "ref": "baserock/build-essential",
+            "build-depends": []
+        },
+        {
             "name": "readline",
             "repo": "upstream:readline",
             "ref": "baserock/morph",
@@ -233,10 +239,17 @@
             ]
         },
         {
-            "name": "pkg-config",
-            "repo": "upstream:pkg-config",
-            "ref": "baserock/build-essential",
-            "build-depends": []
+            "name": "util-linux",
+            "repo": "upstream:util-linux",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "gettext",
+                "git",
+                "libtool",
+                "pkg-config"
+            ]
         },
         {
             "name": "xz",
