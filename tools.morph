@@ -6,7 +6,7 @@
         {
             "repo": "baserock:baserock/morphs",
             "ref": "master",
-            "morph": "core"
+            "morph": "foundation"
         }
     ],
     "chunks": [
@@ -21,6 +21,59 @@
             "repo": "upstream:patch",
             "ref": "baserock/morph",
             "build-depends": []
+        },
+        {
+            "name": "python-setuptools",
+            "repo": "upstream:python-setuptools",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "python-ttystatus",
+            "repo": "upstream:python-ttystatus",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "pyyaml",
+            "repo": "upstream:pyyaml",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python-setuptools"
+            ]
+        },
+        {
+            "name": "python-coveragepy",
+            "repo": "upstream:python-coveragepy",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python-setuptools"
+            ]
+        },
+        {
+            "name": "python-coverage-test-runner",
+            "repo": "upstream:python-coverage-test-runner",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "python-coveragepy"
+            ]
+        },
+        {
+            "name": "cliapp",
+            "repo": "upstream:cliapp",
+            "ref": "trunk",
+            "build-depends": [
+                "python-coverage-test-runner"
+            ]
+        },
+        {
+            "name": "cmdtest",
+            "repo": "upstream:cmdtest",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "cliapp",
+                "python-ttystatus"
+            ]
         },
         {
             "name": "cmake",
@@ -73,6 +126,17 @@
             "repo": "upstream:lsof",
             "ref": "baserock/morph",
             "build-depends": []
+        },
+        {
+            "name": "morph",
+            "repo": "baserock:baserock/morph",
+            "ref": "master",
+            "build-depends": [
+                "cliapp",
+                "cmdtest",
+                "python-coverage-test-runner",
+                "pyyaml"
+            ]
         },
         {
             "name": "pv",

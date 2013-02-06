@@ -17,6 +17,11 @@
             "ref": "master"
         },
         {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
             "morph": "bsp-armv7-versatile",
             "repo": "baserock:baserock/morphs",
             "ref": "master"
