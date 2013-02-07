@@ -19,6 +19,7 @@
 
 
 import os
+import sys
 import time
 import tempfile
 
@@ -40,24 +41,8 @@ class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
         
         temp_root, location = args
         
-        size = self.get_disk_size()
-        self.status(msg='Disk size is %(size)d bytes', size=size)
-        
-        self.create_raw_disk_image(location, size)
-        self.mkfs_btrfs(location)
-        mp = self.mount(location)
-        try:
-            self.create_factory(mp, temp_root)
-            self.create_fstab(mp)
-            self.install_extlinux(mp)
-        except BaseException, e:
-            self.status(msg='EEK')
-            self.unmount(mp)
-            raise
-        else:
-            self.unmount(mp)
-            
-        self.status(msg='Disk image has been created')
+        self.create_local_system(temp_root, location)
+        self.status(msg='Disk image has been created at %s' % location)
 
 
 RawDiskWriteExtension().run()

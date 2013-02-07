@@ -18,8 +18,11 @@
 '''A Morph deployment write extension for deploying to KVM+libvirt.'''
 
 
+import cliapp
 import os
 import re
+import sys
+import tempfile
 import urlparse
 
 import morphlib.writeexts
@@ -54,35 +57,15 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         temp_root, location = args
         ssh_host, vm_name, vm_path = self.parse_location(location)
         
-        size = self.get_disk_size()
-        self.status(msg='Disk size is %(size)d bytes', size=size)
+        fd, raw_disk = tempfile.mkstemp()
+        os.close(fd)
+        self.create_local_system(temp_root, raw_disk)
         
-        raw_disk = tempfile.mkstemp()
-        self.create_raw_disk_image(raw_disk, size)
         try:
-            self.mkfs_btrfs(raw_disk)
-            mp = self.mount(raw_disk)
-        except BaseException:
-            self.status(msg='EEEK')
-            os.remove(raw_disk)
-            raise
-        try:
-            self.create_factory(mp, temp_root)
-            self.create_fstab(mp)
-            self.install_extlinux(mp)
-        except BaseException, e:
-            self.status(msg='EEK')
-            self.unmount(mp)
-            os.remove(raw_disk)
-            raise
-        else:
-            self.unmount(mp)
-
-        try:
-            self.transfer(raw_disk, size, ssh_host, vm_path)
+            self.transfer(raw_disk, ssh_host, vm_path)
             self.create_libvirt_guest(ssh_host, vm_name, vm_path)
         except BaseException:
-            self.status(msg='EEEK')
+            sys.stderr.write('Error deploying to libvirt')
             os.remove(raw_disk)
             raise
         else:
@@ -104,7 +87,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException('Cannot parse location %s' % location)
         return x.netloc, m.group('guest'), m.group('path')
 
-    def transfer(self, raw_disk, size, ssh_host, vm_path):
+    def transfer(self, raw_disk, ssh_host, vm_path):
         '''Transfer raw disk image to libvirt host.'''
 
         self.status(msg='Transfer disk image')

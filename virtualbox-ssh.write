@@ -23,6 +23,7 @@ accessed over ssh. The machine gets created, but not started.
 '''
 
 
+import cliapp
 import os
 import re
 import time
@@ -61,36 +62,16 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         temp_root, location = args
         ssh_host, vm_name, vdi_path = self.parse_location(location)
         
-        size = self.get_disk_size()
-        self.status(msg='Disk size is %(size)d bytes', size=size)
-        
-        raw_disk = tempfile.mkstemp()
-        self.create_raw_disk_image(raw_disk, size)
-        try:
-            self.mkfs_btrfs(raw_disk)
-            mp = self.mount(raw_disk)
-        except BaseException:
-            self.status('EEEK')
-            os.remove(raw_disk)
-            raise
-        try:
-            self.create_factory(mp, temp_root)
-            self.create_fstab(mp)
-            self.install_extlinux(mp)
-        except BaseException, e:
-            self.status(msg='EEK')
-            self.unmount(mp)
-            os.remove(raw_disk)
-            raise
-        else:
-            self.unmount(mp)
+        fd, raw_disk = tempfile.mkstemp()
+        os.close(fd)
+        self.create_local_system(temp_root)
 
         try:
             self.transfer_and_convert_to_vdi(
                 raw_disk, size, ssh_host, vdi_path)
             self.create_virtualbox_guest(ssh_host, vm_name, vdi_path)
         except BaseException:
-            self.status('EEEK')
+            sys.stderr.write('Error deploying to VirtualBox')
             os.remove(raw_disk)
             raise
         else:
