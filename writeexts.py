@@ -70,13 +70,10 @@ class WriteExtension(cliapp.Application):
         '''Create a raw disk image.'''
 
         self.status(msg='Creating empty disk image')
-        cliapp.runcmd(
-            ['dd',
-             'if=/dev/zero',
-             'of=' + filename,
-             'bs=1',
-             'seek=%d' % size,
-             'count=0'])
+        with open(filename, 'wb') as f:
+            if size > 0:
+                f.seek(size-1)
+                f.write('\0')
 
     def mkfs_btrfs(self, location):
         '''Create a btrfs filesystem on the disk.'''
