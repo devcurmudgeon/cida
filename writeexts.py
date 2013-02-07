@@ -127,8 +127,6 @@ class WriteExtension(cliapp.Application):
         self.status(msg='Creating fstab')        
         fstab = os.path.join(real_root, 'factory', 'etc', 'fstab')
         with open(fstab, 'w') as f:
-            f.write('proc      /proc proc  defaults            0 0\n')
-            f.write('sysfs     /sys  sysfs defaults            0 0\n')
             f.write('/dev/sda  /     btrfs defaults,rw,noatime 0 1\n')
 
     def install_extlinux(self, real_root):
