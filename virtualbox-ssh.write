@@ -64,7 +64,7 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         
         fd, raw_disk = tempfile.mkstemp()
         os.close(fd)
-        self.create_local_system(temp_root)
+        self.create_local_system(temp_root, raw_disk)
 
         try:
             self.transfer_and_convert_to_vdi(
