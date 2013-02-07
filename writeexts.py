@@ -91,8 +91,7 @@ class WriteExtension(cliapp.Application):
 
         self.status(msg='Mounting filesystem')        
         tempdir = tempfile.mkdtemp()
-        # FIXME: This hardcodes the loop device.
-        cliapp.runcmd(['mount', '-o', 'loop=loop0', location, tempdir])
+        cliapp.runcmd(['mount', '-o', 'loop', location, tempdir])
         return tempdir
         
     def unmount(self, mount_point):
