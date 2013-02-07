@@ -54,19 +54,6 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         temp_root, location = args
         ssh_host, vm_name, vm_path = self.parse_location(location)
         
-        self.status(
-            msg='Temporary system root: %(temp_root)s',
-            temp_root=temp_root)
-        self.status(
-            msg='libvirt server: %(ssh_host)s',
-            ssh_host=ssh_host)
-        self.status(
-            msg='libvirt guest: %(vm_name)s',
-            vm_name=vm_name)
-        self.status(
-            msg='libvirt disk image: %(vm_path)s',
-            vm_path=vm_path)
-        
         size = self.get_disk_size()
         self.status(msg='Disk size is %(size)d bytes', size=size)
         

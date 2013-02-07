@@ -39,12 +39,6 @@ class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException('Wrong number of command line args')
         
         temp_root, location = args
-        self.status(
-            msg='Temporary system root: %(temp_root)s',
-            temp_root=temp_root)
-        self.status(
-            msg='Disk image to create: %(location)s',
-            location=location)
         
         size = self.get_disk_size()
         self.status(msg='Disk size is %(size)d bytes', size=size)
