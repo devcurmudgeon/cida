@@ -47,6 +47,31 @@ class WriteExtension(cliapp.Application):
         '''
         
         self.output.write('%s\n' % (kwargs['msg'] % kwargs))
+    
+    def create_local_system(self, temp_root, raw_disk):
+        '''Create a raw system image locally.'''
+        
+        size = self.get_disk_size()
+        self.create_raw_disk_image(raw_disk, size)
+        try:
+            self.mkfs_btrfs(raw_disk)
+            mp = self.mount(raw_disk)
+        except BaseException:
+            sys.stderr.write('Error creating disk image')
+            os.remove(raw_disk)
+            raise
+        try:
+            self.create_factory(mp, temp_root)
+            self.create_fstab(mp)
+            self.create_factory_run(mp)
+            self.install_extlinux(mp)
+        except BaseException, e:
+            sys.stderr.write('Error creating disk image')
+            self.unmount(mp)
+            os.remove(raw_disk)
+            raise
+        else:
+            self.unmount(mp)
 
     def get_disk_size(self):
         '''Parse disk size from environment.'''
@@ -120,6 +145,15 @@ class WriteExtension(cliapp.Application):
         factory_boot = os.path.join(factory, 'boot')
         root_boot = os.path.join(real_root, 'boot')
         cliapp.runcmd(['cp', '-a', factory_boot, root_boot])
+        
+    def create_factory_run(self, real_root):
+        '''Create the 'factory-run' snapshot.'''
+
+        self.status(msg='Creating factory-run subvolume')
+        factory = os.path.join(real_root, 'factory')
+        factory_run = factory + '-run'
+        cliapp.runcmd(
+            ['btrfs', 'subvolume', 'snapshot', factory, factory_run])
 
     def create_fstab(self, real_root):
         '''Create an fstab.'''
@@ -139,7 +173,7 @@ class WriteExtension(cliapp.Application):
             f.write('timeout 1\n')
             f.write('label linux\n')
             f.write('kernel /boot/vmlinuz\n')
-            f.write('append root=/dev/sda rootflags=subvol=factory '
+            f.write('append root=/dev/sda rootflags=subvol=factory-run '
                     'init=/sbin/init rw\n')
 
         self.status(msg='Installing extlinux')
