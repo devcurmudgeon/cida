@@ -4,58 +4,244 @@
     "kind": "stratum",
     "chunks": [
         {
+            "name": "stage1-binutils",
+            "repo": "upstream:binutils-redhat",
+            "ref": "baserock/build-essential",
+            "build-mode": "bootstrap",
+            "build-depends": [],
+            "prefix": "/toolchain"
+        },
+        {
+            "name": "stage1-gcc",
+            "repo": "upstream:gcc-tarball",
+            "ref": "baserock/build-essential",
+            "build-mode": "bootstrap",
+            "build-depends": [],
+            "prefix": "/toolchain"
+        },
+        {
+            "name": "stage2-binutils",
+            "repo": "upstream:binutils-redhat",
+            "ref": "baserock/build-essential",
+            "build-mode": "bootstrap",
+            "build-depends": [
+                "stage1-binutils",
+                "stage1-gcc"
+            ]
+        },
+        {
+            "name": "stage2-busybox",
+            "repo": "upstream:busybox",
+            "ref": "baserock/build-essential",
+            "build-mode": "bootstrap",
+            "build-depends": [
+                "stage1-binutils",
+                "stage1-gcc"
+            ]
+        },
+        {
+            "name": "stage2-eglibc",
+            "repo": "upstream:eglibc2",
+            "ref": "baserock/2.15-build-essential",
+            "build-mode": "bootstrap",
+            "build-depends": [
+                "stage1-binutils",
+                "stage1-gcc"
+            ]
+        },
+        {
+            "name": "stage2-fhs-dirs",
+            "repo": "baserock:baserock/fhs-dirs",
+            "ref": "master",
+            "build-mode": "bootstrap",
+            "build-depends": [
+                "stage1-binutils",
+                "stage1-gcc"
+            ]
+        },
+        {
+            "name": "stage2-gawk",
+            "repo": "upstream:gawk",
+            "ref": "baserock/build-essential",
+            "build-mode": "bootstrap",
+            "build-depends": [
+                "stage1-binutils",
+                "stage1-gcc"
+            ]
+        },
+        {
+            "name": "stage2-gcc",
+            "repo": "upstream:gcc-tarball",
+            "ref": "baserock/build-essential",
+            "build-mode": "bootstrap",
+            "build-depends": [
+                "stage1-binutils",
+                "stage1-gcc"
+            ]
+        },
+        {
+            "name": "stage2-linux-api-headers",
+            "repo": "upstream:linux",
+            "ref": "baserock/build-essential",
+            "build-mode": "bootstrap",
+            "build-depends": [
+                "stage1-binutils",
+                "stage1-gcc"
+            ]
+        },
+        {
+            "name": "stage2-make",
+            "repo": "upstream:make",
+            "ref": "baserock/build-essential",
+            "build-mode": "bootstrap",
+            "build-depends": [
+                "stage1-binutils",
+                "stage1-gcc"
+            ]
+        },
+        {
             "name": "binutils",
             "repo": "upstream:binutils-redhat",
             "ref": "baserock/build-essential",
-            "build-depends": []
+            "build-mode": "staging",
+            "build-depends": [
+                "stage2-binutils",
+                "stage2-busybox",
+                "stage2-eglibc",
+                "stage2-fhs-dirs",
+                "stage2-gawk",
+                "stage2-gcc",
+                "stage2-linux-api-headers",
+                "stage2-make"
+            ]
         },
         {
             "name": "busybox",
             "repo": "upstream:busybox",
             "ref": "baserock/build-essential",
-            "build-depends": []
+            "build-mode": "staging",
+            "build-depends": [
+                "stage2-binutils",
+                "stage2-busybox",
+                "stage2-eglibc",
+                "stage2-fhs-dirs",
+                "stage2-gawk",
+                "stage2-gcc",
+                "stage2-linux-api-headers",
+                "stage2-make"
+            ]
         },
         {
             "name": "eglibc",
             "repo": "upstream:eglibc2",
             "ref": "baserock/2.15-build-essential",
-            "build-depends": []
+            "build-mode": "staging",
+            "build-depends": [
+                "stage2-binutils",
+                "stage2-busybox",
+                "stage2-eglibc",
+                "stage2-fhs-dirs",
+                "stage2-gawk",
+                "stage2-gcc",
+                "stage2-linux-api-headers",
+                "stage2-make"
+            ]
         },
         {
             "name": "fhs-dirs",
             "repo": "baserock:baserock/fhs-dirs",
             "ref": "master",
-            "build-depends": []
-        },
-        {
-            "name": "gcc",
-            "repo": "upstream:gcc-tarball",
-            "ref": "baserock/build-essential",
-            "build-depends": []
-        },
-        {
-            "name": "linux-api-headers",
-            "repo": "upstream:linux",
-            "ref": "baserock/build-essential",
-            "build-depends": []
+            "build-mode": "staging",
+            "build-depends": [
+                "stage2-binutils",
+                "stage2-busybox",
+                "stage2-eglibc",
+                "stage2-fhs-dirs",
+                "stage2-gawk",
+                "stage2-gcc",
+                "stage2-linux-api-headers",
+                "stage2-make"
+            ]
         },
         {
             "name": "gawk",
             "repo": "upstream:gawk",
             "ref": "baserock/build-essential",
-            "build-depends": []
+            "build-mode": "staging",
+            "build-depends": [
+                "stage2-binutils",
+                "stage2-busybox",
+                "stage2-eglibc",
+                "stage2-fhs-dirs",
+                "stage2-gawk",
+                "stage2-gcc",
+                "stage2-linux-api-headers",
+                "stage2-make"
+            ]
+        },
+        {
+            "name": "gcc",
+            "repo": "upstream:gcc-tarball",
+            "ref": "baserock/build-essential",
+            "build-mode": "staging",
+            "build-depends": [
+                "stage2-binutils",
+                "stage2-busybox",
+                "stage2-eglibc",
+                "stage2-fhs-dirs",
+                "stage2-gawk",
+                "stage2-gcc",
+                "stage2-linux-api-headers",
+                "stage2-make"
+            ]
+        },
+        {
+            "name": "linux-api-headers",
+            "repo": "upstream:linux",
+            "ref": "baserock/build-essential",
+            "build-mode": "staging",
+            "build-depends": [
+                "stage2-binutils",
+                "stage2-busybox",
+                "stage2-eglibc",
+                "stage2-fhs-dirs",
+                "stage2-gawk",
+                "stage2-gcc",
+                "stage2-linux-api-headers",
+                "stage2-make"
+            ]
         },
         {
             "name": "make",
             "repo": "upstream:make",
             "ref": "baserock/build-essential",
-            "build-depends": []
+            "build-mode": "staging",
+            "build-depends": [
+                "stage2-binutils",
+                "stage2-busybox",
+                "stage2-eglibc",
+                "stage2-fhs-dirs",
+                "stage2-gawk",
+                "stage2-gcc",
+                "stage2-linux-api-headers",
+                "stage2-make"
+            ]
         },
         {
             "name": "ccache",
             "repo": "upstream:ccache",
             "ref": "baserock/build-essential",
-            "build-depends": []
+            "build-mode": "staging",
+            "build-depends": [
+                "binutils",
+                "busybox",
+                "eglibc",
+                "fhs-dirs",
+                "gawk",
+                "gcc",
+                "linux-api-headers",
+                "make"
+            ]
         }
     ]
 }
