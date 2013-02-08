@@ -5,7 +5,7 @@
     "build-depends": [
         {
             "repo": "baserock:baserock/morphs",
-            "ref": "master",
+            "ref": "baserock/samthursfield/build-essential-2-rebase",
             "morph": "build-essential"
         }
     ],
