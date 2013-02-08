@@ -6,7 +6,7 @@
         {
             "name": "stage1-binutils",
             "repo": "upstream:binutils-redhat",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "bootstrap",
             "build-depends": [],
             "prefix": "/toolchain"
@@ -14,7 +14,7 @@
         {
             "name": "stage1-gcc",
             "repo": "upstream:gcc-tarball",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "bootstrap",
             "build-depends": [],
             "prefix": "/toolchain"
@@ -22,7 +22,7 @@
         {
             "name": "stage2-binutils",
             "repo": "upstream:binutils-redhat",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "bootstrap",
             "build-depends": [
                 "stage1-binutils",
@@ -32,7 +32,7 @@
         {
             "name": "stage2-busybox",
             "repo": "upstream:busybox",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "bootstrap",
             "build-depends": [
                 "stage1-binutils",
@@ -42,7 +42,7 @@
         {
             "name": "stage2-eglibc",
             "repo": "upstream:eglibc2",
-            "ref": "baserock/2.15-build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "bootstrap",
             "build-depends": [
                 "stage1-binutils",
@@ -52,7 +52,7 @@
         {
             "name": "stage2-fhs-dirs",
             "repo": "baserock:baserock/fhs-dirs",
-            "ref": "master",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "bootstrap",
             "build-depends": [
                 "stage1-binutils",
@@ -62,7 +62,7 @@
         {
             "name": "stage2-gawk",
             "repo": "upstream:gawk",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "bootstrap",
             "build-depends": [
                 "stage1-binutils",
@@ -72,7 +72,7 @@
         {
             "name": "stage2-gcc",
             "repo": "upstream:gcc-tarball",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "bootstrap",
             "build-depends": [
                 "stage1-binutils",
@@ -82,7 +82,7 @@
         {
             "name": "stage2-linux-api-headers",
             "repo": "upstream:linux",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "bootstrap",
             "build-depends": [
                 "stage1-binutils",
@@ -92,7 +92,7 @@
         {
             "name": "stage2-make",
             "repo": "upstream:make",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "bootstrap",
             "build-depends": [
                 "stage1-binutils",
@@ -102,7 +102,7 @@
         {
             "name": "binutils",
             "repo": "upstream:binutils-redhat",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "staging",
             "build-depends": [
                 "stage2-binutils",
@@ -118,7 +118,7 @@
         {
             "name": "busybox",
             "repo": "upstream:busybox",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "staging",
             "build-depends": [
                 "stage2-binutils",
@@ -150,7 +150,7 @@
         {
             "name": "fhs-dirs",
             "repo": "baserock:baserock/fhs-dirs",
-            "ref": "master",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "staging",
             "build-depends": [
                 "stage2-binutils",
@@ -166,7 +166,7 @@
         {
             "name": "gawk",
             "repo": "upstream:gawk",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "staging",
             "build-depends": [
                 "stage2-binutils",
@@ -182,7 +182,7 @@
         {
             "name": "gcc",
             "repo": "upstream:gcc-tarball",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "staging",
             "build-depends": [
                 "stage2-binutils",
@@ -198,7 +198,7 @@
         {
             "name": "linux-api-headers",
             "repo": "upstream:linux",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "staging",
             "build-depends": [
                 "stage2-binutils",
@@ -214,7 +214,7 @@
         {
             "name": "make",
             "repo": "upstream:make",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "staging",
             "build-depends": [
                 "stage2-binutils",
@@ -230,7 +230,7 @@
         {
             "name": "ccache",
             "repo": "upstream:ccache",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/samthursfield/build-essential-2",
             "build-mode": "staging",
             "build-depends": [
                 "binutils",
