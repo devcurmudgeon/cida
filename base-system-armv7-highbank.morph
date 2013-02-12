@@ -17,6 +17,11 @@
             "ref": "master"
         },
         {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
             "morph": "bsp-armv7-highbank",
             "repo": "baserock:baserock/morphs",
             "ref": "jjardon/highbank"
