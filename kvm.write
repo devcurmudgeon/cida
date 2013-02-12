@@ -90,7 +90,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
     def transfer(self, raw_disk, ssh_host, vm_path):
         '''Transfer raw disk image to libvirt host.'''
 
-        self.status(msg='Transfer disk image')
+        self.status(msg='Transferring disk image')
         target = '%s:%s' % (ssh_host, vm_path)
         with open(raw_disk, 'rb') as f:
             cliapp.runcmd(['rsync', '-zS', raw_disk, target])
@@ -98,7 +98,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
     def create_libvirt_guest(self, ssh_host, vm_name, vm_path):
         '''Create the libvirt virtual machine.'''
         
-        self.status(msg='Create libvirt/kvm virtual machine')
+        self.status(msg='Creating libvirt/kvm virtual machine')
         cliapp.runcmd(
             ['ssh', ssh_host, 
              'virt-install', '--connect qemu:///system', '--import',
