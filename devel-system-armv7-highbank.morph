@@ -24,7 +24,7 @@
         {
             "morph": "bsp-armv7-highbank",
             "repo": "baserock:baserock/morphs",
-            "ref": "jjardon/highbank"
+            "ref": "master"
         },
         {
             "morph": "tools",
