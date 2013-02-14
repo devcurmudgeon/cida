@@ -1,0 +1,51 @@
+{
+    "name": "connectivity",
+    "kind": "stratum",
+    "build-depends": [
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "genivi-foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "libnl",
+            "repo": "upstream:libnl",
+            "ref": "a2c4bd8f094a7247903578860a9c42049991860b",
+            "build-depends": []
+        },
+        {
+            "name": "wpa_supplicant",
+            "repo": "upstream:hostap",
+            "ref": "baserock/genivi/morph",
+            "build-depends": [
+                "libnl"
+            ]
+        },
+        {
+            "name": "iptables",
+            "repo": "upstream:iptables",
+            "ref": "v1.4.16.3",
+            "build-depends": []
+        },
+        {
+            "name": "connman",
+            "repo": "upstream:connman",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "iptables"
+            ]
+        }
+    ]
+}

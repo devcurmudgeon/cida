@@ -28,9 +28,9 @@
             "build-depends": []
         },
         {
-            "name": "gcc",
+            "name": "gcc-shared",
             "repo": "upstream:gcc-tarball",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {

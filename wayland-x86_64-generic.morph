@@ -1,0 +1,50 @@
+{
+    "name": "wayland-x86_64-generic",
+    "kind": "stratum",
+    "build-depends": [
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "genivi-foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "x-common",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "libxkbcommon",
+            "repo": "upstream:xorg-lib-libxkbcommon",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "wayland",
+            "repo": "upstream:wayland",
+            "ref": "baserock/genivi/wayland",
+            "build-depends": [
+                "libxkbcommon"
+            ]
+        },
+        {
+            "name": "mesa-wayland",
+            "repo": "upstream:mesa",
+            "ref": "baserock/genivi/morph",
+            "build-depends": [
+                "wayland"
+            ]
+        }
+    ]
+}

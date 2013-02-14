@@ -1,0 +1,39 @@
+{
+    "name": "genivi-staging",
+    "kind": "stratum",
+    "build-depends": [],
+    "chunks": [
+        {
+            "name": "linux-api-headers",
+            "repo": "upstream:linux",
+            "ref": "baserock/genivi/baseline",
+            "build-depends": []
+        },
+        {
+            "name": "binutils",
+            "repo": "upstream:binutils-redhat",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "mpfr",
+            "repo": "upstream:mpfr",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "mpc",
+            "repo": "upstream:mpc",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "mpfr"
+            ]
+        },
+        {
+            "name": "libtool",
+            "repo": "upstream:libtool",
+            "ref": "baserock/morph",
+            "build-depends": []
+        }
+    ]
+}

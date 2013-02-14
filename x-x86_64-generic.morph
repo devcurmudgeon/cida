@@ -1,0 +1,260 @@
+{
+    "name": "x-x86_64-generic",
+    "kind": "stratum",
+    "build-depends": [
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "genivi-foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "x-common",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "mesa-x",
+            "repo": "upstream:mesa",
+            "ref": "baserock/genivi/morph",
+            "build-depends": []
+        },
+        {
+            "name": "xorg-lib-libxkbfile",
+            "repo": "upstream:xorg-lib-libxkbfile",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "pixman",
+            "repo": "upstream:pixman",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "xorg-font-util",
+            "repo": "upstream:xorg-font-util",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "xorg-lib-libfontenc",
+            "repo": "upstream:xorg-lib-libfontenc",
+            "ref": "master",
+            "build-depends": [
+                "xorg-font-util"
+            ]
+        },
+        {
+            "name": "freetype2",
+            "repo": "upstream:freetype2",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "fontconfig",
+            "repo": "upstream:fontconfig",
+            "ref": "master",
+            "build-depends": [
+                "freetype2"
+            ]
+        },
+        {
+            "name": "xorg-lib-libXfont",
+            "repo": "upstream:xorg-lib-libXfont",
+            "ref": "master",
+            "build-depends": [
+                "freetype2",
+                "xorg-lib-libfontenc"
+            ]
+        },
+        {
+            "name": "xorg-lib-libICE",
+            "repo": "upstream:xorg-lib-libICE",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "xorg-lib-libSM",
+            "repo": "upstream:xorg-lib-libSM",
+            "ref": "master",
+            "build-depends": [
+                "xorg-lib-libICE"
+            ]
+        },
+        {
+            "name": "xorg-lib-libXt",
+            "repo": "upstream:xorg-lib-libXt",
+            "ref": "master",
+            "build-depends": [
+                "xorg-lib-libSM"
+            ]
+        },
+        {
+            "name": "xorg-lib-libXmu",
+            "repo": "upstream:xorg-lib-libXmu",
+            "ref": "master",
+            "build-depends": [
+                "xorg-lib-libXt"
+            ]
+        },
+        {
+            "name": "xorg-lib-libXpm",
+            "repo": "upstream:xorg-lib-libXpm",
+            "ref": "master",
+            "build-depends": [
+                "xorg-lib-libXt"
+            ]
+        },
+        {
+            "name": "xorg-lib-libXaw",
+            "repo": "upstream:xorg-lib-libXaw",
+            "ref": "master",
+            "build-depends": [
+                "xorg-lib-libXmu",
+                "xorg-lib-libXpm",
+                "xorg-lib-libXt"
+            ]
+        },
+        {
+            "name": "fontutils",
+            "repo": "upstream:fontutils",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "xorg-lib-libXaw",
+                "xorg-lib-libXfont",
+                "xorg-lib-libXt",
+                "xorg-lib-libfontenc"
+            ]
+        },
+        {
+            "name": "libsha1",
+            "repo": "upstream:libsha1",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "xserver",
+            "repo": "upstream:xserver",
+            "ref": "master",
+            "build-depends": [
+                "fontutils",
+                "libsha1",
+                "mesa-x",
+                "pixman",
+                "xorg-lib-libXaw",
+                "xorg-lib-libXfont",
+                "xorg-lib-libXmu",
+                "xorg-lib-libXpm",
+                "xorg-lib-libXt",
+                "xorg-lib-libfontenc",
+                "xorg-lib-libxkbfile"
+            ]
+        },
+        {
+            "name": "xorg-driver-xf86-video-cirrus",
+            "repo": "upstream:xorg-driver-xf86-video-cirrus",
+            "ref": "master",
+            "build-depends": [
+                "xserver"
+            ]
+        },
+        {
+            "name": "xorg-driver-xf86-video-fbdev",
+            "repo": "upstream:xorg-driver-xf86-video-fbdev",
+            "ref": "master",
+            "build-depends": [
+                "xserver"
+            ]
+        },
+        {
+            "name": "xorg-driver-xf86-video-vesa",
+            "repo": "upstream:xorg-driver-xf86-video-vesa",
+            "ref": "master",
+            "build-depends": [
+                "xserver"
+            ]
+        },
+        {
+            "name": "xorg-driver-xf86-input-evdev",
+            "repo": "upstream:xorg-driver-xf86-input-evdev",
+            "ref": "master",
+            "build-depends": [
+                "xserver"
+            ]
+        },
+        {
+            "name": "xorg-driver-xf86-input-keyboard",
+            "repo": "upstream:xorg-driver-xf86-input-keyboard",
+            "ref": "master",
+            "build-depends": [
+                "xserver"
+            ]
+        },
+        {
+            "name": "xorg-driver-xf86-input-mouse",
+            "repo": "upstream:xorg-driver-xf86-input-mouse",
+            "ref": "master",
+            "build-depends": [
+                "xserver"
+            ]
+        },
+        {
+            "name": "xorg-app-xkbcomp",
+            "repo": "upstream:xorg-app-xkbcomp",
+            "ref": "master",
+            "build-depends": [
+                "xorg-lib-libxkbfile"
+            ]
+        },
+        {
+            "name": "xkeyboard-config",
+            "repo": "upstream:xkeyboard-config",
+            "ref": "master",
+            "build-depends": [
+                "xorg-app-xkbcomp"
+            ]
+        },
+        {
+            "name": "xorg-app-xinit",
+            "repo": "upstream:xorg-app-xinit",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "xorg-lib-libXft",
+            "repo": "upstream:xorg-lib-libXft",
+            "ref": "master",
+            "build-depends": [
+                "fontconfig",
+                "freetype2"
+            ]
+        },
+        {
+            "name": "xcb-util",
+            "repo": "upstream:xcb-util",
+            "ref": "master",
+            "build-depends": []
+        },
+        {
+            "name": "xterm",
+            "repo": "upstream:xterm",
+            "ref": "master",
+            "build-depends": [
+                "xorg-lib-libXaw",
+                "xorg-lib-libxkbfile"
+            ]
+        }
+    ]
+}

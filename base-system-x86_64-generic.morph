@@ -9,22 +9,22 @@
         {
             "morph": "build-essential",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "jonathan/genivi-baseline-merge"
         },
         {
             "morph": "core",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "jonathan/genivi-baseline-merge"
         },
         {
             "morph": "foundation",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "jonathan/genivi-baseline-merge"
         },
         {
             "morph": "bsp-x86_64-generic",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "jonathan/genivi-baseline-merge"
         }
     ]
 }
