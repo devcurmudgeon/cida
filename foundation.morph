@@ -131,7 +131,7 @@
         {
             "name": "libxslt",
             "repo": "upstream:libxslt",
-            "ref": "baserock/master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
