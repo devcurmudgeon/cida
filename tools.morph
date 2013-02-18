@@ -13,7 +13,7 @@
         {
             "name": "lzo",
             "repo": "upstream:lzo",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
@@ -61,7 +61,7 @@
         {
             "name": "cliapp",
             "repo": "upstream:cliapp",
-            "ref": "trunk",
+            "ref": "baserock/morph",
             "build-depends": [
                 "python-coverage-test-runner"
             ]
@@ -78,7 +78,7 @@
         {
             "name": "cmake",
             "repo": "upstream:cmake",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
@@ -92,7 +92,7 @@
         {
             "name": "distcc",
             "repo": "upstream:distcc",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "lzo"
             ]
@@ -100,25 +100,25 @@
         {
             "name": "e2fsprogs",
             "repo": "upstream:e2fsprogs",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "gdb",
             "repo": "upstream:gdb",
-            "ref": "refs/heads/master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "less",
             "repo": "upstream:less",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "linux-user-chroot",
             "repo": "upstream:linux-user-chroot",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
@@ -141,7 +141,7 @@
         {
             "name": "pv",
             "repo": "upstream:pv",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
@@ -153,7 +153,7 @@
         {
             "name": "strace",
             "repo": "upstream:strace",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {

@@ -106,7 +106,7 @@
         {
             "name": "error-perl-tarball",
             "repo": "upstream:error-perl-tarball",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "perl"
             ]
@@ -130,7 +130,7 @@
         {
             "name": "libxml2",
             "repo": "upstream:libxml2",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "autoconf",
                 "automake",
@@ -179,7 +179,7 @@
         {
             "name": "XML-Parser",
             "repo": "upstream:XML-Parser",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "libexpat",
                 "libxml2",

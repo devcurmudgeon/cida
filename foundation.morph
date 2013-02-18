@@ -39,13 +39,13 @@
         {
             "name": "libffi",
             "repo": "upstream:libffi",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "libusbx",
             "repo": "upstream:libusbx",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
@@ -65,7 +65,7 @@
         {
             "name": "glib",
             "repo": "upstream:glib",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "libffi"
             ]
@@ -119,7 +119,7 @@
         {
             "name": "gtk-doc-stub",
             "repo": "upstream:gtk-doc-stub",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
@@ -131,7 +131,7 @@
         {
             "name": "libxslt",
             "repo": "upstream:libxslt",
-            "ref": "master",
+            "ref": "baserock/master",
             "build-depends": []
         },
         {
