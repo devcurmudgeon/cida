@@ -1,5 +1,5 @@
 {
-    "name": "arm-versatile-devel-system",
+    "name": "devel-system-armv7-versatile",
     "description": "A system that is able to build other systems based on the ARM versatile architecture.",
     "kind": "system",
     "system-kind": "rootfs-tarball",
