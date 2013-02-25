@@ -33,25 +33,25 @@
         {
             "name": "xorg-lib-libxkbfile",
             "repo": "upstream:xorg-lib-libxkbfile",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "pixman",
             "repo": "upstream:pixman",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "xorg-font-util",
             "repo": "upstream:xorg-font-util",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "xorg-lib-libfontenc",
             "repo": "upstream:xorg-lib-libfontenc",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-font-util"
             ]
@@ -59,13 +59,13 @@
         {
             "name": "freetype2",
             "repo": "upstream:freetype2",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "fontconfig",
             "repo": "upstream:fontconfig",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "freetype2"
             ]
@@ -73,7 +73,7 @@
         {
             "name": "xorg-lib-libXfont",
             "repo": "upstream:xorg-lib-libXfont",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "freetype2",
                 "xorg-lib-libfontenc"
@@ -82,13 +82,13 @@
         {
             "name": "xorg-lib-libICE",
             "repo": "upstream:xorg-lib-libICE",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "xorg-lib-libSM",
             "repo": "upstream:xorg-lib-libSM",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libICE"
             ]
@@ -96,7 +96,7 @@
         {
             "name": "xorg-lib-libXt",
             "repo": "upstream:xorg-lib-libXt",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libSM"
             ]
@@ -104,7 +104,7 @@
         {
             "name": "xorg-lib-libXmu",
             "repo": "upstream:xorg-lib-libXmu",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libXt"
             ]
@@ -112,7 +112,7 @@
         {
             "name": "xorg-lib-libXpm",
             "repo": "upstream:xorg-lib-libXpm",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libXt"
             ]
@@ -120,7 +120,7 @@
         {
             "name": "xorg-lib-libXaw",
             "repo": "upstream:xorg-lib-libXaw",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libXmu",
                 "xorg-lib-libXpm",
@@ -141,13 +141,13 @@
         {
             "name": "libsha1",
             "repo": "upstream:libsha1",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "xserver",
             "repo": "upstream:xserver",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "fontutils",
                 "libsha1",
@@ -165,7 +165,7 @@
         {
             "name": "xorg-driver-xf86-video-cirrus",
             "repo": "upstream:xorg-driver-xf86-video-cirrus",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xserver"
             ]
@@ -173,7 +173,7 @@
         {
             "name": "xorg-driver-xf86-video-fbdev",
             "repo": "upstream:xorg-driver-xf86-video-fbdev",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xserver"
             ]
@@ -181,7 +181,7 @@
         {
             "name": "xorg-driver-xf86-video-vesa",
             "repo": "upstream:xorg-driver-xf86-video-vesa",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xserver"
             ]
@@ -189,7 +189,7 @@
         {
             "name": "xorg-driver-xf86-input-evdev",
             "repo": "upstream:xorg-driver-xf86-input-evdev",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xserver"
             ]
@@ -197,7 +197,7 @@
         {
             "name": "xorg-driver-xf86-input-keyboard",
             "repo": "upstream:xorg-driver-xf86-input-keyboard",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xserver"
             ]
@@ -205,7 +205,7 @@
         {
             "name": "xorg-driver-xf86-input-mouse",
             "repo": "upstream:xorg-driver-xf86-input-mouse",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xserver"
             ]
@@ -213,7 +213,7 @@
         {
             "name": "xorg-app-xkbcomp",
             "repo": "upstream:xorg-app-xkbcomp",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libxkbfile"
             ]
@@ -221,7 +221,7 @@
         {
             "name": "xkeyboard-config",
             "repo": "upstream:xkeyboard-config",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-app-xkbcomp"
             ]
@@ -229,13 +229,13 @@
         {
             "name": "xorg-app-xinit",
             "repo": "upstream:xorg-app-xinit",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "xorg-lib-libXft",
             "repo": "upstream:xorg-lib-libXft",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "fontconfig",
                 "freetype2"
@@ -244,13 +244,13 @@
         {
             "name": "xcb-util",
             "repo": "upstream:xcb-util",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "xterm",
             "repo": "upstream:xterm",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libXaw",
                 "xorg-lib-libxkbfile"

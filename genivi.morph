@@ -29,7 +29,7 @@
         {
             "name": "sqlite3",
             "repo": "upstream:sqlite3",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {

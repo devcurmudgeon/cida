@@ -27,7 +27,7 @@
         {
             "name": "libxkbcommon",
             "repo": "upstream:xorg-lib-libxkbcommon",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {

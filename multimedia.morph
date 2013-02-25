@@ -23,7 +23,7 @@
         {
             "name": "orc",
             "repo": "upstream:orc",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {

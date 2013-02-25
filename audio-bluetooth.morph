@@ -108,7 +108,7 @@
         {
             "name": "libsndfile",
             "repo": "upstream:libsndfile",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {

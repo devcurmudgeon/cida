@@ -28,25 +28,25 @@
         {
             "name": "libpng",
             "repo": "upstream:libpng",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "libjpeg",
             "repo": "upstream:libjpeg",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "xorg-util-macros",
             "repo": "upstream:xorg-util-macros",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
             "name": "xorg-proto-bigreqsproto",
             "repo": "upstream:xorg-proto-bigreqsproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -54,7 +54,7 @@
         {
             "name": "xorg-proto-compositeproto",
             "repo": "upstream:xorg-proto-compositeproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -62,7 +62,7 @@
         {
             "name": "xorg-proto-damageproto",
             "repo": "upstream:xorg-proto-damageproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -70,7 +70,7 @@
         {
             "name": "xorg-proto-dmxproto",
             "repo": "upstream:xorg-proto-dmxproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -78,7 +78,7 @@
         {
             "name": "xorg-proto-fixesproto",
             "repo": "upstream:xorg-proto-fixesproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -86,7 +86,7 @@
         {
             "name": "xorg-proto-fontsproto",
             "repo": "upstream:xorg-proto-fontsproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -94,7 +94,7 @@
         {
             "name": "xorg-proto-glproto",
             "repo": "upstream:xorg-proto-glproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -102,7 +102,7 @@
         {
             "name": "xorg-proto-inputproto",
             "repo": "upstream:xorg-proto-inputproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -110,7 +110,7 @@
         {
             "name": "xorg-proto-kbproto",
             "repo": "upstream:xorg-proto-kbproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -118,7 +118,7 @@
         {
             "name": "xorg-proto-xineramaproto",
             "repo": "upstream:xorg-proto-xineramaproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -126,7 +126,7 @@
         {
             "name": "xorg-proto-randrproto",
             "repo": "upstream:xorg-proto-randrproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -134,7 +134,7 @@
         {
             "name": "xorg-proto-recordproto",
             "repo": "upstream:xorg-proto-recordproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -142,7 +142,7 @@
         {
             "name": "xorg-proto-renderproto",
             "repo": "upstream:xorg-proto-renderproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -150,7 +150,7 @@
         {
             "name": "xorg-proto-resourceproto",
             "repo": "upstream:xorg-proto-resourceproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -158,7 +158,7 @@
         {
             "name": "xorg-proto-scrnsaverproto",
             "repo": "upstream:xorg-proto-scrnsaverproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -166,7 +166,7 @@
         {
             "name": "xorg-proto-videoproto",
             "repo": "upstream:xorg-proto-videoproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -174,7 +174,7 @@
         {
             "name": "xorg-proto-xcmiscproto",
             "repo": "upstream:xorg-proto-xcmiscproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -182,7 +182,7 @@
         {
             "name": "xorg-proto-xextproto",
             "repo": "upstream:xorg-proto-xextproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -190,7 +190,7 @@
         {
             "name": "xorg-proto-xf86bigfontproto",
             "repo": "upstream:xorg-proto-xf86bigfontproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -198,7 +198,7 @@
         {
             "name": "xorg-proto-xf86dgaproto",
             "repo": "upstream:xorg-proto-xf86dgaproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -206,7 +206,7 @@
         {
             "name": "xorg-proto-xf86driproto",
             "repo": "upstream:xorg-proto-xf86driproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -214,7 +214,7 @@
         {
             "name": "xorg-proto-xf86vidmodeproto",
             "repo": "upstream:xorg-proto-xf86vidmodeproto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -222,7 +222,7 @@
         {
             "name": "xorg-proto-x11proto",
             "repo": "upstream:xorg-proto-x11proto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -230,7 +230,7 @@
         {
             "name": "xorg-proto-dri2proto",
             "repo": "upstream:xorg-proto-dri2proto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -238,7 +238,7 @@
         {
             "name": "xcb-pthread-stubs",
             "repo": "upstream:xcb-pthread-stubs",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -246,7 +246,7 @@
         {
             "name": "xcb-proto",
             "repo": "upstream:xcb-proto",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -254,7 +254,7 @@
         {
             "name": "xorg-lib-libXau",
             "repo": "upstream:xorg-lib-libXau",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-proto-x11proto",
                 "xorg-util-macros"
@@ -263,7 +263,7 @@
         {
             "name": "xcb-libxcb",
             "repo": "upstream:xcb-libxcb",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xcb-proto",
                 "xcb-pthread-stubs",
@@ -274,7 +274,7 @@
         {
             "name": "xorg-lib-libxtrans",
             "repo": "upstream:xorg-lib-libxtrans",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -282,7 +282,7 @@
         {
             "name": "xorg-lib-libX11",
             "repo": "upstream:xorg-lib-libX11",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xcb-libxcb",
                 "xorg-lib-libXau",
@@ -300,7 +300,7 @@
         {
             "name": "xorg-lib-libpciaccess",
             "repo": "upstream:xorg-lib-libpciaccess",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-util-macros"
             ]
@@ -308,7 +308,7 @@
         {
             "name": "drm",
             "repo": "upstream:drm",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xcb-pthread-stubs",
                 "xorg-lib-libpciaccess"
@@ -317,7 +317,7 @@
         {
             "name": "xorg-lib-libXext",
             "repo": "upstream:xorg-lib-libXext",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libX11",
                 "xorg-lib-libXau",
@@ -329,7 +329,7 @@
         {
             "name": "xorg-lib-libXi",
             "repo": "upstream:xorg-lib-libXi",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libX11",
                 "xorg-lib-libXext",
@@ -342,7 +342,7 @@
         {
             "name": "xorg-util-makedepend",
             "repo": "upstream:xorg-util-makedepend",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-proto-x11proto",
                 "xorg-util-macros"
@@ -351,7 +351,7 @@
         {
             "name": "xorg-lib-libXfixes",
             "repo": "upstream:xorg-lib-libXfixes",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libXext",
                 "xorg-proto-fixesproto",
@@ -361,7 +361,7 @@
         {
             "name": "xorg-lib-libXcomposite",
             "repo": "upstream:xorg-lib-libXcomposite",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libX11",
                 "xorg-lib-libXfixes",
@@ -372,7 +372,7 @@
         {
             "name": "xorg-lib-libXrender",
             "repo": "upstream:xorg-lib-libXrender",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libX11",
                 "xorg-proto-renderproto",
@@ -382,7 +382,7 @@
         {
             "name": "xorg-lib-libXrandr",
             "repo": "upstream:xorg-lib-libXrandr",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libX11",
                 "xorg-lib-libXext",
@@ -396,7 +396,7 @@
         {
             "name": "xorg-lib-libXinerama",
             "repo": "upstream:xorg-lib-libXinerama",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libX11",
                 "xorg-lib-libXext",
@@ -408,7 +408,7 @@
         {
             "name": "xorg-lib-libdmx",
             "repo": "upstream:xorg-lib-libdmx",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libX11",
                 "xorg-lib-libXext",
@@ -420,7 +420,7 @@
         {
             "name": "xorg-lib-libXtst",
             "repo": "upstream:xorg-lib-libXtst",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libX11",
                 "xorg-lib-libXext",
@@ -434,7 +434,7 @@
         {
             "name": "xorg-lib-libXRes",
             "repo": "upstream:xorg-lib-libXRes",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libX11",
                 "xorg-lib-libXext",
@@ -446,7 +446,7 @@
         {
             "name": "xorg-lib-libXdamage",
             "repo": "upstream:xorg-lib-libXdamage",
-            "ref": "master",
+            "ref": "baserock/morph",
             "build-depends": [
                 "xorg-lib-libXfixes",
                 "xorg-proto-damageproto",
