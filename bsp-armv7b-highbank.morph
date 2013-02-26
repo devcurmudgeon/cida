@@ -1,5 +1,5 @@
 {
-    "name": "bsp-armv7-highbank",
+    "name": "bsp-armv7b-highbank",
     "description": "The platform dependent components required to boot an ARM highbank board.",
     "kind": "stratum",
     "build-depends": [
@@ -13,7 +13,7 @@
         {
             "name": "linux",
             "repo": "upstream:linux",
-            "ref": "baserock/arm/highbank",
+            "ref": "baserock/arm/bjdooks/linux37-be8-1",
             "build-depends": []
         }
     ]

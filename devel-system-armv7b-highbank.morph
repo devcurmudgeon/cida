@@ -1,5 +1,5 @@
 {
-    "name": "devel-system-armv7-highbank",
+    "name": "devel-system-armv7b-highbank",
     "description": "A system that is able to build other systems based on the ARM highbank architecture.",
     "kind": "system",
     "system-kind": "rootfs-tarball",
