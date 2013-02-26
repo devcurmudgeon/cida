@@ -1,0 +1,35 @@
+{
+    "name": "devel-system-armv7-highbank",
+    "description": "A system that is able to build other systems based on the ARM highbank architecture.",
+    "kind": "system",
+    "system-kind": "rootfs-tarball",
+    "arch": "armv7",
+    "disk-size": "2G",
+    "strata": [
+        {
+            "morph": "build-essential",
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/build-essential-2"
+        },
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/build-essential-2"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/build-essential-2"
+        },
+        {
+            "morph": "bsp-armv7b-highbank",
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/highbank-be"
+        },
+        {
+            "morph": "tools",
+            "repo": "baserock:baserock/morphs",
+            "ref": "baserock/samthursfield/build-essential-2"
+        }
+    ]
+}
