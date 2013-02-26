@@ -9,22 +9,22 @@
         {
             "morph": "build-essential",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/samthursfield/build-essential-2"
         },
         {
             "morph": "core",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/samthursfield/build-essential-2"
         },
         {
             "morph": "foundation",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/samthursfield/build-essential-2"
         },
         {
             "morph": "bsp-armv7-highbank",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/samthursfield/build-essential-2"
         }
     ]
 }
