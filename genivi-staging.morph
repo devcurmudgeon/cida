@@ -10,12 +10,6 @@
             "build-depends": []
         },
         {
-            "name": "binutils",
-            "repo": "upstream:binutils-redhat",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
             "name": "mpfr",
             "repo": "upstream:mpfr",
             "ref": "baserock/morph",
@@ -28,12 +22,6 @@
             "build-depends": [
                 "mpfr"
             ]
-        },
-        {
-            "name": "libtool",
-            "repo": "upstream:libtool",
-            "ref": "baserock/morph",
-            "build-depends": []
         }
     ]
 }
