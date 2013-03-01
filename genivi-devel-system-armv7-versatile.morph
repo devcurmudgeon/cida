@@ -1,5 +1,5 @@
 {
-    "name": "genivi-baseline-system-armv7-versatile",
+    "name": "genivi-devel-system-armv7-versatile",
     "description": "A GENIVI baseline system for an ARMv7 system.",
     "kind": "system",
     "system-kind": "disk",
