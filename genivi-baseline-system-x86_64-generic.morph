@@ -1,0 +1,70 @@
+{
+    "name": "genivi-baseline-system-x86_64-generic",
+    "description": "A GENIVI baseline system for a 64-bit x86 system.",
+    "kind": "system",
+    "system-kind": "syslinux-disk",
+    "arch": "x86_64",
+    "disk-size": "2G",
+    "strata": [
+        {
+            "morph": "build-essential",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "genivi-foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "bsp-x86_64-generic",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "connectivity",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "audio-bluetooth",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "x-common",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "x-x86_64-generic",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "multimedia",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "genivi",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "genivi-x-x86_64-generic",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        }
+    ]
+}

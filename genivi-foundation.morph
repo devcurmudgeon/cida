@@ -1,0 +1,59 @@
+{
+    "name": "genivi-foundation",
+    "description": "Basic components needed by the GENIVI baseline.",
+    "kind": "stratum",
+    "build-depends": [
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "dbus-glib",
+            "repo": "upstream:dbus-glib",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "fuse",
+            "repo": "upstream:fuse",
+            "ref": "baserock/genivi/morph",
+            "build-depends": []
+        },
+        {
+            "name": "gmp",
+            "repo": "upstream:gmp",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "linuxquota",
+            "repo": "upstream:linuxquota",
+            "ref": "baserock/genivi/morph",
+            "build-depends": []
+        },
+        {
+            "name": "nettle",
+            "repo": "upstream:nettle",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "gmp"
+            ]
+        },
+        {
+            "name": "gnutls",
+            "repo": "upstream:gnutls",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "nettle"
+            ]
+        }
+    ]
+}

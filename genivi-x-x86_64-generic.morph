@@ -1,16 +1,8 @@
 {
-    "name": "devel-system-armv7-highbank",
-    "description": "A system that is able to build other systems based on the ARM highbank architecture.",
-    "kind": "system",
-    "system-kind": "rootfs-tarball",
-    "arch": "armv7",
-    "disk-size": "2G",
-    "strata": [
-        {
-            "morph": "build-essential",
-            "repo": "baserock:baserock/morphs",
-            "ref": "jonathan/genivi-baseline-merge"
-        },
+    "name": "genivi-x-x86_64-generic",
+    "kind": "stratum",
+    "description": "Software components designed by genivi, for genivi.",
+    "build-depends": [
         {
             "morph": "core",
             "repo": "baserock:baserock/morphs",
@@ -22,14 +14,27 @@
             "ref": "jonathan/genivi-baseline-merge"
         },
         {
-            "morph": "bsp-armv7-highbank",
+            "morph": "genivi-foundation",
             "repo": "baserock:baserock/morphs",
             "ref": "jonathan/genivi-baseline-merge"
         },
         {
-            "morph": "tools",
+            "morph": "genivi",
             "repo": "baserock:baserock/morphs",
             "ref": "jonathan/genivi-baseline-merge"
+        },
+        {
+            "morph": "x-x86_64-generic",
+            "repo": "baserock:baserock/morphs",
+            "ref": "jonathan/genivi-baseline-merge"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "layer_management",
+            "repo": "upstream:layer_management",
+            "ref": "baserock/genivi/baseline",
+            "build-depends": []
         }
     ]
 }
