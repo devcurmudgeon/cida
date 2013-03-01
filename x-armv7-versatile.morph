@@ -128,17 +128,6 @@
             ]
         },
         {
-            "name": "fontutils",
-            "repo": "upstream:fontutils",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "xorg-lib-libXaw",
-                "xorg-lib-libXfont",
-                "xorg-lib-libXt",
-                "xorg-lib-libfontenc"
-            ]
-        },
-        {
             "name": "libsha1",
             "repo": "upstream:libsha1",
             "ref": "baserock/morph",
@@ -149,10 +138,10 @@
             "repo": "upstream:xserver",
             "ref": "baserock/morph",
             "build-depends": [
-                "fontutils",
                 "libsha1",
                 "mesa-x",
                 "pixman",
+                "xorg-font-util",
                 "xorg-lib-libXaw",
                 "xorg-lib-libXfont",
                 "xorg-lib-libXmu",
