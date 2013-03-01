@@ -6,12 +6,12 @@
         {
             "morph": "core",
             "repo": "baserock:baserock/morphs",
-            "ref": "jonathan/genivi-baseline-merge"
+            "ref": "master"
         },
         {
             "morph": "foundation",
             "repo": "baserock:baserock/morphs",
-            "ref": "jonathan/genivi-baseline-merge"
+            "ref": "master"
         }
     ],
     "chunks": [
