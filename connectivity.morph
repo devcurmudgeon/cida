@@ -22,7 +22,7 @@
         {
             "name": "libnl",
             "repo": "upstream:libnl",
-            "ref": "a2c4bd8f094a7247903578860a9c42049991860b",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
@@ -36,7 +36,7 @@
         {
             "name": "iptables",
             "repo": "upstream:iptables",
-            "ref": "v1.4.16.3",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {

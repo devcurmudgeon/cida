@@ -23,7 +23,7 @@
         {
             "name": "libatomic_ops",
             "repo": "upstream:libatomic_ops",
-            "ref": "libatomic_ops-7_2d",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
@@ -63,7 +63,7 @@
         {
             "name": "obexd",
             "repo": "upstream:obexd",
-            "ref": "0.47",
+            "ref": "baserock/morph",
             "build-depends": [
                 "bluez",
                 "libical"
@@ -72,7 +72,7 @@
         {
             "name": "speex",
             "repo": "upstream:speex",
-            "ref": "speex-1.2rc1",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
@@ -87,7 +87,7 @@
         {
             "name": "mobile-broadband-provider-info",
             "repo": "upstream:mobile-broadband-provider-info",
-            "ref": "20120614",
+            "ref": "baserock/morph",
             "build-depends": []
         },
         {
