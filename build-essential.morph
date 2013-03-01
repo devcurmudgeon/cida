@@ -28,7 +28,7 @@
             "build-depends": []
         },
         {
-            "name": "gcc,
+            "name": "gcc",
             "repo": "upstream:gcc-tarball",
             "ref": "baserock/morph",
             "build-depends": []
