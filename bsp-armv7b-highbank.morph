@@ -13,7 +13,7 @@
         {
             "name": "linux",
             "repo": "upstream:linux",
-            "ref": "baserock/arm/bjdooks/linux37-be8-1",
+            "ref": "baserock/bjdooks/arm_be8_work_v38",
             "build-depends": []
         }
     ]
