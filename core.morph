@@ -11,6 +11,12 @@
     ],
     "chunks": [
         {
+            "name": "cmake",
+            "repo": "upstream:cmake",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
             "name": "gdbm",
             "repo": "upstream:gdbm",
             "ref": "baserock/build-essential",

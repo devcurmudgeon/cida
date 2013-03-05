@@ -76,12 +76,6 @@
             ]
         },
         {
-            "name": "cmake",
-            "repo": "upstream:cmake",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
             "name": "coreutils",
             "repo": "upstream:coreutils",
             "ref": "baserock/morph",
