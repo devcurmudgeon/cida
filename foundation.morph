@@ -117,6 +117,12 @@
             ]
         },
         {
+            "name": "gtk-doc-stub",
+            "repo": "upstream:gtk-doc-stub",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
             "name": "help2man",
             "repo": "upstream:help2man",
             "ref": "baserock/morph",

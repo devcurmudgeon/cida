@@ -163,12 +163,6 @@
             "build-depends": []
         },
         {
-            "name": "gtk-doc-stub",
-            "repo": "upstream:gtk-doc-stub",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
             "name": "vim",
             "repo": "upstream:vim",
             "ref": "baserock/morph",
