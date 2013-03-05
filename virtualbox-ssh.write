@@ -26,6 +26,7 @@ accessed over ssh. The machine gets created, but not started.
 import cliapp
 import os
 import re
+import sys
 import time
 import tempfile
 import urlparse
@@ -68,7 +69,7 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
         try:
             self.transfer_and_convert_to_vdi(
-                raw_disk, size, ssh_host, vdi_path)
+                raw_disk, ssh_host, vdi_path)
             self.create_virtualbox_guest(ssh_host, vm_name, vdi_path)
         except BaseException:
             sys.stderr.write('Error deploying to VirtualBox')
@@ -93,14 +94,15 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException('Cannot parse location %s' % location)
         return x.netloc, m.group('guest'), m.group('path')
 
-    def transfer_and_convert_to_vdi(self, raw_disk, size, ssh_host, vdi_path):
+    def transfer_and_convert_to_vdi(self, raw_disk, ssh_host, vdi_path):
         '''Transfer raw disk image to VirtualBox host, and convert to VDI.'''
 
         self.status(msg='Transfer disk and convert to VDI')
         with open(raw_disk, 'rb') as f:
             cliapp.runcmd(
                 ['ssh', ssh_host, 
-                 'VBoxManage', 'convertfromraw', 'stdin', vdi_path, str(size)],
+                 'VBoxManage', 'convertfromraw', 'stdin', vdi_path,
+                 str(os.path.getsize(raw_disk))],
                 stdin=f)
 
     def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path):
