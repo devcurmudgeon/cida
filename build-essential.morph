@@ -30,7 +30,7 @@
         {
             "name": "gcc",
             "repo": "upstream:gcc-tarball",
-            "ref": "baserock/morph",
+            "ref": "baserock/build-essential",
             "build-depends": []
         },
         {
