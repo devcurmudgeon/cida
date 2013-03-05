@@ -120,24 +120,6 @@
             ]
         },
         {
-            "name": "libtool",
-            "repo": "upstream:libtool",
-            "ref": "baserock/build-essential",
-            "build-depends": [
-                "bash"
-            ]
-        },
-        {
-            "name": "libxml2",
-            "repo": "upstream:libxml2",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "autoconf",
-                "automake",
-                "libtool"
-            ]
-        },
-        {
             "name": "openssl",
             "repo": "upstream:openssl",
             "ref": "baserock/morph",
@@ -153,6 +135,25 @@
                 "openssl",
                 "readline",
                 "zlib"
+            ]
+        },
+        {
+            "name": "libtool",
+            "repo": "upstream:libtool",
+            "ref": "baserock/build-essential",
+            "build-depends": [
+                "bash"
+            ]
+        },
+        {
+            "name": "libxml2",
+            "repo": "upstream:libxml2",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "cpython",
+                "libtool"
             ]
         },
         {
