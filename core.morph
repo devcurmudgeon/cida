@@ -146,6 +146,16 @@
             ]
         },
         {
+            "name": "gtk-doc-stub",
+            "repo": "upstream:gtk-doc-stub",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool"
+            ]
+        },
+        {
             "name": "libxml2",
             "repo": "upstream:libxml2",
             "ref": "baserock/morph",
