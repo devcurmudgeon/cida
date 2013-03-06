@@ -29,7 +29,7 @@
         {
             "morph": "tools",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/richardholland/add-file"
         }
     ]
 }

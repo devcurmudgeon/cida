@@ -161,6 +161,12 @@
             "repo": "upstream:vim",
             "ref": "baserock/morph",
             "build-depends": []
+        },
+        {
+            "name": "file",
+            "repo": "upstream:file",
+            "ref": "baserock/morph",
+            "build-depends": []
         }
     ]
 }
