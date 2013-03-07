@@ -147,14 +147,13 @@
         {
             "name": "morph",
             "repo": "baserock:baserock/morph",
-            "ref": "c11cdb16e2d10e29c96873db5796e911979012d8",
+            "ref": "f697a616324a78f3beb0a768138c7c6dbb133dcc",
             "build-depends": [
                 "cliapp",
                 "cmdtest",
                 "python-coverage-test-runner",
                 "pyyaml"
             ],
-            "unpetrify-ref": "master"
         },
         {
             "name": "pv",
