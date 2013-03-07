@@ -13,8 +13,9 @@
         {
             "name": "linux",
             "repo": "upstream:linux",
-            "ref": "baserock/arm/highbank",
-            "build-depends": []
+            "ref": "5d35c4b8434d8b866de2af453970490dde91e90a",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/arm/highbank"
         }
     ]
 }

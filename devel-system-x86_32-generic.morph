@@ -9,27 +9,27 @@
         {
             "morph": "build-essential",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential-2"
+            "ref": "baserock/samthursfield/highbank-be"
         },
         {
             "morph": "core",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential-2"
+            "ref": "baserock/samthursfield/highbank-be"
         },
         {
             "morph": "foundation",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential-2"
+            "ref": "baserock/samthursfield/highbank-be"
         },
         {
             "morph": "bsp-x86_32-generic",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential-2"
+            "ref": "baserock/samthursfield/highbank-be"
         },
         {
             "morph": "tools",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential-2"
+            "ref": "baserock/samthursfield/highbank-be"
         }
     ]
 }

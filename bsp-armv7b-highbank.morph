@@ -13,8 +13,9 @@
         {
             "name": "linux",
             "repo": "upstream:linux",
-            "ref": "baserock/bjdooks/arm_be8_work_v38",
-            "build-depends": []
+            "ref": "aad70723a62bf62be5a8fd922767028a5931d41c",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/bjdooks/arm_be8_work_v38"
         }
     ]
 }

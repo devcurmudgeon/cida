@@ -13,160 +13,183 @@
         {
             "name": "lzo",
             "repo": "upstream:lzo",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "73a371461f818512f921941c046a3a91f5bc45b9",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "patch",
             "repo": "upstream:patch",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "9a16dcb97aac1a26af4372d95bd62b84f3f1264a",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "python-setuptools",
             "repo": "upstream:python-setuptools",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "05b07a427a1eae2a51d527f7ac5135a8fd215d77",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "python-ttystatus",
             "repo": "upstream:python-ttystatus",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "47d871216cea6ce3b9d6efd70e9a0f38ab8604f0",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "pyyaml",
             "repo": "upstream:pyyaml",
-            "ref": "baserock/morph",
+            "ref": "d9fbcceaed39d955f6871b07c61dc42f824285c1",
             "build-depends": [
                 "python-setuptools"
-            ]
+            ],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "python-coveragepy",
             "repo": "upstream:python-coveragepy",
-            "ref": "baserock/morph",
+            "ref": "77d2e3bfd8fb325092aaed37ba1378054d182d19",
             "build-depends": [
                 "python-setuptools"
-            ]
+            ],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "python-coverage-test-runner",
             "repo": "upstream:python-coverage-test-runner",
-            "ref": "baserock/morph",
+            "ref": "7561fe1790fa0aa638a9114def0c17742b4a3d3d",
             "build-depends": [
                 "python-coveragepy"
-            ]
+            ],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "cliapp",
             "repo": "upstream:cliapp",
-            "ref": "baserock/morph",
+            "ref": "4b4b0b47372543572c3d2911c8bde87e4db8745b",
             "build-depends": [
                 "python-coverage-test-runner"
-            ]
+            ],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "cmdtest",
             "repo": "upstream:cmdtest",
-            "ref": "baserock/morph",
+            "ref": "ea50cfdfa9c15c3345b1046f9541b74852a05487",
             "build-depends": [
                 "cliapp",
                 "python-ttystatus"
-            ]
+            ],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "cmake",
             "repo": "upstream:cmake",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "7f9a761e761046a479fda38ee13f5dacd94ceeea",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "coreutils",
             "repo": "upstream:coreutils",
-            "ref": "baserock/morph",
+            "ref": "66282c0d87c933218205b5e20ce46708182ac36e",
             "build-depends": [
                 "patch"
-            ]
+            ],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "distcc",
             "repo": "upstream:distcc",
-            "ref": "baserock/morph",
+            "ref": "2f422c03925e82bf88b05da823813073a985b0e5",
             "build-depends": [
                 "lzo"
-            ]
+            ],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "e2fsprogs",
             "repo": "upstream:e2fsprogs",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "1ab0ea88057e922a89c6b8feebeb62c57e40f8de",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "gdb",
             "repo": "upstream:gdb",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "c4bf5268b1a32ec475b61d2fe90e9218780c03c8",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "less",
             "repo": "upstream:less",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "09a405d8f652b56944c93ebf5c673cdfe5319b04",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "linux-user-chroot",
             "repo": "upstream:linux-user-chroot",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "d234ccf15a897024bb004d0f3a9a2f3b8d0976e6",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "lsof",
             "repo": "upstream:lsof",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "fffb8558208586338587027c265fd0eca44466be",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "morph",
             "repo": "baserock:baserock/morph",
-            "ref": "master",
+            "ref": "c11cdb16e2d10e29c96873db5796e911979012d8",
             "build-depends": [
                 "cliapp",
                 "cmdtest",
                 "python-coverage-test-runner",
                 "pyyaml"
-            ]
+            ],
+            "unpetrify-ref": "master"
         },
         {
             "name": "pv",
             "repo": "upstream:pv",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "d6ce7cfec684fa72d7a919d7b1aa817a0ca6102a",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "rsync",
             "repo": "upstream:rsync",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "9faf8e0ccff2755cd019ff64d8322226a214b013",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "strace",
             "repo": "upstream:strace",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "ad232c6aa0c2a07830d61dc4b9912478634b23b5",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         },
         {
             "name": "vala",
             "repo": "upstream:vala",
-            "ref": "baserock/bootstrap",
-            "build-depends": []
+            "ref": "4e4a02c03445336237b36723b23a91670ef7621b",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/bootstrap"
         },
         {
             "name": "vim",
             "repo": "upstream:vim",
-            "ref": "baserock/morph",
-            "build-depends": []
+            "ref": "592b8c975bf83b4dcf608769bc664a80cb1daf9e",
+            "build-depends": [],
+            "unpetrify-ref": "baserock/morph"
         }
     ]
 }
