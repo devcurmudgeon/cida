@@ -184,3 +184,11 @@ class WriteExtension(cliapp.Application):
         cliapp.runcmd(['sync'])
         time.sleep(2)
 
+    def parse_attach_disks(self):
+        '''Parse $ATTACH_DISKS into list of disks to attach.'''
+
+        if 'ATTACH_DISKS' in os.environ:
+            s = os.environ['ATTACH_DISKS']
+            return s.split(':')
+        else:
+            return []
