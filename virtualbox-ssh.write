@@ -121,7 +121,17 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
              '--port', '0', '--device', '0', '--type', 'hdd', '--medium',
              vdi_path],
         ]
-        
+
+        attach_disks = self.parse_attach_disks()
+        for device_no, disk in enumerate(attach_disks, 1):
+            cmd = ['storageattach', vm_name, 
+                   '--storagectl', '"SATA Controller"',
+                   '--port', str(device_no),
+                   '--device', '0',
+                   '--type', 'hdd', 
+                   '--medium', disk]
+            commands.append(cmd)
+
         for command in commands:
             argv = ['ssh', ssh_host, 'VBoxManage'] + command
             cliapp.runcmd(argv)
