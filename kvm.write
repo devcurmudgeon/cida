@@ -99,11 +99,18 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         '''Create the libvirt virtual machine.'''
         
         self.status(msg='Creating libvirt/kvm virtual machine')
+
+        attach_disks = self.parse_attach_disks()
+        attach_opts = []
+        for disk in attach_disks:
+            attach_opts.extend(['--disk', 'path=%s' % disk])
+
         cliapp.runcmd(
             ['ssh', ssh_host, 
              'virt-install', '--connect qemu:///system', '--import',
              '--name', vm_name, '--ram', '1024', '--vnc', '--noreboot',
-             '--disk path=%s,bus=ide' % vm_path])
+             '--disk path=%s,bus=ide' % vm_path] + 
+            attach_opts)
 
 
 KvmPlusSshWriteExtension().run()
