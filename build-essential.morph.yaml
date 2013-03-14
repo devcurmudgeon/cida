@@ -52,6 +52,16 @@ chunks:
           - stage1-gcc
           - stage2-linux-api-headers
 
+    - name: stage2-zlib
+      repo: upstream:zlib
+      ref: baserock/samthursfield/build-essential-2-rebase
+      build-mode: bootstrap
+      prefix: /tools
+      build-depends:
+          - stage1-binutils
+          - stage1-gcc
+          - stage2-eglibc
+
     - name: stage2-binutils
       repo: upstream:binutils-redhat
       ref: baserock/samthursfield/build-essential-2-rebase
@@ -61,6 +71,7 @@ chunks:
           - stage1-binutils
           - stage1-gcc
           - stage2-eglibc
+          - stage2-zlib
 
     - name: stage2-gcc
       repo: upstream:gcc-tarball
@@ -71,6 +82,7 @@ chunks:
           - stage1-binutils
           - stage1-gcc
           - stage2-eglibc
+          - stage2-zlib
 
     - name: stage2-busybox
       repo: upstream:busybox
@@ -139,6 +151,7 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
+          - stage2-zlib
 
     - name: linux-api-headers
       repo: upstream:linux
@@ -154,10 +167,11 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
+          - stage2-zlib
 
     - name: eglibc
       repo: upstream:eglibc2
-      ref: baserock/2.15-build-essential
+      ref: baserock/samthursfield/build-essential-2-rebase
       build-mode: staging
       prefix: /usr
       build-depends:
@@ -169,7 +183,25 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
+          - stage2-zlib
           - linux-api-headers
+
+    - name: zlib
+      repo: upstream:zlib
+      ref: baserock/samthursfield/build-essential-2-rebase
+      build-mode: staging
+      prefix: /usr
+      build-depends:
+          - stage2-binutils
+          - stage2-busybox
+          - stage2-eglibc
+          - stage2-fhs-dirs
+          - stage2-gawk
+          - stage2-gcc
+          - stage2-linux-api-headers
+          - stage2-make
+          - stage2-zlib
+          - eglibc
 
     - name: binutils
       repo: upstream:binutils-redhat
@@ -185,7 +217,9 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
+          - stage2-zlib
           - eglibc
+          - zlib
 
     - name: busybox
       repo: upstream:busybox
@@ -201,6 +235,7 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
+          - stage2-zlib
           - eglibc
 
     - name: gawk
@@ -217,6 +252,7 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
+          - stage2-zlib
           - eglibc
 
     - name: gcc
@@ -233,7 +269,9 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
+          - stage2-zlib
           - eglibc
+          - zlib
 
     - name: make
       repo: upstream:make
@@ -249,6 +287,7 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
+          - stage2-zlib
           - eglibc
 
     # Extras that need to be in build-essential but don't need bootstrapping.
@@ -267,4 +306,6 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
+          - stage2-zlib
           - eglibc
+          - zlib
