@@ -5,7 +5,7 @@
     "build-depends": [
         {
             "repo": "baserock:baserock/morphs",
-            "ref": "master",
+            "ref": "baserock/samthursfield/build-essential-2-rebase",
             "morph": "build-essential"
         }
     ],
@@ -77,12 +77,6 @@
             ]
         },
         {
-            "name": "zlib",
-            "repo": "upstream:zlib",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
             "name": "autoconf",
             "repo": "upstream:autoconf",
             "ref": "baserock/build-essential",
@@ -139,8 +133,7 @@
             "ref": "baserock/morph-2.7",
             "build-depends": [
                 "openssl",
-                "readline",
-                "zlib"
+                "readline"
             ]
         },
         {
@@ -214,8 +207,7 @@
                 "error-perl-tarball",
                 "gettext",
                 "libexpat",
-                "openssl",
-                "zlib"
+                "openssl"
             ]
         },
         {
