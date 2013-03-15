@@ -9,27 +9,27 @@
         {
             "morph": "build-essential",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential-2-rebase"
+            "ref": "master"
         },
         {
             "morph": "core",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential-2-rebase"
+            "ref": "master"
         },
         {
             "morph": "foundation",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential-2-rebase"
+            "ref": "master"
         },
         {
             "morph": "bsp-armv7-versatile",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential-2-rebase"
+            "ref": "master"
         },
         {
             "morph": "tools",
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/samthursfield/build-essential-2-rebase"
+            "ref": "master"
         }
     ]
 }
