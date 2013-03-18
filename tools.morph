@@ -76,12 +76,6 @@
             ]
         },
         {
-            "name": "cmake",
-            "repo": "upstream:cmake",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
             "name": "coreutils",
             "repo": "upstream:coreutils",
             "ref": "baserock/morph",
@@ -100,6 +94,12 @@
         {
             "name": "e2fsprogs",
             "repo": "upstream:e2fsprogs",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "file",
+            "repo": "upstream:file",
             "ref": "baserock/morph",
             "build-depends": []
         },

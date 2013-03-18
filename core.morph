@@ -11,6 +11,12 @@
     ],
     "chunks": [
         {
+            "name": "cmake",
+            "repo": "upstream:cmake",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
             "name": "gdbm",
             "repo": "upstream:gdbm",
             "ref": "baserock/build-essential",
@@ -71,12 +77,6 @@
             ]
         },
         {
-            "name": "zlib",
-            "repo": "upstream:zlib",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
             "name": "autoconf",
             "repo": "upstream:autoconf",
             "ref": "baserock/build-essential",
@@ -120,24 +120,6 @@
             ]
         },
         {
-            "name": "libtool",
-            "repo": "upstream:libtool",
-            "ref": "baserock/build-essential",
-            "build-depends": [
-                "bash"
-            ]
-        },
-        {
-            "name": "libxml2",
-            "repo": "upstream:libxml2",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "autoconf",
-                "automake",
-                "libtool"
-            ]
-        },
-        {
             "name": "openssl",
             "repo": "upstream:openssl",
             "ref": "baserock/morph",
@@ -151,8 +133,36 @@
             "ref": "baserock/morph-2.7",
             "build-depends": [
                 "openssl",
-                "readline",
-                "zlib"
+                "readline"
+            ]
+        },
+        {
+            "name": "libtool",
+            "repo": "upstream:libtool",
+            "ref": "baserock/build-essential",
+            "build-depends": [
+                "bash"
+            ]
+        },
+        {
+            "name": "gtk-doc-stub",
+            "repo": "upstream:gtk-doc-stub",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "libtool"
+            ]
+        },
+        {
+            "name": "libxml2",
+            "repo": "upstream:libxml2",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "autoconf",
+                "automake",
+                "cpython",
+                "libtool"
             ]
         },
         {
@@ -197,8 +207,7 @@
                 "error-perl-tarball",
                 "gettext",
                 "libexpat",
-                "openssl",
-                "zlib"
+                "openssl"
             ]
         },
         {

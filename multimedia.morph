@@ -1,0 +1,38 @@
+{
+    "name": "multimedia",
+    "kind": "stratum",
+    "description": "Codecs",
+    "build-depends": [
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "genivi-foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "orc",
+            "repo": "upstream:orc",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "gstreamer",
+            "repo": "upstream:gstreamer",
+            "ref": "baserock/genivi/baseline",
+            "build-depends": [
+                "orc"
+            ]
+        }
+    ]
+}

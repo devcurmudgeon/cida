@@ -1,0 +1,128 @@
+{
+    "name": "audio-bluetooth",
+    "description": "Components required for audio and bluetooth.",
+    "kind": "stratum",
+    "build-depends": [
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "genivi-foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "libatomic_ops",
+            "repo": "upstream:libatomic_ops",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "alsa-lib",
+            "repo": "upstream:alsa-lib",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "alsa-utils",
+            "repo": "upstream:alsa-utils",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "alsa-lib"
+            ]
+        },
+        {
+            "name": "bluez",
+            "repo": "upstream:bluez",
+            "ref": "baserock/genivi/baseline",
+            "build-depends": [
+                "alsa-lib"
+            ]
+        },
+        {
+            "name": "bluez-tools",
+            "repo": "upstream:bluez-tools",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "libical",
+            "repo": "upstream:libical",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "obexd",
+            "repo": "upstream:obexd",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "bluez",
+                "libical"
+            ]
+        },
+        {
+            "name": "speex",
+            "repo": "upstream:speex",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "nohands",
+            "repo": "upstream:nohands",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "bluez",
+                "speex"
+            ]
+        },
+        {
+            "name": "mobile-broadband-provider-info",
+            "repo": "upstream:mobile-broadband-provider-info",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "ofono",
+            "repo": "upstream:ofono",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "mobile-broadband-provider-info",
+                "bluez"
+            ]
+        },
+        {
+            "name": "json-c",
+            "repo": "upstream:json-c",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "libsndfile",
+            "repo": "upstream:libsndfile",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "pulseaudio",
+            "repo": "upstream:pulseaudio",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "libsndfile",
+                "libatomic_ops",
+                "speex",
+                "json-c",
+                "alsa-lib",
+                "bluez"
+            ]
+        }
+    ]
+}

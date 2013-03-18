@@ -1,0 +1,51 @@
+{
+    "name": "wayland-armv7-versatile",
+    "kind": "stratum",
+    "build-depends": [
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "genivi-foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "x-common",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "libxkbcommon",
+            "repo": "upstream:xorg-lib-libxkbcommon",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
+            "name": "wayland",
+            "repo": "upstream:wayland",
+            "ref": "baserock/genivi/wayland",
+            "build-depends": [
+                "libxkbcommon"
+            ]
+        },
+        {
+            "name": "mesa-wayland",
+            "repo": "upstream:mesa",
+            "ref": "baserock/genivi/baseline-armv7-versatile",
+            "build-depends": [
+                "wayland"
+            ]
+        }
+    ]
+}
+
