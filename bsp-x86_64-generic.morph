@@ -13,25 +13,22 @@
         {
             "name": "linux",
             "repo": "upstream:linux",
-            "ref": "c9bb9b8beccd28386f6bcc7437107bde5421ff0c",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "nasm",
             "repo": "upstream:nasm",
-            "ref": "78bdad3d14fb875d5f2062957e326ba2a9e4ccb0",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "syslinux",
             "repo": "upstream:syslinux",
-            "ref": "8821237240c5374d83298b2da5ad88fa1e3c1ef7",
+            "ref": "baserock/morph",
             "build-depends": [
                 "nasm"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         }
     ]
 }

@@ -13,205 +13,183 @@
         {
             "name": "gdbm",
             "repo": "upstream:gdbm",
-            "ref": "51871d08a48ff781186f7a7b22ec69a1db38eb4c",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/build-essential"
+            "ref": "baserock/build-essential",
+            "build-depends": []
         },
         {
             "name": "gettext",
             "repo": "upstream:gettext",
-            "ref": "3898e324f07c05404b63d71f0e519f352fb1e072",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/build-essential"
+            "ref": "baserock/build-essential",
+            "build-depends": []
         },
         {
             "name": "m4",
             "repo": "upstream:m4",
-            "ref": "d533342af991401d865de9b037ac03cdc9bd852e",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/build-essential"
+            "ref": "baserock/build-essential",
+            "build-depends": []
         },
         {
             "name": "mini-utils",
             "repo": "baserock:baserock/mini-utils",
-            "ref": "5293265b29bbf468ab9d7f3302b19dbc81d0f8b8",
-            "build-depends": [],
-            "unpetrify-ref": "master"
+            "ref": "master",
+            "build-depends": []
         },
         {
             "name": "ncurses",
             "repo": "upstream:ncurses",
-            "ref": "0fe89dc66ec061b839bea3ab451207e2dee757b9",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "perl",
             "repo": "upstream:perl",
-            "ref": "349ef727dbd0928484b337efdf5e0c4761343ee1",
+            "ref": "baserock/morph",
             "build-depends": [
                 "gdbm"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "pkg-config",
             "repo": "upstream:pkg-config",
-            "ref": "67a702a15cf88e270539484929ffa1f42b90c728",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/build-essential"
+            "ref": "baserock/build-essential",
+            "build-depends": []
         },
         {
             "name": "readline",
             "repo": "upstream:readline",
-            "ref": "487c733f227a4e569dd717cd166faca5d7a6016c",
+            "ref": "baserock/morph",
             "build-depends": [
                 "ncurses"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "texinfo-tarball",
             "repo": "upstream:texinfo-tarball",
-            "ref": "4843a7f5ff14ac802a56f1cdd49960b25c15702b",
+            "ref": "baserock/morph",
             "build-depends": [
                 "ncurses"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "zlib",
             "repo": "upstream:zlib",
-            "ref": "118153b689b29ef931d5ea1dd84e9c43cd0800e3",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "autoconf",
             "repo": "upstream:autoconf",
-            "ref": "cffdb90be331111ce3fbe4a32320181ec2b92652",
+            "ref": "baserock/build-essential",
             "build-depends": [
                 "m4",
                 "perl"
-            ],
-            "unpetrify-ref": "baserock/build-essential"
+            ]
         },
         {
             "name": "automake",
             "repo": "upstream:automake",
-            "ref": "5ac84ae6760252fc60b144a7b4deb41694f95fe7",
+            "ref": "baserock/morph",
             "build-depends": [
                 "autoconf",
                 "perl",
                 "texinfo-tarball"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "bash",
             "repo": "upstream:bash",
-            "ref": "783c677f45354b0d6df70e552217ecad8481804f",
+            "ref": "baserock/morph",
             "build-depends": [
                 "readline"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "error-perl-tarball",
             "repo": "upstream:error-perl-tarball",
-            "ref": "661707e7bd4282aeab5a2f6a8f02ca5731fd813f",
+            "ref": "baserock/morph",
             "build-depends": [
                 "perl"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "flex",
             "repo": "upstream:flex",
-            "ref": "de10f98e8a2dc2a021796811490d0f30c3cd90bf",
+            "ref": "baserock/build-essential",
             "build-depends": [
                 "m4"
-            ],
-            "unpetrify-ref": "baserock/build-essential"
+            ]
         },
         {
             "name": "libtool",
             "repo": "upstream:libtool",
-            "ref": "d388b7f2dc628b22006025d01179bc09b8aabe81",
+            "ref": "baserock/build-essential",
             "build-depends": [
                 "bash"
-            ],
-            "unpetrify-ref": "baserock/build-essential"
+            ]
         },
         {
             "name": "libxml2",
             "repo": "upstream:libxml2",
-            "ref": "ee8f1d4cda8dc1a6f2c515fe234f7bc89cdc9f80",
+            "ref": "baserock/morph",
             "build-depends": [
                 "autoconf",
                 "automake",
                 "libtool"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "openssl",
             "repo": "upstream:openssl",
-            "ref": "0b313ac2a4eb2bc70afb50fe4e3d249b2acf9891",
+            "ref": "baserock/morph",
             "build-depends": [
                 "perl"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "cpython",
             "repo": "upstream:cpython",
-            "ref": "ee3d55f859d7d54cb9bd9a376fbdecca89335aee",
+            "ref": "baserock/morph-2.7",
             "build-depends": [
                 "openssl",
                 "readline",
                 "zlib"
-            ],
-            "unpetrify-ref": "baserock/morph-2.7"
+            ]
         },
         {
             "name": "curl",
             "repo": "upstream:curl",
-            "ref": "3c835adc9fe20f7b34df3f0abd4db6ff8b75bc3b",
+            "ref": "baserock/morph",
             "build-depends": [
                 "autoconf",
                 "automake",
                 "libtool",
                 "openssl"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "libexpat",
             "repo": "upstream:libexpat",
-            "ref": "97678ab13f6d29878997256b6ae1ded679ae5c5c",
+            "ref": "baserock/morph",
             "build-depends": [
                 "autoconf",
                 "automake",
                 "libtool"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "XML-Parser",
             "repo": "upstream:XML-Parser",
-            "ref": "e1a3ec157140a699e3020836475a0df622f70f1b",
+            "ref": "baserock/morph",
             "build-depends": [
                 "libexpat",
                 "libxml2",
                 "perl"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "git",
             "repo": "upstream:git",
-            "ref": "45d74c4b0fe38218b4569a90da7102cf48d616c2",
+            "ref": "baserock/morph",
             "build-depends": [
                 "autoconf",
                 "cpython",
@@ -221,13 +199,12 @@
                 "libexpat",
                 "openssl",
                 "zlib"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "bison",
             "repo": "upstream:bison",
-            "ref": "6729ad1c314b179225325dcc1bc684077a71f859",
+            "ref": "baserock/morph",
             "build-depends": [
                 "autoconf",
                 "automake",
@@ -236,39 +213,35 @@
                 "gettext",
                 "git",
                 "mini-utils"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "bzip2",
             "repo": "upstream:bzip2",
-            "ref": "8deafa68e52b230018c0318dc7959ff9af3ad2a5",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "gperf",
             "repo": "upstream:gperf",
-            "ref": "5094e4a539adf845111013f82c2c4fcaec637983",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "intltool",
             "repo": "upstream:intltool",
-            "ref": "12f04c88be9ff8a578d8fd6990ee2448c66dc5f4",
+            "ref": "baserock/morph",
             "build-depends": [
                 "XML-Parser",
                 "autoconf",
                 "automake",
                 "perl"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "util-linux",
             "repo": "upstream:util-linux",
-            "ref": "0516233be20495850200192f8d7938db70063491",
+            "ref": "baserock/morph",
             "build-depends": [
                 "autoconf",
                 "automake",
@@ -276,20 +249,18 @@
                 "git",
                 "libtool",
                 "pkg-config"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "xz",
             "repo": "upstream:xz",
-            "ref": "581deedf9d1eadcd84c4fcd23b9fdfe2dde18cc2",
+            "ref": "baserock/morph",
             "build-depends": [
                 "autoconf",
                 "automake",
                 "gettext",
                 "libtool"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         }
     ]
 }

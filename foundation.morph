@@ -13,94 +13,83 @@
         {
             "name": "attr",
             "repo": "upstream:attr",
-            "ref": "be4a3c1d50981d2cbbe2cfb55498cac51909c37f",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "groff",
             "repo": "upstream:groff",
-            "ref": "c7017a099f954bb6de60e79c876935b1bf438b9a",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "kmod",
             "repo": "upstream:kmod",
-            "ref": "baacc7dbd72193796b941fe58e72f99925767caa",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "libcap2",
             "repo": "upstream:libcap2",
-            "ref": "5deb1274a382e760a71f47afaab2ac14e4d30392",
+            "ref": "baserock/morph",
             "build-depends": [
                 "attr"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "libffi",
             "repo": "upstream:libffi",
-            "ref": "e72ed5eeaa9cfb0fdc86f6b3422734177b659f96",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "libusbx",
             "repo": "upstream:libusbx",
-            "ref": "7ec94a45ed8155e7a1d4d5d75575099b09c78834",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "pciutils",
             "repo": "upstream:pciutils",
-            "ref": "bae04bd0473c68a2f21b7712a627abb08fd84b29",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "usbutils",
             "repo": "upstream:usbutils",
-            "ref": "410f1474af0ddb391bc6ec391777f116eee31569",
+            "ref": "baserock/morph",
             "build-depends": [
                 "libusbx"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "glib",
             "repo": "upstream:glib",
-            "ref": "bcb1ece652c211bc88771da775332a2c9a0ae572",
+            "ref": "baserock/morph",
             "build-depends": [
                 "libffi"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "gobject-introspection",
             "repo": "upstream:gobject-introspection",
-            "ref": "8a2a9f9db169eaaf2a7eede18e0ceba0af44345f",
+            "ref": "baserock/morph",
             "build-depends": [
                 "glib"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "dbus-pre",
             "repo": "upstream:dbus",
-            "ref": "6dbac8e1e7202d0ab757426c3f41f29cff72e5bd",
+            "ref": "baserock/build-essential",
             "build-depends": [
                 "glib"
-            ],
-            "unpetrify-ref": "baserock/build-essential"
+            ]
         },
         {
             "name": "systemd",
             "repo": "upstream:systemd",
-            "ref": "8fee3eb8a8550892d0dcf4431b861aacd49e57ec",
+            "ref": "baserock/morph",
             "build-depends": [
                 "dbus-pre",
                 "gobject-introspection",
@@ -108,66 +97,58 @@
                 "libcap2",
                 "pciutils",
                 "usbutils"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "btrfs-progs",
             "repo": "upstream:btrfs-progs",
-            "ref": "aab0fcb8ae7386475598fd2bef887cf0f9f3b65a",
+            "ref": "baserock/morph",
             "build-depends": [
                 "attr"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "dbus",
             "repo": "upstream:dbus",
-            "ref": "6dbac8e1e7202d0ab757426c3f41f29cff72e5bd",
+            "ref": "baserock/build-essential",
             "build-depends": [
                 "glib",
                 "systemd"
-            ],
-            "unpetrify-ref": "baserock/build-essential"
+            ]
         },
         {
             "name": "gtk-doc-stub",
             "repo": "upstream:gtk-doc-stub",
-            "ref": "58ec0d8593541ef7ae522ce42ebec6f98536c4e0",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "help2man",
             "repo": "upstream:help2man",
-            "ref": "0191a5f61525f8deea2ae8bdfea88190d85b6a71",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "libxslt",
             "repo": "upstream:libxslt",
-            "ref": "8785a2ffd0d146df0395ab71ce4734d0a8ba0f7e",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/morph"
+            "ref": "baserock/morph",
+            "build-depends": []
         },
         {
             "name": "openssh",
             "repo": "upstream:openssh",
-            "ref": "3a5c3c15043ce951d8c206b6572ab142434e51f5",
+            "ref": "baserock/morph",
             "build-depends": [
                 "groff"
-            ],
-            "unpetrify-ref": "baserock/morph"
+            ]
         },
         {
             "name": "tbdiff",
             "repo": "baserock:baserock/tbdiff",
-            "ref": "160ccc9e93284ad567f476beb32620bb1e0e33b7",
+            "ref": "master",
             "build-depends": [
                 "attr"
-            ],
-            "unpetrify-ref": "master"
+            ]
         }
     ]
 }

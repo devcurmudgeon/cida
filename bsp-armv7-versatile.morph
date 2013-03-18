@@ -13,9 +13,8 @@
         {
             "name": "linux",
             "repo": "upstream:linux",
-            "ref": "33e7c2a67ecdb9e3b1e72517415bd5eb0db313e0",
-            "build-depends": [],
-            "unpetrify-ref": "baserock/arm/versatile"
+            "ref": "baserock/arm/versatile",
+            "build-depends": []
         }
     ]
 }
