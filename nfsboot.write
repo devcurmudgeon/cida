@@ -1,0 +1,161 @@
+#!/usr/bin/python
+# Copyright (C) 2012-2013  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+'''A Morph deployment write extension for deploying to an nfsboot server
+
+An nfsboot server is defined as a baserock system that has tftp and nfs
+servers running, the tftp server is exporting the contents of
+/srv/nfsboot/tftp/ and the user has sufficient permissions to create nfs roots
+in /srv/nfsboot/nfs/
+
+'''
+
+
+import cliapp
+import os
+import glob
+
+import morphlib.writeexts
+
+
+class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
+
+    '''Create an NFS root and kernel on TFTP during Morph's deployment.
+
+    The location command line argument is the hostname of the nfsboot server.
+    The user is expected to provide the location argument
+    using the following syntax:
+
+        HOST
+
+    where:
+
+    * HOST is the host of the nfsboot server
+
+    The extension will connect to root@HOST via ssh to copy the kernel and
+    rootfs, and configure the nfs server.
+
+    It requires root because it uses systemd, and reads/writes to /etc.
+
+    '''
+
+    def process_args(self, args):
+        if len(args) != 2:
+            raise cliapp.AppException('Wrong number of command line args')
+
+        temp_root, location = args
+        hostname = self.get_hostname(temp_root)
+        if hostname == 'baserock':
+            raise cliapp.AppException('It is forbidden to nfsboot a system '
+                                      'with hostname "baserock"')
+
+        self.test_good_server(location)
+        self.copy_kernel(temp_root, location, hostname)
+        self.copy_rootfs(temp_root, location, hostname)
+        self.configure_nfs(location, hostname)
+
+    def get_hostname(self, temp_root):
+        hostnamepath = os.path.join(temp_root, 'etc', 'hostname')
+        with open(hostnamepath) as f:
+            return f.readline().strip()
+
+    def copy_kernel(self, temp_root, location, hostname):
+        bootdir = os.path.join(temp_root, 'boot')
+        image_names = ['vmlinuz', 'zImage', 'uImage']
+        for name in image_names:
+            try_path = os.path.join(bootdir, name)
+            if os.path.exists(try_path):
+                kernel_src = try_path
+                break
+        else:
+            raise cliapp.AppException(
+                'Could not find a kernel in the system: none of '
+                '%s found' % ', '.join(image_names))
+        kernel_dest = os.path.join('/srv/nfsboot/tftp', hostname)
+        rsync_dest = 'root@%s:%s' % (location, kernel_dest)
+        cliapp.runcmd(
+            ['rsync', kernel_src, rsync_dest])
+
+    def copy_rootfs(self, temp_root, location, hostname):
+        rootfs_src = temp_root + '/'
+        rootfs_dest = os.path.join('/srv/nfsboot/nfs', hostname)
+        rsync_dest = 'root@%s:%s' % (location, rootfs_dest)
+        cliapp.runcmd(
+            ['rsync', '-a', rootfs_src, rsync_dest])
+
+    def configure_nfs(self, location, hostname):
+        rootfs_dest = os.path.join('/srv/nfsboot/nfs', hostname)
+        exports_path = '/etc/exports'
+        # If that path is not already exported:
+        try:
+            cliapp.ssh_runcmd(
+                'root@%s' % location, ['grep', '-q', rootfs_dest,
+                                       exports_path])
+        except cliapp.AppException:
+            ip_mask = '*'
+            options = 'rw,no_subtree_check,no_root_squash,async'
+            exports_string = '%s %s(%s)\n' % (rootfs_dest, ip_mask, options)
+            exports_append_sh = '''\
+set -eu
+target = "$1"
+temp = $(mktemp)
+cat "$target" > "$temp"
+cat >> "$temp"
+mv "$temp" "$target"
+'''
+            cliapp.ssh_runcmd(
+                'root@%s' % location,
+                ['sh', '-c', exports_append_sh, '--', exports_path],
+                feed_stdin=exports_string)
+            cliapp.ssh_runcmd(
+                'root@%s' % location, ['systemctl', 'reload',
+                                       'nfs-server.service'])
+
+    def test_good_server(self, server):
+        # Can be ssh'ed into
+        try:
+            cliapp.ssh_runcmd('root@%s' % server, ['true'])
+        except cliapp.AppException:
+            raise cliapp.AppException('You are unable to ssh into server %s'
+                                      % server)
+
+        # Is an NFS server
+        try:
+            cliapp.ssh_runcmd(
+                'root@%s' % server, ['test', '-e', '/etc/exports'])
+        except cliapp.AppException:
+            raise cliapp.AppException('server %s is not an nfs server'
+                                      % server)
+        try:
+            cliapp.ssh_runcmd(
+                'root@%s' % server, ['systemctl', 'is-enabled',
+                                     'nfs-server.service'])
+
+        except cliapp.AppException:
+            raise cliapp.AppException('server %s does not control its '
+                                      'nfs server by systemd' % server)
+
+        # TFTP server exports /srv/nfsboot/tftp
+        try:
+            cliapp.ssh_runcmd(
+                'root@%s' % server, ['test' , '-d', '/srv/nfsboot/tftp'])
+        except cliapp.AppException:
+            raise cliapp.AppException('server %s does not export '
+                                      '/srv/nfsboot/tftp' % server)
+
+NFSBootWriteExtension().run()
+
