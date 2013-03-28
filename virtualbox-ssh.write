@@ -110,10 +110,12 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         
         self.status(msg='Create VirtualBox virtual machine')
 
+        ram_mebibytes = str(self.get_ram_size() / (1024**2))
+
         commands = [
             ['createvm', '--name', vm_name, '--ostype', 'Linux26_64',
              '--register'],
-            ['modifyvm', vm_name, '--ioapic', 'on', '--memory', '1024',
+            ['modifyvm', vm_name, '--ioapic', 'on', '--memory', ram_mebibytes,
              '--nic1', 'nat'],
             ['storagectl', vm_name, '--name', '"SATA Controller"',
              '--add', 'sata',  '--bootable', 'on', '--sataportcount', '2'],
