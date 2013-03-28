@@ -74,13 +74,16 @@ class WriteExtension(cliapp.Application):
         else:
             self.unmount(mp)
 
-    def get_disk_size(self):
-        '''Parse disk size from environment.'''
+    def _parse_size(self, size):
+        '''Parse a size from a string.
         
-        size = os.environ.get('DISK_SIZE', '1G')
+        Return size in bytes.
+        
+        '''
+
         m = re.match('^(\d+)([kmgKMG]?)$', size)
         if not m:
-            raise morphlib.Error('Cannot parse disk size %s' % size)
+            return None
 
         factors = {
             '': 1,
@@ -91,6 +94,23 @@ class WriteExtension(cliapp.Application):
         factor = factors[m.group(2).lower()]
 
         return int(m.group(1)) * factor
+
+    def _parse_size_from_environment(self, env_var, default):
+        '''Parse a size from an environment variable.'''
+
+        size = os.environ.get(env_var, default)
+        bytes = self._parse_size(size)
+        if bytes is None:
+            raise morphlib.Error('Cannot parse %s value %s' % (env_var, size))
+        return bytes
+
+    def get_disk_size(self):
+        '''Parse disk size from environment.'''
+        return self._parse_size_from_environment('DISK_SIZE', '1G')
+
+    def get_ram_size(self):
+        '''Parse RAM size from environment.'''
+        return self._parse_size_from_environment('RAM_SIZE', '1G')
 
     def create_raw_disk_image(self, filename, size):
         '''Create a raw disk image.'''
