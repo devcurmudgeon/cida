@@ -59,7 +59,7 @@ class SshConfigurationExtension(cliapp.Application):
             if roothost or roothostpub:
                 self.check_dir(dest, mode)
                 self.copy_rename_keys(roothost, 
-                    roothostpub, dest, 'id_', [15, 4])
+                    roothostpub, dest, 'id_', [5, 4])
             if authkey:
                 self.check_dir(dest, mode)
                 self.comb_auth_key(authkey, dest)
@@ -101,16 +101,18 @@ class SshConfigurationExtension(cliapp.Application):
 
     def copy_rename_keys(self, keys, pubkeys, dest, new, snip):
         '''Copies SSH keys to new VM and renames them'''
-        
+
         st, fi = snip
         for key in keys:
-            s = len(key)
-            nw_dst = os.path.join(dest, new + key[st:s-fi])
+            base = os.path.basename(key)
+            s = len(base)
+            nw_dst = os.path.join(dest, new + base[st:s-fi])
             shutil.copy(key, nw_dst)
             os.chmod(nw_dst, 0600)
         for key in pubkeys:
-            s = len(key)
-            nw_dst = os.path.join(dest, new + key[st:s-fi-4])
+            base = os.path.basename(key)
+            s = len(base)
+            nw_dst = os.path.join(dest, new + base[st:s-fi-4])
             shutil.copy(key, nw_dst + '.pub')
             os.chmod(nw_dst, 0644)
 
