@@ -167,6 +167,12 @@
             "repo": "upstream:vim",
             "ref": "baserock/morph",
             "build-depends": []
+        },
+        {
+            "name": "screen",
+            "repo": "upstream:screen",
+            "ref": "baserock/morph",
+            "build-depends": []
         }
     ]
 }
