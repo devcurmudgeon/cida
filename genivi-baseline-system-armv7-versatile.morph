@@ -66,5 +66,8 @@
             "repo": "baserock:baserock/morphs",
             "ref": "master"
         }
+    ],
+    "configuration-extensions": [
+        "set-hostname"
     ]
 }
