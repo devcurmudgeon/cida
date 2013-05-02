@@ -236,6 +236,24 @@
             "ref": "baserock/morph",
             "build-depends": []
         },
+	{
+	    "name": "util-wm",
+            "repo": "upstream:util-wm",
+            "ref": "baserock/morph",
+            "build-depends": []
+	},
+	{
+            "name": "util-keysyms",
+            "repo": "upstream:util-keysyms",
+            "ref": "baserock/morph",
+            "build-depends": []
+	},
+	{
+            "name": "util-image",
+            "repo": "upstream:util-image",
+            "ref": "baserock/morph",
+            "build-depends": ["xcb-util"]
+	},
         {
             "name": "xterm",
             "repo": "upstream:xterm",
