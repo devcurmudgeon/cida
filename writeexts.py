@@ -179,10 +179,26 @@ class WriteExtension(cliapp.Application):
     def create_fstab(self, real_root):
         '''Create an fstab.'''
 
-        self.status(msg='Creating fstab')        
+        self.status(msg='Creating fstab')
         fstab = os.path.join(real_root, 'factory', 'etc', 'fstab')
+
+        if os.path.exists(fstab):
+            with open(fstab, 'r') as f:
+                contents = f.read()
+        else:
+            contents = ''
+
+        got_root = False
+        for line in contents.splitlines():
+            words = line.split()
+            if len(words) >= 2 and not words[0].startswith('#'):
+                got_root = got_root or words[1] == '/'
+
+        if not got_root:
+            contents += '\n/dev/sda  /  btrfs defaults,rw,noatime 0 1\n'
+
         with open(fstab, 'w') as f:
-            f.write('/dev/sda  /     btrfs defaults,rw,noatime 0 1\n')
+            f.write(contents)
 
     def install_extlinux(self, real_root):
         '''Install extlinux on the newly created disk image.'''
