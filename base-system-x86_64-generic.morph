@@ -28,6 +28,7 @@
         }
     ],
     "configuration-extensions": [
-        "set-hostname"
+        "set-hostname",
+        "ssh"
     ]
 }
