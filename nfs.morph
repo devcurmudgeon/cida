@@ -2,6 +2,13 @@
     "name": "nfs",
     "kind": "stratum",
     "description": "NFS utilities",
+    "build-depends": [
+        {
+            "repo": "baserock:baserock/morphs",
+            "ref": "master",
+            "morph": "core"
+        }
+    ],
     "chunks": [
         {
             "name": "libevent",
