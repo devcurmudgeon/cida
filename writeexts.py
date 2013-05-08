@@ -228,3 +228,15 @@ class WriteExtension(cliapp.Application):
             return s.split(':')
         else:
             return []
+
+    def parse_autostart(self):
+        '''Parse $AUTOSTART to determine if VMs should be started.'''
+
+        autostart = os.environ.get('AUTOSTART', 'no')
+        if autostart == 'no':
+            return False
+        elif autostart == 'yes':
+            return True
+        else:
+            raise cliapp.AppException('Unexpected value for AUTOSTART: %s' %
+                                      autostart)
