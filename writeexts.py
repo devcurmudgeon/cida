@@ -223,9 +223,13 @@ class WriteExtension(cliapp.Application):
 
         '''
 
+        def is_x86(arch):
+            return (arch == 'x86_64' or
+                    (arch.startswith('i') and arch.endswith('86')))
+
         value = os.environ.get('BOOTLOADER', 'auto')
         if value == 'auto':
-            if os.uname()[-1] in ['x86_32', 'x86_64']:
+            if ix_x86(os.uname()[-1]):
                 value = 'yes'
             else:
                 value = 'no'
