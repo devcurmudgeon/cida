@@ -114,7 +114,7 @@ class SshConfigurationExtension(cliapp.Application):
             s = len(base)
             nw_dst = os.path.join(dest, new + base[st:s-fi-4])
             shutil.copy(key, nw_dst + '.pub')
-            os.chmod(nw_dst, 0644)
+            os.chmod(nw_dst + '.pub', 0644)
 
     def comb_auth_key(self, keys, dest):
         '''Combines authorized_keys file in new VM'''
