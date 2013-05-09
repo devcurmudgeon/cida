@@ -72,7 +72,8 @@ class SshConfigurationExtension(cliapp.Application):
             known_hosts_path = os.path.join(args[0], 'root/.ssh/known_hosts')
             known_hosts_file = open(known_hosts_path, "a")
             for filename in known_hosts_keys:
-                hostname = re.search('root_known_host_(.+?)_key.pub', filename).group(1)
+                hostname = re.search('root_known_host_(.+?)_key.pub',
+                                     filename).group(1)
                 known_hosts_file.write(hostname + " ")
                 f = open(filename, "r")
                 known_hosts_file.write(f.read())
