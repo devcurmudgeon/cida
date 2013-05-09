@@ -65,7 +65,8 @@ class WriteExtension(cliapp.Application):
             self.create_factory(mp, temp_root)
             self.create_fstab(mp)
             self.create_factory_run(mp)
-            self.install_extlinux(mp)
+            if self.bootloader_is_wanted():
+                self.install_extlinux(mp)
         except BaseException, e:
             sys.stderr.write('Error creating disk image')
             self.unmount(mp)
@@ -228,3 +229,25 @@ class WriteExtension(cliapp.Application):
             return s.split(':')
         else:
             return []
+
+    def bootloader_is_wanted(self):
+        '''Does the user request a bootloader?
+
+        The user may set $BOOTLOADER to yes, no, or auto. If not
+        set, auto is the default and means that the bootloader will
+        be installed on x86-32 and x86-64, but not otherwise.
+
+        '''
+
+        def is_x86(arch):
+            return (arch == 'x86_64' or
+                    (arch.startswith('i') and arch.endswith('86')))
+
+        value = os.environ.get('BOOTLOADER', 'auto')
+        if value == 'auto':
+            if ix_x86(os.uname()[-1]):
+                value = 'yes'
+            else:
+                value = 'no'
+
+        return value == 'yes'
