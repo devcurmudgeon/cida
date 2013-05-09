@@ -111,10 +111,12 @@ class SshConfigurationExtension(cliapp.Application):
 
         for key in keys:
             shutil.copy(key, dest)
-            os.chmod(dest, 0600)
+            path = os.path.join(dest, os.path.basename(key))
+            os.chmod(path, 0600)
         for key in pubkeys:
             shutil.copy(key, dest)
-            os.chmod(dest, 0644)
+            path = os.path.join(dest, os.path.basename(key))
+            os.chmod(path, 0644)
 
     def copy_rename_keys(self, keys, pubkeys, dest, new, snip):
         '''Copies SSH keys to new VM and renames them'''
