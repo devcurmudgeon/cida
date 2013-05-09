@@ -24,6 +24,7 @@ import os
 import sys
 import shutil
 import glob
+import re
 import logging
 
 import morphlib
@@ -63,6 +64,20 @@ class SshConfigurationExtension(cliapp.Application):
             if authkey:
                 self.check_dir(dest, mode)
                 self.comb_auth_key(authkey, dest)
+
+            # Fills the known_hosts file
+            key = 'root_known_host_*_key.pub'
+            src = os.path.join(os.environ['SSH_KEY_DIR'], key)
+            known_hosts_keys = glob.glob(src)
+            known_hosts_path = os.path.join(args[0], 'root/.ssh/known_hosts')
+            known_hosts_file = open(known_hosts_path, "a")
+            for filename in known_hosts_keys:
+                hostname = re.search('root_known_host_(.+?)_key.pub', filename).group(1)
+                known_hosts_file.write(hostname + " ")
+                f = open(filename, "r")
+                known_hosts_file.write(f.read())
+                f.close()
+            known_hosts_file.close()
         else:
             self.status(msg="No SSH key directory found.")
             pass
