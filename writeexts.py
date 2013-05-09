@@ -245,7 +245,7 @@ class WriteExtension(cliapp.Application):
 
         value = os.environ.get('BOOTLOADER', 'auto')
         if value == 'auto':
-            if ix_x86(os.uname()[-1]):
+            if is_x86(os.uname()[-1]):
                 value = 'yes'
             else:
                 value = 'no'
