@@ -69,16 +69,17 @@ class SshConfigurationExtension(cliapp.Application):
             key = 'root_known_host_*_key.pub'
             src = os.path.join(os.environ['SSH_KEY_DIR'], key)
             known_hosts_keys = glob.glob(src)
-            known_hosts_path = os.path.join(args[0], 'root/.ssh/known_hosts')
-            known_hosts_file = open(known_hosts_path, "a")
-            for filename in known_hosts_keys:
-                hostname = re.search('root_known_host_(.+?)_key.pub',
-                                     filename).group(1)
-                known_hosts_file.write(hostname + " ")
-                f = open(filename, "r")
-                known_hosts_file.write(f.read())
-                f.close()
-            known_hosts_file.close()
+            if known_hosts_keys:
+                self.check_dir(dest, mode)
+                known_hosts_path = os.path.join(dest, 'known_hosts')
+                with open(known_hosts_path, "a") as known_hosts_file:
+                    for filename in known_hosts_keys:
+                        hostname = re.search('root_known_host_(.+?)_key.pub',
+                                             filename).group(1)
+                        known_hosts_file.write(hostname + " ")
+                        with open(filename, "r") as f:
+                            shutil.copyfileobj(f, known_hosts_file)
+
         else:
             self.status(msg="No SSH key directory found.")
             pass
