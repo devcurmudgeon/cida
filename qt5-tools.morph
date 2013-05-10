@@ -76,6 +76,30 @@
             "build-depends": ["qtbase", "qtjsbackend", "qtscript"]
         },
         {
+            "name": "qtquickcontrols",
+            "repo": "upstream:qt5/qtquickcontrols",
+            "ref": "baserock/morph",
+            "build-depends": ["qtbase", "qtjsbackend", "qtdeclarative"]
+        },
+        {
+            "name": "qtsensors",
+            "repo": "upstream:qt5/qtsensors",
+            "ref": "baserock/morph",
+            "build-depends": ["qtbase"]
+        },
+        {
+            "name": "qtserialport",
+            "repo": "upstream:qt5/qtserialport",
+            "ref": "baserock/morph",
+            "build-depends": ["qtbase"]
+        },
+        {
+            "name": "qtx11extras",
+            "repo": "upstream:qt5/qtx11extras",
+            "ref": "baserock/morph",
+            "build-depends": ["qtbase"]
+        },
+        {
             "name": "qtwebkit",
             "repo": "upstream:qt5/qtwebkit",
             "ref": "baserock/morph",
