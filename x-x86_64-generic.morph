@@ -79,6 +79,12 @@
                 "xorg-lib-libfontenc"
             ]
         },
+        {                           
+            "name": "freefont-otf",
+            "repo": "upstream:freefont-otf",
+            "ref": "baserock/morph",        
+            "build-depends": []             
+        },
         {
             "name": "xorg-lib-libICE",
             "repo": "upstream:xorg-lib-libICE",
