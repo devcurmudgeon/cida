@@ -29,6 +29,7 @@
     ],
     "configuration-extensions": [
         "set-hostname",
-        "ssh"
+        "ssh",
+        "drop-config-files"
     ]
 }
