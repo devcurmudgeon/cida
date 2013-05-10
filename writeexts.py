@@ -65,6 +65,7 @@ class WriteExtension(cliapp.Application):
             version_label = 'version1'
             version_root = os.path.join(mp, 'systems', version_label)
             os.makedirs(version_root)
+            self.create_state(mp)
             self.create_orig(version_root, temp_root)
             self.create_fstab(version_root)
             self.create_run(version_root)
@@ -116,6 +117,16 @@ class WriteExtension(cliapp.Application):
     def get_ram_size(self):
         '''Parse RAM size from environment.'''
         return self._parse_size_from_environment('RAM_SIZE', '1G')
+
+    def create_state(self, real_root):
+        '''Create the state subvolumes that are shared between versions'''
+
+        self.status(msg='Creating state subvolumes')
+        os.mkdir(os.path.join(real_root, 'state'))
+        statedirs = ['home', 'opt', 'srv']
+        for statedir in statedirs:
+            dirpath = os.path.join(real_root, 'state', statedir)
+            cliapp.runcmd(['btrfs', 'subvolume', 'create', dirpath])
 
     def create_raw_disk_image(self, filename, size):
         '''Create a raw disk image.'''
