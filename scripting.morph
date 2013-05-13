@@ -2,6 +2,13 @@
     "name": "scripting",
     "kind": "stratum",
     "description": "Interpreters for scripting languages.",
+    "build-depends": [
+        {
+            "repo": "baserock:baserock/morphs",
+            "ref": "master",
+            "morph": "tools"
+        }
+    ],
     "chunks": [
         {
             "name": "lua",
