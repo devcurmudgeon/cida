@@ -53,6 +53,8 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
 
     '''
 
+    _nfsboot_root = '/srv/nfsboot'
+
     def process_args(self, args):
         if len(args) != 2:
             raise cliapp.AppException('Wrong number of command line args')
@@ -64,8 +66,12 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
                                       'with hostname "baserock"')
 
         self.test_good_server(location)
-        self.copy_kernel(temp_root, location, hostname)
-        self.copy_rootfs(temp_root, location, hostname)
+        version = 'version1'
+        versioned_root = os.path.join(self._nfsboot_root, hostname, 'systems',
+                                      version)
+        self.copy_rootfs(temp_root, location, versioned_root, hostname)
+        self.copy_kernel(temp_root, location, versioned_root, version,
+                         hostname)
         self.configure_nfs(location, hostname)
 
     def get_hostname(self, temp_root):
@@ -73,7 +79,8 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
         with open(hostnamepath) as f:
             return f.readline().strip()
 
-    def copy_kernel(self, temp_root, location, hostname):
+    def copy_kernel(self, temp_root, location, versioned_root, version,
+                    hostname):
         bootdir = os.path.join(temp_root, 'boot')
         image_names = ['vmlinuz', 'zImage', 'uImage']
         for name in image_names:
@@ -85,30 +92,86 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException(
                 'Could not find a kernel in the system: none of '
                 '%s found' % ', '.join(image_names))
-        kernel_dest = os.path.join('/srv/nfsboot/tftp', hostname)
+
+        kernel_dest = os.path.join(versioned_root, 'orig', 'kernel')
         rsync_dest = 'root@%s:%s' % (location, kernel_dest)
+        self.status(msg='Copying kernel')
         cliapp.runcmd(
             ['rsync', kernel_src, rsync_dest])
 
-    def copy_rootfs(self, temp_root, location, hostname):
+        # Link the kernel to the right place
+        self.status(msg='Creating links to kernel in tftp directory')
+        tftp_dir = os.path.join(self._nfsboot_root , 'tftp')
+        versioned_kernel_name = "%s-%s" % (hostname, version)
+        kernel_name = hostname
+        try:
+            cliapp.ssh_runcmd('root@%s' % location,
+                ['ln', '-f', kernel_dest,
+                    os.path.join(tftp_dir, versioned_kernel_name)])
+
+            cliapp.ssh_runcmd('root@%s' % location,
+                ['ln', '-sf', versioned_kernel_name,
+                    os.path.join(tftp_dir, kernel_name)])
+        except cliapp.AppException:
+            raise cliapp.AppException('Could not create symlinks to the '
+                                      'kernel at %s in %s on %s'
+                                      % (kernel_dest, tftp_dir, location))
+
+    def copy_rootfs(self, temp_root, location, versioned_root, hostname):
         rootfs_src = temp_root + '/'
-        rootfs_dest = os.path.join('/srv/nfsboot/nfs', hostname)
-        rsync_dest = 'root@%s:%s' % (location, rootfs_dest)
+        orig_path = os.path.join(versioned_root, 'orig')
+        run_path = os.path.join(versioned_root, 'run')
+
+        self.status(msg='Creating destination directories')
+        try:
+            cliapp.ssh_runcmd('root@%s' % location, 
+                              ['mkdir', '-p', orig_path, run_path])
+        except cliapp.AppException:
+            raise cliapp.AppException('Could not create dirs %s and %s on %s'
+                                      % (orig_path, run_path, location))
+
+        self.status(msg='Creating \'orig\' rootfs')
         cliapp.runcmd(
-            ['rsync', '-aXSPH', '--delete', rootfs_src, rsync_dest])
+            ['rsync', '-aXSPH', '--delete', rootfs_src,
+             'root@%s:%s' % (location, orig_path)])
+
+        self.status(msg='Creating \'run\' rootfs')
+        try:
+            cliapp.ssh_runcmd('root@%s' % location,
+                              ['rm', '-rf', run_path])
+            cliapp.ssh_runcmd('root@%s' % location,
+                              ['cp', '-al', orig_path, run_path])
+            cliapp.ssh_runcmd('root@%s' % location,
+                              ['rm', '-rf', os.path.join(run_path, 'etc')])
+            cliapp.ssh_runcmd('root@%s' % location,
+                              ['cp', '-a', os.path.join(orig_path, 'etc'),
+                               os.path.join(run_path, 'etc')])
+        except cliapp.AppException:
+            raise cliapp.AppException('Could not create \'run\' rootfs'
+                                      ' from \'orig\'')
+
+        self.status(msg='Linking \'default-run\' to latest system')
+        try:
+            cliapp.ssh_runcmd('root@%s' % location,
+                ['ln', '-sfn', run_path,
+                    os.path.join(self._nfsboot_root, hostname, 'systems',
+                                 'default-run')])
+        except cliapp.AppException:
+            raise cliapp.AppException('Could not link \'default-run\' to %s'
+                                      % run_path)
 
     def configure_nfs(self, location, hostname):
-        rootfs_dest = os.path.join('/srv/nfsboot/nfs', hostname)
+        exported_path = os.path.join(self._nfsboot_root, hostname)
         exports_path = '/etc/exports'
         # If that path is not already exported:
         try:
             cliapp.ssh_runcmd(
-                'root@%s' % location, ['grep', '-q', rootfs_dest,
+                'root@%s' % location, ['grep', '-q', exported_path,
                                        exports_path])
         except cliapp.AppException:
             ip_mask = '*'
             options = 'rw,no_subtree_check,no_root_squash,async'
-            exports_string = '%s %s(%s)\n' % (rootfs_dest, ip_mask, options)
+            exports_string = '%s %s(%s)\n' % (exported_path, ip_mask, options)
             exports_append_sh = '''\
 set -eu
 target="$1"
