@@ -1,0 +1,58 @@
+name: enlightenment
+description: Enlightenment Desktop and Window Manager
+kind: stratum
+build-depends:
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: tools
+- repo: baserock:baserock/morphs
+  ref: richarddale/qt5-sdk
+  morph: x-x86_64-generic
+- repo: baserock:baserock/morphs
+  ref: richarddale/qt5-sdk
+  morph: scripting
+chunks:
+- name: efl
+  repo: upstream:enlightenment/efl
+  ref: baserock/morph
+  build-depends: []
+- name: elementary
+  repo: upstream:enlightenment/elementary
+  ref: baserock/morph
+  build-depends:
+  - efl
+- name: evas_generic_loaders
+  repo: upstream:enlightenment/evas_generic_loaders
+  ref: baserock/morph
+  build-depends:
+  - efl
+- name: enlightenment
+  repo: upstream:enlightenment/enlightenment
+  ref: baserock/morph
+  build-depends:
+  - efl
+  - elementary
+- name: imlib2
+  repo: upstream:enlightenment/imlib2
+  ref: baserock/morph
+  build-depends:
+  - efl
+  - elementary
+  - enlightenment
+- name: libast
+  repo: upstream:enlightenment/libast
+  ref: baserock/morph
+  build-depends:
+  - efl
+  - elementary
+  - enlightenment
+  - imlib2
+- name: eterm
+  repo: upstream:enlightenment/eterm
+  ref: baserock/morph
+  build-depends:
+  - efl
+  - elementary
+  - enlightenment
+  - libast
+  - imlib2
