@@ -62,6 +62,7 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         
         temp_root, location = args
         ssh_host, vm_name, vdi_path = self.parse_location(location)
+        autostart = self.parse_autostart()
         
         fd, raw_disk = tempfile.mkstemp()
         os.close(fd)
@@ -70,7 +71,8 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         try:
             self.transfer_and_convert_to_vdi(
                 raw_disk, ssh_host, vdi_path)
-            self.create_virtualbox_guest(ssh_host, vm_name, vdi_path)
+            self.create_virtualbox_guest(ssh_host, vm_name, vdi_path,
+                                         autostart)
         except BaseException:
             sys.stderr.write('Error deploying to VirtualBox')
             os.remove(raw_disk)
@@ -105,7 +107,7 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
                  str(os.path.getsize(raw_disk))],
                 stdin=f)
 
-    def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path):
+    def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path, autostart):
         '''Create the VirtualBox virtual machine.'''
         
         self.status(msg='Create VirtualBox virtual machine')
@@ -133,6 +135,9 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
                    '--type', 'hdd', 
                    '--medium', disk]
             commands.append(cmd)
+
+        if autostart:
+            commands.append(['startvm', vm_name])
 
         for command in commands:
             argv = ['ssh', ssh_host, 'VBoxManage'] + command

@@ -56,6 +56,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         
         temp_root, location = args
         ssh_host, vm_name, vm_path = self.parse_location(location)
+        autostart = self.parse_autostart()
         
         fd, raw_disk = tempfile.mkstemp()
         os.close(fd)
@@ -63,7 +64,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         
         try:
             self.transfer(raw_disk, ssh_host, vm_path)
-            self.create_libvirt_guest(ssh_host, vm_name, vm_path)
+            self.create_libvirt_guest(ssh_host, vm_name, vm_path, autostart)
         except BaseException:
             sys.stderr.write('Error deploying to libvirt')
             os.remove(raw_disk)
@@ -95,7 +96,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         with open(raw_disk, 'rb') as f:
             cliapp.runcmd(['rsync', '-zS', raw_disk, target])
 
-    def create_libvirt_guest(self, ssh_host, vm_name, vm_path):
+    def create_libvirt_guest(self, ssh_host, vm_name, vm_path, autostart):
         '''Create the libvirt virtual machine.'''
         
         self.status(msg='Creating libvirt/kvm virtual machine')
@@ -107,13 +108,13 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
         ram_mebibytes = str(self.get_ram_size() / (1024**2))
 
-        cliapp.runcmd(
-            ['ssh', ssh_host, 
-             'virt-install', '--connect qemu:///system', '--import',
-             '--name', vm_name, '--vnc', '--noreboot',
-             '--ram=%s' % ram_mebibytes,
-             '--disk path=%s,bus=ide' % vm_path] + 
-            attach_opts)
+        cmdline = ['ssh', ssh_host, 
+                   'virt-install', '--connect qemu:///system', '--import',
+                   '--name', vm_name, '--vnc', '--ram=%s' % ram_mebibytes,
+                   '--disk path=%s,bus=ide' % vm_path] + attach_opts
+        if not autostart:
+            cmdline += '--noreboot'
+        cliapp.runcmd(cmdline)
 
 
 KvmPlusSshWriteExtension().run()
