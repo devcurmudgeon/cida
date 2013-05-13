@@ -4,15 +4,20 @@
     "kind": "stratum",
     "build-depends": [
         {
-        "repo": "baserock:baserock/morphs",
-        "ref": "master",
-        "morph": "tools"
-       },
-       {
-        "repo": "baserock:baserock/morphs",
-        "ref": "richarddale/qt5-tools",
-        "morph": "x-x86_64-generic"
-       }
+            "repo": "baserock:baserock/morphs",
+            "ref": "master",
+            "morph": "tools"
+        },
+        {
+            "repo": "baserock:baserock/morphs",
+            "ref": "richarddale/qt5-sdk",
+            "morph": "x-x86_64-generic"
+        },
+        {
+            "repo": "baserock:baserock/morphs",
+            "ref": "master",
+            "morph": "multimedia"
+        }
     ],
     "chunks": [
         {
@@ -37,134 +42,182 @@
             "name": "ruby-1.9",
             "repo": "upstream:ruby",
             "ref": "baserock/morph/ruby_1_9_3",
-            "build-depends": ["ruby-1.8"]
+            "build-depends": [
+                "ruby-1.8"
+            ]
         },
         {
             "name": "qtbase",
             "repo": "upstream:qt5/qtbase",
             "ref": "baserock/morph",
-            "build-depends": ["icu"]
+            "build-depends": [
+                "icu"
+            ]
         },
         {
             "name": "qtsvg",
             "repo": "upstream:qt5/qtsvg",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase"]
+            "build-depends": [
+                "qtbase"
+            ]
         },
         {
             "name": "qtjsbackend",
             "repo": "upstream:qt5/qtjsbackend",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase"]
+            "build-depends": [
+                "qtbase"
+            ]
         },
         {
             "name": "qtscript",
             "repo": "upstream:qt5/qtscript",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase", "qtjsbackend"]
+            "build-depends": [
+                "qtbase",
+                "qtjsbackend"
+            ]
         },
         {
             "name": "qtdeclarative",
             "repo": "upstream:qt5/qtdeclarative",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase", "qtjsbackend", "qtscript"]
+            "build-depends": [
+                "qtbase",
+                "qtjsbackend",
+                "qtscript"
+            ]
         },
         {
             "name": "qtquick1",
             "repo": "upstream:qt5/qtquick1",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase", "qtjsbackend", "qtscript"]
+            "build-depends": [
+                "qtbase",
+                "qtjsbackend",
+                "qtscript"
+            ]
         },
         {
             "name": "qtquickcontrols",
             "repo": "upstream:qt5/qtquickcontrols",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase", "qtjsbackend", "qtdeclarative"]
+            "build-depends": [
+                "qtbase",
+                "qtjsbackend",
+                "qtdeclarative"
+            ]
         },
         {
             "name": "qtsensors",
             "repo": "upstream:qt5/qtsensors",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase"]
+            "build-depends": [
+                "qtbase"
+            ]
         },
         {
             "name": "qtserialport",
             "repo": "upstream:qt5/qtserialport",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase"]
+            "build-depends": [
+                "qtbase"
+            ]
         },
         {
             "name": "qtx11extras",
             "repo": "upstream:qt5/qtx11extras",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase"]
+            "build-depends": [
+                "qtbase"
+            ]
         },
         {
             "name": "qtwebkit",
             "repo": "upstream:qt5/qtwebkit",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase", "sqlite3", "icu", "ruby-1.9", "qtjsbackend", "qtdeclarative"]
+            "build-depends": [
+                "qtbase",
+                "sqlite3",
+                "icu",
+                "ruby-1.9",
+                "qtjsbackend",
+                "qtdeclarative"
+            ]
         },
         {
             "name": "qtwebkit-examples",
             "repo": "upstream:qt5/qtwebkit-examples",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase", "qtjsbackend", "qtdeclarative", "qtwebkit"]
+            "build-depends": [
+                "qtbase",
+                "qtjsbackend",
+                "qtdeclarative",
+                "qtwebkit"
+            ]
         },
         {
             "name": "qtmultimedia",
             "repo": "upstream:qt5/qtmultimedia",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase"]
+            "build-depends": [
+                "qtbase"
+            ]
         },
         {
             "name": "qtxmlpatterns",
             "repo": "upstream:qt5/qtxmlpatterns",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase"]
+            "build-depends": [
+                "qtbase"
+            ]
         },
         {
             "name": "qtdoc",
             "repo": "upstream:qt5/qtdoc",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase"]
+            "build-depends": [
+                "qtbase"
+            ]
         },
         {
             "name": "qtgraphicaleffects",
             "repo": "upstream:qt5/qtgraphicaleffects",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase", "qtjsbackend", "qtdeclarative"]
+            "build-depends": [
+                "qtbase",
+                "qtjsbackend",
+                "qtdeclarative"
+            ]
         },
         {
             "name": "qtimageformats",
             "repo": "upstream:qt5/qtimageformats",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase"]
+            "build-depends": [
+                "qtbase"
+            ]
         },
         {
             "name": "qttools",
             "repo": "upstream:qt5/qttools",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase", "qtjsbackend", "qtdeclarative", "qtwebkit"]
+            "build-depends": [
+                "qtbase",
+                "qtjsbackend",
+                "qtdeclarative",
+                "qtwebkit"
+            ]
         },
         {
             "name": "qttranslations",
             "repo": "upstream:qt5/qttranslations",
             "ref": "baserock/morph",
-            "build-depends": ["qtbase", "qttools"]
-        },
-        {
-            "name": "qt-creator",
-            "repo": "upstream:qt-creator",
-            "ref": "baserock/morph/2.7",
-            "build-depends": ["qtbase", "qtjsbackend", "qtquick1", "qtdeclarative", "qttools", "qtwebkit", "qtxmlpatterns"]
-        },
-        {
-            "name": "snowshoe",
-            "repo": "upstream:snowshoe",
-            "ref": "baserock/morph",
-            "build-depends": ["qtbase", "qtjsbackend", "qtdeclarative", "qtwebkit"]
+            "build-depends": [
+                "qtbase",
+                "qttools"
+            ]
         }
     ]
 }
-
