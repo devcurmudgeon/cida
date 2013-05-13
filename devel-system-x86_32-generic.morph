@@ -34,6 +34,7 @@
     ],
     "configuration-extensions": [
         "set-hostname",
-        "ssh"
+        "ssh",
+        "add-config-files"
     ]
 }
