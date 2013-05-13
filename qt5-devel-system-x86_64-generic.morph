@@ -1,0 +1,60 @@
+{
+    "name": "qt5-devel-system-x86_64",
+    "description": "A system that is able to build other systems based on the 64-bit x86 architecture.",
+    "kind": "system",
+    "system-kind": "rootfs-tarball",
+    "arch": "x86_64",
+    "disk-size": "2G",
+    "strata": [
+        {
+            "morph": "build-essential",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "bsp-x86_64-generic",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "tools",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "x-common",
+            "repo": "baserock:baserock/morphs",
+            "ref": "richarddale/qt5-sdk"
+        },
+        {
+            "morph": "x-x86_64-generic",
+            "repo": "baserock:baserock/morphs",
+            "ref": "richarddale/qt5-sdk"
+        },
+        {
+            "morph": "qt5-tools",
+            "repo": "baserock:baserock/morphs",
+            "ref": "richarddale/qt5-sdk"
+        },
+        {
+            "morph": "qt5-sdk",
+            "repo": "baserock:baserock/morphs",
+            "ref": "richarddale/qt5-sdk"
+        },
+        {
+            "morph": "enlightenment",
+            "repo": "baserock:baserock/morphs",
+            "ref": "richarddale/qt5-sdk"
+        }
+    ]
+}
