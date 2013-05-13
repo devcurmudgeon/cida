@@ -62,10 +62,15 @@ class WriteExtension(cliapp.Application):
             os.remove(raw_disk)
             raise
         try:
-            self.create_factory(mp, temp_root)
-            self.create_fstab(mp)
-            self.create_factory_run(mp)
+            version_label = 'version1'
+            version_root = os.path.join(mp, 'systems', version_label)
+            os.makedirs(version_root)
+            self.create_state(mp)
+            self.create_orig(version_root, temp_root)
+            self.create_fstab(version_root)
+            self.create_run(version_root)
             if self.bootloader_is_wanted():
+                self.install_kernel(version_root, temp_root)
                 self.install_extlinux(mp)
         except BaseException, e:
             sys.stderr.write('Error creating disk image')
@@ -113,6 +118,16 @@ class WriteExtension(cliapp.Application):
         '''Parse RAM size from environment.'''
         return self._parse_size_from_environment('RAM_SIZE', '1G')
 
+    def create_state(self, real_root):
+        '''Create the state subvolumes that are shared between versions'''
+
+        self.status(msg='Creating state subvolumes')
+        os.mkdir(os.path.join(real_root, 'state'))
+        statedirs = ['home', 'opt', 'srv']
+        for statedir in statedirs:
+            dirpath = os.path.join(real_root, 'state', statedir)
+            cliapp.runcmd(['btrfs', 'subvolume', 'create', dirpath])
+
     def create_raw_disk_image(self, filename, size):
         '''Create a raw disk image.'''
 
@@ -152,36 +167,30 @@ class WriteExtension(cliapp.Application):
         cliapp.runcmd(['umount', mount_point])
         os.rmdir(mount_point)
 
-    def create_factory(self, real_root, temp_root):
+    def create_orig(self, version_root, temp_root):
         '''Create the default "factory" system.'''
 
-        factory = os.path.join(real_root, 'factory')
+        orig = os.path.join(version_root, 'orig')
 
-        self.status(msg='Creating factory subvolume')
-        cliapp.runcmd(['btrfs', 'subvolume', 'create', factory])
-        self.status(msg='Copying files to factory subvolume')
-        cliapp.runcmd(['cp', '-a', temp_root + '/.', factory + '/.'])
+        self.status(msg='Creating orig subvolume')
+        cliapp.runcmd(['btrfs', 'subvolume', 'create', orig])
+        self.status(msg='Copying files to orig subvolume')
+        cliapp.runcmd(['cp', '-a', temp_root + '/.', orig + '/.'])
 
-        # The kernel needs to be on the root volume.
-        self.status(msg='Copying boot directory to root subvolume')
-        factory_boot = os.path.join(factory, 'boot')
-        root_boot = os.path.join(real_root, 'boot')
-        cliapp.runcmd(['cp', '-a', factory_boot, root_boot])
-        
-    def create_factory_run(self, real_root):
-        '''Create the 'factory-run' snapshot.'''
+    def create_run(self, version_root):
+        '''Create the 'run' snapshot.'''
 
-        self.status(msg='Creating factory-run subvolume')
-        factory = os.path.join(real_root, 'factory')
-        factory_run = factory + '-run'
+        self.status(msg='Creating run subvolume')
+        orig = os.path.join(version_root, 'orig')
+        run = os.path.join(version_root, 'run')
         cliapp.runcmd(
-            ['btrfs', 'subvolume', 'snapshot', factory, factory_run])
+            ['btrfs', 'subvolume', 'snapshot', orig, run])
 
-    def create_fstab(self, real_root):
+    def create_fstab(self, version_root):
         '''Create an fstab.'''
 
         self.status(msg='Creating fstab')
-        fstab = os.path.join(real_root, 'factory', 'etc', 'fstab')
+        fstab = os.path.join(version_root, 'orig', 'etc', 'fstab')
 
         if os.path.exists(fstab):
             with open(fstab, 'r') as f:
@@ -201,6 +210,18 @@ class WriteExtension(cliapp.Application):
         with open(fstab, 'w') as f:
             f.write(contents)
 
+    def install_kernel(self, version_root, temp_root):
+        '''Install the kernel outside of 'orig' or 'run' subvolumes'''
+
+        self.status(msg='Installing kernel')
+        image_names = ['vmlinuz', 'zImage', 'uImage']
+        kernel_dest = os.path.join(version_root, 'linux')
+        for name in image_names:
+            try_path = os.path.join(temp_root, 'boot', name)
+            if os.path.exists(try_path):
+                cliapp.runcmd(['cp', '-a', try_path, kernel_dest])
+                break
+
     def install_extlinux(self, real_root):
         '''Install extlinux on the newly created disk image.'''
 
@@ -210,8 +231,9 @@ class WriteExtension(cliapp.Application):
             f.write('default linux\n')
             f.write('timeout 1\n')
             f.write('label linux\n')
-            f.write('kernel /boot/vmlinuz\n')
-            f.write('append root=/dev/sda rootflags=subvol=factory-run '
+            f.write('kernel /systems/version1/linux\n')
+            f.write('append root=/dev/sda '
+                    'rootflags=subvol=systems/version1/run '
                     'init=/sbin/init rw\n')
 
         self.status(msg='Installing extlinux')
