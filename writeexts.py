@@ -215,7 +215,7 @@ class WriteExtension(cliapp.Application):
 
         self.status(msg='Installing kernel')
         image_names = ['vmlinuz', 'zImage', 'uImage']
-        kernel_dest = os.path.join(version_root, 'linux')
+        kernel_dest = os.path.join(version_root, 'kernel')
         for name in image_names:
             try_path = os.path.join(temp_root, 'boot', name)
             if os.path.exists(try_path):
@@ -231,7 +231,7 @@ class WriteExtension(cliapp.Application):
             f.write('default linux\n')
             f.write('timeout 1\n')
             f.write('label linux\n')
-            f.write('kernel /systems/version1/linux\n')
+            f.write('kernel /systems/version1/kernel\n')
             f.write('append root=/dev/sda '
                     'rootflags=subvol=systems/version1/run '
                     'init=/sbin/init rw\n')
