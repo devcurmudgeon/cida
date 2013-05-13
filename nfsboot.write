@@ -95,7 +95,7 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
         rootfs_dest = os.path.join('/srv/nfsboot/nfs', hostname)
         rsync_dest = 'root@%s:%s' % (location, rootfs_dest)
         cliapp.runcmd(
-            ['rsync', '-a', rootfs_src, rsync_dest])
+            ['rsync', '-aXSPH', '--delete', rootfs_src, rsync_dest])
 
     def configure_nfs(self, location, hostname):
         rootfs_dest = os.path.join('/srv/nfsboot/nfs', hostname)
