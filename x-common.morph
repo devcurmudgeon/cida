@@ -452,6 +452,44 @@
                 "xorg-proto-damageproto",
                 "xorg-util-macros"
             ]
+        },
+        {
+            "name": "xorg-lib-libXcursor",
+            "repo": "upstream:xorg-lib-libXcursor",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "xorg-util-macros", 
+                "xorg-lib-libXrender",
+                "xorg-lib-libXfixes",
+                "xorg-proto-fixesproto",
+                "xorg-lib-libXau",
+                "xorg-lib-libX11"]
+        },
+        {
+            "name": "xorg-proto-printproto",
+            "repo": "upstream:xorg-proto-printproto",
+            "ref": "baserock/morph",
+            "build-depends": ["xorg-util-macros"]
+        },
+        {
+            "name": "xorg-lib-libXp",
+            "repo": "upstream:xorg-lib-libXp",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "xorg-proto-printproto",
+                "xorg-proto-xextproto",
+                "xorg-lib-libXext",
+                "xorg-lib-libX11"]
+        },
+        {
+            "name": "xorg-lib-libXScrnSaver",
+            "repo": "upstream:xorg-lib-libXScrnSaver",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "xorg-proto-scrnsaverproto",
+                "xorg-proto-xextproto",
+                "xorg-lib-libXext",
+                "xorg-lib-libX11"]
         }
     ]
 }
