@@ -1,0 +1,20 @@
+{
+    "name": "lua",
+    "kind": "stratum",
+    "description": "Interpreter for the lua scripting language.",
+    "build-depends": [
+        {
+            "repo": "baserock:baserock/morphs",
+            "ref": "master",
+            "morph": "tools"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "lua",
+            "repo": "upstream:lua",
+            "ref": "baserock/5.1-morph",
+            "build-depends": []
+        }
+    ]
+}
