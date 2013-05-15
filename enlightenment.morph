@@ -6,10 +6,10 @@ build-depends:
   ref: master
   morph: tools
 - repo: baserock:baserock/morphs
-  ref: richarddale/qt5-sdk
+  ref: master
   morph: x-x86_64-generic
 - repo: baserock:baserock/morphs
-  ref: richarddale/qt5-sdk
+  ref: master
   morph: lua
 chunks:
 - name: efl

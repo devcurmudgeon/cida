@@ -34,27 +34,27 @@
         {
             "morph": "x-common",
             "repo": "baserock:baserock/morphs",
-            "ref": "richarddale/qt5-sdk"
+            "ref": "master"
         },
         {
             "morph": "x-x86_64-generic",
             "repo": "baserock:baserock/morphs",
-            "ref": "richarddale/qt5-sdk"
+            "ref": "master"
         },
         {
             "morph": "qt5-tools",
             "repo": "baserock:baserock/morphs",
-            "ref": "richarddale/qt5-sdk"
+            "ref": "master"
         },
         {
             "morph": "qt5-sdk",
             "repo": "baserock:baserock/morphs",
-            "ref": "richarddale/qt5-sdk"
+            "ref": "master"
         },
         {
             "morph": "enlightenment",
             "repo": "baserock:baserock/morphs",
-            "ref": "richarddale/qt5-sdk"
+            "ref": "master"
         }
     ]
 }
