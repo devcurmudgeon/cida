@@ -271,6 +271,14 @@
                 "gettext",
                 "libtool"
             ]
+        },
+        {
+            "name": "nano",
+            "repo": "upstream:nano-tarball",
+            "ref": "baserock/morph",
+            "build-depends": [
+                "ncurses"
+            ]
         }
     ]
 }
