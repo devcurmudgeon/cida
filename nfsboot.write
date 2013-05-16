@@ -66,13 +66,26 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
                                       'with hostname "baserock"')
 
         self.test_good_server(location)
-        version = 'version1'
+        version = os.environ['VERSION'] or 'version1'
         versioned_root = os.path.join(self._nfsboot_root, hostname, 'systems',
                                       version)
+        if self.version_exists(versioned_root, location):
+            raise cliapp.AppException('Version %s already exists on'
+                                      ' this device. Deployment aborted'
+                                      % version)
         self.copy_rootfs(temp_root, location, versioned_root, hostname)
         self.copy_kernel(temp_root, location, versioned_root, version,
                          hostname)
         self.configure_nfs(location, hostname)
+
+    def version_exists(self, versioned_root, location):
+        try:
+            cliapp.ssh_runcmd('root@%s' % location,
+                ['test', '-d', versioned_root])
+        except cliapp.AppException:
+            return False
+
+        return True
 
     def get_hostname(self, temp_root):
         hostnamepath = os.path.join(temp_root, 'etc', 'hostname')
