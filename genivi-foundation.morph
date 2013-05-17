@@ -46,14 +46,6 @@
             "build-depends": [
                 "gmp"
             ]
-        },
-        {
-            "name": "gnutls",
-            "repo": "upstream:gnutls",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "nettle"
-            ]
         }
     ]
 }
