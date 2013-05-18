@@ -52,6 +52,11 @@
             "ref": "master"
         },
         {
+            "morph": "lua",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
             "morph": "enlightenment",
             "repo": "baserock:baserock/morphs",
             "ref": "master"
