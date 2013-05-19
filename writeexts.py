@@ -71,7 +71,7 @@ class WriteExtension(cliapp.Application):
             self.create_run(version_root)
             if self.bootloader_is_wanted():
                 self.install_kernel(version_root, temp_root)
-                self.install_extlinux(mp)
+                self.install_extlinux(mp, version_label)
         except BaseException, e:
             sys.stderr.write('Error creating disk image')
             self.unmount(mp)
@@ -222,7 +222,7 @@ class WriteExtension(cliapp.Application):
                 cliapp.runcmd(['cp', '-a', try_path, kernel_dest])
                 break
 
-    def install_extlinux(self, real_root):
+    def install_extlinux(self, real_root, version_label):
         '''Install extlinux on the newly created disk image.'''
 
         self.status(msg='Creating extlinux.conf')
@@ -231,9 +231,9 @@ class WriteExtension(cliapp.Application):
             f.write('default linux\n')
             f.write('timeout 1\n')
             f.write('label linux\n')
-            f.write('kernel /systems/version1/kernel\n')
+            f.write('kernel /systems/' + version_label + '/kernel\n')
             f.write('append root=/dev/sda '
-                    'rootflags=subvol=systems/version1/run '
+                    'rootflags=subvol=systems/' + version_label + '/run '
                     'init=/sbin/init rw\n')
 
         self.status(msg='Installing extlinux')
