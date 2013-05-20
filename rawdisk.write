@@ -18,6 +18,7 @@
 '''A Morph deployment write extension for raw disk images.'''
 
 
+import cliapp
 import os
 import sys
 import time
@@ -30,8 +31,10 @@ class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
 
     '''Create a raw disk image during Morph's deployment.
     
+    If the image already exists, it is upgraded.
+
     The location command line argument is the pathname of the disk image
-    to be created.
+    to be created/upgraded.
     
     '''
 
@@ -40,9 +43,52 @@ class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException('Wrong number of command line args')
         
         temp_root, location = args
-        
-        self.create_local_system(temp_root, location)
-        self.status(msg='Disk image has been created at %s' % location)
+        if os.path.isfile(location):
+            self.upgrade_local_system(location, temp_root)
+        else:
+            self.create_local_system(temp_root, location)
+            self.status(msg='Disk image has been created at %s' % location)
+
+    def upgrade_local_system(self, raw_disk, temp_root):
+        mp = self.mount(raw_disk)
+
+        version_label = self.get_version_label(mp)
+        self.status(msg='Updating image to a new version with label %s' %
+                    version_label)
+
+        version_root = os.path.join(mp, 'systems', version_label)
+        os.mkdir(version_root)
+
+        old_orig = os.path.join(mp, 'systems', 'version1', 'orig')
+        new_orig = os.path.join(version_root, 'orig')
+        cliapp.runcmd(
+            ['btrfs', 'subvolume', 'snapshot', old_orig, new_orig])
+
+        cliapp.runcmd(
+            ['rsync', '-a', '--checksum', '--numeric-ids', '--delete',
+             temp_root + os.path.sep, new_orig])
+
+        self.create_run(version_root)
+
+        if self.bootloader_is_wanted():
+            self.install_kernel(version_root, temp_root)
+            self.install_extlinux(mp, version_label)
+
+        self.unmount(mp)
+
+    def get_version_label(self, mp):
+        version_label = os.environ.get('VERSION_LABEL')
+
+        if version_label is None:
+            self.unmount(mp)
+            raise cliapp.AppException('VERSION_LABEL was not given')
+
+        if os.path.exists(os.path.join(mp, 'systems', version_label)):
+            self.unmount(mp)
+            raise cliapp.AppException('VERSION_LABEL %s already exists'
+                                      % version_label)
+
+        return version_label
 
 
 RawDiskWriteExtension().run()
