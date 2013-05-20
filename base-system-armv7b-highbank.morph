@@ -1,0 +1,30 @@
+{
+    "name": "base-system-armv7b-highbank",
+    "description": "The set of strata required to have a minimal system for an ARM highbank system.",
+    "kind": "system",
+    "system-kind": "rootfs-tarball",
+    "arch": "armv7b",
+    "disk-size": "2G",
+    "strata": [
+        {
+            "morph": "build-essential",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "core",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "foundation",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        },
+        {
+            "morph": "bsp-armv7b-highbank",
+            "repo": "baserock:baserock/morphs",
+            "ref": "master"
+        }
+    ]
+}

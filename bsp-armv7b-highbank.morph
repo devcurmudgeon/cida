@@ -1,0 +1,20 @@
+{
+    "name": "bsp-armv7b-highbank",
+    "description": "The platform dependent components required to boot an ARM highbank board.",
+    "kind": "stratum",
+    "build-depends": [
+        {
+            "repo": "baserock:baserock/morphs",
+            "ref": "master",
+            "morph": "core"
+        }
+    ],
+    "chunks": [
+        {
+            "name": "linux",
+            "repo": "upstream:linux",
+            "ref": "baserock/arm/highbank-be",
+            "build-depends": []
+        }
+    ]
+}
