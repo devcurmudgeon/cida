@@ -61,14 +61,6 @@
             "build-depends": []
         },
         {
-            "name": "readline",
-            "repo": "upstream:readline",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "ncurses"
-            ]
-        },
-        {
             "name": "texinfo-tarball",
             "repo": "upstream:texinfo-tarball",
             "ref": "baserock/morph",
@@ -99,9 +91,7 @@
             "name": "bash",
             "repo": "upstream:bash",
             "ref": "baserock/morph",
-            "build-depends": [
-                "readline"
-            ]
+            "build-depends": []
         },
         {
             "name": "error-perl-tarball",
