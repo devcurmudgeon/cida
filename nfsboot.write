@@ -92,6 +92,14 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
         with open(hostnamepath) as f:
             return f.readline().strip()
 
+    def create_local_state(self, location, hostname):
+        statedir = os.path.join(self._nfsboot_root, hostname, 'state')
+        subdirs = [os.path.join(statedir, 'home'),
+                   os.path.join(statedir, 'opt'),
+                   os.path.join(statedir, 'srv')]
+        cliapp.ssh_runcmd('root@%s' % location,
+                          ['mkdir', '-p'] + subdirs)
+
     def copy_kernel(self, temp_root, location, versioned_root, version,
                     hostname):
         bootdir = os.path.join(temp_root, 'boot')
