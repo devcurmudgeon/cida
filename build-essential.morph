@@ -47,7 +47,7 @@
         {
             "name": "stage2-zlib",
             "repo": "upstream:zlib",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/richardmaw/build-essential-changes-merge",
             "build-mode": "bootstrap",
             "prefix": "/tools",
             "build-depends": [
@@ -165,7 +165,7 @@
         {
             "name": "eglibc",
             "repo": "upstream:eglibc2",
-            "ref": "baserock/2.15-build-essential",
+            "ref": "baserock/richardmaw/build-essential-changes-merge",
             "build-mode": "staging",
             "prefix": "/usr",
             "build-depends": [
@@ -261,7 +261,7 @@
         {
             "name": "gcc",
             "repo": "upstream:gcc-tarball",
-            "ref": "baserock/build-essential",
+            "ref": "baserock/richardmaw/build-essential-changes-merge",
             "build-mode": "staging",
             "prefix": "/usr",
             "build-depends": [

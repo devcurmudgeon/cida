@@ -9,22 +9,22 @@
         {
             "morph": "build-essential",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/richardmaw/build-essential-changes-merge"
         },
         {
             "morph": "core",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/richardmaw/build-essential-changes-merge"
         },
         {
             "morph": "foundation",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/richardmaw/build-essential-changes-merge"
         },
         {
             "morph": "bsp-x86_64-generic",
             "repo": "baserock:baserock/morphs",
-            "ref": "master"
+            "ref": "baserock/richardmaw/build-essential-changes-merge"
         }
     ],
     "configuration-extensions": [
