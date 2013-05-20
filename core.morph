@@ -129,7 +129,6 @@
             "ref": "baserock/morph-2.7",
             "build-depends": [
                 "openssl",
-                "readline",
                 "bzip2"
             ]
         },
