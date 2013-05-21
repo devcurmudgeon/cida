@@ -11,12 +11,6 @@
     ],
     "chunks": [
         {
-            "name": "lzo",
-            "repo": "upstream:lzo",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
             "name": "patch",
             "repo": "upstream:patch",
             "ref": "baserock/morph",
@@ -87,9 +81,7 @@
             "name": "distcc",
             "repo": "upstream:distcc",
             "ref": "baserock/morph",
-            "build-depends": [
-                "lzo"
-            ]
+            "build-depends": []
         },
         {
             "name": "e2fsprogs",

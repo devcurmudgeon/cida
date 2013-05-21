@@ -100,11 +100,18 @@
             ]
         },
         {
+            "name": "lzo",
+            "repo": "upstream:lzo",
+            "ref": "baserock/morph",
+            "build-depends": []
+        },
+        {
             "name": "btrfs-progs",
             "repo": "upstream:btrfs-progs",
             "ref": "baserock/morph",
             "build-depends": [
-                "attr"
+                "attr",
+                "lzo"
             ]
         },
         {
