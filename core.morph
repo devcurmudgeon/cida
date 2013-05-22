@@ -5,7 +5,7 @@
     "build-depends": [
         {
             "repo": "baserock:baserock/morphs",
-            "ref": "baserock/richardmaw/build-essential-changes-merge",
+            "ref": "master",
             "morph": "build-essential"
         }
     ],
