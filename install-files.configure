@@ -81,6 +81,7 @@ class InstallFilesConfigureExtension(cliapp.Application):
             else:
                 os.mkdir(dest_path, mode)
                 os.chown(dest_path, uid, gid)
+                os.chmod(dest_path, mode)
 
         elif stat.S_ISLNK(mode):
             if os.path.lexists(dest_path):
@@ -93,14 +94,14 @@ class InstallFilesConfigureExtension(cliapp.Application):
                 os.lchown(dest_path, uid, gid)
 
         elif stat.S_ISREG(mode):
-            if os.path.exists(dest_path):
+            if os.path.lexists(dest_path):
                 raise cliapp.AppException('File already exists at %s'
                                            % dest_path)
             else:
                 shutil.copyfile(os.path.join(manifest_root, './' + path),
                                 dest_path)
-                os.chmod(dest_path, mode)
                 os.chown(dest_path, uid, gid)
+                os.chmod(dest_path, mode)
 
         else:
             raise cliapp.AppException('Mode given in "%s" is not a file,'
