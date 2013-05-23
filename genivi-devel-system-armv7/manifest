@@ -1,0 +1,5 @@
+0040755 0 0 /src
+0040755 0 0 /src/tmp
+0100666 0 0 /src/morph.conf
+0040755 0 0 /etc
+0120666 0 0 /etc/morph.conf
