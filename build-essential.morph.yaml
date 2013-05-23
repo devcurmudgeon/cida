@@ -52,16 +52,6 @@ chunks:
           - stage1-gcc
           - stage2-linux-api-headers
 
-    - name: stage2-zlib
-      repo: upstream:zlib
-      ref: baserock/build-essential
-      build-mode: bootstrap
-      prefix: /tools
-      build-depends:
-          - stage1-binutils
-          - stage1-gcc
-          - stage2-eglibc
-
     - name: stage2-binutils
       repo: upstream:binutils-redhat
       ref: baserock/build-essential
@@ -71,7 +61,6 @@ chunks:
           - stage1-binutils
           - stage1-gcc
           - stage2-eglibc
-          - stage2-zlib
 
     - name: stage2-gcc
       repo: upstream:gcc-tarball
@@ -82,7 +71,6 @@ chunks:
           - stage1-binutils
           - stage1-gcc
           - stage2-eglibc
-          - stage2-zlib
 
     - name: stage2-busybox
       repo: upstream:busybox
@@ -151,7 +139,6 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
-          - stage2-zlib
 
     - name: linux-api-headers
       repo: upstream:linux
@@ -167,7 +154,6 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
-          - stage2-zlib
 
     - name: eglibc
       repo: upstream:eglibc2
@@ -183,7 +169,6 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
-          - stage2-zlib
           - linux-api-headers
 
     - name: zlib
@@ -200,7 +185,6 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
-          - stage2-zlib
           - eglibc
 
     - name: binutils
@@ -217,7 +201,6 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
-          - stage2-zlib
           - eglibc
           - zlib
 
@@ -235,7 +218,6 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
-          - stage2-zlib
           - eglibc
 
     - name: gawk
@@ -252,7 +234,6 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
-          - stage2-zlib
           - eglibc
 
     - name: gcc
@@ -269,7 +250,6 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
-          - stage2-zlib
           - eglibc
           - zlib
 
@@ -287,7 +267,6 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
-          - stage2-zlib
           - eglibc
 
     # Extras that need to be in build-essential but don't need bootstrapping.
@@ -306,6 +285,5 @@ chunks:
           - stage2-gcc
           - stage2-linux-api-headers
           - stage2-make
-          - stage2-zlib
           - eglibc
           - zlib
