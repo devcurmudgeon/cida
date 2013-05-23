@@ -62,7 +62,7 @@ class WriteExtension(cliapp.Application):
             os.remove(raw_disk)
             raise
         try:
-            version_label = 'version1'
+            version_label = 'factory'
             version_root = os.path.join(mp, 'systems', version_label)
             os.makedirs(version_root)
             self.create_state(mp)
