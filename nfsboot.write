@@ -66,7 +66,7 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
                                       'with hostname "baserock"')
 
         self.test_good_server(location)
-        version = 'version1'
+        version = 'factory'
         versioned_root = os.path.join(self._nfsboot_root, hostname, 'systems',
                                       version)
         self.copy_rootfs(temp_root, location, versioned_root, hostname)
