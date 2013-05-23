@@ -126,16 +126,14 @@ chunks:
     # build is fully reproducible.
     #
     # We do a switch-a-roo between stage 2 and 3: stages 2 chunks are all built
-    # to run on a host *-bootstrap-* while stage 3 chunks are built are native
-    # built for a *-baserock-* machine. This works, because the cross build was
-    # all for show (and cleanliness) and the binaries actually still run on the
-    # the host.
+    # to run on a host *-bootstrap-* while stage 3 chunks are native-built for
+    # a *-baserock-* machine. This works, because the cross build was all for
+    # show (and cleanliness) and the binaries actually still run on the host.
     #
-    # After build-essential is built we do another trick: stage2-fhs-dirs
-    # symlinks /bin to /tools/bin and /lib to /tools/lib, while the stage 3
-    # chunks actually install things to those directories. FIXME: which breaks
-    # everything!!! This will have to change.
-    #
+    # After build-essential is built we do another trick. See
+    # stage2-fhs-dirs.morph for details. Basically, /bin is a symlink to
+    # /tools/bin during stage 2 but in stage 3 it becomes a real directory
+    # again.
 
     - name: fhs-dirs
       repo: baserock:baserock/fhs-dirs
