@@ -113,7 +113,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
                    '--name', vm_name, '--vnc', '--ram=%s' % ram_mebibytes,
                    '--disk path=%s,bus=ide' % vm_path] + attach_opts
         if not autostart:
-            cmdline += '--noreboot'
+            cmdline += ['--noreboot']
         cliapp.runcmd(cmdline)
 
 
