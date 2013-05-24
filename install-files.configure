@@ -50,6 +50,8 @@ class InstallFilesConfigureExtension(cliapp.Application):
     '''
 
     def process_args(self, args):
+        if not 'INSTALL_FILES' in os.environ:
+            return
         target_root = args[0]
         manifests = shlex.split(os.environ['INSTALL_FILES'])
         for manifest in manifests:
