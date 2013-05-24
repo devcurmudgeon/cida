@@ -1,0 +1,181 @@
+#!/usr/bin/python
+# Copyright (C) 2013  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+'''A Morph deployment write extension for upgrading systems over ssh.'''
+
+
+import cliapp
+import os
+import sys
+import time
+import tempfile
+
+import morphlib.writeexts
+
+class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
+
+    '''Upgrade a running baserock system with ssh and rsync.
+
+    It assumes the system is baserock-based and has a btrfs partition.
+
+    The location command line argument is the 'user@hostname' string
+    that will be passed to ssh and rsync
+
+    '''
+
+    def process_args(self, args):
+        if len(args) != 2:
+            raise cliapp.AppException('Wrong number of command line args')
+
+        temp_root, location = args
+
+        self.check_valid_target(location)
+        self.upgrade_remote_system(location, temp_root)
+
+    def upgrade_remote_system(self, location, temp_root):
+        root_disk = self.find_root_disk(location)
+        version_label = os.environ.get('VERSION_LABEL')
+
+        try:
+            self.status(msg='Creating remote mount point')
+            remote_mnt = cliapp.ssh_runcmd(location, ['mktemp', '-d']).strip()
+
+            self.status(msg='Mounting root disk')
+            cliapp.ssh_runcmd(location, ['mount', root_disk, remote_mnt])
+
+            version_root = os.path.join(remote_mnt, 'systems', version_label)
+            run_dir = os.path.join(version_root, 'run')
+            orig_dir = os.path.join(version_root, 'orig')
+            try:
+                self.status(msg='Creating %s' % version_root)
+                cliapp.ssh_runcmd(location, ['mkdir', version_root])
+
+                self.create_remote_orig(location, version_root, remote_mnt,
+                                        temp_root)
+
+                self.status(msg='Creating "run" subvolume')
+                cliapp.ssh_runcmd(location, ['btrfs', 'subvolume',
+                                             'snapshot', orig_dir, run_dir])
+
+                self.install_remote_kernel(location, version_root, temp_root)
+            except Exception as e:
+                try:
+                    cliapp.ssh_runcmd(location,
+                        ['btrfs', 'subvolume', 'delete', run_dir])
+                    cliapp.ssh_runcmd(location,
+                        ['btrfs', 'subvolume', 'delete', orig_dir])
+                    cliapp.ssh_runcmd(location, ['rm', '-rf', version_root])
+                except:
+                    pass
+                raise e
+
+            if self.bootloader_is_wanted():
+                self.update_remote_extlinux(location, remote_mnt,
+                                            version_label)
+        except:
+            raise
+        else:
+            self.status(msg='Removing temporary mounts')
+            cliapp.ssh_runcmd(location, ['umount', root_disk])
+            cliapp.ssh_runcmd(location, ['rmdir', remote_mnt])
+
+    def update_remote_extlinux(self, location, remote_mnt, version_label):
+        '''Install/reconfigure extlinux on location'''
+
+        self.status(msg='Creating extlinux.conf')
+        config = os.path.join(remote_mnt, 'extlinux.conf')
+        temp_file = tempfile.mkstemp()[1]
+        with open(temp_file, 'w') as f:
+            f.write('default linux\n')
+            f.write('timeout 1\n')
+            f.write('label linux\n')
+            f.write('kernel /systems/' + version_label + '/kernel\n')
+            f.write('append root=/dev/sda '
+                    'rootflags=subvol=systems/' + version_label + '/run '
+                    'init=/sbin/init rw\n')
+
+        cliapp.ssh_runcmd(location, ['mv', config, config+'~'])
+
+        try:
+            cliapp.runcmd(['rsync', '-a', temp_file,
+                           '%s:%s' % (location, config)])
+        except Exception as e:
+            try:
+                cliapp.ssh_runcmd(location, ['mv', config+'~', config])
+            except:
+                pass
+            raise e
+
+    def create_remote_orig(self, location, version_root, remote_mnt,
+                           temp_root):
+        '''Create the subvolume version_root/orig on location'''
+
+        self.status(msg='Creating "orig" subvolume')
+        old_orig = self.get_old_orig(location, remote_mnt)
+        new_orig = os.path.join(version_root, 'orig')
+        cliapp.ssh_runcmd(location, ['btrfs', 'subvolume', 'snapshot',
+                                     old_orig, new_orig])
+
+        cliapp.runcmd(['rsync', '-a', '--checksum', '--numeric-ids',
+                       '--delete', temp_root, '%s:%s' % (location, new_orig)])
+
+    def get_old_orig(self, location, remote_mnt):
+        '''Identify which subvolume to snapshot from'''
+
+        # rawdisk upgrades use 'factory'
+        return os.path.join(remote_mnt, 'systems', 'factory', 'orig')
+
+    def find_root_disk(self, location):
+        '''Read /proc/mounts on location to find which device contains "/"'''
+
+        self.status(msg='Finding device that contains "/"')
+        contents = cliapp.ssh_runcmd(location, ['cat', '/proc/mounts'])
+        for line in contents.splitlines():
+            line_words = line.split()
+            if (line_words[1] == '/' and line_words[0] != 'rootfs'):
+                    return line_words[0]
+
+    def install_remote_kernel(self, location, version_root, temp_root):
+        '''Install the kernel in temp_root inside version_root on location'''
+
+        self.status(msg='Installing kernel')
+        image_names = ['vmlinuz', 'zImage', 'uImage']
+        kernel_dest = os.path.join(version_root, 'kernel')
+        for name in image_names:
+            try_path = os.path.join(temp_root, 'boot', name)
+            if os.path.exists(try_path):
+                cliapp.runcmd(['rsync', '-a', try_path,
+                              '%s:%s' % (location, kernel_dest)])
+
+    def check_valid_target(self, location):
+        try:
+            cliapp.ssh_runcmd(location, ['true'])
+        except Exception as e:
+            raise cliapp.AppException('%s does not respond to ssh:\n%s'
+                                      % (location, e))
+
+        try:
+            cliapp.ssh_runcmd(location, ['test', '-d', '/baserock'])
+        except:
+            raise cliapp.AppException('%s is not a baserock system' % location)
+
+        try:
+            cliapp.ssh_runcmd(location, ['which', 'rsync'])
+        except:
+            raise cliapp.AppException('%s does not have rsync')
+
+SshRsyncWriteExtension().run()
