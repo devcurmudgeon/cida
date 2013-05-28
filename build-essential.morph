@@ -45,18 +45,6 @@
             ]
         },
         {
-            "name": "stage2-zlib",
-            "repo": "upstream:zlib",
-            "ref": "baserock/build-essential",
-            "build-mode": "bootstrap",
-            "prefix": "/tools",
-            "build-depends": [
-                "stage1-binutils",
-                "stage1-gcc",
-                "stage2-eglibc"
-            ]
-        },
-        {
             "name": "stage2-binutils",
             "repo": "upstream:binutils-redhat",
             "ref": "baserock/build-essential",
@@ -65,8 +53,7 @@
             "build-depends": [
                 "stage1-binutils",
                 "stage1-gcc",
-                "stage2-eglibc",
-                "stage2-zlib"
+                "stage2-eglibc"
             ]
         },
         {
@@ -78,8 +65,7 @@
             "build-depends": [
                 "stage1-binutils",
                 "stage1-gcc",
-                "stage2-eglibc",
-                "stage2-zlib"
+                "stage2-eglibc"
             ]
         },
         {
@@ -140,8 +126,7 @@
                 "stage2-gawk",
                 "stage2-gcc",
                 "stage2-linux-api-headers",
-                "stage2-make",
-                "stage2-zlib"
+                "stage2-make"
             ]
         },
         {
@@ -158,8 +143,7 @@
                 "stage2-gawk",
                 "stage2-gcc",
                 "stage2-linux-api-headers",
-                "stage2-make",
-                "stage2-zlib"
+                "stage2-make"
             ]
         },
         {
@@ -177,7 +161,6 @@
                 "stage2-gcc",
                 "stage2-linux-api-headers",
                 "stage2-make",
-                "stage2-zlib",
                 "linux-api-headers"
             ]
         },
@@ -196,7 +179,6 @@
                 "stage2-gcc",
                 "stage2-linux-api-headers",
                 "stage2-make",
-                "stage2-zlib",
                 "eglibc"
             ]
         },
@@ -215,7 +197,6 @@
                 "stage2-gcc",
                 "stage2-linux-api-headers",
                 "stage2-make",
-                "stage2-zlib",
                 "eglibc",
                 "zlib"
             ]
@@ -235,7 +216,6 @@
                 "stage2-gcc",
                 "stage2-linux-api-headers",
                 "stage2-make",
-                "stage2-zlib",
                 "eglibc"
             ]
         },
@@ -254,7 +234,6 @@
                 "stage2-gcc",
                 "stage2-linux-api-headers",
                 "stage2-make",
-                "stage2-zlib",
                 "eglibc"
             ]
         },
@@ -273,7 +252,6 @@
                 "stage2-gcc",
                 "stage2-linux-api-headers",
                 "stage2-make",
-                "stage2-zlib",
                 "eglibc",
                 "zlib"
             ]
@@ -293,7 +271,6 @@
                 "stage2-gcc",
                 "stage2-linux-api-headers",
                 "stage2-make",
-                "stage2-zlib",
                 "eglibc"
             ]
         },
@@ -312,7 +289,6 @@
                 "stage2-gcc",
                 "stage2-linux-api-headers",
                 "stage2-make",
-                "stage2-zlib",
                 "eglibc",
                 "zlib"
             ]
