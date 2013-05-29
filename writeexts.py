@@ -53,6 +53,8 @@ class WriteExtension(cliapp.Application):
         '''Create a raw system image locally.'''
         
         size = self.get_disk_size()
+        if not size:
+            raise cliapp.AppException('DISK_SIZE is not defined')
         self.create_raw_disk_image(raw_disk, size)
         try:
             self.mkfs_btrfs(raw_disk)
@@ -105,6 +107,8 @@ class WriteExtension(cliapp.Application):
         '''Parse a size from an environment variable.'''
 
         size = os.environ.get(env_var, default)
+        if size is None:
+            return None
         bytes = self._parse_size(size)
         if bytes is None:
             raise morphlib.Error('Cannot parse %s value %s' % (env_var, size))
@@ -112,7 +116,7 @@ class WriteExtension(cliapp.Application):
 
     def get_disk_size(self):
         '''Parse disk size from environment.'''
-        return self._parse_size_from_environment('DISK_SIZE', '1G')
+        return self._parse_size_from_environment('DISK_SIZE', None)
 
     def get_ram_size(self):
         '''Parse RAM size from environment.'''
