@@ -70,6 +70,7 @@
     "configuration-extensions": [
         "set-hostname",
         "ssh",
-        "add-config-files"
+        "add-config-files",
+        "strip-gplv3"
     ]
 }
