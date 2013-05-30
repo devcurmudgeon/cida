@@ -1,0 +1,148 @@
+#!/usr/bin/python
+# Copyright (C) 2012-2013  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+'''A Morph deployment write extension for deploying to VirtualBox via ssh.
+
+VirtualBox is assumed to be running on a remote machine, which is
+accessed over ssh. The machine gets created, but not started.
+
+'''
+
+
+import cliapp
+import os
+import re
+import sys
+import time
+import tempfile
+import urlparse
+
+import morphlib.writeexts
+
+
+class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
+
+    '''Create a VirtualBox virtual machine during Morph's deployment.
+    
+    The location command line argument is the pathname of the disk image
+    to be created. The user is expected to provide the location argument
+    using the following syntax:
+    
+        vbox+ssh://HOST/GUEST/PATH
+        
+    where:
+    
+    * HOST is the host on which VirtualBox is running
+    * GUEST is the name of the guest virtual machine on that host
+    * PATH is the path to the disk image that should be created,
+      on that host
+  
+    The extension will connect to HOST via ssh to run VirtualBox's
+    command line management tools.
+    
+    '''
+
+    def process_args(self, args):
+        if len(args) != 2:
+            raise cliapp.AppException('Wrong number of command line args')
+        
+        temp_root, location = args
+        ssh_host, vm_name, vdi_path = self.parse_location(location)
+        autostart = self.parse_autostart()
+        
+        fd, raw_disk = tempfile.mkstemp()
+        os.close(fd)
+        self.create_local_system(temp_root, raw_disk)
+
+        try:
+            self.transfer_and_convert_to_vdi(
+                raw_disk, ssh_host, vdi_path)
+            self.create_virtualbox_guest(ssh_host, vm_name, vdi_path,
+                                         autostart)
+        except BaseException:
+            sys.stderr.write('Error deploying to VirtualBox')
+            os.remove(raw_disk)
+            raise
+        else:
+            os.remove(raw_disk)
+
+        self.status(
+            msg='Virtual machine %(vm_name)s has been created',
+            vm_name=vm_name)
+
+    def parse_location(self, location):
+        '''Parse the location argument to get relevant data.'''
+        
+        x = urlparse.urlparse(location)
+        if x.scheme != 'vbox+ssh':
+            raise cliapp.AppException(
+                'URL schema must be vbox+ssh in %s' % location)
+        m = re.match('^/(?P<guest>[^/]+)(?P<path>/.+)$', x.path)
+        if not m:
+            raise cliapp.AppException('Cannot parse location %s' % location)
+        return x.netloc, m.group('guest'), m.group('path')
+
+    def transfer_and_convert_to_vdi(self, raw_disk, ssh_host, vdi_path):
+        '''Transfer raw disk image to VirtualBox host, and convert to VDI.'''
+
+        self.status(msg='Transfer disk and convert to VDI')
+        with open(raw_disk, 'rb') as f:
+            cliapp.runcmd(
+                ['ssh', ssh_host, 
+                 'VBoxManage', 'convertfromraw', 'stdin', vdi_path,
+                 str(os.path.getsize(raw_disk))],
+                stdin=f)
+
+    def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path, autostart):
+        '''Create the VirtualBox virtual machine.'''
+        
+        self.status(msg='Create VirtualBox virtual machine')
+
+        ram_mebibytes = str(self.get_ram_size() / (1024**2))
+
+        commands = [
+            ['createvm', '--name', vm_name, '--ostype', 'Linux26_64',
+             '--register'],
+            ['modifyvm', vm_name, '--ioapic', 'on', '--memory', ram_mebibytes,
+             '--nic1', 'nat'],
+            ['storagectl', vm_name, '--name', '"SATA Controller"',
+             '--add', 'sata',  '--bootable', 'on', '--sataportcount', '2'],
+            ['storageattach', vm_name, '--storagectl', '"SATA Controller"',
+             '--port', '0', '--device', '0', '--type', 'hdd', '--medium',
+             vdi_path],
+        ]
+
+        attach_disks = self.parse_attach_disks()
+        for device_no, disk in enumerate(attach_disks, 1):
+            cmd = ['storageattach', vm_name, 
+                   '--storagectl', '"SATA Controller"',
+                   '--port', str(device_no),
+                   '--device', '0',
+                   '--type', 'hdd', 
+                   '--medium', disk]
+            commands.append(cmd)
+
+        if autostart:
+            commands.append(['startvm', vm_name])
+
+        for command in commands:
+            argv = ['ssh', ssh_host, 'VBoxManage'] + command
+            cliapp.runcmd(argv)
+
+
+VirtualBoxPlusSshWriteExtension().run()
+
