@@ -71,6 +71,9 @@
         "set-hostname",
         "ssh",
         "add-config-files",
+	"simple-network",
+	"nfsboot",
+	"install-files",
         "strip-gplv3"
     ]
 }

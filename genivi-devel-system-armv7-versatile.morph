@@ -76,6 +76,8 @@
         "set-hostname",
         "ssh",
         "add-config-files",
-        "install-files"
+	"simple-network",
+	"nfsboot",
+	"install-files"
     ]
 }

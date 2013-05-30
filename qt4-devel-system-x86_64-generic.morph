@@ -61,5 +61,13 @@
             "repo": "baserock:baserock/morphs",
             "ref": "master"
         }
+    ],
+    "configuration-extensions": [
+        "set-hostname",
+        "ssh",
+        "add-config-files",
+	"simple-network",
+	"nfsboot",
+	"install-files"
     ]
 }

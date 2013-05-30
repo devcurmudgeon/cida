@@ -75,6 +75,9 @@
     "configuration-extensions": [
         "set-hostname",
         "ssh",
-        "add-config-files"
+        "add-config-files",
+	"simple-network",
+	"nfsboot",
+	"install-files"
     ]
 }
