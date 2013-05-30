@@ -16,4 +16,6 @@
 
 # A Morph write extension to deploy to a .tar file
 
+set -eu
+
 tar -C "$1" -cf "$2"
