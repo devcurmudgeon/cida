@@ -115,6 +115,9 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
             cmdline += ['--noreboot']
         cliapp.ssh_runcmd(ssh_host, cmdline)
 
+        if autostart:
+            cliapp.ssh_runcmd(ssh_host,
+                ['virsh', '--connect', 'qemu:///system', 'autostart', vm_name])
 
 KvmPlusSshWriteExtension().run()
 
