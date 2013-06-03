@@ -108,13 +108,12 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
         ram_mebibytes = str(self.get_ram_size() / (1024**2))
 
-        cmdline = ['ssh', ssh_host, 
-                   'virt-install', '--connect qemu:///system', '--import',
+        cmdline = ['virt-install', '--connect', 'qemu:///system', '--import',
                    '--name', vm_name, '--vnc', '--ram=%s' % ram_mebibytes,
-                   '--disk path=%s,bus=ide' % vm_path] + attach_opts
+                   '--disk', 'path=%s,bus=ide' % vm_path] + attach_opts
         if not autostart:
             cmdline += ['--noreboot']
-        cliapp.runcmd(cmdline)
+        cliapp.ssh_runcmd(ssh_host, cmdline)
 
 
 KvmPlusSshWriteExtension().run()
