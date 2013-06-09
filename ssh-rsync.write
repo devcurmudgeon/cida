@@ -72,6 +72,21 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
                                              'snapshot', orig_dir, run_dir])
 
                 self.install_remote_kernel(location, version_root, temp_root)
+                default_path = os.path.join(remote_mnt, 'systems', 'default')
+                if self.bootloader_is_wanted():
+                    output = cliapp.ssh_runcmd(location, ['sh', '-c',
+                                        'test -e "$1" && stat -c %F "$1"'
+                                        ' || '
+                                        'echo missing file',
+                                        '-', default_path])
+                    if output != "symbolic link":
+                        # we are upgrading and old system that does
+                        # not have an updated extlinux config file
+                        self.update_remote_extlinux(location, remote_mnt,
+                                                    version_label)
+                cliapp.ssh_runcmd(location, ['ln', '-s', '-f',
+                                             version_label,
+                                             default_path])
             except Exception as e:
                 try:
                     cliapp.ssh_runcmd(location,
@@ -83,9 +98,6 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
                     pass
                 raise e
 
-            if self.bootloader_is_wanted():
-                self.update_remote_extlinux(location, remote_mnt,
-                                            version_label)
         except:
             raise
         else:
@@ -103,15 +115,15 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
             f.write('default linux\n')
             f.write('timeout 1\n')
             f.write('label linux\n')
-            f.write('kernel /systems/' + version_label + '/kernel\n')
+            f.write('kernel /systems/default/kernel\n')
             f.write('append root=/dev/sda '
-                    'rootflags=subvol=systems/' + version_label + '/run '
+                    'rootflags=subvol=systems/default/run '
                     'init=/sbin/init rw\n')
 
         cliapp.ssh_runcmd(location, ['mv', config, config+'~'])
 
         try:
-            cliapp.runcmd(['rsync', '-a', temp_file,
+            cliapp.runcmd(['rsync', '-as', temp_file,
                            '%s:%s' % (location, config)])
         except Exception as e:
             try:
@@ -130,7 +142,7 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         cliapp.ssh_runcmd(location, ['btrfs', 'subvolume', 'snapshot',
                                      old_orig, new_orig])
 
-        cliapp.runcmd(['rsync', '-a', '--checksum', '--numeric-ids',
+        cliapp.runcmd(['rsync', '-as', '--checksum', '--numeric-ids',
                        '--delete', temp_root, '%s:%s' % (location, new_orig)])
 
     def get_old_orig(self, location, remote_mnt):
@@ -158,7 +170,7 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         for name in image_names:
             try_path = os.path.join(temp_root, 'boot', name)
             if os.path.exists(try_path):
-                cliapp.runcmd(['rsync', '-a', try_path,
+                cliapp.runcmd(['rsync', '-as', try_path,
                               '%s:%s' % (location, kernel_dest)])
 
     def check_valid_target(self, location):

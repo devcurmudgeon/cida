@@ -18,4 +18,4 @@
 
 set -eu
 
-tar -C "$1" -cf "$2"
+tar -C "$1" -cf "$2" .

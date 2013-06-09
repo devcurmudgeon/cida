@@ -94,7 +94,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         self.status(msg='Transferring disk image')
         target = '%s:%s' % (ssh_host, vm_path)
         with open(raw_disk, 'rb') as f:
-            cliapp.runcmd(['rsync', '-zS', raw_disk, target])
+            cliapp.runcmd(['rsync', '-szS', raw_disk, target])
 
     def create_libvirt_guest(self, ssh_host, vm_name, vm_path, autostart):
         '''Create the libvirt virtual machine.'''
@@ -106,16 +106,23 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         for disk in attach_disks:
             attach_opts.extend(['--disk', 'path=%s' % disk])
 
+        if 'NIC_CONFIG' in os.environ:
+            nics = os.environ['NIC_CONFIG'].split()
+            for nic in nics:
+                attach_opts.extend(['--network', nic])
+
         ram_mebibytes = str(self.get_ram_size() / (1024**2))
 
-        cmdline = ['ssh', ssh_host, 
-                   'virt-install', '--connect qemu:///system', '--import',
+        cmdline = ['virt-install', '--connect', 'qemu:///system', '--import',
                    '--name', vm_name, '--vnc', '--ram=%s' % ram_mebibytes,
-                   '--disk path=%s,bus=ide' % vm_path] + attach_opts
+                   '--disk', 'path=%s,bus=ide' % vm_path] + attach_opts
         if not autostart:
             cmdline += ['--noreboot']
-        cliapp.runcmd(cmdline)
+        cliapp.ssh_runcmd(ssh_host, cmdline)
 
+        if autostart:
+            cliapp.ssh_runcmd(ssh_host,
+                ['virsh', '--connect', 'qemu:///system', 'autostart', vm_name])
 
 KvmPlusSshWriteExtension().run()
 
