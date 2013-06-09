@@ -94,7 +94,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         self.status(msg='Transferring disk image')
         target = '%s:%s' % (ssh_host, vm_path)
         with open(raw_disk, 'rb') as f:
-            cliapp.runcmd(['rsync', '-zS', raw_disk, target])
+            cliapp.runcmd(['rsync', '-szS', raw_disk, target])
 
     def create_libvirt_guest(self, ssh_host, vm_name, vm_path, autostart):
         '''Create the libvirt virtual machine.'''

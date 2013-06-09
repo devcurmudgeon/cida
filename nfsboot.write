@@ -118,7 +118,7 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
         rsync_dest = 'root@%s:%s' % (location, kernel_dest)
         self.status(msg='Copying kernel')
         cliapp.runcmd(
-            ['rsync', kernel_src, rsync_dest])
+            ['rsync', '-s', kernel_src, rsync_dest])
 
         # Link the kernel to the right place
         self.status(msg='Creating links to kernel in tftp directory')
@@ -153,7 +153,7 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
 
         self.status(msg='Creating \'orig\' rootfs')
         cliapp.runcmd(
-            ['rsync', '-aXSPH', '--delete', rootfs_src,
+            ['rsync', '-asXSPH', '--delete', rootfs_src,
              'root@%s:%s' % (location, orig_path)])
 
         self.status(msg='Creating \'run\' rootfs')

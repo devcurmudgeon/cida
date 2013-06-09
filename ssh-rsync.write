@@ -123,7 +123,7 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         cliapp.ssh_runcmd(location, ['mv', config, config+'~'])
 
         try:
-            cliapp.runcmd(['rsync', '-a', temp_file,
+            cliapp.runcmd(['rsync', '-as', temp_file,
                            '%s:%s' % (location, config)])
         except Exception as e:
             try:
@@ -142,7 +142,7 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         cliapp.ssh_runcmd(location, ['btrfs', 'subvolume', 'snapshot',
                                      old_orig, new_orig])
 
-        cliapp.runcmd(['rsync', '-a', '--checksum', '--numeric-ids',
+        cliapp.runcmd(['rsync', '-as', '--checksum', '--numeric-ids',
                        '--delete', temp_root, '%s:%s' % (location, new_orig)])
 
     def get_old_orig(self, location, remote_mnt):
@@ -170,7 +170,7 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         for name in image_names:
             try_path = os.path.join(temp_root, 'boot', name)
             if os.path.exists(try_path):
-                cliapp.runcmd(['rsync', '-a', try_path,
+                cliapp.runcmd(['rsync', '-as', try_path,
                               '%s:%s' % (location, kernel_dest)])
 
     def check_valid_target(self, location):
