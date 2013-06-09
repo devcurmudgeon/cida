@@ -66,15 +66,15 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
                                       'with hostname "baserock"')
 
         self.test_good_server(location)
-        version = os.environ['VERSION'] or 'version1'
+        version_label = os.getenv('VERSION_LABEL', 'factory')
         versioned_root = os.path.join(self._nfsboot_root, hostname, 'systems',
-                                      version)
+                                      version_label)
         if self.version_exists(versioned_root, location):
             raise cliapp.AppException('Version %s already exists on'
                                       ' this device. Deployment aborted'
-                                      % version)
+                                      % version_label)
         self.copy_rootfs(temp_root, location, versioned_root, hostname)
-        self.copy_kernel(temp_root, location, versioned_root, version,
+        self.copy_kernel(temp_root, location, versioned_root, version_label,
                          hostname)
         self.configure_nfs(location, hostname)
 
@@ -118,7 +118,7 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
         rsync_dest = 'root@%s:%s' % (location, kernel_dest)
         self.status(msg='Copying kernel')
         cliapp.runcmd(
-            ['rsync', kernel_src, rsync_dest])
+            ['rsync', '-s', kernel_src, rsync_dest])
 
         # Link the kernel to the right place
         self.status(msg='Creating links to kernel in tftp directory')
@@ -153,7 +153,7 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
 
         self.status(msg='Creating \'orig\' rootfs')
         cliapp.runcmd(
-            ['rsync', '-aXSPH', '--delete', rootfs_src,
+            ['rsync', '-asXSPH', '--delete', rootfs_src,
              'root@%s:%s' % (location, orig_path)])
 
         self.status(msg='Creating \'run\' rootfs')
@@ -171,15 +171,15 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException('Could not create \'run\' rootfs'
                                       ' from \'orig\'')
 
-        self.status(msg='Linking \'default-run\' to latest system')
+        self.status(msg='Linking \'default\' to latest system')
         try:
             cliapp.ssh_runcmd('root@%s' % location,
-                ['ln', '-sfn', run_path,
+                ['ln', '-sfn', versioned_root,
                     os.path.join(self._nfsboot_root, hostname, 'systems',
-                                 'default-run')])
+                                 'default')])
         except cliapp.AppException:
-            raise cliapp.AppException('Could not link \'default-run\' to %s'
-                                      % run_path)
+            raise cliapp.AppException('Could not link \'default\' to %s'
+                                      % versioned_root)
 
     def configure_nfs(self, location, hostname):
         exported_path = os.path.join(self._nfsboot_root, hostname)

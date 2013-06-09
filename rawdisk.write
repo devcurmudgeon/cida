@@ -70,9 +70,18 @@ class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
 
         self.create_run(version_root)
 
+        default_path = os.path.join(mp, 'systems', 'default')
+        if os.path.exists(default_path):
+            os.remove(default_path)
+        else:
+            # we are upgrading and old system that does
+            # not have an updated extlinux config file
+            if self.bootloader_is_wanted():
+                self.install_extlinux(mp)
+        os.symlink(version_label, default_path)
+
         if self.bootloader_is_wanted():
             self.install_kernel(version_root, temp_root)
-            self.install_extlinux(mp, version_label)
 
         self.unmount(mp)
 

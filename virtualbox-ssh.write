@@ -101,24 +101,26 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
         self.status(msg='Transfer disk and convert to VDI')
         with open(raw_disk, 'rb') as f:
-            cliapp.runcmd(
-                ['ssh', ssh_host, 
-                 'VBoxManage', 'convertfromraw', 'stdin', vdi_path,
+            cliapp.ssh_runcmd(ssh_host,
+                ['VBoxManage', 'convertfromraw', 'stdin', vdi_path,
                  str(os.path.getsize(raw_disk))],
                 stdin=f)
 
     def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path, autostart):
         '''Create the VirtualBox virtual machine.'''
-        
+
         self.status(msg='Create VirtualBox virtual machine')
 
         ram_mebibytes = str(self.get_ram_size() / (1024**2))
+
+        hostonly_iface = self.get_host_interface(ssh_host)
 
         commands = [
             ['createvm', '--name', vm_name, '--ostype', 'Linux26_64',
              '--register'],
             ['modifyvm', vm_name, '--ioapic', 'on', '--memory', ram_mebibytes,
-             '--nic1', 'nat'],
+             '--nic1', 'hostonly', '--hostonlyadapter1', hostonly_iface,
+             '--nic2', 'nat', '--natnet2', 'default'],
             ['storagectl', vm_name, '--name', '"SATA Controller"',
              '--add', 'sata',  '--bootable', 'on', '--sataportcount', '2'],
             ['storageattach', vm_name, '--storagectl', '"SATA Controller"',
@@ -140,9 +142,65 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
             commands.append(['startvm', vm_name])
 
         for command in commands:
-            argv = ['ssh', ssh_host, 'VBoxManage'] + command
-            cliapp.runcmd(argv)
+            argv = ['VBoxManage'] + command
+            cliapp.ssh_runcmd(ssh_host, argv)
 
+    def get_host_interface(self, ssh_host):
+        host_ipaddr = os.environ.get('HOST_IPADDR')
+        netmask = os.environ.get('NETMASK')
+        network_config = os.environ.get("NETWORK_CONFIG")
+
+        if network_config is None:
+            raise cliapp.AppException('NETWORK_CONFIG was not given')
+
+        if "eth0:" not in network_config:
+            raise cliapp.AppException(
+                'NETWORK_CONFIG does not contain '
+                'the eth0 configuration')
+
+        if "eth1:" not in network_config:
+            raise cliapp.AppException(
+                'NETWORK_CONFIG does not contain '
+                'the eth1 configuration')
+
+        if host_ipaddr is None:
+            raise cliapp.AppException('HOST_IPADDR was not given')
+
+        if netmask is None:
+            raise cliapp.AppException('NETMASK was not given')
+
+        # 'VBoxManage list hostonlyifs' retrieves a list with the hostonly
+        # interfaces on the host. For each interface, the following lines
+        # are shown on top:
+        #
+        # Name:            vboxnet0
+        # GUID:            786f6276-656e-4074-8000-0a0027000000
+        # Dhcp:            Disabled
+        # IPAddress:       192.168.100.1
+        #
+        # The following command tries to retrieve the hostonly interface
+        # name (e.g. vboxnet0) associated with the given ip address.
+        iface = None
+        lines = cliapp.ssh_runcmd(ssh_host,
+            ['VBoxManage', 'list', 'hostonlyifs']).splitlines()
+        for i, v in enumerate(lines):
+            if host_ipaddr in v:
+                iface = lines[i-3].split()[1]
+                break
+
+        if iface is None:
+            iface = cliapp.ssh_runcmd(ssh_host,
+                ['VBoxManage', 'hostonlyif', 'create'])
+            # 'VBoxManage hostonlyif create' shows the name of the
+            # created hostonly interface inside single quotes
+            iface = iface[iface.find("'") + 1 : iface.rfind("'")]
+            cliapp.ssh_runcmd(ssh_host,
+                ['VBoxManage', 'hostonlyif',
+                 'ipconfig', iface,
+                 '--ip', host_ipaddr,
+                 '--netmask', netmask])
+
+        return iface
 
 VirtualBoxPlusSshWriteExtension().run()
 
