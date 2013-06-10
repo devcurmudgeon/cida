@@ -1,0 +1,121 @@
+#!/usr/bin/python
+# Copyright (C) 2012-2013  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+'''A Morph deployment write extension for deploying to KVM+libvirt.'''
+
+
+import cliapp
+import os
+import re
+import sys
+import tempfile
+import urlparse
+
+import morphlib.writeexts
+
+
+class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
+
+    '''Create a KVM/LibVirt virtual machine during Morph's deployment.
+    
+    The location command line argument is the pathname of the disk image
+    to be created. The user is expected to provide the location argument
+    using the following syntax:
+    
+        kvm+ssh://HOST/GUEST/PATH
+        
+    where:
+    
+    * HOST is the host on which KVM/LibVirt is running
+    * GUEST is the name of the guest virtual machine on that host
+    * PATH is the path to the disk image that should be created,
+      on that host
+  
+    The extension will connect to HOST via ssh to run libvirt's
+    command line management tools.
+    
+    '''
+
+    def process_args(self, args):
+        if len(args) != 2:
+            raise cliapp.AppException('Wrong number of command line args')
+        
+        temp_root, location = args
+        ssh_host, vm_name, vm_path = self.parse_location(location)
+        autostart = self.parse_autostart()
+        
+        fd, raw_disk = tempfile.mkstemp()
+        os.close(fd)
+        self.create_local_system(temp_root, raw_disk)
+        
+        try:
+            self.transfer(raw_disk, ssh_host, vm_path)
+            self.create_libvirt_guest(ssh_host, vm_name, vm_path, autostart)
+        except BaseException:
+            sys.stderr.write('Error deploying to libvirt')
+            os.remove(raw_disk)
+            raise
+        else:
+            os.remove(raw_disk)
+
+        self.status(
+            msg='Virtual machine %(vm_name)s has been created',
+            vm_name=vm_name)
+
+    def parse_location(self, location):
+        '''Parse the location argument to get relevant data.'''
+        
+        x = urlparse.urlparse(location)
+        if x.scheme != 'kvm+ssh':
+            raise cliapp.AppException(
+                'URL schema must be vbox+ssh in %s' % location)
+        m = re.match('^/(?P<guest>[^/]+)(?P<path>/.+)$', x.path)
+        if not m:
+            raise cliapp.AppException('Cannot parse location %s' % location)
+        return x.netloc, m.group('guest'), m.group('path')
+
+    def transfer(self, raw_disk, ssh_host, vm_path):
+        '''Transfer raw disk image to libvirt host.'''
+
+        self.status(msg='Transferring disk image')
+        target = '%s:%s' % (ssh_host, vm_path)
+        with open(raw_disk, 'rb') as f:
+            cliapp.runcmd(['rsync', '-zS', raw_disk, target])
+
+    def create_libvirt_guest(self, ssh_host, vm_name, vm_path, autostart):
+        '''Create the libvirt virtual machine.'''
+        
+        self.status(msg='Creating libvirt/kvm virtual machine')
+
+        attach_disks = self.parse_attach_disks()
+        attach_opts = []
+        for disk in attach_disks:
+            attach_opts.extend(['--disk', 'path=%s' % disk])
+
+        ram_mebibytes = str(self.get_ram_size() / (1024**2))
+
+        cmdline = ['ssh', ssh_host, 
+                   'virt-install', '--connect qemu:///system', '--import',
+                   '--name', vm_name, '--vnc', '--ram=%s' % ram_mebibytes,
+                   '--disk path=%s,bus=ide' % vm_path] + attach_opts
+        if not autostart:
+            cmdline += ['--noreboot']
+        cliapp.runcmd(cmdline)
+
+
+KvmPlusSshWriteExtension().run()
+
