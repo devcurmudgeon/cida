@@ -48,6 +48,7 @@ class WriteExtension(cliapp.Application):
         '''
         
         self.output.write('%s\n' % (kwargs['msg'] % kwargs))
+        self.output.flush()
     
     def create_local_system(self, temp_root, raw_disk):
         '''Create a raw system image locally.'''
