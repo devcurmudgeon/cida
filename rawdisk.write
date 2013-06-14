@@ -76,7 +76,8 @@ class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
         else:
             # we are upgrading and old system that does
             # not have an updated extlinux config file
-            self.install_extlinux(mp)
+            if self.bootloader_is_wanted():
+                self.install_extlinux(mp)
         os.symlink(version_label, default_path)
 
         if self.bootloader_is_wanted():
