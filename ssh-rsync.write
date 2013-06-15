@@ -71,6 +71,15 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
                 cliapp.ssh_runcmd(location, ['btrfs', 'subvolume',
                                              'snapshot', orig_dir, run_dir])
 
+                self.status(msg='Updating system configuration')
+                bscs_loc = os.path.join(run_dir, 'usr', 'bin',
+                                        'baserock-system-config-sync')
+                try:
+                    cliapp.ssh_runcmd(location, ['sh', bscs_loc, 'merge',
+                                                 version_label])
+                except:
+                    self.status(msg='Updating system configuration failed')
+
                 self.install_remote_kernel(location, version_root, temp_root)
                 default_path = os.path.join(remote_mnt, 'systems', 'default')
                 if self.bootloader_is_wanted():
