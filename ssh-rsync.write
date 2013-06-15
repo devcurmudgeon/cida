@@ -84,8 +84,7 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
                         # not have an updated extlinux config file
                         self.update_remote_extlinux(location, remote_mnt,
                                                     version_label)
-                cliapp.ssh_runcmd(location, ['ln', '-s', '-f',
-                                             version_label,
+                cliapp.ssh_runcmd(location, ['ln', '-sfn', version_label,
                                              default_path])
             except Exception as e:
                 try:
