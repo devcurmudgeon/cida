@@ -101,7 +101,7 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
             raise
         else:
             self.status(msg='Removing temporary mounts')
-            cliapp.ssh_runcmd(location, ['umount', root_disk])
+            cliapp.ssh_runcmd(location, ['umount', remote_mnt])
             cliapp.ssh_runcmd(location, ['rmdir', remote_mnt])
 
     def update_remote_extlinux(self, location, remote_mnt, version_label):
