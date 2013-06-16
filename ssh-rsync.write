@@ -142,7 +142,8 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
                                      old_orig, new_orig])
 
         cliapp.runcmd(['rsync', '-as', '--checksum', '--numeric-ids',
-                       '--delete', temp_root, '%s:%s' % (location, new_orig)])
+                       '--delete', temp_root + os.path.sep,
+                       '%s:%s' % (location, new_orig)])
 
     def get_old_orig(self, location, remote_mnt):
         '''Identify which subvolume to snapshot from'''
