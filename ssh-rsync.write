@@ -73,6 +73,17 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
 
                 self.install_remote_kernel(location, version_root, temp_root)
                 default_path = os.path.join(remote_mnt, 'systems', 'default')
+                if self.bootloader_is_wanted():
+                    output = ssh_runcmd(location, ['sh', '-c',
+                                        'test -e "$1" && stat -c %F "$1"'
+                                        ' || '
+                                        'echo missing file',
+                                        '-', default_path])
+                    if output != "symbolic link":
+                        # we are upgrading and old system that does
+                        # not have an updated extlinux config file
+                        self.update_remote_extlinux(location, remote_mnt,
+                                                    version_label)
                 cliapp.ssh_runcmd(location, ['ln', '-s', '-f',
                                              version_label,
                                              default_path])
@@ -87,9 +98,6 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
                     pass
                 raise e
 
-            if self.bootloader_is_wanted():
-                self.update_remote_extlinux(location, remote_mnt,
-                                            version_label)
         except:
             raise
         else:
