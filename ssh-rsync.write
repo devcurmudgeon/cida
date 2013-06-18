@@ -72,6 +72,10 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
                                              'snapshot', orig_dir, run_dir])
 
                 self.install_remote_kernel(location, version_root, temp_root)
+                default_path = os.path.join(remote_mnt, 'systems', 'default')
+                cliapp.ssh_runcmd(location, ['ln', '-s', '-f',
+                                             version_label,
+                                             default_path])
             except Exception as e:
                 try:
                     cliapp.ssh_runcmd(location,
@@ -103,9 +107,9 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
             f.write('default linux\n')
             f.write('timeout 1\n')
             f.write('label linux\n')
-            f.write('kernel /systems/' + version_label + '/kernel\n')
+            f.write('kernel /systems/default/kernel\n')
             f.write('append root=/dev/sda '
-                    'rootflags=subvol=systems/' + version_label + '/run '
+                    'rootflags=subvol=systems/default/run '
                     'init=/sbin/init rw\n')
 
         cliapp.ssh_runcmd(location, ['mv', config, config+'~'])
