@@ -74,7 +74,7 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
                 self.install_remote_kernel(location, version_root, temp_root)
                 default_path = os.path.join(remote_mnt, 'systems', 'default')
                 if self.bootloader_is_wanted():
-                    output = ssh_runcmd(location, ['sh', '-c',
+                    output = cliapp.ssh_runcmd(location, ['sh', '-c',
                                         'test -e "$1" && stat -c %F "$1"'
                                         ' || '
                                         'echo missing file',
