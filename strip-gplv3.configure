@@ -26,9 +26,26 @@ import os
 import json
 
 class StripGPLv3ConfigureExtension(cliapp.Application):
-    gplv3_chunks = ['autoconf', 'bash', 'binutils', 'bison', 'ccache',
-                    'gawk', 'gdbm', 'gettext', 'gperf', 'groff', 'm4',
-                    'make', 'nano', 'texinfo-tarball']
+    gplv3_chunks = [
+        'autoconf',
+        'automake',
+        'bash',
+        'binutils',
+        'bison',
+        'ccache',
+        'cmake',
+        'flex',
+        'gawk',
+        'gdbm',
+        'gettext',
+        'gperf',
+        'groff',
+        'libtool',
+        'm4',
+        'make',
+        'nano',
+        'texinfo-tarball',
+    ]
 
     def process_args(self, args):
         target_root = args[0]
