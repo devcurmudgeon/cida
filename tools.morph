@@ -165,6 +165,12 @@
             "repo": "upstream:screen",
             "ref": "baserock/morph",
             "build-depends": []
+        },
+        {
+            "name": "u-boot",
+            "repo": "upstream:u-boot",
+            "ref": "baserock/morph",
+            "build-depends": []
         }
     ]
 }
