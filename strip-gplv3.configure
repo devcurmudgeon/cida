@@ -22,38 +22,40 @@ to find the files created by that chunk, then remove them.
 '''
 
 import cliapp
+import re
 import os
 import json
 
 class StripGPLv3ConfigureExtension(cliapp.Application):
     gplv3_chunks = [
-        'autoconf',
-        'automake',
-        'bash',
-        'binutils',
-        'bison',
-        'ccache',
-        'cmake',
-        'flex',
-        'gawk',
-        'gdbm',
-        'gettext',
-        'gperf',
-        'groff',
-        'libtool',
-        'm4',
-        'make',
-        'nano',
-        'texinfo-tarball',
+        ['autoconf', ''],
+        ['automake', ''],
+        ['bash', ''],
+        ['binutils', ''],
+        ['bison', ''],
+        ['ccache', ''],
+        ['cmake', ''],
+        ['flex', ''],
+        ['gawk', ''],
+        ['gcc', r'^.*lib.*\.so(\.\d+)*$'],
+        ['gdbm', ''],
+        ['gettext', ''],
+        ['gperf', ''],
+        ['groff', ''],
+        ['libtool', r'^.*lib.*\.so(\.\d+)*$'],
+        ['m4', ''],
+        ['make', ''],
+        ['nano', ''],
+        ['texinfo-tarball', ''],
     ]
 
     def process_args(self, args):
         target_root = args[0]
 
         for chunk in self.gplv3_chunks:
-            self.remove_chunk(target_root, chunk)
+            self.remove_chunk(target_root, chunk[0], chunk[1])
 
-    def remove_chunk(self, target_root, chunk):
+    def remove_chunk(self, target_root, chunk, pattern):
         chunk_meta_path = os.path.join(target_root, 'baserock',
                                        chunk + '.meta')
 
@@ -64,8 +66,9 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
             raise cliapp.AppError('Chunk %s does not have a "contents" list'
                                   % chunk)
         for content_entry in reversed(chunk_meta_data['contents']):
-            self.remove_content_entry(target_root, content_entry)
-
+            pat = re.compile(pattern)
+            if len(pattern) == 0 or not pat.match(content_entry):
+                self.remove_content_entry(target_root, content_entry)
         os.remove(chunk_meta_path)
 
     def remove_content_entry(self, target_root, content_entry):
