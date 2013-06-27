@@ -65,11 +65,15 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
         if not 'contents' in chunk_meta_data:
             raise cliapp.AppError('Chunk %s does not have a "contents" list'
                                   % chunk)
+        updated_contents = []
         for content_entry in reversed(chunk_meta_data['contents']):
             pat = re.compile(pattern)
             if len(pattern) == 0 or not pat.match(content_entry):
                 self.remove_content_entry(target_root, content_entry)
-        os.remove(chunk_meta_path)
+            else:
+                updated_contents.append(content_entry)
+        if len(updated_contents) == 0:
+            os.remove(chunk_meta_path)
 
     def remove_content_entry(self, target_root, content_entry):
         entry_path = os.path.join(target_root, './' + content_entry)
