@@ -50,65 +50,74 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         root_disk = self.find_root_disk(location)
         version_label = os.environ.get('VERSION_LABEL')
 
+        self.status(msg='Creating remote mount point')
+        remote_mnt = cliapp.ssh_runcmd(location, ['mktemp', '-d']).strip()
         try:
-            self.status(msg='Creating remote mount point')
-            remote_mnt = cliapp.ssh_runcmd(location, ['mktemp', '-d']).strip()
-
             self.status(msg='Mounting root disk')
             cliapp.ssh_runcmd(location, ['mount', root_disk, remote_mnt])
+        except Exception as e:
+            try:
+                cliapp.ssh_runcmd(location, ['rmdir', remote_mnt])
+            except:
+                pass
+            raise e
 
+        try:
             version_root = os.path.join(remote_mnt, 'systems', version_label)
             run_dir = os.path.join(version_root, 'run')
             orig_dir = os.path.join(version_root, 'orig')
+
+            self.status(msg='Creating %s' % version_root)
+            cliapp.ssh_runcmd(location, ['mkdir', version_root])
+
+            self.create_remote_orig(location, version_root, remote_mnt,
+                                    temp_root)
+
+            self.status(msg='Creating "run" subvolume')
+            cliapp.ssh_runcmd(location, ['btrfs', 'subvolume',
+                                         'snapshot', orig_dir, run_dir])
+
+            self.status(msg='Updating system configuration')
+            bscs_loc = os.path.join(run_dir, 'usr', 'bin',
+                                    'baserock-system-config-sync')
+
+            output = cliapp.ssh_runcmd(location,  ['sh', '-c',
+                         '"$1" merge "$2" &> /dev/null || echo -n cmdfailed',
+                         '-', bscs_loc, version_label])
+            if output == "cmdfailed":
+                self.status(msg='Updating system configuration failed')
+
+            self.install_remote_kernel(location, version_root, temp_root)
+            default_path = os.path.join(remote_mnt, 'systems', 'default')
+            if self.bootloader_is_wanted():
+                output = cliapp.ssh_runcmd(location, ['sh', '-c',
+                                    'test -e "$1" && stat -c %F "$1" '
+                                        '|| echo missing file',
+                                    '-', default_path])
+                if output != "symbolic link":
+                    # we are upgrading and old system that does
+                    # not have an updated extlinux config file
+                    self.update_remote_extlinux(location, remote_mnt,
+                                                version_label)
+            cliapp.ssh_runcmd(location, ['ln', '-sfn', version_label,
+                                         default_path])
+        except Exception as e:
             try:
-                self.status(msg='Creating %s' % version_root)
-                cliapp.ssh_runcmd(location, ['mkdir', version_root])
-
-                self.create_remote_orig(location, version_root, remote_mnt,
-                                        temp_root)
-
-                self.status(msg='Creating "run" subvolume')
-                cliapp.ssh_runcmd(location, ['btrfs', 'subvolume',
-                                             'snapshot', orig_dir, run_dir])
-
-                self.status(msg='Updating system configuration')
-                bscs_loc = os.path.join(run_dir, 'usr', 'bin',
-                                        'baserock-system-config-sync')
-                try:
-                    cliapp.ssh_runcmd(location, ['sh', bscs_loc, 'merge',
-                                                 version_label])
-                except:
-                    self.status(msg='Updating system configuration failed')
-
-                self.install_remote_kernel(location, version_root, temp_root)
-                default_path = os.path.join(remote_mnt, 'systems', 'default')
-                if self.bootloader_is_wanted():
-                    output = cliapp.ssh_runcmd(location, ['sh', '-c',
-                                        'test -e "$1" && stat -c %F "$1"'
-                                        ' || '
-                                        'echo missing file',
-                                        '-', default_path])
-                    if output != "symbolic link":
-                        # we are upgrading and old system that does
-                        # not have an updated extlinux config file
-                        self.update_remote_extlinux(location, remote_mnt,
-                                                    version_label)
-                cliapp.ssh_runcmd(location, ['ln', '-sfn', version_label,
-                                             default_path])
-            except Exception as e:
-                try:
-                    cliapp.ssh_runcmd(location,
-                        ['btrfs', 'subvolume', 'delete', run_dir])
-                    cliapp.ssh_runcmd(location,
-                        ['btrfs', 'subvolume', 'delete', orig_dir])
-                    cliapp.ssh_runcmd(location, ['rm', '-rf', version_root])
-                except:
-                    pass
-                raise e
-
-        except:
-            raise
-        else:
+                cliapp.ssh_runcmd(location,
+                    ['btrfs', 'subvolume', 'delete', run_dir])
+            except:
+                pass
+            try:
+                cliapp.ssh_runcmd(location,
+                    ['btrfs', 'subvolume', 'delete', orig_dir])
+            except:
+                pass
+            try:
+                cliapp.ssh_runcmd(location, ['rm', '-rf', version_root])
+            except:
+                pass
+            raise e
+        finally:
             self.status(msg='Removing temporary mounts')
             cliapp.ssh_runcmd(location, ['umount', remote_mnt])
             cliapp.ssh_runcmd(location, ['rmdir', remote_mnt])
@@ -118,8 +127,8 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
 
         self.status(msg='Creating extlinux.conf')
         config = os.path.join(remote_mnt, 'extlinux.conf')
-        temp_file = tempfile.mkstemp()[1]
-        with open(temp_file, 'w') as f:
+        temp_fd, temp_path = tempfile.mkstemp()
+        with os.fdopen(temp_fd, 'w') as f:
             f.write('default linux\n')
             f.write('timeout 1\n')
             f.write('label linux\n')
@@ -128,14 +137,13 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
                     'rootflags=subvol=systems/default/run '
                     'init=/sbin/init rw\n')
 
-        cliapp.ssh_runcmd(location, ['mv', config, config+'~'])
-
         try:
-            cliapp.runcmd(['rsync', '-as', temp_file,
-                           '%s:%s' % (location, config)])
+            cliapp.runcmd(['rsync', '-as', temp_path,
+                           '%s:%s~' % (location, config)])
+            cliapp.ssh_runcmd(location, ['mv', config+'~', config])
         except Exception as e:
             try:
-                cliapp.ssh_runcmd(location, ['mv', config+'~', config])
+                cliapp.ssh_runcmd(location, ['rm', '-f', config+'~'])
             except:
                 pass
             raise e
@@ -168,19 +176,19 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         for line in contents.splitlines():
             line_words = line.split()
             if (line_words[1] == '/' and line_words[0] != 'rootfs'):
-                    return line_words[0]
+                return line_words[0]
 
     def install_remote_kernel(self, location, version_root, temp_root):
         '''Install the kernel in temp_root inside version_root on location'''
 
         self.status(msg='Installing kernel')
-        image_names = ['vmlinuz', 'zImage', 'uImage']
+        image_names = ('vmlinuz', 'zImage', 'uImage')
         kernel_dest = os.path.join(version_root, 'kernel')
         for name in image_names:
             try_path = os.path.join(temp_root, 'boot', name)
             if os.path.exists(try_path):
                 cliapp.runcmd(['rsync', '-as', try_path,
-                              '%s:%s' % (location, kernel_dest)])
+                               '%s:%s' % (location, kernel_dest)])
 
     def check_valid_target(self, location):
         try:
@@ -189,14 +197,16 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException('%s does not respond to ssh:\n%s'
                                       % (location, e))
 
-        try:
-            cliapp.ssh_runcmd(location, ['test', '-d', '/baserock'])
-        except:
-            raise cliapp.AppException('%s is not a baserock system' % location)
+        output = cliapp.ssh_runcmd(location, ['sh', '-c',
+                     'test -d /baserock || echo -n dirnotfound'])
+        if output == 'dirnotfound':
+            raise cliapp.AppException('%s is not a baserock system'
+                                      % location)
 
-        try:
-            cliapp.ssh_runcmd(location, ['which', 'rsync'])
-        except:
-            raise cliapp.AppException('%s does not have rsync')
+        output = cliapp.ssh_runcmd(location, ['sh', '-c',
+                     'type rsync &> /dev/null || echo -n cmdnotfound'])
+        if output == 'cmdnotfound':
+            raise cliapp.AppException('%s does not have rsync'
+                                      % location)
 
 SshRsyncWriteExtension().run()
