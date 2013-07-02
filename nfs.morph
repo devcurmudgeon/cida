@@ -1,58 +1,38 @@
-{
-    "name": "nfs",
-    "kind": "stratum",
-    "description": "NFS utilities",
-    "build-depends": [
-        {
-            "repo": "baserock:baserock/morphs",
-            "ref": "master",
-            "morph": "core"
-        }
-    ],
-    "chunks": [
-        {
-            "name": "libevent",
-            "repo": "upstream:libevent",
-            "ref": "release-2.0.20-stable",
-            "build-depends": []
-        },
-        {
-            "name": "sqlite3",
-            "repo": "upstream:sqlite3",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
-            "name": "tcp-wrappers",
-            "repo": "upstream:tcp-wrappers",
-            "ref": "baserock/fedora-patches",
-            "build-depends": []
-        },
-        {
-            "name": "ti-rpc",
-            "repo": "upstream:ti-rpc",
-            "ref": "baserock/master",
-            "build-depends": []
-        },
-        {
-            "name": "rpcbind",
-            "repo": "upstream:rpcbind",
-            "ref": "baserock/master",
-            "build-depends": [
-                "ti-rpc",
-                "tcp-wrappers"
-            ]
-        },
-        {
-            "name": "nfs-utils",
-            "repo": "upstream:nfs-utils",
-            "ref": "baserock/master",
-            "build-depends": [
-                "libevent",
-                "sqlite3",
-                "tcp-wrappers",
-                "ti-rpc"
-            ]
-        }
-    ]
-}
+name: nfs
+kind: stratum
+description: NFS utilities
+build-depends:
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: core
+chunks:
+- name: libevent
+  repo: upstream:libevent
+  ref: release-2.0.20-stable
+  build-depends: []
+- name: sqlite3
+  repo: upstream:sqlite3
+  ref: baserock/morph
+  build-depends: []
+- name: tcp-wrappers
+  repo: upstream:tcp-wrappers
+  ref: baserock/fedora-patches
+  build-depends: []
+- name: ti-rpc
+  repo: upstream:ti-rpc
+  ref: baserock/master
+  build-depends: []
+- name: rpcbind
+  repo: upstream:rpcbind
+  ref: baserock/master
+  build-depends:
+  - ti-rpc
+  - tcp-wrappers
+- name: nfs-utils
+  repo: upstream:nfs-utils
+  ref: baserock/master
+  build-depends:
+  - libevent
+  - sqlite3
+  - tcp-wrappers
+  - ti-rpc

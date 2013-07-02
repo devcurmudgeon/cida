@@ -1,79 +1,51 @@
-{
-    "name": "genivi-baseline-system-x86_64-generic",
-    "description": "A GENIVI baseline system for a 64-bit x86 system.",
-    "kind": "system",
-    "system-kind": "rootfs-tarball",
-    "arch": "x86_64",
-    "disk-size": "2G",
-    "strata": [
-        {
-            "morph": "build-essential",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "core",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "foundation",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "genivi-foundation",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "bsp-x86_64-generic",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "connectivity",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "audio-bluetooth",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "x-common",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "x-x86_64-generic",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "multimedia",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "genivi",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "genivi-x-x86_64-generic",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        }
-    ],
-    "configuration-extensions": [
-        "set-hostname",
-        "ssh",
-        "add-config-files",
-	"simple-network",
-	"nfsboot",
-	"install-files",
-        "strip-gplv3"
-    ]
-}
+name: genivi-baseline-system-x86_64-generic
+description: A GENIVI baseline system for a 64-bit x86 system.
+kind: system
+system-kind: rootfs-tarball
+arch: x86_64
+disk-size: 2G
+strata:
+- morph: build-essential
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: core
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi-foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: bsp-x86_64-generic
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: connectivity
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: audio-bluetooth
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: x-common
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: x-x86_64-generic
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: multimedia
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi-x-x86_64-generic
+  repo: baserock:baserock/morphs
+  ref: master
+configuration-extensions:
+- set-hostname
+- ssh
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+- strip-gplv3

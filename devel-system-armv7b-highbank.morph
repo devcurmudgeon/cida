@@ -1,43 +1,30 @@
-{
-    "name": "devel-system-armv7b-highbank",
-    "description": "A system that is able to build other systems based on the ARM highbank architecture.",
-    "kind": "system",
-    "system-kind": "rootfs-tarball",
-    "arch": "armv7b",
-    "disk-size": "2G",
-    "strata": [
-        {
-            "morph": "build-essential",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "core",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "foundation",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "bsp-armv7b-highbank",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "tools",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        }
-    ],
-    "configuration-extensions": [
-        "set-hostname",
-        "ssh",
-        "add-config-files",
-	"simple-network",
-	"nfsboot",
-	"install-files"
-    ]
-}
+name: devel-system-armv7b-highbank
+description: A system that is able to build other systems based on the ARM highbank
+  architecture.
+kind: system
+system-kind: rootfs-tarball
+arch: armv7b
+disk-size: 2G
+strata:
+- morph: build-essential
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: core
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: bsp-armv7b-highbank
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: tools
+  repo: baserock:baserock/morphs
+  ref: master
+configuration-extensions:
+- set-hostname
+- ssh
+- add-config-files
+- simple-network
+- nfsboot
+- install-files

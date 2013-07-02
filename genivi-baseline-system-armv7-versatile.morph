@@ -1,79 +1,51 @@
-{
-    "name": "genivi-baseline-system-armv7-versatile",
-    "description": "A GENIVI baseline system for an ARMv7 system.",
-    "kind": "system",
-    "system-kind": "rootfs-tarball",
-    "arch": "armv7",
-    "disk-size": "2G",
-    "strata": [
-        {
-            "morph": "build-essential",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "core",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "foundation",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "genivi-foundation",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "bsp-armv7-versatile",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "connectivity",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "audio-bluetooth",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "x-common",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "x-armv7-versatile",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "multimedia",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "genivi",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "genivi-x-armv7-versatile",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        }
-    ],
-    "configuration-extensions": [
-        "set-hostname",
-        "ssh",
-        "add-config-files",
-	"simple-network",
-	"nfsboot",
-	"install-files",
-        "strip-gplv3"
-    ]
-}
+name: genivi-baseline-system-armv7-versatile
+description: A GENIVI baseline system for an ARMv7 system.
+kind: system
+system-kind: rootfs-tarball
+arch: armv7
+disk-size: 2G
+strata:
+- morph: build-essential
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: core
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi-foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: bsp-armv7-versatile
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: connectivity
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: audio-bluetooth
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: x-common
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: x-armv7-versatile
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: multimedia
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi-x-armv7-versatile
+  repo: baserock:baserock/morphs
+  ref: master
+configuration-extensions:
+- set-hostname
+- ssh
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+- strip-gplv3

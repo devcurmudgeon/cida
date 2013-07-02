@@ -1,20 +1,12 @@
-{
-    "name": "qt4-sdk",
-    "description": "Qt4 Desktop Environment, IDE and Example Apps",
-    "kind": "stratum",
-    "build-depends": [
-        {
-            "repo": "baserock:baserock/morphs",
-            "ref": "master",
-            "morph": "qt4-tools"
-        }
-    ],
-    "chunks": [
-        {
-            "name": "qt-creator",
-            "repo": "upstream:qt-creator",
-            "ref": "baserock/morph/2.7",
-            "build-depends": []
-        }
-    ]
-}
+name: qt4-sdk
+description: Qt4 Desktop Environment, IDE and Example Apps
+kind: stratum
+build-depends:
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: qt4-tools
+chunks:
+- name: qt-creator
+  repo: upstream:qt-creator
+  ref: baserock/morph/2.7
+  build-depends: []

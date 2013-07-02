@@ -1,26 +1,16 @@
-{
-    "name": "qt5-sdk",
-    "description": "Qt5 Desktop Environment, IDE and Example Apps",
-    "kind": "stratum",
-    "build-depends": [
-        {
-            "repo": "baserock:baserock/morphs",
-            "ref": "master",
-            "morph": "qt5-tools"
-        }
-    ],
-    "chunks": [
-        {
-            "name": "qt-creator",
-            "repo": "upstream:qt-creator",
-            "ref": "baserock/morph/2.7",
-            "build-depends": []
-        },
-        {
-            "name": "snowshoe",
-            "repo": "upstream:snowshoe",
-            "ref": "baserock/morph",
-            "build-depends": []
-        }
-    ]
-}
+name: qt5-sdk
+description: Qt5 Desktop Environment, IDE and Example Apps
+kind: stratum
+build-depends:
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: qt5-tools
+chunks:
+- name: qt-creator
+  repo: upstream:qt-creator
+  ref: baserock/morph/2.7
+  build-depends: []
+- name: snowshoe
+  repo: upstream:snowshoe
+  ref: baserock/morph
+  build-depends: []

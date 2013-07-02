@@ -1,60 +1,38 @@
-{
-    "name": "qt4-tools",
-    "description": "Qt4 Development Libraries and Tools",
-    "kind": "stratum",
-    "build-depends": [
-        {
-            "repo": "baserock:baserock/morphs",
-            "ref": "master",
-            "morph": "tools"
-        },
-        {
-            "repo": "baserock:baserock/morphs",
-            "ref": "master",
-            "morph": "x-x86_64-generic"
-        },
-        {
-            "repo": "baserock:baserock/morphs",
-            "ref": "master",
-            "morph": "multimedia"
-        }
-    ],
-    "chunks": [
-        {
-            "name": "icu",
-            "repo": "upstream:icu",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
-            "name": "sqlite3",
-            "repo": "upstream:sqlite3",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
-            "name": "ruby-1.8",
-            "repo": "upstream:ruby",
-            "ref": "baserock/morph/ruby_1_8_7",
-            "build-depends": []
-        },
-        {
-            "name": "ruby-1.9",
-            "repo": "upstream:ruby",
-            "ref": "baserock/morph/ruby_1_9_3",
-            "build-depends": [
-                "ruby-1.8"
-            ]
-        },
-        {
-            "name": "qt4-tools",
-            "repo": "upstream:qt4-tools",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "icu",
-                "ruby-1.9",
-                "sqlite3"
-            ]
-        }
-    ]
-}
+name: qt4-tools
+description: Qt4 Development Libraries and Tools
+kind: stratum
+build-depends:
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: tools
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: x-x86_64-generic
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: multimedia
+chunks:
+- name: icu
+  repo: upstream:icu
+  ref: baserock/morph
+  build-depends: []
+- name: sqlite3
+  repo: upstream:sqlite3
+  ref: baserock/morph
+  build-depends: []
+- name: ruby-1.8
+  repo: upstream:ruby
+  ref: baserock/morph/ruby_1_8_7
+  build-depends: []
+- name: ruby-1.9
+  repo: upstream:ruby
+  ref: baserock/morph/ruby_1_9_3
+  build-depends:
+  - ruby-1.8
+- name: qt4-tools
+  repo: upstream:qt4-tools
+  ref: baserock/morph
+  build-depends:
+  - icu
+  - ruby-1.9
+  - sqlite3
