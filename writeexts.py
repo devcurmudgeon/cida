@@ -124,6 +124,10 @@ class WriteExtension(cliapp.Application):
         '''Parse RAM size from environment.'''
         return self._parse_size_from_environment('RAM_SIZE', '1G')
 
+    def get_vcpu_count(self):
+        '''Parse the virtual cpu count from environment.'''
+        return self._parse_size_from_environment('VCPUS', '1')
+
     def create_state(self, real_root):
         '''Create the state subvolumes that are shared between versions'''
 
