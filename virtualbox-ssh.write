@@ -113,12 +113,15 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
         ram_mebibytes = str(self.get_ram_size() / (1024**2))
 
+        vcpu_count = str(self.get_vcpu_count())
+
         hostonly_iface = self.get_host_interface(ssh_host)
 
         commands = [
             ['createvm', '--name', vm_name, '--ostype', 'Linux26_64',
              '--register'],
-            ['modifyvm', vm_name, '--ioapic', 'on', '--memory', ram_mebibytes,
+            ['modifyvm', vm_name, '--ioapic', 'on',
+             '--memory', ram_mebibytes, '--cpus', vcpu_count,
              '--nic1', 'hostonly', '--hostonlyadapter1', hostonly_iface,
              '--nic2', 'nat', '--natnet2', 'default'],
             ['storagectl', vm_name, '--name', '"SATA Controller"',
