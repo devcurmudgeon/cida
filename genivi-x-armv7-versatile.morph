@@ -1,40 +1,24 @@
-{
-    "name": "genivi-x-armv7-versatile",
-    "kind": "stratum",
-    "description": "Software components designed by genivi, for genivi.",
-    "build-depends": [
-        {
-            "morph": "core",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "foundation",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "genivi-foundation",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "genivi",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "x-armv7-versatile",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        }
-    ],
-    "chunks": [
-        {
-            "name": "layer_management",
-            "repo": "upstream:layer_management",
-            "ref": "baserock/genivi/baseline",
-            "build-depends": []
-        }
-    ]
-}
+name: genivi-x-armv7-versatile
+kind: stratum
+description: Software components designed by genivi, for genivi.
+build-depends:
+- morph: core
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi-foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: x-armv7-versatile
+  repo: baserock:baserock/morphs
+  ref: master
+chunks:
+- name: layer_management
+  repo: upstream:layer_management
+  ref: baserock/genivi/baseline
+  build-depends: []

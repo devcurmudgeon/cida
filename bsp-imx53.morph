@@ -1,20 +1,13 @@
-{
-    "name": "bsp-imx53",
-    "description": "The platform dependent components required to boot an i.MX 53 ARM development board.",
-    "kind": "stratum",
-    "build-depends": [
-        {
-            "repo": "baserock:baserock/morphs",
-            "ref": "master",
-            "morph": "core"
-        }
-    ],
-    "chunks": [
-        {
-            "name": "linux",
-            "repo": "upstream:linux",
-            "ref": "baserock/morph",
-            "build-depends": []
-        }
-    ]
-}
+name: bsp-imx53
+description: The platform dependent components required to boot an i.MX 53 ARM development
+  board.
+kind: stratum
+build-depends:
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: core
+chunks:
+- name: linux
+  repo: upstream:linux
+  ref: baserock/morph
+  build-depends: []

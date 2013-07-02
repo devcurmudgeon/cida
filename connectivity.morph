@@ -1,51 +1,31 @@
-{
-    "name": "connectivity",
-    "kind": "stratum",
-    "build-depends": [
-        {
-            "morph": "core",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "foundation",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        },
-        {
-            "morph": "genivi-foundation",
-            "repo": "baserock:baserock/morphs",
-            "ref": "master"
-        }
-    ],
-    "chunks": [
-        {
-            "name": "libnl",
-            "repo": "upstream:libnl",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
-            "name": "wpa_supplicant",
-            "repo": "upstream:hostap",
-            "ref": "baserock/genivi/morph",
-            "build-depends": [
-                "libnl"
-            ]
-        },
-        {
-            "name": "iptables",
-            "repo": "upstream:iptables",
-            "ref": "baserock/morph",
-            "build-depends": []
-        },
-        {
-            "name": "connman",
-            "repo": "upstream:connman",
-            "ref": "baserock/morph",
-            "build-depends": [
-                "iptables"
-            ]
-        }
-    ]
-}
+name: connectivity
+kind: stratum
+build-depends:
+- morph: core
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi-foundation
+  repo: baserock:baserock/morphs
+  ref: master
+chunks:
+- name: libnl
+  repo: upstream:libnl
+  ref: baserock/morph
+  build-depends: []
+- name: wpa_supplicant
+  repo: upstream:hostap
+  ref: baserock/genivi/morph
+  build-depends:
+  - libnl
+- name: iptables
+  repo: upstream:iptables
+  ref: baserock/morph
+  build-depends: []
+- name: connman
+  repo: upstream:connman
+  ref: baserock/morph
+  build-depends:
+  - iptables
