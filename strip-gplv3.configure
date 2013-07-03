@@ -55,6 +55,10 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
         for chunk in self.gplv3_chunks:
             self.remove_chunk(target_root, chunk[0], chunk[1])
 
+        os.remove(os.path.join(target_root, 'usr', 'bin', 'awk'))
+        os.symlink(os.path.join(os.sep, 'bin', 'busybox'),
+                   os.path.join(target_root, 'usr', 'bin', 'awk'))
+
     def remove_chunk(self, target_root, chunk, pattern):
         chunk_meta_path = os.path.join(target_root, 'baserock',
                                        chunk + '.meta')
