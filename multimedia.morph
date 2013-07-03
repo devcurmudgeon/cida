@@ -8,7 +8,7 @@ build-depends:
 - morph: foundation
   repo: baserock:baserock/morphs
   ref: master
-- morph: genivi-foundation
+- morph: audio-bluetooth
   repo: baserock:baserock/morphs
   ref: master
 chunks:
@@ -18,6 +18,11 @@ chunks:
   build-depends: []
 - name: gstreamer
   repo: upstream:gstreamer
-  ref: baserock/genivi/baseline
+  ref: baserock/morph/0.10
   build-depends:
   - orc
+- name: gstreamer-plugins-base
+  repo: upstream:gstreamer-plugins-base
+  ref: baserock/morph/0.10
+  build-depends:
+  - gstreamer

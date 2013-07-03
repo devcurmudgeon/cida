@@ -11,6 +11,12 @@ build-depends:
 - repo: baserock:baserock/morphs
   ref: master
   morph: lua
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: audio-bluetooth
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: multimedia
 chunks:
 - name: efl
   repo: upstream:enlightenment/efl
