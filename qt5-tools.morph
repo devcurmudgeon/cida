@@ -72,7 +72,6 @@ chunks:
   - qtjsbackend
   - qtscript
   - qtdeclarative
-- name: qtquick1
 - name: qtquickcontrols
   repo: upstream:qt5/qtquickcontrols
   ref: baserock/morph
