@@ -34,11 +34,6 @@ chunks:
   ref: baserock/morph
   build-depends:
   - icu
-- name: qt3d
-  repo: upstream:qt5/qt3d
-  ref: baserock/morph
-  build-depends:
-  - qtbase
 - name: qtsvg
   repo: upstream:qt5/qtsvg
   ref: baserock/morph
@@ -69,6 +64,15 @@ chunks:
   - qtbase
   - qtjsbackend
   - qtscript
+- name: qt3d
+  repo: upstream:qt5/qt3d
+  ref: baserock/morph
+  build-depends:
+  - qtbase
+  - qtjsbackend
+  - qtscript
+  - qtdeclarative
+- name: qtquick1
 - name: qtquickcontrols
   repo: upstream:qt5/qtquickcontrols
   ref: baserock/morph
