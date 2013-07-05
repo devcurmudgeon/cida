@@ -26,3 +26,10 @@ chunks:
   ref: baserock/morph/0.10
   build-depends:
   - gstreamer
+- name: gstreamer-plugins-good
+  repo: upstream:gstreamer-plugins-good
+  ref: baserock/morph/0.10
+  build-depends:
+  - gstreamer
+  - gstreamer-plugins-base
+  - orc
