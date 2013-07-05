@@ -1,9 +1,7 @@
 name: genivi-baseline-system-x86_64-generic
 description: A GENIVI baseline system for a 64-bit x86 system.
 kind: system
-system-kind: rootfs-tarball
 arch: x86_64
-disk-size: 2G
 strata:
 - morph: build-essential
   repo: baserock:baserock/morphs
