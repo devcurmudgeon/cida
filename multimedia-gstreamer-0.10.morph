@@ -1,4 +1,4 @@
-name: multimedia
+name: multimedia-gstreamer-0.10
 kind: stratum
 description: Codecs
 build-depends:
