@@ -17,6 +17,9 @@ build-depends:
 - repo: baserock:baserock/morphs
   ref: master
   morph: multimedia-gstreamer-0.10
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: connectivity
 chunks:
 - name: efl
   repo: upstream:enlightenment/efl

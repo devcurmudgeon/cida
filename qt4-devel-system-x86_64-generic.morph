@@ -42,6 +42,9 @@ strata:
 - morph: lua
   repo: baserock:baserock/morphs
   ref: master
+- morph: connectivity
+  repo: baserock:baserock/morphs
+  ref: master
 - morph: enlightenment
   repo: baserock:baserock/morphs
   ref: master
