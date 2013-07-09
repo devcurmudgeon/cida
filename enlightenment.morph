@@ -16,7 +16,7 @@ build-depends:
   morph: audio-bluetooth
 - repo: baserock:baserock/morphs
   ref: master
-  morph: multimedia
+  morph: multimedia-gstreamer-0.10
 chunks:
 - name: efl
   repo: upstream:enlightenment/efl

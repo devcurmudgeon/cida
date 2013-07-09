@@ -10,7 +10,7 @@ build-depends:
   morph: x-x86_64-generic
 - repo: baserock:baserock/morphs
   ref: master
-  morph: multimedia
+  morph: multimedia-gstreamer-0.10
 chunks:
 - name: icu
   repo: upstream:icu
