@@ -21,6 +21,7 @@ import sys
 import time
 import tempfile
 
+import morphlib
 
 class WriteExtension(cliapp.Application):
 
