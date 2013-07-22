@@ -2,9 +2,7 @@ name: base-system-armv7-highbank
 description: The set of strata required to have a minimal system for an ARM highbank
   system.
 kind: system
-system-kind: rootfs-tarball
 arch: armv7
-disk-size: 2G
 strata:
 - morph: build-essential
   repo: baserock:baserock/morphs

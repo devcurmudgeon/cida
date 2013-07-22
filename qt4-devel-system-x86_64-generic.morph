@@ -2,9 +2,7 @@ name: qt4-devel-system-x86_64-generic
 description: A system that is able to build other systems based on the 64-bit x86
   architecture.
 kind: system
-system-kind: rootfs-tarball
 arch: x86_64
-disk-size: 4G
 strata:
 - morph: build-essential
   repo: baserock:baserock/morphs
