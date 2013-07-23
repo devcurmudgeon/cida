@@ -38,12 +38,17 @@ chunks:
   ref: baserock/morph
   build-depends:
   - python-coverage-test-runner
+- name: python-markdown
+  repo: upstream:python-markdown
+  ref: baserock/morph
+  build-depends: []
 - name: cmdtest
   repo: upstream:cmdtest
   ref: liw/update-cmdtest
   build-depends:
   - cliapp
   - python-ttystatus
+  - python-markdown
 - name: coreutils
   repo: upstream:coreutils
   ref: baserock/morph
