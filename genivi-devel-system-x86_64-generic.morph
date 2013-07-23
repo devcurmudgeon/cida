@@ -41,7 +41,7 @@ strata:
   ref: master
 - morph: tools
   repo: baserock:baserock/morphs
-  ref: master
+  ref: liw/update-cmdtest
 configuration-extensions:
 - set-hostname
 - ssh
