@@ -17,6 +17,6 @@
 # Creates a GENIVI development system image that is configured for
 # being run inside a qemu-arm emulator.
 
-morph deploy rawdisk genivi-devel-system-armv7-versatile \
+morph deploy rawdisk devel-system-armv7-versatile \
              genivi-devel-system-armv7-versatile.img \
              DISK_SIZE=30G INSTALL_FILES=genivi-devel-system-armv7/manifest
