@@ -3,7 +3,7 @@ description: The platform dependent components required to boot an ARM highbank 
 kind: stratum
 build-depends:
 - repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
   morph: core
 chunks:
 - name: linux

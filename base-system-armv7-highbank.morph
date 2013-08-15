@@ -6,16 +6,16 @@ arch: armv7
 strata:
 - morph: build-essential
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
 - morph: core
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
 - morph: foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
 - morph: bsp-armv7-highbank
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
 configuration-extensions:
 - set-hostname
 - ssh

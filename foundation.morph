@@ -3,7 +3,7 @@ kind: stratum
 description: Basic userland runtime system
 build-depends:
 - repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
   morph: core
 chunks:
 - name: attr

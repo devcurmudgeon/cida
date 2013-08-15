@@ -4,7 +4,7 @@ description: Core components of a Baserock base system that are build tools requ
 kind: stratum
 build-depends:
 - repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
   morph: build-essential
 chunks:
 - name: cmake
