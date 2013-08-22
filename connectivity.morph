@@ -3,13 +3,13 @@ kind: stratum
 build-depends:
 - morph: core
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
 - morph: foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
 - morph: genivi-foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
 chunks:
 - name: libnl
   repo: upstream:libnl

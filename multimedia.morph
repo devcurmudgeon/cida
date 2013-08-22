@@ -4,13 +4,13 @@ description: Codecs
 build-depends:
 - morph: core
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
 - morph: foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
 - morph: audio-bluetooth
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
 chunks:
 - name: orc
   repo: upstream:orc

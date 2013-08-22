@@ -3,7 +3,7 @@ description: Extra development tools included in the devel system
 kind: stratum
 build-depends:
 - repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/richardmaw/S8564/ro-staging-area
   morph: foundation
 chunks:
 - name: patch
