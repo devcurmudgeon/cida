@@ -119,7 +119,7 @@ chunks:
           - stage1-binutils
           - stage1-gcc
           - stage2-eglibc
-	
+
     - name: stage2-reset-specs
       repo: upstream:eglibc2
       ref: baserock/2.15-build-essential
