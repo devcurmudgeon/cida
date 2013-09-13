@@ -1,0 +1,51 @@
+name: devel-system-armv7-wandboard
+description: A system that is able to build other systems based on the Wandboard.
+kind: system
+arch: armv7
+strata:
+- morph: build-essential
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: core
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi-foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: bsp-wandboard
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: connectivity
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: audio-bluetooth
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: x-common
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: x-armv7-versatile
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: multimedia
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: genivi-x-armv7-versatile
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: tools
+  repo: baserock:baserock/morphs
+  ref: master
+configuration-extensions:
+- set-hostname
+- ssh
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
