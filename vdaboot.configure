@@ -20,7 +20,7 @@
 set -e
 
 if [ "$OPENSTACK_USER" ]
-then	
+then
     # Modifying fstab 
     if [ -f "$1/etc/fstab" ]
     then
