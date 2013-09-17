@@ -43,6 +43,9 @@ strata:
 - morph: tools
   repo: baserock:baserock/morphs
   ref: master
+- morph: glanceclient
+  repo: baserock:baserock/morphs
+  ref: master
 configuration-extensions:
 - set-hostname
 - ssh

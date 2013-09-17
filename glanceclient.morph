@@ -1,0 +1,101 @@
+name: glanceclient
+description: A stratum with glanceclient to let the Openstack deployment.
+kind: stratum
+build-depends:
+- morph: build-essential
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: core
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: tools
+  repo: baserock:baserock/morphs
+  ref: master
+chunks:
+- name: six
+  repo: upstream:six
+  ref: baserock/morph
+  build-depends: []
+- name: jsonschema
+  repo: upstream:jsonschema
+  ref: baserock/morph
+  build-depends: []
+- name: python-json-pointer
+  repo: upstream:python-json-pointer
+  ref: baserock/morph
+  build-depends: []
+- name: python-json-patch
+  repo: upstream:python-json-patch
+  ref: baserock/morph
+  build-depends: []
+- name: warlock
+  repo: upstream:warlock
+  ref: baserock/morph
+  build-depends:
+  - six
+  - jsonschema
+  - python-json-pointer
+  - python-json-patch
+- name: python-prettytable
+  repo: upstream:python-prettytable
+  ref: baserock/morph
+  build-depends: []
+- name: pbr
+  repo: upstream:pbr
+  ref: baserock/morph
+  build-depends: []
+- name: argparse
+  repo: upstream:argparse
+  ref: baserock/morph
+  build-depends: []
+- name: pyopenssl
+  repo: upstream:pyopenssl
+  ref: baserock/morph
+  build-depends: []
+- name: pyiso8601
+  repo: upstream:pyiso8601
+  ref: baserock/morph
+  build-depends: []
+- name: python-requests
+  repo: upstream:python-requests
+  ref: baserock/morph
+  build-depends: []
+- name: simplejson
+  repo: upstream:simplejson
+  ref: baserock/morph
+  build-depends: []
+- name: netaddr
+  repo: upstream:netaddr
+  ref: baserock/morph
+  build-depends: []
+- name: pytz
+  repo: upstream:pytz
+  ref: baserock/morph
+  build-depends: []
+- name: babel
+  repo: upstream:babel
+  ref: baserock/morph
+  build-depends:
+  - pytz
+- name: python-keystoneclient
+  repo: upstream:python-keystoneclient
+  ref: baserock/morph
+  build-depends:
+  - pbr
+  - pyiso8601
+  - python-prettytable
+  - python-requests
+  - simplejson
+  - six
+  - netaddr
+  - babel
+- name: python-glanceclient
+  repo: upstream:python-glanceclient
+  ref: baserock/morph
+  build-depends:
+  - python-prettytable
+  - pbr
+  - argparse
+  - pyopenssl
+  - python-keystoneclient
+  - warlock
