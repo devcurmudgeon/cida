@@ -3,7 +3,7 @@ kind: stratum
 description: Basic userland runtime system
 build-depends:
 - repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
   morph: core
 chunks:
 - name: attr

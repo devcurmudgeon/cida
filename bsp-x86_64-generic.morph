@@ -4,7 +4,7 @@ description: The set of platform specific components required for booting a 64-b
 kind: stratum
 build-depends:
 - repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
   morph: core
 chunks:
 - name: linux

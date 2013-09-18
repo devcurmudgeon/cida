@@ -4,19 +4,19 @@ description: Software components designed by genivi, for genivi.
 build-depends:
 - morph: core
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: genivi-foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: genivi
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: x-x86_64-generic
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 chunks:
 - name: layer_management
   repo: upstream:layer_management

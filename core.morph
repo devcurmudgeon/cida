@@ -188,6 +188,6 @@ chunks:
   - ncurses
 - name: bc
   repo: upstream:bc-tarball
-  ref: baserock/morph
+  ref: baserock/liw/S8700-bc-segfault
   build-depends:
   - flex

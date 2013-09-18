@@ -9,43 +9,43 @@ strata:
   ref: master
 - morph: core
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: genivi-foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: bsp-x86_64-generic
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: connectivity
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: audio-bluetooth
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: x-common
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: x-x86_64-generic
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: multimedia
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: genivi
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: genivi-x-x86_64-generic
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: tools
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: glanceclient
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 configuration-extensions:
 - set-hostname
 - ssh

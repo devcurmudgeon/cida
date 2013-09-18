@@ -3,16 +3,16 @@ kind: stratum
 build-depends:
 - morph: core
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: genivi-foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: x-common
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 chunks:
 - name: mesa-x
   repo: upstream:mesa

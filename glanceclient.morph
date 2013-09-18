@@ -7,10 +7,10 @@ build-depends:
   ref: master
 - morph: core
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: tools
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 chunks:
 - name: six
   repo: upstream:six

@@ -4,10 +4,10 @@ kind: stratum
 build-depends:
 - morph: core
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 - morph: foundation
   repo: baserock:baserock/morphs
-  ref: master
+  ref: baserock/liw/S8700-bc-segfault
 chunks:
 - name: dbus-glib
   repo: upstream:dbus-glib
