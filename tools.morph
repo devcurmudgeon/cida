@@ -10,24 +10,14 @@ chunks:
   repo: upstream:patch
   ref: baserock/morph
   build-depends: []
-- name: python-setuptools
-  repo: upstream:python-setuptools
-  ref: baserock/morph
-  build-depends: []
 - name: python-ttystatus
   repo: upstream:python-ttystatus
   ref: baserock/morph
   build-depends: []
-- name: pyyaml
-  repo: upstream:pyyaml
-  ref: baserock/morph
-  build-depends:
-  - python-setuptools
 - name: python-coveragepy
   repo: upstream:python-coveragepy
   ref: baserock/morph
-  build-depends:
-  - python-setuptools
+  build-depends: []
 - name: python-coverage-test-runner
   repo: upstream:python-coverage-test-runner
   ref: baserock/morph
@@ -89,7 +79,6 @@ chunks:
   - cliapp
   - cmdtest
   - python-coverage-test-runner
-  - pyyaml
 - name: pv
   repo: upstream:pv
   ref: baserock/morph
