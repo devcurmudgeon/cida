@@ -72,8 +72,8 @@ chunks:
   ref: baserock/build-essential
   build-depends:
   - m4
-- name: openssl
-  repo: upstream:openssl
+- name: openssl-new
+  repo: upstream:openssl-new
   ref: baserock/morph
   build-depends:
   - perl
@@ -85,7 +85,7 @@ chunks:
   repo: upstream:cpython
   ref: baserock/morph-2.7
   build-depends:
-  - openssl
+  - openssl-new
   - bzip2
 - name: libtool
   repo: upstream:libtool
@@ -114,7 +114,7 @@ chunks:
   - autoconf
   - automake
   - libtool
-  - openssl
+  - openssl-new
 - name: libexpat
   repo: upstream:libexpat
   ref: baserock/morph
@@ -139,7 +139,7 @@ chunks:
   - error-perl-tarball
   - gettext
   - libexpat
-  - openssl
+  - openssl-new
 - name: bison
   repo: upstream:bison
   ref: baserock/morph
