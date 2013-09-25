@@ -1,0 +1,12 @@
+name: bsp-armv7b-vexpress-tc2
+description: The platform dependent components required to boot Versatile TC2 board
+kind: stratum
+build-depends:
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: core
+chunks:
+- name: linux
+  repo: upstream:linux
+  ref: baserock/liw/tc2
+  build-depends: []
