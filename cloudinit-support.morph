@@ -1,0 +1,48 @@
+name: cloudinit-support
+description: A stratum with cloudinit to fit a system in the OpenStack cloud.
+kind: stratum
+build-depends:
+- morph: build-essential
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: core
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: foundation
+  repo: baserock:baserock/morphs
+  ref: master
+chunks:
+- name: configobj
+  repo: upstream:configobj
+  ref: baserock/morph
+  build-depends: []
+- name: python-requests
+  repo: upstream:python-requests
+  ref: baserock/morph
+  build-depends: []
+- name: python-prettytable
+  repo: upstream:python-prettytable
+  ref: baserock/morph
+  build-depends: []
+- name: python-json-patch
+  repo: upstream:python-json-patch
+  ref: baserock/morph
+  build-depends: []
+- name: python-json-pointer
+  repo: upstream:python-json-pointer
+  ref: baserock/morph
+  build-depends:
+  - python-json-patch
+- name: python-cheetah
+  repo: upstream:python-cheetah
+  ref: baserock/morph
+  build-depends: []
+- name: cloud-init
+  repo: upstream:cloud-init
+  ref: baserock/morph
+  build-depends:
+  - configobj
+  - python-requests
+  - python-prettytable
+  - python-json-pointer
+  - python-cheetah

@@ -192,3 +192,13 @@ chunks:
   build-depends:
   - flex
   - texinfo-tarball
+- name: python-setuptools
+  repo: upstream:python-setuptools
+  ref: baserock/morph
+  build-depends:
+  - cpython
+- name: pyyaml
+  repo: upstream:pyyaml
+  ref: baserock/morph
+  build-depends:
+  - python-setuptools
