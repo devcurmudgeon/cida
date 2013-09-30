@@ -1,23 +1,23 @@
-name: multimedia
-kind: stratum
-description: Codecs
 build-depends:
 - morph: core
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: foundation
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: audio-bluetooth
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 chunks:
-- name: orc
-  repo: upstream:orc
+- build-depends: []
+  name: orc
   ref: baserock/morph
-  build-depends: []
-- name: gstreamer
-  repo: upstream:gstreamer
-  ref: baserock/genivi/baseline
-  build-depends:
+  repo: upstream:orc
+- build-depends:
   - orc
+  name: gstreamer
+  ref: baserock/genivi/baseline
+  repo: upstream:gstreamer
+description: Codecs
+kind: stratum
+name: multimedia

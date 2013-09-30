@@ -1,51 +1,4 @@
-name: qt4-devel-system-x86_64-generic
-description: A system that is able to build other systems based on the 64-bit x86
-  architecture.
-kind: system
 arch: x86_64
-strata:
-- morph: build-essential
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: core
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: foundation
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: audio-bluetooth
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: multimedia-gstreamer-0.10
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: bsp-x86_64-generic
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: tools
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: x-common
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: x-x86_64-generic
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: qt4-tools
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: qt4-sdk
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: lua
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: connectivity
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: enlightenment
-  repo: baserock:baserock/morphs
-  ref: master
 configuration-extensions:
 - set-hostname
 - ssh
@@ -53,3 +6,50 @@ configuration-extensions:
 - simple-network
 - nfsboot
 - install-files
+description: A system that is able to build other systems based on the 64-bit x86
+  architecture.
+kind: system
+name: qt4-devel-system-x86_64-generic
+strata:
+- morph: build-essential
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: core
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: foundation
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: audio-bluetooth
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: multimedia-gstreamer-0.10
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: bsp-x86_64-generic
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: tools
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: x-common
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: x-x86_64-generic
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: qt4-tools
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: qt4-sdk
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: lua
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: connectivity
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: enlightenment
+  ref: master
+  repo: baserock:baserock/morphs

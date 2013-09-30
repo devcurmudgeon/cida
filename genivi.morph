@@ -1,44 +1,44 @@
-name: genivi
-kind: stratum
-description: Software components designed by genivi, for genivi.
 build-depends:
 - morph: core
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: foundation
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: genivi-foundation
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 chunks:
-- name: DLT-daemon
-  repo: upstream:DLT-daemon
+- build-depends: []
+  name: DLT-daemon
   ref: baserock/morphs
-  build-depends: []
-- name: sqlite3
+  repo: upstream:DLT-daemon
+- build-depends: []
+  name: sqlite3
+  ref: baserock/morph
   repo: upstream:sqlite3
-  ref: baserock/morph
-  build-depends: []
-- name: node-startup-controller
-  repo: upstream:node-startup-controller
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - DLT-daemon
-- name: googletest
+  name: node-startup-controller
+  ref: baserock/morph
+  repo: upstream:node-startup-controller
+- build-depends: []
+  name: googletest
+  ref: baserock/morph
   repo: upstream:googletest
-  ref: baserock/morph
-  build-depends: []
-- name: googlemock
-  repo: upstream:googlemock
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - googletest
-- name: audiomanager
-  repo: upstream:audiomanager
-  ref: baserock/genivi/baseline
-  build-depends:
+  name: googlemock
+  ref: baserock/morph
+  repo: upstream:googlemock
+- build-depends:
   - DLT-daemon
   - sqlite3
   - googletest
   - googlemock
+  name: audiomanager
+  ref: baserock/genivi/baseline
+  repo: upstream:audiomanager
+description: Software components designed by genivi, for genivi.
+kind: stratum
+name: genivi

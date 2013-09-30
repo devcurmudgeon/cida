@@ -1,24 +1,24 @@
-name: genivi-x-x86_64-generic
-kind: stratum
-description: Software components designed by genivi, for genivi.
 build-depends:
 - morph: core
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: foundation
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: genivi-foundation
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: genivi
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: x-x86_64-generic
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 chunks:
-- name: layer_management
-  repo: upstream:layer_management
+- build-depends: []
+  name: layer_management
   ref: baserock/genivi/baseline
-  build-depends: []
+  repo: upstream:layer_management
+description: Software components designed by genivi, for genivi.
+kind: stratum
+name: genivi-x-x86_64-generic

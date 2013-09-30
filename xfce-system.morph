@@ -1,54 +1,4 @@
-name: xfce-system
-description: A GENIVI devel with XFCE
-kind: system
 arch: x86_64
-disk-size: 2G
-strata:
-- morph: build-essential
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: core
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: foundation
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: genivi-foundation
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: bsp-x86_64-generic
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: connectivity
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: audio-bluetooth
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: x-common
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: x-x86_64-generic
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: multimedia
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: genivi
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: genivi-x-x86_64-generic
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: gtk2
-  repo: baserock:baserock/morphs
-  ref: baserock/xfce-build-rebase-2
-- morph: tools
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: xfce
-  repo: baserock:baserock/morphs
-  ref: baserock/xfce-build-rebase-2
 configuration-extensions:
 - set-hostname
 - ssh
@@ -56,3 +6,53 @@ configuration-extensions:
 - simple-network
 - nfsboot
 - install-files
+description: A GENIVI devel with XFCE
+disk-size: 2G
+kind: system
+name: xfce-system
+strata:
+- morph: build-essential
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: core
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: foundation
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: genivi-foundation
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: bsp-x86_64-generic
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: connectivity
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: audio-bluetooth
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: x-common
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: x-x86_64-generic
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: multimedia
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: genivi
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: genivi-x-x86_64-generic
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: gtk2
+  ref: baserock/xfce-build-rebase-2
+  repo: baserock:baserock/morphs
+- morph: tools
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: xfce
+  ref: baserock/xfce-build-rebase-2
+  repo: baserock:baserock/morphs

@@ -1,14 +1,14 @@
-name: cross-bootstrap-system-x86_64-generic
+arch: x86_64
 description: A system that produces the minimum needed to build a devel system
 kind: system
-arch: x86_64
+name: cross-bootstrap-system-x86_64-generic
 strata:
 - morph: build-essential
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: core
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: cross-bootstrap
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs

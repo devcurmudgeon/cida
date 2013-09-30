@@ -1,44 +1,4 @@
-name: genivi-baseline-system-armv7-versatile
-description: A GENIVI baseline system for an ARMv7 system.
-kind: system
-arch: armv7
-strata:
-- morph: build-essential
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: core
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: foundation
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: genivi-foundation
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: bsp-armv7-versatile
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: connectivity
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: audio-bluetooth
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: x-common
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: x-armv7-versatile
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: multimedia
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: genivi
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: genivi-x-armv7-versatile
-  repo: baserock:baserock/morphs
-  ref: master
+arch: armv7l
 configuration-extensions:
 - set-hostname
 - ssh
@@ -47,3 +7,43 @@ configuration-extensions:
 - nfsboot
 - install-files
 - strip-gplv3
+description: A GENIVI baseline system for an ARMv7 system.
+kind: system
+name: genivi-baseline-system-armv7-versatile
+strata:
+- morph: build-essential
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: core
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: foundation
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: genivi-foundation
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: bsp-armv7-versatile
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: connectivity
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: audio-bluetooth
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: x-common
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: x-armv7-versatile
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: multimedia
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: genivi
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: genivi-x-armv7-versatile
+  ref: master
+  repo: baserock:baserock/morphs
