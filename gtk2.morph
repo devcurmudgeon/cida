@@ -1,0 +1,94 @@
+name: gtk2
+description: the gtk2 stratum
+kind: stratum
+build-depends:
+- morph: genivi-foundation
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: x-common
+  repo: baserock:baserock/morphs
+  ref: master
+- morph: x-x86_64-generic
+  repo: baserock:baserock/morphs
+  ref: master
+chunks:
+- name: shared-mime-info
+  repo: upstream:shared-mime-info
+  ref: baserock/morph
+  build-depends: []
+- name: gnome-common
+  repo: upstream:gnome-common
+  ref: 3.7.4
+  build-depends: []
+- name: libtiff
+  repo: upstream:libtiff
+  ref: Release-v4-0-3
+  build-depends: []
+- name: libcroco
+  repo: upstream:libcroco
+  ref: baserock/morph
+  build-depends:
+  - gnome-common
+- name: gdk-pixbuf
+  repo: upstream:gdk-pixbuf
+  ref: baserock/morph
+  build-depends:
+  - libtiff
+- name: atk
+  repo: upstream:atk
+  ref: ATK_2_9_3
+  build-depends:
+  - gnome-common
+- name: at-spi2-core
+  repo: upstream:at-spi2-core
+  ref: AT_SPI2_CORE_2_9_5
+  build-depends: []
+- name: at-spi2-atk
+  repo: upstream:at-spi2-atk
+  ref: baserock/morph
+  build-depends:
+  - at-spi2-core
+  - atk
+- name: cairo
+  repo: upstream:cairo
+  ref: 1.12.14
+  build-depends: []
+- name: colm
+  repo: upstream:colm
+  ref: master
+  build-depends: []
+- name: ragel
+  repo: upstream:ragel
+  ref: baserock/morph
+  build-depends:
+  - colm
+- name: harfbuzz
+  repo: upstream:harfbuzz
+  ref: 0.9.19
+  build-depends:
+  - ragel
+- name: pango
+  repo: upstream:pango
+  ref: baserock/xfce-build
+  build-depends:
+  - cairo
+  - harfbuzz
+- name: gtk+
+  repo: upstream:gtk+
+  ref: baserock/xfce-build
+  build-depends:
+  - pango
+  - gdk-pixbuf
+  - cairo
+  - atk
+  - at-spi2-atk
+- name: librsvg
+  repo: upstream:librsvg
+  ref: baserock/morph
+  build-depends:
+  - cairo
+  - gdk-pixbuf
+  - gnome-common
+  - gtk+
+  - libcroco
+  - pango

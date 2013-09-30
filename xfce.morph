@@ -1,0 +1,132 @@
+name: xfce
+description: xfce stratum
+kind: stratum
+build-depends:
+- repo: baserock:baserock/morphs
+  morph: genivi-x-x86_64-generic
+  ref: master
+- morph: gtk2
+  repo: baserock:baserock/morphs
+  ref: baserock/xfce-build-rebase-2
+- repo: baserock:baserock/morphs
+  morph: x-x86_64-generic
+  ref: master
+chunks:
+- name: xfce-dev-tools
+  repo: upstream:xfce/xfce4-dev-tools
+  ref: baserock/morph
+  build-depends: []
+- name: libxfce4util
+  repo: upstream:xfce/libxfce4util
+  ref: baserock/morph
+  build-depends:
+  - xfce-dev-tools
+- name: xfconf
+  repo: upstream:xfce/xfconf
+  ref: baserock/morph
+  build-depends:
+  - xfce-dev-tools
+  - libxfce4util
+- name: libxfce4ui
+  repo: upstream:xfce/libxfce4ui
+  ref: baserock/morph
+  build-depends:
+  - xfce-dev-tools
+  - libxfce4util
+  - xfconf
+- name: garcon
+  repo: upstream:xfce/garcon
+  ref: baserock/morph
+  build-depends:
+  - libxfce4util
+- name: perl-uri
+  repo: upstream:libwww-perl/uri
+  ref: baserock/morph
+  build-depends: []
+- name: exo
+  repo: upstream:xfce/exo
+  ref: baserock/morph
+  build-depends:
+  - libxfce4util
+  - libxfce4ui
+  - perl-uri
+- name: libwnck
+  repo: upstream:libwnck
+  ref: baserock/xfce-build
+  build-depends: []
+- name: xfce4-panel
+  repo: upstream:xfce/xfce4-panel
+  ref: baserock/morph
+  build-depends:
+  - libxfce4ui
+  - garcon
+  - exo
+  - libwnck
+- name: thunar
+  repo: upstream:xfce/thunar
+  ref: baserock/morph
+  build-depends:
+  - libxfce4ui
+  - exo
+  - garcon
+  - libwnck
+- name: xfce4-settings
+  repo: upstream:xfce/xfce4-settings
+  ref: baserock/morph
+  build-depends:
+  - xfce-dev-tools
+  - xfconf
+  - exo
+  - libxfce4ui
+  - garcon
+- name: iceauth
+  repo: upstream:iceauth
+  ref: baserock/morph
+  build-depends: []
+- name: xfce4-session
+  repo: upstream:xfce/xfce4-session
+  ref: baserock/morph
+  build-depends:
+  - iceauth
+  - exo
+  - xfce-dev-tools
+  - libxfce4ui
+  - libwnck
+- name: gtk-xfce-engine-2
+  repo: upstream:xfce/gtk-xfce-engine
+  ref: baserock/morph
+  build-depends:
+  - xfce-dev-tools
+- name: xfdesktop
+  repo: upstream:xfce/xfdesktop
+  ref: baserock/morph
+  build-depends:
+  - exo
+  - libxfce4ui
+  - xfconf
+  - libwnck
+- name: xfwm4
+  repo: upstream:xfce/xfwm4
+  ref: baserock/morph
+  build-depends:
+  - exo
+  - libxfce4util
+  - libxfce4ui
+  - xfconf
+  - libwnck
+- name: xfce4-appfinder
+  repo: upstream:xfce/xfce4-appfinder
+  ref: baserock/morph
+  build-depends:
+  - exo
+  - libxfce4ui
+  - garcon
+- name: tumbler
+  repo: upstream:xfce/tumbler
+  ref: baserock/morph
+  build-depends:
+  - xfce-dev-tools
+- name: elementary-xfce
+  repo: upstream:elementary-xfce
+  ref: baserock/morph
+  build-depends: []
