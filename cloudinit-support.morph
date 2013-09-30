@@ -1,48 +1,48 @@
-name: cloudinit-support
-description: A stratum with cloudinit to fit a system in the OpenStack cloud.
-kind: stratum
 build-depends:
 - morph: build-essential
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: core
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: foundation
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 chunks:
-- name: configobj
+- build-depends: []
+  name: configobj
+  ref: baserock/morph
   repo: upstream:configobj
+- build-depends: []
+  name: python-requests
   ref: baserock/morph
-  build-depends: []
-- name: python-requests
   repo: upstream:python-requests
+- build-depends: []
+  name: python-prettytable
   ref: baserock/morph
-  build-depends: []
-- name: python-prettytable
   repo: upstream:python-prettytable
+- build-depends: []
+  name: python-json-patch
   ref: baserock/morph
-  build-depends: []
-- name: python-json-patch
   repo: upstream:python-json-patch
-  ref: baserock/morph
-  build-depends: []
-- name: python-json-pointer
-  repo: upstream:python-json-pointer
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - python-json-patch
-- name: python-cheetah
+  name: python-json-pointer
+  ref: baserock/morph
+  repo: upstream:python-json-pointer
+- build-depends: []
+  name: python-cheetah
+  ref: baserock/morph
   repo: upstream:python-cheetah
-  ref: baserock/morph
-  build-depends: []
-- name: cloud-init
-  repo: upstream:cloud-init
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - configobj
   - python-requests
   - python-prettytable
   - python-json-pointer
   - python-cheetah
+  name: cloud-init
+  ref: baserock/morph
+  repo: upstream:cloud-init
+description: A stratum with cloudinit to fit a system in the OpenStack cloud.
+kind: stratum
+name: cloudinit-support

@@ -1,98 +1,93 @@
-name: x-x86_64-generic
-kind: stratum
 build-depends:
 - morph: core
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: foundation
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: genivi-foundation
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: x-common
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 chunks:
-- name: mesa-x
-  repo: upstream:mesa
+- build-depends: []
+  name: mesa-x
   ref: baserock/genivi/morph
-  build-depends: []
-- name: xorg-lib-libxkbfile
+  repo: upstream:mesa
+- build-depends: []
+  name: xorg-lib-libxkbfile
+  ref: baserock/morph
   repo: upstream:xorg-lib-libxkbfile
+- build-depends: []
+  name: pixman
   ref: baserock/morph
-  build-depends: []
-- name: pixman
   repo: upstream:pixman
+- build-depends: []
+  name: xorg-font-util
   ref: baserock/morph
-  build-depends: []
-- name: xorg-font-util
   repo: upstream:xorg-font-util
-  ref: baserock/morph
-  build-depends: []
-- name: xorg-lib-libfontenc
-  repo: upstream:xorg-lib-libfontenc
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-font-util
-- name: freetype2
+  name: xorg-lib-libfontenc
+  ref: baserock/morph
+  repo: upstream:xorg-lib-libfontenc
+- build-depends: []
+  name: freetype2
+  ref: baserock/morph
   repo: upstream:freetype2
-  ref: baserock/morph
-  build-depends: []
-- name: fontconfig
-  repo: upstream:fontconfig
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - freetype2
-- name: xorg-lib-libXfont
-  repo: upstream:xorg-lib-libXfont
+  name: fontconfig
   ref: baserock/morph
-  build-depends:
+  repo: upstream:fontconfig
+- build-depends:
   - freetype2
   - xorg-lib-libfontenc
-- name: freefont-otf
+  name: xorg-lib-libXfont
+  ref: baserock/morph
+  repo: upstream:xorg-lib-libXfont
+- build-depends: []
+  name: freefont-otf
+  ref: baserock/morph
   repo: upstream:freefont-otf
+- build-depends: []
+  name: xorg-lib-libICE
   ref: baserock/morph
-  build-depends: []
-- name: xorg-lib-libICE
   repo: upstream:xorg-lib-libICE
-  ref: baserock/morph
-  build-depends: []
-- name: xorg-lib-libSM
-  repo: upstream:xorg-lib-libSM
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-lib-libICE
-- name: xorg-lib-libXt
-  repo: upstream:xorg-lib-libXt
+  name: xorg-lib-libSM
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libSM
+- build-depends:
   - xorg-lib-libSM
-- name: xorg-lib-libXmu
+  name: xorg-lib-libXt
+  ref: baserock/morph
+  repo: upstream:xorg-lib-libXt
+- build-depends:
+  - xorg-lib-libXt
+  name: xorg-lib-libXmu
+  ref: baserock/morph
   repo: upstream:xorg-lib-libXmu
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-lib-libXt
-- name: xorg-lib-libXpm
+  name: xorg-lib-libXpm
+  ref: baserock/morph
   repo: upstream:xorg-lib-libXpm
-  ref: baserock/morph
-  build-depends:
-  - xorg-lib-libXt
-- name: xorg-lib-libXaw
-  repo: upstream:xorg-lib-libXaw
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-lib-libXmu
   - xorg-lib-libXpm
   - xorg-lib-libXt
-- name: libsha1
+  name: xorg-lib-libXaw
+  ref: baserock/morph
+  repo: upstream:xorg-lib-libXaw
+- build-depends: []
+  name: libsha1
+  ref: baserock/morph
   repo: upstream:libsha1
-  ref: baserock/morph
-  build-depends: []
-- name: xserver
-  repo: upstream:xserver
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - libsha1
   - mesa-x
   - pixman
@@ -104,81 +99,86 @@ chunks:
   - xorg-lib-libXt
   - xorg-lib-libfontenc
   - xorg-lib-libxkbfile
-- name: xorg-driver-xf86-video-cirrus
+  name: xserver
+  ref: baserock/morph
+  repo: upstream:xserver
+- build-depends:
+  - xserver
+  name: xorg-driver-xf86-video-cirrus
+  ref: baserock/morph
   repo: upstream:xorg-driver-xf86-video-cirrus
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xserver
-- name: xorg-driver-xf86-video-fbdev
+  name: xorg-driver-xf86-video-fbdev
+  ref: baserock/morph
   repo: upstream:xorg-driver-xf86-video-fbdev
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xserver
-- name: xorg-driver-xf86-video-vesa
+  name: xorg-driver-xf86-video-vesa
+  ref: baserock/morph
   repo: upstream:xorg-driver-xf86-video-vesa
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xserver
-- name: xorg-driver-xf86-input-evdev
+  name: xorg-driver-xf86-input-evdev
+  ref: baserock/morph
   repo: upstream:xorg-driver-xf86-input-evdev
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xserver
-- name: xorg-driver-xf86-input-keyboard
+  name: xorg-driver-xf86-input-keyboard
+  ref: baserock/morph
   repo: upstream:xorg-driver-xf86-input-keyboard
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xserver
-- name: xorg-driver-xf86-input-mouse
+  name: xorg-driver-xf86-input-mouse
+  ref: baserock/morph
   repo: upstream:xorg-driver-xf86-input-mouse
-  ref: baserock/morph
-  build-depends:
-  - xserver
-- name: xorg-app-xkbcomp
-  repo: upstream:xorg-app-xkbcomp
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-lib-libxkbfile
-- name: xkeyboard-config
-  repo: upstream:xkeyboard-config
+  name: xorg-app-xkbcomp
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-app-xkbcomp
+- build-depends:
   - xorg-app-xkbcomp
-- name: xorg-app-xinit
+  name: xkeyboard-config
+  ref: baserock/morph
+  repo: upstream:xkeyboard-config
+- build-depends: []
+  name: xorg-app-xinit
+  ref: baserock/morph
   repo: upstream:xorg-app-xinit
-  ref: baserock/morph
-  build-depends: []
-- name: xorg-lib-libXft
-  repo: upstream:xorg-lib-libXft
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - fontconfig
   - freetype2
-- name: xcb-util
+  name: xorg-lib-libXft
+  ref: baserock/morph
+  repo: upstream:xorg-lib-libXft
+- build-depends: []
+  name: xcb-util
+  ref: baserock/morph
   repo: upstream:xcb-util
+- build-depends: []
+  name: util-wm
   ref: baserock/morph
-  build-depends: []
-- name: util-wm
   repo: upstream:util-wm
+- build-depends: []
+  name: util-keysyms
   ref: baserock/morph
-  build-depends: []
-- name: util-keysyms
   repo: upstream:util-keysyms
-  ref: baserock/morph
-  build-depends: []
-- name: util-image
-  repo: upstream:util-image
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xcb-util
-- name: xterm
-  repo: upstream:xterm
+  name: util-image
   ref: baserock/morph
-  build-depends:
+  repo: upstream:util-image
+- build-depends:
   - xorg-lib-libXaw
   - xorg-lib-libxkbfile
-- name: xorg-app-xauth
-  repo: upstream:xorg-app-xauth
+  name: xterm
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xterm
+- build-depends:
   - xorg-lib-libXmu
+  name: xorg-app-xauth
+  ref: baserock/morph
+  repo: upstream:xorg-app-xauth
+kind: stratum
+name: x-x86_64-generic

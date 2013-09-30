@@ -1,185 +1,180 @@
-name: x-common
-kind: stratum
 build-depends:
 - morph: core
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: foundation
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 - morph: genivi-foundation
-  repo: baserock:baserock/morphs
   ref: master
+  repo: baserock:baserock/morphs
 chunks:
-- name: llvm
+- build-depends: []
+  name: llvm
+  ref: baserock/morph
   repo: upstream:llvm
+- build-depends: []
+  name: libpng
   ref: baserock/morph
-  build-depends: []
-- name: libpng
   repo: upstream:libpng
+- build-depends: []
+  name: libjpeg
   ref: baserock/morph
-  build-depends: []
-- name: libjpeg
   repo: upstream:libjpeg
+- build-depends: []
+  name: xorg-util-macros
   ref: baserock/morph
-  build-depends: []
-- name: xorg-util-macros
   repo: upstream:xorg-util-macros
+- build-depends:
+  - xorg-util-macros
+  name: xorg-proto-bigreqsproto
   ref: baserock/morph
-  build-depends: []
-- name: xorg-proto-bigreqsproto
   repo: upstream:xorg-proto-bigreqsproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-compositeproto
+  name: xorg-proto-compositeproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-compositeproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-damageproto
+  name: xorg-proto-damageproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-damageproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-dmxproto
+  name: xorg-proto-dmxproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-dmxproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-fixesproto
+  name: xorg-proto-fixesproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-fixesproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-fontsproto
+  name: xorg-proto-fontsproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-fontsproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-glproto
+  name: xorg-proto-glproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-glproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-inputproto
+  name: xorg-proto-inputproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-inputproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-kbproto
+  name: xorg-proto-kbproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-kbproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-xineramaproto
+  name: xorg-proto-xineramaproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-xineramaproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-randrproto
+  name: xorg-proto-randrproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-randrproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-recordproto
+  name: xorg-proto-recordproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-recordproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-renderproto
+  name: xorg-proto-renderproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-renderproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-resourceproto
+  name: xorg-proto-resourceproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-resourceproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-scrnsaverproto
+  name: xorg-proto-scrnsaverproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-scrnsaverproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-videoproto
+  name: xorg-proto-videoproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-videoproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-xcmiscproto
+  name: xorg-proto-xcmiscproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-xcmiscproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-xextproto
+  name: xorg-proto-xextproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-xextproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-xf86bigfontproto
+  name: xorg-proto-xf86bigfontproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-xf86bigfontproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-xf86dgaproto
+  name: xorg-proto-xf86dgaproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-xf86dgaproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-xf86driproto
+  name: xorg-proto-xf86driproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-xf86driproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-xf86vidmodeproto
+  name: xorg-proto-xf86vidmodeproto
+  ref: baserock/morph
   repo: upstream:xorg-proto-xf86vidmodeproto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-x11proto
+  name: xorg-proto-x11proto
+  ref: baserock/morph
   repo: upstream:xorg-proto-x11proto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xorg-proto-dri2proto
+  name: xorg-proto-dri2proto
+  ref: baserock/morph
   repo: upstream:xorg-proto-dri2proto
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xcb-pthread-stubs
+  name: xcb-pthread-stubs
+  ref: baserock/morph
   repo: upstream:xcb-pthread-stubs
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-util-macros
-- name: xcb-proto
+  name: xcb-proto
+  ref: baserock/morph
   repo: upstream:xcb-proto
-  ref: baserock/morph
-  build-depends:
-  - xorg-util-macros
-- name: xorg-lib-libXau
-  repo: upstream:xorg-lib-libXau
-  ref: baserock/morph
-  build-depends:
+- build-depends:
   - xorg-proto-x11proto
   - xorg-util-macros
-- name: xcb-libxcb
-  repo: upstream:xcb-libxcb
+  name: xorg-lib-libXau
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXau
+- build-depends:
   - xcb-proto
   - xcb-pthread-stubs
   - xorg-lib-libXau
   - xorg-util-macros
-- name: xorg-lib-libxtrans
-  repo: upstream:xorg-lib-libxtrans
+  name: xcb-libxcb
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xcb-libxcb
+- build-depends:
   - xorg-util-macros
-- name: xorg-lib-libX11
-  repo: upstream:xorg-lib-libX11
+  name: xorg-lib-libxtrans
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libxtrans
+- build-depends:
   - xcb-libxcb
   - xorg-lib-libXau
   - xorg-lib-libxtrans
@@ -191,68 +186,68 @@ chunks:
   - xorg-proto-xextproto
   - xorg-proto-xf86bigfontproto
   - xorg-util-macros
-- name: xorg-lib-libpciaccess
-  repo: upstream:xorg-lib-libpciaccess
+  name: xorg-lib-libX11
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libX11
+- build-depends:
   - xorg-util-macros
-- name: drm
-  repo: upstream:drm
+  name: xorg-lib-libpciaccess
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libpciaccess
+- build-depends:
   - xcb-pthread-stubs
   - xorg-lib-libpciaccess
-- name: xorg-lib-libXext
-  repo: upstream:xorg-lib-libXext
+  name: drm
   ref: baserock/morph
-  build-depends:
+  repo: upstream:drm
+- build-depends:
   - xorg-lib-libX11
   - xorg-lib-libXau
   - xorg-proto-x11proto
   - xorg-proto-xextproto
   - xorg-util-macros
-- name: xorg-lib-libXi
-  repo: upstream:xorg-lib-libXi
+  name: xorg-lib-libXext
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXext
+- build-depends:
   - xorg-lib-libX11
   - xorg-lib-libXext
   - xorg-proto-inputproto
   - xorg-proto-x11proto
   - xorg-proto-xextproto
   - xorg-util-macros
-- name: xorg-util-makedepend
-  repo: upstream:xorg-util-makedepend
+  name: xorg-lib-libXi
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXi
+- build-depends:
   - xorg-proto-x11proto
   - xorg-util-macros
-- name: xorg-lib-libXfixes
-  repo: upstream:xorg-lib-libXfixes
+  name: xorg-util-makedepend
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-util-makedepend
+- build-depends:
   - xorg-lib-libXext
   - xorg-proto-fixesproto
   - xorg-util-macros
-- name: xorg-lib-libXcomposite
-  repo: upstream:xorg-lib-libXcomposite
+  name: xorg-lib-libXfixes
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXfixes
+- build-depends:
   - xorg-lib-libX11
   - xorg-lib-libXfixes
   - xorg-proto-compositeproto
   - xorg-util-macros
-- name: xorg-lib-libXrender
-  repo: upstream:xorg-lib-libXrender
+  name: xorg-lib-libXcomposite
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXcomposite
+- build-depends:
   - xorg-lib-libX11
   - xorg-proto-renderproto
   - xorg-util-macros
-- name: xorg-lib-libXrandr
-  repo: upstream:xorg-lib-libXrandr
+  name: xorg-lib-libXrender
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXrender
+- build-depends:
   - xorg-lib-libX11
   - xorg-lib-libXext
   - xorg-lib-libXrender
@@ -260,28 +255,28 @@ chunks:
   - xorg-proto-renderproto
   - xorg-proto-xextproto
   - xorg-util-macros
-- name: xorg-lib-libXinerama
-  repo: upstream:xorg-lib-libXinerama
+  name: xorg-lib-libXrandr
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXrandr
+- build-depends:
   - xorg-lib-libX11
   - xorg-lib-libXext
   - xorg-proto-xextproto
   - xorg-proto-xineramaproto
   - xorg-util-macros
-- name: xorg-lib-libdmx
-  repo: upstream:xorg-lib-libdmx
+  name: xorg-lib-libXinerama
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXinerama
+- build-depends:
   - xorg-lib-libX11
   - xorg-lib-libXext
   - xorg-proto-dmxproto
   - xorg-proto-xextproto
   - xorg-util-macros
-- name: xorg-lib-libXtst
-  repo: upstream:xorg-lib-libXtst
+  name: xorg-lib-libdmx
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libdmx
+- build-depends:
   - xorg-lib-libX11
   - xorg-lib-libXext
   - xorg-lib-libXi
@@ -289,50 +284,55 @@ chunks:
   - xorg-proto-recordproto
   - xorg-proto-xextproto
   - xorg-util-macros
-- name: xorg-lib-libXRes
-  repo: upstream:xorg-lib-libXRes
+  name: xorg-lib-libXtst
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXtst
+- build-depends:
   - xorg-lib-libX11
   - xorg-lib-libXext
   - xorg-proto-resourceproto
   - xorg-proto-xextproto
   - xorg-util-macros
-- name: xorg-lib-libXdamage
-  repo: upstream:xorg-lib-libXdamage
+  name: xorg-lib-libXRes
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXRes
+- build-depends:
   - xorg-lib-libXfixes
   - xorg-proto-damageproto
   - xorg-util-macros
-- name: xorg-lib-libXcursor
-  repo: upstream:xorg-lib-libXcursor
+  name: xorg-lib-libXdamage
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXdamage
+- build-depends:
   - xorg-util-macros
   - xorg-lib-libXrender
   - xorg-lib-libXfixes
   - xorg-proto-fixesproto
   - xorg-lib-libXau
   - xorg-lib-libX11
-- name: xorg-proto-printproto
-  repo: upstream:xorg-proto-printproto
+  name: xorg-lib-libXcursor
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXcursor
+- build-depends:
   - xorg-util-macros
-- name: xorg-lib-libXp
-  repo: upstream:xorg-lib-libXp
+  name: xorg-proto-printproto
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-proto-printproto
+- build-depends:
   - xorg-proto-printproto
   - xorg-proto-xextproto
   - xorg-lib-libXext
   - xorg-lib-libX11
-- name: xorg-lib-libXScrnSaver
-  repo: upstream:xorg-lib-libXScrnSaver
+  name: xorg-lib-libXp
   ref: baserock/morph
-  build-depends:
+  repo: upstream:xorg-lib-libXp
+- build-depends:
   - xorg-proto-scrnsaverproto
   - xorg-proto-xextproto
   - xorg-lib-libXext
   - xorg-lib-libX11
+  name: xorg-lib-libXScrnSaver
+  ref: baserock/morph
+  repo: upstream:xorg-lib-libXScrnSaver
+kind: stratum
+name: x-common

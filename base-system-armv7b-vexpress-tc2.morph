@@ -1,20 +1,4 @@
-name: base-system-armv7b-vexpress-tc2
-description: A small system for Versatile TC2 boards system.
-kind: system
 arch: armv7b
-strata:
-- morph: build-essential
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: core
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: foundation
-  repo: baserock:baserock/morphs
-  ref: master
-- morph: bsp-armv7b-vexpress-tc2
-  repo: baserock:baserock/morphs
-  ref: master
 configuration-extensions:
 - set-hostname
 - ssh
@@ -22,3 +6,19 @@ configuration-extensions:
 - simple-network
 - nfsboot
 - install-files
+description: A small system for Versatile TC2 boards system.
+kind: system
+name: base-system-armv7b-vexpress-tc2
+strata:
+- morph: build-essential
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: core
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: foundation
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: bsp-armv7b-vexpress-tc2
+  ref: master
+  repo: baserock:baserock/morphs

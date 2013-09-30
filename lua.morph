@@ -1,12 +1,12 @@
-name: lua
-kind: stratum
-description: Interpreter for the lua scripting language.
 build-depends:
-- repo: baserock:baserock/morphs
+- morph: tools
   ref: master
-  morph: tools
+  repo: baserock:baserock/morphs
 chunks:
-- name: lua
-  repo: upstream:lua
+- build-depends: []
+  name: lua
   ref: baserock/5.1-morph
-  build-depends: []
+  repo: upstream:lua
+description: Interpreter for the lua scripting language.
+kind: stratum
+name: lua

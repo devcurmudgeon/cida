@@ -1,38 +1,38 @@
-name: nfs
-kind: stratum
-description: NFS utilities
 build-depends:
-- repo: baserock:baserock/morphs
+- morph: core
   ref: master
-  morph: core
+  repo: baserock:baserock/morphs
 chunks:
-- name: libevent
-  repo: upstream:libevent
+- build-depends: []
+  name: libevent
   ref: release-2.0.20-stable
-  build-depends: []
-- name: sqlite3
-  repo: upstream:sqlite3
+  repo: upstream:libevent
+- build-depends: []
+  name: sqlite3
   ref: baserock/morph
-  build-depends: []
-- name: tcp-wrappers
-  repo: upstream:tcp-wrappers
+  repo: upstream:sqlite3
+- build-depends: []
+  name: tcp-wrappers
   ref: baserock/fedora-patches
-  build-depends: []
-- name: ti-rpc
+  repo: upstream:tcp-wrappers
+- build-depends: []
+  name: ti-rpc
+  ref: baserock/master
   repo: upstream:ti-rpc
-  ref: baserock/master
-  build-depends: []
-- name: rpcbind
-  repo: upstream:rpcbind
-  ref: baserock/master
-  build-depends:
+- build-depends:
   - ti-rpc
   - tcp-wrappers
-- name: nfs-utils
-  repo: upstream:nfs-utils
+  name: rpcbind
   ref: baserock/master
-  build-depends:
+  repo: upstream:rpcbind
+- build-depends:
   - libevent
   - sqlite3
   - tcp-wrappers
   - ti-rpc
+  name: nfs-utils
+  ref: baserock/master
+  repo: upstream:nfs-utils
+description: NFS utilities
+kind: stratum
+name: nfs
