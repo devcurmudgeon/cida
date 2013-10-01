@@ -48,11 +48,11 @@ strata:
   ref: master
   repo: baserock:baserock/morphs
 - morph: gtk2
-  ref: baserock/xfce-build-rebase-2
+  ref: master
   repo: baserock:baserock/morphs
 - morph: tools
   ref: master
   repo: baserock:baserock/morphs
 - morph: xfce
-  ref: baserock/xfce-build-rebase-2
+  ref: master
   repo: baserock:baserock/morphs
