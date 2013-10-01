@@ -13,10 +13,12 @@ systems:
     as-tar:
       type: tar
       location: /src/release/baserock-11-devel-system-armv7-versatile.tar
+      INSTALL_FILES: genivi-devel-system-armv7/manifest
     as-disk:
       type: rawdisk
       location: /src/release/baserock-11-devel-system-armv7-versatile.img
-      DISK_SIZE: 4G
+      DISK_SIZE: 30G
+      INSTALL_FILES: genivi-devel-system-armv7/manifest
 - morph: devel-system-armv7-wandboard
   deploy:
     release:
@@ -24,9 +26,13 @@ systems:
       location: /src/release/baserock-11-devel-system-armv7-wandboard.tar
 - morph: genivi-baseline-system-armv7-versatile
   deploy:
-    release:
+    as-tar:
       type: tar
       location: /src/release/baserock-11-genivi-baseline-system-armv7-versatile.tar
+    as-disk:
+      type: rawdisk
+      location: /src/release/baserock-11-genivi-baseline-system-armv7-versatile.img
+      DISK_SIZE: 4G
 - morph: base-system-x86_32-generic
   deploy:
     release:
