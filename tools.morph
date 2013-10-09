@@ -104,6 +104,10 @@ chunks:
   name: u-boot
   ref: baserock/morph
   repo: upstream:u-boot
+- name: kexec-tools
+  repo: upstream:kexec-tools
+  ref: baserock/morph
+  build-depends: []
 description: Extra development tools included in the devel system
 kind: stratum
 name: tools
