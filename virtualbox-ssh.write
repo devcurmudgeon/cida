@@ -76,10 +76,10 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         except BaseException:
             sys.stderr.write('Error deploying to VirtualBox')
             os.remove(raw_disk)
+            cliapp.ssh_runcmd(ssh_host, ['rm', '-f', vdi_path])
             raise
         else:
             os.remove(raw_disk)
-
         self.status(
             msg='Virtual machine %(vm_name)s has been created',
             vm_name=vm_name)

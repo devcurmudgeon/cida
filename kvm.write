@@ -68,6 +68,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         except BaseException:
             sys.stderr.write('Error deploying to libvirt')
             os.remove(raw_disk)
+            cliapp.ssh_runcmd(ssh_host, ['rm', '-f', vm_path])
             raise
         else:
             os.remove(raw_disk)

@@ -46,8 +46,14 @@ class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
         if os.path.isfile(location):
             self.upgrade_local_system(location, temp_root)
         else:
-            self.create_local_system(temp_root, location)
-            self.status(msg='Disk image has been created at %s' % location)
+            try:
+                self.create_local_system(temp_root, location)
+                self.status(msg='Disk image has been created at %s' % location)
+            except Exception:
+                os.remove(location)
+                self.status(msg='Failure to create disk image at %s' %
+                                 location)
+                raise
 
     def upgrade_local_system(self, raw_disk, temp_root):
         mp = self.mount(raw_disk)
