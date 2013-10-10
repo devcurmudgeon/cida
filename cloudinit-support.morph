@@ -34,7 +34,12 @@ chunks:
   name: python-cheetah
   ref: baserock/morph
   repo: upstream:python-cheetah
+- build-depends: []
+  name: boto
+  ref: baserock/morph
+  repo: upstream:boto
 - build-depends:
+  - boto
   - configobj
   - python-requests
   - python-prettytable
