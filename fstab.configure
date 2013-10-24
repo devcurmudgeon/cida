@@ -31,7 +31,7 @@ def asciibetical(strings):
 
 fstab_filename = os.path.join(sys.argv[1], 'etc', 'fstab')
 
-fstab_vars = sorted(x for x in os.environ if x.startswith('FSTAB_'))
+fstab_vars = asciibetical(x for x in os.environ if x.startswith('FSTAB_'))
 with open(fstab_filename, 'a') as f:
      for var in fstab_vars:
          f.write('%s\n' % os.environ[var])
