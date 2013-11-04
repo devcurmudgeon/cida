@@ -1,0 +1,67 @@
+name: ceph-service
+kind: stratum
+build-depends:
+- morph: core
+  repo: baserock:baserock/morphs
+  ref: master
+chunks:
+- name: sqlite3
+  repo: upstream:sqlite3
+  ref: baserock/morph
+  build-depends: []
+- name: nspr
+  repo: upstream:nspr-hg
+  ref: baserock/morph
+  build-depends: []
+- name: nss
+  repo: upstream:nss
+  ref: baserock/morph
+  build-depends:
+  - nspr
+  - sqlite3
+- name: libaio
+  repo: upstream:libaio
+  ref: baserock/morph
+  build-depends: []
+- name: keyutils
+  repo: upstream:keyutils
+  ref: baserock/morph
+  build-depends: []
+- name: libunwind
+  repo: upstream:libunwind
+  ref: v0.99
+  build-depends: []
+- name: gperftools
+  repo: upstream:gperftools
+  ref: baserock/morph
+  build-depends:
+  - libunwind
+- name: snappy
+  repo: upstream:snappy
+  ref: baserock/morph
+  build-depends: []
+- name: leveldb
+  repo: upstream:leveldb
+  ref: baserock/morph
+  build-depends:
+  - snappy
+  - gperftools
+- name: libeditline
+  repo: upstream:libeditline-tarball
+  ref: baserock/morph
+  build-depends: []
+- name: boost
+  repo: upstream:boost-tarball
+  ref: baserock/markdoffman/morph
+  build-depends: []
+- name: ceph
+  repo: upstream:ceph
+  ref: baserock/morph
+  build-depends:
+  - libaio
+  - gperftools
+  - nss
+  - leveldb
+  - libeditline
+  - keyutils
+  - boost
