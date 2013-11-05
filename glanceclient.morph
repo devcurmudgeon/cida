@@ -10,10 +10,6 @@ build-depends:
   repo: baserock:baserock/morphs
 chunks:
 - build-depends: []
-  name: six
-  ref: baserock/morph
-  repo: upstream:six
-- build-depends: []
   name: jsonschema
   ref: baserock/morph
   repo: upstream:jsonschema
@@ -26,7 +22,6 @@ chunks:
   ref: baserock/morph
   repo: upstream:python-json-patch
 - build-depends:
-  - six
   - jsonschema
   - python-json-pointer
   - python-json-patch
@@ -80,7 +75,6 @@ chunks:
   - python-prettytable
   - python-requests
   - simplejson
-  - six
   - netaddr
   - babel
   name: python-keystoneclient
