@@ -4,6 +4,10 @@ build-depends:
   repo: baserock:baserock/morphs
 chunks:
 - build-depends: []
+  name: six
+  ref: baserock/morph
+  repo: upstream:six
+- build-depends: []
   name: patch
   ref: baserock/morph
   repo: upstream:patch
@@ -70,9 +74,15 @@ chunks:
   ref: baserock/morph
   repo: upstream:lsof
 - build-depends:
+  - six
+  name: pyfilesystem
+  ref: baserock/morph
+  repo: upstream:pyfilesystem
+- build-depends:
   - cliapp
   - cmdtest
   - python-coverage-test-runner
+  - pyfilesystem
   name: morph
   ref: master
   repo: baserock:baserock/morph
