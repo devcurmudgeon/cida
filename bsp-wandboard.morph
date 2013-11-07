@@ -10,7 +10,7 @@ chunks:
 - build-depends:
   - u-boot
   name: linux
-  ref: baserock/liw/wandboard_bsp
+  ref: baserock/arm/wandboard_bsp
   repo: upstream:linux
 description: The platform dependent components required to boot an wandboard ARM board.
 kind: stratum
