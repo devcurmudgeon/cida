@@ -5,7 +5,7 @@ build-depends:
 chunks:
 - build-depends: []
   name: linux
-  ref: baserock/liw/tc2
+  ref: baserock/arm/vexpress-tc2
   repo: upstream:linux
 description: The platform dependent components required to boot Versatile TC2 board
 kind: stratum
