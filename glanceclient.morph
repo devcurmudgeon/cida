@@ -1,10 +1,4 @@
 build-depends:
-- morph: build-essential
-  ref: master
-  repo: baserock:baserock/morphs
-- morph: core
-  ref: master
-  repo: baserock:baserock/morphs
 - morph: tools
   ref: master
   repo: baserock:baserock/morphs
