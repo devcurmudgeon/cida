@@ -6,7 +6,6 @@ configuration-extensions:
 - nfsboot
 - install-files
 description: A GENIVI devel with XFCE
-disk-size: 2G
 kind: system
 name: xfce-system
 strata:
