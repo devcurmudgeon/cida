@@ -1,7 +1,6 @@
 arch: x86_64
 configuration-extensions:
 - set-hostname
-- ssh
 - add-config-files
 - simple-network
 - nfsboot
