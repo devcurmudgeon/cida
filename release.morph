@@ -3,36 +3,31 @@ kind: cluster
 description: |
   Deploy all the systems for we support in a release.
 systems:
-- morph: base-system-armv7-versatile
-  deploy:
-    release:
-      type: tar
-      location: /src/release/baserock-12-base-system-armv7-versatile.tar
-- morph: devel-system-armv7-versatile
+- morph: base-system-armv7-highbank
   deploy:
     as-tar:
       type: tar
-      location: /src/release/baserock-12-devel-system-armv7-versatile.tar
-      INSTALL_FILES: genivi-devel-system-armv7/manifest
-    as-disk:
-      type: rawdisk
-      location: /src/release/baserock-12-devel-system-armv7-versatile.img
-      DISK_SIZE: 30G
-      INSTALL_FILES: genivi-devel-system-armv7/manifest
+      location: /src/release/baserock-12-base-system-armv7-highbank.tar
+- morph: devel-system-armv7-highbank
+  deploy:
+    as-tar:
+      type: tar
+      location: /src/release/baserock-12-devel-system-armv7-highbank.tar
+- morph: base-system-armv7b-highbank
+  deploy:
+    as-tar:
+      type: tar
+      location: /src/release/baserock-12-base-system-armv7b-highbank.tar
+- morph: devel-system-armv7b-highbank
+  deploy:
+    as-tar:
+      type: tar
+      location: /src/release/baserock-12-devel-system-armv7b-highbank.tar
 - morph: devel-system-armv7-wandboard
   deploy:
     release:
       type: tar
       location: /src/release/baserock-12-devel-system-armv7-wandboard.tar
-- morph: genivi-baseline-system-armv7-versatile
-  deploy:
-    as-tar:
-      type: tar
-      location: /src/release/baserock-12-genivi-baseline-system-armv7-versatile.tar
-    as-disk:
-      type: rawdisk
-      location: /src/release/baserock-12-genivi-baseline-system-armv7-versatile.img
-      DISK_SIZE: 4G
 - morph: base-system-x86_32-generic
   deploy:
     release:
