@@ -1,13 +1,4 @@
 build-depends:
-- morph: core
-  ref: master
-  repo: baserock:baserock/morphs
-- morph: foundation
-  ref: master
-  repo: baserock:baserock/morphs
-- morph: genivi-foundation
-  ref: master
-  repo: baserock:baserock/morphs
 - morph: x-common
   ref: master
   repo: baserock:baserock/morphs

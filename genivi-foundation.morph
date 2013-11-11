@@ -1,7 +1,4 @@
 build-depends:
-- morph: core
-  ref: master
-  repo: baserock:baserock/morphs
 - morph: foundation
   ref: master
   repo: baserock:baserock/morphs
