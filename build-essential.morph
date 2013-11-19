@@ -1,12 +1,4 @@
 chunks:
-
-# Stage 1: build a minimal cross compiler with the host's tools.
-#
-# Starting with a cross compiler ensures that (a) nothing from the host
-# can leak into the build-essential artifacts, and (b) cross-compiling
-# build-essential is fully tested and supported, since we always use the
-# cross code paths.
-
 - build-depends: []
   build-mode: bootstrap
   name: stage1-binutils
@@ -20,14 +12,6 @@ chunks:
   prefix: /tools
   ref: baserock/build-essential
   repo: upstream:gcc-tarball
-
-# Stage 2: cross-build the whole of build-essential, using the host's tools
-# but the cross-compiler toolchain.
-#
-# Stage 2 GCC outputs code for the same 'bootstrap' machine as stage 1 GCC,
-# but because stage 2 GCC is also built to *run* on the bootstrap machine
-# it can only execute inside the stage 3 chroot (due to being built against
-# a libc with a non-standard prefix).
 
 - build-depends:
   - stage1-binutils
@@ -117,20 +101,6 @@ chunks:
   prefix: /tools
   ref: baserock/2.15-build-essential
   repo: upstream:eglibc2
-
-# Stage 3: build the whole of build-essential again, this time using a
-# staging area containing only the output of stage 2. The result of this
-# build is fully reproducible.
-#
-# We do a switch-a-roo between stage 2 and 3: stages 2 chunks are all built
-# to run on a host *-bootstrap-* while stage 3 chunks are native-built for
-# a *-baserock-* machine. This works, because the cross build was all for
-# show (and cleanliness) and the binaries actually still run on the host.
-#
-# After build-essential is built we do another trick. See
-# stage2-fhs-dirs.morph for details. Basically, /bin is a symlink to
-# /tools/bin during stage 2 but in stage 3 it becomes a real directory
-# again.
 
 - build-depends:
   - stage2-binutils
@@ -277,8 +247,6 @@ chunks:
   ref: baserock/build-essential
   repo: upstream:make
 
-# Extras that need to be in build-essential but don't need bootstrapping.
-
 - build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -296,6 +264,36 @@ chunks:
   prefix: /usr
   ref: baserock/build-essential
   repo: upstream:ccache
-description: Toolchain stratum
+description: |
+ Toolchain stratum
+
+ Stage 1: build a minimal cross compiler with the host's tools.
+
+ Starting with a cross compiler ensures that (a) nothing from the host
+ can leak into the build-essential artifacts, and (b) cross-compiling
+ build-essential is fully tested and supported, since we always use the
+ cross code paths.
+
+ Stage 2: cross-build the whole of build-essential, using the host's tools
+ but the cross-compiler toolchain.
+
+ Stage 2 GCC outputs code for the same 'bootstrap' machine as stage 1 GCC,
+ but because stage 2 GCC is also built to *run* on the bootstrap machine
+ it can only execute inside the stage 3 chroot (due to being built against
+ a libc with a non-standard prefix).
+
+ Stage 3: build the whole of build-essential again, this time using a
+ staging area containing only the output of stage 2. The result of this
+ build is fully reproducible.
+
+ We do a switch-a-roo between stage 2 and 3: stages 2 chunks are all built
+ to run on a host *-bootstrap-* while stage 3 chunks are native-built for
+ a *-baserock-* machine. This works, because the cross build was all for
+ show (and cleanliness) and the binaries actually still run on the host.
+
+ After build-essential is built we do another trick. See
+ stage2-fhs-dirs.morph for details. Basically, /bin is a symlink to
+ /tools/bin during stage 2 but in stage 3 it becomes a real directory
+ again.
 kind: stratum
 name: build-essential
