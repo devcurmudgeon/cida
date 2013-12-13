@@ -1,0 +1,12 @@
+build-depends:
+- morph: core
+  ref: master
+  repo: baserock:baserock/morphs
+chunks:
+- build-depends: []
+  name: linux
+  ref: baserock/powerpc/ppc64
+  repo: upstream:linux
+description: The platform dependent components required to boot a ppc64 board.
+kind: stratum
+name: bsp-ppc64-generic
