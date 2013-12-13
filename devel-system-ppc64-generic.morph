@@ -1,0 +1,54 @@
+arch: ppc64
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+description: A system that is able to build other systems based on the 64-bit PowerPc
+  architecture.
+kind: system
+name: devel-system-ppc64-generic
+strata:
+- morph: build-essential
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: core
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: foundation
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: genivi-foundation
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: bsp-ppc64-generic
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: connectivity
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: audio-bluetooth
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: x-common
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: x-ppc64-generic
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: multimedia
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: genivi
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: genivi-x-ppc64-generic
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: tools
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: glanceclient
+  ref: master
+  repo: baserock:baserock/morphs
