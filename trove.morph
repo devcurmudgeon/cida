@@ -1,0 +1,175 @@
+name: trove
+description: Trove software
+kind: stratum
+build-depends:
+- repo: baserock:baserock/morphs
+  ref: master
+  morph: tools
+chunks:
+- name: bottle
+  repo: upstream:bottle
+  ref: baserock/morph
+  build-depends: []
+- name: morph-cache-server
+  repo: baserock:baserock/morph-cache-server
+  ref: master
+  build-depends: []
+- name: lua
+  repo: upstream:lua
+  ref: baserock/5.1-morph
+  build-depends: []
+- name: lace
+  repo: upstream:gitano/lace
+  ref: baserock/morph
+  build-depends:
+  - lua
+- name: luxio
+  repo: upstream:luxio
+  ref: baserock/morph
+  build-depends:
+  - lua
+- name: supple
+  repo: upstream:gitano/supple
+  ref: baserock/morph
+  build-depends:
+  - lua
+  - luxio
+- name: clod
+  repo: upstream:gitano/clod
+  ref: baserock/morph
+  build-depends:
+  - lua
+- name: gall
+  repo: upstream:gitano/gall
+  ref: baserock/morph
+  build-depends:
+  - lua
+  - luxio
+- name: pcre
+  repo: upstream:pcre
+  ref: baserock/morph
+  build-depends: []
+- name: lrexlib-pcre
+  repo: upstream:lrexlib
+  ref: baserock/morph
+  build-depends:
+  - pcre
+  - lua
+- name: gitano
+  repo: upstream:gitano/gitano
+  ref: baserock/morph
+  build-depends:
+  - lua
+- name: cgit
+  repo: upstream:cgit
+  ref: baserock/morph
+  build-depends: []
+- name: bzr-tarball
+  repo: upstream:bzr-tarball
+  ref: baserock/morph
+  build-depends: []
+- name: python-fastimport
+  repo: upstream:python-fastimport
+  ref: baserock/morph
+  build-depends: []
+- name: bzr-fastimport
+  repo: upstream:bzr-fastimport
+  ref: baserock/morph
+  build-depends:
+  - bzr-tarball
+  - python-fastimport
+- name: cvs-tarball
+  repo: upstream:cvs-tarball
+  ref: baserock/morph
+  build-depends: []
+- name: libapr-tarball
+  repo: upstream:libapr-tarball
+  ref: baserock/morph
+  build-depends: []
+- name: libapr-util-tarball
+  repo: upstream:libapr-util-tarball
+  ref: baserock/morph
+  build-depends:
+  - libapr-tarball
+- name: sqlite3
+  repo: upstream:sqlite3
+  ref: baserock/morph
+  build-depends: []
+- name: perl-dbi-tarball
+  repo: upstream:perl-dbi-tarball
+  ref: baserock/morph
+  build-depends: []
+- name: perl-dbd-sqlite-tarball
+  repo: upstream:perl-dbd-sqlite-tarball
+  ref: baserock/morph
+  build-depends:
+  - perl-dbi-tarball
+  - sqlite3
+- name: libserf-tarball
+  repo: upstream:libserf-tarball
+  ref: baserock/morph
+  build-depends:
+  - libapr-tarball
+  - libapr-util-tarball
+- name: swig-tarball
+  repo: upstream:swig-tarball
+  ref: baserock/morph
+  build-depends: []
+- name: neon
+  repo: upstream:neon
+  ref: baserock/morph
+  build-depends: []
+- name: subversion-tarball
+  repo: upstream:subversion-tarball
+  ref: baserock/morph
+  build-depends:
+  - swig-tarball
+  - libapr-tarball
+  - libapr-util-tarball
+  - libserf-tarball
+  - sqlite3
+  - neon
+- name: mercurial-tarball
+  repo: upstream:mercurial-tarball
+  ref: baserock/morph
+  build-depends: []
+- name: hg-fast-export
+  repo: upstream:hg-fast-export
+  ref: baserock/morph
+  build-depends:
+  - mercurial-tarball
+- name: cvsps
+  repo: upstream:cvsps
+  ref: baserock/morph
+  build-depends: []
+- name: lorry
+  repo: baserock:baserock/lorry
+  ref: master
+  build-depends:
+  - bzr-tarball
+  - python-fastimport
+  - bzr-fastimport
+  - perl-dbi-tarball
+  - perl-dbd-sqlite-tarball
+  - cvs-tarball
+  - cvsps
+  - subversion-tarball
+  - mercurial-tarball
+  - hg-fast-export
+- name: trove-setup
+  repo: baserock:baserock/trove-setup
+  ref: master
+  build-depends: []
+- name: lorry-controller
+  repo: baserock:baserock/lorry-controller
+  ref: master
+  build-depends: []
+- name: lighttpd
+  repo: upstream:lighttpd
+  ref: baserock/morph
+  build-depends:
+  - pcre
+- name: flup
+  repo: upstream:flup
+  ref: baserock/morph
+  build-depends: []
