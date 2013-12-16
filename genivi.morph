@@ -5,7 +5,7 @@ build-depends:
 chunks:
 - build-depends: []
   name: DLT-daemon
-  ref: baserock/morphs
+  ref: v2.9.1
   repo: upstream:DLT-daemon
 - build-depends: []
   name: sqlite3
@@ -25,13 +25,24 @@ chunks:
   name: googlemock
   ref: baserock/morph
   repo: upstream:googlemock
+- build-depends: []
+  name: genivi-common-api-runtime
+  ref: 2.1.4
+  repo: upstream:genivi-common-api-runtime
+- build-depends:
+  - genivi-common-api-runtime
+  name: genivi-common-api-dbus-runtime
+  ref: 2.1.4
+  repo: upstream:genivi-common-api-dbus-runtime
 - build-depends:
   - DLT-daemon
   - sqlite3
   - googletest
   - googlemock
+  - genivi-common-api-runtime
+  - genivi-common-api-dbus-runtime
   name: audiomanager
-  ref: baserock/genivi/baseline
+  ref: 5.0
   repo: upstream:audiomanager
 description: Software components designed by genivi, for genivi.
 kind: stratum
