@@ -1,14 +1,10 @@
 name: ceph-service
 kind: stratum
 build-depends:
-- morph: core
+- morph: foundation
   repo: baserock:baserock/morphs
   ref: master
 chunks:
-- name: sqlite3
-  repo: upstream:sqlite3
-  ref: baserock/morph
-  build-depends: []
 - name: nspr
   repo: upstream:nspr-hg
   ref: baserock/morph
@@ -18,7 +14,6 @@ chunks:
   ref: baserock/morph
   build-depends:
   - nspr
-  - sqlite3
 - name: libaio
   repo: upstream:libaio
   ref: baserock/morph

@@ -14,10 +14,6 @@ chunks:
   ref: baserock/morph
   repo: upstream:icu
 - build-depends: []
-  name: sqlite3
-  ref: baserock/morph
-  repo: upstream:sqlite3
-- build-depends: []
   name: ruby-1.8
   ref: baserock/morph/ruby_1_8_7
   repo: upstream:ruby
@@ -28,7 +24,6 @@ chunks:
   repo: upstream:ruby
 - build-depends:
   - icu
-  - sqlite3
   name: qtbase
   ref: baserock/morph
   repo: upstream:qt5/qtbase
@@ -94,7 +89,6 @@ chunks:
   repo: upstream:qt5/qtx11extras
 - build-depends:
   - qtbase
-  - sqlite3
   - icu
   - ruby-1.9
   - qtjsbackend

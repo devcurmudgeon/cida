@@ -91,10 +91,6 @@ chunks:
   ref: baserock/morph
   build-depends:
   - libapr-tarball
-- name: sqlite3
-  repo: upstream:sqlite3
-  ref: baserock/morph
-  build-depends: []
 - name: perl-dbi-tarball
   repo: upstream:perl-dbi-tarball
   ref: baserock/morph
@@ -104,7 +100,6 @@ chunks:
   ref: baserock/morph
   build-depends:
   - perl-dbi-tarball
-  - sqlite3
 - name: libserf-tarball
   repo: upstream:libserf-tarball
   ref: baserock/morph
@@ -127,7 +122,6 @@ chunks:
   - libapr-tarball
   - libapr-util-tarball
   - libserf-tarball
-  - sqlite3
   - neon
 - name: mercurial-tarball
   repo: upstream:mercurial-tarball
