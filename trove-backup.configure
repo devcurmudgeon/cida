@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+# Copyright (C) 2013  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+#
+# This is a "morph deploy" configuration extension to set up the Trove with a
+# backup user that can be accessed with rsync.
+# It takes one environment variable:
+#
+# TROVE_BACKUP_KEYS - a space-separated list of paths to SSH keys.
+
+set -e
+
+ROOT="$1"
+BACKUP_HOME=/root/backup-user-home
+
+##########################################################################
+
+if [ -n "$TROVE_BACKUP_KEYS" ]; then
+	cat >"$1/etc/rsyncd.conf" <<EOF
+numeric ids = yes
+uid = 0
+gid = 0
+read only = yes
+
+[etc]
+path = /etc
+comment = System configuration
+
+[home]
+path = /home
+comment = Home directories
+EOF
+
+	echo "backup:x:0:0::$BACKUP_HOME:/bin/sh" >>"$1/etc/passwd"
+	mkdir -p "$1/$BACKUP_HOME/.ssh"
+
+	touch "$1/$BACKUP_HOME/.ssh/authorized_keys"
+	for key in $TROVE_BACKUP_KEYS; do
+		cat "$key" >> "$1/$BACKUP_HOME/.ssh/authorized_keys"
+	done
+fi
