@@ -1,5 +1,5 @@
 build-depends:
-- morph: core
+- morph: foundation
   ref: master
   repo: baserock:baserock/morphs
 chunks:
@@ -7,10 +7,6 @@ chunks:
   name: libevent
   ref: release-2.0.20-stable
   repo: upstream:libevent
-- build-depends: []
-  name: sqlite3
-  ref: baserock/morph
-  repo: upstream:sqlite3
 - build-depends: []
   name: tcp-wrappers
   ref: baserock/fedora-patches
@@ -27,7 +23,6 @@ chunks:
   repo: upstream:rpcbind
 - build-depends:
   - libevent
-  - sqlite3
   - tcp-wrappers
   - ti-rpc
   name: nfs-utils

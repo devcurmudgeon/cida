@@ -7,10 +7,6 @@ chunks:
   name: DLT-daemon
   ref: v2.9.1
   repo: upstream:DLT-daemon
-- build-depends: []
-  name: sqlite3
-  ref: baserock/morph
-  repo: upstream:sqlite3
 - build-depends:
   - DLT-daemon
   name: node-startup-controller
@@ -36,7 +32,6 @@ chunks:
   repo: upstream:genivi-common-api-dbus-runtime
 - build-depends:
   - DLT-daemon
-  - sqlite3
   - googletest
   - googlemock
   - genivi-common-api-runtime
