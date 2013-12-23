@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Copyright (C) 2013  Codethink Limited
+# Copyright (C) 2013-2014  Codethink Limited
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,9 +35,9 @@ class InstallFilesConfigureExtension(cliapp.Application):
 
     '''Install the files specified in the manifests listed in INSTALL_FILES
 
-    The manifest is formatted as:
+    Entries in the manifest are formatted as:
 
-        <octal mode> <uid decimal> <gid decimal> <filename>
+        [overwrite] <octal mode> <uid decimal> <gid decimal> <filename>
 
     Where the filename is how the file is found inside whatever directory
     the manifest is stored in, and also the path within the system to
@@ -46,6 +46,18 @@ class InstallFilesConfigureExtension(cliapp.Application):
     Directories on the target must be created if they do not exist.
     
     This extension supports files, symlinks and directories.
+
+    For example,
+
+        0100644 0 0 /etc/issue
+
+        creates a regular file at /etc/issue with 644 permissions,
+        uid 0 and gid 0, if the file doesn't already exist.
+
+        overwrite 0100644 0 0 /etc/issue
+
+        creates a regular file at /etc/issue with 644 permissions,
+        uid 0 and gid 0, if the file already exists it is overwritten.
 
     '''
 
@@ -65,14 +77,22 @@ class InstallFilesConfigureExtension(cliapp.Application):
                 self.install_entry(entry, manifest_dir, target_root)
 
     def install_entry(self, entry, manifest_root, target_root):
-        entry_data = re.split('\W+', entry.strip(), maxsplit=3)
-        mode = int(entry_data[0], 8)
-        uid = int(entry_data[1])
-        gid = int(entry_data[2])
-        path = entry_data[3]
+        m = re.match('(overwrite )?([0-7]+) ([0-9]+) ([0-9]+) (\S+)', entry)
+
+        if m:
+            overwrite = m.group(1)
+            mode = int(m.group(2), 8)   # mode is octal
+            uid = int(m.group(3))
+            gid = int(m.group(4))
+            path = m.group(5)
+        else:
+            raise cliapp.AppException('Invalid manifest entry, '
+                'format: [overwrite] <octal mode> <uid decimal> <gid decimal> '
+                '<filename>')
+
         dest_path = os.path.join(target_root, './' + path)
         if stat.S_ISDIR(mode):
-            if os.path.exists(dest_path):
+            if os.path.exists(dest_path) and not overwrite:
                 dest_stat = os.stat(dest_path)
                 if (mode != dest_stat.st_mode
                     or uid != dest_stat.st_uid
@@ -86,7 +106,7 @@ class InstallFilesConfigureExtension(cliapp.Application):
                 os.chmod(dest_path, mode)
 
         elif stat.S_ISLNK(mode):
-            if os.path.lexists(dest_path):
+            if os.path.lexists(dest_path) and not overwrite:
                 raise cliapp.AppException('Symlink already exists at %s'
                                           % dest_path)
             else:
@@ -96,7 +116,7 @@ class InstallFilesConfigureExtension(cliapp.Application):
                 os.lchown(dest_path, uid, gid)
 
         elif stat.S_ISREG(mode):
-            if os.path.lexists(dest_path):
+            if os.path.lexists(dest_path) and not overwrite:
                 raise cliapp.AppException('File already exists at %s'
                                            % dest_path)
             else:
