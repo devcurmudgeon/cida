@@ -37,7 +37,7 @@ chunks:
   - genivi-common-api-runtime
   - genivi-common-api-dbus-runtime
   name: audiomanager
-  ref: 5.0
+  ref: '5.0'
   repo: upstream:audiomanager
 description: Software components designed by genivi, for genivi.
 kind: stratum
