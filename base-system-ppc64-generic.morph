@@ -11,14 +11,14 @@ kind: system
 name: base-system-ppc64-generic
 strata:
 - morph: build-essential
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: core
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: foundation
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: bsp-ppc64-generic
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null

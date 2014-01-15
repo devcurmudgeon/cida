@@ -1,13 +1,13 @@
 build-depends:
 - morph: genivi-foundation
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: x-common
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: x-x86_64-generic
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 chunks:
 - build-depends: []
   name: shared-mime-info

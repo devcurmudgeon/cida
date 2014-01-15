@@ -10,14 +10,14 @@ kind: system
 name: base-system-armv7b-vexpress-tc2
 strata:
 - morph: build-essential
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: core
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: foundation
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: bsp-armv7b-vexpress-tc2
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null

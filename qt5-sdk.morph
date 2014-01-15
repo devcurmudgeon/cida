@@ -1,7 +1,7 @@
 build-depends:
 - morph: qt5-tools
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 chunks:
 - build-depends: []
   name: qt-creator

@@ -5,20 +5,20 @@ kind: system
 arch: x86_64
 strata:
 - morph: build-essential
-  repo: baserock:baserock/morphs
-  ref: master
+  repo: null
+  ref: null
 - morph: core
-  repo: baserock:baserock/morphs
-  ref: master
+  repo: null
+  ref: null
 - morph: foundation
-  repo: baserock:baserock/morphs
-  ref: master
+  repo: null
+  ref: null
 - morph: bsp-x86_64-generic
-  repo: baserock:baserock/morphs
-  ref: master
+  repo: null
+  ref: null
 - morph: ceph-service
-  repo: baserock:baserock/morphs
-  ref: master
+  repo: null
+  ref: null
 configuration-extensions:
 - set-hostname
 - add-config-files

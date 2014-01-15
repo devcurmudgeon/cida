@@ -1,10 +1,10 @@
 build-depends:
 - morph: genivi
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: x-ppc64-generic
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 chunks:
 - build-depends: []
   name: layer_management

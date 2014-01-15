@@ -10,23 +10,23 @@ kind: system
 name: trove-system-x86_64
 strata:
 - morph: build-essential
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: bsp-x86_64-generic
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: foundation
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: core
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: tools
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: trove
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: nfs
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null

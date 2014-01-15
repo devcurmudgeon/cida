@@ -1,22 +1,22 @@
 build-depends:
 - morph: tools
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: x-x86_64-generic
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: lua
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: audio-bluetooth
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: multimedia-gstreamer-0.10
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: connectivity
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 chunks:
 - build-depends: []
   name: efl
