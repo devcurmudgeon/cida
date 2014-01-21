@@ -1,0 +1,14 @@
+arch: armv7lhf
+description: A system that produces the minimum needed to build a devel system
+kind: system
+name: cross-bootstrap-system-armv7lhf-generic
+strata:
+- morph: build-essential
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: core
+  ref: master
+  repo: baserock:baserock/morphs
+- morph: cross-bootstrap
+  ref: master
+  repo: baserock:baserock/morphs
