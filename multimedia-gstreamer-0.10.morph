@@ -1,13 +1,13 @@
 build-depends:
 - morph: core
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: foundation
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 - morph: audio-bluetooth
-  ref: master
-  repo: baserock:baserock/morphs
+  ref: null
+  repo: null
 chunks:
 - build-depends: []
   name: orc

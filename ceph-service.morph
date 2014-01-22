@@ -2,8 +2,8 @@ name: ceph-service
 kind: stratum
 build-depends:
 - morph: foundation
-  repo: baserock:baserock/morphs
-  ref: master
+  repo: null
+  ref: null
 chunks:
 - name: nspr
   repo: upstream:nspr-hg
