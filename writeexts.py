@@ -17,11 +17,64 @@
 import cliapp
 import os
 import re
+import shutil
 import sys
 import time
 import tempfile
 
 import morphlib
+
+
+class Fstab(object):
+    '''Small helper class for parsing and adding lines to /etc/fstab.'''
+
+    # There is an existing Python helper library for editing of /etc/fstab.
+    # However it is unmaintained and has an incompatible license (GPL3).
+    #
+    # https://code.launchpad.net/~computer-janitor-hackers/python-fstab/trunk
+
+    def __init__(self, filepath='/etc/fstab'):
+        if os.path.exists(filepath):
+            with open(filepath, 'r') as f:
+                self.text= f.read()
+        else:
+            self.text = ''
+        self.filepath = filepath
+        self.lines_added = 0
+
+    def get_mounts(self):
+        '''Return list of mount devices and targets in /etc/fstab.
+
+        Return value is a dict of target -> device.
+        '''
+        mounts = dict()
+        for line in self.text.splitlines():
+            words = line.split()
+            if len(words) >= 2 and not words[0].startswith('#'):
+                device, target = words[0:2]
+                mounts[target] = device
+        return mounts
+
+    def add_line(self, line):
+        '''Add a new entry to /etc/fstab.
+
+        Lines are appended, and separated from any entries made by configure
+        extensions with a comment.
+
+        '''
+        if self.lines_added == 0:
+            if len(self.text) == 0 or self.text[-1] is not '\n':
+                self.text += '\n'
+            self.text += '# Morph default system layout\n'
+        self.lines_added += 1
+
+        self.text += line + '\n'
+
+    def write(self):
+        '''Rewrite the fstab file to include all new entries.'''
+        with morphlib.savefile.SaveFile(self.filepath, 'w') as f:
+            f.write(self.text)
+
 
 class WriteExtension(cliapp.Application):
 
@@ -53,7 +106,6 @@ class WriteExtension(cliapp.Application):
     
     def create_local_system(self, temp_root, raw_disk):
         '''Create a raw system image locally.'''
-        
         size = self.get_disk_size()
         if not size:
             raise cliapp.AppException('DISK_SIZE is not defined')
@@ -66,20 +118,10 @@ class WriteExtension(cliapp.Application):
             os.remove(raw_disk)
             raise
         try:
-            version_label = 'factory'
-            version_root = os.path.join(mp, 'systems', version_label)
-            os.makedirs(version_root)
-            self.create_state(mp)
-            self.create_orig(version_root, temp_root)
-            self.create_fstab(version_root)
-            self.create_run(version_root)
-            os.symlink(version_label, os.path.join(mp, 'systems', 'default'))
-            if self.bootloader_is_wanted():
-                self.install_kernel(version_root, temp_root)
-                self.install_syslinux_menu(mp, version_root)
-                self.install_extlinux(mp)
+            self.create_btrfs_system_layout(
+                temp_root, mp, version_label='factory')
         except BaseException, e:
-            sys.stderr.write('Error creating disk image')
+            sys.stderr.write('Error creating Btrfs system layout')
             self.unmount(mp)
             os.remove(raw_disk)
             raise
@@ -130,16 +172,6 @@ class WriteExtension(cliapp.Application):
         '''Parse the virtual cpu count from environment.'''
         return self._parse_size_from_environment('VCPUS', '1')
 
-    def create_state(self, real_root):
-        '''Create the state subvolumes that are shared between versions'''
-
-        self.status(msg='Creating state subvolumes')
-        os.mkdir(os.path.join(real_root, 'state'))
-        statedirs = ['home', 'opt', 'srv']
-        for statedir in statedirs:
-            dirpath = os.path.join(real_root, 'state', statedir)
-            cliapp.runcmd(['btrfs', 'subvolume', 'create', dirpath])
-
     def create_raw_disk_image(self, filename, size):
         '''Create a raw disk image.'''
 
@@ -179,6 +211,34 @@ class WriteExtension(cliapp.Application):
         cliapp.runcmd(['umount', mount_point])
         os.rmdir(mount_point)
 
+    def create_btrfs_system_layout(self, temp_root, mountpoint, version_label):
+        '''Separate base OS versions from state using subvolumes.
+
+        '''
+        version_root = os.path.join(mountpoint, 'systems', version_label)
+        state_root = os.path.join(mountpoint, 'state')
+
+        os.makedirs(version_root)
+        os.makedirs(state_root)
+
+        self.create_orig(version_root, temp_root)
+        system_dir = os.path.join(version_root, 'orig')
+
+        state_dirs = self.complete_fstab_for_btrfs_layout(system_dir)
+
+        for state_dir in state_dirs:
+            self.create_state_subvolume(system_dir, mountpoint, state_dir)
+
+        self.create_run(version_root)
+
+        os.symlink(
+                version_label, os.path.join(mountpoint, 'systems', 'default'))
+
+        if self.bootloader_is_wanted():
+            self.install_kernel(version_root, temp_root)
+            self.install_syslinux_menu(mountpoint, version_root)
+            self.install_extlinux(mountpoint)
+
     def create_orig(self, version_root, temp_root):
         '''Create the default "factory" system.'''
 
@@ -198,29 +258,68 @@ class WriteExtension(cliapp.Application):
         cliapp.runcmd(
             ['btrfs', 'subvolume', 'snapshot', orig, run])
 
-    def create_fstab(self, version_root):
-        '''Create an fstab.'''
+    def create_state_subvolume(self, system_dir, mountpoint, state_subdir):
+        '''Create a shared state subvolume.
 
-        self.status(msg='Creating fstab')
-        fstab = os.path.join(version_root, 'orig', 'etc', 'fstab')
+        We need to move any files added to the temporary rootfs by the
+        configure extensions to their correct home. For example, they might
+        have added keys in `/root/.ssh` which we now need to transfer to
+        `/state/root/.ssh`.
 
-        if os.path.exists(fstab):
-            with open(fstab, 'r') as f:
-                contents = f.read()
+        '''
+        self.status(msg='Creating %s subvolume' % state_subdir)
+        subvolume = os.path.join(mountpoint, 'state', state_subdir)
+        cliapp.runcmd(['btrfs', 'subvolume', 'create', subvolume])
+        os.chmod(subvolume, 0755)
+
+        existing_state_dir = os.path.join(system_dir, state_subdir)
+        files = []
+        if os.path.exists(existing_state_dir):
+            files = os.listdir(existing_state_dir)
+        if len(files) > 0:
+            self.status(msg='Moving existing data to %s subvolume' % subvolume)
+        for filename in files:
+            filepath = os.path.join(existing_state_dir, filename)
+            shutil.move(filepath, subvolume)
+
+    def complete_fstab_for_btrfs_layout(self, system_dir):
+        '''Fill in /etc/fstab entries for the default Btrfs disk layout.
+
+        In the future we should move this code out of the write extension and
+        in to a configure extension. To do that, though, we need some way of
+        informing the configure extension what layout should be used. Right now
+        a configure extension doesn't know if the system is going to end up as
+        a Btrfs disk image, a tarfile or something else and so it can't come
+        up with a sensible default fstab.
+
+        Configuration extensions can already create any /etc/fstab that they
+        like. This function only fills in entries that are missing, so if for
+        example the user configured /home to be on a separate partition, that
+        decision will be honoured and /state/home will not be created.
+
+        '''
+        shared_state_dirs = {'home', 'root', 'opt', 'srv', 'var'}
+
+        fstab = Fstab(os.path.join(system_dir, 'etc', 'fstab'))
+        existing_mounts = fstab.get_mounts()
+
+        if '/' in existing_mounts:
+            root_device = existing_mounts['/']
         else:
-            contents = ''
+            root_device = '/dev/sda'
+            fstab.add_line('/dev/sda  /  btrfs defaults,rw,noatime 0 1')
 
-        got_root = False
-        for line in contents.splitlines():
-            words = line.split()
-            if len(words) >= 2 and not words[0].startswith('#'):
-                got_root = got_root or words[1] == '/'
+        state_dirs_to_create = set()
+        for state_dir in shared_state_dirs:
+            if '/' + state_dir not in existing_mounts:
+                state_dirs_to_create.add(state_dir)
+                state_subvol = os.path.join('/state', state_dir)
+                fstab.add_line(
+                        '%s  /%s  btrfs subvol=%s,defaults,rw,noatime 0 2' %
+                        (root_device, state_dir, state_subvol))
 
-        if not got_root:
-            contents += '\n/dev/sda  /  btrfs defaults,rw,noatime 0 1\n'
-
-        with open(fstab, 'w') as f:
-            f.write(contents)
+        fstab.write()
+        return state_dirs_to_create
 
     def install_kernel(self, version_root, temp_root):
         '''Install the kernel outside of 'orig' or 'run' subvolumes'''
