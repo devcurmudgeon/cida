@@ -56,6 +56,8 @@ class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
                 raise
 
     def upgrade_local_system(self, raw_disk, temp_root):
+        self.complete_fstab_for_btrfs_layout(temp_root)
+
         mp = self.mount(raw_disk)
 
         version_label = self.get_version_label(mp)
