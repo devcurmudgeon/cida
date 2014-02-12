@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2013  Codethink Limited
+# Copyright (C) 2012-2014  Codethink Limited
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -76,6 +76,7 @@ class WriteExtension(cliapp.Application):
             os.symlink(version_label, os.path.join(mp, 'systems', 'default'))
             if self.bootloader_is_wanted():
                 self.install_kernel(version_root, temp_root)
+                self.install_syslinux_menu(mp, version_root)
                 self.install_extlinux(mp)
         except BaseException, e:
             sys.stderr.write('Error creating disk image')
@@ -253,6 +254,23 @@ class WriteExtension(cliapp.Application):
         # FIXME this hack seems to be necessary to let extlinux finish
         cliapp.runcmd(['sync'])
         time.sleep(2)
+
+    def install_syslinux_menu(self, real_root, version_root):
+        '''Make syslinux/extlinux menu binary available.
+
+        The syslinux boot menu is compiled to a file named menu.c32. Extlinux
+        searches a few places for this file but it does not know to look inside
+        our subvolume, so we copy it to the filesystem root.
+
+        If the file is not available, the bootloader will still work but will
+        not be able to show a menu.
+
+        '''
+        menu_file = os.path.join(version_root, 'orig',
+            'usr', 'share', 'syslinux', 'menu.c32')
+        if os.path.isfile(menu_file):
+            self.status(msg='Copying menu.c32')
+            shutil.copy(menu_file, real_root)
 
     def parse_attach_disks(self):
         '''Parse $ATTACH_DISKS into list of disks to attach.'''
