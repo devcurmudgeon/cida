@@ -11,14 +11,6 @@ kind: system
 name: base-system-x86_64-generic
 strata:
 - morph: build-essential
-  ref: null
-  repo: null
 - morph: core
-  ref: null
-  repo: null
 - morph: foundation
-  ref: null
-  repo: null
 - morph: bsp-x86_64-generic
-  ref: null
-  repo: null

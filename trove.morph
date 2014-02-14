@@ -2,9 +2,7 @@ name: trove
 description: Trove software
 kind: stratum
 build-depends:
-- repo: null
-  ref: null
-  morph: tools
+- morph: tools
 chunks:
 - name: bottle
   repo: upstream:bottle

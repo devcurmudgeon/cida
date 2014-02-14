@@ -10,14 +10,6 @@ kind: system
 name: base-system-armv7b-vexpress-tc2
 strata:
 - morph: build-essential
-  ref: null
-  repo: null
 - morph: core
-  ref: null
-  repo: null
 - morph: foundation
-  ref: null
-  repo: null
 - morph: bsp-armv7b-vexpress-tc2
-  ref: null
-  repo: null

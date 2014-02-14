@@ -11,14 +11,6 @@ kind: system
 name: base-system-armv7-versatile
 strata:
 - morph: build-essential
-  ref: null
-  repo: null
 - morph: core
-  ref: null
-  repo: null
 - morph: foundation
-  ref: null
-  repo: null
 - morph: bsp-armv7-versatile
-  ref: null
-  repo: null

@@ -1,7 +1,5 @@
 build-depends:
 - morph: foundation
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: libevent

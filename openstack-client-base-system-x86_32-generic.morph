@@ -12,17 +12,7 @@ kind: system
 name: openstack-client-base-system-x86_32-generic
 strata:
 - morph: build-essential
-  ref: null
-  repo: null
 - morph: core
-  ref: null
-  repo: null
 - morph: foundation
-  ref: null
-  repo: null
 - morph: bsp-x86_32-generic
-  ref: null
-  repo: null
 - morph: cloudinit-support
-  ref: null
-  repo: null

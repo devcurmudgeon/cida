@@ -5,20 +5,10 @@ kind: system
 arch: x86_64
 strata:
 - morph: build-essential
-  repo: null
-  ref: null
 - morph: core
-  repo: null
-  ref: null
 - morph: foundation
-  repo: null
-  ref: null
 - morph: bsp-x86_64-generic
-  repo: null
-  ref: null
 - morph: ceph-service
-  repo: null
-  ref: null
 configuration-extensions:
 - set-hostname
 - add-config-files

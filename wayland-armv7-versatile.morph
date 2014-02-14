@@ -1,16 +1,8 @@
 build-depends:
 - morph: core
-  ref: null
-  repo: null
 - morph: foundation
-  ref: null
-  repo: null
 - morph: genivi-foundation
-  ref: null
-  repo: null
 - morph: x-common
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: libxkbcommon

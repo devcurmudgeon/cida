@@ -1,7 +1,5 @@
 build-depends:
 - morph: audio-bluetooth
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: orc

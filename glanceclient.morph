@@ -1,7 +1,5 @@
 build-depends:
 - morph: tools
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: jsonschema

@@ -4,11 +4,5 @@ kind: system
 name: cross-bootstrap-system-x86_64-generic
 strata:
 - morph: build-essential
-  ref: null
-  repo: null
 - morph: core
-  ref: null
-  repo: null
 - morph: cross-bootstrap
-  ref: null
-  repo: null

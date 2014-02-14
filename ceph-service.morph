@@ -2,8 +2,6 @@ name: ceph-service
 kind: stratum
 build-depends:
 - morph: foundation
-  repo: null
-  ref: null
 chunks:
 - name: nspr
   repo: upstream:nspr-hg

@@ -1,19 +1,9 @@
 build-depends:
 - morph: core
-  ref: null
-  repo: null
 - morph: foundation
-  ref: null
-  repo: null
 - morph: genivi-foundation
-  ref: null
-  repo: null
 - morph: genivi
-  ref: null
-  repo: null
 - morph: wayland-armv7-versatile
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: layer_management-wayland

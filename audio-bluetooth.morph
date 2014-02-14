@@ -1,7 +1,5 @@
 build-depends:
 - morph: genivi-foundation
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: libatomic_ops

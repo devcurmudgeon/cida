@@ -1,7 +1,5 @@
 build-depends:
 - morph: qt4-tools
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: qt-creator

@@ -1,13 +1,7 @@
 build-depends:
 - morph: build-essential
-  ref: null
-  repo: null
 - morph: core
-  ref: null
-  repo: null
 - morph: foundation
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: configobj

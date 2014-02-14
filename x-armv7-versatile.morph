@@ -1,7 +1,5 @@
 build-depends:
 - morph: x-common
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: mesa-x

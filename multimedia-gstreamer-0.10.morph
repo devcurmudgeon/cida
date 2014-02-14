@@ -1,13 +1,7 @@
 build-depends:
 - morph: core
-  ref: null
-  repo: null
 - morph: foundation
-  ref: null
-  repo: null
 - morph: audio-bluetooth
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: orc

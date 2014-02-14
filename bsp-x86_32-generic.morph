@@ -1,7 +1,5 @@
 build-depends:
 - morph: core
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: linux

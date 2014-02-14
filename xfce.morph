@@ -1,13 +1,7 @@
 build-depends:
 - morph: genivi-x-x86_64-generic
-  ref: null
-  repo: null
 - morph: gtk2
-  ref: null
-  repo: null
 - morph: x-x86_64-generic
-  ref: null
-  repo: null
 chunks:
 - build-depends: []
   name: xfce-dev-tools
