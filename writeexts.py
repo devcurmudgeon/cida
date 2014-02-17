@@ -402,14 +402,14 @@ class WriteExtension(cliapp.Application):
 
         return value == 'yes'
 
-    def parse_autostart(self):
-        '''Parse $AUTOSTART to determine if VMs should be started.'''
+    def get_environment_boolean(self, variable):
+        '''Parse a yes/no boolean passed through the environment.'''
 
-        autostart = os.environ.get('AUTOSTART', 'no')
-        if autostart == 'no':
+        value = os.environ.get(variable, 'no').lower()
+        if value in ['no', '0', 'false']:
             return False
-        elif autostart == 'yes':
+        elif value in ['yes', '1', 'true']:
             return True
         else:
-            raise cliapp.AppException('Unexpected value for AUTOSTART: %s' %
-                                      autostart)
+            raise cliapp.AppException('Unexpected value for %s: %s' %
+                                      (variable, value))
