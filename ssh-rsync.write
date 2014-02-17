@@ -59,6 +59,7 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
 
         root_disk = self.find_root_disk(location)
         version_label = os.environ.get('VERSION_LABEL')
+        autostart = self.get_environment_boolean('AUTOSTART')
 
         self.status(msg='Creating remote mount point')
         remote_mnt = cliapp.ssh_runcmd(location, ['mktemp', '-d']).strip()
@@ -109,6 +110,10 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
             self.status(msg='Removing temporary mounts')
             cliapp.ssh_runcmd(location, ['umount', remote_mnt])
             cliapp.ssh_runcmd(location, ['rmdir', remote_mnt])
+
+        if autostart:
+            self.status(msg="Rebooting into new system ...")
+            ssh_runcmd_ignore_failure(location, ['reboot'])
 
     def create_remote_orig(self, location, version_root, remote_mnt,
                            temp_root):
