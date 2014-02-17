@@ -1,42 +1,42 @@
+name: genivi
+kind: stratum
+description: Software components designed by genivi, for genivi.
 build-depends:
 - morph: genivi-foundation
 chunks:
-- build-depends: []
-  name: DLT-daemon
-  ref: v2.9.1
+- name: DLT-daemon
   repo: upstream:DLT-daemon
-- build-depends:
-  - DLT-daemon
-  name: node-startup-controller
-  ref: baserock/morph
+  ref: v2.9.1
+  build-depends: []
+- name: node-startup-controller
   repo: upstream:node-startup-controller
-- build-depends: []
-  name: googletest
   ref: baserock/morph
+  build-depends:
+  - DLT-daemon
+- name: googletest
   repo: upstream:googletest
-- build-depends:
-  - googletest
-  name: googlemock
   ref: baserock/morph
+  build-depends: []
+- name: googlemock
   repo: upstream:googlemock
-- build-depends: []
-  name: genivi-common-api-runtime
-  ref: 2.1.4
+  ref: baserock/morph
+  build-depends:
+  - googletest
+- name: genivi-common-api-runtime
   repo: upstream:genivi-common-api-runtime
-- build-depends:
-  - genivi-common-api-runtime
-  name: genivi-common-api-dbus-runtime
   ref: 2.1.4
+  build-depends: []
+- name: genivi-common-api-dbus-runtime
   repo: upstream:genivi-common-api-dbus-runtime
-- build-depends:
+  ref: 2.1.4
+  build-depends:
+  - genivi-common-api-runtime
+- name: audiomanager
+  repo: upstream:audiomanager
+  ref: '5.0'
+  build-depends:
   - DLT-daemon
   - googletest
   - googlemock
   - genivi-common-api-runtime
   - genivi-common-api-dbus-runtime
-  name: audiomanager
-  ref: '5.0'
-  repo: upstream:audiomanager
-description: Software components designed by genivi, for genivi.
-kind: stratum
-name: genivi

@@ -1,23 +1,23 @@
+name: connectivity
+kind: stratum
 build-depends:
 - morph: genivi-foundation
 chunks:
-- build-depends: []
-  name: libnl
-  ref: baserock/morph
+- name: libnl
   repo: upstream:libnl
-- build-depends:
-  - libnl
-  name: wpa_supplicant
-  ref: baserock/genivi/morph
+  ref: baserock/morph
+  build-depends: []
+- name: wpa_supplicant
   repo: upstream:hostap
-- build-depends: []
-  name: iptables
-  ref: baserock/morph
+  ref: baserock/genivi/morph
+  build-depends:
+  - libnl
+- name: iptables
   repo: upstream:iptables
-- build-depends:
-  - iptables
-  name: connman
   ref: baserock/morph
+  build-depends: []
+- name: connman
   repo: upstream:connman
-kind: stratum
-name: connectivity
+  ref: baserock/morph
+  build-depends:
+  - iptables

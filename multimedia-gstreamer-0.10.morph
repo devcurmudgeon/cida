@@ -1,29 +1,29 @@
+name: multimedia-gstreamer-0.10
+kind: stratum
+description: Codecs
 build-depends:
 - morph: core
 - morph: foundation
 - morph: audio-bluetooth
 chunks:
-- build-depends: []
-  name: orc
-  ref: baserock/morph
+- name: orc
   repo: upstream:orc
-- build-depends:
-  - orc
-  name: gstreamer
-  ref: baserock/morph/0.10
+  ref: baserock/morph
+  build-depends: []
+- name: gstreamer
   repo: upstream:gstreamer
-- build-depends:
-  - gstreamer
-  name: gstreamer-plugins-base
   ref: baserock/morph/0.10
+  build-depends:
+  - orc
+- name: gstreamer-plugins-base
   repo: upstream:gstreamer-plugins-base
-- build-depends:
+  ref: baserock/morph/0.10
+  build-depends:
+  - gstreamer
+- name: gstreamer-plugins-good
+  repo: upstream:gstreamer-plugins-good
+  ref: baserock/morph/0.10
+  build-depends:
   - gstreamer
   - gstreamer-plugins-base
   - orc
-  name: gstreamer-plugins-good
-  ref: baserock/morph/0.10
-  repo: upstream:gstreamer-plugins-good
-description: Codecs
-kind: stratum
-name: multimedia-gstreamer-0.10

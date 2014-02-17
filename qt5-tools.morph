@@ -1,144 +1,144 @@
+name: qt5-tools
+kind: stratum
+description: Qt5 Development Libraries and Tools
 build-depends:
 - morph: tools
 - morph: x-x86_64-generic
 - morph: multimedia-gstreamer-0.10
 chunks:
-- build-depends: []
-  name: icu
-  ref: baserock/morph
+- name: icu
   repo: upstream:icu
-- build-depends: []
-  name: ruby-1.8
+  ref: baserock/morph
+  build-depends: []
+- name: ruby-1.8
+  repo: upstream:ruby
   ref: baserock/morph/ruby_1_8_7
+  build-depends: []
+- name: ruby-1.9
   repo: upstream:ruby
-- build-depends:
-  - ruby-1.8
-  name: ruby-1.9
   ref: baserock/morph/ruby_1_9_3
-  repo: upstream:ruby
-- build-depends:
-  - icu
-  name: qtbase
-  ref: baserock/morph
+  build-depends:
+  - ruby-1.8
+- name: qtbase
   repo: upstream:qt5/qtbase
-- build-depends:
-  - qtbase
-  name: qtsvg
   ref: baserock/morph
+  build-depends:
+  - icu
+- name: qtsvg
   repo: upstream:qt5/qtsvg
-- build-depends:
-  - qtbase
-  name: qtjsbackend
   ref: baserock/morph
+  build-depends:
+  - qtbase
+- name: qtjsbackend
   repo: upstream:qt5/qtjsbackend
-- build-depends:
-  - qtbase
-  - qtjsbackend
-  name: qtscript
   ref: baserock/morph
+  build-depends:
+  - qtbase
+- name: qtscript
   repo: upstream:qt5/qtscript
-- build-depends:
+  ref: baserock/morph
+  build-depends:
   - qtbase
   - qtjsbackend
-  - qtscript
-  name: qtdeclarative
-  ref: baserock/morph
+- name: qtdeclarative
   repo: upstream:qt5/qtdeclarative
-- build-depends:
+  ref: baserock/morph
+  build-depends:
   - qtbase
   - qtjsbackend
   - qtscript
-  name: qtquick1
-  ref: baserock/morph
+- name: qtquick1
   repo: upstream:qt5/qtquick1
-- build-depends:
+  ref: baserock/morph
+  build-depends:
+  - qtbase
+  - qtjsbackend
+  - qtscript
+- name: qt3d
+  repo: upstream:qt5/qt3d
+  ref: baserock/morph
+  build-depends:
   - qtbase
   - qtjsbackend
   - qtscript
   - qtdeclarative
-  name: qt3d
+- name: qtquickcontrols
+  repo: upstream:qt5/qtquickcontrols
   ref: baserock/morph
-  repo: upstream:qt5/qt3d
-- build-depends:
+  build-depends:
   - qtbase
   - qtjsbackend
   - qtdeclarative
-  name: qtquickcontrols
-  ref: baserock/morph
-  repo: upstream:qt5/qtquickcontrols
-- build-depends:
-  - qtbase
-  name: qtsensors
-  ref: baserock/morph
+- name: qtsensors
   repo: upstream:qt5/qtsensors
-- build-depends:
-  - qtbase
-  name: qtserialport
   ref: baserock/morph
+  build-depends:
+  - qtbase
+- name: qtserialport
   repo: upstream:qt5/qtserialport
-- build-depends:
-  - qtbase
-  name: qtx11extras
   ref: baserock/morph
+  build-depends:
+  - qtbase
+- name: qtx11extras
   repo: upstream:qt5/qtx11extras
-- build-depends:
+  ref: baserock/morph
+  build-depends:
+  - qtbase
+- name: qtwebkit
+  repo: upstream:qt5/qtwebkit
+  ref: baserock/morph
+  build-depends:
   - qtbase
   - icu
   - ruby-1.9
   - qtjsbackend
   - qtdeclarative
-  name: qtwebkit
-  ref: baserock/morph
-  repo: upstream:qt5/qtwebkit
-- build-depends:
-  - qtbase
-  - qtjsbackend
-  - qtdeclarative
-  - qtwebkit
-  name: qtwebkit-examples
-  ref: baserock/morph
+- name: qtwebkit-examples
   repo: upstream:qt5/qtwebkit-examples
-- build-depends:
-  - qtbase
-  name: qtmultimedia
   ref: baserock/morph
-  repo: upstream:qt5/qtmultimedia
-- build-depends:
-  - qtbase
-  name: qtxmlpatterns
-  ref: baserock/morph
-  repo: upstream:qt5/qtxmlpatterns
-- build-depends:
-  - qtbase
-  name: qtdoc
-  ref: baserock/morph
-  repo: upstream:qt5/qtdoc
-- build-depends:
-  - qtbase
-  - qtjsbackend
-  - qtdeclarative
-  name: qtgraphicaleffects
-  ref: baserock/morph
-  repo: upstream:qt5/qtgraphicaleffects
-- build-depends:
-  - qtbase
-  name: qtimageformats
-  ref: baserock/morph
-  repo: upstream:qt5/qtimageformats
-- build-depends:
+  build-depends:
   - qtbase
   - qtjsbackend
   - qtdeclarative
   - qtwebkit
-  name: qttools
+- name: qtmultimedia
+  repo: upstream:qt5/qtmultimedia
   ref: baserock/morph
+  build-depends:
+  - qtbase
+- name: qtxmlpatterns
+  repo: upstream:qt5/qtxmlpatterns
+  ref: baserock/morph
+  build-depends:
+  - qtbase
+- name: qtdoc
+  repo: upstream:qt5/qtdoc
+  ref: baserock/morph
+  build-depends:
+  - qtbase
+- name: qtgraphicaleffects
+  repo: upstream:qt5/qtgraphicaleffects
+  ref: baserock/morph
+  build-depends:
+  - qtbase
+  - qtjsbackend
+  - qtdeclarative
+- name: qtimageformats
+  repo: upstream:qt5/qtimageformats
+  ref: baserock/morph
+  build-depends:
+  - qtbase
+- name: qttools
   repo: upstream:qt5/qttools
-- build-depends:
+  ref: baserock/morph
+  build-depends:
+  - qtbase
+  - qtjsbackend
+  - qtdeclarative
+  - qtwebkit
+- name: qttranslations
+  repo: upstream:qt5/qttranslations
+  ref: baserock/morph
+  build-depends:
   - qtbase
   - qttools
-  name: qttranslations
-  ref: baserock/morph
-  repo: upstream:qt5/qttranslations
-description: Qt5 Development Libraries and Tools
-kind: stratum
-name: qt5-tools

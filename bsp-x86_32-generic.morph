@@ -1,20 +1,20 @@
+name: bsp-x86_32-generic
+kind: stratum
+description: The set of platform specific components required for booting a 32-bit
+  x86 based system.
 build-depends:
 - morph: core
 chunks:
-- build-depends: []
-  name: linux
-  ref: baserock/morph
+- name: linux
   repo: upstream:linux
-- build-depends: []
-  name: nasm
   ref: baserock/morph
+  build-depends: []
+- name: nasm
   repo: upstream:nasm
-- build-depends:
-  - nasm
-  name: syslinux
   ref: baserock/morph
+  build-depends: []
+- name: syslinux
   repo: upstream:syslinux
-description: The set of platform specific components required for booting a 32-bit
-  x86 based system.
-kind: stratum
-name: bsp-x86_32-generic
+  ref: baserock/morph
+  build-depends:
+  - nasm

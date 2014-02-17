@@ -1,76 +1,76 @@
+name: audio-bluetooth
+kind: stratum
+description: Components required for audio and bluetooth.
 build-depends:
 - morph: genivi-foundation
 chunks:
-- build-depends: []
-  name: libatomic_ops
-  ref: baserock/morph
+- name: libatomic_ops
   repo: upstream:libatomic_ops
-- build-depends: []
-  name: alsa-lib
   ref: baserock/morph
+  build-depends: []
+- name: alsa-lib
   repo: upstream:alsa-lib
-- build-depends:
-  - alsa-lib
-  name: alsa-utils
   ref: baserock/morph
+  build-depends: []
+- name: alsa-utils
   repo: upstream:alsa-utils
-- build-depends:
+  ref: baserock/morph
+  build-depends:
   - alsa-lib
-  name: bluez
-  ref: baserock/genivi/baseline
+- name: bluez
   repo: upstream:bluez
-- build-depends: []
-  name: bluez-tools
-  ref: baserock/morph
+  ref: baserock/genivi/baseline
+  build-depends:
+  - alsa-lib
+- name: bluez-tools
   repo: upstream:bluez-tools
-- build-depends: []
-  name: libical
   ref: baserock/morph
+  build-depends: []
+- name: libical
   repo: upstream:libical
-- build-depends:
+  ref: baserock/morph
+  build-depends: []
+- name: obexd
+  repo: upstream:obexd
+  ref: baserock/morph
+  build-depends:
   - bluez
   - libical
-  name: obexd
-  ref: baserock/morph
-  repo: upstream:obexd
-- build-depends: []
-  name: speex
-  ref: baserock/morph
+- name: speex
   repo: upstream:speex
-- build-depends:
+  ref: baserock/morph
+  build-depends: []
+- name: nohands
+  repo: upstream:nohands
+  ref: baserock/morph
+  build-depends:
   - bluez
   - speex
-  name: nohands
-  ref: baserock/morph
-  repo: upstream:nohands
-- build-depends: []
-  name: mobile-broadband-provider-info
-  ref: baserock/morph
+- name: mobile-broadband-provider-info
   repo: upstream:mobile-broadband-provider-info
-- build-depends:
+  ref: baserock/morph
+  build-depends: []
+- name: ofono
+  repo: upstream:ofono
+  ref: baserock/morph
+  build-depends:
   - mobile-broadband-provider-info
   - bluez
-  name: ofono
-  ref: baserock/morph
-  repo: upstream:ofono
-- build-depends: []
-  name: json-c
-  ref: baserock/morph
+- name: json-c
   repo: upstream:json-c
-- build-depends: []
-  name: libsndfile
   ref: baserock/morph
+  build-depends: []
+- name: libsndfile
   repo: upstream:libsndfile
-- build-depends:
+  ref: baserock/morph
+  build-depends: []
+- name: pulseaudio
+  repo: upstream:pulseaudio
+  ref: baserock/morph
+  build-depends:
   - libsndfile
   - libatomic_ops
   - speex
   - json-c
   - alsa-lib
   - bluez
-  name: pulseaudio
-  ref: baserock/morph
-  repo: upstream:pulseaudio
-description: Components required for audio and bluetooth.
-kind: stratum
-name: audio-bluetooth

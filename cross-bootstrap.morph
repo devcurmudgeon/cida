@@ -1,69 +1,69 @@
+name: cross-bootstrap
+kind: stratum
+description: The minimal development tools to build a baserock devel system
 build-depends:
 - morph: core
 chunks:
-- build-depends: []
-  name: six
-  ref: baserock/morph
+- name: six
   repo: upstream:six
-- build-depends: []
-  name: groff
   ref: baserock/morph
+  build-depends: []
+- name: groff
   repo: upstream:groff
-- build-depends:
-  - groff
-  name: openssh
   ref: baserock/morph
+  build-depends: []
+- name: openssh
   repo: upstream:openssh
-- build-depends: []
-  name: python-ttystatus
   ref: baserock/morph
+  build-depends:
+  - groff
+- name: python-ttystatus
   repo: upstream:python-ttystatus
-- build-depends: []
-  name: python-coveragepy
   ref: baserock/morph
+  build-depends: []
+- name: python-coveragepy
   repo: upstream:python-coveragepy
-- build-depends:
-  - python-coveragepy
-  name: python-coverage-test-runner
   ref: baserock/morph
+  build-depends: []
+- name: python-coverage-test-runner
   repo: upstream:python-coverage-test-runner
-- build-depends:
-  - python-coverage-test-runner
-  name: cliapp
   ref: baserock/morph
+  build-depends:
+  - python-coveragepy
+- name: cliapp
   repo: upstream:cliapp
-- build-depends: []
-  name: python-markdown
   ref: baserock/morph
+  build-depends:
+  - python-coverage-test-runner
+- name: python-markdown
   repo: upstream:python-markdown
-- build-depends:
+  ref: baserock/morph
+  build-depends: []
+- name: cmdtest
+  repo: upstream:cmdtest
+  ref: baserock/morph
+  build-depends:
   - cliapp
   - python-ttystatus
   - python-markdown
-  name: cmdtest
-  ref: baserock/morph
-  repo: upstream:cmdtest
-- build-depends: []
-  name: linux-user-chroot
-  ref: baserock/morph
+- name: linux-user-chroot
   repo: upstream:linux-user-chroot
-- build-depends:
-  - six
-  name: pyfilesystem
   ref: baserock/morph
+  build-depends: []
+- name: pyfilesystem
   repo: upstream:pyfilesystem
-- build-depends:
+  ref: baserock/morph
+  build-depends:
+  - six
+- name: morph
+  repo: baserock:baserock/morph
+  ref: master
+  build-depends:
   - cliapp
   - cmdtest
   - python-coverage-test-runner
   - pyfilesystem
-  name: morph
-  ref: master
-  repo: baserock:baserock/morph
-- build-depends: []
-  name: rsync
-  ref: baserock/morph
+- name: rsync
   repo: upstream:rsync
-description: The minimal development tools to build a baserock devel system
-kind: stratum
-name: cross-bootstrap
+  ref: baserock/morph
+  build-depends: []

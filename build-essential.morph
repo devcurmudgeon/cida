@@ -1,123 +1,142 @@
+name: build-essential
+kind: stratum
+description: |
+  Toolchain stratum
+
+  Stage 1: build a minimal cross compiler with the host's tools.
+
+  Starting with a cross compiler ensures that (a) nothing from the host
+  can leak into the build-essential artifacts, and (b) cross-compiling
+  build-essential is fully tested and supported, since we always use the
+  cross code paths.
+
+  Stage 2: cross-build the whole of build-essential, using the host's tools
+  but the cross-compiler toolchain.
+
+  Stage 2 GCC outputs code for the same 'bootstrap' machine as stage 1 GCC,
+  but because stage 2 GCC is also built to *run* on the bootstrap machine
+  it can only execute inside the stage 3 chroot (due to being built against
+  a libc with a non-standard prefix).
+
+  Stage 3: build the whole of build-essential again, this time using a
+  staging area containing only the output of stage 2. The result of this
+  build is fully reproducible.
+
+  We do a switch-a-roo between stage 2 and 3: stages 2 chunks are all built
+  to run on a host *-bootstrap-* while stage 3 chunks are native-built for
+  a *-baserock-* machine. This works, because the cross build was all for
+  show (and cleanliness) and the binaries actually still run on the host.
+
+  After build-essential is built we do another trick. See
+  stage2-fhs-dirs.morph for details. Basically, /bin is a symlink to
+  /tools/bin during stage 2 but in stage 3 it becomes a real directory
+  again.
 chunks:
-- build-depends: []
-  build-mode: bootstrap
-  name: stage1-binutils
-  prefix: /tools
-  ref: baserock/build-essential
+- name: stage1-binutils
   repo: upstream:binutils-redhat
-- build-depends:
+  ref: baserock/build-essential
+  build-depends: []
+  build-mode: bootstrap
+  prefix: /tools
+- name: stage1-gcc
+  repo: upstream:gcc-tarball
+  ref: baserock/build-essential
+  build-depends:
   - stage1-binutils
   build-mode: bootstrap
-  name: stage1-gcc
   prefix: /tools
+- name: stage2-linux-api-headers
+  repo: upstream:linux
   ref: baserock/build-essential
-  repo: upstream:gcc-tarball
-
-- build-depends:
+  build-depends:
   - stage1-binutils
   - stage1-gcc
   build-mode: bootstrap
-  name: stage2-linux-api-headers
   prefix: /tools
-  ref: baserock/build-essential
-  repo: upstream:linux
-- build-depends:
+- name: stage2-eglibc
+  repo: upstream:eglibc2
+  ref: baserock/2.15-build-essential
+  build-depends:
   - stage1-binutils
   - stage1-gcc
   - stage2-linux-api-headers
   build-mode: bootstrap
-  name: stage2-eglibc
   prefix: /tools
-  ref: baserock/2.15-build-essential
-  repo: upstream:eglibc2
-- build-depends:
-  - stage1-binutils
-  - stage1-gcc
-  - stage2-eglibc
-  build-mode: bootstrap
-  name: stage2-binutils
-  prefix: /tools
-  ref: baserock/build-essential
+- name: stage2-binutils
   repo: upstream:binutils-redhat
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
   - stage1-binutils
   - stage1-gcc
   - stage2-eglibc
   build-mode: bootstrap
-  name: stage2-gcc-fixed-headers
   prefix: /tools
-  ref: baserock/build-essential
+- name: stage2-gcc-fixed-headers
   repo: upstream:gcc-tarball
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-eglibc
+  build-mode: bootstrap
+  prefix: /tools
+- name: stage2-gcc
+  repo: upstream:gcc-tarball
+  ref: baserock/build-essential
+  build-depends:
   - stage1-binutils
   - stage1-gcc
   - stage2-eglibc
   - stage2-gcc-fixed-headers
   build-mode: bootstrap
-  name: stage2-gcc
   prefix: /tools
-  ref: baserock/build-essential
-  repo: upstream:gcc-tarball
-- build-depends:
-  - stage1-binutils
-  - stage1-gcc
-  - stage2-eglibc
-  build-mode: bootstrap
-  name: stage2-busybox
-  prefix: /tools
-  ref: baserock/build-essential
+- name: stage2-busybox
   repo: upstream:busybox
-- build-depends: []
-  build-mode: bootstrap
-  name: stage2-fhs-dirs
-  prefix: /tools
-  ref: master
-  repo: baserock:baserock/fhs-dirs
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
   - stage1-binutils
   - stage1-gcc
   - stage2-eglibc
   build-mode: bootstrap
-  name: stage2-gawk
   prefix: /tools
-  ref: baserock/build-essential
+- name: stage2-fhs-dirs
+  repo: baserock:baserock/fhs-dirs
+  ref: master
+  build-depends: []
+  build-mode: bootstrap
+  prefix: /tools
+- name: stage2-gawk
   repo: upstream:gawk
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
   - stage1-binutils
   - stage1-gcc
   - stage2-eglibc
   build-mode: bootstrap
-  name: stage2-make
   prefix: /tools
-  ref: baserock/build-essential
+- name: stage2-make
   repo: upstream:make
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-eglibc
+  build-mode: bootstrap
+  prefix: /tools
+- name: stage2-reset-specs
+  repo: upstream:eglibc2
+  ref: baserock/2.15-build-essential
+  build-depends:
   - stage1-binutils
   - stage1-gcc
   - stage2-linux-api-headers
   - stage2-eglibc
   build-mode: bootstrap
-  name: stage2-reset-specs
   prefix: /tools
-  ref: baserock/2.15-build-essential
-  repo: upstream:eglibc2
-
-- build-depends:
-  - stage2-binutils
-  - stage2-busybox
-  - stage2-eglibc
-  - stage2-fhs-dirs
-  - stage2-gawk
-  - stage2-gcc
-  - stage2-linux-api-headers
-  - stage2-make
-  - stage2-reset-specs
-  build-mode: staging
-  name: fhs-dirs
-  prefix: /usr
-  ref: master
+- name: fhs-dirs
   repo: baserock:baserock/fhs-dirs
-- build-depends:
+  ref: master
+  build-depends:
   - stage2-binutils
   - stage2-busybox
   - stage2-eglibc
@@ -128,11 +147,26 @@ chunks:
   - stage2-make
   - stage2-reset-specs
   build-mode: staging
-  name: linux-api-headers
   prefix: /usr
-  ref: baserock/build-essential
+- name: linux-api-headers
   repo: upstream:linux
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-eglibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  build-mode: staging
+  prefix: /usr
+- name: eglibc
+  repo: upstream:eglibc2
+  ref: baserock/2.15-build-essential
+  build-depends:
   - stage2-binutils
   - stage2-busybox
   - stage2-eglibc
@@ -144,27 +178,11 @@ chunks:
   - stage2-reset-specs
   - linux-api-headers
   build-mode: staging
-  name: eglibc
   prefix: /usr
-  ref: baserock/2.15-build-essential
-  repo: upstream:eglibc2
-- build-depends:
-  - stage2-binutils
-  - stage2-busybox
-  - stage2-eglibc
-  - stage2-fhs-dirs
-  - stage2-gawk
-  - stage2-gcc
-  - stage2-linux-api-headers
-  - stage2-make
-  - stage2-reset-specs
-  - eglibc
-  build-mode: staging
-  name: zlib
-  prefix: /usr
-  ref: baserock/build-essential
+- name: zlib
   repo: upstream:zlib
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
   - stage2-binutils
   - stage2-busybox
   - stage2-eglibc
@@ -175,13 +193,12 @@ chunks:
   - stage2-make
   - stage2-reset-specs
   - eglibc
-  - zlib
   build-mode: staging
-  name: binutils
   prefix: /usr
-  ref: baserock/build-essential
+- name: binutils
   repo: upstream:binutils-redhat
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
   - stage2-binutils
   - stage2-busybox
   - stage2-eglibc
@@ -192,12 +209,13 @@ chunks:
   - stage2-make
   - stage2-reset-specs
   - eglibc
+  - zlib
   build-mode: staging
-  name: busybox
   prefix: /usr
-  ref: baserock/build-essential
+- name: busybox
   repo: upstream:busybox
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
   - stage2-binutils
   - stage2-busybox
   - stage2-eglibc
@@ -209,11 +227,11 @@ chunks:
   - stage2-reset-specs
   - eglibc
   build-mode: staging
-  name: gawk
   prefix: /usr
-  ref: baserock/build-essential
+- name: gawk
   repo: upstream:gawk
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
   - stage2-binutils
   - stage2-busybox
   - stage2-eglibc
@@ -224,30 +242,12 @@ chunks:
   - stage2-make
   - stage2-reset-specs
   - eglibc
-  - zlib
   build-mode: staging
-  name: gcc
   prefix: /usr
-  ref: baserock/build-essential
+- name: gcc
   repo: upstream:gcc-tarball
-- build-depends:
-  - stage2-binutils
-  - stage2-busybox
-  - stage2-eglibc
-  - stage2-fhs-dirs
-  - stage2-gawk
-  - stage2-gcc
-  - stage2-linux-api-headers
-  - stage2-make
-  - stage2-reset-specs
-  - eglibc
-  build-mode: staging
-  name: make
-  prefix: /usr
   ref: baserock/build-essential
-  repo: upstream:make
-
-- build-depends:
+  build-depends:
   - stage2-binutils
   - stage2-busybox
   - stage2-eglibc
@@ -260,40 +260,37 @@ chunks:
   - eglibc
   - zlib
   build-mode: staging
-  name: ccache
   prefix: /usr
+- name: make
+  repo: upstream:make
   ref: baserock/build-essential
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-eglibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - eglibc
+  build-mode: staging
+  prefix: /usr
+- name: ccache
   repo: upstream:ccache
-description: |
- Toolchain stratum
-
- Stage 1: build a minimal cross compiler with the host's tools.
-
- Starting with a cross compiler ensures that (a) nothing from the host
- can leak into the build-essential artifacts, and (b) cross-compiling
- build-essential is fully tested and supported, since we always use the
- cross code paths.
-
- Stage 2: cross-build the whole of build-essential, using the host's tools
- but the cross-compiler toolchain.
-
- Stage 2 GCC outputs code for the same 'bootstrap' machine as stage 1 GCC,
- but because stage 2 GCC is also built to *run* on the bootstrap machine
- it can only execute inside the stage 3 chroot (due to being built against
- a libc with a non-standard prefix).
-
- Stage 3: build the whole of build-essential again, this time using a
- staging area containing only the output of stage 2. The result of this
- build is fully reproducible.
-
- We do a switch-a-roo between stage 2 and 3: stages 2 chunks are all built
- to run on a host *-bootstrap-* while stage 3 chunks are native-built for
- a *-baserock-* machine. This works, because the cross build was all for
- show (and cleanliness) and the binaries actually still run on the host.
-
- After build-essential is built we do another trick. See
- stage2-fhs-dirs.morph for details. Basically, /bin is a symlink to
- /tools/bin during stage 2 but in stage 3 it becomes a real directory
- again.
-kind: stratum
-name: build-essential
+  ref: baserock/build-essential
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-eglibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - eglibc
+  - zlib
+  build-mode: staging
+  prefix: /usr

@@ -1,11 +1,11 @@
+name: genivi-x-ppc64-generic
+kind: stratum
+description: Software components designed by genivi, for genivi.
 build-depends:
 - morph: genivi
 - morph: x-ppc64-generic
 chunks:
-- build-depends: []
-  name: layer_management
-  ref: baserock/genivi/baseline
+- name: layer_management
   repo: upstream:layer_management
-description: Software components designed by genivi, for genivi.
-kind: stratum
-name: genivi-x-ppc64-generic
+  ref: baserock/genivi/baseline
+  build-depends: []

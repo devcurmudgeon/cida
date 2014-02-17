@@ -1,3 +1,6 @@
+name: enlightenment
+kind: stratum
+description: Enlightenment Desktop and Window Manager
 build-depends:
 - morph: tools
 - morph: x-x86_64-generic
@@ -6,50 +9,47 @@ build-depends:
 - morph: multimedia-gstreamer-0.10
 - morph: connectivity
 chunks:
-- build-depends: []
-  name: efl
-  ref: baserock/morph
+- name: efl
   repo: upstream:enlightenment/efl
-- build-depends:
-  - efl
-  name: elementary
   ref: baserock/morph
+  build-depends: []
+- name: elementary
   repo: upstream:enlightenment/elementary
-- build-depends:
-  - efl
-  name: evas_generic_loaders
   ref: baserock/morph
+  build-depends:
+  - efl
+- name: evas_generic_loaders
   repo: upstream:enlightenment/evas_generic_loaders
-- build-depends:
+  ref: baserock/morph
+  build-depends:
+  - efl
+- name: enlightenment
+  repo: upstream:enlightenment/enlightenment
+  ref: baserock/morph
+  build-depends:
   - efl
   - elementary
-  name: enlightenment
+- name: imlib2
+  repo: upstream:enlightenment/imlib2
   ref: baserock/morph
-  repo: upstream:enlightenment/enlightenment
-- build-depends:
+  build-depends:
   - efl
   - elementary
   - enlightenment
-  name: imlib2
+- name: libast
+  repo: upstream:enlightenment/libast
   ref: baserock/morph
-  repo: upstream:enlightenment/imlib2
-- build-depends:
+  build-depends:
   - efl
   - elementary
   - enlightenment
   - imlib2
-  name: libast
+- name: eterm
+  repo: upstream:enlightenment/eterm
   ref: baserock/morph
-  repo: upstream:enlightenment/libast
-- build-depends:
+  build-depends:
   - efl
   - elementary
   - enlightenment
   - libast
   - imlib2
-  name: eterm
-  ref: baserock/morph
-  repo: upstream:enlightenment/eterm
-description: Enlightenment Desktop and Window Manager
-kind: stratum
-name: enlightenment

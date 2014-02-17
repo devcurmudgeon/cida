@@ -1,6 +1,6 @@
 name: trove
-description: Trove software
 kind: stratum
+description: Trove software
 build-depends:
 - morph: tools
 chunks:

@@ -1,15 +1,15 @@
+name: bsp-wandboard
+kind: stratum
+description: The platform dependent components required to boot an wandboard ARM board.
 build-depends:
 - morph: core
 chunks:
-- build-depends: []
-  name: u-boot
-  ref: baserock/morph
+- name: u-boot
   repo: upstream:u-boot
-- build-depends:
-  - u-boot
-  name: linux
-  ref: baserock/arm/wandboard_bsp
+  ref: baserock/morph
+  build-depends: []
+- name: linux
   repo: upstream:linux
-description: The platform dependent components required to boot an wandboard ARM board.
-kind: stratum
-name: bsp-wandboard
+  ref: baserock/arm/wandboard_bsp
+  build-depends:
+  - u-boot

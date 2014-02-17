@@ -1,22 +1,22 @@
+name: wayland-armv7-versatile
+kind: stratum
 build-depends:
 - morph: core
 - morph: foundation
 - morph: genivi-foundation
 - morph: x-common
 chunks:
-- build-depends: []
-  name: libxkbcommon
-  ref: baserock/morph
+- name: libxkbcommon
   repo: upstream:xorg-lib-libxkbcommon
-- build-depends:
-  - libxkbcommon
-  name: wayland
-  ref: baserock/genivi/wayland
+  ref: baserock/morph
+  build-depends: []
+- name: wayland
   repo: upstream:wayland
-- build-depends:
-  - wayland
-  name: mesa-wayland
-  ref: baserock/genivi/baseline-armv7-versatile
+  ref: baserock/genivi/wayland
+  build-depends:
+  - libxkbcommon
+- name: mesa-wayland
   repo: upstream:mesa
-kind: stratum
-name: wayland-armv7-versatile
+  ref: baserock/genivi/baseline-armv7-versatile
+  build-depends:
+  - wayland

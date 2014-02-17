@@ -1,129 +1,136 @@
+name: core
+kind: stratum
+description: Core components of a Baserock base system that are build tools required
+  for the BSP and Foundation strata, but a step above build-essential
 build-depends:
 - morph: build-essential
 chunks:
-- build-depends: []
-  name: cmake
-  ref: baserock/morph
+- name: cmake
   repo: upstream:cmake
-- build-depends: []
-  name: gdbm
-  ref: baserock/build-essential
+  ref: baserock/morph
+  build-depends: []
+- name: gdbm
   repo: upstream:gdbm
-- build-depends: []
-  name: gettext
   ref: baserock/build-essential
+  build-depends: []
+- name: gettext
   repo: upstream:gettext
-- build-depends: []
-  name: m4
   ref: baserock/build-essential
+  build-depends: []
+- name: m4
   repo: upstream:m4
-- build-depends: []
-  name: mini-utils
-  ref: master
-  repo: baserock:baserock/mini-utils
-- build-depends: []
-  name: ncurses
-  ref: baserock/morph
-  repo: upstream:ncurses
-- build-depends:
-  - gdbm
-  name: perl
-  ref: baserock/morph
-  repo: upstream:perl
-- build-depends: []
-  name: pkg-config
   ref: baserock/build-essential
-  repo: upstream:pkg-config
-- build-depends:
-  - ncurses
-  name: texinfo-tarball
+  build-depends: []
+- name: mini-utils
+  repo: baserock:baserock/mini-utils
+  ref: master
+  build-depends: []
+- name: ncurses
+  repo: upstream:ncurses
   ref: baserock/morph
+  build-depends: []
+- name: perl
+  repo: upstream:perl
+  ref: baserock/morph
+  build-depends:
+  - gdbm
+- name: pkg-config
+  repo: upstream:pkg-config
+  ref: baserock/build-essential
+  build-depends: []
+- name: texinfo-tarball
   repo: upstream:texinfo-tarball
-- build-depends:
+  ref: baserock/morph
+  build-depends:
+  - ncurses
+- name: autoconf
+  repo: upstream:autoconf
+  ref: baserock/build-essential
+  build-depends:
   - m4
   - perl
-  name: autoconf
-  ref: baserock/build-essential
-  repo: upstream:autoconf
-- build-depends:
+- name: automake
+  repo: upstream:automake
+  ref: baserock/morph
+  build-depends:
   - autoconf
   - perl
   - texinfo-tarball
-  name: automake
-  ref: baserock/morph
-  repo: upstream:automake
-- build-depends: []
-  name: bash
-  ref: baserock/morph
+- name: bash
   repo: upstream:bash
-- build-depends:
-  - perl
-  name: error-perl-tarball
   ref: baserock/morph
+  build-depends: []
+- name: error-perl-tarball
   repo: upstream:error-perl-tarball
-- build-depends:
-  - m4
-  name: flex
-  ref: baserock/build-essential
-  repo: upstream:flex
-- build-depends:
+  ref: baserock/morph
+  build-depends:
   - perl
-  name: openssl-new
-  ref: baserock/morph
+- name: flex
+  repo: upstream:flex
+  ref: baserock/build-essential
+  build-depends:
+  - m4
+- name: openssl-new
   repo: upstream:openssl-new
-- build-depends: []
-  name: bzip2
   ref: baserock/morph
+  build-depends:
+  - perl
+- name: bzip2
   repo: upstream:bzip2
-- build-depends:
+  ref: baserock/morph
+  build-depends: []
+- name: cpython
+  repo: upstream:cpython
+  ref: baserock/morph-2.7
+  build-depends:
   - openssl-new
   - bzip2
-  name: cpython
-  ref: baserock/morph-2.7
-  repo: upstream:cpython
-- build-depends:
-  - bash
-  name: libtool
-  ref: baserock/build-essential
+- name: libtool
   repo: upstream:libtool
-- build-depends:
+  ref: baserock/build-essential
+  build-depends:
+  - bash
+- name: gtk-doc-stub
+  repo: upstream:gtk-doc-stub
+  ref: baserock/morph
+  build-depends:
   - autoconf
   - automake
   - libtool
-  name: gtk-doc-stub
+- name: libxml2
+  repo: upstream:libxml2
   ref: baserock/morph
-  repo: upstream:gtk-doc-stub
-- build-depends:
+  build-depends:
   - autoconf
   - automake
   - cpython
   - libtool
-  name: libxml2
+- name: curl
+  repo: upstream:curl
   ref: baserock/morph
-  repo: upstream:libxml2
-- build-depends:
+  build-depends:
   - autoconf
   - automake
   - libtool
   - openssl-new
-  name: curl
+- name: libexpat
+  repo: upstream:libexpat
   ref: baserock/morph
-  repo: upstream:curl
-- build-depends:
+  build-depends:
   - autoconf
   - automake
   - libtool
-  name: libexpat
+- name: XML-Parser
+  repo: upstream:XML-Parser
   ref: baserock/morph
-  repo: upstream:libexpat
-- build-depends:
+  build-depends:
   - libexpat
   - libxml2
   - perl
-  name: XML-Parser
+- name: git
+  repo: upstream:git
   ref: baserock/morph
-  repo: upstream:XML-Parser
-- build-depends:
+  build-depends:
   - autoconf
   - cpython
   - curl
@@ -131,10 +138,10 @@ chunks:
   - gettext
   - libexpat
   - openssl-new
-  name: git
+- name: bison
+  repo: upstream:bison
   ref: baserock/morph
-  repo: upstream:git
-- build-depends:
+  build-depends:
   - autoconf
   - automake
   - bash
@@ -142,61 +149,54 @@ chunks:
   - gettext
   - git
   - mini-utils
-  name: bison
-  ref: baserock/morph
-  repo: upstream:bison
-- build-depends: []
-  name: gperf
-  ref: baserock/morph
+- name: gperf
   repo: upstream:gperf
-- build-depends:
+  ref: baserock/morph
+  build-depends: []
+- name: intltool
+  repo: upstream:intltool
+  ref: baserock/morph
+  build-depends:
   - XML-Parser
   - autoconf
   - automake
   - perl
-  name: intltool
+- name: util-linux
+  repo: upstream:util-linux
   ref: baserock/morph
-  repo: upstream:intltool
-- build-depends:
+  build-depends:
   - autoconf
   - automake
   - gettext
   - git
   - libtool
   - pkg-config
-  name: util-linux
+- name: xz
+  repo: upstream:xz
   ref: baserock/morph
-  repo: upstream:util-linux
-- build-depends:
+  build-depends:
   - autoconf
   - automake
   - gettext
   - libtool
-  name: xz
-  ref: baserock/morph
-  repo: upstream:xz
-- build-depends:
-  - ncurses
-  name: nano
-  ref: baserock/morph
+- name: nano
   repo: upstream:nano-tarball
-- build-depends:
+  ref: baserock/morph
+  build-depends:
+  - ncurses
+- name: bc
+  repo: upstream:bc-tarball
+  ref: baserock/morph
+  build-depends:
   - flex
   - texinfo-tarball
-  name: bc
-  ref: baserock/morph
-  repo: upstream:bc-tarball
-- build-depends:
-  - cpython
-  name: python-setuptools
-  ref: baserock/morph
+- name: python-setuptools
   repo: upstream:python-setuptools
-- build-depends:
-  - python-setuptools
-  name: pyyaml
   ref: baserock/morph
+  build-depends:
+  - cpython
+- name: pyyaml
   repo: upstream:pyyaml
-description: Core components of a Baserock base system that are build tools required
-  for the BSP and Foundation strata, but a step above build-essential
-kind: stratum
-name: core
+  ref: baserock/morph
+  build-depends:
+  - python-setuptools

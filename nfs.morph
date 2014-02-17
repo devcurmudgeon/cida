@@ -1,31 +1,31 @@
+name: nfs
+kind: stratum
+description: NFS utilities
 build-depends:
 - morph: foundation
 chunks:
-- build-depends: []
-  name: libevent
-  ref: release-2.0.20-stable
+- name: libevent
   repo: upstream:libevent
-- build-depends: []
-  name: tcp-wrappers
-  ref: baserock/fedora-patches
+  ref: release-2.0.20-stable
+  build-depends: []
+- name: tcp-wrappers
   repo: upstream:tcp-wrappers
-- build-depends: []
-  name: ti-rpc
-  ref: baserock/master
+  ref: baserock/fedora-patches
+  build-depends: []
+- name: ti-rpc
   repo: upstream:ti-rpc
-- build-depends:
+  ref: baserock/master
+  build-depends: []
+- name: rpcbind
+  repo: upstream:rpcbind
+  ref: baserock/master
+  build-depends:
   - ti-rpc
   - tcp-wrappers
-  name: rpcbind
+- name: nfs-utils
+  repo: upstream:nfs-utils
   ref: baserock/master
-  repo: upstream:rpcbind
-- build-depends:
+  build-depends:
   - libevent
   - tcp-wrappers
   - ti-rpc
-  name: nfs-utils
-  ref: baserock/master
-  repo: upstream:nfs-utils
-description: NFS utilities
-kind: stratum
-name: nfs
