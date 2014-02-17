@@ -62,7 +62,7 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         
         temp_root, location = args
         ssh_host, vm_name, vdi_path = self.parse_location(location)
-        autostart = self.parse_autostart()
+        autostart = self.get_environment_boolean('AUTOSTART')
         
         fd, raw_disk = tempfile.mkstemp()
         os.close(fd)
