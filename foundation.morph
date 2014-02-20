@@ -96,6 +96,10 @@ chunks:
   ref: baserock/morph
   build-depends:
   - groff
+- name: patch
+  repo: upstream:patch
+  ref: baserock/morph
+  build-depends: []
 - name: tbdiff
   repo: baserock:baserock/tbdiff
   ref: master

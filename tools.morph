@@ -8,10 +8,6 @@ chunks:
   repo: upstream:six
   ref: baserock/morph
   build-depends: []
-- name: patch
-  repo: upstream:patch
-  ref: baserock/morph
-  build-depends: []
 - name: python-ttystatus
   repo: upstream:python-ttystatus
   ref: baserock/morph
@@ -44,8 +40,7 @@ chunks:
 - name: coreutils
   repo: upstream:coreutils
   ref: baserock/morph
-  build-depends:
-  - patch
+  build-depends: []
 - name: distcc
   repo: upstream:distcc
   ref: baserock/morph
