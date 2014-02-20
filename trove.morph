@@ -165,3 +165,8 @@ chunks:
   repo: upstream:flup
   ref: baserock/morph
   build-depends: []
+- name: lua-scrypt
+  repo: upstream:lua-scrypt
+  ref: baserock/morph
+  build-depends:
+  - lua
