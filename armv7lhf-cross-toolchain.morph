@@ -1,0 +1,37 @@
+name: armv7lhf-cross-toolchain
+kind: stratum
+description: Stratum for building an armv7lhf cross compiler for your native system.
+build-depends:
+- morph: build-essential
+chunks:
+- name: armv7lhf-cross-binutils
+  repo: upstream:binutils-redhat
+  ref: baserock/richardmaw/S10442/cross-toolchain
+  unpetrify-ref: baserock/build-essential
+  build-depends: []
+- name: armv7lhf-cross-linux-api-headers
+  repo: upstream:linux
+  ref: baserock/richardmaw/S10442/cross-toolchain
+  unpetrify-ref: baserock/build-essential
+  build-depends: []
+- name: armv7lhf-cross-gcc-nolibc
+  repo: upstream:gcc-tarball
+  ref: baserock/richardmaw/S10442/cross-toolchain
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - armv7lhf-cross-binutils
+- name: armv7lhf-cross-eglibc
+  repo: upstream:eglibc2
+  ref: baserock/richardmaw/S10442/cross-toolchain
+  unpetrify-ref: baserock/2.15-build-essential
+  build-depends:
+  - armv7lhf-cross-binutils
+  - armv7lhf-cross-gcc-nolibc
+  - armv7lhf-cross-linux-api-headers
+- name: armv7lhf-cross-gcc
+  repo: upstream:gcc-tarball
+  ref: baserock/richardmaw/S10442/cross-toolchain
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - armv7lhf-cross-binutils
+  - armv7lhf-cross-eglibc
