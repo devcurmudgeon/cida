@@ -88,9 +88,11 @@ EOF
 
 echo "Create /var/lib/trove-setup"
 install -d -o 0 -g 0 -m 0755 "$ROOT/var/lib/trove-setup"
-touch "$ROOT/var/lib/trove-setup/needed"
-chown 0:0 "$ROOT/var/lib/trove-setup/needed"
-chmod 0600 "$ROOT/var/lib/trove-setup/needed"
+
+echo "Create /etc/trove-setup.needed"
+touch "$ROOT/etc/trove-setup.needed"
+chown 0:0 "$ROOT/etc/trove-setup.needed"
+chmod 0600 "$ROOT/etc/trove-setup.needed"
 
 ##########################################################################
 
@@ -144,14 +146,21 @@ fi
 ##########################################################################
 
 echo "Create trove-early-setup unit file"
-cat <<EOF > "$ROOT/var/lib/trove-setup/trove-early-setup.service"
+cat <<EOF > "$ROOT/etc/systemd/system/trove-early-setup.service"
 [Unit]
 Description=Run trove-early-setup (once)
 Requires=network.target
 After=network.target
 Requires=opensshd.service
 After=opensshd.service
-ConditionPathExists=/var/lib/trove-setup/needed
+
+# If there's a shared /var subvolume, it must be mounted before this
+# unit runs.
+Requires=local-fs.target
+After=local-fs.target
+
+ConditionPathExists=/etc/trove-setup.needed
+
 
 [Service]
 Type=oneshot
@@ -167,10 +176,10 @@ ExecStart=/bin/su git -c 'ssh git@localhost as distbuild sshkey add default < /v
 ExecStart=/bin/su git -c 'ssh git@localhost as mason  sshkey add default < /var/lib/trove-setup/mason.key.pub'
 ExecStart=/bin/mkdir -p /var/run/lighttpd/
 ExecStart=/bin/chown cache:cache /var/run/lighttpd/
-ExecStart=/bin/rm /var/lib/trove-setup/needed
+ExecStart=/bin/rm /etc/trove-setup.needed
 ExecStart=/sbin/reboot
 Restart=no
 EOF
 
-ln -s "/var/lib/trove-setup/trove-early-setup.service" \
+ln -s "/etc/systemd/system/trove-early-setup.service" \
   "$ROOT/etc/systemd/system/multi-user.target.wants/trove-early-setup.service"
