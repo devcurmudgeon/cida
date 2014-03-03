@@ -41,6 +41,17 @@ set -e
 
 ROOT="$1"
 
+# The generic system that we are configuring contains a default hostname
+# which we should override. This is necessary even when upgrading because
+# baserock-system-config-sync isn't smart enough to deal.
+echo "Set hostname to $TROVE_ID"
+echo "$TROVE_ID" > "$ROOT/etc/hostname"
+
+if [ "$UPGRADE" == "yes" ]; then
+    echo "Not configuring trove-early-setup because this is an upgrade."
+    exit 0
+fi
+
 ##########################################################################
 
 lua_escape()
@@ -64,9 +75,6 @@ EOF
 
 ##########################################################################
 
-echo "Set hostname to $TROVE_ID"
-echo "$TROVE_ID" > "$ROOT/etc/hostname"
-
 # trove-early-setup needs "localhost" to be defined, and there's no
 # guarantee it's going to be in DNS, or that external networking is
 # up when trove-early-setup runs. We work around this by creating
@@ -80,9 +88,11 @@ EOF
 
 echo "Create /var/lib/trove-setup"
 install -d -o 0 -g 0 -m 0755 "$ROOT/var/lib/trove-setup"
-touch "$ROOT/var/lib/trove-setup/needed"
-chown 0:0 "$ROOT/var/lib/trove-setup/needed"
-chmod 0600 "$ROOT/var/lib/trove-setup/needed"
+
+echo "Create /etc/trove-setup.needed"
+touch "$ROOT/etc/trove-setup.needed"
+chown 0:0 "$ROOT/etc/trove-setup.needed"
+chmod 0600 "$ROOT/etc/trove-setup.needed"
 
 ##########################################################################
 
@@ -136,14 +146,27 @@ fi
 ##########################################################################
 
 echo "Create trove-early-setup unit file"
-cat <<EOF > "$ROOT/var/lib/trove-setup/trove-early-setup.service"
+cat <<EOF > "$ROOT/etc/systemd/system/trove-early-setup.service"
 [Unit]
 Description=Run trove-early-setup (once)
 Requires=network.target
 After=network.target
 Requires=opensshd.service
 After=opensshd.service
-ConditionPathExists=/var/lib/trove-setup/needed
+
+# If there's a shared /var subvolume, it must be mounted before this
+# unit runs.
+Requires=local-fs.target
+After=local-fs.target
+
+ConditionPathExists=/etc/trove-setup.needed
+
+# These must wait until we have created the required users on first boot.
+# We reboot the machine after this unit completes so these lines are not
+# strictly required, but it's nice to have a dependency graph that is true.
+Before=lighttpd.service
+Before=git-daemon.service
+
 
 [Service]
 Type=oneshot
@@ -159,10 +182,10 @@ ExecStart=/bin/su git -c 'ssh git@localhost as distbuild sshkey add default < /v
 ExecStart=/bin/su git -c 'ssh git@localhost as mason  sshkey add default < /var/lib/trove-setup/mason.key.pub'
 ExecStart=/bin/mkdir -p /var/run/lighttpd/
 ExecStart=/bin/chown cache:cache /var/run/lighttpd/
-ExecStart=/bin/rm /var/lib/trove-setup/needed
+ExecStart=/bin/rm /etc/trove-setup.needed
 ExecStart=/sbin/reboot
 Restart=no
 EOF
 
-ln -s "/var/lib/trove-setup/trove-early-setup.service" \
+ln -s "/etc/systemd/system/trove-early-setup.service" \
   "$ROOT/etc/systemd/system/multi-user.target.wants/trove-early-setup.service"
