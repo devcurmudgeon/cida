@@ -161,6 +161,12 @@ After=local-fs.target
 
 ConditionPathExists=/etc/trove-setup.needed
 
+# These must wait until we have created the required users on first boot.
+# We reboot the machine after this unit completes so these lines are not
+# strictly required, but it's nice to have a dependency graph that is true.
+Before=lighttpd.service
+Before=git-daemon.service
+
 
 [Service]
 Type=oneshot
