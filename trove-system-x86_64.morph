@@ -5,6 +5,7 @@ configuration-extensions:
 - trove-backup
 - fstab
 - simple-network
+- install-files
 description: Trove server
 kind: system
 name: trove-system-x86_64
