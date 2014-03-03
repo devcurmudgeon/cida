@@ -41,6 +41,17 @@ set -e
 
 ROOT="$1"
 
+# The generic system that we are configuring contains a default hostname
+# which we should override. This is necessary even when upgrading because
+# baserock-system-config-sync isn't smart enough to deal.
+echo "Set hostname to $TROVE_ID"
+echo "$TROVE_ID" > "$ROOT/etc/hostname"
+
+if [ "$UPGRADE" == "yes" ]; then
+    echo "Not configuring trove-early-setup because this is an upgrade."
+    exit 0
+fi
+
 ##########################################################################
 
 lua_escape()
@@ -63,9 +74,6 @@ s/##ESC_PREFIX##/$(lua_escape "$TROVE_ID")/
 EOF
 
 ##########################################################################
-
-echo "Set hostname to $TROVE_ID"
-echo "$TROVE_ID" > "$ROOT/etc/hostname"
 
 # trove-early-setup needs "localhost" to be defined, and there's no
 # guarantee it's going to be in DNS, or that external networking is
