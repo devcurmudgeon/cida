@@ -93,6 +93,11 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
             cliapp.ssh_runcmd(location,
                     ['env', 'BASEROCK_SYSTEM_CONFIG_SYNC='+system_config_sync,
                      system_version_manager, 'deploy', deployment])
+
+            self.status(msg='Setting %s as the new default system' %
+                    version_label)
+            cliapp.ssh_runcmd(location,
+                    [system_version_manager, 'set-default', version_label])
         except Exception as e:
             self.status(msg='Deployment failed')
             ssh_runcmd_ignore_failure(
