@@ -5,6 +5,7 @@ description: A system that contains an ARM cross compiler, intended to be used a
 strata:
 - morph: build-essential
 - morph: armv7lhf-cross-toolchain
+- morph: cross-tools
 configuration-extensions:
 - set-hostname
 - add-config-files
