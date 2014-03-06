@@ -61,16 +61,16 @@ lua_escape()
 
 echo "Create /etc/trove-setup.sed for trove-early-setup"
 cat <<EOF > "$ROOT/etc/trove-setup.sed"
-s/##TROVE_HOSTNAME##/$TROVE_ID/
-s/##MASON_HOST##/$MASON_ID/
-s/##MASON_PORT##/18755/
-s/##TROVE_TITLE##/$TROVE_ID/
-s/##TROVE_COMPANY##/$TROVE_COMPANY/
-s/##TROVE_LOG_PREFIX##/$TROVE_ID/
-s/##ESC_PERSONAL_PREFIX##/people/
-s/##PREFIX##/$TROVE_ID/
+s/##TROVE_HOSTNAME##/$TROVE_ID/g
+s/##MASON_HOST##/$MASON_ID/g
+s/##MASON_PORT##/18755/g
+s/##TROVE_TITLE##/$TROVE_ID/g
+s/##TROVE_COMPANY##/$TROVE_COMPANY/g
+s/##TROVE_LOG_PREFIX##/$TROVE_ID/g
+s/##ESC_PERSONAL_PREFIX##/people/g
+s/##PREFIX##/$TROVE_ID/g
 ## The same prefix as above, only lua-pattern-escaped
-s/##ESC_PREFIX##/$(lua_escape "$TROVE_ID")/
+s/##ESC_PREFIX##/$(lua_escape "$TROVE_ID")/g
 EOF
 
 ##########################################################################
