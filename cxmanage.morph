@@ -1,0 +1,30 @@
+name: cxmanage
+description: All the tools for calxeda management
+kind: stratum
+build-depends:
+- morph: tools
+chunks:
+- name: ipmitool
+  repo: upstream:ipmitool
+  ref: baserock/morph
+  build-depends: []
+- name: pexpect
+  repo: upstream:pexpect
+  ref: baserock/morph
+  build-depends: []
+- name: pyipmi
+  repo: upstream:pyipmi-tarball
+  ref: baserock/morph
+  build-depends: []
+- name: tftpy
+  repo: upstream:tftpy
+  ref: baserock/morph
+  build-depends: []
+- name: cxmanage
+  repo: upstream:cxmanage
+  ref: baserock/morph
+  build-depends:
+  - ipmitool
+  - pexpect
+  - pyipmi
+  - tftpy
