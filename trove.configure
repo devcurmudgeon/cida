@@ -41,16 +41,12 @@ set -e
 
 ROOT="$1"
 
-# The generic system that we are configuring contains a default hostname
-# which we should override. This is necessary even when upgrading because
-# baserock-system-config-sync isn't smart enough to deal.
+##########################################################################
+# Configuration in /etc, which we need to do on all deployments.
+##########################################################################
+
 echo "Set hostname to $TROVE_ID"
 echo "$TROVE_ID" > "$ROOT/etc/hostname"
-
-if [ "$UPGRADE" == "yes" ]; then
-    echo "Not configuring trove-early-setup because this is an upgrade."
-    exit 0
-fi
 
 ##########################################################################
 
@@ -59,8 +55,9 @@ lua_escape()
     echo -n "$1" | perl -pe 's/([-+\(\).%*?^$\[\]])/%$1/g'
 }
 
-echo "Create /etc/trove-setup.sed for trove-early-setup"
-cat <<EOF > "$ROOT/etc/trove-setup.sed"
+echo "Creating /etc/trove-setup.sed"
+
+cat <<EOF > "$ROOT"/etc/trove-setup.sed
 s/##TROVE_HOSTNAME##/$TROVE_ID/g
 s/##MASON_HOST##/$MASON_ID/g
 s/##MASON_PORT##/18755/g
@@ -75,6 +72,18 @@ EOF
 
 ##########################################################################
 
+echo "Performing substitutions in /etc"
+
+sed -f "$ROOT"/etc/trove-setup.sed -i \
+    "$ROOT"/etc/cgitrc \
+    "$ROOT"/etc/gitano-setup.clod \
+    "$ROOT"/etc/lorry.conf \
+    "$ROOT"/usr/share/gitano/skel/gitano-admin/*/*.lace \
+    "$ROOT"/usr/share/gitano/skel/gitano-admin/*/*.lua \
+    "$ROOT"/usr/share/gitano/skel/gitano-admin/users/*/user.conf
+
+##########################################################################
+
 # trove-early-setup needs "localhost" to be defined, and there's no
 # guarantee it's going to be in DNS, or that external networking is
 # up when trove-early-setup runs. We work around this by creating
@@ -85,6 +94,17 @@ cat <<EOF >> "$ROOT/etc/hosts"
 EOF
 
 ##########################################################################
+# Configuration of trove-early-setup
+#
+# We configure trove-early-setup so that it runs at first boot of an initial
+# deployment, to do the parts of Trove system setup that require running
+# commands from the deployed system.
+##########################################################################
+
+if [ "$UPGRADE" == "yes" ]; then
+    echo "Not configuring trove-early-setup because this is an upgrade."
+    exit 0
+fi
 
 echo "Create /var/lib/trove-setup"
 install -d -o 0 -g 0 -m 0755 "$ROOT/var/lib/trove-setup"
@@ -186,6 +206,8 @@ ExecStart=/bin/rm /etc/trove-setup.needed
 ExecStart=/sbin/reboot
 Restart=no
 EOF
+
+##########################################################################
 
 ln -s "/etc/systemd/system/trove-early-setup.service" \
   "$ROOT/etc/systemd/system/multi-user.target.wants/trove-early-setup.service"
