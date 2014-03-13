@@ -178,7 +178,7 @@ extract_rootfs(){
     local selfextractor="$1"
     local target="$2"
     local script_end="$(($(\
-        grep -En -m1 -e '^#+ END OF HEADER SCRIPT #+$' "$selfextractor" |
+        grep -aEn -m1 -e '^#+ END OF HEADER SCRIPT #+$' "$selfextractor" |
             cut -d: -f1) + 1 ))"
     mkdir -p "$target"
     tail -n +"$script_end" "$selfextractor" | tar -xj -C "$target" .
