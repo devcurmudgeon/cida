@@ -10,3 +10,9 @@ systems:
       location: armv7lhf-cross-toolchain-system-x86_32-generic.sh
       PREFIX: /usr
       TARGET: armv7lhf-baserock-linux-gnueabi
+  subsystems:
+  - morph: devel-system-armv7lhf-highbank
+    deploy:
+      sysroot:
+        type: sysroot
+        location: usr/armv7lhf-baserock-linux-gnueabi/sys-root
