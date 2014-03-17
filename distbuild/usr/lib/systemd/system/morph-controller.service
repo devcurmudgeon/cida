@@ -1,0 +1,9 @@
+[Unit]
+Description=Morph distributed build controller
+Requires=local-fs.target network.target
+After=local-fs.target network.target
+ConditionPathExists=/etc/morph-controller.conf
+
+[Service]
+ExecStart=/usr/bin/morph controller-daemon --config /etc/morph-controller.conf
+Restart=always

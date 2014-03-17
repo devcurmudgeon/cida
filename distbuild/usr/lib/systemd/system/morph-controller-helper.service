@@ -1,0 +1,10 @@
+[Unit]
+Description=Morph distributed build controller helper
+Requires=morph-controller.service
+After=morph-controller.service
+ConditionPathExists=/etc/morph-controller.conf
+ConditionPathExists=/etc/morph-controller-helper.conf
+
+[Service]
+ExecStart=/usr/bin/distbuild-helper --config /etc/morph-controller-helper.conf
+Restart=always

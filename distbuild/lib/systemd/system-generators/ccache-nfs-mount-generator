@@ -1,0 +1,16 @@
+#!/bin/sh
+read trove_host </etc/trove-host
+while read line; do echo "$line"; done >"$1/srv-distbuild-ccache.mount" <<EOF
+[Unit]
+Requires=rpcbind.service
+After=rpcbind.service
+SourcePath=/etc/trove-host
+
+[Mount]
+Type=nfs
+What=$trove_host:/home/cache/ccache
+Where=/srv/distbuild/ccache
+
+[Install]
+WantedBy=morph-worker.service
+EOF
