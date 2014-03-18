@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Copyright (C) 2013  Codethink Limited
+# Copyright (C) 2013-2014  Codethink Limited
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -60,37 +60,17 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException('Wrong number of command line args')
 
         temp_root, location = args
-        hostname = self.get_hostname(temp_root)
-        if hostname == 'baserock':
-            raise cliapp.AppException('It is forbidden to nfsboot a system '
-                                      'with hostname "baserock"')
 
-        self.test_good_server(location)
         version_label = os.getenv('VERSION_LABEL', 'factory')
+        hostname = os.environ.get('HOSTNAME')
+
         versioned_root = os.path.join(self._nfsboot_root, hostname, 'systems',
                                       version_label)
-        if self.version_exists(versioned_root, location):
-            raise cliapp.AppException('Version %s already exists on'
-                                      ' this device. Deployment aborted'
-                                      % version_label)
+
         self.copy_rootfs(temp_root, location, versioned_root, hostname)
         self.copy_kernel(temp_root, location, versioned_root, version_label,
                          hostname)
         self.configure_nfs(location, hostname)
-
-    def version_exists(self, versioned_root, location):
-        try:
-            cliapp.ssh_runcmd('root@%s' % location,
-                ['test', '-d', versioned_root])
-        except cliapp.AppException:
-            return False
-
-        return True
-
-    def get_hostname(self, temp_root):
-        hostnamepath = os.path.join(temp_root, 'etc', 'hostname')
-        with open(hostnamepath) as f:
-            return f.readline().strip()
 
     def create_local_state(self, location, hostname):
         statedir = os.path.join(self._nfsboot_root, hostname, 'state')
@@ -209,37 +189,6 @@ mv "$temp" "$target"
                 'root@%s' % location, ['systemctl', 'restart',
                                        'nfs-server.service'])
 
-    def test_good_server(self, server):
-        # Can be ssh'ed into
-        try:
-            cliapp.ssh_runcmd('root@%s' % server, ['true'])
-        except cliapp.AppException:
-            raise cliapp.AppException('You are unable to ssh into server %s'
-                                      % server)
-
-        # Is an NFS server
-        try:
-            cliapp.ssh_runcmd(
-                'root@%s' % server, ['test', '-e', '/etc/exports'])
-        except cliapp.AppException:
-            raise cliapp.AppException('server %s is not an nfs server'
-                                      % server)
-        try:
-            cliapp.ssh_runcmd(
-                'root@%s' % server, ['systemctl', 'is-enabled',
-                                     'nfs-server.service'])
-
-        except cliapp.AppException:
-            raise cliapp.AppException('server %s does not control its '
-                                      'nfs server by systemd' % server)
-
-        # TFTP server exports /srv/nfsboot/tftp
-        try:
-            cliapp.ssh_runcmd(
-                'root@%s' % server, ['test' , '-d', '/srv/nfsboot/tftp'])
-        except cliapp.AppException:
-            raise cliapp.AppException('server %s does not export '
-                                      '/srv/nfsboot/tftp' % server)
 
 NFSBootWriteExtension().run()
 
