@@ -15,7 +15,9 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-# Remove all networking interfaces and stop fstab from mounting '/'
+# Remove all networking interfaces. On nfsboot systems, eth0 is set up
+# during kernel init, and the normal ifup@eth0.service systemd unit
+# would break the NFS connection and cause the system to hang.
 
 
 set -e
