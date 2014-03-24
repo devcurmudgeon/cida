@@ -80,12 +80,13 @@ class NFSBootCheckExtension(morphlib.writeexts.WriteExtension):
                                       'nfs server by systemd' % server)
 
         # TFTP server exports /srv/nfsboot/tftp
+        tftp_root = os.path.join(self._nfsboot_root, 'tftp')
         try:
             cliapp.ssh_runcmd(
-                'root@%s' % server, ['test' , '-d', '/srv/nfsboot/tftp'])
+                'root@%s' % server, ['test' , '-d', tftp_root])
         except cliapp.AppException:
-            raise cliapp.AppException('server %s does not export '
-                                      '/srv/nfsboot/tftp' % server)
+            raise cliapp.AppException('server %s does not export %s' %
+                                      (tftp_root, server))
 
     def version_exists(self, versioned_root, location):
         try:
