@@ -62,7 +62,7 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
         temp_root, location = args
 
         version_label = os.getenv('VERSION_LABEL', 'factory')
-        hostname = os.environ.get('HOSTNAME')
+        hostname = os.environ['HOSTNAME']
 
         versioned_root = os.path.join(self._nfsboot_root, hostname, 'systems',
                                       version_label)
