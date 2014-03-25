@@ -1,0 +1,168 @@
+#!/bin/sh
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# =*= License: GPL-2 =*=
+#
+#
+# This is a write extension for making a package that can be used to
+# install the produced system. Ideally we'd instead have Baserock
+# everywhere to do the deployment, but we need to support this workflow
+# until that is possible.
+#
+# This write extension produces a tarball, which contains:
+#    - a tarball of the configured system root file system
+#    - any supporting files listed in BOOTLOADER_BLOBS
+#    - any supporting scripts, generated from templates listed in
+#      INCLUDE_SCRIPTS
+#
+# The extension requires the following environment variables to be set:
+#
+#   * BOOTLOADER_BLOBS: files to include besides rootfs tarball,
+#                       paths are relative to the root of the built rootfs
+#                       works on any kind of file in the rootfs, named
+#                       BOOTLOADER_BLOBS since that's the common use-case
+#                       :-separated by default
+#   * INCLUDE_SCRIPTS:  script templates that are included in the package
+#                       after being filled out
+#                       file paths are relative to the definitions repository
+#                       :-separated by default
+#
+# The script templates may contain any of the following strings, which
+# will be replaced with a string which will expand to the appropriate
+# value as a shell word:
+#    - @@SCRIPT_DIR@@:      the path the script files are installed to
+#    - @@IMAGE_DIR@@:       the path BOOTLOADER_BLOBS are installed to
+#    - @@ROOTFS_TAR_PATH@@: path to the rootfs tarball
+#
+# The interpolated strings may run commands dependant on the current
+# working directory, so if `cd` is required, bind these values to a
+# variable beforehand.
+#
+# The following optional variables can be set as well:
+#
+#   * INCLUDE_SCRIPTS_SEPARATOR: character to separate INCLUDE_SCRIPTS with (default: :)
+#   * BOOTLOADER_BLOBS_SEPARATOR: character to separate BOOTLOADER_BLOBS with (default: :)
+#   * SCRIPT_SUBDIR: where in the package processed scripts are installed to (default: tools)
+#   * IMAGE_SUBDIR:  where in the package BOOTLOADER_BLOBS are copied to (default: image_files)
+#   * ROOTFS_TAR:    name to call the rootfs tarball inside IMAGE_SUBDIR (default: rootfs.tar)
+#   * OUTPUT_COMPRESS: compression used for output tarball (default: none)
+#   * ROOTFS_COMPRESS: compression used for rootfs (default: none)
+
+set -eu
+
+die(){
+    echo "$@" >&2
+    exit 1
+}
+
+warn(){
+    echo "$@" >&2
+}
+
+info(){
+    echo "$@" >&2
+}
+
+shellescape(){
+    echo "'$(echo "$1" | sed -e "s/'/'\\''/g")'"
+}
+
+sedescape(){
+    # Escape the passed in string so it can be safely interpolated into
+    # a sed expression as a literal value.
+    echo "$1" | sed -e 's/[\/&]/\\&/g'
+}
+
+ROOTDIR="$1"
+OUTPUT_TAR="$2"
+td="$(mktemp -d)"
+IMAGE_SUBDIR="${IMAGE_SUBDIR-image_files}"
+SCRIPT_SUBDIR="${SCRIPT_SUBDIR-tools}"
+ROOTFS_TAR="${ROOTFS_TAR-rootfs.tar}"
+
+# Generate shell snippets that will expand to paths to various resources
+# needed by the scripts.
+# They expand to a single shell word, so constructs like the following work
+#     SCRIPT_DIR=@@SCRIPT_DIR@@
+#     dd if="$SCRIPT_DIR/mbr" of="$disk" count=1
+#     tar -C "$mountpoint" -xf @@ROOTFS_TAR_PATH@@ .
+find_script_dir='"$(readlink -f "$(dirname "$0")")"'
+image_dir="$find_script_dir/../$(shellescape "$IMAGE_SUBDIR")"
+rootfs_tar_path="$image_dir/$(shellescape "$ROOTFS_TAR")"
+
+install_script(){
+    local source_file="$1"
+    local output_dir="$2"
+    local target_file="$output_dir/$SCRIPT_SUBDIR/$(basename "$source_file" .in)"
+    sed -e "s/@@SCRIPT_DIR@@/$(sedescape "$find_script_dir")/g" \
+        -e "s/@@IMAGE_DIR@@/$(sedescape "$image_dir")/g" \
+        -e "s/@@ROOTFS_TAR_PATH@@/$(sedescape "$rootfs_tar_path")/g" \
+        "$source_file" \
+    |   install -D -m 755 /proc/self/fd/0 "$target_file"
+}
+
+install_scripts(){
+    local output_dir="$1"
+    (
+        IFS="${INCLUDE_SCRIPTS_SEPARATOR-:}"
+        for script in $INCLUDE_SCRIPTS; do
+            local script_path="$(pwd)/$script"
+            if [ ! -e "$script_path" ]; then
+                warn Script "$script" not found, ignoring
+                continue
+            fi
+            install_script "$script" "$output_dir"
+        done
+    )
+}
+
+install_bootloader_blobs(){
+    local output_dir="$1"
+    local image_dir="$output_dir/$IMAGE_SUBDIR"
+    (
+        IFS="${BOOTLOADER_BLOBS_SEPARATOR-:}"
+        for blob in $BOOTLOADER_BLOBS; do
+            local blob_path="$ROOTDIR/$blob"
+            if [ ! -e "$blob_path" ]; then
+                warn Bootloader blob "$blob" not found, ignoring
+                continue
+            fi
+            install -D -m644 "$blob_path" "$image_dir/$(basename "$blob_path")"
+        done
+    )
+}
+
+# Determine a basename for our directory as the same as our tarball with
+# extensions removed. This is needed, since tarball packages usually
+# have a base directory of its contents, rather then extracting into the
+# current directory.
+output_dir="$(basename "$OUTPUT_TAR")"
+for ext in .xz .bz2 .gzip .gz .tgz .tar; do
+    output_dir="${output_dir%$ext}"
+done
+
+info Installing scripts
+install_scripts "$td/$output_dir"
+
+info Installing bootloader blobs
+install_bootloader_blobs "$td/$output_dir"
+
+info Writing rootfs tar to "$IMAGE_SUBDIR/$ROOTFS_TAR"
+tar -C "$ROOTDIR" -c . \
+| sh -c "${ROOTFS_COMPRESS-cat}" >"$td/$output_dir/$IMAGE_SUBDIR/$ROOTFS_TAR"
+
+info Writing image package tar to "$OUTPUT_TAR"
+tar -C "$td" -c "$output_dir" | sh -c "${OUTPUT_COMPRESS-cat}" >"$OUTPUT_TAR"
