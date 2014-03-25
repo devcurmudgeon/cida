@@ -80,7 +80,10 @@ sed -f "$ROOT"/etc/trove-setup.sed -i \
     "$ROOT"/etc/lorry.conf \
     "$ROOT"/usr/share/gitano/skel/gitano-admin/*/*.lace \
     "$ROOT"/usr/share/gitano/skel/gitano-admin/*/*.lua \
-    "$ROOT"/usr/share/gitano/skel/gitano-admin/users/*/user.conf
+    "$ROOT"/usr/share/gitano/skel/gitano-admin/users/*/user.conf \
+    "$ROOT"/usr/share/trove-setup/releases-repo-migration.sh \
+    "$ROOT"/usr/share/trove-setup/releases-repo-README \
+    "$ROOT"/usr/lib/systemd/system/releases-repo-migration.service
 
 ##########################################################################
 
@@ -92,6 +95,13 @@ echo "Add localhost to /etc/hosts"
 cat <<EOF >> "$ROOT/etc/hosts"
 127.0.0.1 localhost
 EOF
+
+##########################################################################
+
+# create a symlink in /var/www/htdocs to what will be the rsync area of
+# the releases repository
+ln -s "/home/git/repos/$TROVE_ID/site/releases.git/rsync" \
+    "$ROOT/var/www/htdocs/releases"
 
 ##########################################################################
 # Configuration of trove-early-setup
