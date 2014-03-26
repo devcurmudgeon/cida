@@ -8,21 +8,25 @@ build-depends:
 chunks:
 - name: orc
   repo: upstream:orc
-  ref: baserock/morph
+  ref: b4f7fcaf99a4d952e59f2a9fa9286d24cc4b3a5a
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: gstreamer
   repo: upstream:gstreamer
-  ref: baserock/morph/0.10
+  ref: c7e4a97d26396882960fd399b1a5e298e40d2a35
+  unpetrify-ref: baserock/morph/0.10
   build-depends:
   - orc
 - name: gstreamer-plugins-base
   repo: upstream:gstreamer-plugins-base
-  ref: baserock/morph/0.10
+  ref: 960c596309dbb983a1d733259adccc45c47006a2
+  unpetrify-ref: baserock/morph/0.10
   build-depends:
   - gstreamer
 - name: gstreamer-plugins-good
   repo: upstream:gstreamer-plugins-good
-  ref: baserock/morph/0.10
+  ref: 725e80e0c6b7f8e66d9b3fcaffd283ecbd8498d3
+  unpetrify-ref: baserock/morph/0.10
   build-depends:
   - gstreamer
   - gstreamer-plugins-base

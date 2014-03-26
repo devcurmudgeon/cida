@@ -6,67 +6,81 @@ build-depends:
 chunks:
 - name: libatomic_ops
   repo: upstream:libatomic_ops
-  ref: baserock/morph
+  ref: 0a58f5d63969c10d2141af89cb7a53df786909ab
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: alsa-lib
   repo: upstream:alsa-lib
-  ref: baserock/morph
+  ref: ab715503853be8d8f365fd157c3cb97ef7a89f7b
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: alsa-utils
   repo: upstream:alsa-utils
-  ref: baserock/morph
+  ref: f12208425051a7abf5ffc87ac2b9d2bd9e096fe1
+  unpetrify-ref: baserock/morph
   build-depends:
   - alsa-lib
 - name: bluez
   repo: upstream:bluez
-  ref: baserock/genivi/baseline
+  ref: df1dd28e3a5c92fb67209e4ae3ad2d04c6380b9b
+  unpetrify-ref: baserock/genivi/baseline
   build-depends:
   - alsa-lib
 - name: bluez-tools
   repo: upstream:bluez-tools
-  ref: baserock/morph
+  ref: 7350787e96a6ecf2cc5d4afddb3321ccad9fa461
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: libical
   repo: upstream:libical
-  ref: baserock/morph
+  ref: 52568782ae136e1ec4ddf3eb6da7b0f3fbd3f1b3
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: obexd
   repo: upstream:obexd
-  ref: baserock/morph
+  ref: 4225280022c206762c91beee47c62d05e1baeacc
+  unpetrify-ref: baserock/morph
   build-depends:
   - bluez
   - libical
 - name: speex
   repo: upstream:speex
-  ref: baserock/morph
+  ref: e5dc987a403426ee3d0d81768afffa0fe74e20fa
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: nohands
   repo: upstream:nohands
-  ref: baserock/morph
+  ref: 20ec5cc245fd5e74d9a0fc21497d1ba4164f2a3a
+  unpetrify-ref: baserock/morph
   build-depends:
   - bluez
   - speex
 - name: mobile-broadband-provider-info
   repo: upstream:mobile-broadband-provider-info
-  ref: baserock/morph
+  ref: 4ed19e11c2975105b71b956440acdb25d46a347d
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: ofono
   repo: upstream:ofono
-  ref: baserock/morph
+  ref: a53228f6b1b32d0405c0c3c8e0861d6202ffbba2
+  unpetrify-ref: baserock/morph
   build-depends:
   - mobile-broadband-provider-info
   - bluez
 - name: json-c
   repo: upstream:json-c
-  ref: baserock/morph
+  ref: 60a5f3dedc879db3e5dacdd3b7e3e543c2e1bae7
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: libsndfile
   repo: upstream:libsndfile
-  ref: baserock/morph
+  ref: 6c05c615c95ffef7a8a5a707cde0bb52bdd74244
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: pulseaudio
   repo: upstream:pulseaudio
-  ref: baserock/morph
+  ref: e1b44688c0db505f70761fe76b4fed2ca6924a09
+  unpetrify-ref: baserock/morph
   build-depends:
   - libsndfile
   - libatomic_ops

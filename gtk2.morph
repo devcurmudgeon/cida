@@ -8,68 +8,82 @@ build-depends:
 chunks:
 - name: shared-mime-info
   repo: upstream:shared-mime-info
-  ref: baserock/morph
+  ref: 0d440d85a126ff8d535d4f70f2203a76a21d5f71
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: gnome-common
   repo: upstream:gnome-common
-  ref: 3.7.4
+  ref: 66d54b57313f0f6206cff32972d2b83d683628b2
+  unpetrify-ref: 3.7.4
   build-depends: []
 - name: libtiff
   repo: upstream:libtiff
-  ref: Release-v4-0-3
+  ref: 2f83c385ff3d5493602308b62ca6d7707725b4fd
+  unpetrify-ref: Release-v4-0-3
   build-depends: []
 - name: libcroco
   repo: upstream:libcroco
-  ref: baserock/morph
+  ref: 611f624a6e15065792b41eb5ce14811293f3fb0a
+  unpetrify-ref: baserock/morph
   build-depends:
   - gnome-common
 - name: gdk-pixbuf
   repo: upstream:gdk-pixbuf
-  ref: baserock/morph
+  ref: bc45874c7ba5a6a95f032b48ab78115b3e2238ad
+  unpetrify-ref: baserock/morph
   build-depends:
   - libtiff
 - name: atk
   repo: upstream:atk
-  ref: ATK_2_9_3
+  ref: e35410e06337afa3d66fcdde9b16422648de4e04
+  unpetrify-ref: ATK_2_9_3
   build-depends:
   - gnome-common
 - name: at-spi2-core
   repo: upstream:at-spi2-core
-  ref: AT_SPI2_CORE_2_9_5
+  ref: 9bfebf07e866acadb5d2123568fd0119a7e0575b
+  unpetrify-ref: AT_SPI2_CORE_2_9_5
   build-depends: []
 - name: at-spi2-atk
   repo: upstream:at-spi2-atk
-  ref: baserock/morph
+  ref: 363953fff4e3e12152ce2498b58a471884b497f5
+  unpetrify-ref: baserock/morph
   build-depends:
   - at-spi2-core
   - atk
 - name: cairo
   repo: upstream:cairo
-  ref: 1.12.14
+  ref: 25ef4d21f1616ddd9a6550cf7a129b2634b6caad
+  unpetrify-ref: 1.12.14
   build-depends: []
 - name: colm
   repo: upstream:colm
-  ref: master
+  ref: fc633086748169632e93b945259197ba46f27695
+  unpetrify-ref: master
   build-depends: []
 - name: ragel
   repo: upstream:ragel
-  ref: baserock/morph
+  ref: 5d4102ffe43a15608e0e864fc7e7f5c6c3b49aac
+  unpetrify-ref: baserock/morph
   build-depends:
   - colm
 - name: harfbuzz
   repo: upstream:harfbuzz
-  ref: 0.9.19
+  ref: f0530a3d5d2e7b6eaa8325a310d458c478f505c9
+  unpetrify-ref: 0.9.19
   build-depends:
   - ragel
 - name: pango
   repo: upstream:pango
-  ref: baserock/xfce-build
+  ref: c05f6e5205711e97727885a86a57661c7e9cdc75
+  unpetrify-ref: baserock/xfce-build
   build-depends:
   - cairo
   - harfbuzz
 - name: gtk+
   repo: upstream:gtk+
-  ref: baserock/xfce-build
+  ref: 52de99559e5b5bf09160e5a5a164d0ca5fede98c
+  unpetrify-ref: baserock/xfce-build
   build-depends:
   - pango
   - gdk-pixbuf
@@ -78,7 +92,8 @@ chunks:
   - at-spi2-atk
 - name: librsvg
   repo: upstream:librsvg
-  ref: baserock/morph
+  ref: 61171ca59d02b58b7da1697ca1d924bff93e66cb
+  unpetrify-ref: baserock/morph
   build-depends:
   - cairo
   - gdk-pixbuf

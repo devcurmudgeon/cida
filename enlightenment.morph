@@ -11,34 +11,40 @@ build-depends:
 chunks:
 - name: efl
   repo: upstream:enlightenment/efl
-  ref: baserock/morph
+  ref: 8f9b565e79552f09a39507ce802786b1fe773d2d
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: elementary
   repo: upstream:enlightenment/elementary
-  ref: baserock/morph
+  ref: e4c97ddffea9c91a291e1a6a7c6ebd1bbf47629a
+  unpetrify-ref: baserock/morph
   build-depends:
   - efl
 - name: evas_generic_loaders
   repo: upstream:enlightenment/evas_generic_loaders
-  ref: baserock/morph
+  ref: ddbdaa35201f4ef64f1a3f3b067a99e84c14565a
+  unpetrify-ref: baserock/morph
   build-depends:
   - efl
 - name: enlightenment
   repo: upstream:enlightenment/enlightenment
-  ref: baserock/morph
+  ref: 041b8d14a22f9e4c7f34abe8b0f9a3a1f5933146
+  unpetrify-ref: baserock/morph
   build-depends:
   - efl
   - elementary
 - name: imlib2
   repo: upstream:enlightenment/imlib2
-  ref: baserock/morph
+  ref: 6d02661a4c57771888304960ce62d4fdf587be8f
+  unpetrify-ref: baserock/morph
   build-depends:
   - efl
   - elementary
   - enlightenment
 - name: libast
   repo: upstream:enlightenment/libast
-  ref: baserock/morph
+  ref: 0dbc0a5df55474bf61ca166be40e8de2d9e3a031
+  unpetrify-ref: baserock/morph
   build-depends:
   - efl
   - elementary
@@ -46,7 +52,8 @@ chunks:
   - imlib2
 - name: eterm
   repo: upstream:enlightenment/eterm
-  ref: baserock/morph
+  ref: 097234f1f27709ff2444e303350764ea3b80b3ad
+  unpetrify-ref: baserock/morph
   build-depends:
   - efl
   - elementary

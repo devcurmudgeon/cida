@@ -6,58 +6,70 @@ build-depends:
 chunks:
 - name: six
   repo: upstream:six
-  ref: baserock/morph
+  ref: e0841d716953710ab9bca9d1715a710df9c61ca0
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: groff
   repo: upstream:groff
-  ref: baserock/morph
+  ref: c7017a099f954bb6de60e79c876935b1bf438b9a
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: openssh
   repo: upstream:openssh
-  ref: baserock/morph
+  ref: 233514106dcde5ac61a70f1043de563122e2f1c9
+  unpetrify-ref: baserock/morph
   build-depends:
   - groff
 - name: python-ttystatus
   repo: upstream:python-ttystatus
-  ref: baserock/morph
+  ref: 47d871216cea6ce3b9d6efd70e9a0f38ab8604f0
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: python-coveragepy
   repo: upstream:python-coveragepy
-  ref: baserock/morph
+  ref: 77d2e3bfd8fb325092aaed37ba1378054d182d19
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: python-coverage-test-runner
   repo: upstream:python-coverage-test-runner
-  ref: baserock/morph
+  ref: 8ea9421ac3384b2e88e0c36f2cfa52586c4798b7
+  unpetrify-ref: baserock/morph
   build-depends:
   - python-coveragepy
 - name: cliapp
   repo: upstream:cliapp
-  ref: baserock/morph
+  ref: cec20cedd062a3aef1b04f997e77b45090c07806
+  unpetrify-ref: baserock/morph
   build-depends:
   - python-coverage-test-runner
 - name: python-markdown
   repo: upstream:python-markdown
-  ref: baserock/morph
+  ref: a9ca97325e9039de90eae29fb3d8879bc9f367f6
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: cmdtest
   repo: upstream:cmdtest
-  ref: baserock/morph
+  ref: 62fa7e08f76a5b6bb8410add49c40656b3e73acd
+  unpetrify-ref: baserock/morph
   build-depends:
   - cliapp
   - python-ttystatus
   - python-markdown
 - name: linux-user-chroot
   repo: upstream:linux-user-chroot
-  ref: baserock/morph
+  ref: d25cc110f69e6e71a95b4ac532dcfc5423d4a16b
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: pyfilesystem
   repo: upstream:pyfilesystem
-  ref: baserock/morph
+  ref: 821f7db1ce3a3e1ac53fa514ddacbc2871eac0f6
+  unpetrify-ref: baserock/morph
   build-depends:
   - six
 - name: morph
   repo: baserock:baserock/morph
-  ref: master
+  ref: 170d81eba0568856401f57ce655ad9881b802d21
+  unpetrify-ref: master
   build-depends:
   - cliapp
   - cmdtest
@@ -65,5 +77,6 @@ chunks:
   - pyfilesystem
 - name: rsync
   repo: upstream:rsync
-  ref: baserock/morph
+  ref: 9faf8e0ccff2755cd019ff64d8322226a214b013
+  unpetrify-ref: baserock/morph
   build-depends: []

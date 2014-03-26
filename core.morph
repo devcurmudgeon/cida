@@ -7,99 +7,119 @@ build-depends:
 chunks:
 - name: cmake
   repo: upstream:cmake
-  ref: baserock/morph
+  ref: 7f9a761e761046a479fda38ee13f5dacd94ceeea
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: gdbm
   repo: upstream:gdbm
-  ref: baserock/build-essential
+  ref: 51871d08a48ff781186f7a7b22ec69a1db38eb4c
+  unpetrify-ref: baserock/build-essential
   build-depends: []
 - name: gettext
   repo: upstream:gettext
-  ref: baserock/build-essential
+  ref: 3898e324f07c05404b63d71f0e519f352fb1e072
+  unpetrify-ref: baserock/build-essential
   build-depends: []
 - name: m4
   repo: upstream:m4
-  ref: baserock/build-essential
+  ref: d533342af991401d865de9b037ac03cdc9bd852e
+  unpetrify-ref: baserock/build-essential
   build-depends: []
 - name: mini-utils
   repo: baserock:baserock/mini-utils
-  ref: master
+  ref: 5293265b29bbf468ab9d7f3302b19dbc81d0f8b8
+  unpetrify-ref: master
   build-depends: []
 - name: ncurses
   repo: upstream:ncurses
-  ref: baserock/morph
+  ref: 0fe89dc66ec061b839bea3ab451207e2dee757b9
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: perl
   repo: upstream:perl
-  ref: baserock/morph
+  ref: 78f9a3c880f11578fb9ff9c7d5f7e34b602d2ad1
+  unpetrify-ref: baserock/morph
   build-depends:
   - gdbm
 - name: pkg-config
   repo: upstream:pkg-config
-  ref: baserock/build-essential
+  ref: 67a702a15cf88e270539484929ffa1f42b90c728
+  unpetrify-ref: baserock/build-essential
   build-depends: []
 - name: texinfo-tarball
   repo: upstream:texinfo-tarball
-  ref: baserock/morph
+  ref: 4843a7f5ff14ac802a56f1cdd49960b25c15702b
+  unpetrify-ref: baserock/morph
   build-depends:
   - ncurses
 - name: autoconf
   repo: upstream:autoconf
-  ref: baserock/build-essential
+  ref: cffdb90be331111ce3fbe4a32320181ec2b92652
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - m4
   - perl
 - name: automake
   repo: upstream:automake
-  ref: baserock/morph
+  ref: 5ac84ae6760252fc60b144a7b4deb41694f95fe7
+  unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
   - perl
   - texinfo-tarball
 - name: bash
   repo: upstream:bash
-  ref: baserock/morph
+  ref: 783c677f45354b0d6df70e552217ecad8481804f
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: error-perl-tarball
   repo: upstream:error-perl-tarball
-  ref: baserock/morph
+  ref: 661707e7bd4282aeab5a2f6a8f02ca5731fd813f
+  unpetrify-ref: baserock/morph
   build-depends:
   - perl
 - name: flex
   repo: upstream:flex
-  ref: baserock/build-essential
+  ref: de10f98e8a2dc2a021796811490d0f30c3cd90bf
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - m4
 - name: openssl-new
   repo: upstream:openssl-new
-  ref: baserock/morph
+  ref: 2bee25a915c2ba40e58229788aabc97765426016
+  unpetrify-ref: baserock/morph
   build-depends:
   - perl
 - name: bzip2
   repo: upstream:bzip2
-  ref: baserock/morph
+  ref: 8deafa68e52b230018c0318dc7959ff9af3ad2a5
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: cpython
   repo: upstream:cpython
-  ref: baserock/morph-2.7
+  ref: fa86445bfd4fb8e5441d685d92bf8a8ee237f022
+  unpetrify-ref: baserock/morph-2.7
   build-depends:
   - openssl-new
   - bzip2
 - name: libtool
   repo: upstream:libtool
-  ref: baserock/build-essential
+  ref: d388b7f2dc628b22006025d01179bc09b8aabe81
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - bash
 - name: gtk-doc-stub
   repo: upstream:gtk-doc-stub
-  ref: baserock/morph
+  ref: 58ec0d8593541ef7ae522ce42ebec6f98536c4e0
+  unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
   - automake
   - libtool
 - name: libxml2
   repo: upstream:libxml2
-  ref: baserock/morph
+  ref: ee8f1d4cda8dc1a6f2c515fe234f7bc89cdc9f80
+  unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
   - automake
@@ -107,7 +127,8 @@ chunks:
   - libtool
 - name: curl
   repo: upstream:curl
-  ref: baserock/morph
+  ref: 3c835adc9fe20f7b34df3f0abd4db6ff8b75bc3b
+  unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
   - automake
@@ -115,21 +136,24 @@ chunks:
   - openssl-new
 - name: libexpat
   repo: upstream:libexpat
-  ref: baserock/morph
+  ref: 97678ab13f6d29878997256b6ae1ded679ae5c5c
+  unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
   - automake
   - libtool
 - name: XML-Parser
   repo: upstream:XML-Parser
-  ref: baserock/morph
+  ref: e1a3ec157140a699e3020836475a0df622f70f1b
+  unpetrify-ref: baserock/morph
   build-depends:
   - libexpat
   - libxml2
   - perl
 - name: git
   repo: upstream:git
-  ref: baserock/morph
+  ref: 43efcf42382e87de4aa423e5e1607958ad1717d0
+  unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
   - cpython
@@ -140,7 +164,8 @@ chunks:
   - openssl-new
 - name: bison
   repo: upstream:bison
-  ref: baserock/morph
+  ref: 6729ad1c314b179225325dcc1bc684077a71f859
+  unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
   - automake
@@ -151,11 +176,13 @@ chunks:
   - mini-utils
 - name: gperf
   repo: upstream:gperf
-  ref: baserock/morph
+  ref: 5094e4a539adf845111013f82c2c4fcaec637983
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: intltool
   repo: upstream:intltool
-  ref: baserock/morph
+  ref: 12f04c88be9ff8a578d8fd6990ee2448c66dc5f4
+  unpetrify-ref: baserock/morph
   build-depends:
   - XML-Parser
   - autoconf
@@ -163,7 +190,8 @@ chunks:
   - perl
 - name: util-linux
   repo: upstream:util-linux
-  ref: baserock/morph
+  ref: 462008f79be9e195670b202cb43827b8aeb1e60b
+  unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
   - automake
@@ -173,7 +201,8 @@ chunks:
   - pkg-config
 - name: xz
   repo: upstream:xz
-  ref: baserock/morph
+  ref: 581deedf9d1eadcd84c4fcd23b9fdfe2dde18cc2
+  unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
   - automake
@@ -181,22 +210,26 @@ chunks:
   - libtool
 - name: nano
   repo: upstream:nano-tarball
-  ref: baserock/morph
+  ref: 8b74abeb02c01ddc768c465a826360cf33cec063
+  unpetrify-ref: baserock/morph
   build-depends:
   - ncurses
 - name: bc
   repo: upstream:bc-tarball
-  ref: baserock/morph
+  ref: 0956d119432ff6a2e85bae1fa336df799cad70b0
+  unpetrify-ref: baserock/morph
   build-depends:
   - flex
   - texinfo-tarball
 - name: python-setuptools
   repo: upstream:python-setuptools
-  ref: baserock/morph
+  ref: 05b07a427a1eae2a51d527f7ac5135a8fd215d77
+  unpetrify-ref: baserock/morph
   build-depends:
   - cpython
 - name: pyyaml
   repo: upstream:pyyaml
-  ref: baserock/morph
+  ref: d9fbcceaed39d955f6871b07c61dc42f824285c1
+  unpetrify-ref: baserock/morph
   build-depends:
   - python-setuptools

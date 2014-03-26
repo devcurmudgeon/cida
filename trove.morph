@@ -6,115 +6,139 @@ build-depends:
 chunks:
 - name: bottle
   repo: upstream:bottle
-  ref: baserock/morph
+  ref: 5238c615b3ec198fedebb0fcaad4458e3d68d70f
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: morph-cache-server
   repo: baserock:baserock/morph-cache-server
-  ref: master
+  ref: cc5f95fa563c4817cdcffc428da18e263bd02ae2
+  unpetrify-ref: master
   build-depends: []
 - name: lua
   repo: upstream:lua
-  ref: baserock/5.1-morph
+  ref: bedbdc0f03bca4fe97200ddf9c3d6cb210b45888
+  unpetrify-ref: baserock/5.1-morph
   build-depends: []
 - name: lace
   repo: upstream:gitano/lace
-  ref: baserock/morph
+  ref: d1b540b6d361d6a1f51e53cdaab69f053340efbb
+  unpetrify-ref: baserock/morph
   build-depends:
   - lua
 - name: luxio
   repo: upstream:luxio
-  ref: baserock/morph
+  ref: be9d125080b9ff2376273e21b75669b65dc88d46
+  unpetrify-ref: baserock/morph
   build-depends:
   - lua
 - name: supple
   repo: upstream:gitano/supple
-  ref: baserock/morph
+  ref: 0963e5706d78d0ae7446ea91af986de1e196eb39
+  unpetrify-ref: baserock/morph
   build-depends:
   - lua
   - luxio
 - name: clod
   repo: upstream:gitano/clod
-  ref: baserock/morph
+  ref: da15894f42f48d15db997c4355d6b672371a4163
+  unpetrify-ref: baserock/morph
   build-depends:
   - lua
 - name: gall
   repo: upstream:gitano/gall
-  ref: baserock/morph
+  ref: fe5c6355cee196253ffd41c36df0064e8fb6d0cc
+  unpetrify-ref: baserock/morph
   build-depends:
   - lua
   - luxio
 - name: pcre
   repo: upstream:pcre
-  ref: baserock/morph
+  ref: 2720152c58e13e7cc7403642ec33127101b9971b
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: lrexlib-pcre
   repo: upstream:lrexlib
-  ref: baserock/morph
+  ref: da8a015f9e0192c47552313c981a574ff41a6b88
+  unpetrify-ref: baserock/morph
   build-depends:
   - pcre
   - lua
 - name: gitano
   repo: upstream:gitano/gitano
-  ref: baserock/morph
+  ref: 77266b3ec2efec51f0a3246cbad70a4f15835958
+  unpetrify-ref: baserock/morph
   build-depends:
   - lua
 - name: cgit
   repo: upstream:cgit
-  ref: baserock/morph
+  ref: acbf4a15e260c711094455dbef7c024f2553fd32
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: bzr-tarball
   repo: upstream:bzr-tarball
-  ref: baserock/morph
+  ref: e61c7edb4789abcd0f73c30fe719fa6fea478a52
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: python-fastimport
   repo: upstream:python-fastimport
-  ref: baserock/morph
+  ref: 6500a5e7d82651ade9002d44e3ecc71a50302616
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: bzr-fastimport
   repo: upstream:bzr-fastimport
-  ref: baserock/morph
+  ref: b3cda9967f857127bd4dab5eb72223a95916f5ea
+  unpetrify-ref: baserock/morph
   build-depends:
   - bzr-tarball
   - python-fastimport
 - name: cvs-tarball
   repo: upstream:cvs-tarball
-  ref: baserock/morph
+  ref: ca4cd317a75ef4349563b5a9a734561beb4a4f98
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: libapr-tarball
   repo: upstream:libapr-tarball
-  ref: baserock/morph
+  ref: dea1efeb7f60fc6848e1e72b3fc973d0057565db
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: libapr-util-tarball
   repo: upstream:libapr-util-tarball
-  ref: baserock/morph
+  ref: daba269ee5a262cc23621b3ee37ed368d2a2b69b
+  unpetrify-ref: baserock/morph
   build-depends:
   - libapr-tarball
 - name: perl-dbi-tarball
   repo: upstream:perl-dbi-tarball
-  ref: baserock/morph
+  ref: 09e269cff811f0c1881ea0d6b7571173bab8377b
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: perl-dbd-sqlite-tarball
   repo: upstream:perl-dbd-sqlite-tarball
-  ref: baserock/morph
+  ref: 485b97be9f2f2abf5a40923b5fd85f75714a8c02
+  unpetrify-ref: baserock/morph
   build-depends:
   - perl-dbi-tarball
 - name: libserf-tarball
   repo: upstream:libserf-tarball
-  ref: baserock/morph
+  ref: 6f61a1acd01dc2ad1d2f5c1f7458702c77c69f9c
+  unpetrify-ref: baserock/morph
   build-depends:
   - libapr-tarball
   - libapr-util-tarball
 - name: swig-tarball
   repo: upstream:swig-tarball
-  ref: baserock/morph
+  ref: 1f6cb46b6a4b3ebf9352fa10198b0b286f84138b
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: neon
   repo: upstream:neon
-  ref: baserock/morph
+  ref: 837374e9d797e216f1de684595cefe791f67c0e4
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: subversion-tarball
   repo: upstream:subversion-tarball
-  ref: baserock/morph
+  ref: 351e074672d9aa6446d5829938b697a3d6b23266
+  unpetrify-ref: baserock/morph
   build-depends:
   - swig-tarball
   - libapr-tarball
@@ -123,20 +147,24 @@ chunks:
   - neon
 - name: mercurial-tarball
   repo: upstream:mercurial-tarball
-  ref: baserock/morph
+  ref: 4b0aa73b8c69bd5b7521337809f7bc4714209a5a
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: hg-fast-export
   repo: upstream:hg-fast-export
-  ref: baserock/morph
+  ref: 09a472aa58da0417a11a22bae172785f7cb2e80f
+  unpetrify-ref: baserock/morph
   build-depends:
   - mercurial-tarball
 - name: cvsps
   repo: upstream:cvsps
-  ref: baserock/morph
+  ref: 71c6d1f5668f405a7b259a0aac0d423f6c9b4d49
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: lorry
   repo: baserock:baserock/lorry
-  ref: master
+  ref: 5afef32028fbcacb7acc3d0318407169dd2353de
+  unpetrify-ref: master
   build-depends:
   - bzr-tarball
   - python-fastimport
@@ -150,23 +178,28 @@ chunks:
   - hg-fast-export
 - name: trove-setup
   repo: baserock:baserock/trove-setup
-  ref: master
+  ref: 5b689301a2a13dd549ed86d236ff26db6e1fae82
+  unpetrify-ref: master
   build-depends: []
 - name: lorry-controller
   repo: baserock:baserock/lorry-controller
-  ref: master
+  ref: 627c50633977804e6a10bafad81e72ae376b1cf6
+  unpetrify-ref: master
   build-depends: []
 - name: lighttpd
   repo: upstream:lighttpd
-  ref: baserock/morph
+  ref: 12e4e21763da770034267ff0a7b660876930f789
+  unpetrify-ref: baserock/morph
   build-depends:
   - pcre
 - name: flup
   repo: upstream:flup
-  ref: baserock/morph
+  ref: 0f97c5e0ab7d9827506120efc22af3a9c21d1d70
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: lua-scrypt
   repo: upstream:lua-scrypt
-  ref: baserock/morph
+  ref: 0d7f74cd3eab7d54fbb13294194de7ea70ac34a5
+  unpetrify-ref: baserock/morph
   build-depends:
   - lua

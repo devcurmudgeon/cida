@@ -6,34 +6,41 @@ build-depends:
 chunks:
 - name: DLT-daemon
   repo: upstream:DLT-daemon
-  ref: v2.9.1
+  ref: 6ab10c022d4464628fc2b848b5a56bf1eaafe857
+  unpetrify-ref: v2.9.1
   build-depends: []
 - name: node-startup-controller
   repo: upstream:node-startup-controller
-  ref: baserock/morph
+  ref: c78fddaddc24a2c49f5ef18896c93403575295ae
+  unpetrify-ref: baserock/morph
   build-depends:
   - DLT-daemon
 - name: googletest
   repo: upstream:googletest
-  ref: baserock/morph
+  ref: 5e3f7d3db4c16e2ba8b42b0bf4689f7d2abbcb08
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: googlemock
   repo: upstream:googlemock
-  ref: baserock/morph
+  ref: 0e9998c140079046c396a0e7033bb465abae79cd
+  unpetrify-ref: baserock/morph
   build-depends:
   - googletest
 - name: genivi-common-api-runtime
   repo: upstream:genivi-common-api-runtime
-  ref: 2.1.4
+  ref: 54e7a90c76bdd0aaf6fa2fecc7628b5aa2c8d56d
+  unpetrify-ref: 2.1.4
   build-depends: []
 - name: genivi-common-api-dbus-runtime
   repo: upstream:genivi-common-api-dbus-runtime
-  ref: 2.1.4
+  ref: 16a259c8b78f254ee9157346880ccf19ed8905a7
+  unpetrify-ref: 2.1.4
   build-depends:
   - genivi-common-api-runtime
 - name: audiomanager
   repo: upstream:audiomanager
-  ref: '5.0'
+  ref: f005d28c3bfa2f46128619dddbce954b9d7b928a
+  unpetrify-ref: '5.0'
   build-depends:
   - DLT-daemon
   - googletest

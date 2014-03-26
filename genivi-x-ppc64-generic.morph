@@ -7,5 +7,6 @@ build-depends:
 chunks:
 - name: layer_management
   repo: upstream:layer_management
-  ref: baserock/genivi/baseline
+  ref: 206d6709d0a3b3932a02b30ccacaa02b3eab8493
+  unpetrify-ref: baserock/genivi/baseline
   build-depends: []

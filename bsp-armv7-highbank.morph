@@ -6,5 +6,6 @@ build-depends:
 chunks:
 - name: linux
   repo: upstream:linux
-  ref: baserock/arm/highbank
+  ref: cb27bf639e30c5126361c9cb7dd32c2e36a98d8a
+  unpetrify-ref: baserock/arm/highbank
   build-depends: []

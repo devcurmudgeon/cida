@@ -7,5 +7,6 @@ build-depends:
 chunks:
 - name: linux
   repo: upstream:linux
-  ref: baserock/arm/versatile
+  ref: 2a054e5708e376890693f71c3697c4a259a5e46f
+  unpetrify-ref: baserock/arm/versatile
   build-depends: []

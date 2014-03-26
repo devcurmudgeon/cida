@@ -5,78 +5,94 @@ build-depends:
 chunks:
 - name: mesa-x
   repo: upstream:mesa
-  ref: baserock/genivi/baseline-armv7-versatile
+  ref: e96f3daac78e3971e4500a31e72c0a7e5845c3d1
+  unpetrify-ref: baserock/genivi/baseline-armv7-versatile
   build-depends: []
 - name: xorg-lib-libxkbfile
   repo: upstream:xorg-lib-libxkbfile
-  ref: baserock/morph
+  ref: 7381c2f9013ef7784c78091fa671e652a62ca706
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: pixman
   repo: upstream:pixman
-  ref: baserock/morph
+  ref: 958bd334b3c17f529c80f2eeef4224f45c62f292
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: xorg-font-util
   repo: upstream:xorg-font-util
-  ref: baserock/morph
+  ref: 5f01ea79f1cb2328bfc4130b1e693f71be916b87
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: xorg-lib-libfontenc
   repo: upstream:xorg-lib-libfontenc
-  ref: baserock/morph
+  ref: f5d1208172e965fdd7fae8927bd3e29b3cc3a975
+  unpetrify-ref: baserock/morph
   build-depends:
   - xorg-font-util
 - name: freetype2
   repo: upstream:freetype2
-  ref: baserock/morph
+  ref: 2ba18ba1ce730ed79672801b20f986f10a628c95
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: fontconfig
   repo: upstream:fontconfig
-  ref: baserock/morph
+  ref: 72b0480a21958f0f8c115d8e0a5bfbd8d358b5c3
+  unpetrify-ref: baserock/morph
   build-depends:
   - freetype2
 - name: xorg-lib-libXfont
   repo: upstream:xorg-lib-libXfont
-  ref: baserock/morph
+  ref: b8dd42dce868f9c16a59790ce51f0542b59cb79d
+  unpetrify-ref: baserock/morph
   build-depends:
   - freetype2
   - xorg-lib-libfontenc
 - name: xorg-lib-libICE
   repo: upstream:xorg-lib-libICE
-  ref: baserock/morph
+  ref: 1b1cf8072b2559e15ac440d5484a29a81d6918c6
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: xorg-lib-libSM
   repo: upstream:xorg-lib-libSM
-  ref: baserock/morph
+  ref: 77ddd273239a629eeed7bd1d5b4509b1bd6d4e37
+  unpetrify-ref: baserock/morph
   build-depends:
   - xorg-lib-libICE
 - name: xorg-lib-libXt
   repo: upstream:xorg-lib-libXt
-  ref: baserock/morph
+  ref: ead50a9a274aa96bef94e57c4625be8e9288af4e
+  unpetrify-ref: baserock/morph
   build-depends:
   - xorg-lib-libSM
 - name: xorg-lib-libXmu
   repo: upstream:xorg-lib-libXmu
-  ref: baserock/morph
+  ref: 474d22468c90f99104873b4c5fd7b0f0d2cbf823
+  unpetrify-ref: baserock/morph
   build-depends:
   - xorg-lib-libXt
 - name: xorg-lib-libXpm
   repo: upstream:xorg-lib-libXpm
-  ref: baserock/morph
+  ref: 81608285e11f2455800001a965dfece878861162
+  unpetrify-ref: baserock/morph
   build-depends:
   - xorg-lib-libXt
 - name: xorg-lib-libXaw
   repo: upstream:xorg-lib-libXaw
-  ref: baserock/morph
+  ref: a5630e166921b5b5322b30fb152df01bb6536e42
+  unpetrify-ref: baserock/morph
   build-depends:
   - xorg-lib-libXmu
   - xorg-lib-libXpm
   - xorg-lib-libXt
 - name: libsha1
   repo: upstream:libsha1
-  ref: baserock/morph
+  ref: 17173732b9f1b2d4142de27913250b4563db2436
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: xserver
   repo: upstream:xserver
-  ref: baserock/morph
+  ref: b7cbfa882778cf8857577e0da77aa9295f072db3
+  unpetrify-ref: baserock/morph
   build-depends:
   - libsha1
   - mesa-x
@@ -91,61 +107,73 @@ chunks:
   - xorg-lib-libxkbfile
 - name: xorg-driver-xf86-video-cirrus
   repo: upstream:xorg-driver-xf86-video-cirrus
-  ref: baserock/morph
+  ref: 6504929481eab616f064b5d661a057de74b8b488
+  unpetrify-ref: baserock/morph
   build-depends:
   - xserver
 - name: xorg-driver-xf86-video-fbdev
   repo: upstream:xorg-driver-xf86-video-fbdev
-  ref: baserock/morph
+  ref: ac293412a01d87f87eb61f4adb9db7486a75d3fc
+  unpetrify-ref: baserock/morph
   build-depends:
   - xserver
 - name: xorg-driver-xf86-video-vesa
   repo: upstream:xorg-driver-xf86-video-vesa
-  ref: baserock/morph
+  ref: 29a149544e2120a582043738d5b09dd80e896345
+  unpetrify-ref: baserock/morph
   build-depends:
   - xserver
 - name: xorg-driver-xf86-input-evdev
   repo: upstream:xorg-driver-xf86-input-evdev
-  ref: baserock/morph
+  ref: 2b8b0df62ec554952784f2820fb4143c495232b0
+  unpetrify-ref: baserock/morph
   build-depends:
   - xserver
 - name: xorg-driver-xf86-input-keyboard
   repo: upstream:xorg-driver-xf86-input-keyboard
-  ref: baserock/morph
+  ref: 4a954bc6a8fbc4aa50dfcabec011274252713204
+  unpetrify-ref: baserock/morph
   build-depends:
   - xserver
 - name: xorg-driver-xf86-input-mouse
   repo: upstream:xorg-driver-xf86-input-mouse
-  ref: baserock/morph
+  ref: 585f4030d77accf2a4ba115729ca08da82217863
+  unpetrify-ref: baserock/morph
   build-depends:
   - xserver
 - name: xorg-app-xkbcomp
   repo: upstream:xorg-app-xkbcomp
-  ref: baserock/morph
+  ref: 705b9bbb426410f9510601c7010da51184919b36
+  unpetrify-ref: baserock/morph
   build-depends:
   - xorg-lib-libxkbfile
 - name: xkeyboard-config
   repo: upstream:xkeyboard-config
-  ref: baserock/morph
+  ref: b4be67b48fb11989f1824dd0b1c8c399430162b0
+  unpetrify-ref: baserock/morph
   build-depends:
   - xorg-app-xkbcomp
 - name: xorg-app-xinit
   repo: upstream:xorg-app-xinit
-  ref: baserock/morph
+  ref: 4e85bce64acef1fa0ddff04d59737444e942ff12
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: xorg-lib-libXft
   repo: upstream:xorg-lib-libXft
-  ref: baserock/morph
+  ref: c5e760a239afc62a1c75e0509868e35957c8df52
+  unpetrify-ref: baserock/morph
   build-depends:
   - fontconfig
   - freetype2
 - name: xcb-util
   repo: upstream:xcb-util
-  ref: baserock/morph
+  ref: 45215e6f56bf57efdf5469567c00eba7a991d3a3
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: xterm
   repo: upstream:xterm
-  ref: baserock/morph
+  ref: 7fc0a9529babac61d9a0b30e6ddb3c79e44af0e5
+  unpetrify-ref: baserock/morph
   build-depends:
   - xorg-lib-libXaw
   - xorg-lib-libxkbfile
