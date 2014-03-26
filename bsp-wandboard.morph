@@ -6,10 +6,12 @@ build-depends:
 chunks:
 - name: u-boot
   repo: upstream:u-boot
-  ref: baserock/morph
+  ref: fe57382d04b46c37f34cf8d3b3ad876554fd12bf
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: linux
   repo: upstream:linux
-  ref: baserock/arm/wandboard_bsp
+  ref: 635ad1134d5e3fccf8c9ec50983b8d39e1493ae9
+  unpetrify-ref: baserock/arm/wandboard_bsp
   build-depends:
   - u-boot

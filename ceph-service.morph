@@ -5,51 +5,62 @@ build-depends:
 chunks:
 - name: nspr
   repo: upstream:nspr-hg
-  ref: baserock/morph
+  ref: a6ee84946475c1fb7624973af28163f6da247c0d
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: nss
   repo: upstream:nss
-  ref: baserock/morph
+  ref: ee1c99a3c8c29f50a91ab28f2f7b7773f6355487
+  unpetrify-ref: baserock/morph
   build-depends:
   - nspr
 - name: libaio
   repo: upstream:libaio
-  ref: baserock/morph
+  ref: 262e589ea4ac3d1ff809648c8f2caa3836e69b25
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: keyutils
   repo: upstream:keyutils
-  ref: baserock/morph
+  ref: 116417bce1e1df06a918de5e9e63f6ba88e2f4f5
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: libunwind
   repo: upstream:libunwind
-  ref: v0.99
+  ref: 4b8404d153c58b95cb4420fc7603fdae62489a31
+  unpetrify-ref: v0.99
   build-depends: []
 - name: gperftools
   repo: upstream:gperftools
-  ref: baserock/morph
+  ref: 2a2d6596f8c3d62b7ec444761f4edf0c85d10d92
+  unpetrify-ref: baserock/morph
   build-depends:
   - libunwind
 - name: snappy
   repo: upstream:snappy
-  ref: baserock/morph
+  ref: 760c6ffc67836027c5f1d307e5c6cb012dfbdf72
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: leveldb
   repo: upstream:leveldb
-  ref: baserock/morph
+  ref: 0f0ed46e70967365c851243663689e156fe1b7b5
+  unpetrify-ref: baserock/morph
   build-depends:
   - snappy
   - gperftools
 - name: libeditline
   repo: upstream:libeditline-tarball
-  ref: baserock/morph
+  ref: 7503ff5f8610734521f40e276b59b3b6291830e7
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: boost
   repo: upstream:boost-tarball
-  ref: baserock/markdoffman/morph
+  ref: 026fc3d84a27e84a61d0f4c26f011a68271a0d6e
+  unpetrify-ref: baserock/markdoffman/morph
   build-depends: []
 - name: ceph
   repo: upstream:ceph
-  ref: baserock/morph
+  ref: 8fdf1df512b73bad0eb695cdf9cbf2d09f0327d4
+  unpetrify-ref: baserock/morph
   build-depends:
   - libaio
   - gperftools

@@ -5,19 +5,23 @@ build-depends:
 chunks:
 - name: libnl
   repo: upstream:libnl
-  ref: baserock/morph
+  ref: a2c4bd8f094a7247903578860a9c42049991860b
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: wpa_supplicant
   repo: upstream:hostap
-  ref: baserock/genivi/morph
+  ref: 1cdfb99c3a04235697dc6979b9eb5418861e42f8
+  unpetrify-ref: baserock/genivi/morph
   build-depends:
   - libnl
 - name: iptables
   repo: upstream:iptables
-  ref: baserock/morph
+  ref: 3e6fa55d5e28c93f417afeae7a7d4f349ddffcf4
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: connman
   repo: upstream:connman
-  ref: baserock/morph
+  ref: f16e43ebc34a32937a67c56655586d2dc1518fbb
+  unpetrify-ref: baserock/morph
   build-depends:
   - iptables

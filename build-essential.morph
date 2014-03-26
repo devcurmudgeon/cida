@@ -1,53 +1,79 @@
 name: build-essential
 kind: stratum
-description: |
-  Toolchain stratum
+description: 'Toolchain stratum
 
-  Stage 1: build a minimal cross compiler with the host's tools.
+
+  Stage 1: build a minimal cross compiler with the host''s tools.
+
 
   Starting with a cross compiler ensures that (a) nothing from the host
+
   can leak into the build-essential artifacts, and (b) cross-compiling
+
   build-essential is fully tested and supported, since we always use the
+
   cross code paths.
 
-  Stage 2: cross-build the whole of build-essential, using the host's tools
+
+  Stage 2: cross-build the whole of build-essential, using the host''s tools
+
   but the cross-compiler toolchain.
 
-  Stage 2 GCC outputs code for the same 'bootstrap' machine as stage 1 GCC,
+
+  Stage 2 GCC outputs code for the same ''bootstrap'' machine as stage 1 GCC,
+
   but because stage 2 GCC is also built to *run* on the bootstrap machine
+
   it can only execute inside the stage 3 chroot (due to being built against
+
   a libc with a non-standard prefix).
 
+
   Stage 3: build the whole of build-essential again, this time using a
+
   staging area containing only the output of stage 2. The result of this
+
   build is fully reproducible.
 
+
   We do a switch-a-roo between stage 2 and 3: stages 2 chunks are all built
+
   to run on a host *-bootstrap-* while stage 3 chunks are native-built for
+
   a *-baserock-* machine. This works, because the cross build was all for
+
   show (and cleanliness) and the binaries actually still run on the host.
 
+
   After build-essential is built we do another trick. See
+
   stage2-fhs-dirs.morph for details. Basically, /bin is a symlink to
+
   /tools/bin during stage 2 but in stage 3 it becomes a real directory
+
   again.
+
+  '
 chunks:
 - name: stage1-binutils
   repo: upstream:binutils-redhat
-  ref: baserock/build-essential
+  ref: 987eb543a034cddc4eeb103f08f566f24a5f964a
+  unpetrify-ref: baserock/build-essential
   build-depends: []
   build-mode: bootstrap
   prefix: /tools
 - name: stage1-gcc
   repo: upstream:gcc-tarball
-  ref: baserock/build-essential
+  ref: dd78b627480ed8d3c135271cd627096ae76fa5fc
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   build-mode: bootstrap
   prefix: /tools
 - name: stage2-linux-api-headers
   repo: upstream:linux
-  ref: baserock/build-essential
+  ref: eff825d6e284eb0fb04b434429a3e3b2e10cabf8
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -55,7 +81,8 @@ chunks:
   prefix: /tools
 - name: stage2-eglibc
   repo: upstream:eglibc2
-  ref: baserock/2.15-build-essential
+  ref: 43ee5d250ad47d2bee8ec17954efb7f22d2b804c
+  unpetrify-ref: baserock/2.15-build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -64,7 +91,8 @@ chunks:
   prefix: /tools
 - name: stage2-binutils
   repo: upstream:binutils-redhat
-  ref: baserock/build-essential
+  ref: 987eb543a034cddc4eeb103f08f566f24a5f964a
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -73,7 +101,8 @@ chunks:
   prefix: /tools
 - name: stage2-gcc-fixed-headers
   repo: upstream:gcc-tarball
-  ref: baserock/build-essential
+  ref: dd78b627480ed8d3c135271cd627096ae76fa5fc
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -82,7 +111,8 @@ chunks:
   prefix: /tools
 - name: stage2-gcc
   repo: upstream:gcc-tarball
-  ref: baserock/build-essential
+  ref: dd78b627480ed8d3c135271cd627096ae76fa5fc
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -92,7 +122,8 @@ chunks:
   prefix: /tools
 - name: stage2-busybox
   repo: upstream:busybox
-  ref: baserock/build-essential
+  ref: eeb9014f28e3aa00673a0fad127e7420da4392db
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -101,13 +132,15 @@ chunks:
   prefix: /tools
 - name: stage2-fhs-dirs
   repo: baserock:baserock/fhs-dirs
-  ref: master
+  ref: 442e2a6453ec380bf9d64f6be50e57d54ddf93d3
+  unpetrify-ref: master
   build-depends: []
   build-mode: bootstrap
   prefix: /tools
 - name: stage2-gawk
   repo: upstream:gawk
-  ref: baserock/build-essential
+  ref: 6a0eb04c3d2ac24d80d505b42a8f67799487d133
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -116,7 +149,8 @@ chunks:
   prefix: /tools
 - name: stage2-make
   repo: upstream:make
-  ref: baserock/build-essential
+  ref: 56968f58301e6e5157cf4c8b6deefbaff2955eba
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -125,7 +159,8 @@ chunks:
   prefix: /tools
 - name: stage2-reset-specs
   repo: upstream:eglibc2
-  ref: baserock/2.15-build-essential
+  ref: 43ee5d250ad47d2bee8ec17954efb7f22d2b804c
+  unpetrify-ref: baserock/2.15-build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -135,7 +170,8 @@ chunks:
   prefix: /tools
 - name: fhs-dirs
   repo: baserock:baserock/fhs-dirs
-  ref: master
+  ref: 442e2a6453ec380bf9d64f6be50e57d54ddf93d3
+  unpetrify-ref: master
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -150,7 +186,8 @@ chunks:
   prefix: /usr
 - name: linux-api-headers
   repo: upstream:linux
-  ref: baserock/build-essential
+  ref: eff825d6e284eb0fb04b434429a3e3b2e10cabf8
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -165,7 +202,8 @@ chunks:
   prefix: /usr
 - name: eglibc
   repo: upstream:eglibc2
-  ref: baserock/2.15-build-essential
+  ref: 43ee5d250ad47d2bee8ec17954efb7f22d2b804c
+  unpetrify-ref: baserock/2.15-build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -181,7 +219,8 @@ chunks:
   prefix: /usr
 - name: zlib
   repo: upstream:zlib
-  ref: baserock/build-essential
+  ref: db3aed6856d7a23186844fdf93105cad2fcf2f2f
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -197,7 +236,8 @@ chunks:
   prefix: /usr
 - name: binutils
   repo: upstream:binutils-redhat
-  ref: baserock/build-essential
+  ref: 987eb543a034cddc4eeb103f08f566f24a5f964a
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -214,7 +254,8 @@ chunks:
   prefix: /usr
 - name: busybox
   repo: upstream:busybox
-  ref: baserock/build-essential
+  ref: eeb9014f28e3aa00673a0fad127e7420da4392db
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -230,7 +271,8 @@ chunks:
   prefix: /usr
 - name: gawk
   repo: upstream:gawk
-  ref: baserock/build-essential
+  ref: 6a0eb04c3d2ac24d80d505b42a8f67799487d133
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -246,7 +288,8 @@ chunks:
   prefix: /usr
 - name: gcc
   repo: upstream:gcc-tarball
-  ref: baserock/build-essential
+  ref: dd78b627480ed8d3c135271cd627096ae76fa5fc
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -263,7 +306,8 @@ chunks:
   prefix: /usr
 - name: make
   repo: upstream:make
-  ref: baserock/build-essential
+  ref: 56968f58301e6e5157cf4c8b6deefbaff2955eba
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -279,7 +323,8 @@ chunks:
   prefix: /usr
 - name: ccache
   repo: upstream:ccache
-  ref: baserock/build-essential
+  ref: 0827e0b0f9c401b3aac87bb66fdeb81d6bdd6139
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox

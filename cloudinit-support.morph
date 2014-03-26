@@ -8,36 +8,44 @@ build-depends:
 chunks:
 - name: configobj
   repo: upstream:configobj
-  ref: baserock/morph
+  ref: 935a78736e4eb43b9fafae87f5e9902328673f63
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: python-requests
   repo: upstream:python-requests
-  ref: baserock/morph
+  ref: b891877ee6d76b0a3f8cbf2e7cd34cc4cbc40b6b
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: python-prettytable
   repo: upstream:python-prettytable
-  ref: baserock/morph
+  ref: 941133673e5a0003cd5ce1b6db2a51cf3307d9c1
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: python-json-patch
   repo: upstream:python-json-patch
-  ref: baserock/morph
+  ref: 27c7032de25923593fa17cc14f535fb7abd52448
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: python-json-pointer
   repo: upstream:python-json-pointer
-  ref: baserock/morph
+  ref: 48dce313141ba5bf0d2f3dd2e590042c05755e53
+  unpetrify-ref: baserock/morph
   build-depends:
   - python-json-patch
 - name: python-cheetah
   repo: upstream:python-cheetah
-  ref: baserock/morph
+  ref: 831aa6b99d9b4fb012ee644d8e80e0bc0eb6d6ed
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: boto
   repo: upstream:boto
-  ref: baserock/morph
+  ref: bd49c22b5a30bf58096d58efc4762f1fea3e2caf
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: cloud-init
   repo: upstream:cloud-init
-  ref: baserock/morph
+  ref: eeb4923b3528ebf4d93d8297b2d489738c3ea7c3
+  unpetrify-ref: baserock/morph
   build-depends:
   - boto
   - configobj

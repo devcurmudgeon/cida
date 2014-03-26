@@ -8,20 +8,24 @@ build-depends:
 chunks:
 - name: icu
   repo: upstream:icu
-  ref: baserock/morph
+  ref: ba023548a3bff7277cbea4acade3042ce9d8949e
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: ruby-1.8
   repo: upstream:ruby
-  ref: baserock/morph/ruby_1_8_7
+  ref: 7a24f1710028d568ad61d0aa49d5178260178d77
+  unpetrify-ref: baserock/morph/ruby_1_8_7
   build-depends: []
 - name: ruby-1.9
   repo: upstream:ruby
-  ref: baserock/morph/ruby_1_9_3
+  ref: cb3ea602294b5038b5f7ac21d3875a2b52342956
+  unpetrify-ref: baserock/morph/ruby_1_9_3
   build-depends:
   - ruby-1.8
 - name: qt4-tools
   repo: upstream:qt4-tools
-  ref: baserock/morph
+  ref: a182f020bc1703c20d86ba18f2f6b4ea8889de84
+  unpetrify-ref: baserock/morph
   build-depends:
   - icu
   - ruby-1.9

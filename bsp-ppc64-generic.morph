@@ -6,5 +6,6 @@ build-depends:
 chunks:
 - name: linux
   repo: upstream:linux
-  ref: baserock/powerpc/ppc64
+  ref: 7758cbb7fe9277c8486d87791f0e5f1398d0fb22
+  unpetrify-ref: baserock/powerpc/ppc64
   build-depends: []

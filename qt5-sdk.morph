@@ -6,9 +6,11 @@ build-depends:
 chunks:
 - name: qt-creator
   repo: upstream:qt-creator
-  ref: baserock/morph/2.7
+  ref: d5a6b10634c1a3271012e9578e016772ef077d59
+  unpetrify-ref: baserock/morph/2.7
   build-depends: []
 - name: snowshoe
   repo: upstream:snowshoe
-  ref: baserock/morph
+  ref: 098f931de58072edd5d591cdc4a2ad3c05e83991
+  unpetrify-ref: baserock/morph
   build-depends: []

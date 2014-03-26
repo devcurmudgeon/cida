@@ -8,55 +8,65 @@ build-depends:
 chunks:
 - name: icu
   repo: upstream:icu
-  ref: baserock/morph
+  ref: ba023548a3bff7277cbea4acade3042ce9d8949e
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: ruby-1.8
   repo: upstream:ruby
-  ref: baserock/morph/ruby_1_8_7
+  ref: 7a24f1710028d568ad61d0aa49d5178260178d77
+  unpetrify-ref: baserock/morph/ruby_1_8_7
   build-depends: []
 - name: ruby-1.9
   repo: upstream:ruby
-  ref: baserock/morph/ruby_1_9_3
+  ref: cb3ea602294b5038b5f7ac21d3875a2b52342956
+  unpetrify-ref: baserock/morph/ruby_1_9_3
   build-depends:
   - ruby-1.8
 - name: qtbase
   repo: upstream:qt5/qtbase
-  ref: baserock/morph
+  ref: 79be8352ced650e98ab0afe89e91cffee4f6a04a
+  unpetrify-ref: baserock/morph
   build-depends:
   - icu
 - name: qtsvg
   repo: upstream:qt5/qtsvg
-  ref: baserock/morph
+  ref: 552bf3adcc48c669f9dfbda5818142fb18c9e957
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
 - name: qtjsbackend
   repo: upstream:qt5/qtjsbackend
-  ref: baserock/morph
+  ref: c6978bf56f599a3da8c03b1a7e58102aa84223e7
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
 - name: qtscript
   repo: upstream:qt5/qtscript
-  ref: baserock/morph
+  ref: d20e99b3bdbcf77b69a92a2ba1b3ca1f1379e7c8
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
   - qtjsbackend
 - name: qtdeclarative
   repo: upstream:qt5/qtdeclarative
-  ref: baserock/morph
+  ref: 774d0310883a9526210c4530bbb9d0af26d88699
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
   - qtjsbackend
   - qtscript
 - name: qtquick1
   repo: upstream:qt5/qtquick1
-  ref: baserock/morph
+  ref: b13755a2411dca01e65bb443a399ed130d5dd738
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
   - qtjsbackend
   - qtscript
 - name: qt3d
   repo: upstream:qt5/qt3d
-  ref: baserock/morph
+  ref: 805fbf45a54f1b69f4b13f6dc9f962b07c017d3b
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
   - qtjsbackend
@@ -64,29 +74,34 @@ chunks:
   - qtdeclarative
 - name: qtquickcontrols
   repo: upstream:qt5/qtquickcontrols
-  ref: baserock/morph
+  ref: acf9e50d52c4d09a1aed9490bb2f3c5de7dce9bb
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
   - qtjsbackend
   - qtdeclarative
 - name: qtsensors
   repo: upstream:qt5/qtsensors
-  ref: baserock/morph
+  ref: cd22d77e07af6046be24d0322187a86c9a3c4d1d
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
 - name: qtserialport
   repo: upstream:qt5/qtserialport
-  ref: baserock/morph
+  ref: b1abca2eee45e7b8ecf71cb5cd1e77a2821fcac2
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
 - name: qtx11extras
   repo: upstream:qt5/qtx11extras
-  ref: baserock/morph
+  ref: 3b33afd2814c88002e2efc4955e5b1851aff0c58
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
 - name: qtwebkit
   repo: upstream:qt5/qtwebkit
-  ref: baserock/morph
+  ref: 15a558c03ea7a35f97dfc0b16024d026d20920be
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
   - icu
@@ -95,7 +110,8 @@ chunks:
   - qtdeclarative
 - name: qtwebkit-examples
   repo: upstream:qt5/qtwebkit-examples
-  ref: baserock/morph
+  ref: fdaa2bb5e47d6ca1d3e8c681f88eae0b9d4ae351
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
   - qtjsbackend
@@ -103,34 +119,40 @@ chunks:
   - qtwebkit
 - name: qtmultimedia
   repo: upstream:qt5/qtmultimedia
-  ref: baserock/morph
+  ref: 8b73d090f87f88ee3ae4efc437ac866d05df76be
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
 - name: qtxmlpatterns
   repo: upstream:qt5/qtxmlpatterns
-  ref: baserock/morph
+  ref: ed713a904ee55f1c345d2d6c35e77892be96977e
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
 - name: qtdoc
   repo: upstream:qt5/qtdoc
-  ref: baserock/morph
+  ref: 674abef4f06bdde57a272d69750e2a4ac5027ea9
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
 - name: qtgraphicaleffects
   repo: upstream:qt5/qtgraphicaleffects
-  ref: baserock/morph
+  ref: e41d08f95d74d7309fc976cb62141b78239de975
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
   - qtjsbackend
   - qtdeclarative
 - name: qtimageformats
   repo: upstream:qt5/qtimageformats
-  ref: baserock/morph
+  ref: 3f7f6126d9832e03a4dcaaca5279220f00126e89
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
 - name: qttools
   repo: upstream:qt5/qttools
-  ref: baserock/morph
+  ref: 1369d91dd095cd4ea2febe759ef6446e41bd2d80
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
   - qtjsbackend
@@ -138,7 +160,8 @@ chunks:
   - qtwebkit
 - name: qttranslations
   repo: upstream:qt5/qttranslations
-  ref: baserock/morph
+  ref: e91af8e6363a4538f08992b6af51d17b91453080
+  unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
   - qttools

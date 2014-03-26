@@ -8,15 +8,18 @@ build-depends:
 chunks:
 - name: libxkbcommon
   repo: upstream:xorg-lib-libxkbcommon
-  ref: baserock/morph
+  ref: bb620df7aa98c129687382e4866e643b8482fc59
+  unpetrify-ref: baserock/morph
   build-depends: []
 - name: wayland
   repo: upstream:wayland
-  ref: baserock/genivi/wayland
+  ref: 006abd0a68e96749beeebf08aad298036b3fbfd4
+  unpetrify-ref: baserock/genivi/wayland
   build-depends:
   - libxkbcommon
 - name: mesa-wayland
   repo: upstream:mesa
-  ref: baserock/genivi/morph
+  ref: f64dd91f4f2a2591e66b38fdfdfa83077f8221ab
+  unpetrify-ref: baserock/genivi/morph
   build-depends:
   - wayland
