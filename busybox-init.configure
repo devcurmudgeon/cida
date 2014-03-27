@@ -1,0 +1,145 @@
+#!/bin/sh
+#
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# This is a "morph deploy" configuration extension to configure a system
+# to use busybox for its init, if INIT_SYSTEM=busybox is specified.
+#
+# As well as checking INIT_SYSTEM, the following variables are used.
+#
+# Getty configuration:
+#   * CONSOLE_DEVICE:   Which device to spawn a getty on (default: ttyS0)
+#   * CONSOLE_BAUDRATE: Baud rate of the console (default: 115200)
+#   * CONSOLE_MODE:     What kind of terminal this console emulates
+#                       (default: vt100)
+
+if [ "$INIT_SYSTEM" != busybox ]; then
+    echo Not configuring system to use busybox init.
+    exit 0
+fi
+
+set -e
+echo Configuring system to use busybox init
+
+RUN_SCRIPT=/etc/rcS
+INIT_SCRIPT=/sbin/init
+
+install_mdev_config(){
+    install -D -m644 /dev/stdin "$1" <<'EOF'
+# support module loading on hotplug
+$MODALIAS=.*    root:root 660 @modprobe "$MODALIAS"
+
+# null may already exist; therefore ownership has to be changed with command
+null            root:root 666 @chmod 666 $MDEV
+zero            root:root 666
+full            root:root 666
+random          root:root 444
+urandom         root:root 444
+hwrandom        root:root 444
+grsec           root:root 660
+
+kmem            root:root 640
+mem             root:root 640
+port            root:root 640
+# console may already exist; therefore ownership has to be changed with command
+console         root:root 600 @chmod 600 $MDEV
+ptmx            root:root 666
+pty.*           root:root 660
+
+# Typical devices
+
+tty             root:root 666
+tty[0-9]*       root:root 660
+vcsa*[0-9]*     root:root 660
+ttyS[0-9]*      root:root 660
+
+# block devices
+ram[0-9]*       root:root 660
+loop[0-9]+      root:root 660
+sd[a-z].*       root:root 660
+hd[a-z][0-9]*   root:root 660
+md[0-9]*        root:root 660
+sr[0-9]*        root:root 660 @ln -sf $MDEV cdrom
+fd[0-9]*        root:root 660
+
+# net devices
+SUBSYSTEM=net;.* root:root 600 @nameif
+tun[0-9]*       root:root 600 =net/
+tap[0-9]*       root:root 600 =net/
+EOF
+}
+
+install_start_script(){
+    install -D -m755 /dev/stdin "$1" <<'EOF'
+#!/bin/sh
+mount -t devtmpfs devtmpfs /dev
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mkdir -p /dev/pts
+mount -t devpts devpts /dev/pts
+
+echo /sbin/mdev >/proc/sys/kernel/hotplug
+mdev -s
+
+hostname -F /etc/hostname
+
+run-parts -a start /etc/init.d
+EOF
+}
+
+install_inittab(){
+    local inittab="$1"
+    local dev="$2"
+    local baud="$3"
+    local mode="$4"
+    install -D -m644 /dev/stdin "$1" <<EOF
+::sysinit:$RUN_SCRIPT
+
+::askfirst:-/bin/cttyhack /bin/sh
+::askfirst:/sbin/getty -L $dev $baud $mode
+
+::ctrlaltdel:/sbin/reboot
+::shutdown:/sbin/swapoff -a
+::shutdown:/bin/umount -a -r
+::restart:/sbin/init
+EOF
+}
+
+install_init_symlink(){
+    local initdir="$(dirname "$1")"
+    local initname="$(basename "$1")"
+    mkdir -p "$initdir"
+    cd "$initdir"
+    for busybox_dir in . ../bin ../sbin ../usr/bin ../usr/sbin; do
+        local busybox="$busybox_dir/busybox"
+        if [ ! -x "$busybox" ]; then
+            continue
+        fi
+        ln -sf "$busybox" "$initname"
+        return 0
+    done
+    echo Unable to find busybox >&2
+    exit 1
+}
+
+install_mdev_config "$1/etc/mdev.conf"
+
+install_start_script "$1$RUN_SCRIPT"
+
+install_inittab "$1/etc/inittab" "${CONSOLE_DEV-ttyS0}" \
+    "${CONSOLE_BAUD-115200}" "${CONSOLE_MODE-vt100}"
+
+install_init_symlink "$1$INIT_SCRIPT"
