@@ -1,0 +1,37 @@
+name: example-distbuild-cluster
+kind: cluster
+description: |
+  This is an example cluster morph that can be adapted to set up a
+  Baserock distributed build network.
+
+  You will need to deploy a Trove for the distributed build network
+  to use before deploying this cluster. The worker SSH key file should
+  be generated as part of the Trove deployment. It is the key used by
+  workers to authenticate with the Trove to give them read access to
+  all source repositories.
+systems:
+- morph: distbuild-system-x86_64-generic
+  deploy-defaults:
+    TROVE_ID: $MY_TROVE
+    CONTROLLERHOST: build-controller
+    DISTBUILD_CONTROLLER: no
+    DISTBUILD_WORKER: yes
+    FSTAB_SRC: LABEL=src /srv/distbuild auto defaults,rw,noatime 0 2
+    INSTALL_FILES: distbuild/manifest
+    NFSBOOT_CONFIGURE: yes
+    WORKER_SSH_KEY: ssh-keys/worker.key
+  deploy:
+    build-controller:
+      type: nfsboot
+      location: $MY_TROVE
+      DISTBUILD_CONTROLLER: yes
+      HOSTNAME: build-controller
+      WORKERS: build-node-1, build-node-2
+    build-node-1:
+      type: nfsboot
+      location: $MY_TROVE
+      HOSTNAME: build-node-1
+    build-node-2:
+      type: nfsboot
+      location: $MY_TROVE
+      HOSTNAME: build-node-2

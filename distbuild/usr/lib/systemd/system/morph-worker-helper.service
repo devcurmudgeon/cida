@@ -1,0 +1,10 @@
+[Unit]
+Description=Morph distributed build worker helper
+Requires=morph-worker.service
+After=morph-worker.service
+ConditionPathExists=/etc/morph-worker.conf
+ConditionPathExists=/etc/morph-worker-helper.conf
+
+[Service]
+ExecStart=/usr/bin/distbuild-helper --config /etc/morph-worker-helper.conf
+Restart=always
