@@ -99,6 +99,10 @@ chunks:
   - cmdtest
   - python-coverage-test-runner
   - pyfilesystem
+- name: git-fat
+  repo: upstream:git-fat
+  ref: 86152191d7f07fed374f2ff80aceea4bccf98fe8
+  unpetrify-ref: baserock/morph
 - name: pv
   repo: upstream:pv
   ref: d6ce7cfec684fa72d7a919d7b1aa817a0ca6102a
