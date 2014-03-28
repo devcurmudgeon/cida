@@ -101,7 +101,7 @@ chunks:
   - pyfilesystem
 - name: git-fat
   repo: upstream:git-fat
-  ref: 86152191d7f07fed374f2ff80aceea4bccf98fe8
+  ref: 208f88d0f0ef04c25e8a231979eb0083f57b1610
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: pv
