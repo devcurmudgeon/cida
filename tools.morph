@@ -144,3 +144,8 @@ chunks:
   ref: 9359b61ca44980d33c0bee42b9bb2e36e72835dd
   unpetrify-ref: baserock/morph
   build-depends: []
+- name: device-tree-compiler
+  repo: upstream:device-tree-compiler
+  ref: c92f284c3cf76d471eb27a271de3a51cb45ed058
+  unpetrify-ref: baserock/morph
+  build-depends: []
