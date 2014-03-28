@@ -7,6 +7,6 @@ build-depends:
 chunks:
 - name: linux
   repo: upstream:linux
-  ref: dd7e7979f314aae8a7095cdedac047186166e30c
+  ref: 44884486fd3c8fd6d5c66044e1ca743f253832cd
   unpetrify-ref: baserock/morph
   build-depends: []
