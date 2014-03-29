@@ -59,8 +59,8 @@ chunks:
   - libffi
 - name: gobject-introspection
   repo: upstream:gobject-introspection
-  ref: 8a2a9f9db169eaaf2a7eede18e0ceba0af44345f
-  unpetrify-ref: baserock/morph
+  ref: 4f14c7dd0906608d4c9b741e0d0ba858e5c530f0
+  unpetrify-ref: baserock/1.39.90
   build-depends:
   - glib
 - name: dbus-pre
@@ -84,6 +84,11 @@ chunks:
   repo: upstream:lzo
   ref: 2cdfe9375f1145603d002c12be950062ae54da21
   unpetrify-ref: baserock/morph
+  build-depends: []
+- name: fuse
+  repo: upstream:fuse
+  ref: 13ee8f62d4aa3360adb6956fb30da0c858928fa2
+  unpetrify-ref: baserock/genivi/morph
   build-depends: []
 - name: btrfs-progs
   repo: upstream:btrfs-progs
