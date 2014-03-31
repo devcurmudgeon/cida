@@ -184,7 +184,7 @@ chunks:
   prefix: /usr
 - name: eglibc
   repo: upstream:eglibc2
-  ref: baserock/richardmaw/S10786-finer-splitting
+  ref: baserock/richardmaw/S10786-finer-splitting-v2
   unpetrify-ref: baserock/2.15-build-essential
   build-depends:
   - stage2-binutils
