@@ -20,20 +20,27 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - alsa-lib
+- name: libical
+  repo: upstream:libical
+  ref: 52568782ae136e1ec4ddf3eb6da7b0f3fbd3f1b3
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: readline
+  repo: upstream:readline
+  ref: 518937ab89be812ccd45e9b8c1ce4ad721d35ef6
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends: []
 - name: bluez
   repo: upstream:bluez
-  ref: df1dd28e3a5c92fb67209e4ae3ad2d04c6380b9b
-  unpetrify-ref: baserock/genivi/baseline
+  ref: 9e483337a42f0ddef06cc9ad146c8523f2b08888
+  unpetrify-ref: baserock/v5.17
   build-depends:
+  - readline
+  - libical
   - alsa-lib
 - name: bluez-tools
   repo: upstream:bluez-tools
   ref: 7350787e96a6ecf2cc5d4afddb3321ccad9fa461
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: libical
-  repo: upstream:libical
-  ref: 52568782ae136e1ec4ddf3eb6da7b0f3fbd3f1b3
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: obexd
