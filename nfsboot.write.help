@@ -1,0 +1,12 @@
+help: |
+    Deploy a system image and kernel to an nfsboot server.
+    
+    An nfsboot server is defined as a baserock system that has
+    tftp and nfs servers running, the tftp server is exporting
+    the contents of /srv/nfsboot/tftp/ and the user has sufficient
+    permissions to create nfs roots in /srv/nfsboot/nfs/.
+
+    The `location` argument is the hostname of the nfsboot server.
+
+    The extension will connect to root@HOST via ssh to copy the
+    kernel and rootfs, and configure the nfs server.

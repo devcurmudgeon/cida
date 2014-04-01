@@ -1,0 +1,5 @@
+help: |
+    Create a .tar file of the deployed system.
+    
+    The `location` argument is a pathname to the .tar file to be
+    created.

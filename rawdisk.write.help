@@ -1,0 +1,7 @@
+help: |
+    Create a raw disk image during Morph's deployment.
+    
+    If the image already exists, it is upgraded.
+
+    The `location` argument is a pathname to the image to be
+    created or upgraded.
