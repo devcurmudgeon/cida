@@ -300,7 +300,7 @@ chunks:
   prefix: /usr
 - name: ccache
   repo: upstream:ccache
-  ref: 0827e0b0f9c401b3aac87bb66fdeb81d6bdd6139
+  ref: 567631456f0899cdf0c382f898d38aadc8901d32
   unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
