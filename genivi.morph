@@ -47,3 +47,22 @@ chunks:
   - googlemock
   - genivi-common-api-runtime
   - genivi-common-api-dbus-runtime
+- name: itzam-tarball
+  repo: upstream:itzam-tarball
+  ref: 4ebcf671416927b64475da7b810b6016c847bf73
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends: []
+- name: persistence-client-library
+  repo: upstream:genivi/persistence-client-library
+  ref: 0934ba263e69be8453cc3150f997dad28489f0c7
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends:
+  - DLT-daemon
+  - itzam-tarball
+- name: node-state-manager
+  repo: upstream:node-state-manager
+  ref: dd4a86b9459537d2e85489b36abf80f34d12f098
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends:
+  - DLT-daemon
+  - persistence-client-library
