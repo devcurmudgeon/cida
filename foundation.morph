@@ -65,8 +65,8 @@ chunks:
   - glib
 - name: dbus-pre
   repo: upstream:dbus
-  ref: a0f3687d650c8c73134f318820f4978a4ff3e9e2
-  unpetrify-ref: baserock/build-essential
+  ref: f2e4718bf42f507684949ebf484aa94df42abbbe
+  unpetrify-ref: baserock/v1.8.0
   build-depends:
   - glib
 - name: systemd
@@ -94,8 +94,8 @@ chunks:
   - lzo
 - name: dbus
   repo: upstream:dbus
-  ref: a0f3687d650c8c73134f318820f4978a4ff3e9e2
-  unpetrify-ref: baserock/build-essential
+  ref: f2e4718bf42f507684949ebf484aa94df42abbbe
+  unpetrify-ref: baserock/v1.8.0
   build-depends:
   - glib
   - systemd
