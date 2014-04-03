@@ -51,17 +51,21 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
 
     def process_args(self, args):
         target_root = args[0]
+        meta_dir = os.path.join(target_root, 'baserock')
 
         for chunk in self.gplv3_chunks:
-            self.remove_chunk(target_root, chunk[0], chunk[1])
+            regex = os.path.join(meta_dir, "%s-[^-]\+\.meta" % chunk[0])
+            artifacts = self.runcmd(['find', meta_dir,  '-regex', regex])
+
+            for artifact in artifacts.split():
+                self.remove_chunk(target_root, artifact, chunk[1])
 
         os.remove(os.path.join(target_root, 'usr', 'bin', 'awk'))
         os.symlink(os.path.join(os.sep, 'bin', 'busybox'),
                    os.path.join(target_root, 'usr', 'bin', 'awk'))
 
     def remove_chunk(self, target_root, chunk, pattern):
-        chunk_meta_path = os.path.join(target_root, 'baserock',
-                                       chunk + '.meta')
+        chunk_meta_path = os.path.join(target_root, 'baserock', chunk)
 
         with open(chunk_meta_path, 'r') as f:
             chunk_meta_data = json.load(f)
@@ -76,8 +80,6 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
                 self.remove_content_entry(target_root, content_entry)
             else:
                 updated_contents.append(content_entry)
-        if len(updated_contents) == 0:
-            os.remove(chunk_meta_path)
 
     def remove_content_entry(self, target_root, content_entry):
         entry_path = os.path.join(target_root, './' + content_entry)
