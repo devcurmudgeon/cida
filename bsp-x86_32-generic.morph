@@ -7,7 +7,7 @@ build-depends:
 chunks:
 - name: linux
   repo: upstream:linux
-  ref: 44884486fd3c8fd6d5c66044e1ca743f253832cd
+  ref: 316df4c3eb667636eadf4b663f4087f1f9cc3cfe
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: nasm
