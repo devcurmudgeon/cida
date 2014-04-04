@@ -10,8 +10,8 @@ chunks:
   build-depends: []
 - name: wayland
   repo: upstream:wayland
-  ref: 006abd0a68e96749beeebf08aad298036b3fbfd4
-  unpetrify-ref: baserock/genivi/wayland
+  ref: cbd8ab5ba7f3f0dba6c9b04176b3a2da965cd21c
+  unpetrify-ref: baserock/1.4.0
   build-depends:
   - libxkbcommon
 - name: mesa-wayland
