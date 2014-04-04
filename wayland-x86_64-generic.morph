@@ -5,8 +5,8 @@ build-depends:
 chunks:
 - name: libxkbcommon
   repo: upstream:xorg-lib-libxkbcommon
-  ref: bb620df7aa98c129687382e4866e643b8482fc59
-  unpetrify-ref: baserock/morph
+  ref: b721254769212d671a4729f1c88b059979b80efc
+  unpetrify-ref: baserock/genivi/baseline
   build-depends: []
 - name: wayland
   repo: upstream:wayland
