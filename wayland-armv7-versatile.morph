@@ -1,9 +1,6 @@
 name: wayland-armv7-versatile
 kind: stratum
 build-depends:
-- morph: core
-- morph: foundation
-- morph: genivi-foundation
 - morph: x-common
 chunks:
 - name: libxkbcommon
