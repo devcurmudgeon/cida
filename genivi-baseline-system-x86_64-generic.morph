@@ -22,3 +22,4 @@ strata:
 - morph: multimedia
 - morph: genivi
 - morph: genivi-x-x86_64-generic
+- morph: wayland-x86_64-generic
