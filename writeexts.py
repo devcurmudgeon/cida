@@ -333,11 +333,15 @@ class WriteExtension(cliapp.Application):
                 cliapp.runcmd(['cp', '-a', try_path, kernel_dest])
                 break
 
+    def get_extra_kernel_args(self):
+        return os.environ.get('KERNEL_ARGS', '')
+
     def install_extlinux(self, real_root):
         '''Install extlinux on the newly created disk image.'''
 
         self.status(msg='Creating extlinux.conf')
         config = os.path.join(real_root, 'extlinux.conf')
+        kernel_args = self.get_extra_kernel_args()
         with open(config, 'w') as f:
             f.write('default linux\n')
             f.write('timeout 1\n')
@@ -345,7 +349,7 @@ class WriteExtension(cliapp.Application):
             f.write('kernel /systems/default/kernel\n')
             f.write('append root=/dev/sda '
                     'rootflags=subvol=systems/default/run '
-                    'init=/sbin/init rw\n')
+                    '%s init=/sbin/init rw\n' % (kernel_args))
 
         self.status(msg='Installing extlinux')
         cliapp.runcmd(['extlinux', '--install', real_root])
