@@ -31,7 +31,7 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-workspace="$PWD"/../..
+workspace="$PWD"/../../..
 system="$1"
 
 gplv3_chunks="\
@@ -87,10 +87,10 @@ repos=`for stratum in $strata; do
 
 for repo in $repos; do
     if ! (echo $gplv3_repos | grep -wq "$repo") && \
-            [ -d "$workspace/upstream:$repo" ] ; then
+            [ -d "$workspace/upstream/$repo" ] ; then
         echo "$repo"
-        perl licensecheck.pl -r "$workspace/upstream:$repo" | \
-            cut -d: -f4- | sort -u
+        perl licensecheck.pl -r "$workspace/upstream/$repo" | \
+            cut -d: -f2- | sort -u
         echo
     fi
 done
