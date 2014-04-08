@@ -71,6 +71,7 @@ log-max = 100M
 cachedir = /srv/distbuild
 tempdir = /srv/distbuild/tmp
 trove-host = $TROVE_ID
+trove-id = $TROVE_ID
 controller-initiator-address = $CONTROLLERHOST
 tempdir-min-space = 0
 cachedir-min-space = 0
