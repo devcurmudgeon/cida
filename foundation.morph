@@ -30,11 +30,6 @@ chunks:
   ref: 77d4586cc47e8f4c02278afbc220145bba0d442b
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: sqlite3
-  repo: upstream:sqlite3
-  ref: f6c2a9fe49d20654c2c41844d056033692a223b7
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: libusbx
   repo: upstream:libusbx
   ref: 7ec94a45ed8155e7a1d4d5d75575099b09c78834

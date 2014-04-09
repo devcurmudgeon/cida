@@ -5,6 +5,11 @@ description: Core components of a Baserock base system that are build tools requ
 build-depends:
 - morph: build-essential
 chunks:
+- name: sqlite3
+  repo: upstream:sqlite3
+  ref: f6c2a9fe49d20654c2c41844d056033692a223b7
+  unpetrify-ref: baserock/morph
+  build-depends: []
 - name: cmake
   repo: upstream:cmake
   ref: 7f9a761e761046a479fda38ee13f5dacd94ceeea
@@ -102,6 +107,7 @@ chunks:
   build-depends:
   - openssl-new
   - bzip2
+  - sqlite3
 - name: libtool
   repo: upstream:libtool
   ref: d388b7f2dc628b22006025d01179bc09b8aabe81
