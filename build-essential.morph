@@ -184,7 +184,7 @@ chunks:
   prefix: /usr
 - name: eglibc
   repo: upstream:eglibc2
-  ref: baserock/richardmaw/S10786-finer-splitting-v2
+  ref: e57ce33023d37183847a0c2f692645887691576a
   unpetrify-ref: baserock/2.15-build-essential
   build-depends:
   - stage2-binutils
@@ -205,7 +205,7 @@ chunks:
   prefix: /usr
 - name: zlib
   repo: upstream:zlib
-  ref: baserock/richardmaw/S10786-finer-splitting
+  ref: db333af7e9b90a23fd7f9cd8dc128123b34bf698
   unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
@@ -276,7 +276,7 @@ chunks:
   prefix: /usr
 - name: gcc
   repo: upstream:gcc-tarball
-  ref: baserock/richardmaw/S10786-finer-splitting
+  ref: 088b7ab28fe53b198ec5c4eaba0f54176c4c35a0
   unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
