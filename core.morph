@@ -91,8 +91,8 @@ chunks:
   - m4
 - name: openssl-new
   repo: upstream:openssl-new
-  ref: 2bee25a915c2ba40e58229788aabc97765426016
-  unpetrify-ref: baserock/morph
+  ref: e691010325922fe85950e3fd29484ca11ec83f44
+  unpetrify-ref: baserock/OpenSSL_1_0_2-stable
   build-depends:
   - perl
 - name: bzip2
