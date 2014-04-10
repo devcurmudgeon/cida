@@ -122,6 +122,15 @@ chunks:
   - autoconf
   - automake
   - libtool
+- name: xz
+  repo: upstream:xz
+  ref: 581deedf9d1eadcd84c4fcd23b9fdfe2dde18cc2
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - autoconf
+  - automake
+  - gettext
+  - libtool
 - name: libxml2
   repo: upstream:libxml2
   ref: ee8f1d4cda8dc1a6f2c515fe234f7bc89cdc9f80
@@ -131,6 +140,7 @@ chunks:
   - automake
   - cpython
   - libtool
+  - xz
 - name: curl
   repo: upstream:curl
   ref: 3c835adc9fe20f7b34df3f0abd4db6ff8b75bc3b
@@ -205,15 +215,6 @@ chunks:
   - git
   - libtool
   - pkg-config
-- name: xz
-  repo: upstream:xz
-  ref: 581deedf9d1eadcd84c4fcd23b9fdfe2dde18cc2
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - autoconf
-  - automake
-  - gettext
-  - libtool
 - name: nano
   repo: upstream:nano-tarball
   ref: 8b74abeb02c01ddc768c465a826360cf33cec063
