@@ -17,11 +17,16 @@
 '''Preparatory checks for Morph 'kvm' write extension'''
 
 import cliapp
+import re
+import urlparse
 
 import morphlib.writeexts
 
 
 class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
+
+    location_pattern = '^/(?P<guest>[^/]+)(?P<path>/.+)$'
+
     def process_args(self, args):
         if len(args) != 1:
             raise cliapp.AppException('Wrong number of command line args')
@@ -31,5 +36,29 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException(
                 'Use the `ssh-rsync` write extension to deploy upgrades to an '
                 'existing remote system.')
+
+        location = args[0]
+        ssh_host, vm_name, vm_path = self.check_and_parse_location(location)
+
+        try:
+            cliapp.ssh_runcmd(ssh_host, ['true'])
+        except cliapp.AppException:
+            raise cliapp.AppException('Unable to SSH to %s' % ssh_host)
+
+    def check_and_parse_location(self, location):
+        '''Check and parse the location argument to get relevant data.'''
+
+        x = urlparse.urlparse(location)
+
+        if x.scheme != 'kvm+ssh':
+            raise cliapp.AppException(
+                'URL schema must be kvm+ssh in %s' % location)
+
+        m = re.match(self.location_pattern, x.path)
+        if not m:
+            raise cliapp.AppException('Cannot parse location %s' % location)
+
+        return x.netloc, m.group('guest'), m.group('path')
+
 
 KvmPlusSshCheckExtension().run()

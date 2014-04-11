@@ -50,6 +50,8 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
     
     '''
 
+    location_pattern = '^/(?P<guest>[^/]+)(?P<path>/.+)$'
+
     def process_args(self, args):
         if len(args) != 2:
             raise cliapp.AppException('Wrong number of command line args')
@@ -79,14 +81,9 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
     def parse_location(self, location):
         '''Parse the location argument to get relevant data.'''
-        
+
         x = urlparse.urlparse(location)
-        if x.scheme != 'kvm+ssh':
-            raise cliapp.AppException(
-                'URL schema must be vbox+ssh in %s' % location)
         m = re.match('^/(?P<guest>[^/]+)(?P<path>/.+)$', x.path)
-        if not m:
-            raise cliapp.AppException('Cannot parse location %s' % location)
         return x.netloc, m.group('guest'), m.group('path')
 
     def transfer(self, raw_disk, ssh_host, vm_path):
