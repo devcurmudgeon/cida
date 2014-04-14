@@ -56,12 +56,7 @@ class NFSBootCheckExtension(morphlib.writeexts.WriteExtension):
                 version_label, location))
 
     def test_good_server(self, server):
-        # Can be ssh'ed into
-        try:
-            cliapp.ssh_runcmd('root@%s' % server, ['true'])
-        except cliapp.AppException:
-            raise cliapp.AppException('You are unable to ssh into server %s'
-                                      % server)
+        self.check_ssh_connectivity(server)
 
         # Is an NFS server
         try:

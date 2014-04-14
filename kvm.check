@@ -40,10 +40,7 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
         location = args[0]
         ssh_host, vm_name, vm_path = self.check_and_parse_location(location)
 
-        try:
-            cliapp.ssh_runcmd(ssh_host, ['true'])
-        except cliapp.AppException:
-            raise cliapp.AppException('Unable to SSH to %s' % ssh_host)
+        self.check_ssh_connectivity(ssh_host)
 
     def check_and_parse_location(self, location):
         '''Check and parse the location argument to get relevant data.'''
