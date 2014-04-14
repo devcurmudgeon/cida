@@ -15,6 +15,7 @@
 
 
 import cliapp
+import logging
 import os
 import re
 import shutil
@@ -417,3 +418,11 @@ class WriteExtension(cliapp.Application):
         else:
             raise cliapp.AppException('Unexpected value for %s: %s' %
                                       (variable, value))
+
+    def check_ssh_connectivity(self, ssh_host):
+        try:
+            cliapp.ssh_runcmd(ssh_host, ['true'])
+        except cliapp.AppException as e:
+            logging.error("Error checking SSH connectivity: %s", str(e))
+            raise cliapp.AppException(
+                'Unable to SSH to %s: %s' % (ssh_host, e))
