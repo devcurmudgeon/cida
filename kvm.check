@@ -41,6 +41,8 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
         ssh_host, vm_name, vm_path = self.check_and_parse_location(location)
 
         self.check_ssh_connectivity(ssh_host)
+        self.check_no_existing_libvirt_vm(ssh_host, vm_name)
+        self.check_extra_disks_exist(ssh_host, self.parse_attach_disks())
 
     def check_and_parse_location(self, location):
         '''Check and parse the location argument to get relevant data.'''
@@ -57,5 +59,24 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
 
         return x.netloc, m.group('guest'), m.group('path')
 
+    def check_no_existing_libvirt_vm(self, ssh_host, vm_name):
+        try:
+            cliapp.ssh_runcmd(ssh_host,
+                ['virsh', '--connect', 'qemu:///system', 'domstate', vm_name])
+        except cliapp.AppException as e:
+            pass
+        else:
+            raise cliapp.AppException(
+                'Host %s already has a VM named %s. You can use the ssh-rsync '
+                'write extension to deploy upgrades to existing machines.' %
+                (ssh_host, vm_name))
+
+    def check_extra_disks_exist(self, ssh_host, filename_list):
+        for filename in filename_list:
+            try:
+                cliapp.ssh_runcmd(ssh_host, ['ls', filename])
+            except cliapp.AppException as e:
+                raise cliapp.AppException('Did not find file %s on host %s' %
+                                          (filename, ssh_host))
 
 KvmPlusSshCheckExtension().run()
