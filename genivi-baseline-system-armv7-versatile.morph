@@ -19,8 +19,6 @@ strata:
 - morph: connectivity
 - morph: audio-bluetooth
 - morph: x-common
-- morph: x-armv7-versatile
 - morph: multimedia
 - morph: genivi
-- morph: genivi-x-armv7-versatile
 - morph: wayland-armv7-versatile
