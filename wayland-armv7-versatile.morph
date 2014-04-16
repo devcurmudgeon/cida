@@ -16,8 +16,8 @@ chunks:
   - libxkbcommon
 - name: mesa-wayland
   repo: upstream:mesa
-  ref: e96f3daac78e3971e4500a31e72c0a7e5845c3d1
-  unpetrify-ref: baserock/genivi/baseline-armv7-versatile
+  ref: e51e5d4f9875e9a970d7560c6ac0bfed933facc5
+  unpetrify-ref: baserock/arm/10.0.4-gallium
   build-depends:
   - wayland
 - name: pixman
@@ -25,11 +25,29 @@ chunks:
   ref: 958bd334b3c17f529c80f2eeef4224f45c62f292
   unpetrify-ref: baserock/morph
   build-depends: []
+- name: freetype2
+  repo: upstream:freetype2
+  ref: 2ba18ba1ce730ed79672801b20f986f10a628c95
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: fontconfig
+  repo: upstream:fontconfig
+  ref: 72b0480a21958f0f8c115d8e0a5bfbd8d358b5c3
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - freetype2
+- name: freefont-otf
+  repo: upstream:freefont-otf
+  ref: 0ca3ccce74e81f7feb6e922edd988be0e1a43f05
+  unpetrify-ref: baserock/morph
+  build-depends: []
 - name: cairo
   repo: upstream:cairo
-  ref: 86fd783959c537b8c0fd49fd979881178ca9a24e
-  unpetrify-ref: baserock/genivi/baseline
+  ref: c373daa9d4bade91b3fc8b7850163db4b3aec40a
+  unpetrify-ref: baserock/genivi/1.12.10
   build-depends:
+  - fontconfig
+  - freetype2
   - wayland
   - mesa-wayland
   - pixman
@@ -74,11 +92,30 @@ chunks:
   - mtdev
   - libevdev
   - linux-api-headers
+- name: harfbuzz
+  repo: upstream:harfbuzz
+  ref: 09b5393874e56fcfd63a92d28e6c1c2ddeee0942
+  unpetrify-ref: baserock/0.9.12
+  build-depends:
+  - freetype2
+- name: pango
+  repo: upstream:pango
+  ref: f8b1566e81af9e36ac018af4f0ae85ee7db4b8fd
+  unpetrify-ref: baserock/1.36.3
+  build-depends:
+  - cairo
+  - harfbuzz
+  - fontconfig
+  - freetype2
+  - freefont-otf
 - name: weston
   repo: upstream:weston
-  ref: e2136e1f2494c2c1732f0afeba9a7050bdd48e42
-  unpetrify-ref: baserock/genivi/baseline
+  ref: 74f7c94c9186f8fc9ea8f50ab5d5f805d679d05f
+  unpetrify-ref: baserock/weston-ivi-shell-1.4.0-v12
   build-depends:
+  - pango
+  - pixman
+  - libxkbcommon
   - wayland
   - mesa-wayland
   - libinput
