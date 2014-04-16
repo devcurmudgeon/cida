@@ -65,7 +65,7 @@ chunks:
   - lua
 - name: gitano
   repo: upstream:gitano/gitano
-  ref: 77266b3ec2efec51f0a3246cbad70a4f15835958
+  ref: d5a76a5caf51d12c811317ac6e376942b7633770
   unpetrify-ref: baserock/morph
   build-depends:
   - lua
