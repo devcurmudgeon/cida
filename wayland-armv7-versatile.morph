@@ -120,3 +120,10 @@ chunks:
   - mesa-wayland
   - libinput
   - cairo
+- name: wayland-ivi-extension
+  repo: upstream:genivi/wayland-ivi-extension
+  ref: 04485758e5aa78f7c7eb548fd117b2001dc416e6
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends:
+  - wayland
+  - weston
