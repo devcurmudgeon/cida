@@ -11,7 +11,7 @@ chunks:
   build-depends: []
 - name: morph-cache-server
   repo: baserock:baserock/morph-cache-server
-  ref: cc5f95fa563c4817cdcffc428da18e263bd02ae2
+  ref: acefe33868585cf31cda53474a3004da42e00896
   unpetrify-ref: master
   build-depends: []
 - name: lua
