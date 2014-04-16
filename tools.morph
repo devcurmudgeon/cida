@@ -92,7 +92,7 @@ chunks:
   - six
 - name: morph
   repo: baserock:baserock/morph
-  ref: 78b46a60a5d482f0c302c83b200157cdb25730ca
+  ref: 922d3c154e7e8e17b1e0d40e18a675f4862456ab
   unpetrify-ref: master
   build-depends:
   - cliapp
