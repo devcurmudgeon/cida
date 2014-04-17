@@ -60,7 +60,6 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
             for artifact in artifacts.split():
                 self.remove_chunk(target_root, artifact, chunk[1])
 
-        os.remove(os.path.join(target_root, 'usr', 'bin', 'awk'))
         os.symlink(os.path.join(os.sep, 'bin', 'busybox'),
                    os.path.join(target_root, 'usr', 'bin', 'awk'))
 
