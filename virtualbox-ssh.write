@@ -116,7 +116,7 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         # comparing against the major, minor and patch numbers directly
         self.status(msg='Checking version of remote VirtualBox')
         build_id = cliapp.ssh_runcmd(ssh_host, ['VBoxManage', '--version'])
-        version_string = re.match(r"^([0-9\.])+.*$", build_id.strip()).group(1)
+        version_string = re.match(r"^([0-9\.]+).*$", build_id.strip()).group(1)
         return tuple(int(s or '0') for s in version_string.split('.'))
 
     def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path, autostart):
@@ -130,7 +130,7 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
         hostonly_iface = self.get_host_interface(ssh_host)
 
-        if self.virtualbox_version(ssh_host) < (4, 3):
+        if self.virtualbox_version(ssh_host) < (4, 3, 0):
             sataportcount_option = '--sataportcount'
         else:
             sataportcount_option = '--portcount'
