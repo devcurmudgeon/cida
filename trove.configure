@@ -29,6 +29,7 @@
 #   * TROVE_ADMIN_EMAIL
 #   * TROVE_ADMIN_NAME
 #   * TROVE_ADMIN_SSH_PUBKEY
+#   * LORRY_CONTROLLER_MINIONS (optional, defaults to 4)
 #
 # The configuration of a Trove is slightly tricky: part of it has to
 # be run on the configured system after it has booted. We accomplish
@@ -66,6 +67,7 @@ s/##TROVE_COMPANY##/$TROVE_COMPANY/g
 s/##TROVE_LOG_PREFIX##/$TROVE_ID/g
 s/##ESC_PERSONAL_PREFIX##/people/g
 s/##PREFIX##/$TROVE_ID/g
+s/##UPSTREAM_TROVE##/$UPSTREAM_TROVE/g
 ## The same prefix as above, only lua-pattern-escaped
 s/##ESC_PREFIX##/$(lua_escape "$TROVE_ID")/g
 EOF
@@ -100,8 +102,41 @@ EOF
 
 # create a symlink in /var/www/htdocs to what will be the rsync area of
 # the releases repository
+echo "Symlink rsync releases in htdocs"
 ln -s "/home/git/repos/$TROVE_ID/site/releases.git/rsync" \
     "$ROOT/var/www/htdocs/releases"
+
+
+##########################################################################
+
+echo "Create Lorry Controller config"
+install -d "$ROOT/etc/lorry-controller"
+cat <<EOF > "$ROOT/etc/lorry-controller/webapp.conf"
+[config]
+log = /home/lorry/webapp.log
+log-max = 100M
+log-keep = 10
+log-level = debug
+statedb = /home/lorry/webapp.db
+configuration-directory = /home/lorry/confgit
+status-html = /home/lorry/lc-status.html
+wsgi = yes
+debug-port = 12765
+templates = /usr/share/lorry-controller/templates
+confgit-url = ssh://git@localhost/$TROVE_ID/local-config/lorries
+EOF
+
+
+echo "Set up Lorry Controller MINIONs"
+UNITS="$ROOT/usr/lib/systemd/system"
+seq "${LORRY_CONTROLLER_MINIONS:-4}" |
+while read i
+do
+    ln -s "../lorry-controller-minion@.service" \
+        "$UNITS/multi-user.target.wants/lorry-controller-minion@$i.service"
+done
+
+
 
 ##########################################################################
 # Configuration of trove-early-setup
