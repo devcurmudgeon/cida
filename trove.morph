@@ -163,7 +163,7 @@ chunks:
   build-depends: []
 - name: lorry
   repo: baserock:baserock/lorry
-  ref: 5afef32028fbcacb7acc3d0318407169dd2353de
+  ref: ede3f337e9769b0e6756d4b9cc37d33aa62b82ba
   unpetrify-ref: master
   build-depends:
   - bzr-tarball
@@ -178,12 +178,12 @@ chunks:
   - hg-fast-export
 - name: trove-setup
   repo: baserock:baserock/trove-setup
-  ref: 56b4fc537662d8d42f366b5cb5be0eada79d8d56
+  ref: eafba37e2bfc3897e3e7f65f2ce087fbee358f43
   unpetrify-ref: master
   build-depends: []
 - name: lorry-controller
   repo: baserock:baserock/lorry-controller
-  ref: 627c50633977804e6a10bafad81e72ae376b1cf6
+  ref: 5e2584a7936af5413588232be1f0df7b4cef18c1
   unpetrify-ref: master
   build-depends: []
 - name: lighttpd
