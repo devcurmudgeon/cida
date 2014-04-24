@@ -46,8 +46,7 @@ chunks:
   prefix: /tools
 - name: stage1-gcc
   repo: upstream:gcc-tarball
-  ref: dd78b627480ed8d3c135271cd627096ae76fa5fc
-  unpetrify-ref: baserock/build-essential
+  ref: baserock/sam/gcc-4.6-fixed-for-4.7
   build-depends:
   - stage1-binutils
   build-mode: bootstrap
@@ -83,8 +82,7 @@ chunks:
   prefix: /tools
 - name: stage2-gcc-fixed-headers
   repo: upstream:gcc-tarball
-  ref: dd78b627480ed8d3c135271cd627096ae76fa5fc
-  unpetrify-ref: baserock/build-essential
+  ref: baserock/sam/gcc-4.6-fixed-for-4.7
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -93,8 +91,7 @@ chunks:
   prefix: /tools
 - name: stage2-gcc
   repo: upstream:gcc-tarball
-  ref: dd78b627480ed8d3c135271cd627096ae76fa5fc
-  unpetrify-ref: baserock/build-essential
+  ref: baserock/sam/gcc-4.6-fixed-for-4.7
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -276,8 +273,7 @@ chunks:
   prefix: /usr
 - name: gcc
   repo: upstream:gcc-tarball
-  ref: 088b7ab28fe53b198ec5c4eaba0f54176c4c35a0
-  unpetrify-ref: baserock/build-essential
+  ref: baserock/sam/gcc-4.7
   build-depends:
   - stage2-binutils
   - stage2-busybox

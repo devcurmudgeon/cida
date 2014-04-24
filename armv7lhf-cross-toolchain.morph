@@ -16,8 +16,7 @@ chunks:
   build-depends: []
 - name: armv7lhf-cross-gcc-nolibc
   repo: upstream:gcc-tarball
-  ref: dd78b627480ed8d3c135271cd627096ae76fa5fc
-  unpetrify-ref: baserock/build-essential
+  ref: baserock/sam/gcc-4.6-fixed-for-4.7
   build-depends:
   - armv7lhf-cross-binutils
 - name: armv7lhf-cross-eglibc
@@ -30,8 +29,7 @@ chunks:
   - armv7lhf-cross-linux-api-headers
 - name: armv7lhf-cross-gcc
   repo: upstream:gcc-tarball
-  ref: dd78b627480ed8d3c135271cd627096ae76fa5fc
-  unpetrify-ref: baserock/build-essential
+  ref: baserock/sam/gcc-4.7
   build-depends:
   - armv7lhf-cross-binutils
   - armv7lhf-cross-eglibc
