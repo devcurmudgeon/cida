@@ -32,8 +32,8 @@ chunks:
   build-depends: []
 - name: bluez
   repo: upstream:bluez
-  ref: 9e483337a42f0ddef06cc9ad146c8523f2b08888
-  unpetrify-ref: baserock/v5.17
+  ref: a18201b5321e8b41d2ee7c7bc7285d976fc433e6
+  unpetrify-ref: baserock/v5.17-patched
   build-depends:
   - readline
   - libical
