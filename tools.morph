@@ -51,8 +51,7 @@ chunks:
   build-depends: []
 - name: distcc
   repo: upstream:distcc
-  ref: 2f422c03925e82bf88b05da823813073a985b0e5
-  unpetrify-ref: baserock/morph
+  ref: baserock/sam/gcc-4.7
   build-depends: []
 - name: e2fsprogs
   repo: upstream:e2fsprogs
