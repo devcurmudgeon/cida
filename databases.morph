@@ -1,0 +1,27 @@
+name: databases
+kind: stratum
+description: some popular databases
+build-depends:
+- morph: tools
+- morph: nfs
+chunks:
+- name: readline
+  repo: upstream:readline
+  ref: 7628b745a813aac53586b640da056a975f1c443e
+  unpetrify-ref: readline-6.3
+  build-depends: []
+- name: postgresql
+  repo: upstream:postgresql
+  ref: d4f8dde3c1c2c90c723ab550e7f449fc75599316
+  unpetrify-ref: REL9_3_4
+  build-depends:
+  - readline
+- name: redis
+  repo: upstream:redis
+  ref: baserock/3.0
+  build-depends: []
+- name: memcached
+  repo: upstream:memcached
+  ref: d8b1047620a54443f6bdca7f0dc5ee3b4d99378e
+  unpetrify-ref: master
+  build-depends: []
