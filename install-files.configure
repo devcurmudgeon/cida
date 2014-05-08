@@ -33,34 +33,6 @@ import stat
 
 class InstallFilesConfigureExtension(cliapp.Application):
 
-    '''Install the files specified in the manifests listed in INSTALL_FILES
-
-    Entries in the manifest are formatted as:
-
-        [overwrite] <octal mode> <uid decimal> <gid decimal> <filename>
-
-    Where the filename is how the file is found inside whatever directory
-    the manifest is stored in, and also the path within the system to
-    install to.
-
-    Directories on the target must be created if they do not exist.
-    
-    This extension supports files, symlinks and directories.
-
-    For example,
-
-        0100644 0 0 /etc/issue
-
-        creates a regular file at /etc/issue with 644 permissions,
-        uid 0 and gid 0, if the file doesn't already exist.
-
-        overwrite 0100644 0 0 /etc/issue
-
-        creates a regular file at /etc/issue with 644 permissions,
-        uid 0 and gid 0, if the file already exists it is overwritten.
-
-    '''
-
     def process_args(self, args):
         if not 'INSTALL_FILES' in os.environ:
             return
