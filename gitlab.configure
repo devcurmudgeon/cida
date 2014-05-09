@@ -1,0 +1,84 @@
+#!/bin/sh
+#
+# Copyright (C) 2014 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# This is a "morph deploy" configuration extension to fully configure
+# a GitLab and GitLab CI instance at deployment time. It uses the 
+# following variables from the environment:
+#
+#   * GITLAB_HOSTNAME
+#   * GITLAB_PORT
+#   * GITLAB_EMAIL
+#   * UNICORN_PORT
+#   * CI_PORT
+#   * UNICORN_CI_PORT
+
+set -e
+
+ROOT="$1"
+
+
+##########################################################################
+# Substitutions in configuration files
+##########################################################################
+
+echo "Creating /etc/gitlab-setup.sed"
+
+cat <<EOF > "$ROOT"/etc/gitlab-setup.sed
+s/##GITLAB_HOSTNAME##/$GITLAB_HOSTNAME/g
+s/##GITLAB_PORT##/$GITLAB_PORT/g
+s/##GITLAB_EMAIL##/$GITLAB_EMAIL/g
+s/##UNICORN_PORT##/$UNICORN_PORT/g
+s/##CI_PORT##/$CI_PORT/g
+s/##UNICORN_CI_PORT##/$UNICORN_CI_PORT/g
+EOF
+
+echo "Performing substitutions in /usr/share/gitlab config"
+
+sed -f "$ROOT"/etc/gitlab-setup.sed -i \
+    "$ROOT"/usr/share/gitlab-install/gitlab/config/gitlab.yml \
+    "$ROOT"/usr/share/gitlab-install/gitlab/config/unicorn.rb \
+    "$ROOT"/usr/share/gitlab-install/gitlab/lib/support/nginx/gitlab \
+    "$ROOT"/usr/share/gitlab-install/gitlab-shell/config.yml \
+    "$ROOT"/usr/share/gitlab-install/gitlab-ci/config/application.yml \
+    "$ROOT"/usr/share/gitlab-install/gitlab-ci/config/unicorn.rb \
+    "$ROOT"/usr/share/gitlab-install/gitlab-ci/lib/support/nginx/gitlab_ci \
+    "$ROOT"/usr/share/gitlab-install/nginx.conf
+
+##########################################################################
+
+echo "Create gitlab-setup unit file"
+cat <<EOF > "$ROOT/etc/systemd/system/gitlab-setup.service"
+[Unit]
+Description=Run gitlab-setup (once)
+Requires=network.target
+After=network.target
+Requires=local-fs.target
+After=local-fs.target
+
+ConditionPathExists=!/home/git/gitlab
+
+[Service]
+Type=oneshot
+ExecStart=/usr/share/gitlab-setup
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+ln -s "/etc/systemd/system/gitlab-setup.service" \
+    "$ROOT/etc/systemd/system/multi-user.target.wants/gitlab-setup.service"
