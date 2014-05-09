@@ -12,7 +12,7 @@ chunks:
   build-depends: []
 - name: cmake
   repo: upstream:cmake
-  ref: 7f9a761e761046a479fda38ee13f5dacd94ceeea
+  ref: 99c4f0a49237633372f218a44e3503e0a2bddae6
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: gdbm
