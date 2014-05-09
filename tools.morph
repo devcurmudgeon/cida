@@ -51,7 +51,7 @@ chunks:
   build-depends: []
 - name: distcc
   repo: upstream:distcc
-  ref: 2f422c03925e82bf88b05da823813073a985b0e5
+  ref: c9691a9604fdf9d6711204999787d332b7141692
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: e2fsprogs
@@ -92,7 +92,7 @@ chunks:
   - six
 - name: morph
   repo: baserock:baserock/morph
-  ref: 2c682e6192b86eccaa869c23d82cde81b4ea42d4
+  ref: 9ea146fdcfbe9b93b297165b1b5222e1eadb9d23
   unpetrify-ref: master
   build-depends:
   - cliapp

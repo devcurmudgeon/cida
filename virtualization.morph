@@ -27,7 +27,7 @@ chunks:
   - lvm2
 - name: qemu
   repo: upstream:qemu
-  ref: 5e4eac434b4ff85af2a8821cce8a4ef2b12d8e5e
+  ref: f8d1fb61e65575011a67d7ba97b690feb5630c91
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: xorg-util-macros
