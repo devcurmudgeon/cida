@@ -23,4 +23,4 @@ strata:
 - morph: genivi
 - morph: genivi-x-ppc64-generic
 - morph: tools
-- morph: glanceclient
+- morph: openstack-clients

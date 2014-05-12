@@ -1,6 +1,6 @@
-name: glanceclient
+name: openstack-clients
 kind: stratum
-description: A stratum with glanceclient to let the Openstack deployment.
+description: A stratum with OpenStack clients, for OpenStack deployments.
 build-depends:
 - morph: tools
 chunks:
