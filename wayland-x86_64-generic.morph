@@ -110,8 +110,8 @@ chunks:
   - freefont-otf
 - name: weston
   repo: upstream:weston
-  ref: 74f7c94c9186f8fc9ea8f50ab5d5f805d679d05f
-  unpetrify-ref: baserock/weston-ivi-shell-1.4.0-v12
+  ref: 721c0f13ab80eb209983c1d73e168df4ffb70ddc
+  unpetrify-ref: baserock/genivi/weston-ivi-shell-patches
   build-depends:
   - pango
   - wayland
@@ -122,7 +122,7 @@ chunks:
   - libxkbcommon
 - name: wayland-ivi-extension
   repo: upstream:genivi/wayland-ivi-extension
-  ref: 04485758e5aa78f7c7eb548fd117b2001dc416e6
+  ref: 167029fad4d2896491093ee313a663f2f057217e
   unpetrify-ref: baserock/genivi/baseline
   build-depends:
   - wayland
