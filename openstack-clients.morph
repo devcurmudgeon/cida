@@ -101,3 +101,15 @@ chunks:
   - pyopenssl
   - python-keystoneclient
   - warlock
+- name: python-novaclient
+  repo: upstream:python-novaclient
+  ref: 9e4530c79e46d392ed8f3e413bca1acffe022fe6
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - python-prettytable
+  - pbr
+  - argparse
+  - pyiso8601
+  - python-requests
+  - simplejson
+  - babel
