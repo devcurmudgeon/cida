@@ -6,7 +6,7 @@ build-depends:
 chunks:
 - name: six
   repo: upstream:six
-  ref: e0841d716953710ab9bca9d1715a710df9c61ca0
+  ref: e66d45c46afc42eb89d7d2515b79f0ededa0e0fa
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: python-ttystatus
