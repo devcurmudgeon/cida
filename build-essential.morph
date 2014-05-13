@@ -242,7 +242,7 @@ chunks:
   prefix: /usr
 - name: busybox
   repo: upstream:busybox
-  ref: eeb9014f28e3aa00673a0fad127e7420da4392db
+  ref: bf06394ab87ff22662084c82c1821847c25b7f21
   unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
