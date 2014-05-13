@@ -14,4 +14,4 @@ strata:
 - morph: core
 - morph: foundation
 - morph: tools
-- morph: glanceclient
+- morph: openstack-clients
