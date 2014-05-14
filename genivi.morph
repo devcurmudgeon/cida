@@ -6,8 +6,8 @@ build-depends:
 chunks:
 - name: DLT-daemon
   repo: upstream:DLT-daemon
-  ref: 6ab10c022d4464628fc2b848b5a56bf1eaafe857
-  unpetrify-ref: v2.9.1
+  ref: 8b48e73f79b4463393916e4c6696917e3dedd026
+  unpetrify-ref: v2.10.0
   build-depends: []
 - name: node-startup-controller
   repo: upstream:node-startup-controller

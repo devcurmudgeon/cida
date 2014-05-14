@@ -1,4 +1,4 @@
-arch: armv7l
+arch: armv7lhf
 configuration-extensions:
 - set-hostname
 - add-config-files
@@ -9,7 +9,7 @@ configuration-extensions:
 - fstab
 description: A GENIVI baseline system for an ARMv7 system.
 kind: system
-name: genivi-baseline-system-armv7-versatile
+name: genivi-baseline-system-armv7lhf-versatile
 strata:
 - morph: build-essential
 - morph: core
