@@ -7,29 +7,29 @@ systems:
   deploy:
     release:
       type: rawdisk
-      location: /src/release/baserock-13-base-system-x86_32-generic.img
+      location: /src/release/baserock-14.20-base-system-x86_32-generic.img
       DISK_SIZE: 4G
 - morph: devel-system-x86_32-generic
   deploy:
     release:
       type: rawdisk
-      location: /src/release/baserock-13-devel-system-x86_32-generic.img
+      location: /src/release/baserock-14.20-devel-system-x86_32-generic.img
       DISK_SIZE: 4G
 - morph: base-system-x86_64-generic
   deploy:
     release:
       type: rawdisk
-      location: /src/release/baserock-13-base-system-x86_64-generic.img
+      location: /src/release/baserock-14.20-base-system-x86_64-generic.img
       DISK_SIZE: 4G
 - morph: devel-system-x86_64-generic
   deploy:
     release:
       type: rawdisk
-      location: /src/release/baserock-13-devel-system-x86_64-generic.img
+      location: /src/release/baserock-14.20-devel-system-x86_64-generic.img
       DISK_SIZE: 4G
 - morph: genivi-baseline-system-x86_64-generic
   deploy:
     release:
       type: rawdisk
-      location: /src/release/baserock-13-genivi-baseline-system-x86_64-generic.img
+      location: /src/release/baserock-14.20-genivi-baseline-system-x86_64-generic.img
       DISK_SIZE: 4G
