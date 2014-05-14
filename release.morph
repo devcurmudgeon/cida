@@ -3,6 +3,21 @@ kind: cluster
 description: |
   Deploy all the systems for we support in a release.
 systems:
+- morph: devel-system-armv7lhf-highbank
+  deploy:
+    release:
+      type: tar
+      location: /src/release/baserock-14.20-devel-system-armv7lhf-highbank.tar
+- morph: genivi-baseline-system-armv7lhf-versatile
+  deploy:
+    # NOTE: to fully deploy this system requires fishing in the artifact cache
+    # for the kernel artifact. We should fix deployment to do extract the
+    # kernel artifact for us.
+    release:
+      type: rawdisk
+      location: /src/release/baserock-14.20-genivi-baseline-system-armv7lhf-versatile.img
+      DISK_SIZE: 4G
+      FSTAB_ROOT: /dev/mmcblk0 / btrfs default,rw,noatime 0 1
 - morph: base-system-x86_32-generic
   deploy:
     release:
