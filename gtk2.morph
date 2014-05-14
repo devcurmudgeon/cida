@@ -58,8 +58,8 @@ chunks:
   build-depends: []
 - name: colm
   repo: upstream:colm
-  ref: fc633086748169632e93b945259197ba46f27695
-  unpetrify-ref: master
+  ref: 746b80d9b15dceca54dff43123d56ffcb6e42f06
+  unpetrify-ref: 0.11.1
   build-depends: []
 - name: ragel
   repo: upstream:ragel
