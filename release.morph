@@ -18,6 +18,11 @@ systems:
       location: /src/release/baserock-14.20-genivi-baseline-system-armv7lhf-versatile.img
       DISK_SIZE: 4G
       FSTAB_ROOT: /dev/mmcblk0 / btrfs default,rw,noatime 0 1
+- morph: devel-system-x86_32-chroot
+  deploy:
+    release:
+      type: tar
+      location: /src/release/baserock-14.20-devel-system-x86_32-chroot.tar
 - morph: base-system-x86_32-generic
   deploy:
     release:
