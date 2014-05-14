@@ -3,31 +3,6 @@ kind: cluster
 description: |
   Deploy all the systems for we support in a release.
 systems:
-- morph: base-system-armv7-highbank
-  deploy:
-    as-tar:
-      type: tar
-      location: /src/release/baserock-13-base-system-armv7-highbank.tar
-- morph: devel-system-armv7-highbank
-  deploy:
-    as-tar:
-      type: tar
-      location: /src/release/baserock-13-devel-system-armv7-highbank.tar
-- morph: base-system-armv7b-highbank
-  deploy:
-    as-tar:
-      type: tar
-      location: /src/release/baserock-13-base-system-armv7b-highbank.tar
-- morph: devel-system-armv7b-highbank
-  deploy:
-    as-tar:
-      type: tar
-      location: /src/release/baserock-13-devel-system-armv7b-highbank.tar
-- morph: devel-system-armv7-wandboard
-  deploy:
-    release:
-      type: tar
-      location: /src/release/baserock-13-devel-system-armv7-wandboard.tar
 - morph: base-system-x86_32-generic
   deploy:
     release:
