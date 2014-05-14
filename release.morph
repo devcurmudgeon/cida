@@ -38,6 +38,11 @@ systems:
       location: /src/release/baserock-14.20-devel-system-x86_32-generic.img
       DISK_SIZE: 4G
       VERSION_LABEL: baserock-14.20
+- morph: devel-system-x86_64-chroot
+  deploy:
+    release:
+      type: tar
+      location: /src/release/baserock-14.20-devel-system-x86_64-chroot.tar
 - morph: base-system-x86_64-generic
   deploy:
     release:
