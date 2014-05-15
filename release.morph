@@ -11,8 +11,8 @@ systems:
 - morph: genivi-baseline-system-armv7lhf-versatile
   deploy:
     # NOTE: to fully deploy this system requires fishing in the artifact cache
-    # for the kernel artifact. We should fix deployment to do extract the
-    # kernel artifact for us.
+    # for the kernel artifact. We should fix deployment to extract the kernel
+    # artifact for us.
     release:
       type: rawdisk
       location: /src/release/baserock-14.20-genivi-baseline-system-armv7lhf-versatile.img
