@@ -121,7 +121,8 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         version_string = re.match(r"^([0-9\.]+).*$", build_id.strip()).group(1)
         return tuple(int(s or '0') for s in version_string.split('.'))
 
-    def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path, autostart, vagrant):
+    def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path, autostart,
+                                vagrant):
         '''Create the VirtualBox virtual machine.'''
 
         self.status(msg='Create VirtualBox virtual machine')
