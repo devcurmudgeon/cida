@@ -281,7 +281,7 @@ class WriteExtension(cliapp.Application):
             self.status(msg='Moving existing data to %s subvolume' % subvolume)
         for filename in files:
             filepath = os.path.join(existing_state_dir, filename)
-            shutil.move(filepath, subvolume)
+            cliapp.runcmd(['mv', filepath, subvolume])
 
     def complete_fstab_for_btrfs_layout(self, system_dir):
         '''Fill in /etc/fstab entries for the default Btrfs disk layout.
