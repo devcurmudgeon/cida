@@ -1,0 +1,104 @@
+#!/bin/sh
+#
+# Copyright (C) 2014 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+set -e
+
+# install bundler (not nice, we need to figure out how to do this traceably)
+gem install bundler
+
+# create required users
+adduser -D --gecos 'GitLab' -s /bin/sh git
+adduser -D -s /bin/sh postgres
+adduser -D --gecos 'GitLab CI' -s /bin/sh gitlab_ci
+
+# initialize postgres database, start server
+su -c "mkdir -p pgsql/data" - postgres
+su -c "pg_ctl -D pgsql/data initdb" - postgres
+su -c "pg_ctl -D pgsql/data -l logfile start" - postgres
+
+# wait for the database server to start
+echo "Waiting for database..."
+sleep 2s
+
+# create gitlab database
+su -c "psql -d template1 -c 'CREATE USER git;'" - postgres
+su -c "psql -d template1 -c 'CREATE DATABASE gitlabhq_production OWNER git;'" - postgres
+
+# create the gitlab ci database
+su -c "psql -d template1 -c 'CREATE USER gitlab_ci;'" - postgres
+su -c "psql -d template1 -c 'CREATE DATABASE gitlab_ci_production OWNER gitlab_ci;'" - postgres
+
+# set up git config for gitlab user
+su -c "git config --global http.sslVerify false" - git
+su -c "git config --global user.name 'GitLab'" - git
+su -c "git config --global user.email 'gitlab@localhost'" - git
+su -c "git config --global core.autocrlf input" - git
+
+# install gitlab shell
+su -c "git clone https://gitlab.com/gitlab-org/gitlab-shell.git -b v1.9.3 ~/gitlab-shell" - git
+cd /home/git/gitlab-shell
+cp /usr/share/gitlab-install/gitlab-shell/config.yml ./config.yml
+su -c "~/gitlab-shell/bin/install" - git
+
+# install gitlab
+su -c "git clone https://gitlab.com/gitlab-org/gitlab-ce.git -b 6-8-stable ~/gitlab" - git
+cd /home/git/gitlab
+su -c "cp config/database.yml.postgresql config/database.yml" git
+su -c "cp -r /usr/share/gitlab-install/gitlab/config/* config/" git
+
+su -c "chmod -R u+rwX log/" git
+su -c "chmod -R u+rwX tmp/" git
+su -c "chmod o-rwx config/database.yml" git
+
+su -c "/usr/bin/redis-server" - git & 
+su -c "bundle install --deployment --without development test mysql aws" git
+su -c "export force='yes'; bundle exec rake gitlab:setup RAILS_ENV=production" git
+su -c "bundle exec rake assets:precompile RAILS_ENV=production" git
+
+# set up git config for gitlab_ci user
+su -c "git config --global http.sslVerify false" - gitlab_ci
+su -c "git config --global user.name 'GitLab CI'" - gitlab_ci
+su -c "git config --global user.email 'gitlab_ci@localhost'" - gitlab_ci
+su -c "git config --global core.autocrlf input" - gitlab_ci
+
+# install gitlab ci
+su -c "git clone https://gitlab.com/gitlab-org/gitlab-ci.git -b 5-0-stable" - gitlab_ci
+cd /home/gitlab_ci/gitlab-ci
+su -c "cp config/database.yml.postgresql config/database.yml" gitlab_ci
+su -c "cp -r /usr/share/gitlab-install/gitlab-ci/config/* config/" gitlab_ci
+
+su -c "mkdir -p tmp/sockets" gitlab_ci
+su -c "mkdir -p tmp/pids" gitlab_ci
+su -c "chmod -R u+rwx tmp/sockets" gitlab_ci
+su -c "chmod -R u+rwx tmp/pids" gitlab_ci
+
+su -c "bundle install --without development test mysql --deployment" gitlab_ci
+su -c "bundle exec rake setup RAILS_ENV=production" gitlab_ci
+su -c "bundle exec whenever -w RAILS_ENV=production" gitlab_ci
+
+# configure nginx
+addgroup nobody
+mkdir -p /var/log/nginx
+cp /usr/share/gitlab-install/gitlab/lib/support/nginx/gitlab /home/git/gitlab/lib/support/nginx/
+cp /usr/share/gitlab-install/gitlab-ci/lib/support/nginx/gitlab_ci /home/gitlab_ci/gitlab-ci/lib/support/nginx/
+cp /usr/share/gitlab-install/nginx.conf /etc/nginx/nginx.conf
+
+# make systemd units to start gitlab and required stuff on boot
+cd /etc/systemd/system
+cp /usr/share/gitlab-install/systemd-units/* .
+systemctl enable redis.service nginx.service postgres.service gitlab.target gitlab-unicorn.service gitlab-sidekiq.service gitlab-ci-sidekiq.service gitlab-ci-unicorn.service
+reboot
