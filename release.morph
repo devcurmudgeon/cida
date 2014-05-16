@@ -3,11 +3,11 @@ kind: cluster
 description: |
   Deploy all the systems for we support in a release.
 systems:
-- morph: devel-system-armv7lhf-highbank
+- morph: devel-system-armv7lhf-wandboard
   deploy:
     release:
       type: tar
-      location: /src/release/baserock-14.20-devel-system-armv7lhf-highbank.tar
+      location: /src/release/baserock-14.20-devel-system-armv7lhf-wandboard.tar
 - morph: genivi-baseline-system-armv7lhf-versatile
   deploy:
     # NOTE: to fully deploy this system requires fishing in the artifact cache
