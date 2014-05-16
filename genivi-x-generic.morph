@@ -1,4 +1,4 @@
-name: genivi-x-ppc64-generic
+name: genivi-x-generic
 kind: stratum
 description: Software components designed by genivi, for genivi.
 build-depends:

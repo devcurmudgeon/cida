@@ -21,7 +21,7 @@ strata:
 - morph: x-generic
 - morph: multimedia
 - morph: genivi
-- morph: genivi-x-x86_64-generic
+- morph: genivi-x-generic
 - morph: tools
 - morph: virtualization
 - morph: openstack-clients
