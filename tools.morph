@@ -92,7 +92,7 @@ chunks:
   - six
 - name: morph
   repo: baserock:baserock/morph
-  ref: 06b61dd0344d8e3bf1039dffc964e1e58556e75d
+  ref: 72e66be042b9fc0457311708445d794a944487ca
   unpetrify-ref: master
   build-depends:
   - cliapp
@@ -147,5 +147,10 @@ chunks:
 - name: device-tree-compiler
   repo: upstream:device-tree-compiler
   ref: c92f284c3cf76d471eb27a271de3a51cb45ed058
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: sudo
+  repo: upstream:sudo
+  ref: a4769dc7999b53260325fb89945bef85714fb338
   unpetrify-ref: baserock/morph
   build-depends: []
