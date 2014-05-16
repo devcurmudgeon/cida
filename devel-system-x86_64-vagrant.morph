@@ -1,0 +1,29 @@
+arch: x86_64
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+- vagrant
+description: A system that is able to build other systems based on the 64-bit x86
+  architecture.  This adds the virtualbox guest additions and vagrant configuration too
+kind: system
+name: devel-system-x86_64-vagrant
+strata:
+- morph: build-essential
+- morph: core
+- morph: foundation
+- morph: genivi-foundation
+- morph: bsp-x86_64-generic
+- morph: connectivity
+- morph: audio-bluetooth
+- morph: x-common
+- morph: x-x86_64-generic
+- morph: multimedia
+- morph: genivi
+- morph: genivi-x-x86_64-generic
+- morph: tools
+- morph: virtualization
+- morph: openstack-clients
+- morph: virtualbox-guest-x86_64
