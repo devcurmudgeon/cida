@@ -4,7 +4,7 @@ description: the gtk2 stratum
 build-depends:
 - morph: genivi-foundation
 - morph: x-common
-- morph: x-x86_64-generic
+- morph: x-generic
 chunks:
 - name: shared-mime-info
   repo: upstream:shared-mime-info

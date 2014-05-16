@@ -17,7 +17,7 @@ strata:
 - morph: connectivity
 - morph: audio-bluetooth
 - morph: x-common
-- morph: x-x86_64-generic
+- morph: x-generic
 - morph: multimedia
 - morph: genivi
 - morph: genivi-x-x86_64-generic

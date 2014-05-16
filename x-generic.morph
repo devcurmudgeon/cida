@@ -1,12 +1,12 @@
-name: x-armv7-versatile
+name: x-generic
 kind: stratum
 build-depends:
 - morph: x-common
 chunks:
 - name: mesa-x
   repo: upstream:mesa
-  ref: e96f3daac78e3971e4500a31e72c0a7e5845c3d1
-  unpetrify-ref: baserock/genivi/baseline-armv7-versatile
+  ref: f64dd91f4f2a2591e66b38fdfdfa83077f8221ab
+  unpetrify-ref: baserock/genivi/morph
   build-depends: []
 - name: xorg-lib-libxkbfile
   repo: upstream:xorg-lib-libxkbfile
@@ -47,6 +47,11 @@ chunks:
   build-depends:
   - freetype2
   - xorg-lib-libfontenc
+- name: freefont-otf
+  repo: upstream:freefont-otf
+  ref: 0ca3ccce74e81f7feb6e922edd988be0e1a43f05
+  unpetrify-ref: baserock/morph
+  build-depends: []
 - name: xorg-lib-libICE
   repo: upstream:xorg-lib-libICE
   ref: 1b1cf8072b2559e15ac440d5484a29a81d6918c6
@@ -170,6 +175,22 @@ chunks:
   ref: 45215e6f56bf57efdf5469567c00eba7a991d3a3
   unpetrify-ref: baserock/morph
   build-depends: []
+- name: util-wm
+  repo: upstream:util-wm
+  ref: 18bde07dc7cb44617c0d159ccd9ef640804296e3
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: util-keysyms
+  repo: upstream:util-keysyms
+  ref: 0be179eff4eadb99ee303891d1c29c4e4dd6fbab
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: util-image
+  repo: upstream:util-image
+  ref: 66b0caa72eb5011d89d0346424ea40b9e8e93816
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - xcb-util
 - name: xterm
   repo: upstream:xterm
   ref: 7fc0a9529babac61d9a0b30e6ddb3c79e44af0e5
@@ -177,3 +198,9 @@ chunks:
   build-depends:
   - xorg-lib-libXaw
   - xorg-lib-libxkbfile
+- name: xorg-app-xauth
+  repo: upstream:xorg-app-xauth
+  ref: 6dda11c17f2fdc47d43f269dccee98ec66cc8c4b
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - xorg-lib-libXmu

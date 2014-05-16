@@ -3,7 +3,7 @@ kind: stratum
 description: Software components designed by genivi, for genivi.
 build-depends:
 - morph: genivi
-- morph: x-armv7-versatile
+- morph: x-generic
 chunks:
 - name: layer_management
   repo: upstream:layer_management

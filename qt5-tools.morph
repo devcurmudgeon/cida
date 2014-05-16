@@ -3,7 +3,7 @@ kind: stratum
 description: Qt5 Development Libraries and Tools
 build-depends:
 - morph: tools
-- morph: x-x86_64-generic
+- morph: x-generic
 - morph: multimedia-gstreamer-0.10
 chunks:
 - name: icu

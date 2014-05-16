@@ -6,7 +6,7 @@ build-depends:
 - morph: tools
 - morph: bsp-x86_64-generic
 - morph: x-common
-- morph: x-x86_64-generic
+- morph: x-generic
 chunks:
 - name: yasm
   repo: upstream:yasm
