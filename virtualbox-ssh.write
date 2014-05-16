@@ -63,7 +63,9 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         temp_root, location = args
         ssh_host, vm_name, vdi_path = self.parse_location(location)
         autostart = self.get_environment_boolean('AUTOSTART')
-        
+
+        vagrant = self.get_environment_boolean('VAGRANT')
+
         fd, raw_disk = tempfile.mkstemp()
         os.close(fd)
         self.create_local_system(temp_root, raw_disk)
@@ -72,7 +74,7 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
             self.transfer_and_convert_to_vdi(
                 raw_disk, ssh_host, vdi_path)
             self.create_virtualbox_guest(ssh_host, vm_name, vdi_path,
-                                         autostart)
+                                         autostart, vagrant)
         except BaseException:
             sys.stderr.write('Error deploying to VirtualBox')
             os.remove(raw_disk)
@@ -119,7 +121,7 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         version_string = re.match(r"^([0-9\.]+).*$", build_id.strip()).group(1)
         return tuple(int(s or '0') for s in version_string.split('.'))
 
-    def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path, autostart):
+    def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path, autostart, vagrant):
         '''Create the VirtualBox virtual machine.'''
 
         self.status(msg='Create VirtualBox virtual machine')
@@ -128,7 +130,8 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
         vcpu_count = str(self.get_vcpu_count())
 
-        hostonly_iface = self.get_host_interface(ssh_host)
+        if not vagrant:
+            hostonly_iface = self.get_host_interface(ssh_host)
 
         if self.virtualbox_version(ssh_host) < (4, 3, 0):
             sataportcount_option = '--sataportcount'
@@ -139,15 +142,20 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
             ['createvm', '--name', vm_name, '--ostype', 'Linux26_64',
              '--register'],
             ['modifyvm', vm_name, '--ioapic', 'on',
-             '--memory', ram_mebibytes, '--cpus', vcpu_count,
-             '--nic1', 'hostonly', '--hostonlyadapter1', hostonly_iface,
-             '--nic2', 'nat', '--natnet2', 'default'],
+             '--memory', ram_mebibytes, '--cpus', vcpu_count],
             ['storagectl', vm_name, '--name', 'SATA Controller',
              '--add', 'sata',  '--bootable', 'on', sataportcount_option, '2'],
             ['storageattach', vm_name, '--storagectl', 'SATA Controller',
              '--port', '0', '--device', '0', '--type', 'hdd', '--medium',
              vdi_path],
         ]
+        if vagrant:
+            commands[1].extend(['--nic1', 'nat',
+                '--natnet1', 'default'])
+        else:
+            commands[1].extend(['--nic1', 'hostonly',
+                '--hostonlyadapter1', hostonly_iface,
+                '--nic2', 'nat', '--natnet2', 'default'])
 
         attach_disks = self.parse_attach_disks()
         for device_no, disk in enumerate(attach_disks, 1):
