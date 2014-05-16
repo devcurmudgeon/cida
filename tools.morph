@@ -149,3 +149,8 @@ chunks:
   ref: c92f284c3cf76d471eb27a271de3a51cb45ed058
   unpetrify-ref: baserock/morph
   build-depends: []
+- name: sudo
+  repo: upstream:sudo
+  ref: a4769dc7999b53260325fb89945bef85714fb338
+  unpetrify-ref: baserock/morph
+  build-depends: []
