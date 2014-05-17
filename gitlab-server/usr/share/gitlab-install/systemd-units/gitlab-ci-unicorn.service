@@ -17,8 +17,8 @@ SyslogIdentifier=gitlab-ci-unicorn
 PIDFile=/home/gitlab_ci/gitlab-ci/tmp/pids/unicorn.pid
  
 ExecStart=/usr/bin/bundle exec "unicorn_rails -c /home/gitlab_ci/gitlab-ci/config/unicorn.rb -E production"
-ExecStop=/usr/bin/kill -QUIT $MAINPID
-ExecReload=/usr/bin/kill -USR2 $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+ExecReload=/bin/kill -s USR2 $MAINPID
  
 [Install]
 WantedBy=gitlab.target
