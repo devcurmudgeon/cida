@@ -1,0 +1,11 @@
+[Unit]
+Description=GitLab Backup Run
+After=postgres.service
+
+[Install]
+WantedBy=gitlab.target
+
+[Service]
+ExecStart=/usr/share/gitlab-install/backup-gitlab
+User=git
+Group=git

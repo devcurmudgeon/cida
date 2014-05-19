@@ -1,0 +1,8 @@
+[Unit]
+Description=GitLab Backup Timer
+
+[Install]
+WantedBy=gitlab.target
+
+[Timer]
+OnCalendar=*-*-* 00/4:00:00

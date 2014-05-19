@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# Run the gitlab backup script. The backup will be stored as
+# /home/git/gitlab-backup.tar . A separate backup host will need to
+# back that up.
+#
+# This script be run as the git user on a GitLab host.
+
+set -e
+
+export PATH=/usr/local/bin:/usr/bin:/bin
+
+cd /home/git/gitlab
+mkdir -p /home/git/gitlab/tmp/backups
+bundle exec rake gitlab:backup:create RAILS_ENV=production
+
+ls /home/git/gitlab/tmp/backups/[0-9]*.tar |
+tail -n1 |
+while read filename
+do
+    mv "$filename" /home/git/gitlab-backup.tar
+done

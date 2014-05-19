@@ -100,5 +100,5 @@ cp /usr/share/gitlab-install/nginx.conf /etc/nginx/nginx.conf
 # make systemd units to start gitlab and required stuff on boot
 cd /etc/systemd/system
 cp /usr/share/gitlab-install/systemd-units/* .
-systemctl enable redis.service nginx.service postgres.service gitlab.target gitlab-unicorn.service gitlab-sidekiq.service gitlab-ci-sidekiq.service gitlab-ci-unicorn.service
+systemctl enable redis.service nginx.service postgres.service gitlab.target gitlab-unicorn.service gitlab-sidekiq.service gitlab-ci-sidekiq.service gitlab-ci-unicorn.service gitlab-backup.timer gitlab-backup.service
 reboot
