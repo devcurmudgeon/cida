@@ -1,0 +1,20 @@
+arch: x86_64
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+- distbuild
+- fstab
+description: Morph distributed build node for x86_64
+kind: system
+name: distbuild-system-x86_64
+strata:
+- morph: build-essential
+- morph: core
+- morph: foundation
+- morph: bsp-x86_64-generic
+- morph: tools
+- morph: nfs
+- morph: distbuild
