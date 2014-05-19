@@ -1,4 +1,4 @@
-name: bsp-x86_64-tools
+name: bsp-x86_both-tools
 kind: stratum
 description: The set of platform specific components required for configuring a bootable
   x86 based system.
