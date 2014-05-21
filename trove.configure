@@ -127,6 +127,17 @@ confgit-url = ssh://git@localhost/$TROVE_ID/local-config/lorries
 EOF
 
 
+echo "Create MINION config"
+cat <<EOF > "$ROOT/etc/lorry-controller/minion.conf"
+[config]
+log = syslog
+log-level = debug
+webapp-host = localhost
+webapp-port = 12765
+webapp-timeout = 3600
+EOF
+
+
 echo "Set up Lorry Controller MINIONs"
 UNITS="$ROOT/usr/lib/systemd/system"
 seq "${LORRY_CONTROLLER_MINIONS:-4}" |
