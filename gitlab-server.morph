@@ -19,3 +19,4 @@ strata:
 - morph: databases
 - morph: webtools
 - morph: ruby
+- morph: gitlab

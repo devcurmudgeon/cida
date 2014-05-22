@@ -21,7 +21,7 @@ set -e
 gem install bundler
 
 # create required users
-adduser -D --gecos 'GitLab' -s /bin/sh git
+if [ `grep -c '^git:' /etc/passwd` -ne 1 ] ; then adduser -D --gecos 'GitLab' -s /bin/sh git ; fi
 adduser -D -s /bin/sh postgres
 adduser -D --gecos 'GitLab CI' -s /bin/sh gitlab_ci
 
@@ -49,13 +49,13 @@ su -c "git config --global user.email 'gitlab@localhost'" - git
 su -c "git config --global core.autocrlf input" - git
 
 # install gitlab shell
-su -c "git clone https://gitlab.com/gitlab-org/gitlab-shell.git -b v1.9.3 ~/gitlab-shell" - git
+su -c "cp -r /usr/share/gitlab-shell gitlab-shell" - git
 cd /home/git/gitlab-shell
 cp /usr/share/gitlab-install/gitlab-shell/config.yml ./config.yml
 su -c "~/gitlab-shell/bin/install" - git
 
 # install gitlab
-su -c "git clone https://gitlab.com/gitlab-org/gitlab-ce.git -b 6-8-stable ~/gitlab" - git
+su -c "cp -r /usr/share/gitlab-ce gitlab" - git
 cd /home/git/gitlab
 su -c "cp config/database.yml.postgresql config/database.yml" git
 su -c "cp -r /usr/share/gitlab-install/gitlab/config/* config/" git
@@ -76,7 +76,7 @@ su -c "git config --global user.email 'gitlab_ci@localhost'" - gitlab_ci
 su -c "git config --global core.autocrlf input" - gitlab_ci
 
 # install gitlab ci
-su -c "git clone https://gitlab.com/gitlab-org/gitlab-ci.git -b 5-0-stable" - gitlab_ci
+su -c "cp -r /usr/share/gitlab-ci gitlab-ci" - gitlab_ci
 cd /home/gitlab_ci/gitlab-ci
 su -c "cp config/database.yml.postgresql config/database.yml" gitlab_ci
 su -c "cp -r /usr/share/gitlab-install/gitlab-ci/config/* config/" gitlab_ci

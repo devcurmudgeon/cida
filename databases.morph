@@ -18,7 +18,8 @@ chunks:
   - readline
 - name: redis
   repo: upstream:redis
-  ref: baserock/3.0
+  ref: 9ee59fca9c5c429185d35779c2d5db64005091b0
+  unpetrify-ref: baserock/3.0
   build-depends: []
 - name: memcached
   repo: upstream:memcached
