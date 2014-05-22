@@ -46,9 +46,6 @@ ROOT="$1"
 # Configuration in /etc, which we need to do on all deployments.
 ##########################################################################
 
-echo "Set hostname to $TROVE_ID"
-echo "$TROVE_ID" > "$ROOT/etc/hostname"
-
 ##########################################################################
 
 lua_escape()
