@@ -33,4 +33,28 @@ class SshRsyncCheckExtension(morphlib.writeexts.WriteExtension):
                 'Baserock machines. It cannot be used for an initial '
                 'deployment.')
 
+        location = args[0]
+        self.check_ssh_connectivity(location)
+        self.check_is_baserock_system(location)
+
+        # The new system that being deployed as an upgrade must contain
+        # baserock-system-config-sync and system-version-manager. However, the
+        # old system simply needs to have SSH and rsync.
+        self.check_command_exists(location, 'rsync')
+
+    def check_is_baserock_system(self, location):
+        output = cliapp.ssh_runcmd(location, ['sh', '-c',
+                     'test -d /baserock || echo -n dirnotfound'])
+        if output == 'dirnotfound':
+            raise cliapp.AppException('%s is not a baserock system'
+                                      % location)
+
+    def check_command_exists(self, location, command):
+        test = 'type %s > /dev/null 2>&1 || echo -n cmdnotfound' % command
+        output = cliapp.ssh_runcmd(location, ['sh', '-c', test])
+        if output == 'cmdnotfound':
+            raise cliapp.AppException(
+                "%s does not have %s" % (location, command))
+
+
 SshRsyncCheckExtension().run()

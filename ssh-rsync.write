@@ -51,7 +51,6 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
 
         temp_root, location = args
 
-        self.check_valid_target(location)
         self.upgrade_remote_system(location, temp_root)
 
     def upgrade_remote_system(self, location, temp_root):
@@ -144,31 +143,6 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
             line_words = line.split()
             if (line_words[1] == '/' and line_words[0] != 'rootfs'):
                 return line_words[0]
-
-    def check_valid_target(self, location):
-        try:
-            cliapp.ssh_runcmd(location, ['true'])
-        except Exception as e:
-            raise cliapp.AppException('%s does not respond to ssh:\n%s'
-                                      % (location, e))
-
-        output = cliapp.ssh_runcmd(location, ['sh', '-c',
-                     'test -d /baserock || echo -n dirnotfound'])
-        if output == 'dirnotfound':
-            raise cliapp.AppException('%s is not a baserock system'
-                                      % location)
-
-        def check_command_exists(command):
-            test = 'type %s > /dev/null 2>&1 || echo -n cmdnotfound' % command
-            output = cliapp.ssh_runcmd(location, ['sh', '-c', test])
-            if output == 'cmdnotfound':
-                raise cliapp.AppException(
-                    "%s does not have %s" % (location, command))
-
-        # The deploy requires baserock-system-config-sync and
-        # system-version-manager in the new system only. The old system doesn't
-        # need to have them at all.
-        check_command_exists('rsync')
 
 
 SshRsyncWriteExtension().run()
