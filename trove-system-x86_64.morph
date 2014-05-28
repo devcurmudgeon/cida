@@ -18,3 +18,4 @@ strata:
 - morph: tools
 - morph: trove
 - morph: nfs
+- morph: ansible
