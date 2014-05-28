@@ -7,8 +7,8 @@ WorkingDirectory=/root/gitlab-ci-runner
 SyslogIdentifier=gitlab-ci-runner
  
 ExecStart=/usr/bin/bundle exec "./bin/runner"
-ExecStop=/usr/bin/kill -QUIT $MAINPID
-ExecReload=/usr/bin/kill -USR2 $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+ExecReload=/bin/kill -s USR2 $MAINPID
  
 [Install]
 WantedBy=multi-user.target
