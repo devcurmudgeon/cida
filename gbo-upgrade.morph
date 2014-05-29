@@ -1,0 +1,25 @@
+kind: cluster
+name: gbo-cluster
+description: |
+  This is a cluster morphology for deploying an UPGRADE to
+  git.baserock.org. It doesn't work for the initial deployment. The
+  deployer MUST have ssh access to root@git.baserock.org. To use:
+  
+      morph deploy --upgrade gbo-cluster gbo.VERSION_LABEL=2014-05-29
+
+  Replace the value of gbo.VERSION_LABEL above with the current date.
+  You can add letters if you need to upgrade multiple times in a day.
+systems:
+- morph: trove-system-x86_64
+  deploy:
+    gbo:
+      type: ssh-rsync
+      location: root@192.168.122.117
+      location: root@git.baserock.org
+      LORRY_CONTROLLER_MINIONS: 4
+      HOSTNAME: firehose1
+      VERSION_LABEL: FIXME
+      FSTAB_HOME: LABEL=homes /home auto defaults,noatime,rw 0 2
+      TROVE_ID: baserock
+      TROVE_HOSTNAME: git.baserock.org
+      TROVE_COMPANY: Baserock
