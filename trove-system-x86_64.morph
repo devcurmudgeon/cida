@@ -1,5 +1,6 @@
 arch: x86_64
 configuration-extensions:
+- set-hostname
 - trove
 - nfsboot-server
 - trove-backup
