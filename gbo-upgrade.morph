@@ -1,5 +1,5 @@
 kind: cluster
-name: gbo-cluster
+name: gbo-upgrade
 description: |
   This is a cluster morphology for deploying an UPGRADE to
   git.baserock.org. It doesn't work for the initial deployment. The
@@ -14,11 +14,9 @@ systems:
   deploy:
     gbo:
       type: ssh-rsync
-      location: root@192.168.122.117
       location: root@git.baserock.org
       LORRY_CONTROLLER_MINIONS: 4
       HOSTNAME: firehose1
-      VERSION_LABEL: FIXME
       FSTAB_HOME: LABEL=homes /home auto defaults,noatime,rw 0 2
       TROVE_ID: baserock
       TROVE_HOSTNAME: git.baserock.org
