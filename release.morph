@@ -7,7 +7,7 @@ systems:
   deploy:
     release:
       type: tar
-      location: /src/release/baserock-14.20-devel-system-armv7lhf-wandboard.tar
+      location: /src/release/baserock-14.22-devel-system-armv7lhf-wandboard.tar
 - morph: genivi-baseline-system-armv7lhf-versatile
   deploy:
     # NOTE: to fully deploy this system requires fishing in the artifact cache
@@ -15,52 +15,52 @@ systems:
     # artifact for us.
     release:
       type: rawdisk
-      location: /src/release/baserock-14.20-genivi-baseline-system-armv7lhf-versatile.img
+      location: /src/release/baserock-14.22-genivi-baseline-system-armv7lhf-versatile.img
       DISK_SIZE: 4G
       FSTAB_ROOT: /dev/mmcblk0 / btrfs default,rw,noatime 0 1
-      VERSION_LABEL: baserock-14.20
+      VERSION_LABEL: baserock-14.22
 - morph: devel-system-x86_32-chroot
   deploy:
     release:
       type: tar
-      location: /src/release/baserock-14.20-devel-system-x86_32-chroot.tar
+      location: /src/release/baserock-14.22-devel-system-x86_32-chroot.tar
 - morph: base-system-x86_32-generic
   deploy:
     release:
       type: rawdisk
-      location: /src/release/baserock-14.20-base-system-x86_32-generic.img
+      location: /src/release/baserock-14.22-base-system-x86_32-generic.img
       DISK_SIZE: 4G
-      VERSION_LABEL: baserock-14.20
+      VERSION_LABEL: baserock-14.22
 - morph: devel-system-x86_32-generic
   deploy:
     release:
       type: rawdisk
-      location: /src/release/baserock-14.20-devel-system-x86_32-generic.img
+      location: /src/release/baserock-14.22-devel-system-x86_32-generic.img
       DISK_SIZE: 4G
-      VERSION_LABEL: baserock-14.20
+      VERSION_LABEL: baserock-14.22
 - morph: devel-system-x86_64-chroot
   deploy:
     release:
       type: tar
-      location: /src/release/baserock-14.20-devel-system-x86_64-chroot.tar
+      location: /src/release/baserock-14.22-devel-system-x86_64-chroot.tar
 - morph: base-system-x86_64-generic
   deploy:
     release:
       type: rawdisk
-      location: /src/release/baserock-14.20-base-system-x86_64-generic.img
+      location: /src/release/baserock-14.22-base-system-x86_64-generic.img
       DISK_SIZE: 4G
-      VERSION_LABEL: baserock-14.20
+      VERSION_LABEL: baserock-14.22
 - morph: devel-system-x86_64-generic
   deploy:
     release:
       type: rawdisk
-      location: /src/release/baserock-14.20-devel-system-x86_64-generic.img
+      location: /src/release/baserock-14.22-devel-system-x86_64-generic.img
       DISK_SIZE: 4G
-      VERSION_LABEL: baserock-14.20
+      VERSION_LABEL: baserock-14.22
 - morph: genivi-baseline-system-x86_64-generic
   deploy:
     release:
       type: rawdisk
-      location: /src/release/baserock-14.20-genivi-baseline-system-x86_64-generic.img
+      location: /src/release/baserock-14.22-genivi-baseline-system-x86_64-generic.img
       DISK_SIZE: 4G
-      VERSION_LABEL: baserock-14.20
+      VERSION_LABEL: baserock-14.22
