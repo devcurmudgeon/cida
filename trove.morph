@@ -46,7 +46,7 @@ chunks:
   - lua
 - name: gall
   repo: upstream:gitano/gall
-  ref: fe5c6355cee196253ffd41c36df0064e8fb6d0cc
+  ref: f58c7526fbb0421d7f5446644f01f4cf57035ee2
   unpetrify-ref: baserock/morph
   build-depends:
   - lua
