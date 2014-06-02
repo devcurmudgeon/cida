@@ -120,7 +120,8 @@ class WriteExtension(cliapp.Application):
             raise
         try:
             self.create_btrfs_system_layout(
-                temp_root, mp, version_label='factory')
+                temp_root, mp, version_label='factory',
+                disk_uuid=self.get_uuid(raw_disk))
         except BaseException, e:
             sys.stderr.write('Error creating Btrfs system layout')
             self.unmount(mp)
@@ -186,6 +187,13 @@ class WriteExtension(cliapp.Application):
         '''Create a btrfs filesystem on the disk.'''
         self.status(msg='Creating btrfs filesystem')
         cliapp.runcmd(['mkfs.btrfs', '-L', 'baserock', location])
+
+    def get_uuid(self, location):
+        '''Get the UUID of a block device's file system.'''
+        # Requires util-linux blkid; busybox one ignores options and
+        # lies by exiting successfully.
+        return cliapp.runcmd(['blkid', '-s', 'UUID', '-o', 'value',
+                              location]).strip()
         
     def mount(self, location):
         '''Mount the filesystem so it can be tweaked.
@@ -212,10 +220,12 @@ class WriteExtension(cliapp.Application):
         cliapp.runcmd(['umount', mount_point])
         os.rmdir(mount_point)
 
-    def create_btrfs_system_layout(self, temp_root, mountpoint, version_label):
+    def create_btrfs_system_layout(self, temp_root, mountpoint, version_label,
+                                   disk_uuid=None):
         '''Separate base OS versions from state using subvolumes.
 
         '''
+        initramfs = self.find_initramfs(temp_root)
         version_root = os.path.join(mountpoint, 'systems', version_label)
         state_root = os.path.join(mountpoint, 'state')
 
@@ -238,7 +248,12 @@ class WriteExtension(cliapp.Application):
         if self.bootloader_is_wanted():
             self.install_kernel(version_root, temp_root)
             self.install_syslinux_menu(mountpoint, version_root)
-            self.install_extlinux(mountpoint)
+            if initramfs is not None:
+                self.install_initramfs(initramfs, version_root)
+                self.install_extlinux(mountpoint, disk_uuid)
+            else:
+                self.install_extlinux(mountpoint)
+
 
     def create_orig(self, version_root, temp_root):
         '''Create the default "factory" system.'''
@@ -322,6 +337,29 @@ class WriteExtension(cliapp.Application):
         fstab.write()
         return state_dirs_to_create
 
+    def find_initramfs(self, temp_root):
+        '''Check whether the rootfs has an initramfs.
+
+        Uses the INITRAMFS_PATH option to locate it.
+        '''
+        if 'INITRAMFS_PATH' in os.environ:
+            initramfs = os.path.join(temp_root, os.environ['INITRAMFS_PATH'])
+            if not os.path.exists(initramfs):
+                raise morphlib.Error('INITRAMFS_PATH specified, '
+                                     'but file does not exist')
+            return initramfs
+        return None
+
+    def install_initramfs(self, initramfs_path, version_root):
+        '''Install the initramfs outside of 'orig' or 'run' subvolumes.
+
+        This is required because syslinux doesn't traverse subvolumes when
+        loading the kernel or initramfs.
+        '''
+        self.status(msg='Installing initramfs')
+        initramfs_dest = os.path.join(version_root, 'initramfs')
+        cliapp.runcmd(['cp', '-a', initramfs_path, initramfs_dest])
+
     def install_kernel(self, version_root, temp_root):
         '''Install the kernel outside of 'orig' or 'run' subvolumes'''
 
@@ -337,20 +375,28 @@ class WriteExtension(cliapp.Application):
     def get_extra_kernel_args(self):
         return os.environ.get('KERNEL_ARGS', '')
 
-    def install_extlinux(self, real_root):
+    def install_extlinux(self, real_root, disk_uuid=None):
         '''Install extlinux on the newly created disk image.'''
 
         self.status(msg='Creating extlinux.conf')
         config = os.path.join(real_root, 'extlinux.conf')
-        kernel_args = self.get_extra_kernel_args()
+        kernel_args = (
+            'rw ' # ro ought to work, but we don't test that regularly
+            'init=/sbin/init ' # default, but it doesn't hurt to be explicit
+            'rootfstype=btrfs ' # required when using initramfs, also boots
+                                # faster when specified without initramfs
+            'rootflags=subvol=systems/default/run ') # boot runtime subvol
+        kernel_args += 'root=%s ' % ('/dev/sda' if disk_uuid is None
+                                     else 'UUID=%s' % disk_uuid)
+        kernel_args += self.get_extra_kernel_args()
         with open(config, 'w') as f:
             f.write('default linux\n')
             f.write('timeout 1\n')
             f.write('label linux\n')
             f.write('kernel /systems/default/kernel\n')
-            f.write('append root=/dev/sda '
-                    'rootflags=subvol=systems/default/run '
-                    '%s init=/sbin/init rw\n' % (kernel_args))
+            if disk_uuid is not None:
+                f.write('initrd /systems/default/initramfs\n')
+            f.write('append %s\n' % kernel_args)
 
         self.status(msg='Installing extlinux')
         cliapp.runcmd(['extlinux', '--install', real_root])
