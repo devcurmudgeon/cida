@@ -1,0 +1,35 @@
+help: |
+    Create an initramfs for a system by taking an existing system and
+    converting it to the appropriate format.
+
+    The system must have a `/init` executable as the userland entry-point.
+    This can have a different path, if `rdinit=$path` is added to
+    the kernel command line. This can be added to the `rawdisk`,
+    `virtualbox-ssh` and `kvm` write extensions with the `KERNEL_CMDLINE`
+    option.
+
+    It is possible to use a ramfs as the final rootfs without a `/init`
+    executable, by setting `root=/dev/mem`, or `rdinit=/sbin/init`,
+    but this is beyond the scope for the `initramfs.write` extension.
+
+    The intended use of initramfs.write is to be part of a nested
+    deployment, so the parent system has an initramfs stored as
+    `/boot/initramfs.gz`. See the following example:
+
+        name: initramfs-test
+        kind: cluster
+        systems:
+        - morph: minimal-system-x86_64-generic
+          deploy:
+            system:
+              type: rawdisk
+              location: initramfs-system-x86_64.img
+              DISK_SIZE: 1G
+              HOSTNAME: initramfs-system
+              INITRAMFS_PATH: boot/initramfs.gz
+          subsystems:
+          - morph: initramfs-x86_64
+            deploy:
+              initramfs:
+                type: initramfs
+                location: boot/initramfs.gz
