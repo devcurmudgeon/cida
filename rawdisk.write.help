@@ -5,3 +5,7 @@ help: |
 
     The `location` argument is a pathname to the image to be
     created or upgraded.
+
+    The INITRAMFS_PATH option can be used to specify the location of an
+    initramfs for syslinux to tell Linux to use, rather than booting
+    the rootfs directly.
