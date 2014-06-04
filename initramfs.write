@@ -23,5 +23,5 @@ INITRAMFS_PATH="$2"
 
 (cd "$ROOTDIR" &&
     find . -print0 |
-    cpio -0 -H newc -o |
-    gzip -c) >"$INITRAMFS_PATH"
+    cpio -0 -H newc -o) |
+    gzip -c | install -D -m644 /dev/stdin "$INITRAMFS_PATH"
