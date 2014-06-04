@@ -221,7 +221,7 @@ class WriteExtension(cliapp.Application):
         os.rmdir(mount_point)
 
     def create_btrfs_system_layout(self, temp_root, mountpoint, version_label,
-                                   disk_uuid=None):
+                                   disk_uuid):
         '''Separate base OS versions from state using subvolumes.
 
         '''
