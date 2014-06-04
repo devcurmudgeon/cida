@@ -235,7 +235,8 @@ class WriteExtension(cliapp.Application):
         self.create_orig(version_root, temp_root)
         system_dir = os.path.join(version_root, 'orig')
 
-        state_dirs = self.complete_fstab_for_btrfs_layout(system_dir)
+        state_dirs = self.complete_fstab_for_btrfs_layout(system_dir,
+                                                          disk_uuid)
 
         for state_dir in state_dirs:
             self.create_state_subvolume(system_dir, mountpoint, state_dir)
@@ -298,7 +299,7 @@ class WriteExtension(cliapp.Application):
             filepath = os.path.join(existing_state_dir, filename)
             cliapp.runcmd(['mv', filepath, subvolume])
 
-    def complete_fstab_for_btrfs_layout(self, system_dir):
+    def complete_fstab_for_btrfs_layout(self, system_dir, rootfs_uuid=None):
         '''Fill in /etc/fstab entries for the default Btrfs disk layout.
 
         In the future we should move this code out of the write extension and
@@ -322,8 +323,9 @@ class WriteExtension(cliapp.Application):
         if '/' in existing_mounts:
             root_device = existing_mounts['/']
         else:
-            root_device = '/dev/sda'
-            fstab.add_line('/dev/sda  /  btrfs defaults,rw,noatime 0 1')
+            root_device = ('/dev/sda' if rootfs_uuid is None else
+                           'UUID=%s' % rootfs_uuid)
+            fstab.add_line('%s  / btrfs defaults,rw,noatime 0 1' % root_device)
 
         state_dirs_to_create = set()
         for state_dir in shared_state_dirs:
