@@ -60,9 +60,6 @@ install -d -o 0 -g 0 -m 0755 "$1/srv/distbuild"
 # use. However, the setting may only be set for the distbuild
 # initiator (which is what the user invokes), so in ALL other
 # configuration files we unset it.
-#
-# We disable the disk space requirement checks on non-worker nodes.
-# They don't make sense unless you're building locally.
 
 cat <<EOF > "$1/etc/morph.conf"
 [config]
@@ -73,8 +70,8 @@ tempdir = /srv/distbuild/tmp
 trove-host = $TROVE_ID
 trove-id = $TROVE_ID
 controller-initiator-address = $CONTROLLERHOST
-tempdir-min-space = 0
-cachedir-min-space = 0
+tempdir-min-space = 4G
+cachedir-min-space = 4G
 build-ref-prefix = $TROVE_ID
 artifact-cache-server = http://${ARTIFACT_CACHE_SERVER}:8080/
 git-resolve-cache-server = http://${TROVE_ID}:8080/
