@@ -206,7 +206,7 @@ chunks:
   - perl
 - name: util-linux
   repo: upstream:util-linux
-  ref: 462008f79be9e195670b202cb43827b8aeb1e60b
+  ref: 2fb567c080e1762ec6a2147564f03068f55d4f14
   unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
