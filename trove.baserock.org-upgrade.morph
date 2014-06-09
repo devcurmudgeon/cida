@@ -1,11 +1,11 @@
 kind: cluster
-name: gbo-upgrade
+name: trove.baserock.org-upgrade
 description: |
   This is a cluster morphology for deploying an UPGRADE to
   git.baserock.org. It doesn't work for the initial deployment. The
   deployer MUST have ssh access to root@git.baserock.org. To use:
-  
-      morph deploy --upgrade gbo-cluster gbo.VERSION_LABEL=2014-05-29
+
+      morph deploy --upgrade trove.baserock.org-upgrade gbo.VERSION_LABEL=2014-05-29
 
   Replace the value of gbo.VERSION_LABEL above with the current date.
   You can add letters if you need to upgrade multiple times in a day.
