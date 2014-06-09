@@ -69,7 +69,7 @@ for stratum in $strata; do
     for chunk in $chunks; do
         if [ "$chunk" != "$stratum" ]; then
             if ! (echo $gplv3_chunks | grep -wq "$chunk"); then
-                morph edit $system $stratum $chunk 1>&2
+                morph edit $chunk 1>&2
             else
                 repo=`grep "name.*: *$chunk" "$stratum.morph" -A1 | \
                       tail -n1 | cut -d: -f3-`
