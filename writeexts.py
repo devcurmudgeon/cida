@@ -104,7 +104,18 @@ class WriteExtension(cliapp.Application):
         
         self.output.write('%s\n' % (kwargs['msg'] % kwargs))
         self.output.flush()
-    
+
+    def check_for_btrfs_in_deployment_host_kernel(self):
+        with open('/proc/filesystems') as f:
+            text = f.read()
+        return '\tbtrfs\n' in text
+
+    def require_btrfs_in_deployment_host_kernel(self):
+        if not self.check_for_btrfs_in_deployment_host_kernel():
+            raise cliapp.AppException(
+                'Error: Btrfs is required for this deployment, but was not '
+                'detected in the kernel of the machine that is running Morph.')
+
     def create_local_system(self, temp_root, raw_disk):
         '''Create a raw system image locally.'''
         size = self.get_disk_size()
