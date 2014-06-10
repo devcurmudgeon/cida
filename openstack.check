@@ -26,6 +26,8 @@ class OpenStackCheckExtension(morphlib.writeexts.WriteExtension):
         if len(args) != 1:
             raise cliapp.AppException('Wrong number of command line args')
 
+        self.require_btrfs_in_deployment_host_kernel()
+
         upgrade = self.get_environment_boolean('UPGRADE')
         if upgrade:
             raise cliapp.AppException(
