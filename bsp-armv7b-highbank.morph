@@ -4,8 +4,8 @@ description: The platform dependent components required to boot an ARM highbank 
 build-depends:
 - morph: core
 chunks:
-- name: linux
+- name: linux-armv7b-highbank
   repo: upstream:linux
-  ref: ba8aac8133ac7191b6cdf3f1f62c70eb3983be17
-  unpetrify-ref: baserock/arm/highbank-be
+  ref: d67a0e110187abd560a1de63fa172894a52839d5
+  unpetrify-ref: baserock/morph
   build-depends: []

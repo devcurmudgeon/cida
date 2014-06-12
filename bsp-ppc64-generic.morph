@@ -4,8 +4,8 @@ description: The platform dependent components required to boot a ppc64 board.
 build-depends:
 - morph: core
 chunks:
-- name: linux
+- name: linux-ppc64
   repo: upstream:linux
-  ref: 7758cbb7fe9277c8486d87791f0e5f1398d0fb22
-  unpetrify-ref: baserock/powerpc/ppc64
+  ref: d67a0e110187abd560a1de63fa172894a52839d5
+  unpetrify-ref: baserock/morph
   build-depends: []

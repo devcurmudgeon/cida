@@ -5,8 +5,8 @@ description: The platform dependent components required to boot an ARM versatile
 build-depends:
 - morph: core
 chunks:
-- name: linux
+- name: linux-armv7-versatile
   repo: upstream:linux
-  ref: 5a9b14cc3d6bc4060cc55ed6e1d2b5565b201ad5
-  unpetrify-ref: baserock/arm/versatile
+  ref: d67a0e110187abd560a1de63fa172894a52839d5
+  unpetrify-ref: baserock/morph
   build-depends: []

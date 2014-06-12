@@ -5,9 +5,9 @@ description: The set of platform specific components required for booting a 32-b
 build-depends:
 - morph: core
 chunks:
-- name: linux
+- name: linux-x86-32-generic
   repo: upstream:linux
-  ref: 316df4c3eb667636eadf4b663f4087f1f9cc3cfe
+  ref: d67a0e110187abd560a1de63fa172894a52839d5
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: nasm

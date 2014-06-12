@@ -4,8 +4,8 @@ description: The platform dependent components required to boot Versatile TC2 bo
 build-depends:
 - morph: core
 chunks:
-- name: linux
+- name: linux-armv7b-vexpress-tc2
   repo: upstream:linux
-  ref: db9d2e3dd6fc61f0f7a01ce11ad10f27e648e2b0
-  unpetrify-ref: baserock/arm/vexpress-tc2
+  ref: d67a0e110187abd560a1de63fa172894a52839d5
+  unpetrify-ref: baserock/morph
   build-depends: []
