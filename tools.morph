@@ -56,7 +56,7 @@ chunks:
   build-depends: []
 - name: e2fsprogs
   repo: upstream:e2fsprogs
-  ref: 1ab0ea88057e922a89c6b8feebeb62c57e40f8de
+  ref: 485edc675200ff3097cec521c357441a1c2d9b0d
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: file
