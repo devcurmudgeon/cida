@@ -13,13 +13,6 @@ strata:
 - morph: build-essential
 - morph: core
 - morph: foundation
-- morph: genivi-foundation
 - morph: bsp-armv7-versatile
-- morph: connectivity
-- morph: audio-bluetooth
-- morph: x-common
-- morph: x-armv7-versatile
-- morph: multimedia
-- morph: genivi
-- morph: genivi-x-armv7-versatile
 - morph: tools
+- morph: openstack-clients
