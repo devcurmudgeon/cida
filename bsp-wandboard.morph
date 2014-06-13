@@ -11,7 +11,7 @@ chunks:
   build-depends: []
 - name: linux-armv7-wandboard
   repo: upstream:linux
-  ref: d67a0e110187abd560a1de63fa172894a52839d5
+  ref: 9573986cf27ff44814f3efb1f1e95638406db456
   unpetrify-ref: baserock/morph
   build-depends:
   - u-boot
