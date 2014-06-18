@@ -5,29 +5,29 @@ description: |
 systems:
 - morph: devel-system-armv7lhf-wandboard
   deploy:
-    release:
+    devel-system-armv7lhf-wandboard:
       type: tar
       location: /src/release/baserock-14.24-devel-system-armv7lhf-wandboard.tar
 - morph: devel-system-x86_32-chroot
   deploy:
-    release:
+    devel-system-x86_32-chroot:
       type: tar
       location: /src/release/baserock-14.24-devel-system-x86_32-chroot.tar
 - morph: devel-system-x86_32-generic
   deploy:
-    release:
+    devel-system-x86_32-generic:
       type: rawdisk
       location: /src/release/baserock-14.24-devel-system-x86_32-generic.img
       DISK_SIZE: 4G
       VERSION_LABEL: baserock-14.24
 - morph: devel-system-x86_64-chroot
   deploy:
-    release:
+    devel-system-x86_64-chroot:
       type: tar
       location: /src/release/baserock-14.24-devel-system-x86_64-chroot.tar
 - morph: devel-system-x86_64-generic
   deploy:
-    release:
+    devel-system-x86_64-generic:
       type: rawdisk
       location: /src/release/baserock-14.24-devel-system-x86_64-generic.img
       DISK_SIZE: 4G

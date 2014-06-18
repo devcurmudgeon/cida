@@ -154,14 +154,14 @@ class DeployImages(object):
         for system in release_cluster['systems']:
             system_morph = system['morph']
 
-            if 'release' not in system['deploy']:
+            if system_morph not in system['deploy']:
                 raise cliapp.AppException(
-                    'In release.morph: system %s ID should be "release"' %
-                    system_morph)
+                    'In release.morph: system %s ID should be "%s"' %
+                    (system_morph, system_morph))
 
             # We can't override 'location' with a different value. We must use
             # what's already in the morphology, and check that it makes sense.
-            location = system['deploy']['release']['location']
+            location = system['deploy'][system_morph]['location']
             if not os.path.samefile(os.path.dirname(location),
                                     config.images_dir):
                 raise cliapp.AppException(
