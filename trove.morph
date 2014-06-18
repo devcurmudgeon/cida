@@ -65,7 +65,7 @@ chunks:
   - lua
 - name: gitano
   repo: upstream:gitano/gitano
-  ref: d5a76a5caf51d12c811317ac6e376942b7633770
+  ref: 4b8ce6875266fdd6609a217dcf2924d7d4815cc2
   unpetrify-ref: baserock/morph
   build-depends:
   - lua
@@ -178,12 +178,12 @@ chunks:
   - hg-fast-export
 - name: trove-setup
   repo: baserock:baserock/trove-setup
-  ref: eafba37e2bfc3897e3e7f65f2ce087fbee358f43
+  ref: 160fd3f2f1d372751836c0073bdc944df1cfbb91
   unpetrify-ref: master
   build-depends: []
 - name: lorry-controller
   repo: baserock:baserock/lorry-controller
-  ref: 33403e1ca0b33fc12e626de2752d56bcd65dd913
+  ref: de723aed60a6a16aa8c8354b99ef7539a153fef7
   unpetrify-ref: master
   build-depends: []
 - name: lighttpd
