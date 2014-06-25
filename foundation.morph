@@ -66,7 +66,7 @@ chunks:
   - glib
 - name: systemd
   repo: upstream:systemd
-  ref: dc8ee9a30e2df2568f2b37e3fb61e4b0bb601b13
+  ref: a77af3ec96015b2382ea31020d0a14b482d10a76
   unpetrify-ref: baserock/morph
   build-depends:
   - dbus-pre
