@@ -47,16 +47,17 @@ class config(object):
     images_dir = '/src/release'
     artifacts_dir = '/src/release/artifacts'
 
-    # These locations should be appropriate 'staging' directories on the public
-    # servers that host images and artifacts. Remember not to upload to the
-    # public directories directly, or you risk exposing partially uploaded
-    # files. Once everything has uploaded you can 'mv' the release artifacts
-    # to the public directories in one quick operation.
-    # FIXME: we should probably warn if the dir exists and is not empty.
-    images_upload_location = \
-        <YOUR USERNAME> '@download.baserock.org:baserock-release-staging'
-    artifacts_upload_location = \
-        'root@git.baserock.org:/home/cache/baserock-release-staging'
+    images_server = <YOUR USERNAME> '@download.baserock.org'
+    artifacts_server = 'root@git.baserock.org'
+
+    # These paths are passed to rsync and ssh, so relative paths will be
+    # located inside the user's home directory. The artifact list file ends up
+    # in the parent directory of 'artifacts_public_path'.
+    images_upload_path = 'baserock-release-staging'
+    images_public_path = '/srv/download.baserock.org/baserock'
+
+    artifacts_upload_path = '/home/cache/baserock-release-staging'
+    artifacts_public_path = '/home/cache/artifacts'
 
     # The Codethink Manchester office currently has 8Mbits/s upload available.
     # This setting ensures we use no more than half of the available bandwidth.
@@ -231,6 +232,20 @@ class DeployImages(object):
         return outputs
 
 
+class ArtifactsBundle(object):
+    def __init__(self, all_artifacts, new_artifacts,
+                 all_artifacts_manifest, all_artifacts_tar,
+                 new_artifacts_tar):
+        # Artifact basenames
+        self.all_artifacts = all_artifacts
+        self.new_artifacts = new_artifacts
+
+        # Bundle files
+        self.all_artifacts_manifest = all_artifacts_manifest
+        self.all_artifacts_tar = all_artifacts_tar
+        self.new_artifacts_tar = new_artifacts_tar
+
+
 class PrepareArtifacts(object):
     '''Stage 2: Fetch all artifacts and archive them.
 
@@ -251,11 +266,11 @@ class PrepareArtifacts(object):
         Morph of Baserock 14.23 or later.
 
         '''
-        artifact_list_file = os.path.join(
+        artifact_manifest = os.path.join(
             config.artifacts_dir, 'baserock-%s-artifacts.txt' %
             config.release_number)
-        if os.path.exists(artifact_list_file):
-            with open(artifact_list_file) as f:
+        if os.path.exists(artifact_manifest):
+            with open(artifact_manifest) as f:
                 artifact_basenames = [line.strip() for line in f]
         else:
             text = cliapp.runcmd(
@@ -263,9 +278,9 @@ class PrepareArtifacts(object):
                  'list-artifacts', 'baserock:baserock/definitions', 'master'] +
                 system_morphs)
             artifact_basenames = text.strip().split('\n')
-            with morphlib.savefile.SaveFile(artifact_list_file, 'w') as f:
+            with morphlib.savefile.SaveFile(artifact_manifest, 'w') as f:
                 f.write(text)
-        return artifact_list_file, artifact_basenames
+        return artifact_manifest, artifact_basenames
 
     def query_remote_artifacts(self, trove, artifact_basenames):
         url = 'http://%s:8080/1.0/artifacts' % trove
@@ -360,11 +375,12 @@ class PrepareArtifacts(object):
         if not os.path.exists(config.artifacts_dir):
             os.makedirs(config.artifacts_dir)
 
-        artifact_list_file, all_artifacts = \
+        artifact_manifest, all_artifacts = \
             self.get_artifact_list(system_morphs)
 
         found_artifacts = self.fetch_artifacts(all_artifacts)
 
+        # Prepare a tar of all artifacts
         tar_name = 'baserock-%s-artifacts.tar.gz' % config.release_number
         artifacts_tar_file = os.path.join(config.artifacts_dir, tar_name)
         artifact_files = [
@@ -372,25 +388,43 @@ class PrepareArtifacts(object):
 
         self.prepare_artifacts_archive(artifacts_tar_file, artifact_files)
 
+        # Also make a tar of just the artifacts that the target Trove doesn't
+        # already have.
         tar_name = 'baserock-%s-new-artifacts.tar.gz' % config.release_number
         new_artifacts_tar_file = os.path.join(config.artifacts_dir, tar_name)
         result = self.query_remote_artifacts(config.release_trove,
                                              found_artifacts)
         new_artifacts = [a for a, present in result.iteritems() if not present]
+
+        artifact_is_system = lambda name: name.split('.')[1] == 'system'
+        new_artifacts = [a for a in new_artifacts if not artifact_is_system(a)]
+
         new_artifact_files = [
-            os.path.join(config.artifacts_dir, a) for a in new_artifacts
-            if a.split('.')[1] != 'system']
+            os.path.join(config.artifacts_dir, a) for a in new_artifacts]
 
         self.prepare_artifacts_archive(new_artifacts_tar_file,
                                        new_artifact_files)
 
-        return (artifact_list_file, artifacts_tar_file, new_artifacts_tar_file)
+        return ArtifactsBundle(
+            all_artifacts=found_artifacts,
+            new_artifacts=new_artifacts,
+            all_artifacts_manifest=artifact_manifest,
+            all_artifacts_tar=artifacts_tar_file,
+            new_artifacts_tar=new_artifacts_tar_file,
+        )
 
 
 class Upload(object):
-    '''Stage 3: upload images and artifacts to public servers.'''
+    '''Stage 3: upload images and artifacts to public servers.
 
-    def run_rsync(self, sources, target):
+    The files are not uploaded straight to the public directories, because
+    this could lead to partially uploaded artifacts being downloaded by eager
+    users.
+
+    '''
+
+    def run_rsync(self, sources, target_server, target_path):
+        target = '%s:%s' % (target_server, target_path)
         if isinstance(sources, str):
             sources = [sources]
         settings = [
@@ -401,44 +435,134 @@ class Upload(object):
         cliapp.runcmd(
             ['rsync'] + settings + sources + [target], stdout=sys.stdout)
 
+    def extract_remote_tar(self, server, filename, target_dir):
+        extract_command = \
+            ['tar', '-x', '-C', target_dir, '-f', filename]
+        cliapp.ssh_runcmd(server, extract_command)
+
     def upload_release_images(self, images):
-        self.run_rsync(images, config.images_upload_location)
+        status('Uploading images to %s', config.images_server)
+        self.run_rsync(images, config.images_server, config.images_upload_path)
 
-    def upload_artifacts(self, artifacts_list_file, artifacts_tar_file):
-        host, path = config.artifacts_upload_location.split(':', 1)
+    def upload_artifacts(self, bundle):
+        server = config.artifacts_server
+        path = config.artifacts_upload_path
+        files = [bundle.all_artifacts_manifest, bundle.new_artifacts_tar]
 
-        self.run_rsync([artifacts_list_file, artifacts_tar_file],
-                       config.artifacts_upload_location)
+        status('Uploading new artifacts to %s', server)
+        self.run_rsync(files, server, path)
 
-        # UGH! Perhaps morph-cache-server should grow an authorised-users-only
-        # API call receive artifacts, to avoid this.
-        remote_artifacts_tar = os.path.join(
-            path, os.path.basename(artifacts_tar_file))
-        extract_tar_cmd = 'cd "%s" && tar xf "%s" && chown cache:cache *' % \
-            (path, remote_artifacts_tar)
-        cliapp.ssh_runcmd(
-            host, ['sh', '-c', extract_tar_cmd])
+        remote_artifacts_tar = self.path_relocate(
+            config.artifacts_upload_path, bundle.new_artifacts_tar)
+
+        status('Extracting %s:%s', server, remote_artifacts_tar)
+        self.extract_remote_tar(server, remote_artifacts_tar, path)
+
+    def move_files_into_public_location(self, server, remote_files,
+                                        remote_target_dir, mode=None,
+                                        owner=None):
+        '''Move files into a public location on a remote system.
+
+        It'd be nice to do this using install(1) but that copies the files
+        rather than moving them. Since the target is accessible over the
+        internet, the operation must be atomic so that users will not see
+        partially-copied files.
+
+        This function is used to copy large lists of artifact files, so it
+        supports a simple batching mechanism to avoid hitting ARG_MAX. It'd
+        be a better solution to extend morph-cache-server to allow receiving
+        the artifacts. This would require adding some kind of authentication to
+        its API, though.
+
+        '''
+
+        def batch(iterable, batch_size):
+            '''Split an iterable up into batches of 'batch_size' items.'''
+            result = []
+            for item in iterable:
+                result.append(item)
+                if len(result) >= batch_size:
+                    yield result
+                    result = []
+            yield result
+
+        cliapp.ssh_runcmd(server, ['mkdir', '-p', remote_target_dir])
+        for file_batch in batch(remote_files, 1024):
+            if mode is not None:
+                cliapp.ssh_runcmd(server, ['chmod', mode] + file_batch)
+            if owner is not None:
+                cliapp.ssh_runcmd(server, ['chown', owner] + file_batch)
+            cliapp.ssh_runcmd(
+                server, ['mv'] + file_batch + [remote_target_dir])
+
+    def path_relocate(self, new_parent, path):
+        return os.path.join(new_parent, os.path.basename(path))
+
+    def parent_dir(self, path):
+        if path.endswith('/'):
+            path = path[:-1]
+        return os.path.dirname(path)
+
+    def make_images_public(self, image_files):
+        server = config.images_server
+        upload_dir = config.images_upload_path
+        files = [self.path_relocate(upload_dir, f) for f in image_files]
+        target_dir = config.images_public_path
+
+        status('Moving images into %s:%s', server, target_dir)
+        self.move_files_into_public_location(
+            server, files, target_dir, mode='644')
+
+    def make_artifacts_public(self, bundle):
+        server = config.artifacts_server
+        upload_dir = config.artifacts_upload_path
+        files = [
+            self.path_relocate(upload_dir, a) for a in bundle.new_artifacts]
+        target = config.artifacts_public_path
+
+        status('Moving artifacts into %s:%s', server, target)
+        self.move_files_into_public_location(
+            server, files, target, mode='644', owner='cache:cache')
+
+        manifest_file = self.path_relocate(
+            config.artifacts_upload_path, bundle.all_artifacts_manifest)
+        self.move_files_into_public_location(
+            server, [manifest_file], self.parent_dir(target), mode='644')
+
+    def remove_intermediate_files(self, bundle):
+        server = config.artifacts_server
+        remote_artifacts_tar = self.path_relocate(
+            config.artifacts_upload_path, bundle.new_artifacts_tar)
+
+        status('Removing %s:%s', server, remote_artifacts_tar)
+        cliapp.ssh_runcmd(server, ['rm', remote_artifacts_tar])
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
 
     deploy_images = DeployImages()
     outputs = deploy_images.run()
 
+    system_names = outputs.keys()
+    image_files = outputs.values()
+
     prepare_artifacts = PrepareArtifacts()
-    artifacts_list_file, artifacts_tar_file, new_artifacts_tar_file = \
-        prepare_artifacts.run(outputs.keys())
+    artifacts_bundle = prepare_artifacts.run(system_names)
 
     upload = Upload()
-    upload.upload_release_images(outputs.values())
-    upload.upload_artifacts(artifacts_list_file, new_artifacts_tar_file)
+    upload.upload_release_images(image_files)
+    upload.upload_artifacts(artifacts_bundle)
 
-    sys.stdout.writelines([
-        '\nPreparation for %s release complete!\n' % config.release_number,
-        'Images uploaded to %s\n' % config.images_upload_location,
-        'Artifacts uploaded to %s\n' % config.artifacts_upload_location
-    ])
+    upload.make_images_public(image_files)
+    upload.make_artifacts_public(artifacts_bundle)
+
+    upload.remove_intermediate_files(artifacts_bundle)
+
+    status('Images uploaded to %s:%s',
+           config.images_server, config.images_public_path)
+    status('Artifacts uploaded to %s:%s',
+           config.artifacts_server, config.artifacts_public_path)
 
 
 main()
