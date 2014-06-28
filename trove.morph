@@ -183,7 +183,7 @@ chunks:
   build-depends: []
 - name: lorry-controller
   repo: baserock:baserock/lorry-controller
-  ref: a7744ee66d8ef633441ffb5c62ac1f37ea207358
+  ref: 33403e1ca0b33fc12e626de2752d56bcd65dd913
   unpetrify-ref: master
   build-depends: []
 - name: lighttpd
