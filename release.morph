@@ -2,6 +2,10 @@ name: release
 kind: cluster
 description: |
   Deploy all the systems for we support in a release.
+
+  This cluster morph is used by the tool 'scripts/do-release'. While
+  you can deploy the systems yourself, if you are making a Baserock release
+  then the script should be used.
 systems:
 - morph: devel-system-x86_32-chroot
   deploy:
