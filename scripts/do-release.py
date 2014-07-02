@@ -538,8 +538,22 @@ class Upload(object):
         cliapp.ssh_runcmd(server, ['rm', remote_artifacts_tar])
 
 
+def check_ssh_access(server):
+    status('Checking for access to server %s', server)
+
+    try:
+        cliapp.ssh_runcmd(server, ['true'])
+    except cliapp.AppException as e:
+        logging.debug('Got exception: %s', e)
+        raise cliapp.AppException(
+            'Couldn\'t connect to configured remote server %s' % server)
+
+
 def main():
     logging.basicConfig(level=logging.INFO)
+
+    check_ssh_access(config.images_server)
+    check_ssh_access(config.artifacts_server)
 
     deploy_images = DeployImages()
     outputs = deploy_images.run()
