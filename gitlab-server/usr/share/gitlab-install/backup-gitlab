@@ -4,19 +4,13 @@
 # /home/git/gitlab-backup.tar . A separate backup host will need to
 # back that up.
 #
-# This script be run as the git user on a GitLab host.
+# This script be run as the postgres user on a Baserock GitLab host.
 
 set -e
 
 export PATH=/usr/local/bin:/usr/bin:/bin
 
-cd /home/git/gitlab
-mkdir -p /home/git/gitlab/tmp/backups
-bundle exec rake gitlab:backup:create RAILS_ENV=production
-
-ls /home/git/gitlab/tmp/backups/[0-9]*.tar |
-tail -n1 |
-while read filename
-do
-    mv "$filename" /home/git/gitlab-backup.tar
-done
+mkdir -p /home/postgres/dumps
+cd /home/postgres/dumps
+pg_dumpall > new.dump
+mv new.dump gitlab.pg_dumpall
