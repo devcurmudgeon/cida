@@ -499,9 +499,7 @@ class Upload(object):
         return os.path.join(new_parent, os.path.basename(path))
 
     def parent_dir(self, path):
-        if path.endswith('/'):
-            path = path[:-1]
-        return os.path.dirname(path)
+        return os.path.dirname(path.rstrip('/'))
 
     def make_images_public(self, image_files):
         server = config.images_server
