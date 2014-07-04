@@ -472,7 +472,10 @@ class Upload(object):
         supports a simple batching mechanism to avoid hitting ARG_MAX. It'd
         be a better solution to extend morph-cache-server to allow receiving
         the artifacts. This would require adding some kind of authentication to
-        its API, though.
+        its API, though. Note that using xargs and sending the list of files
+        over stdin isn't a perfect solution (although perhaps better than the
+        current one) because Busybox's 'mv' doesn't support the '-t' option,
+        making it very awkward to use with 'xargs'.
 
         '''
 
