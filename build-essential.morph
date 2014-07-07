@@ -36,6 +36,7 @@ products:
   include:
   - fhs-dirs-.*
   - busybox-.*
+  - eglibc-nss
 chunks:
 - name: stage1-binutils
   repo: upstream:binutils-redhat
