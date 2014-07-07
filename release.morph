@@ -2,28 +2,30 @@ name: release
 kind: cluster
 description: |
   Deploy all the systems for we support in a release.
+
+  This cluster morph is used by the tool 'scripts/do-release'. While
+  you can deploy the systems yourself, if you are making a Baserock release
+  then the script should be used.
 systems:
 - morph: devel-system-x86_32-chroot
   deploy:
     devel-system-x86_32-chroot:
       type: tar
-      location: /src/release/baserock-14.26-devel-system-x86_32-chroot.tar
+      location: devel-system-x86_32-chroot.tar
 - morph: devel-system-x86_32-generic
   deploy:
     devel-system-x86_32-generic:
       type: rawdisk
-      location: /src/release/baserock-14.26-devel-system-x86_32-generic.img
+      location: devel-system-x86_32-generic.img
       DISK_SIZE: 4G
-      VERSION_LABEL: baserock-14.26
 - morph: devel-system-x86_64-chroot
   deploy:
     devel-system-x86_64-chroot:
       type: tar
-      location: /src/release/baserock-14.26-devel-system-x86_64-chroot.tar
+      location: devel-system-x86_64-chroot.tar
 - morph: devel-system-x86_64-generic
   deploy:
     devel-system-x86_64-generic:
       type: rawdisk
-      location: /src/release/baserock-14.26-devel-system-x86_64-generic.img
+      location: devel-system-x86_64-generic.img
       DISK_SIZE: 4G
-      VERSION_LABEL: baserock-14.26

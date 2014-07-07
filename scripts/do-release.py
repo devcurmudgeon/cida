@@ -137,70 +137,53 @@ class DeployImages(object):
             assert morph['kind'] == kind
         return morph
 
-    def parse_release_cluster(self, release_cluster):
-        '''Validate release cluster and list the systems being released.
+    def deploy_single_image(self, system_name, location, version_label):
+        deploy_command = [
+            'morph', 'deploy', 'release.morph', system_name,
+            '--trove-host=%s' % config.build_trove,
+            '%s.location=%s' % (system_name, location),
+            '%s.VERSION_LABEL=%s' % (system_name, version_label)
+        ]
 
-        This function returns a dict mapping the system name to the location
-        of its deployed image.
+        cliapp.runcmd(deploy_command, stdout=sys.stdout)
 
-        It's an open question how we should detect and handle the case where a
-        write extension creates more than one file. ARM kernels and GENIVI
-        manifest files are possible examples of this.
-
-        '''
-
-        version_label = 'baserock-%s' % config.release_number
-
-        outputs = {}
-        for system in release_cluster['systems']:
-            system_morph = system['morph']
-
-            if system_morph not in system['deploy']:
-                raise cliapp.AppException(
-                    'In release.morph: system %s ID should be "%s"' %
-                    (system_morph, system_morph))
-
-            # We can't override 'location' with a different value. We must use
-            # what's already in the morphology, and check that it makes sense.
-            location = system['deploy'][system_morph]['location']
-            if not os.path.samefile(os.path.dirname(location),
-                                    config.images_dir):
-                raise cliapp.AppException(
-                    'In release.morph: system location %s is not inside '
-                    'configured images_dir %s' % (location, config.images_dir))
-            if not os.path.basename(location).startswith(version_label):
-                raise cliapp.AppException(
-                    'In release.morph: system image name %s does not start '
-                    'with version label %s' % (location, version_label))
-
-            outputs[system_morph] = location
-
-        return outputs
-
-    def deploy_images(self, outputs):
+    def deploy_images(self, release_cluster):
         '''Use `morph deploy` to create the release images.'''
 
-        # FIXME: once `morph deploy` supports partial deployment, this should
-        # deploy only the images which aren't already deployed... it should
-        # also check if they need redeploying based on the SHA1 they were
-        # deployed from, perhaps. That's getting fancy!
+        version_label = 'baserock-%s' % config.release_number
+        outputs = {}
 
-        todo = [f for f in outputs.itervalues() if not os.path.exists(f)]
+        for system in release_cluster['systems']:
+            system_name = system['morph']
 
-        if len(todo) == 0:
-            status('Reusing existing release images')
-        else:
-            logging.debug('Need to deploy images: %s' % ', '.join(todo))
-            status('Creating release images from release.morph')
+            if system_name not in system['deploy']:
+                raise cliapp.AppException(
+                    'In release.morph: system %s ID should be "%s"' %
+                    (system_name, system_name))
 
-            version_label = 'baserock-%s' % config.release_number
+            # The release.morph cluster must specify a basename for the file,
+            # of system-name + extension. This script knows system-name, but it
+            # can't find out the appropriate file extension without
+            # second-guessing the behaviour of write extensions.
+            basename = system['deploy'][system_name]['location']
 
-            morph_config = ['--trove-host=%s' % config.build_trove]
-            deploy_config = ['release.VERSION_LABEL=%s' % version_label]
+            if '/' in basename or basename.startswith(version_label):
+                raise cliapp.AppException(
+                    'In release.morph: system %s.location should be just the '
+                    'base name, e.g. "%s.img"' % (system_name, system_name))
 
-            cliapp.runcmd(
-                ['morph', 'deploy', 'release.morph'] + morph_config +
-                deploy_config, stdout=sys.stdout)
+            filename = '%s-%s' % (version_label, basename)
+            location = os.path.join(config.images_dir, filename)
+
+            if os.path.exists(location):
+                status('Reusing existing deployment of %s', filename)
+            else:
+                status('Creating %s from release.morph', filename)
+                self.deploy_single_image(system_name, location, version_label)
+
+            outputs[system_name] = location
+
+        return outputs
 
     def compress_images(self, outputs):
         for name, source_file in outputs.iteritems():
@@ -221,11 +204,7 @@ class DeployImages(object):
 
         with cwd(definitions_dir):
             release_cluster = self.read_morph('release.morph', kind='cluster')
-
-        outputs = self.parse_release_cluster(release_cluster)
-
-        with cwd(definitions_dir):
-            self.deploy_images(outputs)
+            outputs = self.deploy_images(release_cluster)
 
         self.compress_images(outputs)
 
