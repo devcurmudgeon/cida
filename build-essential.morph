@@ -185,7 +185,7 @@ chunks:
   prefix: /usr
 - name: eglibc
   repo: upstream:eglibc2
-  ref: e57ce33023d37183847a0c2f692645887691576a
+  ref: d4f380d3b4c5ef3ba05744240ef0f2c4dc605fa0
   unpetrify-ref: baserock/2.15-build-essential
   build-depends:
   - stage2-binutils
