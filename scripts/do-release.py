@@ -41,8 +41,6 @@ class config(object):
     build_trove = 'hawkdevtrove'
     release_trove = 'git.baserock.org'
 
-    # Note that the 'location' field of the various systems in release.morph
-    # should match 'images_dir' here.
     deploy_workspace = '/src/ws-release'
     images_dir = '/src/release'
     artifacts_dir = '/src/release/artifacts'
@@ -71,8 +69,7 @@ def status(message, *args):
 
 @contextlib.contextmanager
 def cwd(path):
-    '''
-    Context manager to set current working directory.'''
+    '''Context manager to set current working directory.'''
     old_cwd = os.getcwd()
     os.chdir(path)
     try:
@@ -212,6 +209,7 @@ class DeployImages(object):
 
 
 class ArtifactsBundle(object):
+    '''State that is the results of the PrepareArtifacts stage.'''
     def __init__(self, all_artifacts, new_artifacts,
                  all_artifacts_manifest, all_artifacts_tar,
                  new_artifacts_tar):
