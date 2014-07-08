@@ -6,8 +6,8 @@ build-depends:
 chunks:
 - name: gitlab-ce
   repo: upstream:gitlab/gitlab-ce
-  ref: cdec1324173c2331153b671ef6ebab749bca9cd4
-  unpetrify-ref: baserock/morph
+  ref: 53d98a77d34cbfddaef9eb25cf5f651a78550425
+  unpetrify-ref: baserock/v7.0.0
   build-depends: []
 - name: gitlab-ci
   repo: upstream:gitlab/gitlab-ci
