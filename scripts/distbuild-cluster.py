@@ -18,6 +18,7 @@ import subprocess
 import sys
 import time
 import yaml
+import argparse
 
 import morphlib
 
@@ -32,15 +33,6 @@ handle multiple controllers).
 
 '''
 
-controllers = {
-    'armv7lhf': '10.24.1.134',
-    'x86_32': 'distbuild-x86-32',
-    'x86_64': 'distbuild-x86-64',
-}
-
-
-ref_to_build = 'baserock-14.24'
-
 
 def read_morph(morph_name, kind=None):
     with open(morph_name + '.morph') as f:
@@ -49,18 +41,52 @@ def read_morph(morph_name, kind=None):
         assert morph['kind'] == kind
     return morph
 
+class Context:
+    '''Holds the script's general context stuff'''
+
+    def __init__(self):
+        # Handle the command line parameters and set up help/usage
+        purpose = 'Build all systems in a cluster using distbuild.'
+        parser = argparse.ArgumentParser(description=purpose)
+        parser.add_argument('cluster', nargs=1, help='Cluster to build')
+        parser.add_argument('ref', nargs=1, help='Reference to build')
+        parser.add_argument('controllers', nargs='*',
+                            help='List of controllers [id:host] [id:host]...')
+        args = parser.parse_args()
+
+        # Build controller dictionary from supplied list of controllers
+        self.controllers = {}
+        for controller in args.controllers:
+            self.controllers.update([controller.split(':', 1)])
+
+        # Get cluster and ref to build from supplied arguments
+        self.ref_to_build = args.ref[0]
+        self.cluster_to_build = args.cluster[0]
+
+    def show(self):
+        # Print out the context
+        key_width = max(len(key) for key in self.controllers)
+
+        print "-"*80
+        print "  Performing distbuild of: '" + self.cluster_to_build + "'"
+        print "           with reference: '" + self.ref_to_build + "'"
+        print "  Using controllers:"
+        for key, host in self.controllers.iteritems():
+            print "    " + key.rjust(key_width) + ": " + host
+        print "-"*80
+
 
 class Build(object):
     '''A single distbuild instance.'''
 
-    def __init__(self, system_name, arch):
+    def __init__(self, ctx, system_name, arch):
         self.system_name = system_name
-        self.distbuild_controller = controllers[system['arch']]
+        self.distbuild_controller = ctx.controllers[system['arch']]
 
         self.command = [
             'morph', 'distbuild-morphology',
             '--controller-initiator-address=%s' % self.distbuild_controller,
-            'baserock:baserock/definitions', ref_to_build, system_name]
+            'baserock:baserock/definitions', ctx.ref_to_build, system_name]
 
     def start(self):
         self.process = subprocess.Popen(self.command)
@@ -70,7 +96,10 @@ class Build(object):
 
 
 if __name__ == '__main__':
-    cluster_name = morphlib.util.strip_morph_extension(sys.argv[1])
+    ctx = Context()
+    ctx.show()
+
+    cluster_name = morphlib.util.strip_morph_extension(ctx.cluster_to_build)
 
     cluster = read_morph(cluster_name, kind='cluster')
     system_list = [system['morph'] for system in cluster['systems']]
@@ -78,7 +107,7 @@ if __name__ == '__main__':
     builds = []
     for system_name in system_list:
         system = read_morph(system_name)
-        builds.append(Build(system_name, system['arch']))
+        builds.append(Build(ctx, system_name, system['arch']))
 
     # Morph dumps many log files to the current directory, which I don't
     # want to be in the root of 'definitions'.
