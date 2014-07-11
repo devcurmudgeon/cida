@@ -36,6 +36,7 @@ products:
   include:
   - fhs-dirs-.*
   - busybox-.*
+  - eglibc-nss
 chunks:
 - name: stage1-binutils
   repo: upstream:binutils-redhat
@@ -184,7 +185,7 @@ chunks:
   prefix: /usr
 - name: eglibc
   repo: upstream:eglibc2
-  ref: e57ce33023d37183847a0c2f692645887691576a
+  ref: df0258044f321990eadd647e03095a48ad04c1a8
   unpetrify-ref: baserock/2.15-build-essential
   build-depends:
   - stage2-binutils
