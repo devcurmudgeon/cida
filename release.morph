@@ -40,6 +40,7 @@ systems:
       type: rawdisk
       location: baserock-14.28-genivi-baseline-system-x86_64-generic.img
       DISK_SIZE: 4G
+      KERNEL_ARGS: vga=788
 - morph: genivi-baseline-system-armv7lhf-versatile
   deploy:
     genivi-baseline-system-armv7lhf-versatile:
