@@ -36,16 +36,16 @@ See: <http://wiki.baserock.org/guides/release-process>.
 
 
 class config(object):
-    release_number = RELEASE NUMBER
+    release_number = '<RELEASE NUMBER>'
 
-    build_trove = 'hawkdevtrove'
+    build_trove = '<YOUR BUILD TROVE>'
     release_trove = 'git.baserock.org'
 
     deploy_workspace = '/src/ws-release'
     images_dir = '/src/release'
     artifacts_dir = '/src/release/artifacts'
 
-    images_server = <YOUR USERNAME> '@download.baserock.org'
+    images_server = '<YOUR USERNAME>@download.baserock.org'
     artifacts_server = 'root@git.baserock.org'
 
     # These paths are passed to rsync and ssh, so relative paths will be
