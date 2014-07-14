@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2013  Codethink Limited
+# Copyright (C) 2013 - 2014  Codethink Limited
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,8 @@
 #
 # This is a "morph deploy" configuration extension to fully configure
 # a Trove instance at deployment time. It uses the following variables
-# from the environment (see MUSTARD for a description of them):
+# from the environment (run `morph help trove.configure` to see a description
+# of them):
 #
 #   * TROVE_ID
 #   * TROVE_HOSTNAME (optional, defaults to TROVE_ID)
@@ -29,6 +30,9 @@
 #   * TROVE_ADMIN_NAME
 #   * TROVE_ADMIN_SSH_PUBKEY
 #   * LORRY_CONTROLLER_MINIONS (optional, defaults to 4)
+#   * TROVE_BACKUP_KEYS - a space-separated list of paths to SSH keys.
+#     (optional)
+#   * TROVE_GENERIC (optional)
 #
 # The configuration of a Trove is slightly tricky: part of it has to
 # be run on the configured system after it has booted. We accomplish
@@ -39,232 +43,110 @@
 
 set -e
 
-ROOT="$1"
-
-if [ -z "$TROVE_HOSTNAME" ]
+if [ "$TROVE_GENERIC" ]
 then
-    export TROVE_HOSTNAME="$TROVE_ID"
-fi
-
-##########################################################################
-# Configuration in /etc, which we need to do on all deployments.
-##########################################################################
-
-##########################################################################
-
-lua_escape()
-{
-    echo -n "$1" | perl -pe 's/([-+\(\).%*?^$\[\]])/%$1/g'
-}
-
-echo "Creating /etc/trove-setup.sed"
-
-cat <<EOF > "$ROOT"/etc/trove-setup.sed
-s/##TROVE_HOSTNAME##/$TROVE_HOSTNAME/g
-s/##MASON_HOST##/$MASON_ID/g
-s/##MASON_PORT##/18755/g
-s/##TROVE_TITLE##/$TROVE_ID/g
-s/##TROVE_COMPANY##/$TROVE_COMPANY/g
-s/##TROVE_LOG_PREFIX##/$TROVE_ID/g
-s/##ESC_PERSONAL_PREFIX##/people/g
-s/##PREFIX##/$TROVE_ID/g
-s/##UPSTREAM_TROVE##/$UPSTREAM_TROVE/g
-## The same prefix as above, only lua-pattern-escaped
-s/##ESC_PREFIX##/$(lua_escape "$TROVE_ID")/g
-EOF
-
-##########################################################################
-
-echo "Performing substitutions in /etc"
-
-sed -f "$ROOT"/etc/trove-setup.sed -i \
-    "$ROOT"/etc/cgitrc \
-    "$ROOT"/etc/gitano-setup.clod \
-    "$ROOT"/etc/lorry.conf \
-    "$ROOT"/usr/share/gitano/skel/gitano-admin/*/*.lace \
-    "$ROOT"/usr/share/gitano/skel/gitano-admin/*/*.lua \
-    "$ROOT"/usr/share/gitano/skel/gitano-admin/users/*/user.conf \
-    "$ROOT"/usr/share/trove-setup/releases-repo-migration.sh \
-    "$ROOT"/usr/share/trove-setup/releases-repo-README \
-    "$ROOT"/usr/lib/systemd/system/releases-repo-migration.service
-
-##########################################################################
-
-# trove-early-setup needs "localhost" to be defined, and there's no
-# guarantee it's going to be in DNS, or that external networking is
-# up when trove-early-setup runs. We work around this by creating
-# /etc/hosts with the right line.
-echo "Add localhost to /etc/hosts"
-cat <<EOF >> "$ROOT/etc/hosts"
-127.0.0.1 localhost
-EOF
-
-##########################################################################
-
-# create a symlink in /var/www/htdocs to what will be the rsync area of
-# the releases repository
-echo "Symlink rsync releases in htdocs"
-ln -s "/home/git/repos/$TROVE_ID/site/releases.git/rsync" \
-    "$ROOT/var/www/htdocs/releases"
-
-
-##########################################################################
-
-echo "Create Lorry Controller config"
-install -d "$ROOT/etc/lorry-controller"
-cat <<EOF > "$ROOT/etc/lorry-controller/webapp.conf"
-[config]
-log = /home/lorry/webapp.log
-log-max = 100M
-log-keep = 10
-log-level = debug
-statedb = /home/lorry/webapp.db
-configuration-directory = /home/lorry/confgit
-status-html = /home/lorry/lc-status.html
-wsgi = yes
-debug-port = 12765
-templates = /usr/share/lorry-controller/templates
-confgit-url = ssh://git@localhost/$TROVE_ID/local-config/lorries
-EOF
-
-
-echo "Create MINION config"
-cat <<EOF > "$ROOT/etc/lorry-controller/minion.conf"
-[config]
-log = syslog
-log-level = debug
-webapp-host = localhost
-webapp-port = 12765
-webapp-timeout = 3600
-EOF
-
-
-echo "Set up Lorry Controller MINIONs"
-UNITS="$ROOT/usr/lib/systemd/system"
-seq "${LORRY_CONTROLLER_MINIONS:-4}" |
-while read i
-do
-    ln -s "../lorry-controller-minion@.service" \
-        "$UNITS/multi-user.target.wants/lorry-controller-minion@$i.service"
-done
-
-
-
-##########################################################################
-# Configuration of trove-early-setup
-#
-# We configure trove-early-setup so that it runs at first boot of an initial
-# deployment, to do the parts of Trove system setup that require running
-# commands from the deployed system.
-##########################################################################
-
-if [ "$UPGRADE" == "yes" ]; then
-    echo "Not configuring trove-early-setup because this is an upgrade."
+    echo "Not configuring the trove, it will be generic"
     exit 0
 fi
 
-echo "Create /var/lib/trove-setup"
-install -d -o 0 -g 0 -m 0755 "$ROOT/var/lib/trove-setup"
 
-echo "Create /etc/trove-setup.needed"
-touch "$ROOT/etc/trove-setup.needed"
-chown 0:0 "$ROOT/etc/trove-setup.needed"
-chmod 0600 "$ROOT/etc/trove-setup.needed"
+# Check that all the variables needed are present:
 
-##########################################################################
-
-# Put the lorry ssh keys onto the system. The trove-early-setup unit will
-# put them into the right place for the lorry user upon first boot.
-# We can't do that right now, because the lorry user won't exist until
-# trove-early-setup has run.
-echo "Copy Lorry ssh key to system"
-install -m 0600 "$LORRY_SSH_KEY" "$ROOT/var/lib/trove-setup/lorry.key"
-install -m 0644 "${LORRY_SSH_KEY}.pub" \
-    "$ROOT/var/lib/trove-setup/lorry.key.pub"
-
-##########################################################################
-
-echo "Copy admin's ssh public key to system"
-install -m 0644 "$TROVE_ADMIN_SSH_PUBKEY" \
-    "$ROOT/var/lib/trove-setup/admin.key.pub"
-
-##########################################################################
-
-echo "Copy worker's ssh public key to system"
-install -m 0644 "$WORKER_SSH_PUBKEY" \
-    "$ROOT/var/lib/trove-setup/worker.key.pub"
-
-##########################################################################
-
-echo "Copy mason's ssh public key to system"
-install -m 0644 "$MASON_SSH_PUBKEY" \
-    "$ROOT/var/lib/trove-setup/mason.key.pub"
-
-##########################################################################
-
-if [ "x$MASON_DEFAULT_CI_HOSTS_FILE" = x ]; then
-    echo "No default Mason hosts provided, using '[]'"
-    printf '[\n]\n' >"$ROOT/var/lib/trove-setup/hosts.json.txt"
-else
-    echo "Copy default Mason host configuration to the System"
-    install -m 0644 "$MASON_DEFAULT_CI_HOSTS_FILE" \
-        "$ROOT/var/lib/trove-setup/hosts.json.txt"
+error_vars=false
+if test "x$TROVE_ID" = "x"; then
+    echo "ERROR: TROVE_ID needs to be defined."
+    error_vars=true
 fi
 
-if [ "x$MASON_DEFAULT_CI_SYSTEMS_FILE" = x ]; then
-    echo "No default Mason systems provided, using '[]'"
-    printf '[\n]\n' >"$ROOT/var/lib/trove-setup/systems.json.txt"
-else
-    echo "Copy default Mason system configuration to the System"
-    install -m 0644 "$MASON_DEFAULT_CI_SYSTEMS_FILE" \
-        "$ROOT/var/lib/trove-setup/systems.json.txt"
+if test "x$TROVE_COMPANY" = "x"; then
+    echo "ERROR: TROVE_COMPANY needs to be defined."
+    error_vars=true
 fi
 
-##########################################################################
+if test "x$UPSTREAM_TROVE" = "x"; then
+    echo "ERROR: UPSTREAM_TROVE needs to be defined."
+    error_vars=true
+fi
 
-echo "Create trove-early-setup unit file"
-cat <<EOF > "$ROOT/etc/systemd/system/trove-early-setup.service"
-[Unit]
-Description=Run trove-early-setup (once)
-Requires=network.target
-After=network.target
-Requires=opensshd.service
-After=opensshd.service
+if test "x$TROVE_ADMIN_USER" = "x"; then
+    echo "ERROR: TROVE_ADMIN_USER needs to be defined."
+    error_vars=true
+fi
 
-# If there's a shared /var subvolume, it must be mounted before this
-# unit runs.
-Requires=local-fs.target
-After=local-fs.target
+if test "x$TROVE_ADMIN_NAME" = "x"; then
+    echo "ERROR: TROVE_ADMIN_NAME needs to be defined."
+    error_vars=true
+fi
 
-ConditionPathExists=/etc/trove-setup.needed
+if test "x$TROVE_ADMIN_EMAIL" = "x"; then
+    echo "ERROR: TROVE_ADMIN_EMAIL needs to be defined."
+    error_vars=true
+fi
 
-# These must wait until we have created the required users on first boot.
-# We reboot the machine after this unit completes so these lines are not
-# strictly required, but it's nice to have a dependency graph that is true.
-Before=lighttpd.service
-Before=git-daemon.service
+if ! ssh-keygen -lf $LORRY_SSH_KEY > /dev/null 2>&1
+then
+    echo "ERROR: LORRY_SSH_KEY is not a vaild ssh key."
+    error_vars=true
+fi
+
+if ! ssh-keygen -lf $WORKER_SSH_PUBKEY > /dev/null 2>&1
+then
+    echo "ERROR: WORKER_SSH_PUBKEY is not a vaild ssh key."
+    error_vars=true
+fi
+
+if ! ssh-keygen -lf $TROVE_ADMIN_SSH_PUBKEY > /dev/null 2>&1
+then
+    echo "ERROR: TROVE_ADMIN_SSH_PUBKEY is not a vaild ssh key."
+    error_vars=true
+fi
+
+if "$error_vars"; then
+    exit 1
+fi
+
+ROOT="$1"
 
 
-[Service]
-Type=oneshot
-ExecStart=/bin/sh -c 'ssh-keyscan localhost $UPSTREAM_TROVE> /etc/ssh/ssh_known_hosts'
-ExecStart=/usr/bin/trove-early-setup
-ExecStart=/usr/bin/install -m 0600 -o lorry -g lorry /var/lib/trove-setup/lorry.key /home/lorry/.ssh/id_rsa
-ExecStart=/usr/bin/install -m 0644 -o lorry -g lorry /var/lib/trove-setup/lorry.key.pub /home/lorry/.ssh/id_rsa.pub
-ExecStart=/bin/su git -c 'ssh git@localhost as lorry sshkey add configured < /var/lib/trove-setup/lorry.key.pub'
-ExecStart=/bin/su git -c 'ssh git@localhost user add $TROVE_ADMIN_USER $TROVE_ADMIN_EMAIL $TROVE_ADMIN_NAME'
-ExecStart=/bin/su git -c 'ssh git@localhost group adduser trove-admin $TROVE_ADMIN_USER'
-ExecStart=/bin/su git -c 'ssh git@localhost as $TROVE_ADMIN_USER sshkey add default < /var/lib/trove-setup/admin.key.pub'
-ExecStart=/bin/su git -c 'ssh git@localhost as distbuild sshkey add default < /var/lib/trove-setup/worker.key.pub'
-ExecStart=/bin/su git -c 'ssh git@localhost as mason  sshkey add default < /var/lib/trove-setup/mason.key.pub'
-ExecStart=/bin/mkdir -p /var/run/lighttpd/
-ExecStart=/bin/chown cache:cache /var/run/lighttpd/
-ExecStart=/bin/rm /etc/trove-setup.needed
-ExecStart=/sbin/reboot
-Restart=no
+TROVE_DATA="$ROOT/etc/trove"
+mkdir -p "$TROVE_DATA"
+
+install -m 0600 "$LORRY_SSH_KEY" "$TROVE_DATA/lorry.key"
+install -m 0644 "${LORRY_SSH_KEY}.pub" "$TROVE_DATA/lorry.key.pub"
+install -m 0644 "$TROVE_ADMIN_SSH_PUBKEY" "$TROVE_DATA/admin.key.pub"
+install -m 0644 "$WORKER_SSH_PUBKEY" "$TROVE_DATA/worker.key.pub"
+
+
+python <<'EOF' >"$TROVE_DATA/trove.conf"
+import os, sys, yaml
+
+trove_configuration={
+    'TROVE_ID': os.environ['TROVE_ID'],
+    'TROVE_COMPANY': os.environ['TROVE_COMPANY'],
+    'UPSTREAM_TROVE': os.environ['UPSTREAM_TROVE'],
+    'TROVE_ADMIN_USER': os.environ['TROVE_ADMIN_USER'],
+    'TROVE_ADMIN_EMAIL': os.environ['TROVE_ADMIN_EMAIL'],
+    'TROVE_ADMIN_NAME': os.environ['TROVE_ADMIN_NAME'],
+    'LORRY_SSH_KEY': '/etc/trove/lorry.key',
+    'LORRY_SSH_PUBKEY': '/etc/trove/lorry.key.pub',
+    'TROVE_ADMIN_SSH_PUBKEY': '/etc/trove/admin.key.pub',
+    'WORKER_SSH_PUBKEY': '/etc/trove/worker.key.pub',
+}
+
+
+
+optional_keys = ('MASON_ID', 'HOSTNAME', 'TROVE_HOSTNAME',
+                 'LORRY_CONTROLLER_MINIONS', 'TROVE_BACKUP_KEYS')
+
+for key in optional_keys:
+    if key in os.environ:
+        trove_configuration[key]=os.environ[key]
+
+yaml.dump(trove_configuration, sys.stdout, default_flow_style=False)
 EOF
 
-##########################################################################
-
-ln -s "/etc/systemd/system/trove-early-setup.service" \
-  "$ROOT/etc/systemd/system/multi-user.target.wants/trove-early-setup.service"
+if [ -n "$TROVE_BACKUP_KEYS" ]; then
+    mkdir -p "$TROVE_DATA/backup-keys"
+    cp -- $TROVE_BACKUP_KEYS "$TROVE_DATA/backup-keys"
+    echo "TROVE_BACKUP_KEYS: /etc/trove/backup-keys/*" >> "$TROVE_DATA/trove.conf"
+fi

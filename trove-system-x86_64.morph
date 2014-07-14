@@ -3,7 +3,6 @@ configuration-extensions:
 - set-hostname
 - trove
 - nfsboot-server
-- trove-backup
 - fstab
 - simple-network
 - install-files
@@ -18,3 +17,4 @@ strata:
 - morph: tools
 - morph: trove
 - morph: nfs
+- morph: ansible
