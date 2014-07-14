@@ -113,7 +113,7 @@ class DeployImages(object):
             status('Reusing existing workspace %s' % path)
 
         repo = 'baserock:baserock/definitions'
-        branch = 'master'
+        branch = 'baserock-%s' % config.release_number
 
         with cwd(path):
             if not os.path.exists(branch):
@@ -252,7 +252,8 @@ class PrepareArtifacts(object):
         else:
             text = cliapp.runcmd(
                 ['morph', '--quiet', '--trove-host=%s' % config.build_trove,
-                 'list-artifacts', 'baserock:baserock/definitions', 'master'] +
+                 'list-artifacts', 'baserock:baserock/definitions',
+                 'baserock-%s' % config.release_number] +
                 system_morphs)
             artifact_basenames = text.strip().split('\n')
             with morphlib.savefile.SaveFile(artifact_manifest, 'w') as f:
