@@ -13,6 +13,8 @@ help: |
     * `TROVE_ADMIN_NAME`
     * `TROVE_ADMIN_SSH_PUBKEY`
     * `LORRY_CONTROLLER_MINIONS` (optional, defaults to 4)
+    * `TROVE_BACKUP_KEYS` - a space-separated list of paths to SSH keys.
+      (optional)
 
     The variables are described in more detail below.
 
@@ -25,6 +27,10 @@ help: |
 
     These are specified with the configuration variables described in this
     help.
+
+    * `TROVE_GENERIC` -- boolean. If it's true the trove will be generic
+      and it won't be configured with any of the other variables listed
+      here.
 
     * `TROVE_ID` -- the identifier of the Trove. This separates it from
       other Troves, and allows mirroring of Troves to happen without local
@@ -94,6 +100,10 @@ help: |
      processes to start. This is an optional setting and defaults to 4.
      The more workers are running, the more Lorry jobs can run at the same
      time, but the more resources they require.
+
+    * `TROVE_BACKUP_KEYS` -- a space-separated list of paths to SSH keys.
+      If this is set, the Trove will have a backup user that can be accessed
+      with rsync using the SSH keys provided.
 
     Example
     -------

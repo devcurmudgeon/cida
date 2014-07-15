@@ -240,3 +240,13 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - python-setuptools
+- name: shadow
+  repo: upstream:shadow
+  ref: 4f5000a45963c2cc2a403ad23e459f20296b29c2
+  unpetrify-ref: baserock/4.2
+  build-depends:
+  - autoconf
+  - automake
+  - gettext
+  - libtool
+  - bison
