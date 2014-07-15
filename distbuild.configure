@@ -43,7 +43,7 @@ set -e
 # If ARTIFACT_CACHE_SERVER isn't set, default to $TROVE_ID.
 if [ "x$ARTIFACT_CACHE_SERVER" = x ]
 then
-    ARTIFACT_CACHE_SERVER="$TROVE_ID"
+    ARTIFACT_CACHE_SERVER="$TROVE_HOST"
 fi
 
 set -u
@@ -67,14 +67,14 @@ log = /var/log/morph.log
 log-max = 100M
 cachedir = /srv/distbuild
 tempdir = /srv/distbuild/tmp
-trove-host = $TROVE_ID
+trove-host = $TROVE_HOST
 trove-id = $TROVE_ID
 controller-initiator-address = $CONTROLLERHOST
 tempdir-min-space = 4G
 cachedir-min-space = 4G
 build-ref-prefix = $TROVE_ID
-artifact-cache-server = http://${ARTIFACT_CACHE_SERVER}:8080/
-git-resolve-cache-server = http://${TROVE_ID}:8080/
+artifact-cache-server = http://$ARTIFACT_CACHE_SERVER:8080/
+git-resolve-cache-server = http://$TROVE_HOST:8080/
 EOF
 
 
@@ -90,7 +90,7 @@ then
 [config]
 log = /var/log/morph-controller.log
 log-max = 100M
-writeable-cache-server = http://${ARTIFACT_CACHE_SERVER}:8081/
+writeable-cache-server = http://$ARTIFACT_CACHE_SERVER:8081/
 worker = $WORKERS
 controller-helper-address = 127.0.0.1
 EOF
@@ -125,7 +125,7 @@ EOF
 
     # This will be used for a systemd generator which 
     # nfs mounts the ccache from the trove
-    echo "$TROVE_ID" > "$1/etc/trove-host"
+    echo "$TROVE_HOST" > "$1/etc/trove-host"
 
     # Configuration for the controller's helper process. This
     # gets used by the systemd unit that starts the helper.
@@ -155,5 +155,5 @@ install -m 0600 "$WORKER_SSH_KEY" "$1/root/.ssh/id_rsa"
 install -m 0644 "${WORKER_SSH_KEY}.pub" "$1/root/.ssh/id_rsa.pub"
 
 # Add trove's host key
-ssh-keyscan -t dsa,ecdsa,rsa "$TROVE_ID" >> "$1/root/.ssh/known_hosts"
+ssh-keyscan -t dsa,ecdsa,rsa "$TROVE_HOST" >> "$1/root/.ssh/known_hosts"
 fi
