@@ -6,8 +6,8 @@ build-depends:
 chunks:
 - name: orc
   repo: upstream:orc
-  ref: b4f7fcaf99a4d952e59f2a9fa9286d24cc4b3a5a
-  unpetrify-ref: baserock/morph
+  ref: ec132ae118bead13312f126a1f6e5709a2429ff6
+  unpetrify-ref: orc-0.4.19
   build-depends: []
 - name: gstreamer
   repo: upstream:gstreamer
