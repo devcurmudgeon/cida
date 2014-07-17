@@ -115,7 +115,7 @@ chunks:
   prefix: /tools
 - name: stage2-fhs-dirs
   repo: baserock:baserock/fhs-dirs
-  ref: 003dd162003b6460f0afe4b7c88c758ccb657965
+  ref: 41bbb474cd4647ee715bc94c21c161d12a20deb4
   unpetrify-ref: master
   build-depends: []
   build-mode: bootstrap
@@ -153,7 +153,7 @@ chunks:
   prefix: /tools
 - name: fhs-dirs
   repo: baserock:baserock/fhs-dirs
-  ref: 003dd162003b6460f0afe4b7c88c758ccb657965
+  ref: 41bbb474cd4647ee715bc94c21c161d12a20deb4
   unpetrify-ref: master
   build-depends:
   - stage2-binutils
