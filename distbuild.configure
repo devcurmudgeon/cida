@@ -52,7 +52,6 @@ set -u
 # Create the mount point for extra disk space.
 install -d -o 0 -g 0 -m 0755 "$1/srv/distbuild"
 
-
 # Configuration shared by all instances of Morph. For reasons of
 # convenience, this sets the controller-initiator-address, so
 # that when users invoke "morph", they don't need to manually
@@ -63,7 +62,7 @@ install -d -o 0 -g 0 -m 0755 "$1/srv/distbuild"
 
 cat <<EOF > "$1/etc/morph.conf"
 [config]
-log = /var/log/morph.log
+log = /srv/distbuild/morph.log
 log-max = 100M
 cachedir = /srv/distbuild
 tempdir = /srv/distbuild/tmp
@@ -77,6 +76,7 @@ artifact-cache-server = http://$ARTIFACT_CACHE_SERVER:8080/
 git-resolve-cache-server = http://$TROVE_HOST:8080/
 EOF
 
+ln -s /srv/distbuild/morph.log "$1/var/log/morph.log"
 
 # Configuration for a distbuild controller. This configuration
 # file gets used by the systemd unit that runs the controller.
@@ -88,23 +88,27 @@ if [ "$DISTBUILD_CONTROLLER" = True ]
 then
     cat <<EOF > "$1/etc/morph-controller.conf"
 [config]
-log = /var/log/morph-controller.log
+log = /srv/distbuild/morph-controller.log
 log-max = 100M
 writeable-cache-server = http://$ARTIFACT_CACHE_SERVER:8081/
 worker = $WORKERS
 controller-helper-address = 127.0.0.1
 EOF
-    
+
+ln -s /srv/distbuild/morph-controller.log "$1/var/log/morph-controller.log"
+
     # Configuration for the controller's helper process. This
     # gets used by the systemd unit that starts the helper.
 
 cat <<EOF > "$1/etc/morph-controller-helper.conf"
 [config]
-log = /var/log/morph-controller-helper.log
+log = /srv/distbuild/morph-controller-helper.log
 log-max = 100M
 parent-port = 5656
 parent-address = 127.0.0.1
 EOF
+
+ln -s /srv/distbuild/morph-controller-helper.log "$1/var/log/morph-controller-helper.log"
 
 fi
 
@@ -118,12 +122,14 @@ if [ "$DISTBUILD_WORKER" = True ]
 then
     cat <<EOF > "$1/etc/morph-worker.conf"
 [config]
-log = /var/log/morph-worker.log
+log = /srv/distbuild/morph-worker.log
 log-max = 100M
 controller-initiator-address =
 EOF
 
-    # This will be used for a systemd generator which 
+ln -s /srv/distbuild/morph-worker.log "$1/var/log/morph-worker.log"
+
+    # This will be used for a systemd generator which
     # nfs mounts the ccache from the trove
     echo "$TROVE_HOST" > "$1/etc/trove-host"
 
@@ -132,11 +138,12 @@ EOF
 
 cat <<EOF > "$1/etc/morph-worker-helper.conf"
 [config]
-log = /var/log/morph-worker-helper.log
+log = /srv/distbuild/morph-worker-helper.log
 log-max = 100M
 parent-address = 127.0.0.1
 EOF
 
+ln -s /srv/distbuild/morph-worker-helper.log "$1/var/log/morph-worker-helper.log"
 
     # Configuration for the Morph cache server daemon. We
     # only run the cache server on workers.
