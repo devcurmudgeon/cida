@@ -259,6 +259,8 @@ class WriteExtension(cliapp.Application):
 
         if self.bootloader_config_is_wanted():
             self.install_kernel(version_root, temp_root)
+            if self.get_dtb_path() != '':
+                self.install_dtb(version_root, temp_root)
             self.install_syslinux_menu(mountpoint, version_root)
             if initramfs is not None:
                 self.install_initramfs(initramfs, version_root)
@@ -385,6 +387,23 @@ class WriteExtension(cliapp.Application):
                 cliapp.runcmd(['cp', '-a', try_path, kernel_dest])
                 break
 
+    def install_dtb(self, version_root, temp_root):
+        '''Install the device tree outside of 'orig' or 'run' subvolumes'''
+
+        self.status(msg='Installing devicetree')
+        device_tree_path = self.get_dtb_path()
+        dtb_dest = os.path.join(version_root, 'dtb')
+        try_path = os.path.join(temp_root, device_tree_path)
+        if os.path.exists(try_path):
+            cliapp.runcmd(['cp', '-a', try_path, dtb_dest])
+        else:
+            logging.error("Failed to find device tree %s", device_tree_path)
+            raise cliapp.AppException(
+                'Failed to find device tree %s' % device_tree_path)
+
+    def get_dtb_path(self):
+        return os.environ.get('DTB_PATH', '')
+
     def get_bootloader_install(self):
         # Do we actually want to install the bootloader?
         # Set this to "none" to prevent the install
@@ -435,6 +454,8 @@ class WriteExtension(cliapp.Application):
             f.write('kernel /systems/default/kernel\n')
             if disk_uuid is not None:
                 f.write('initrd /systems/default/initramfs\n')
+            if self.get_dtb_path() != '':
+                f.write('devicetree /systems/default/dtb\n')
             f.write('append %s\n' % kernel_args)
 
     def install_bootloader(self, real_root):
