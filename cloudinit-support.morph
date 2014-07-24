@@ -44,7 +44,7 @@ chunks:
   build-depends: []
 - name: cloud-init
   repo: upstream:cloud-init
-  ref: eeb4923b3528ebf4d93d8297b2d489738c3ea7c3
+  ref: 130d51acc5b0becd64e7007f9dfe41a6e022eaec
   unpetrify-ref: baserock/morph
   build-depends:
   - boto

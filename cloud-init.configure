@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+#
+# This is a "morph deploy" configuration extension to enable the
+# cloud-init services.
+set -e
+
+ROOT="$1"
+
+##########################################################################
+
+set -e
+
+case "$CLOUD_INIT" in
+''|False|no)
+    exit 0
+    ;;
+True|yes)
+    echo "Configuring cloud-init"
+    ;;
+*)
+    echo Unrecognised option "$CLOUD_INIT" to CLOUD_INIT
+    exit 1
+    ;;
+esac
+
+
+ln -sf /lib/systemd/system/cloud-config.service \
+    "$ROOT/etc/systemd/system/multi-user.target.wants/cloud-config.service"
+ln -sf /lib/systemd/system/cloud-init-local.service \
+    "$ROOT/etc/systemd/system/multi-user.target.wants/cloud-init-local.service"
+ln -sf /lib/systemd/system/cloud-init.service \
+    "$ROOT/etc/systemd/system/multi-user.target.wants/cloud-init.service"
+ln -sf /lib/systemd/system/cloud-final.service \
+    "$ROOT/etc/systemd/system/multi-user.target.wants/cloud-final.service"

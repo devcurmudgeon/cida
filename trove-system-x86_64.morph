@@ -6,6 +6,7 @@ configuration-extensions:
 - fstab
 - simple-network
 - install-files
+- cloud-init
 description: Trove server
 kind: system
 name: trove-system-x86_64
@@ -18,3 +19,4 @@ strata:
 - morph: trove
 - morph: nfs
 - morph: ansible
+- morph: cloudinit-support

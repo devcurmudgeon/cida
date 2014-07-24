@@ -5,6 +5,7 @@ configuration-extensions:
 - simple-network
 - nfsboot
 - install-files
+- cloud-init
 description: A system that is able to build other systems based on the 32-bit x86
   architecture.
 kind: system
@@ -16,3 +17,4 @@ strata:
 - morph: bsp-x86_32-generic
 - morph: tools
 - morph: openstack-clients
+- morph: cloudinit-support
