@@ -5,7 +5,7 @@ build-depends:
 chunks:
 - name: mesa-x
   repo: upstream:mesa
-  ref: f64dd91f4f2a2591e66b38fdfdfa83077f8221ab
+  ref: b8e3777eb34a6f585d7c168003bd8ebd69bf107c
   unpetrify-ref: baserock/genivi/morph
   build-depends: []
 - name: xorg-lib-libxkbfile
