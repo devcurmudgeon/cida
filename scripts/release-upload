@@ -281,7 +281,11 @@ class BuildArtifactPublisher(object):
             self.settings['public-trove-username'],
             self.settings['public-trove-host'],
             self.settings['public-trove-artifact-dir'])
-
+        set_permissions_on_server(
+            self.settings['public-trove-username'],
+            self.settings['public-trove-host'],
+            self.settings['public-trove-artifact-dir'],
+            basenames)
 
 class ReleaseArtifactPublisher(object):
 
@@ -323,6 +327,11 @@ class ReleaseArtifactPublisher(object):
             self.settings['download-server-username'],
             self.settings['download-server-address'],
             path)
+        set_permissions_on_server(
+            self.settings['download-server-username'],
+            self.settings['download-server-address'],
+            path,
+            files)
 
     def move_release_artifacts_to_public_dir(self, files):
         self.status(msg='Move release artifacts to public directory')
@@ -365,6 +374,14 @@ def rsync_files_to_server(
     files_list = ''.join(
         '{0}\0'.format(filename) for filename in source_filenames)
     cliapp.runcmd(argv, feed_stdin=files_list, stdout=None, stderr=None)
+
+
+def set_permissions_on_server(user, host, target_dir, filenames):
+    target = '{user}@{host}'.format(user=user, host=host)
+    argv = ['chmod', '0644']
+    for filename in filenames:
+        argv.append(os.path.join(target_dir, filename))
+    cliapp.ssh_runcmd(target, argv)
 
 
 ReleaseUploader(description=__doc__).run()
