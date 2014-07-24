@@ -6,6 +6,7 @@ configuration-extensions:
 - nfsboot
 - install-files
 - gitlab
+- fstab
 description: system which hosts a gitlab server
 kind: system
 name: gitlab-server

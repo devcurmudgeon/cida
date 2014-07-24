@@ -5,4 +5,4 @@ Description=GitLab Backup Timer
 WantedBy=gitlab.target
 
 [Timer]
-OnCalendar=*-*-* 00/4:00:00
+OnCalendar=*-*-* 00:*:*

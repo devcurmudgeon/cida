@@ -7,5 +7,5 @@ WantedBy=gitlab.target
 
 [Service]
 ExecStart=/usr/share/gitlab-install/backup-gitlab
-User=git
-Group=git
+User=postgres
+Group=postgres
