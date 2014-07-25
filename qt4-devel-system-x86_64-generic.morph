@@ -18,7 +18,7 @@ strata:
 - morph: bsp-x86_64-generic
 - morph: tools
 - morph: x-common
-- morph: x-x86_64-generic
+- morph: x-generic
 - morph: qt4-tools
 - morph: qt4-sdk
 - morph: lua

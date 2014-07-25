@@ -2,9 +2,9 @@ name: xfce
 kind: stratum
 description: xfce stratum
 build-depends:
-- morph: genivi-x-x86_64-generic
+- morph: genivi-x-generic
 - morph: gtk2
-- morph: x-x86_64-generic
+- morph: x-generic
 chunks:
 - name: xfce-dev-tools
   repo: upstream:xfce/xfce4-dev-tools
