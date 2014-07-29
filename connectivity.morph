@@ -21,7 +21,7 @@ chunks:
   build-depends: []
 - name: connman
   repo: upstream:connman
-  ref: f16e43ebc34a32937a67c56655586d2dc1518fbb
-  unpetrify-ref: baserock/morph
+  ref: 9951ba7a0353cfc884e96833c64e58c1bcae3f44
+  unpetrify-ref: baserock/1.24
   build-depends:
   - iptables
