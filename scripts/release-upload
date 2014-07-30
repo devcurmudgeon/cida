@@ -143,6 +143,11 @@ class ReleaseUploader(cliapp.Application):
             group=group)
 
         self.settings.boolean(
+            ['upload-build-artifacts'],
+            'upload build artifacts?',
+            default=True)
+
+        self.settings.boolean(
             ['upload-release-artifacts'],
             'upload release artifacts (disk images etc)?',
             default=True)
@@ -153,7 +158,14 @@ class ReleaseUploader(cliapp.Application):
 
     def process_args(self, args):
         self.status(msg='Uploading and publishing Baserock release')
-        self.publish_build_artifacts()
+
+        if self.settings['upload-build-artifacts']:
+            self.publish_build_artifacts()
+        else:
+            self.status(
+                msg='Not uploading build artifacts '
+                    '(upload-build-artifacts set to false')
+
         if self.settings['upload-release-artifacts']:
             self.publish_release_artifacts()
         else:
