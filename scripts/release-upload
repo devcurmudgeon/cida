@@ -140,9 +140,27 @@ class ReleaseUploader(cliapp.Application):
 
     def process_args(self, args):
         self.status(msg='Uploading and publishing Baserock release')
-        BuildArtifactPublisher(self.settings, self.status).publish_build_artifacts()
-        ReleaseArtifactPublisher(self.settings, self.status).publish_release_artifacts()
-        self.status(msg='Release has been uploaded and published')
+        BuildArtifactPublisher(self.settings,
+                               self.status).publish_build_artifacts()
+        self.status(msg='Build artifiacts have been published')
+
+        RELEASE_OPTIONS = ('release-artifact-dir',
+                           'download-server-username',
+                           'download-server-address',
+                           'download-server-private-dir',
+                           'download-server-public-dir')
+        missing_options = set(option for option in RELEASE_OPTIONS
+                              if self.settings[option] == '')
+
+        if not missing_options:
+            ReleaseArtifactPublisher(self.settings,
+                                     self.status).publish_release_artifacts()
+            self.status(msg='Release images have been published')
+        else:
+            self.status(msg='Not uploading release images: '
+                            'options not provided: {options}',
+                        options=', '.join(missing_options))
+
 
     def status(self, msg, **kwargs):
         formatted = msg.format(**kwargs)
