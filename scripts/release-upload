@@ -227,27 +227,45 @@ class BuildArtifactPublisher(object):
         return basenames
 
     def find_system_morphologies(self):
-        cluster_morphology_pathname = 'release.morph'
-        systems = []
+        cluster = self.load_cluster_morphology('release.morph')
+        system_dicts = self.find_systems_in_parsed_cluster_morphology(cluster)
+        if self.settings['arch']:
+           system_dicts = self.choose_systems_for_wanted_architectures(
+               system_dicts, self.settings['arch'])
+        return [sd['morph'] for sd in system_dicts]
+
+    def load_cluster_morphology(self, pathname):
+        with open(pathname) as f:
+            return yaml.load(f)
+
+    def find_systems_in_parsed_cluster_morphology(self, cluster):
+        return cluster['systems']
+
+    def choose_systems_for_wanted_architectures(self, system_dicts, archs):
+        return [
+            sd
+            for sd in system_dicts
+            if self.system_is_for_wanted_arch(sd, archs)]
+
+    def system_is_for_wanted_arch(self, system_dict, archs):
+        morph = self.load_system_morphology(system_dict)
+        return morph['arch'] in archs
+
+    def load_system_morphology(self, system_dict):
+        pathname = morphlib.util.sanitise_morphology_path(system_dict['morph'])
+        return self.load_morphology_from_named_file(pathname)
+
+    def load_morphology_from_named_file(self, pathname):
+        finder = self.get_morphology_finder_for_root_repository()
+        morphology_text = finder.read_morphology(pathname)
+        loader = morphlib.morphloader.MorphologyLoader()
+        return loader.load_from_string(morphology_text)
+
+    def get_morphology_finder_for_root_repository(self):
         sb = morphlib.sysbranchdir.open_from_within('.')
         definitions = sb.get_git_directory_name(sb.root_repository_url)
-        defs_repo = morphlib.gitdir.GitDirectory(definitions)
-        loader = morphlib.morphloader.MorphologyLoader()
-        finder = morphlib.morphologyfinder.MorphologyFinder(defs_repo)
-        with open(cluster_morphology_pathname) as f:
-            obj = yaml.load(f)
-            for system_dict in obj['systems']:
-                system_path = system_dict['morph']
-                if self.settings['arch']:
-                    path = morphlib.util.sanitise_morphology_path(system_path)
-                    morph = loader.load_from_string(
-                        finder.read_morphology(path))
-                    if morph['arch'] in self.settings['arch']:
-                        systems.append(system_path)
-                else:
-                    systems.append(system_path)
-
-        return systems
+        definitions_repo = morphlib.gitdir.GitDirectory(definitions)
+        return morphlib.morphologyfinder.MorphologyFinder(definitions_repo)
 
     def filter_away_build_artifacts_on_public_trove(self, basenames):
         result = []
