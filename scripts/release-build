@@ -98,7 +98,6 @@ class ReleaseApp(cliapp.Application):
         os.chdir('..')
         if not os.path.exists('release'):
             os.mkdir('release')
-        os.chdir('release')
         self.deploy_images(cluster, cluster_path)
 
     def load_morphology(self, name, kind=None):
@@ -140,7 +139,7 @@ class ReleaseApp(cliapp.Application):
                     'In %s: system %s.location should be just the base name, '
                     'e.g. "%s.img"' % (cluster_path, name, name))
 
-            filename = '%s-%s' % (version_label, basename)
+            filename = os.path.join('release', '%s-%s' % (version_label, basename))
             if os.path.exists(filename):
                 self.output.write('Reusing existing deployment of %s\n' % filename)
             else:
