@@ -121,9 +121,8 @@ class ReleaseApp(cliapp.Application):
         builds = []
         for system_name in systems:
             system, _ = self.load_morphology(system_name)
-            if system['arch'] not in self.controllers:
-                continue
-            builds.append(Build(system_name, system['arch'], self))
+            if system['arch'] in self.controllers:
+                builds.append(Build(system_name, system['arch'], self))
         return builds
 
     def deploy_images(self, cluster, cluster_path):
