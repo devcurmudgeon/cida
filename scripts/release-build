@@ -108,9 +108,16 @@ class ReleaseApp(cliapp.Application):
             assert morph['kind'] == kind
         return morph, path
 
+    def _iterate_systems(self, system_list):
+        for system in system_list:
+            yield system['morph']
+            if 'subsystems' in system:
+                for subsystem in self._iterate_systems(system['subsystems']):
+                    yield subsystem
+
     def prepare_builds(self, cluster):
         '''Prepare a list of builds'''
-        systems = [system['morph'] for system in cluster['systems']]
+        systems = set(self._iterate_systems(cluster['systems']))
         builds = []
         for system_name in systems:
             system, _ = self.load_morphology(system_name)
