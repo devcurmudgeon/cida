@@ -440,8 +440,7 @@ def rsync_files_to_server(
         '{user}@{host}:{path}'.format(user=user, host=host, path=target_dir),
         ]
     
-    files_list = '\0'.join(
-        filename for filename in source_filenames)
+    files_list = '\0'.join(filename for filename in source_filenames)
     cliapp.runcmd(argv, feed_stdin=files_list, stdout=None, stderr=None)
 
 
