@@ -334,7 +334,7 @@ class WriteExtension(cliapp.Application):
         if '/' in existing_mounts:
             root_device = existing_mounts['/']
         else:
-            root_device = ('/dev/sda' if rootfs_uuid is None else
+            root_device = (self.get_root_device() if rootfs_uuid is None else
                            'UUID=%s' % rootfs_uuid)
             fstab.add_line('%s  / btrfs defaults,rw,noatime 0 1' % root_device)
 
@@ -388,6 +388,9 @@ class WriteExtension(cliapp.Application):
     def get_extra_kernel_args(self):
         return os.environ.get('KERNEL_ARGS', '')
 
+    def get_root_device(self):
+        return os.environ.get('ROOT_DEVICE', '/dev/sda')
+
     def install_extlinux(self, real_root, disk_uuid=None):
         '''Install extlinux on the newly created disk image.'''
 
@@ -399,7 +402,7 @@ class WriteExtension(cliapp.Application):
             'rootfstype=btrfs ' # required when using initramfs, also boots
                                 # faster when specified without initramfs
             'rootflags=subvol=systems/default/run ') # boot runtime subvol
-        kernel_args += 'root=%s ' % ('/dev/sda' if disk_uuid is None
+        kernel_args += 'root=%s ' % (self.get_root_device() if disk_uuid is None
                                      else 'UUID=%s' % disk_uuid)
         kernel_args += self.get_extra_kernel_args()
         with open(config, 'w') as f:
