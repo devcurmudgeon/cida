@@ -416,17 +416,20 @@ def rsync_files_to_server(
         '{user}@{host}:{path}'.format(user=user, host=host, path=target_dir),
         ]
     
-    files_list = ''.join(
-        '{0}\0'.format(filename) for filename in source_filenames)
+    files_list = '\0'.join(
+        filename for filename in source_filenames) + '\0'
     cliapp.runcmd(argv, feed_stdin=files_list, stdout=None, stderr=None)
 
 
 def set_permissions_on_server(user, host, target_dir, filenames):
+    # If we have no files, we can't form a valid command to run on the server
+    if not filenames:
+        return
     target = '{user}@{host}'.format(user=user, host=host)
-    argv = ['chmod', '0644']
-    for filename in filenames:
-        argv.append(os.path.join(target_dir, filename))
-    cliapp.ssh_runcmd(target, argv)
+    argv = ['xargs', '-0', 'chmod', '0644']
+    files_list = ''.join(
+        '{0}\0'.format(os.path.join(target_dir, filename)) for filename in filenames)
+    cliapp.ssh_runcmd(target, argv, feed_stdin=files_list, stdout=None, stderr=None)
 
 
 ReleaseUploader(description=__doc__).run()
