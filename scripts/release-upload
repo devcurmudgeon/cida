@@ -49,6 +49,7 @@ import urlparse
 import cliapp
 import yaml
 
+import morphlib
 
 class ReleaseUploader(cliapp.Application):
 
@@ -134,15 +135,53 @@ class ReleaseUploader(cliapp.Application):
             default='morph',
             group=group)
 
+        self.settings.string_list(
+            ['arch'],
+            'Upload files from morphologies of ARCH',
+            metavar='ARCH',
+            default=[],
+            group=group)
+
+        self.settings.boolean(
+            ['upload-build-artifacts'],
+            'upload build artifacts?',
+            default=True)
+
+        self.settings.boolean(
+            ['upload-release-artifacts'],
+            'upload release artifacts (disk images etc)?',
+            default=True)
+
     def get_local_username(self):
         uid = os.getuid()
         return pwd.getpwuid(uid)[0]
 
     def process_args(self, args):
         self.status(msg='Uploading and publishing Baserock release')
-        BuildArtifactPublisher(self.settings, self.status).publish_build_artifacts()
-        ReleaseArtifactPublisher(self.settings, self.status).publish_release_artifacts()
-        self.status(msg='Release has been uploaded and published')
+
+        if self.settings['upload-build-artifacts']:
+            self.publish_build_artifacts()
+        else:
+            self.status(
+                msg='Not uploading build artifacts '
+                    '(upload-build-artifacts set to false')
+
+        if self.settings['upload-release-artifacts']:
+            self.publish_release_artifacts()
+        else:
+            self.status(
+                msg='Not uploading release artifacts '
+                    '(upload-release-artifacts set to false')
+
+    def publish_build_artifacts(self):
+        publisher = BuildArtifactPublisher(self.settings, self.status)
+        publisher.publish_build_artifacts()
+        self.status(msg='Build artifacts have been published')
+
+    def publish_release_artifacts(self):
+        publisher = ReleaseArtifactPublisher(self.settings, self.status)
+        publisher.publish_release_artifacts()
+        self.status(msg='Release artifacts have been published')
 
     def status(self, msg, **kwargs):
         formatted = msg.format(**kwargs)
@@ -192,14 +231,53 @@ class BuildArtifactPublisher(object):
         argv += self.find_system_morphologies()
         output = cliapp.runcmd(argv)
         basenames = output.splitlines()
+        logging.debug('List of build artifacts in release:')
+        for basename in basenames:
+            logging.debug('  {0}'.format(basename))
+        logging.debug('End of list of build artifacts in release')
 
         return basenames
 
     def find_system_morphologies(self):
-        cluster_morphology_pathname = 'release.morph'
-        with open(cluster_morphology_pathname) as f:
-            obj = yaml.load(f)
-        return [system_dict['morph'] for system_dict in obj['systems']]
+        cluster = self.load_cluster_morphology('release.morph')
+        system_dicts = self.find_systems_in_parsed_cluster_morphology(cluster)
+        if self.settings['arch']:
+           system_dicts = self.choose_systems_for_wanted_architectures(
+               system_dicts, self.settings['arch'])
+        return [sd['morph'] for sd in system_dicts]
+
+    def load_cluster_morphology(self, pathname):
+        with open(pathname) as f:
+            return yaml.load(f)
+
+    def find_systems_in_parsed_cluster_morphology(self, cluster):
+        return cluster['systems']
+
+    def choose_systems_for_wanted_architectures(self, system_dicts, archs):
+        return [
+            sd
+            for sd in system_dicts
+            if self.system_is_for_wanted_arch(sd, archs)]
+
+    def system_is_for_wanted_arch(self, system_dict, archs):
+        morph = self.load_system_morphology(system_dict)
+        return morph['arch'] in archs
+
+    def load_system_morphology(self, system_dict):
+        pathname = morphlib.util.sanitise_morphology_path(system_dict['morph'])
+        return self.load_morphology_from_named_file(pathname)
+
+    def load_morphology_from_named_file(self, pathname):
+        finder = self.get_morphology_finder_for_root_repository()
+        morphology_text = finder.read_morphology(pathname)
+        loader = morphlib.morphloader.MorphologyLoader()
+        return loader.load_from_string(morphology_text)
+
+    def get_morphology_finder_for_root_repository(self):
+        sb = morphlib.sysbranchdir.open_from_within('.')
+        definitions = sb.get_git_directory_name(sb.root_repository_url)
+        definitions_repo = morphlib.gitdir.GitDirectory(definitions)
+        return morphlib.morphologyfinder.MorphologyFinder(definitions_repo)
 
     def filter_away_build_artifacts_on_public_trove(self, basenames):
         result = []
@@ -357,6 +435,9 @@ class ReleaseArtifactPublisher(object):
 def rsync_files_to_server(
     source_dir, source_filenames, user, host, target_dir):
 
+    if not source_filenames:
+        return
+
     argv = [
         'rsync',
         '-a',
@@ -371,17 +452,19 @@ def rsync_files_to_server(
         '{user}@{host}:{path}'.format(user=user, host=host, path=target_dir),
         ]
     
-    files_list = ''.join(
-        '{0}\0'.format(filename) for filename in source_filenames)
+    files_list = '\0'.join(filename for filename in source_filenames)
     cliapp.runcmd(argv, feed_stdin=files_list, stdout=None, stderr=None)
 
 
 def set_permissions_on_server(user, host, target_dir, filenames):
+    # If we have no files, we can't form a valid command to run on the server
+    if not filenames:
+        return
     target = '{user}@{host}'.format(user=user, host=host)
-    argv = ['chmod', '0644']
-    for filename in filenames:
-        argv.append(os.path.join(target_dir, filename))
-    cliapp.ssh_runcmd(target, argv)
+    argv = ['xargs', '-0', 'chmod', '0644']
+    files_list = ''.join(
+        '{0}\0'.format(os.path.join(target_dir, filename)) for filename in filenames)
+    cliapp.ssh_runcmd(target, argv, feed_stdin=files_list, stdout=None, stderr=None)
 
 
 ReleaseUploader(description=__doc__).run()

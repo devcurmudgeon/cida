@@ -98,7 +98,6 @@ class ReleaseApp(cliapp.Application):
         os.chdir('..')
         if not os.path.exists('release'):
             os.mkdir('release')
-        os.chdir('release')
         self.deploy_images(cluster, cluster_path)
 
     def load_morphology(self, name, kind=None):
@@ -109,13 +108,21 @@ class ReleaseApp(cliapp.Application):
             assert morph['kind'] == kind
         return morph, path
 
+    def iterate_systems(self, system_list):
+        for system in system_list:
+            yield system['morph']
+            if 'subsystems' in system:
+                for subsystem in self.iterate_systems(system['subsystems']):
+                    yield subsystem
+
     def prepare_builds(self, cluster):
         '''Prepare a list of builds'''
-        systems = [system['morph'] for system in cluster['systems']]
+        systems = set(self.iterate_systems(cluster['systems']))
         builds = []
         for system_name in systems:
             system, _ = self.load_morphology(system_name)
-            builds.append(Build(system_name, system['arch'], self))
+            if system['arch'] in self.controllers:
+                builds.append(Build(system_name, system['arch'], self))
         return builds
 
     def deploy_images(self, cluster, cluster_path):
@@ -123,29 +130,29 @@ class ReleaseApp(cliapp.Application):
         outputs = {}
 
         for system in cluster['systems']:
-            name = system['morph']
-            if name not in system['deploy']:
-                raise cliapp.AppException(
-                    'In %s: system %s ID should be "%s"' %
-                    (cluster_path, name, name))
+            morphology_name = system['morph']
+            morphology = self.load_morphology(morphology_name)[0]
+            if morphology['arch'] not in self.controllers:
+                continue
 
-            # The release.morph cluster must specify a basename for the file,
-            # of name and extension. This script knows about name, but it
-            # can't find out the appropriate file extension without second
-            # guessing the behaviour of write extensions.
-            basename = system['deploy'][name]['location']
+            for deployment_name, deployment_info in system['deploy'].iteritems():
+                # The release.morph cluster must specify a basename for the file,
+                # of name and extension. This script knows about name, but it
+                # can't find out the appropriate file extension without second
+                # guessing the behaviour of write extensions.
+                basename = deployment_info['location']
 
-            if '/' in basename or basename.startswith(version_label):
-                raise cliapp.AppException(
-                    'In %s: system %s.location should be just the base name, '
-                    'e.g. "%s.img"' % (cluster_path, name, name))
+                if '/' in basename or basename.startswith(version_label):
+                    raise cliapp.AppException(
+                        'In %s: system %s.location should be just the base name, '
+                        'e.g. "%s.img"' % (cluster_path, deployment_name, deployment_name))
 
-            filename = '%s-%s' % (version_label, basename)
-            if os.path.exists(filename):
-                self.output.write('Reusing existing deployment of %s\n' % filename)
-            else:
-                self.output.write('Creating %s from release.morph\n' % filename)
-                self.deploy_single_image(cluster_path, name, filename, version_label)
+                filename = os.path.join('release', '%s-%s' % (version_label, basename))
+                if os.path.exists(filename):
+                    self.output.write('Reusing existing deployment of %s\n' % filename)
+                else:
+                    self.output.write('Creating %s from release.morph\n' % filename)
+                    self.deploy_single_image(cluster_path, deployment_name, filename, version_label)
 
     def deploy_single_image(self, cluster_path, name, location, version_label):
         deploy_command = [
