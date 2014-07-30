@@ -219,8 +219,10 @@ class BuildArtifactPublisher(object):
         argv += self.find_system_morphologies()
         output = cliapp.runcmd(argv)
         basenames = output.splitlines()
+        logging.debug('List of build artifacts in release:')
         for basename in basenames:
             logging.debug('  {0}'.format(basename))
+        logging.debug('End of list of build artifacts in release')
 
         return basenames
 
