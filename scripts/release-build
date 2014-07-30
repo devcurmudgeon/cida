@@ -121,6 +121,8 @@ class ReleaseApp(cliapp.Application):
         builds = []
         for system_name in systems:
             system, _ = self.load_morphology(system_name)
+            if system['arch'] not in self.controllers:
+                continue
             builds.append(Build(system_name, system['arch'], self))
         return builds
 
@@ -130,6 +132,9 @@ class ReleaseApp(cliapp.Application):
 
         for system in cluster['systems']:
             name = system['morph']
+            morphology = self.load_morphology(name)[0]
+            if morphology['arch'] not in self.controllers:
+                continue
             if name not in system['deploy']:
                 raise cliapp.AppException(
                     'In %s: system %s ID should be "%s"' %

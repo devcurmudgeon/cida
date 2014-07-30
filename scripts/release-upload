@@ -49,6 +49,7 @@ import urlparse
 import cliapp
 import yaml
 
+import morphlib
 
 class ReleaseUploader(cliapp.Application):
 
@@ -134,6 +135,13 @@ class ReleaseUploader(cliapp.Application):
             default='morph',
             group=group)
 
+        self.settings.string_list(
+            ['arch'],
+            'Upload files from morphologies of ARCH',
+            metavar='ARCH',
+            default=[],
+            group=group)
+
     def get_local_username(self):
         uid = os.getuid()
         return pwd.getpwuid(uid)[0]
@@ -210,14 +218,33 @@ class BuildArtifactPublisher(object):
         argv += self.find_system_morphologies()
         output = cliapp.runcmd(argv)
         basenames = output.splitlines()
+        for basename in basenames:
+            logging.debug('  {0}'.format(basename))
 
         return basenames
 
     def find_system_morphologies(self):
         cluster_morphology_pathname = 'release.morph'
+        systems = []
+        sb = morphlib.sysbranchdir.open_from_within('.')
+        definitions = sb.get_git_directory_name(sb.root_repository_url)
+        defs_repo = morphlib.gitdir.GitDirectory(definitions)
+        loader = morphlib.morphloader.MorphologyLoader()
+        finder = morphlib.morphologyfinder.MorphologyFinder(defs_repo)
         with open(cluster_morphology_pathname) as f:
             obj = yaml.load(f)
-        return [system_dict['morph'] for system_dict in obj['systems']]
+            for system_dict in obj['systems']:
+                system_path = system_dict['morph']
+                if self.settings['arch']:
+                    path = morphlib.util.sanitise_morphology_path(system_path)
+                    morph = loader.load_from_string(
+                        finder.read_morphology(path))
+                    if morph['arch'] in self.settings['arch']:
+                        systems.append(system_path)
+                else:
+                    systems.append(system_path)
+
+        return systems
 
     def filter_away_build_artifacts_on_public_trove(self, basenames):
         result = []
