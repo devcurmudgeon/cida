@@ -423,6 +423,9 @@ class ReleaseArtifactPublisher(object):
 def rsync_files_to_server(
     source_dir, source_filenames, user, host, target_dir):
 
+    if not source_filenames:
+        return
+
     argv = [
         'rsync',
         '-a',
@@ -438,7 +441,7 @@ def rsync_files_to_server(
         ]
     
     files_list = '\0'.join(
-        filename for filename in source_filenames) + '\0'
+        filename for filename in source_filenames)
     cliapp.runcmd(argv, feed_stdin=files_list, stdout=None, stderr=None)
 
 
