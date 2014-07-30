@@ -142,6 +142,11 @@ class ReleaseUploader(cliapp.Application):
             default=[],
             group=group)
 
+        self.settings.boolean(
+            ['upload-release-artifacts'],
+            'upload release artifacts (disk images etc)?',
+            default=True)
+
     def get_local_username(self):
         uid = os.getuid()
         return pwd.getpwuid(uid)[0]
@@ -152,23 +157,14 @@ class ReleaseUploader(cliapp.Application):
                                self.status).publish_build_artifacts()
         self.status(msg='Build artifiacts have been published')
 
-        RELEASE_OPTIONS = ('release-artifact-dir',
-                           'download-server-username',
-                           'download-server-address',
-                           'download-server-private-dir',
-                           'download-server-public-dir')
-        missing_options = set(option for option in RELEASE_OPTIONS
-                              if self.settings[option] == '')
-
-        if not missing_options:
+        if self.settings['upload-release-artifacts']:
             ReleaseArtifactPublisher(self.settings,
                                      self.status).publish_release_artifacts()
             self.status(msg='Release images have been published')
         else:
-            self.status(msg='Not uploading release images: '
-                            'options not provided: {options}',
-                        options=', '.join(missing_options))
-
+            self.status(
+                msg=('Not uploading release artifacts '
+                     '(--upload-release-artifacts not set)'))
 
     def status(self, msg, **kwargs):
         formatted = msg.format(**kwargs)
