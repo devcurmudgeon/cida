@@ -153,18 +153,23 @@ class ReleaseUploader(cliapp.Application):
 
     def process_args(self, args):
         self.status(msg='Uploading and publishing Baserock release')
-        BuildArtifactPublisher(self.settings,
-                               self.status).publish_build_artifacts()
-        self.status(msg='Build artifiacts have been published')
-
+        self.publish_build_artifacts()
         if self.settings['upload-release-artifacts']:
-            ReleaseArtifactPublisher(self.settings,
-                                     self.status).publish_release_artifacts()
-            self.status(msg='Release images have been published')
+            self.publish_release_artifacts()
         else:
             self.status(
-                msg=('Not uploading release artifacts '
-                     '(--upload-release-artifacts not set)'))
+                msg='Not uploading release artifacts '
+                    '(upload-release-artifacts set to false')
+
+    def publish_build_artifacts(self):
+        publisher = BuildArtifactPublisher(self.settings, self.status)
+        publisher.publish_build_artifacts()
+        self.status(msg='Build artifacts have been published')
+
+    def publish_release_artifacts(self):
+        publisher = ReleaseArtifactPublisher(self.settings, self.status)
+        publisher.publish_release_artifacts()
+        self.status(msg='Release artifacts have been published')
 
     def status(self, msg, **kwargs):
         formatted = msg.format(**kwargs)
