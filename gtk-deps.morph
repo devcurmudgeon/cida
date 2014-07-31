@@ -30,19 +30,19 @@ chunks:
   - libtiff
 - name: atk
   repo: upstream:atk
-  ref: e35410e06337afa3d66fcdde9b16422648de4e04
-  unpetrify-ref: ATK_2_9_3
+  ref: 94766ee6f1a42f94eb9736ba8396bc90af937fe4
+  unpetrify-ref: ATK_2_12_0
   build-depends:
   - gnome-common
 - name: at-spi2-core
   repo: upstream:at-spi2-core
-  ref: 9bfebf07e866acadb5d2123568fd0119a7e0575b
-  unpetrify-ref: AT_SPI2_CORE_2_9_5
+  ref: c354b5e8d8157e1018eafeca48642116a65c4ff5
+  unpetrify-ref: AT_SPI2_CORE_2_12_0
   build-depends: []
 - name: at-spi2-atk
   repo: upstream:at-spi2-atk
-  ref: 363953fff4e3e12152ce2498b58a471884b497f5
-  unpetrify-ref: baserock/morph
+  ref: 01e49759d5d1fc22fb108fc9f80cd34d8eb814f6
+  unpetrify-ref: AT_SPI2_ATK_2_12_1
   build-depends:
   - at-spi2-core
   - atk
