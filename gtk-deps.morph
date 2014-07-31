@@ -14,8 +14,8 @@ chunks:
   build-depends: []
 - name: gnome-common
   repo: upstream:gnome-common
-  ref: 66d54b57313f0f6206cff32972d2b83d683628b2
-  unpetrify-ref: 3.7.4
+  ref: d213283fcb5228d05eb2c796579f18240e8467e8
+  unpetrify-ref: 3.12.0
   build-depends: []
 - name: libtiff
   repo: upstream:libtiff
