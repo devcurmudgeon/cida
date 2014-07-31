@@ -5,6 +5,7 @@ build-depends:
 - morph: foundation
 - morph: x-common
 - morph: x-generic
+- morph: wayland-x86_64-generic
 chunks:
 - name: shared-mime-info
   repo: upstream:shared-mime-info
@@ -45,32 +46,3 @@ chunks:
   build-depends:
   - at-spi2-core
   - atk
-- name: cairo
-  repo: upstream:cairo
-  ref: 25ef4d21f1616ddd9a6550cf7a129b2634b6caad
-  unpetrify-ref: 1.12.14
-  build-depends: []
-- name: colm
-  repo: upstream:colm
-  ref: 746b80d9b15dceca54dff43123d56ffcb6e42f06
-  unpetrify-ref: 0.11.1
-  build-depends: []
-- name: ragel
-  repo: upstream:ragel
-  ref: 5d4102ffe43a15608e0e864fc7e7f5c6c3b49aac
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - colm
-- name: harfbuzz
-  repo: upstream:harfbuzz
-  ref: f0530a3d5d2e7b6eaa8325a310d458c478f505c9
-  unpetrify-ref: 0.9.19
-  build-depends:
-  - ragel
-- name: pango
-  repo: upstream:pango
-  ref: c05f6e5205711e97727885a86a57661c7e9cdc75
-  unpetrify-ref: baserock/xfce-build
-  build-depends:
-  - cairo
-  - harfbuzz
