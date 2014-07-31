@@ -2,9 +2,7 @@ name: gtk2
 kind: stratum
 description: the gtk2 stratum
 build-depends:
-- morph: genivi-foundation
 - morph: gtk-deps
-- morph: x-common
 - morph: x-generic
 chunks:
 - name: gtk+
