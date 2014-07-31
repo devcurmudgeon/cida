@@ -6,6 +6,16 @@ build-depends:
 - morph: gtk2
 - morph: x-generic
 chunks:
+- name: libcroco
+  repo: upstream:libcroco
+  ref: 611f624a6e15065792b41eb5ce14811293f3fb0a
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: librsvg
+  repo: upstream:librsvg
+  ref: 61171ca59d02b58b7da1697ca1d924bff93e66cb
+  unpetrify-ref: baserock/morph
+  build-depends: []
 - name: xfce-dev-tools
   repo: upstream:xfce/xfce4-dev-tools
   ref: 9244250ac0c15ba160688758c5dccf97f3f160ef
