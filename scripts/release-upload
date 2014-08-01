@@ -157,10 +157,13 @@ class ReleaseUploader(cliapp.Application):
         return pwd.getpwuid(uid)[0]
 
     def process_args(self, args):
+        if len(args) != 1:
+            raise cliapp.AppException('Usage: release-upload CLUSTER')
+        cluster_morphology_path = args[0]
         self.status(msg='Uploading and publishing Baserock release')
 
         if self.settings['upload-build-artifacts']:
-            self.publish_build_artifacts()
+            self.publish_build_artifacts(cluster_morphology_path)
         else:
             self.status(
                 msg='Not uploading build artifacts '
@@ -173,9 +176,9 @@ class ReleaseUploader(cliapp.Application):
                 msg='Not uploading release artifacts '
                     '(upload-release-artifacts set to false')
 
-    def publish_build_artifacts(self):
+    def publish_build_artifacts(self, cluster_morphology_path):
         publisher = BuildArtifactPublisher(self.settings, self.status)
-        publisher.publish_build_artifacts()
+        publisher.publish_build_artifacts(cluster_morphology_path)
         self.status(msg='Build artifacts have been published')
 
     def publish_release_artifacts(self):
@@ -198,8 +201,8 @@ class BuildArtifactPublisher(object):
         self.settings = settings
         self.status = status
 
-    def publish_build_artifacts(self):
-        artifact_basenames = self.list_build_artifacts_for_release()
+    def publish_build_artifacts(self, cluster_path):
+        artifact_basenames = self.list_build_artifacts_for_release(cluster_path)
         self.status(
             msg='Found {count} build artifact files in release',
             count=len(artifact_basenames))
@@ -218,7 +221,7 @@ class BuildArtifactPublisher(object):
 
         self.upload_build_artifacts_to_public_trove(to_be_uploaded)
 
-    def list_build_artifacts_for_release(self):
+    def list_build_artifacts_for_release(self, cluster_morphology_path):
         self.status(msg='Find build artifacts included in release')
 
         # FIXME: These are hardcoded for simplicity. They would be
@@ -228,7 +231,7 @@ class BuildArtifactPublisher(object):
         ref = 'HEAD'
 
         argv = [self.settings['morph-cmd'], 'list-artifacts', '--quiet', repo, ref]
-        argv += self.find_system_morphologies()
+        argv += self.find_system_morphologies(cluster_morphology_path)
         output = cliapp.runcmd(argv)
         basenames = output.splitlines()
         logging.debug('List of build artifacts in release:')
@@ -238,8 +241,8 @@ class BuildArtifactPublisher(object):
 
         return basenames
 
-    def find_system_morphologies(self):
-        cluster = self.load_cluster_morphology('release.morph')
+    def find_system_morphologies(self, cluster_morphology_path):
+        cluster = self.load_cluster_morphology(cluster_morphology_path)
         system_dicts = self.find_systems_in_parsed_cluster_morphology(cluster)
         if self.settings['arch']:
            system_dicts = self.choose_systems_for_wanted_architectures(
