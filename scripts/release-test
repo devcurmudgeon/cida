@@ -1,0 +1,402 @@
+#!/usr/bin/env python
+#
+# Copyright 2014 Codethink Ltd
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+'''release-test
+
+This script deploys the set of systems in the cluster morphology it is
+instructed to read, to test that they work correctly.
+
+'''
+
+import cliapp
+import os
+import pipes
+import shlex
+import shutil
+import socket
+import tempfile
+import time
+import uuid
+
+import morphlib
+
+
+class MorphologyFrobber(object):
+    def __init__(self):
+        self.sb = sb = morphlib.sysbranchdir.open_from_within('.')
+        defs_repo_path = sb.get_git_directory_name(sb.root_repository_url)
+        self.defs_repo = morphlib.gitdir.GitDirectory(defs_repo_path)
+        self.loader = morphlib.morphloader.MorphologyLoader()
+        self.finder = morphlib.morphologyfinder.MorphologyFinder(self.defs_repo)
+
+    def load_morphology(self, path):
+        text = self.finder.read_morphology(path)
+        return self.loader.load_from_string(text)
+
+    @classmethod
+    def iterate_systems(cls, systems_list):
+        for system in systems_list:
+            yield morphlib.util.sanitise_morphology_path(system['morph'])
+            if 'subsystems' in system:
+                for subsystem in cls.iterate_systems(system['subsystems']):
+                    yield subsystem
+
+    def iterate_cluster_deployments(cls, cluster_morph):
+        for system in cluster_morph['systems']:
+            path = morphlib.util.sanitise_morphology_path(system['morph'])
+            defaults = system.get('deploy-defaults', {})
+            for name, options in system['deploy'].iteritems():
+                config = dict(defaults)
+                config.update(options)
+                yield path, name, config
+
+    def load_cluster_systems(self, cluster_morph):
+        for system_path in set(self.iterate_systems(cluster_morph['systems'])):
+            system_text = self.finder.read_morphology(system_path)
+            system_morph = self.loader.load_from_string(system_text)
+            yield system_path, system_morph
+
+
+class TimeoutError(cliapp.AppException):
+
+    """Error to be raised when a connection waits too long"""
+
+    def __init__(self, msg):
+        super(TimeoutError, self).__init__(msg)
+
+
+class VMHost(object):
+    def __init__(self, user, address, disk_path):
+        self.user = user
+        self.address = address
+        self.disk_path = disk_path
+
+    @property
+    def ssh_host(self):
+        return '{user}@{address}'.format(user=self.user, address=self.address)
+
+    def runcmd(self, *args, **kwargs):
+        cliapp.ssh_runcmd(self.ssh_host, *args, **kwargs)
+
+    def virsh(self, *args, **kwargs):
+        self.runcmd(['virsh', '-c', 'qemu:///system'] + list(args), **kwargs)
+
+
+class Instance(object):
+    def __init__(self, deployment, config, host_machine, vm_id, rootfs_path):
+        self.deployment = deployment
+        self.config = config
+        # TODO: Stop assuming test machine can DHCP and be assigned its
+        # hostname in the deployer's resolve search path.
+        self.ip_address = self.config['HOSTNAME']
+        self.host_machine = host_machine
+        self.vm_id = vm_id
+        self.rootfs_path = rootfs_path
+
+    @property
+    def ssh_host(self):
+        # TODO: Stop assuming we ssh into test instances as root
+        return 'root@{host}'.format(host=self.ip_address)
+
+    def runcmd(self, argv, chdir='.', **kwargs):
+        ssh_cmd = ['ssh', '-o', 'StrictHostKeyChecking=no', self.ssh_host]
+        cmd = ['sh', '-c', 'cd "$1" && shift && exec "$@"', '-', chdir]
+        cmd += argv
+        ssh_cmd.append(' '.join(map(pipes.quote, cmd)))
+        return cliapp.runcmd(ssh_cmd, **kwargs)
+
+    def _wait_for_dhcp(self, timeout):
+        '''
+        Block until given hostname resolves successfully.
+
+        Raises TimeoutError if the hostname has not appeared in 'timeout'
+        seconds.
+        '''
+        start_time = time.time()
+        while True:
+            try:
+                socket.gethostbyname(self.ip_address)
+                return
+            except socket.gaierror:
+                pass
+            if time.time() > start_time + timeout:
+                raise TimeoutError("Host %s did not appear after %i seconds" %
+                                   (self.ip_address, timeout))
+            time.sleep(0.5)
+
+    def _wait_for_ssh(self, timeout):
+        """Wait until the deployed VM is responding via SSH"""
+        start_time = time.time()
+        while True:
+            try:
+                self.runcmd(['true'], stdin=None, stdout=None, stderr=None)
+                return
+            except cliapp.AppException:
+                # TODO: Stop assuming the ssh part of the command is what failed
+                if time.time() > start_time + timeout:
+                    raise TimeoutError("%s sshd did not start after %i seconds"
+                                       % (self.ip_address, timeout))
+                time.sleep(0.5)
+
+    def wait_online(self, timeout=10):
+        self._wait_for_dhcp(timeout)
+        self._wait_for_ssh(timeout)
+
+    def delete(self):
+        # Forget config of deployed system as if it ever reappears it
+        # will have different host keys
+        cliapp.runcmd(['ssh-keygen', '-R', self.config['HOSTNAME']])
+        # Stop and remove VM
+        try:
+            self.host_machine.virsh('destroy', self.vm_id)
+        except cliapp.AppException as e:
+            # TODO: Stop assuming that destroy failed because it wasn't running
+            pass
+        try:
+            self.host_machine.virsh('undefine', self.vm_id)
+        except cliapp.AppException as e:
+            # TODO: Stop assuming that undefine failed because it was
+            #       already removed
+            pass
+        # TODO: Remove all attached disks, rather than just assuming it
+        #       only has one
+        self.host_machine.runcmd(['rm', self.rootfs_path])
+
+
+class Deployment(object):
+    def __init__(self, cluster_path, name,
+                 deployment_config, host_machine):
+        self.cluster_path = cluster_path
+        self.name = name
+        self.deployment_config = deployment_config
+        self.host_machine = host_machine
+
+    @staticmethod
+    def _ssh_host_key_exists(hostname):
+        """Check if an ssh host key exists in known_hosts"""
+        with open('/root/.ssh/known_hosts', 'r') as known_hosts:
+            return any(line.startswith(hostname) for line in known_hosts)
+
+    def _update_known_hosts(self):
+        if not self._ssh_host_key_exists(self.host_machine.address):
+            with open('/root/.ssh/known_hosts', 'a') as known_hosts:
+                cliapp.runcmd(['ssh-keyscan', self.host_machine.address],
+                              stdout=known_hosts)
+
+    @staticmethod
+    def _generate_sshkey_config(tempdir, config):
+        manifest = os.path.join(tempdir, 'manifest')
+        with open(manifest, 'w') as f:
+            f.write('0040700 0 0 /root/.ssh\n')
+            f.write('overwrite 0100600 0 0 /root/.ssh/authorized_keys\n')
+        authkeys = os.path.join(tempdir, 'root', '.ssh', 'authorized_keys')
+        os.makedirs(os.path.dirname(authkeys))
+        with open(authkeys, 'w') as auth_f:
+            with open('/root/.ssh/id_rsa.pub', 'r') as key_f:
+                shutil.copyfileobj(key_f, auth_f)
+
+        install_files = shlex.split(config.get('INSTALL_FILES', ''))
+        install_files.append(manifest)
+        yield 'INSTALL_FILES', ' '.join(pipes.quote(f) for f in install_files)
+
+    def deploy(self):
+        self._update_known_hosts()
+
+        hostname = str(uuid.uuid4())
+        vm_id = hostname
+        image_base = self.host_machine.disk_path
+        rootpath = '{image_base}/{hostname}.img'.format(image_base=image_base,
+                                                        hostname=hostname)
+        loc = 'kvm+ssh://{ssh_host}/{id}/{path}'.format(
+            ssh_host=self.host_machine.ssh_host, id=vm_id, path=rootpath)
+
+        options = {
+            'type': 'kvm',
+            'location': loc,
+            'AUTOSTART': 'True',
+            'HOSTNAME': hostname,
+            'DISK_SIZE': '20G',
+            'RAM_SIZE': '2G',
+            'VERSION_LABEL': 'release-test',
+        }
+
+        tempdir = tempfile.mkdtemp()
+        try:
+            options.update(
+                self._generate_sshkey_config(tempdir,
+                                            self.deployment_config))
+
+            args = ['morph', 'deploy', self.cluster_path, self.name]
+            for k, v in options.iteritems():
+                args.append('%s.%s=%s' % (self.name, k, v))
+            cliapp.runcmd(args, stdin=None, stdout=None, stderr=None)
+
+            config = dict(self.deployment_config)
+            config.update(options)
+
+            return Instance(self, config, self.host_machine, vm_id, rootpath)
+        finally:
+            shutil.rmtree(tempdir)
+
+
+class ReleaseApp(cliapp.Application):
+
+    """Cliapp application which handles automatic builds and tests"""
+
+    def add_settings(self):
+        """Add the command line options needed"""
+        group_main = 'Program Options'
+        self.settings.string_list(['deployment-host'],
+                                  'ARCH:HOST:PATH that VMs can be deployed to',
+                                  default=None,
+                                  group=group_main)
+        self.settings.string(['trove-host'],
+                             'Address of Trove for test systems to build from',
+                             default=None,
+                             group=group_main)
+        self.settings.string(['trove-id'],
+                             'ID of Trove for test systems to build from',
+                             default=None,
+                             group=group_main)
+        self.settings.string(['build-ref-prefix'],
+                             'Prefix of build branches for test systems',
+                             default=None,
+                             group=group_main)
+
+    @staticmethod
+    def _run_tests(instance, system_path, system_morph,
+                   (trove_host, trove_id, build_ref_prefix),
+                   morph_frobber, systems):
+        instance.wait_online()
+
+        tests = []
+        def baserock_build_test(instance):
+            instance.runcmd(['git', 'config', '--global', 'user.name',
+                             'Test Instance of %s' % instance.deployment.name])
+            instance.runcmd(['git', 'config', '--global', 'user.email',
+                             'ci-test@%s' % instance.config['HOSTNAME']])
+            instance.runcmd(['mkdir', '-p', '/src/ws', '/src/cache',
+                             '/src/tmp'])
+            def morph_cmd(*args, **kwargs):
+                # TODO: decide whether to use cached artifacts or not by
+                # adding --artifact-cache-server= --cache-server=
+                argv = ['morph', '--log=/src/morph.log', '--cachedir=/src/cache',
+                        '--tempdir=/src/tmp', '--log-max=100M',
+                        '--trove-host', trove_host, '--trove-id', trove_id,
+                        '--build-ref-prefix', build_ref_prefix]
+                argv.extend(args)
+                instance.runcmd(argv, **kwargs)
+
+            repo = morph_frobber.sb.root_repository_url
+            ref = morph_frobber.defs_repo.HEAD
+            sha1 = morph_frobber.defs_repo.resolve_ref_to_commit(ref)
+            morph_cmd('init', '/src/ws')
+            chdir = '/src/ws'
+
+            morph_cmd('checkout', repo, ref, chdir=chdir)
+            # TODO: Add a morph subcommand that gives the path to the root repository.
+            repo_path = os.path.relpath(
+                morph_frobber.sb.get_git_directory_name(repo),
+                morph_frobber.sb.root_directory)
+            chdir = os.path.join(chdir, ref, repo_path)
+
+            instance.runcmd(['git', 'reset', '--hard', sha1], chdir=chdir)
+            print 'Building test systems for {sys}'.format(sys=system_path)
+            for to_build_path, to_build_morph in systems.iteritems():
+                if to_build_morph['arch'] == system_morph['arch']:
+                    print 'Test building {path}'.format(path=to_build_path)
+                    morph_cmd('build', to_build_path, chdir=chdir,
+                              stdin=None, stdout=None, stderr=None)
+            print 'Finished Building test systems'
+
+        def python_smoke_test(instance):
+            instance.runcmd(['python', '-c', 'print "Hello World"'])
+
+        # TODO: Come up with a better way of determining which tests to run
+        if 'devel' in system_path:
+            tests.append(baserock_build_test)
+        else:
+            tests.append(python_smoke_test)
+
+        for test in tests:
+            test(instance)
+
+    def deploy_and_test_systems(self, cluster_path,
+                                deployment_hosts, build_test_config):
+        """Run the deployments and tests"""
+
+        image_path = '/opt/ci/'
+        version = 'release-test'
+
+        morph_frobber = MorphologyFrobber()
+        cluster_morph = morph_frobber.load_morphology(cluster_path)
+        systems = dict(morph_frobber.load_cluster_systems(cluster_morph))
+
+        for system_path, deployment_name, deployment_config in \
+            morph_frobber.iterate_cluster_deployments(cluster_morph):
+
+            system_morph = systems[system_path]
+            # We can only test systems in KVM that have a BSP
+            if not any('bsp' in si['morph'] for si in system_morph['strata']):
+                continue
+
+            # We can only test systems in KVM that we have a host for
+            if system_morph['arch'] not in deployment_hosts:
+                continue
+            host_machine = deployment_hosts[system_morph['arch']]
+            deployment = Deployment(cluster_path, deployment_name,
+                                    deployment_config, host_machine)
+
+            instance = deployment.deploy()
+            try:
+                self._run_tests(instance, system_path, system_morph,
+                                build_test_config, morph_frobber, systems)
+            finally:
+                instance.delete()
+
+    def process_args(self, args):
+        """Process the command line args and kick off the builds/tests"""
+        if self.settings['build-ref-prefix'] is None:
+            self.settings['build-ref-prefix'] = (
+                os.path.join(self.settings['trove-id'], 'builds'))
+        for setting in ('deployment-host', 'trove-host',
+                        'trove-id', 'build-ref-prefix'):
+            self.settings.require(setting)
+
+        deployment_hosts = {}
+        for host_config in self.settings['deployment-host']:
+            arch, address = host_config.split(':', 1)
+            user, address = address.split('@', 1)
+            address, disk_path = address.split(':', 1)
+            if user == '':
+                user = 'root'
+            # TODO: Don't assume root is the user with deploy access
+            deployment_hosts[arch] = VMHost(user, address, disk_path)
+
+        build_test_config = (self.settings['trove-host'],
+                             self.settings['trove-id'],
+                             self.settings['build-ref-prefix'])
+
+        if len(args) != 1:
+            raise cliapp.AppException('Usage: release-test CLUSTER')
+        cluster_path = morphlib.util.sanitise_morphology_path(args[0])
+        self.deploy_and_test_systems(cluster_path, deployment_hosts,
+                                     build_test_config)
+
+
+if __name__ == '__main__':
+    ReleaseApp().run()
