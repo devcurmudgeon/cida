@@ -25,6 +25,7 @@
 #   * TROVE_COMPANY
 #   * LORRY_SSH_KEY
 #   * UPSTREAM_TROVE
+#   * UPSTREAM_TROVE_PROTOCOL
 #   * TROVE_ADMIN_USER
 #   * TROVE_ADMIN_EMAIL
 #   * TROVE_ADMIN_NAME
@@ -136,7 +137,8 @@ trove_configuration={
 
 
 optional_keys = ('MASON_ID', 'HOSTNAME', 'TROVE_HOSTNAME',
-                 'LORRY_CONTROLLER_MINIONS', 'TROVE_BACKUP_KEYS')
+                 'LORRY_CONTROLLER_MINIONS', 'TROVE_BACKUP_KEYS',
+                 'UPSTREAM_TROVE_PROTOCOL')
 
 for key in optional_keys:
     if key in os.environ:
