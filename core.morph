@@ -100,6 +100,11 @@ chunks:
   ref: 8deafa68e52b230018c0318dc7959ff9af3ad2a5
   unpetrify-ref: baserock/morph
   build-depends: []
+- name: readline
+  repo: upstream:readline
+  ref: 518937ab89be812ccd45e9b8c1ce4ad721d35ef6
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends: []
 - name: cpython
   repo: upstream:cpython
   ref: fa86445bfd4fb8e5441d685d92bf8a8ee237f022
@@ -108,6 +113,8 @@ chunks:
   - openssl-new
   - bzip2
   - sqlite3
+  - ncurses
+  - readline
 - name: libtool
   repo: upstream:libtool
   ref: d388b7f2dc628b22006025d01179bc09b8aabe81

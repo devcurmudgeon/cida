@@ -25,17 +25,11 @@ chunks:
   ref: 52568782ae136e1ec4ddf3eb6da7b0f3fbd3f1b3
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: readline
-  repo: upstream:readline
-  ref: 518937ab89be812ccd45e9b8c1ce4ad721d35ef6
-  unpetrify-ref: baserock/genivi/baseline
-  build-depends: []
 - name: bluez
   repo: upstream:bluez
   ref: a18201b5321e8b41d2ee7c7bc7285d976fc433e6
   unpetrify-ref: baserock/v5.17-patched
   build-depends:
-  - readline
   - libical
   - alsa-lib
 - name: bluez-tools
