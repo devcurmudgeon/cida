@@ -1,0 +1,10 @@
+[Unit]
+Description=HTTP server for Mason
+After=network.target
+
+[Service]
+User=root
+ExecStart=/usr/sbin/httpd -f -p 80 -h /srv/mason
+
+[Install]
+WantedBy=multi-user.target

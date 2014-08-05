@@ -1,0 +1,70 @@
+#!/bin/sh
+
+set -e
+set -x
+
+# Load our deployment config
+. /root/mason.conf
+
+if [ ! -e ws ]; then
+    morph init ws
+fi
+cd ws
+
+definitions_repo="$DEFINITIONS_REF"/"$UPSTREAM_TROVE_ADDRESS"/baserock/baserock/definitions
+if [ ! -e "$definitions_repo" ]; then
+    morph checkout git://"$UPSTREAM_TROVE_ADDRESS"/baserock/baserock/definitions.git "$DEFINITIONS_REF"
+    cd "$definitions_repo"
+    git config user.name "$TROVE_ID"-mason
+    git config user.email "$TROVE_ID"-mason@$(hostname)
+else
+    cd "$definitions_repo"
+    SHA1_PREV="$(git rev-parse HEAD)"
+fi
+
+git remote update origin
+git clean -fxd
+git reset --hard origin/"$DEFINITIONS_REF"
+
+SHA1="$(git rev-parse HEAD)"
+
+if [ -f "$HOME/success" ] && [ "$SHA1" = "$SHA1_PREV" ]; then
+    echo INFO: No changes to "$DEFINITIONS_REF", nothing to do
+    exit 33
+fi
+
+rm -f "$HOME/success"
+
+echo INFO: Mason building: $DEFINITIONS_REF at $SHA1
+
+"scripts/release-build" --no-default-configs \
+        --trove-host "$UPSTREAM_TROVE_ADDRESS" \
+	--controllers "$DISTBUILD_ARCH:$DISTBUILD_CONTROLLER_ADDRESS" \
+	"$BUILD_CLUSTER_MORPHOLOGY"
+
+releases_made="$(cd release && ls | wc -l)"
+if [ "$releases_made" = 0 ]; then
+    echo ERROR: No release images created
+    exit 1
+else
+    echo INFO: Created "$releases_made" release images
+fi
+
+"scripts/release-test" \
+	--deployment-host "$DISTBUILD_ARCH":"$TEST_VM_HOST_SSH_URL" \
+	--trove-host "$DISTBUILD_TROVE_ADDRESS" \
+	--trove-id "$TROVE_ID" \
+	"$BUILD_CLUSTER_MORPHOLOGY"
+
+"scripts/release-upload" --build-trove-host "$DISTBUILD_TROVE_ADDRESS" \
+	--arch "$DISTBUILD_ARCH" \
+	--log-level=debug --log="$HOME"/release-upload.log \
+	--public-trove-host "$UPSTREAM_TROVE_ADDRESS" \
+	--public-trove-username root \
+	--public-trove-artifact-dir /home/cache/artifacts \
+	--no-upload-release-artifacts \
+	"$BUILD_CLUSTER_MORPHOLOGY"
+
+echo INFO: Artifact upload complete for $DEFINITIONS_REF at $SHA1
+
+touch "$HOME/success"
