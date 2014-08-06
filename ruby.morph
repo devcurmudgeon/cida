@@ -24,6 +24,6 @@ chunks:
 - name: bundler
   repo: upstream:bundler
   ref: 0708fbe62617a63300e1cc3b9869cc1280c57ef6 
-  unpetrify_ref: baserock/v1.6.2 
+  unpetrify-ref: baserock/v1.6.2
   build-depends:
   - ruby
