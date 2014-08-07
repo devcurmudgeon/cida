@@ -7,6 +7,7 @@ configuration-extensions:
 - install-files
 - distbuild
 - fstab
+- mason
 description: Morph distributed build node for x86_64
 kind: system
 name: distbuild-system-x86_64

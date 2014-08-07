@@ -1,0 +1,10 @@
+[Unit]
+Description=Runs Mason continually with 1 min between calls
+
+[Timer]
+#Time between Mason finishing and calling it again
+OnUnitActiveSec=1min
+Unit=mason.service
+
+[Install]
+WantedBy=multi-user.target
