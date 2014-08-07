@@ -89,4 +89,4 @@ ln -s ../mason.service "$ROOT"/etc/systemd/system/multi-user.target.wants/mason.
 
 cp mason/httpd.service "$ROOT"/etc/systemd/system/httpd.service
 ln -s ../httpd.service "$ROOT"/etc/systemd/system/multi-user.target.wants/httpd.service
-mkdir -p /srv/mason
+mkdir -p "$ROOT"/srv/mason
