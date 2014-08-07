@@ -87,6 +87,15 @@ ln -s ../mason.timer "$ROOT"/etc/systemd/system/multi-user.target.wants/mason.ti
 cp mason/mason.service "$ROOT"/etc/systemd/system/mason.service
 ln -s ../mason.service "$ROOT"/etc/systemd/system/multi-user.target.wants/mason.service
 
+##########################################################################
+# Set up httpd web server
+##########################################################################
+
 cp mason/httpd.service "$ROOT"/etc/systemd/system/httpd.service
 ln -s ../httpd.service "$ROOT"/etc/systemd/system/multi-user.target.wants/httpd.service
+
 mkdir -p "$ROOT"/srv/mason
+
+cat >>"$ROOT"/etc/httpd.conf <<EOF
+.log:text/plain
+EOF
