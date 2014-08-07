@@ -57,6 +57,12 @@ table tr.fail {
 table tr.fail:hover {
 	background: #ffbbbb;
 }
+table tr.nonet {
+	background: #ffdd99;
+}
+table tr.nonet:hover {
+	background: #ffeeaa;
+}
 table tr.headings th {
 	font-weight: bold;
 	text-align: left;
@@ -86,6 +92,12 @@ tr.fail td.result a {
 }
 tr.fail td.result a:hover {
 	color: #933;
+}
+tr.nonet td.result a {
+	color: #641;
+}
+tr.nonet td.result a:hover {
+	color: #962;
 }
 td.ref {
 	font-family: monospace;
@@ -161,7 +173,11 @@ update_report() {
     fi
 
     # Build table row for insertion into report file
-    msg='<tr class="'"${build_result}"'"><td>'"${build_start_time}"'</td><td class="ref"><a href="http://'"${build_trove_host}"'/cgi-bin/cgit.cgi/baserock/baserock/definitions.git/commit/?h='"${build_ref}"'&id='"${build_sha1}"'">'"${build_sha1}"'</a></td><td>'"${build_duration}s"'</td><td class="result"><a href="log/'"${build_sha1}"'--'"${build_start_time}"'.log">'"${build_result}"'</a></td></tr>'
+    if [ "$build_result" = nonet ]; then
+        msg='<tr class="'"${build_result}"'"><td>'"${build_start_time}"'</td><td class="ref">Failed to contact '"${build_trove_host}"'</a></td><td>'"${build_duration}s"'</td><td class="result"><a href="log/'"${build_sha1}"'--'"${build_start_time}"'.log">'"${build_result}"'</a></td></tr>'
+    else
+        msg='<tr class="'"${build_result}"'"><td>'"${build_start_time}"'</td><td class="ref"><a href="http://'"${build_trove_host}"'/cgi-bin/cgit.cgi/baserock/baserock/definitions.git/commit/?h='"${build_ref}"'&id='"${build_sha1}"'">'"${build_sha1}"'</a></td><td>'"${build_duration}s"'</td><td class="result"><a href="log/'"${build_sha1}"'--'"${build_start_time}"'.log">'"${build_result}"'</a></td></tr>'
+    fi
 
     # Insert report line, newest at top
     sed -i 's/<!--INSERTION POINT-->/<!--INSERTION POINT-->\n'"$(sed_escape "$msg")"'/' $REPORT_PATH
@@ -177,6 +193,9 @@ case "${PIPESTATUS[0]}" in
     ;;
 33)
     RESULT=skip
+    ;;
+42)
+    RESULT=nonet
     ;;
 *)
     RESULT=fail

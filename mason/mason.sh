@@ -22,7 +22,10 @@ else
     SHA1_PREV="$(git rev-parse HEAD)"
 fi
 
-git remote update origin
+if ! git remote update origin; then
+    echo ERROR: Unable to contact trove
+    exit 42
+fi
 git clean -fxd
 git reset --hard origin/"$DEFINITIONS_REF"
 
