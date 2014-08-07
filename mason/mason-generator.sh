@@ -25,7 +25,7 @@ if [ "$1" == "-h" -o "$1" == "--help" ]; then
   echo "To ensure that the deployed system can deploy test systems, you"
   echo "must supply an ssh key to the VM host.  Do so with the following"
   echo "command:"
-  echo "  ssh-copy-id -i ssh_keys-HOST_PREFIX/mason.key.pub VM_USER@VM_HOST"
+  echo "  ssh-copy-id -i ssh_keys-HOST_PREFIX/worker.key.pub VM_USER@VM_HOST"
   echo ""
   exit 0
 fi
