@@ -102,11 +102,17 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         '''Transfer raw disk image to VirtualBox host, and convert to VDI.'''
 
         self.status(msg='Transfer disk and convert to VDI')
-        with open(raw_disk, 'rb') as f:
-            cliapp.ssh_runcmd(ssh_host,
-                ['VBoxManage', 'convertfromraw', 'stdin', vdi_path,
-                 str(os.path.getsize(raw_disk))],
-                stdin=f)
+
+        st = os.lstat(raw_disk)
+        xfer_hole_path = morphlib.util.get_data_path('xfer-hole')
+        recv_hole = morphlib.util.get_data('recv-hole')
+
+        cliapp.runcmd(
+            ['python', xfer_hole_path, raw_disk],
+            ['ssh', ssh_host,
+             'sh', '-c', cliapp.shell_quote(recv_hole),
+             'dummy-argv0', 'vbox', vdi_path, str(st.st_size)],
+            stdout=None, stderr=None)
 
     def virtualbox_version(self, ssh_host):
         'Get the version number of the VirtualBox running on the remote host.'
