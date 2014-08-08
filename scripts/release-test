@@ -66,8 +66,7 @@ class MorphologyHelper(object):
 
     def load_cluster_systems(self, cluster_morph):
         for system_path in set(self.iterate_systems(cluster_morph['systems'])):
-            system_text = self.finder.read_morphology(system_path)
-            system_morph = self.loader.load_from_string(system_text)
+            system_morph = self.load_morphology(system_path)
             yield system_path, system_morph
 
 
