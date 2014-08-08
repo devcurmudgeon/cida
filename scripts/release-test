@@ -97,7 +97,7 @@ class VMHost(object):
         self.runcmd(['virsh', '-c', 'qemu:///system'] + list(args), **kwargs)
 
 
-class Instance(object):
+class DeployedSystemInstance(object):
 
     def __init__(self, deployment, config, host_machine, vm_id, rootfs_path):
         self.deployment = deployment
@@ -250,7 +250,8 @@ class Deployment(object):
             config = dict(self.deployment_config)
             config.update(options)
 
-            return Instance(self, config, self.host_machine, vm_id, rootpath)
+            return DeployedSystemInstance(self, config, self.host_machine,
+                                          vm_id, rootpath)
         finally:
             shutil.rmtree(tempdir)
 
