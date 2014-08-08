@@ -167,14 +167,11 @@ class DeployedSystemInstance(object):
             # TODO: Stop assuming that destroy failed because it wasn't running
             pass
         try:
-            self.host_machine.virsh('undefine', self.vm_id)
+            self.host_machine.virsh('undefine', self.vm_id, '--remove-all-storage')
         except cliapp.AppException as e:
             # TODO: Stop assuming that undefine failed because it was
             #       already removed
             pass
-        # TODO: Remove all attached disks, rather than just assuming it
-        #       only has one
-        self.host_machine.runcmd(['rm', self.rootfs_path])
 
 
 class Deployment(object):
