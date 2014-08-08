@@ -35,7 +35,7 @@ import uuid
 import morphlib
 
 
-class MorphologyFrobber(object):
+class MorphologyHelper(object):
     def __init__(self):
         self.sb = sb = morphlib.sysbranchdir.open_from_within('.')
         defs_repo_path = sb.get_git_directory_name(sb.root_repository_url)
@@ -280,7 +280,7 @@ class ReleaseApp(cliapp.Application):
     @staticmethod
     def _run_tests(instance, system_path, system_morph,
                    (trove_host, trove_id, build_ref_prefix),
-                   morph_frobber, systems):
+                   morph_helper, systems):
         instance.wait_online()
 
         tests = []
@@ -301,17 +301,17 @@ class ReleaseApp(cliapp.Application):
                 argv.extend(args)
                 instance.runcmd(argv, **kwargs)
 
-            repo = morph_frobber.sb.root_repository_url
-            ref = morph_frobber.defs_repo.HEAD
-            sha1 = morph_frobber.defs_repo.resolve_ref_to_commit(ref)
+            repo = morph_helper.sb.root_repository_url
+            ref = morph_helper.defs_repo.HEAD
+            sha1 = morph_helper.defs_repo.resolve_ref_to_commit(ref)
             morph_cmd('init', '/src/ws')
             chdir = '/src/ws'
 
             morph_cmd('checkout', repo, ref, chdir=chdir)
             # TODO: Add a morph subcommand that gives the path to the root repository.
             repo_path = os.path.relpath(
-                morph_frobber.sb.get_git_directory_name(repo),
-                morph_frobber.sb.root_directory)
+                morph_helper.sb.get_git_directory_name(repo),
+                morph_helper.sb.root_directory)
             chdir = os.path.join(chdir, ref, repo_path)
 
             instance.runcmd(['git', 'reset', '--hard', sha1], chdir=chdir)
@@ -339,15 +339,14 @@ class ReleaseApp(cliapp.Application):
                                 deployment_hosts, build_test_config):
         """Run the deployments and tests"""
 
-        image_path = '/opt/ci/'
         version = 'release-test'
 
-        morph_frobber = MorphologyFrobber()
-        cluster_morph = morph_frobber.load_morphology(cluster_path)
-        systems = dict(morph_frobber.load_cluster_systems(cluster_morph))
+        morph_helper = MorphologyHelper()
+        cluster_morph = morph_helper.load_morphology(cluster_path)
+        systems = dict(morph_helper.load_cluster_systems(cluster_morph))
 
         for system_path, deployment_name, deployment_config in \
-            morph_frobber.iterate_cluster_deployments(cluster_morph):
+            morph_helper.iterate_cluster_deployments(cluster_morph):
 
             system_morph = systems[system_path]
             # We can only test systems in KVM that have a BSP
@@ -364,7 +363,7 @@ class ReleaseApp(cliapp.Application):
             instance = deployment.deploy()
             try:
                 self._run_tests(instance, system_path, system_morph,
-                                build_test_config, morph_frobber, systems)
+                                build_test_config, morph_helper, systems)
             finally:
                 instance.delete()
 
