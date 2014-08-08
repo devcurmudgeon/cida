@@ -36,6 +36,7 @@ import morphlib
 
 
 class MorphologyHelper(object):
+
     def __init__(self):
         self.sb = sb = morphlib.sysbranchdir.open_from_within('.')
         defs_repo_path = sb.get_git_directory_name(sb.root_repository_url)
@@ -79,6 +80,7 @@ class TimeoutError(cliapp.AppException):
 
 
 class VMHost(object):
+
     def __init__(self, user, address, disk_path):
         self.user = user
         self.address = address
@@ -96,6 +98,7 @@ class VMHost(object):
 
 
 class Instance(object):
+
     def __init__(self, deployment, config, host_machine, vm_id, rootfs_path):
         self.deployment = deployment
         self.config = config
@@ -119,11 +122,11 @@ class Instance(object):
         return cliapp.runcmd(ssh_cmd, **kwargs)
 
     def _wait_for_dhcp(self, timeout):
-        '''
-        Block until given hostname resolves successfully.
+        '''Block until given hostname resolves successfully.
 
         Raises TimeoutError if the hostname has not appeared in 'timeout'
         seconds.
+
         '''
         start_time = time.time()
         while True:
@@ -177,8 +180,8 @@ class Instance(object):
 
 
 class Deployment(object):
-    def __init__(self, cluster_path, name,
-                 deployment_config, host_machine):
+
+    def __init__(self, cluster_path, name, deployment_config, host_machine):
         self.cluster_path = cluster_path
         self.name = name
         self.deployment_config = deployment_config
