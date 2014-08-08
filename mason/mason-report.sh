@@ -16,7 +16,7 @@ cat > $REPORT_PATH <<'EOF'
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="10">
+<meta http-equiv="refresh" content="60">
 <style>
 html, body {
 	margin: 0;
