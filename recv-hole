@@ -1,0 +1,134 @@
+#!/bin/sh
+#
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# =*= License: GPL-2 =*=
+
+
+# Receive a data stream describing a sparse file, and reproduce it,
+# either to a named file or stdout.
+#
+# The data stream is simple: it's a sequence of DATA or HOLE records:
+#
+#    DATA
+#    123
+#    <123 bytes of binary data, NOT including newline at the end>
+#
+#    HOLE
+#    123
+#
+# This shell script can be executed over ssh (given to ssh as an arguemnt,
+# with suitable escaping) on a different computer. This allows a large
+# sparse file (e.g., disk image) be transferred quickly.
+
+
+set -eu
+
+
+die()
+{
+    echo "$@" 1>&2
+    exit 1
+}
+
+
+recv_hole_to_file()
+{
+    local n
+
+    read n
+    truncate --size "+$n" "$1"
+}
+
+
+recv_data_to_file()
+{
+    local n
+    read n
+
+    local blocksize=1048576
+    local blocks="$(echo "$n" / "$blocksize" | bc)"
+    local extra="$(echo "$n" % "$blocksize" | bc)"
+
+    xfer_data_to_stdout "$blocksize" "$blocks" >> "$1"
+    xfer_data_to_stdout 1 "$extra" >> "$1"
+}
+
+
+recv_hole_to_stdout()
+{
+    local n
+    read n
+    (echo "$n"; cat /dev/zero) | recv_data_to_stdout
+}
+
+
+recv_data_to_stdout()
+{
+    local n
+    read n
+
+    local blocksize=1048576
+    local blocks="$(echo "$n" / "$blocksize" | bc)"
+    local extra="$(echo "$n" % "$blocksize" | bc)"
+
+    xfer_data_to_stdout "$blocksize" "$blocks"
+    xfer_data_to_stdout 1 "$extra"
+}
+
+
+xfer_data_to_stdout()
+{
+    local log="$(mktemp)"
+    if ! dd "bs=$1" count="$2" iflag=fullblock status=noxfer 2> "$log"
+    then
+        cat "$log" 1>&2
+        rm -f "$log"
+        exit 1
+    else
+        rm -f "$log"
+    fi
+}
+
+
+type="$1"
+case "$type" in
+    file)
+        output="$2"
+        truncate --size=0 "$output"
+        while read what
+        do
+            case "$what" in
+                DATA) recv_data_to_file "$output" ;;
+                HOLE) recv_hole_to_file "$output" ;;
+                *) die "Unknown instruction: $what" ;;
+            esac
+        done
+        ;;
+    vbox)
+        output="$2"
+        disk_size="$3"
+        while read what
+        do
+            case "$what" in
+                DATA) recv_data_to_stdout ;;
+                HOLE) recv_hole_to_stdout ;;
+                *) die "Unknown instruction: $what" ;;
+            esac
+        done |
+        VBoxManage convertfromraw stdin "$output" "$disk_size"
+        ;;
+esac
