@@ -11,9 +11,9 @@ if [ ! -e ws ]; then
 fi
 cd ws
 
-definitions_repo="$DEFINITIONS_REF"/"$UPSTREAM_TROVE_ADDRESS"/baserock/baserock/definitions
+definitions_repo="$DEFINITIONS_REF"/"$DISTBUILD_TROVE_ADDRESS"/baserock/baserock/definitions
 if [ ! -e "$definitions_repo" ]; then
-    morph checkout git://"$UPSTREAM_TROVE_ADDRESS"/baserock/baserock/definitions.git "$DEFINITIONS_REF"
+    morph checkout git://"$DISTBUILD_TROVE_ADDRESS"/baserock/baserock/definitions.git "$DEFINITIONS_REF"
     cd "$definitions_repo"
     git config user.name "$TROVE_ID"-mason
     git config user.email "$TROVE_ID"-mason@$(hostname)
@@ -41,7 +41,7 @@ rm -f "$HOME/success"
 echo INFO: Mason building: $DEFINITIONS_REF at $SHA1
 
 "scripts/release-build" --no-default-configs \
-        --trove-host "$UPSTREAM_TROVE_ADDRESS" \
+        --trove-host "$DISTBUILD_TROVE_ADDRESS" \
 	--controllers "$DISTBUILD_ARCH:$DISTBUILD_CONTROLLER_ADDRESS" \
 	"$BUILD_CLUSTER_MORPHOLOGY"
 
