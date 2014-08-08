@@ -154,7 +154,7 @@ class DeployedSystemInstance(object):
                                        % (self.ip_address, timeout))
                 time.sleep(0.5)
 
-    def wait_online(self, timeout=10):
+    def wait_until_online(self, timeout=10):
         self._wait_for_dhcp(timeout)
         self._wait_for_ssh(timeout)
 
@@ -284,7 +284,7 @@ class ReleaseApp(cliapp.Application):
     def _run_tests(instance, system_path, system_morph,
                    (trove_host, trove_id, build_ref_prefix),
                    morph_helper, systems):
-        instance.wait_online()
+        instance.wait_until_online()
 
         tests = []
         def baserock_build_test(instance):
