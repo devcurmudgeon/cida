@@ -115,7 +115,8 @@ class DeployedSystemInstance(object):
         return 'root@{host}'.format(host=self.ip_address)
 
     def runcmd(self, argv, chdir='.', **kwargs):
-        ssh_cmd = ['ssh', '-o', 'StrictHostKeyChecking=no', self.ssh_host]
+        ssh_cmd = ['ssh', '-o', 'StrictHostKeyChecking=no',
+                   '-o', 'UserKnownHostsFile=/dev/null', self.ssh_host]
         cmd = ['sh', '-c', 'cd "$1" && shift && exec "$@"', '-', chdir]
         cmd += argv
         ssh_cmd.append(' '.join(map(pipes.quote, cmd)))
@@ -159,9 +160,6 @@ class DeployedSystemInstance(object):
         self._wait_for_ssh(timeout)
 
     def delete(self):
-        # Forget config of deployed system as if it ever reappears it
-        # will have different host keys
-        cliapp.runcmd(['ssh-keygen', '-R', self.config['HOSTNAME']])
         # Stop and remove VM
         try:
             self.host_machine.virsh('destroy', self.vm_id)
