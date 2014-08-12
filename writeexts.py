@@ -444,7 +444,8 @@ class WriteExtension(cliapp.Application):
             'rootfstype=btrfs ' # required when using initramfs, also boots
                                 # faster when specified without initramfs
             'rootflags=subvol=systems/default/run ') # boot runtime subvol
-        kernel_args += 'root=%s ' % (self.get_root_device() if disk_uuid is None
+        kernel_args += 'root=%s ' % (self.get_root_device()
+                                     if disk_uuid is None
                                      else 'UUID=%s' % disk_uuid)
         kernel_args += self.get_extra_kernel_args()
         with open(config, 'w') as f:
