@@ -16,7 +16,7 @@ chunks:
   build-depends: []
 - name: lua
   repo: upstream:lua
-  ref: bedbdc0f03bca4fe97200ddf9c3d6cb210b45888
+  ref: 948063437e0350d9ef1649ec3a76d0c24a5c8642
   unpetrify-ref: baserock/5.1-morph
   build-depends: []
 - name: lace
@@ -58,7 +58,7 @@ chunks:
   build-depends: []
 - name: lrexlib-pcre
   repo: upstream:lrexlib
-  ref: da8a015f9e0192c47552313c981a574ff41a6b88
+  ref: 0524a6e3ab6d50cba63c8642a875e246de53d651
   unpetrify-ref: baserock/morph
   build-depends:
   - pcre

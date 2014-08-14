@@ -6,7 +6,7 @@ build-depends:
 chunks:
 - name: attr
   repo: upstream:attr
-  ref: be4a3c1d50981d2cbbe2cfb55498cac51909c37f
+  ref: 6148f883107b1a1de18254aa9ffe2fb1be0e1121
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: groff
