@@ -122,7 +122,7 @@ chunks:
   build-depends: []
 - name: tbdiff
   repo: baserock:baserock/tbdiff
-  ref: 6a361a1a174667e2998578e49acd64932eb2c8a1
+  ref: a6c4f3b9a1d7cb509ccce670c7d2ee4048e56525 
   unpetrify-ref: master
   build-depends:
   - attr
