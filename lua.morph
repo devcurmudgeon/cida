@@ -6,6 +6,6 @@ build-depends:
 chunks:
 - name: lua
   repo: upstream:lua
-  ref: bedbdc0f03bca4fe97200ddf9c3d6cb210b45888
+  ref: 948063437e0350d9ef1649ec3a76d0c24a5c8642
   unpetrify-ref: baserock/5.1-morph
   build-depends: []
