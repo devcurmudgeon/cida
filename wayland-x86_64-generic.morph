@@ -38,7 +38,7 @@ chunks:
   - freetype2
 - name: freefont-otf
   repo: upstream:freefont-otf
-  ref: 0ca3ccce74e81f7feb6e922edd988be0e1a43f05
+  ref: 75fa95a912718bb94a135d4bf6b13bb38e186ce7
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: cairo
