@@ -24,7 +24,7 @@ chunks:
   - ruby-1.8
 - name: qtbase
   repo: upstream:qt5/qtbase
-  ref: 79be8352ced650e98ab0afe89e91cffee4f6a04a
+  ref: 55f24d7e91e7c906cf4e3a3ef7a4d95ff094a7a8
   unpetrify-ref: baserock/morph
   build-depends:
   - icu
