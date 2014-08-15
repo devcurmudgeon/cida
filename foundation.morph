@@ -6,7 +6,7 @@ build-depends:
 chunks:
 - name: attr
   repo: upstream:attr
-  ref: 6148f883107b1a1de18254aa9ffe2fb1be0e1121
+  ref: 803387f4cd792982b86d45796fbb4df559d9db44
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: groff
@@ -122,7 +122,7 @@ chunks:
   build-depends: []
 - name: tbdiff
   repo: baserock:baserock/tbdiff
-  ref: a6c4f3b9a1d7cb509ccce670c7d2ee4048e56525 
+  ref: a6c4f3b9a1d7cb509ccce670c7d2ee4048e56525
   unpetrify-ref: master
   build-depends:
   - attr
