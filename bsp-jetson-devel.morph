@@ -18,7 +18,7 @@ chunks:
   - device-tree-compiler
 - name: linux
   repo: upstream:linux
-  ref: 1f12d2a9854d101f23cce77f6fe8e53814c8a896
+  ref: de3664efca390a8d2fe525a583d17772deee8500
   unpetrify-ref: baserock/arm/tegra-3.10
   build-depends:
   - u-boot
