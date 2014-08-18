@@ -18,7 +18,12 @@ chunks:
   - device-tree-compiler
 - name: linux
   repo: upstream:linux
-  ref: cdd9a9007773a4d7f59afdcd0e2186f995cfe956
-  unpetrify-ref: baserock/arm/linux-tegra-3.16
+  ref: de3664efca390a8d2fe525a583d17772deee8500
+  unpetrify-ref: baserock/arm/tegra-3.10
   build-depends:
   - u-boot
+- name: bsp-support
+  repo: baserock:baserock/bsp-support
+  ref: 19bc31ce3198a3c19cdd96d392bde34cb34ed525
+  unpetrify-ref: baserock/arm/tegra-3.10
+  build-depends: []
