@@ -1,0 +1,40 @@
+name: nfs
+kind: stratum
+description: NFS utilities
+build-depends:
+- morph: strata/foundation.morph
+chunks:
+- name: libevent
+  repo: upstream:libevent
+  ref: 1c41f68f2246e9144ca20c76b833004480f9d58a
+  unpetrify-ref: release-2.0.20-stable
+  build-depends: []
+- name: tcp-wrappers
+  morph: strata/nfs/tcp-wrappers.morph
+  repo: upstream:tcp-wrappers
+  ref: 23b65f29b324b65a057a3fa87613b788856d6e4e
+  unpetrify-ref: baserock/fedora-patches
+  build-depends: []
+- name: ti-rpc
+  morph: strata/nfs/ti-rpc.morph
+  repo: upstream:ti-rpc
+  ref: c5a7a19070e74115fc9c26aa6f3dfec1da220c1f
+  unpetrify-ref: baserock/master
+  build-depends: []
+- name: rpcbind
+  morph: strata/nfs/rpcbind.morph
+  repo: upstream:rpcbind
+  ref: aa3ac0d86c258d3e355ae59df31a96da795ecdfa
+  unpetrify-ref: baserock/master
+  build-depends:
+  - ti-rpc
+  - tcp-wrappers
+- name: nfs-utils
+  morph: strata/nfs/nfs-utils.morph
+  repo: upstream:nfs-utils
+  ref: 08baf3bc2f66a1ca6401191e19380028d2fc2c6d
+  unpetrify-ref: baserock/master
+  build-depends:
+  - libevent
+  - tcp-wrappers
+  - ti-rpc

@@ -1,0 +1,18 @@
+name: qt5-sdk
+kind: stratum
+description: Qt5 Desktop Environment, IDE and Example Apps
+build-depends:
+- morph: strata/qt5-tools.morph
+chunks:
+- name: qt-creator
+  morph: strata/qt5-sdk/qt-creator.morph
+  repo: upstream:qt-creator
+  ref: d5a6b10634c1a3271012e9578e016772ef077d59
+  unpetrify-ref: baserock/morph/2.7
+  build-depends: []
+- name: snowshoe
+  morph: strata/qt5-sdk/snowshoe.morph
+  repo: upstream:snowshoe
+  ref: 098f931de58072edd5d591cdc4a2ad3c05e83991
+  unpetrify-ref: baserock/morph
+  build-depends: []

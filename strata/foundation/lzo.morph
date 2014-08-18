@@ -1,0 +1,5 @@
+name: lzo
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./configure --enable-shared=yes --prefix="$PREFIX"

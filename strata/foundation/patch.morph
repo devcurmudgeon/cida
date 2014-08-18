@@ -1,0 +1,9 @@
+name: patch
+kind: chunk
+configure-commands:
+- bash bootstrap --skip-po
+- ./configure --prefix=/usr --bindir=/bin --libexecdir=/usr/sbin --disable-nls
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" install

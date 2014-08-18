@@ -1,0 +1,4 @@
+name: trove-setup
+kind: chunk
+install-commands:
+- make install DESTDIR="$DESTDIR"

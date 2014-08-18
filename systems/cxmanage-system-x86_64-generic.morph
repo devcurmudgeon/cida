@@ -1,0 +1,24 @@
+name: cxmanage-system-x86_64-generic
+kind: system
+description: A baserock development system with calxeda management tools added
+arch: x86_64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-x86_64-generic
+  morph: strata/bsp-x86_64-generic.morph
+- name: tools
+  morph: strata/tools.morph
+- name: cxmanage
+  morph: strata/cxmanage.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+- fstab

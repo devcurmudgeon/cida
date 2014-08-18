@@ -1,0 +1,6 @@
+name: pyfilesystem
+kind: chunk
+build-commands:
+- python setup.py build
+install-commands:
+- python setup.py install --prefix="$PREFIX" --root "$DESTDIR"

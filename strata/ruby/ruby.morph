@@ -1,0 +1,9 @@
+name: ruby
+kind: chunk
+configure-commands:
+- autoconf
+- ./configure --prefix=/usr --enable-shared --with-baseruby=/usr/bin/ruby-1.8
+build-commands:
+- make
+install-commands:
+- make DESTDIR=$DESTDIR install

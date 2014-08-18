@@ -1,0 +1,9 @@
+name: tcp-wrappers
+kind: chunk
+build-commands:
+- make MAJOR=0 MINOR=7 REL=6 linux
+install-commands:
+- mkdir -p "$DESTDIR"/"$PREFIX"/include
+- install -p -m644 tcpd.h "$DESTDIR"/"$PREFIX"/include
+- mkdir -p "$DESTDIR"/"$PREFIX"/lib
+- cp -a libwrap.so* "$DESTDIR"/"$PREFIX"/lib

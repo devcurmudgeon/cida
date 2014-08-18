@@ -1,0 +1,6 @@
+name: fuse
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./makeconf.sh
+- ./configure --prefix="$PREFIX"

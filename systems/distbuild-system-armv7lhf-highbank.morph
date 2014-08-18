@@ -1,0 +1,27 @@
+name: distbuild-system-armv7lhf-highbank
+kind: system
+description: Morph distributed build node for armv7lhf highbank
+arch: armv7lhf
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-armv7-highbank
+  morph: strata/bsp-armv7-highbank.morph
+- name: tools
+  morph: strata/tools.morph
+- name: nfs
+  morph: strata/nfs.morph
+- name: distbuild
+  morph: strata/distbuild.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+- distbuild
+- fstab

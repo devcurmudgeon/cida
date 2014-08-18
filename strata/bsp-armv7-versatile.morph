@@ -1,0 +1,13 @@
+name: bsp-armv7-versatile
+kind: stratum
+description: The platform dependent components required to boot an ARM versatile development
+  board.
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: linux-armv7-versatile
+  morph: strata/bsp-armv7-versatile/linux-armv7-versatile.morph
+  repo: upstream:linux
+  ref: d67a0e110187abd560a1de63fa172894a52839d5
+  unpetrify-ref: baserock/morph
+  build-depends: []

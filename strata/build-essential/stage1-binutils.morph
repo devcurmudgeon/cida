@@ -1,0 +1,10 @@
+name: stage1-binutils
+kind: chunk
+build-system: autotools
+configure-commands:
+- |
+  ./configure --prefix="$PREFIX" --disable-nls --disable-werror \
+    --build=$(sh config.guess) \
+    --host=$(sh config.guess) \
+    --target=$TARGET_STAGE1 \
+    --with-sysroot="/" --with-lib-path="=$PREFIX/lib"

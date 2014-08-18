@@ -1,0 +1,13 @@
+name: gtk2
+kind: stratum
+description: the gtk2 stratum
+build-depends:
+- morph: strata/gtk-deps.morph
+- morph: strata/x-generic.morph
+chunks:
+- name: gtk+
+  morph: strata/gtk2/gtk+.morph
+  repo: upstream:gtk+
+  ref: 52de99559e5b5bf09160e5a5a164d0ca5fede98c
+  unpetrify-ref: baserock/xfce-build
+  build-depends: []

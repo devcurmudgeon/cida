@@ -1,0 +1,5 @@
+name: swig-tarball
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./configure --prefix="$PREFIX" --disable-ccache

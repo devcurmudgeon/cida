@@ -1,0 +1,6 @@
+name: redis
+kind: chunk
+build-commands:
+- make
+install-commands:
+- make PREFIX="$DESTDIR/$PREFIX" install

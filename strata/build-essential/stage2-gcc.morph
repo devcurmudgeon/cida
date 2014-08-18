@@ -1,0 +1,40 @@
+name: stage2-gcc
+kind: chunk
+configure-commands:
+- mkdir o
+- |
+  export STAGE2_SYSROOT="$(dirname $(pwd))"
+  export CC="$TARGET_STAGE1-gcc --sysroot=$STAGE2_SYSROOT"
+  export LDFLAGS="-Wl,--sysroot=$STAGE2_SYSROOT"
+  cd o && ../configure \
+    $(../morph-arch-config) \
+    `# [1]` --build=$(sh ../config.guess) \
+            --host=$TARGET_STAGE1 \
+            --target=$TARGET_STAGE1 \
+    --prefix="$PREFIX" \
+    `# [2]` --with-local-prefix=$PREFIX \
+    `# [3]` --with-build-sysroot="$STAGE2_SYSROOT" \
+    --disable-bootstrap \
+    --enable-clocale=gnu --enable-shared --enable-threads=posix \
+    `# [4]` --enable-languages=c \
+    `# [5]` --libdir=$PREFIX/lib \
+            --disable-libgomp --disable-multilib --disable-nls \
+            --without-cloog --without-ppl \
+            --with-mpfr-include="$(pwd)/../mpfr/src" \
+            --with-mpfr-lib="$(pwd)/mpfr/src/.libs"
+build-commands:
+- |
+  export STAGE2_SYSROOT="$(dirname $(pwd))"
+  cd o && make
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install
+- |
+  if [ "$(echo $TARGET | cut -c -6)" = "x86_64" ]; then
+    libdir=lib64
+  else
+    libdir=lib
+  fi
+
+  install -d "$DESTDIR/lib"
+  ln -s "$PREFIX/$libdir/libgcc_s.so" "$DESTDIR/lib/"
+  ln -s "$PREFIX/$libdir/libgcc_s.so.1" "$DESTDIR/lib/"

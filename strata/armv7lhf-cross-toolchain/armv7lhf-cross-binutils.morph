@@ -1,0 +1,23 @@
+name: armv7lhf-cross-binutils
+kind: chunk
+build-system: autotools
+configure-commands:
+- |
+  # The TARGET used is the final triplet we expect, rather than that
+  # of the libc-less GCC we build, since the binutils only needs to
+  # be built once.
+  # This requires extra effort to get the stage 1 GCC to use these
+  # tools, but saves having an extra binutils build.
+  export TARGET=armv7lhf-baserock-linux-gnueabi
+
+  # 1. Binutils gets installed in the default sysroot path of
+  #    $PREFIX/$TARGET/{bin,lib}, with the actual sysroot at
+  #    $PREFIX/$TARGET/sys-root and its tools also available as
+  #    $PREFIX/bin/$TARGET-$tool
+  # 2. The '=' makes the path we give relative to the sysroot.
+  ./configure --prefix="$PREFIX" --disable-nls --disable-werror \
+    --build=$(sh config.guess) \
+    --host=$(sh config.guess) \
+    --target="$TARGET" \
+  `# [1]` --with-sysroot \
+  `# [2]` --with-lib-path="=$PREFIX/lib"

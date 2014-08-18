@@ -1,0 +1,11 @@
+name: nodejs
+kind: stratum
+description: Stratum for nodejs related stuff
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: node
+  repo: upstream:node
+  ref: cc56c62ed879ad4f93b1fdab3235c43e60f48b7e
+  unpetrify-ref: v0.10.26
+  build-depends: []

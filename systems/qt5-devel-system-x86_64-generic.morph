@@ -1,0 +1,40 @@
+name: qt5-devel-system-x86_64-generic
+kind: system
+description: A system that is able to build other systems based on the 64-bit x86
+  architecture.
+arch: x86_64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: audio-bluetooth
+  morph: strata/audio-bluetooth.morph
+- name: multimedia-gstreamer-0.10
+  morph: strata/multimedia-gstreamer-0.10.morph
+- name: bsp-x86_64-generic
+  morph: strata/bsp-x86_64-generic.morph
+- name: tools
+  morph: strata/tools.morph
+- name: x-common
+  morph: strata/x-common.morph
+- name: x-generic
+  morph: strata/x-generic.morph
+- name: qt5-tools
+  morph: strata/qt5-tools.morph
+- name: qt5-sdk
+  morph: strata/qt5-sdk.morph
+- name: lua
+  morph: strata/lua.morph
+- name: connectivity
+  morph: strata/connectivity.morph
+- name: enlightenment
+  morph: strata/enlightenment.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files

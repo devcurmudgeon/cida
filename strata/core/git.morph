@@ -1,0 +1,6 @@
+name: git
+kind: chunk
+build-commands:
+- make prefix=${PREFIX-/usr} all PYTHON_PATH=${PREFIX-/usr}/bin/python NO_TCLTK=YesPlease
+install-commands:
+- make prefix=${PREFIX-/usr} install

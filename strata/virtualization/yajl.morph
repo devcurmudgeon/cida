@@ -1,0 +1,8 @@
+name: yajl
+kind: chunk
+configure-commands:
+- ./configure -p "$PREFIX"
+build-commands:
+- make distro
+install-commands:
+- make install DESTDIR="$DESTDIR"

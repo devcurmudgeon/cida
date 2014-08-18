@@ -1,0 +1,6 @@
+name: mercurial-tarball
+kind: chunk
+build-commands:
+- make build PREFIX="$PREFIX"
+install-commands:
+- make install-bin PREFIX="$PREFIX" DESTDIR="$DESTDIR"

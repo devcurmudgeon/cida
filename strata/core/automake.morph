@@ -1,0 +1,8 @@
+name: automake
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./bootstrap
+- ./configure --prefix="$PREFIX"
+build-commands:
+- unset DESTDIR; make

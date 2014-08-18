@@ -1,0 +1,9 @@
+name: lrexlib-pcre
+kind: chunk
+description: Lua regular expression library - PCRE build only
+build-commands:
+- gcc -fPIC -DPIC -DVERSION=\"2.7.2\" -o rex_pcre.so -shared src/common.c src/pcre/lpcre.c
+  src/pcre/lpcre_f.c -lpcre
+install-commands:
+- mkdir -p $DESTDIR/usr/lib/lua/5.1/
+- cp rex_pcre.so $DESTDIR/usr/lib/lua/5.1/

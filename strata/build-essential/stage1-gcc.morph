@@ -1,0 +1,30 @@
+name: stage1-gcc
+kind: chunk
+configure-commands:
+- mkdir o
+- |
+  cd o &&
+  ../configure \
+    $(../morph-arch-config) \
+    --build=$(sh ../config.guess) --host=$(sh ../config.guess) \
+    --target=$TARGET_STAGE1 \
+    --prefix="$PREFIX" \
+    --disable-bootstrap --disable-nls \
+    `# [1]` --libdir="$PREFIX/lib" --disable-multilib --disable-libgomp \
+            --without-cloog --without-ppl \
+            --with-mpfr-include="$(pwd)/../mpfr/src" \
+            --with-mpfr-lib="$(pwd)/mpfr/src/.libs" \
+    `# [2]` --with-local-prefix="$PREFIX" \
+    `# [3]` --with-native-system-header-dir="$PREFIX/include" \
+    `# [4]` --enable-languages=c --disable-decimal-float \
+            --disable-libmudflap --disable-libquadmath --disable-libssp \
+            --disable-shared --disable-threads --disable-target-libiberty \
+            --disable-target-zlib --without-headers --with-newlib \
+            --with-system-zlib
+build-commands:
+- cd o && make
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install
+- |
+  libgcc_filename=$($DESTDIR$PREFIX/bin/$TARGET_STAGE1-gcc -print-libgcc-file-name)
+  ln -sv libgcc.a $(echo $libgcc_filename | sed 's/libgcc/&_eh/')

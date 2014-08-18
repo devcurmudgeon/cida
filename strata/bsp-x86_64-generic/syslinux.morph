@@ -1,0 +1,8 @@
+name: syslinux
+kind: chunk
+build-commands:
+- make clean
+- make
+- make installer
+install-commands:
+- make INSTALLROOT="$DESTDIR" install

@@ -1,0 +1,9 @@
+name: gettext
+kind: chunk
+max-jobs: 1
+configure-commands:
+- ./configure --prefix=/usr
+build-commands:
+- make EXAMPLESPOFILES=
+install-commands:
+- make EXAMPLESPOFILES= DESTDIR="$DESTDIR" install

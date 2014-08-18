@@ -1,0 +1,9 @@
+name: erlang
+kind: chunk
+configure-commands:
+- ./otp_build autoconf
+- ./configure --prefix=$PREFIX
+build-commands:
+- make
+install-commands:
+- make install

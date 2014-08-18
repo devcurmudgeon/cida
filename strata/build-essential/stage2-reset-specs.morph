@@ -1,0 +1,9 @@
+name: stage2-reset-specs
+kind: chunk
+install-commands:
+- |
+  STAGE2_SYSROOT="$(dirname "$(pwd)")"
+  specs_dir="$(dirname $($TARGET_STAGE1-gcc -print-libgcc-file-name))"
+  target_specs_dir="$DESTDIR/${specs_dir#$STAGE2_SYSROOT}"
+  mkdir -p "$target_specs_dir"
+  ln -s "temporary specs removed by baserock bootstrap" "$target_specs_dir/specs"

@@ -1,0 +1,8 @@
+name: layer_management
+kind: chunk
+configure-commands:
+- mkdir -p build && cd build && cmake .. -DWITH_GLESv2_LIB=ON
+build-commands:
+- make -C build
+install-commands:
+- make -C build install

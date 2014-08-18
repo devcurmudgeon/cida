@@ -1,0 +1,6 @@
+name: nspr
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./configure --prefix=$PREFIX --with-mozilla --with-pthreads $([ $(uname -m) = x86_64
+  ] && echo --enable-64bit)

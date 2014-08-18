@@ -1,0 +1,53 @@
+name: linux
+kind: chunk
+configure-commands:
+- make ARCH=arm tegra12_defconfig
+- scripts/config -d KERNEL_LZO
+- scripts/config -e KERNEL_GZIP
+- scripts/config -e NAMESPACES
+- scripts/config -e PACKET
+- scripts/config -e SATA_AHCI
+- scripts/config -e ATA_GENERIC
+- scripts/config -e HAVE_IDE
+- scripts/config -d BLK_DEV_IDE_SATA
+- scripts/config -e BTRFS_FS
+- scripts/config -e BTRFS_FS_POSIX_ACL
+- scripts/config -e DEVTMPFS
+- scripts/config -e DEVTMPFS_MOUNT
+- scripts/config -e CONFIG_FHANDLE
+- scripts/config -e CGROUPS
+- scripts/config -e AUTOFS4_FS
+- scripts/config --set-str UEVENT_HELPER_PATH ''
+- scripts/config -e EXT2_FS
+- scripts/config -e EXT2_FS_XATTR
+- scripts/config -e EXT2_FS_POSIX_ACL
+- scripts/config -e EXT2_FS_SECURITY
+- scripts/config -e EXT2_FS_XIP
+- scripts/config -e EXT3_FS
+- scripts/config -d EXT3_DEFAULTS_TO_ORDERED
+- scripts/config -e EXT3_FS_XATTR
+- scripts/config -e EXT3_FS_POSIX_ACL
+- scripts/config -e EXT3_FS_SECURITY
+- scripts/config -e EXT4_FS
+- scripts/config -e EXT4_FS_XATTR
+- scripts/config -e EXT4_FS_POSIX_ACL
+- scripts/config -e EXT4_FS_SECURITY
+- scripts/config -d EXT4_DEBUG
+- scripts/config -d JBD_DEBUG
+- scripts/config -d JBD2_DEBUG
+- scripts/config -e BLK_DEV_LOOP
+- scripts/config -d BLK_DEV_CRYPTOLOOP
+- scripts/config --set-val BLK_DEV_LOOP_MIN_COUNT 8
+- scripts/config -e IKCONFIG
+- scripts/config -e IKCONFIG_PROC
+- scripts/config -e SECCOMP
+- scripts/config -d DEBUG_STACK_TRACE
+- scripts/config -e NFSD
+- scripts/config -e NFSD_V3
+- yes '' | make ARCH=arm oldconfig
+build-commands:
+- make $MAKEFLAGS ARCH=arm LOADADDR=0x80200000 zImage dtbs
+install-commands:
+- mkdir -p "$DESTDIR"/boot
+- cp arch/arm/boot/zImage "$DESTDIR"/boot/zImage
+- cp arch/arm/boot/dts/tegra124-pm375.dtb "$DESTDIR"/boot/.

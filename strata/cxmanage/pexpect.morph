@@ -1,0 +1,10 @@
+name: pexpect
+kind: chunk
+description: |
+  Pexpect is a pure Python module that accomplishes behaviour similar to Expect
+configure-commands:
+- cd pexpect && make
+build-commands:
+- cd pexpect && python setup.py build
+install-commands:
+- cd pexpect && python setup.py install --prefix "$PREFIX" --root "$DESTDIR"

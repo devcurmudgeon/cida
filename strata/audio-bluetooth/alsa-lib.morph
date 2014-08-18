@@ -1,0 +1,4 @@
+name: alsa-lib
+kind: chunk
+description: ALSA library
+build-system: autotools

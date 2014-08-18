@@ -1,0 +1,7 @@
+name: gall
+kind: chunk
+description: Git Abstraction Layer for Lua
+build-commands:
+- make
+install-commands:
+- make INST_BASE="$PREFIX" DESTDIR="$DESTDIR" install

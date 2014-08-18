@@ -1,0 +1,21 @@
+name: devel-system-armv7lhf-chroot
+kind: system
+description: A system that is able to build other systems based on the ARMv7lhf architecture.
+arch: armv7lhf
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: tools
+  morph: strata/tools.morph
+- name: openstack-clients
+  morph: strata/openstack-clients.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files

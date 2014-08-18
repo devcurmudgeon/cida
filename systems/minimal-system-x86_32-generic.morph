@@ -1,0 +1,20 @@
+name: minimal-system-x86_32-generic
+kind: system
+description: The set of strata required to have a minimal system for a 32-bit x86
+  system.
+arch: x86_32
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+  artifacts:
+  - build-essential-minimal
+- name: bsp-x86_32-generic
+  morph: strata/bsp-x86_32-generic.morph
+  artifacts:
+  - bsp-x86_32-generic-runtime
+configuration-extensions:
+- set-hostname
+- simple-network
+- nfsboot
+- install-files
+- busybox-init

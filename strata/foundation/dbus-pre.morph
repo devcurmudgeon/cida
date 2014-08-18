@@ -1,0 +1,10 @@
+name: dbus-pre
+kind: chunk
+build-system: autotools
+configure-commands:
+- sh autogen.sh --no-configure
+- ./configure --prefix="$PREFIX" --localstatedir=/var --sysconfdir=/etc --disable-systemd
+build-commands:
+- make XMLTO_OUTPUT=
+install-commands:
+- make XMLTO_OUTPUT= DESTDIR="$DESTDIR" install

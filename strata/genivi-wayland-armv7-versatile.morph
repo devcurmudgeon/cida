@@ -1,0 +1,15 @@
+name: genivi-wayland-armv7-versatile
+kind: stratum
+description: Software components designed by genivi, for genivi.
+build-depends:
+- morph: strata/core.morph
+- morph: strata/foundation.morph
+- morph: strata/genivi-foundation.morph
+- morph: strata/genivi.morph
+- morph: strata/wayland-armv7-versatile.morph
+chunks:
+- name: layer_management-wayland
+  repo: upstream:layer_management
+  ref: 206d6709d0a3b3932a02b30ccacaa02b3eab8493
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends: []

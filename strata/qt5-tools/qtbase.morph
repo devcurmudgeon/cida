@@ -1,0 +1,15 @@
+name: qtbase
+kind: chunk
+configure-commands:
+- ./configure -v -prefix /usr -opensource -confirm-license
+build-commands:
+- make
+- touch /qtbase.build/src/corelib/corelib.pro
+- ./bin/qmake -set QDOC /qtbase.build/bin/qdoc
+- make html_docs
+- ./bin/qmake -unset QDOC
+install-commands:
+- make install INSTALL_ROOT="$DESTDIR"
+- ./bin/qmake -set QDOC /qtbase.build/bin/qdoc
+- make install_html_docs INSTALL_ROOT="$DESTDIR"
+- ./bin/qmake -unset QDOC

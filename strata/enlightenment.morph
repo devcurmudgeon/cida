@@ -1,0 +1,69 @@
+name: enlightenment
+kind: stratum
+description: Enlightenment Desktop and Window Manager
+build-depends:
+- morph: strata/tools.morph
+- morph: strata/x-generic.morph
+- morph: strata/lua.morph
+- morph: strata/audio-bluetooth.morph
+- morph: strata/multimedia-gstreamer-0.10.morph
+- morph: strata/connectivity.morph
+chunks:
+- name: efl
+  morph: strata/enlightenment/efl.morph
+  repo: upstream:enlightenment/efl
+  ref: 8f9b565e79552f09a39507ce802786b1fe773d2d
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: elementary
+  morph: strata/enlightenment/elementary.morph
+  repo: upstream:enlightenment/elementary
+  ref: e4c97ddffea9c91a291e1a6a7c6ebd1bbf47629a
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - efl
+- name: evas_generic_loaders
+  morph: strata/enlightenment/evas_generic_loaders.morph
+  repo: upstream:enlightenment/evas_generic_loaders
+  ref: ddbdaa35201f4ef64f1a3f3b067a99e84c14565a
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - efl
+- name: enlightenment
+  morph: strata/enlightenment/enlightenment.morph
+  repo: upstream:enlightenment/enlightenment
+  ref: 041b8d14a22f9e4c7f34abe8b0f9a3a1f5933146
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - efl
+  - elementary
+- name: imlib2
+  morph: strata/enlightenment/imlib2.morph
+  repo: upstream:enlightenment/imlib2
+  ref: 6d02661a4c57771888304960ce62d4fdf587be8f
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - efl
+  - elementary
+  - enlightenment
+- name: libast
+  morph: strata/enlightenment/libast.morph
+  repo: upstream:enlightenment/libast
+  ref: 0dbc0a5df55474bf61ca166be40e8de2d9e3a031
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - efl
+  - elementary
+  - enlightenment
+  - imlib2
+- name: eterm
+  morph: strata/enlightenment/eterm.morph
+  repo: upstream:enlightenment/eterm
+  ref: 097234f1f27709ff2444e303350764ea3b80b3ad
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - efl
+  - elementary
+  - enlightenment
+  - libast
+  - imlib2

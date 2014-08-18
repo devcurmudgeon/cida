@@ -1,0 +1,28 @@
+name: gcc
+kind: chunk
+configure-commands:
+- mkdir o
+- |
+  cd o && \
+  ../configure \
+    $(../morph-arch-config) \
+    --prefix="$PREFIX" \
+    `# [1]` --libdir=$PREFIX/lib \
+    --disable-nls \
+    --enable-languages=c,c++,fortran \
+    --enable-shared --enable-threads=posix \
+    `# [2]` --disable-multilib \
+    `# [3]` --disable-libgomp --without-cloog --without-ppl \
+    `# [4]` --enable-__cxa_atexit \
+    `# [5]` --with-mpfr-include="$(pwd)/../mpfr/src" \
+            --with-mpfr-lib="$(pwd)/mpfr/src/.libs" \
+    `# [6]` --with-system-zlib
+build-commands:
+- cd o && make
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install
+- ln -s gcc "$DESTDIR/$PREFIX/bin/cc"
+- |
+  for fortran_alias in f77 f90 f95; do
+      ln -s gfortran "$DESTDIR/$PREFIX/bin/$fortran_alias"
+  done

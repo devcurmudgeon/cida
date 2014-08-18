@@ -1,0 +1,11 @@
+name: xfwm4
+kind: chunk
+configure-commands:
+- gdk-pixbuf-query-loaders > loader.cache
+- ./autogen.sh --prefix="$PREFIX" --enable-debug=yes
+build-commands:
+- GDK_PIXBUF_MODULE_FILE="$(pwd)/loader.cache" make
+install-commands:
+- GDK_PIXBUF_MODULE_FILE="$(pwd)/loader.cache" make install
+- install -m 0644 index.theme $DESTDIR/usr/share/icons/hicolor
+- gtk-update-icon-cache $DESTDIR/usr/share/icons/hicolor

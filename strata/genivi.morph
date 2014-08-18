@@ -1,0 +1,72 @@
+name: genivi
+kind: stratum
+description: Software components designed by genivi, for genivi.
+build-depends:
+- morph: strata/genivi-foundation.morph
+chunks:
+- name: DLT-daemon
+  repo: upstream:DLT-daemon
+  ref: 8b48e73f79b4463393916e4c6696917e3dedd026
+  unpetrify-ref: v2.10.0
+  build-depends: []
+- name: node-startup-controller
+  morph: strata/genivi/node-startup-controller.morph
+  repo: upstream:node-startup-controller
+  ref: c78fddaddc24a2c49f5ef18896c93403575295ae
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - DLT-daemon
+- name: googletest
+  morph: strata/genivi/googletest.morph
+  repo: upstream:googletest
+  ref: 5e3f7d3db4c16e2ba8b42b0bf4689f7d2abbcb08
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: googlemock
+  morph: strata/genivi/googlemock.morph
+  repo: upstream:googlemock
+  ref: 0e9998c140079046c396a0e7033bb465abae79cd
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - googletest
+- name: genivi-common-api-runtime
+  repo: upstream:genivi-common-api-runtime
+  ref: 8a62115bad2c0615fdf40f4e54a41454ae6e4698
+  unpetrify-ref: 2.1.6
+  build-depends: []
+- name: genivi-common-api-dbus-runtime
+  repo: upstream:genivi-common-api-dbus-runtime
+  ref: 53d9341444ff9a31b9cc551b10fd0b341207937b
+  unpetrify-ref: 2.1.6
+  build-depends:
+  - genivi-common-api-runtime
+- name: audiomanager
+  repo: upstream:audiomanager
+  ref: 00caae1e41e8891d9a1bafa76028e8119f06fd8a
+  unpetrify-ref: baserock/6.0
+  build-depends:
+  - DLT-daemon
+  - googletest
+  - googlemock
+  - genivi-common-api-runtime
+  - genivi-common-api-dbus-runtime
+- name: itzam-tarball
+  morph: strata/genivi/itzam-tarball.morph
+  repo: upstream:itzam-tarball
+  ref: 4ebcf671416927b64475da7b810b6016c847bf73
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends: []
+- name: persistence-client-library
+  repo: upstream:genivi/persistence-client-library
+  ref: 0934ba263e69be8453cc3150f997dad28489f0c7
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends:
+  - DLT-daemon
+  - itzam-tarball
+- name: node-state-manager
+  repo: upstream:node-state-manager
+  ref: dd4a86b9459537d2e85489b36abf80f34d12f098
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends:
+  - DLT-daemon
+  - persistence-client-library

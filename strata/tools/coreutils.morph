@@ -1,0 +1,9 @@
+name: coreutils
+kind: chunk
+build-system: autotools
+configure-commands:
+- sed -i -e '/^buildreq="/,/^"/{/rsync/d}' bootstrap.conf
+- bash bootstrap --skip-po
+- FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix="$PREFIX" --disable-nls --enable-no-install-program='[,base64,basename,cat,chcon,chgrp,chmod,chown,chroot,cksum,comm,cp,csplit,cut,date,dd,df,dir,dircolors,dirname,du,echo,env,expand,expr,false,fold,ginstall,groups,head,hostid,id,kill,ln,logname,ls,md5sum,mkdir,mkfifo,mknod,mktemp,mv,nice,nohup,od,printenv,printf,pwd,readlink,realpath,rm,rmdir,seq,sha1sum,sha224sum,sha256sum,sha384sum,sha512sum,sleep,sort,split,stat,stty,sum,sync,tac,tail,tee,test,timeout,touch,tr,true,tty,uname,unexpand,uniq,unlink,uptime,users,wc,who,whoami,yes'
+install-commands:
+- make INSTALL_PROGRAM=install DESTDIR="$DESTDIR" install

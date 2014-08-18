@@ -1,0 +1,9 @@
+name: help2man
+kind: chunk
+configure-commands:
+- autoreconf -i
+- ./configure --prefix=/usr
+build-commands:
+- make
+install-commands:
+- make  DESTDIR="$DESTDIR" install

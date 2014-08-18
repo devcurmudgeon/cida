@@ -1,0 +1,6 @@
+name: leveldb
+kind: chunk
+build-commands:
+- make
+install-commands:
+- ./install.sh

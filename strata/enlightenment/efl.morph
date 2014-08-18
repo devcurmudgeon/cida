@@ -1,0 +1,10 @@
+name: efl
+kind: chunk
+configure-commands:
+- ./autogen.sh --prefix=/usr --with-tests=none --disable-fribidi --disable-image-loader-gif
+  --disable-image-loader-tiff  --disable-pulseaudio --disable-gstreamer --disable-audio
+  --disable-physics
+build-commands:
+- make VPATH=/usr/lib64
+install-commands:
+- make DESTDIR="$DESTDIR" VPATH=/usr/lib64 install

@@ -1,0 +1,11 @@
+name: ofono
+kind: chunk
+description: ofono Open Source Telephony
+build-system: autotools
+configure-commands:
+- autoreconf -ivf
+- ./configure --prefix="$PREFIX" --sysconfdir=/etc --localstatedir=/var
+install-commands:
+- make install
+- mkdir -p "$DESTDIR/etc/systemd/system/multi-user.target.wants"
+- ln -s /lib/systemd/system/ofono.service "$DESTDIR/etc/systemd/system/multi-user.target.wants/ofono.service"

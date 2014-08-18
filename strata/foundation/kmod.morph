@@ -1,0 +1,19 @@
+name: kmod
+kind: chunk
+configure-commands:
+- rm -rf libkmod/docs
+- sed -i -e'/SUBDIRS/{s/\S*doc\S*//;s/\S*man\S*//}' Makefile.am
+- sed -i -e'/AC_CONFIG_FILES(\[/,/])/{/docs/d}' configure.ac
+- autoreconf -fiv
+- ./configure --prefix=/usr --bindir=/bin --libdir=/lib --sysconfdir=/etc --without-xz
+  --with-zlib --disable-manpages
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" pkgconfigdir=/usr/lib/pkgconfig install
+- ln -s kmod "$DESTDIR"/bin/modprobe
+- ln -s kmod "$DESTDIR"/bin/lsmod
+- ln -s kmod "$DESTDIR"/bin/rmmod
+- ln -s kmod "$DESTDIR"/bin/insmod
+- ln -s kmod "$DESTDIR"/bin/modinfo
+- ln -s kmod "$DESTDIR"/bin/depmod

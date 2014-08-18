@@ -1,0 +1,4 @@
+name: initramfs-scripts
+kind: chunk
+install-commands:
+- install -m 755 init "$DESTDIR/init"

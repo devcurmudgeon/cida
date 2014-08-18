@@ -1,0 +1,38 @@
+name: stage2-eglibc
+kind: chunk
+configure-commands:
+- mkdir o
+- cd libc && ln -s ../ports ports
+- |
+  export CFLAGS="-O2 $CFLAGS"; export CXX=false; \
+  cd o && ../libc/configure \
+    $(../morph-arch-config) \
+    --build=$(../libc/scripts/config.guess) --host=$TARGET_STAGE1 \
+    --prefix="$PREFIX" \
+    `# [1]` --libdir="$PREFIX/lib" \
+    `# [2]` --with-headers="$(pwd)/../../$PREFIX/include" \
+    `# [3]` --disable-profile  --enable-kernel=2.6.25 \
+            --enable-add-ons=nptl,ports --without-cvs --without-selinux \
+    `# [4]` libc_cv_c_cleanup=yes libc_cv_ctors_header=yes \
+            libc_cv_forced_unwind=yes libc_cv_ssp=no
+build-commands:
+- cd o && make localtime=UTC
+install-commands:
+- cd o && make install_root="$DESTDIR" localtime=UTC install
+- sh stage2-eglibc-fix-specs
+- install -d $DESTDIR/lib
+- |
+  cpu=$(echo $TARGET | cut -d '-' -f 1)
+  case "$cpu" in
+  x86_64)
+    install -d "$DESTDIR/lib64"
+    ln -s "$PREFIX/lib/ld-linux-x86-64.so.2" \
+          "$DESTDIR/lib64/ld-linux-x86-64.so.2" ;;
+  ppc64)
+    install -d "$DESTDIR/lib64"
+    ln -s "$PREFIX/lib/ld64.so.1" \
+          "$DESTDIR/lib64/ld64.so.1" ;;
+  *)
+    loader=$(basename $(ls "$DESTDIR$PREFIX"/lib/ld-linux*))
+    ln -s "$PREFIX/lib/$loader" "$DESTDIR/lib/$loader"
+  esac

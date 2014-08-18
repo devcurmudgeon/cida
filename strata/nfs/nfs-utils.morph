@@ -1,0 +1,12 @@
+name: nfs-utils
+kind: chunk
+build-system: autotools
+configure-commands:
+- NOCONFIGURE=1 ./autogen.sh
+- ./configure --prefix="$PREFIX" --disable-nfsv4 --disable-nfsv41 --disable-gss --with-rpcgen=internal
+install-commands:
+- make DESTDIR="$DESTDIR" install
+- mkdir -p "$DESTDIR"/lib/systemd/system
+- install -m644 proc-fs-nfsd.mount "$DESTDIR"/lib/systemd/system
+- install -m644 nfs-mountd.service "$DESTDIR"/lib/systemd/system
+- install -m644 nfs-server.service "$DESTDIR"/lib/systemd/system

@@ -1,0 +1,9 @@
+name: libexpat
+kind: chunk
+configure-commands:
+- autoreconf -i
+- ./configure --prefix="${PREFIX-/usr}"
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" install

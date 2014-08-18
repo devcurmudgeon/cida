@@ -1,0 +1,27 @@
+name: devel-system-x86_32-generic
+kind: system
+description: A system that is able to build other systems based on the 32-bit x86
+  architecture.
+arch: x86_32
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-x86_32-generic
+  morph: strata/bsp-x86_32-generic.morph
+- name: tools
+  morph: strata/tools.morph
+- name: openstack-clients
+  morph: strata/openstack-clients.morph
+- name: cloudinit-support
+  morph: strata/cloudinit-support.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+- cloud-init

@@ -1,0 +1,22 @@
+name: devel-system-armv7-chroot
+kind: system
+description: A system that is able to build other systems based on the ARM highbank
+  architecture.
+arch: armv7l
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: tools
+  morph: strata/tools.morph
+- name: openstack-clients
+  morph: strata/openstack-clients.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files

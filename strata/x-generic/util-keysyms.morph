@@ -1,0 +1,9 @@
+name: util-keysyms
+kind: chunk
+configure-commands:
+- git submodule update --init
+- ./autogen.sh --prefix=/usr
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" install

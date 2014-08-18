@@ -1,0 +1,6 @@
+name: lighttpd
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./autogen.sh
+- ./configure --prefix="$PREFIX" --with-openssl --with-openssl-libs=/usr/lib
