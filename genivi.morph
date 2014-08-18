@@ -28,19 +28,19 @@ chunks:
   - googletest
 - name: genivi-common-api-runtime
   repo: upstream:genivi-common-api-runtime
-  ref: 54e7a90c76bdd0aaf6fa2fecc7628b5aa2c8d56d
-  unpetrify-ref: 2.1.4
+  ref: 8a62115bad2c0615fdf40f4e54a41454ae6e4698
+  unpetrify-ref: '2.1.6'
   build-depends: []
 - name: genivi-common-api-dbus-runtime
   repo: upstream:genivi-common-api-dbus-runtime
-  ref: 16a259c8b78f254ee9157346880ccf19ed8905a7
-  unpetrify-ref: 2.1.4
+  ref: 53d9341444ff9a31b9cc551b10fd0b341207937b
+  unpetrify-ref: '2.1.6'
   build-depends:
   - genivi-common-api-runtime
 - name: audiomanager
   repo: upstream:audiomanager
-  ref: f005d28c3bfa2f46128619dddbce954b9d7b928a
-  unpetrify-ref: '5.0'
+  ref: 00caae1e41e8891d9a1bafa76028e8119f06fd8a
+  unpetrify-ref: baserock/6.0
   build-depends:
   - DLT-daemon
   - googletest
