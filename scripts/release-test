@@ -35,7 +35,8 @@ import uuid
 import morphlib
 
 
-class MorphologyFrobber(object):
+class MorphologyHelper(object):
+
     def __init__(self):
         self.sb = sb = morphlib.sysbranchdir.open_from_within('.')
         defs_repo_path = sb.get_git_directory_name(sb.root_repository_url)
@@ -66,8 +67,7 @@ class MorphologyFrobber(object):
 
     def load_cluster_systems(self, cluster_morph):
         for system_path in set(self.iterate_systems(cluster_morph['systems'])):
-            system_text = self.finder.read_morphology(system_path)
-            system_morph = self.loader.load_from_string(system_text)
+            system_morph = self.load_morphology(system_path)
             yield system_path, system_morph
 
 
@@ -80,6 +80,7 @@ class TimeoutError(cliapp.AppException):
 
 
 class VMHost(object):
+
     def __init__(self, user, address, disk_path):
         self.user = user
         self.address = address
@@ -96,7 +97,8 @@ class VMHost(object):
         self.runcmd(['virsh', '-c', 'qemu:///system'] + list(args), **kwargs)
 
 
-class Instance(object):
+class DeployedSystemInstance(object):
+
     def __init__(self, deployment, config, host_machine, vm_id, rootfs_path):
         self.deployment = deployment
         self.config = config
@@ -113,18 +115,19 @@ class Instance(object):
         return 'root@{host}'.format(host=self.ip_address)
 
     def runcmd(self, argv, chdir='.', **kwargs):
-        ssh_cmd = ['ssh', '-o', 'StrictHostKeyChecking=no', self.ssh_host]
+        ssh_cmd = ['ssh', '-o', 'StrictHostKeyChecking=no',
+                   '-o', 'UserKnownHostsFile=/dev/null', self.ssh_host]
         cmd = ['sh', '-c', 'cd "$1" && shift && exec "$@"', '-', chdir]
         cmd += argv
         ssh_cmd.append(' '.join(map(pipes.quote, cmd)))
         return cliapp.runcmd(ssh_cmd, **kwargs)
 
     def _wait_for_dhcp(self, timeout):
-        '''
-        Block until given hostname resolves successfully.
+        '''Block until given hostname resolves successfully.
 
         Raises TimeoutError if the hostname has not appeared in 'timeout'
         seconds.
+
         '''
         start_time = time.time()
         while True:
@@ -152,14 +155,11 @@ class Instance(object):
                                        % (self.ip_address, timeout))
                 time.sleep(0.5)
 
-    def wait_online(self, timeout=10):
+    def wait_until_online(self, timeout=10):
         self._wait_for_dhcp(timeout)
         self._wait_for_ssh(timeout)
 
     def delete(self):
-        # Forget config of deployed system as if it ever reappears it
-        # will have different host keys
-        cliapp.runcmd(['ssh-keygen', '-R', self.config['HOSTNAME']])
         # Stop and remove VM
         try:
             self.host_machine.virsh('destroy', self.vm_id)
@@ -167,19 +167,16 @@ class Instance(object):
             # TODO: Stop assuming that destroy failed because it wasn't running
             pass
         try:
-            self.host_machine.virsh('undefine', self.vm_id)
+            self.host_machine.virsh('undefine', self.vm_id, '--remove-all-storage')
         except cliapp.AppException as e:
             # TODO: Stop assuming that undefine failed because it was
             #       already removed
             pass
-        # TODO: Remove all attached disks, rather than just assuming it
-        #       only has one
-        self.host_machine.runcmd(['rm', self.rootfs_path])
 
 
 class Deployment(object):
-    def __init__(self, cluster_path, name,
-                 deployment_config, host_machine):
+
+    def __init__(self, cluster_path, name, deployment_config, host_machine):
         self.cluster_path = cluster_path
         self.name = name
         self.deployment_config = deployment_config
@@ -248,7 +245,8 @@ class Deployment(object):
             config = dict(self.deployment_config)
             config.update(options)
 
-            return Instance(self, config, self.host_machine, vm_id, rootpath)
+            return DeployedSystemInstance(self, config, self.host_machine,
+                                          vm_id, rootpath)
         finally:
             shutil.rmtree(tempdir)
 
@@ -280,8 +278,8 @@ class ReleaseApp(cliapp.Application):
     @staticmethod
     def _run_tests(instance, system_path, system_morph,
                    (trove_host, trove_id, build_ref_prefix),
-                   morph_frobber, systems):
-        instance.wait_online()
+                   morph_helper, systems):
+        instance.wait_until_online()
 
         tests = []
         def baserock_build_test(instance):
@@ -301,17 +299,17 @@ class ReleaseApp(cliapp.Application):
                 argv.extend(args)
                 instance.runcmd(argv, **kwargs)
 
-            repo = morph_frobber.sb.root_repository_url
-            ref = morph_frobber.defs_repo.HEAD
-            sha1 = morph_frobber.defs_repo.resolve_ref_to_commit(ref)
+            repo = morph_helper.sb.root_repository_url
+            ref = morph_helper.defs_repo.HEAD
+            sha1 = morph_helper.defs_repo.resolve_ref_to_commit(ref)
             morph_cmd('init', '/src/ws')
             chdir = '/src/ws'
 
             morph_cmd('checkout', repo, ref, chdir=chdir)
             # TODO: Add a morph subcommand that gives the path to the root repository.
             repo_path = os.path.relpath(
-                morph_frobber.sb.get_git_directory_name(repo),
-                morph_frobber.sb.root_directory)
+                morph_helper.sb.get_git_directory_name(repo),
+                morph_helper.sb.root_directory)
             chdir = os.path.join(chdir, ref, repo_path)
 
             instance.runcmd(['git', 'reset', '--hard', sha1], chdir=chdir)
@@ -339,15 +337,14 @@ class ReleaseApp(cliapp.Application):
                                 deployment_hosts, build_test_config):
         """Run the deployments and tests"""
 
-        image_path = '/opt/ci/'
         version = 'release-test'
 
-        morph_frobber = MorphologyFrobber()
-        cluster_morph = morph_frobber.load_morphology(cluster_path)
-        systems = dict(morph_frobber.load_cluster_systems(cluster_morph))
+        morph_helper = MorphologyHelper()
+        cluster_morph = morph_helper.load_morphology(cluster_path)
+        systems = dict(morph_helper.load_cluster_systems(cluster_morph))
 
         for system_path, deployment_name, deployment_config in \
-            morph_frobber.iterate_cluster_deployments(cluster_morph):
+            morph_helper.iterate_cluster_deployments(cluster_morph):
 
             system_morph = systems[system_path]
             # We can only test systems in KVM that have a BSP
@@ -364,7 +361,7 @@ class ReleaseApp(cliapp.Application):
             instance = deployment.deploy()
             try:
                 self._run_tests(instance, system_path, system_morph,
-                                build_test_config, morph_frobber, systems)
+                                build_test_config, morph_helper, systems)
             finally:
                 instance.delete()
 
