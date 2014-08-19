@@ -227,7 +227,7 @@ class BuildArtifactPublisher(object):
         # FIXME: These are hardcoded for simplicity. They would be
         # possible to deduce automatically from the workspace, but
         # that can happen later.
-        repo = 'baserock:baserock/definitions'
+        repo = 'file://%s' % os.path.abspath('.')
         ref = 'HEAD'
 
         argv = [self.settings['morph-cmd'], 'list-artifacts', '--quiet', repo, ref]
