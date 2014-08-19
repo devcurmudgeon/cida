@@ -58,30 +58,28 @@ texinfo-tarball"
 gplv3_repos=""
 
 
-for f in *.morph; do
+for f in strata/*.morph; do
     cp "$f" "$f.bak"
 done
 
 
-strata=`grep "morph.*: *" "$system.morph" | cut -d: -f2-`
+strata=`grep "morph.*: *" "$system" | cut -d: -f2-`
 for stratum in $strata; do
-    chunks=`grep "name.*: *" "$stratum.morph" | cut -d: -f2-`
+    chunks=`grep -E -- "-? +name.*: *" "$stratum" | cut -d: -f2-`
     for chunk in $chunks; do
-        if [ "$chunk" != "$stratum" ]; then
-            if ! (echo $gplv3_chunks | grep -wq "$chunk"); then
-                morph edit $chunk 1>&2
-            else
-                repo=`grep "name.*: *$chunk" "$stratum.morph" -A1 | \
-                      tail -n1 | cut -d: -f3-`
-                gplv3_repos="$gplv3_repos $repo"
-            fi
+        if ! (echo $gplv3_chunks | grep -wq "$chunk"); then
+            morph edit $chunk 1>&2
+        else
+            repo=`grep "name.*: *$chunk" "$stratum" -A1 | \
+                  tail -n1 | cut -d: -f3-`
+            gplv3_repos="$gplv3_repos $repo"
         fi
     done
 done
 
 
 repos=`for stratum in $strata; do
-           grep "repo.*: *" "$stratum.morph" | cut -d: -f3-
+           grep "repo.*: *" "$stratum" | cut -d: -f3-
        done | sort -u`
 
 
@@ -89,13 +87,13 @@ for repo in $repos; do
     if ! (echo $gplv3_repos | grep -wq "$repo") && \
             [ -d "$workspace/upstream/$repo" ] ; then
         echo "$repo"
-        perl licensecheck.pl -r "$workspace/upstream/$repo" | \
+        perl scripts/licensecheck.pl -r "$workspace/upstream/$repo" | \
             cut -d: -f2- | sort -u
         echo
     fi
 done
 
 
-for f in *.morph.bak; do
+for f in strata/*.morph.bak; do
     mv "$f" "${f%.bak}"
 done
