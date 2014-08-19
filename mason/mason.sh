@@ -40,10 +40,15 @@ rm -f "$HOME/success"
 
 echo INFO: Mason building: $DEFINITIONS_REF at $SHA1
 
-"scripts/release-build" --no-default-configs \
+if ! "scripts/release-build" --no-default-configs \
         --trove-host "$DISTBUILD_TROVE_ADDRESS" \
 	--controllers "$DISTBUILD_ARCH:$DISTBUILD_CONTROLLER_ADDRESS" \
-	"$BUILD_CLUSTER_MORPHOLOGY"
+	"$BUILD_CLUSTER_MORPHOLOGY"; then
+    echo ERROR: Failed to build release images
+    echo Build logs for chunks:
+    find builds -type f -exec echo {} \; -exec cat {} \;
+    exit 1
+fi
 
 releases_made="$(cd release && ls | wc -l)"
 if [ "$releases_made" = 0 ]; then
