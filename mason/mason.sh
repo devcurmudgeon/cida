@@ -13,7 +13,7 @@ cd ws
 
 definitions_repo="$DEFINITIONS_REF"/"$DISTBUILD_TROVE_ADDRESS"/baserock/baserock/definitions
 if [ ! -e "$definitions_repo" ]; then
-    morph checkout git://"$DISTBUILD_TROVE_ADDRESS"/baserock/baserock/definitions.git "$DEFINITIONS_REF"
+    morph checkout git://"$DISTBUILD_TROVE_ADDRESS"/baserock/baserock/definitions "$DEFINITIONS_REF"
     cd "$definitions_repo"
     git config user.name "$TROVE_ID"-mason
     git config user.email "$TROVE_ID"-mason@$(hostname)
