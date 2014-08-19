@@ -4,4 +4,4 @@ build-system: autotools
 configure-commands:
 - ./configure --prefix="$PREFIX" --enable-shared
 post-install-commands:
-- ln -s python2.7 "$DESTDIR"/"$PREFIX"/bin/python2
+- test -x "$DESTDIR"/"$PREFIX"/bin/python2 || ln -s python2.7 "$DESTDIR"/"$PREFIX"/bin/python2
