@@ -49,7 +49,7 @@ systems:
       DISK_SIZE: 60G
       DISTBUILD_CONTROLLER: true
       HOSTNAME: red-box-v1-controller
-      MASON_CLUSTER_MORPHOLOGY: ci.morph
+      MASON_CLUSTER_MORPHOLOGY: clusters/ci.morph
       MASON_DEFINITIONS_REF: master
       MASON_DISTBUILD_ARCH: x86_64
       MASON_TEST_HOST: vm-user@vm-host:/vm-path/

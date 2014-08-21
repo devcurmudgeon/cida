@@ -53,12 +53,12 @@ sedescape() {
 # Key generation
 ##############################################################################
 
-mkdir "ssh_keys-${HOST_PREFIX}"
+mkdir -p "ssh_keys-${HOST_PREFIX}"
 cd "ssh_keys-${HOST_PREFIX}"
-ssh-keygen -t rsa -b 2048 -f mason.key -C mason@TROVE_HOST -N ''
-ssh-keygen -t rsa -b 2048 -f lorry.key -C lorry@TROVE_HOST -N ''
-ssh-keygen -t rsa -b 2048 -f worker.key -C worker@TROVE_HOST -N ''
-ssh-keygen -t rsa -b 2048 -f id_rsa -C trove-admin@TROVE_HOST -N ''
+test -e mason.key || ssh-keygen -t rsa -b 2048 -f mason.key -C mason@TROVE_HOST -N ''
+test -e lorry.key || ssh-keygen -t rsa -b 2048 -f lorry.key -C lorry@TROVE_HOST -N ''
+test -e worker.key || ssh-keygen -t rsa -b 2048 -f worker.key -C worker@TROVE_HOST -N ''
+test -e id_rsa || ssh-keygen -t rsa -b 2048 -f id_rsa -C trove-admin@TROVE_HOST -N ''
 cd ../
 
 
@@ -66,7 +66,7 @@ cd ../
 # Mason setup
 ##############################################################################
 
-cp mason.morph mason-${HOST_PREFIX}.morph
+cp clusters/mason.morph mason-${HOST_PREFIX}.morph
 
 sed -i "s/red-box-v1/$(sedescape "$HOST_PREFIX")/g" "mason-$HOST_PREFIX.morph"
 sed -i "s/ssh_keys/ssh_keys-$(sedescape "$HOST_PREFIX")/g" "mason-$HOST_PREFIX.morph"
@@ -81,8 +81,8 @@ sed -i "s/\.example\.com/$(sedescape "$HOST_POSTFIX")/g" "mason-$HOST_PREFIX.mor
 # System building
 ##############################################################################
 
-morph build trove-system-x86_64
-morph build distbuild-system-x86_64
+morph build systems/trove-system-x86_64.morph
+morph build systems/distbuild-system-x86_64.morph
 
 
 ##############################################################################
