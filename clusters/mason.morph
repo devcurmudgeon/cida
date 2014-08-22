@@ -14,7 +14,7 @@ systems:
       type: kvm
       location: kvm+ssh://vm-user@vm-host/red-box-v1-trove/vm-path/red-box-v1-trove.img
       AUTOSTART: true
-      DISK_SIZE: 100G
+      DISK_SIZE: 20G
       HOSTNAME: red-box-v1-trove
       LORRY_SSH_KEY: ssh_keys/lorry.key
       MASON_SSH_PUBKEY: ssh_keys/mason.key.pub
