@@ -1,0 +1,25 @@
+name: gerrit-x86_64
+kind: system
+description: system to install gerrit on it
+arch: x86_64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: bsp-x86_64-generic
+  morph: strata/bsp-x86_64-generic.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: core
+  morph: strata/core.morph
+- name: tools
+  morph: strata/tools.morph
+- name: nfs
+  morph: strata/nfs.morph
+- name: databases
+  morph: strata/databases.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
