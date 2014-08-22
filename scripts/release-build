@@ -53,6 +53,9 @@ class ReleaseApp(cliapp.Application):
         self.settings.string(['trove-host'],
                              'hostname of Trove instance')
 
+        self.settings.string(['artifact-cache-server'],
+                             'server to fetch artifacts from', default=None)
+
         self.settings.string(['release-number'],
                              'Baserock version of the systems being built',
                              default='yy.ww')
@@ -157,10 +160,14 @@ class ReleaseApp(cliapp.Application):
     def deploy_single_image(self, cluster_path, name, location, version_label):
         deploy_command = [
             'morph', 'deploy', cluster_path, name,
-            '--trove-host=%s' % self.settings['trove-host'],
+            '--trove-host=%s' % self.settings['trove-host']]
+        artifact_server = self.settings['artifact-cache-server']
+        if artifact_server is not None:
+            deploy_command.append('--artifact-cache-server=%s' % artifact_server)
+        deploy_command.extend((
             '%s.location=%s' % (name, location),
             '%s.VERSION_LABEL=%s' % (name, version_label)
-        ]
+        ))
 
         cliapp.runcmd(deploy_command, stdout=sys.stdout)
 
