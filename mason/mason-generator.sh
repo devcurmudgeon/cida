@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$1" == "-h" -o "$1" == "--help" ]; then
+if [ "$#" -lt 5 -o "$#" -gt 6 -o "$1" == "-h" -o "$1" == "--help" ]; then
   cat <<EOF
 Usage:
     `basename $0` HOST_PREFIX UPSTREAM_TROVE_HOSTNAME VM_USER VM_HOST VM_PATH [HOST_POSTFIX]
