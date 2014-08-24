@@ -1,4 +1,4 @@
-name: linux
+name: linux-jetson-tk1
 kind: chunk
 configure-commands:
 - make ARCH=arm tegra12_defconfig

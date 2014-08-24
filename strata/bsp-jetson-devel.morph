@@ -18,8 +18,8 @@ chunks:
   unpetrify-ref: baserock/arm/tegra-uboot-btrfs
   build-depends:
   - device-tree-compiler
-- name: linux
-  morph: strata/bsp-jetson-devel/linux.morph
+- name: linux-jetson-tk1
+  morph: strata/bsp-jetson-devel/linux-jetson-tk1.morph
   repo: upstream:linux
   ref: de3664efca390a8d2fe525a583d17772deee8500
   unpetrify-ref: baserock/arm/tegra-3.10
