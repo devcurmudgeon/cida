@@ -19,9 +19,12 @@ strata:
   morph: strata/databases.morph
 - name: network-security
   morph: strata/network-security.morph
+- name: cloudinit-support
+  morph: strata/cloudinit-support.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
 - simple-network
 - nfsboot
 - install-files
+- cloud-init
