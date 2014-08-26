@@ -17,6 +17,8 @@ strata:
   morph: strata/nfs.morph
 - name: databases
   morph: strata/databases.morph
+- name: network-security
+  morph: strata/network-security.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
