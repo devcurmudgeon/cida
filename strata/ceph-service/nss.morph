@@ -1,7 +1,0 @@
-name: nss
-kind: chunk
-max-jobs: 1
-build-system: autotools
-configure-commands:
-- NOCONFIGURE=1 ./autogen.sh
-- ./configure --prefix="$PREFIX" --libdir="$PREFIX/lib"

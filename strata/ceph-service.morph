@@ -2,20 +2,8 @@ name: ceph-service
 kind: stratum
 build-depends:
 - morph: strata/foundation.morph
+- morph: strata/network-security.morph
 chunks:
-- name: nspr
-  morph: strata/ceph-service/nspr.morph
-  repo: upstream:nspr-hg
-  ref: a6ee84946475c1fb7624973af28163f6da247c0d
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: nss
-  morph: strata/ceph-service/nss.morph
-  repo: upstream:nss
-  ref: ee1c99a3c8c29f50a91ab28f2f7b7773f6355487
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - nspr
 - name: libaio
   morph: strata/ceph-service/libaio.morph
   repo: upstream:libaio
@@ -71,7 +59,6 @@ chunks:
   build-depends:
   - libaio
   - gperftools
-  - nss
   - leveldb
   - libeditline
   - keyutils
