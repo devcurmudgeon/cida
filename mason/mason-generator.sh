@@ -27,6 +27,11 @@ if [ "$1" == "-h" -o "$1" == "--help" ]; then
   echo "command:"
   echo "  ssh-copy-id -i ssh_keys-HOST_PREFIX/worker.key.pub VM_USER@VM_HOST"
   echo ""
+  echo "To ensure that the mason can upload artifacts to the upstream trove,"
+  echo "you must supply an ssh key to the upstream trove.  Do so with the"
+  echo "following command:"
+  echo "  ssh-copy-id -i ssh_keys-HOST_PREFIX/id_rsa.key.pub root@UPSTREAM_TROVE_HOSTNAME"
+  echo ""
   exit 0
 fi
 
