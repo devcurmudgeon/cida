@@ -50,8 +50,8 @@ chunks:
 - name: coreutils
   morph: strata/tools/coreutils.morph
   repo: upstream:coreutils
-  ref: 66282c0d87c933218205b5e20ce46708182ac36e
-  unpetrify-ref: baserock/morph
+  ref: 9df9643842e4b4d8ece710fe6105f32fa38a0d22
+  unpetrify-ref: baserock/8.23
   build-depends: []
 - name: distcc
   morph: strata/tools/distcc.morph
