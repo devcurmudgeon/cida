@@ -25,6 +25,8 @@ strata:
   morph: strata/genivi.morph
 - name: wayland-generic
   morph: strata/wayland-generic.morph
+- name: weston-genivi
+  morph: strata/weston-genivi.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
