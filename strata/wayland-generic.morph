@@ -1,0 +1,16 @@
+name: wayland-generic
+kind: stratum
+build-depends:
+- morph: strata/x-common.morph
+chunks:
+- name: libxkbcommon
+  repo: upstream:xorg-lib-libxkbcommon
+  ref: b721254769212d671a4729f1c88b059979b80efc
+  unpetrify-ref: baserock/genivi/baseline
+  build-depends: []
+- name: wayland
+  morph: strata/wayland-generic/wayland.morph
+  repo: upstream:wayland
+  ref: baserock/gnome
+  build-depends:
+  - libxkbcommon

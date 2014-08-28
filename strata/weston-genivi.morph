@@ -1,0 +1,26 @@
+name: weston-genivi
+kind: stratum
+build-depends:
+- morph: strata/graphics-common.morph
+- morph: strata/input-common.morph
+- morph: strata/mesa-common.morph
+- morph: strata/x-common.morph
+- morph: strata/wayland-generic.morph
+chunks:
+- name: linux-pam
+  repo: upstream:linux-pam
+  ref: master
+  build-depends: []
+- name: weston
+  morph: strata/weston-genivi/weston.morph
+  repo: upstream:weston
+  ref: 8658e06e69cc3944e89684a2de619e479751633f
+  unpetrify-ref: baserock/genivi/baseline-h-1.1
+  build-depends:
+  - linux-pam
+- name: wayland-ivi-extension
+  repo: upstream:genivi/wayland-ivi-extension
+  ref: 8b59529cf3b279a948f253bc79263d00d3f051a5
+  unpetrify-ref: baserock/genivi/baseline-h-1.1
+  build-depends:
+  - weston

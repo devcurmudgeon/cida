@@ -1,5 +1,0 @@
-name: freefont-otf
-kind: chunk
-install-commands:
-- mkdir -p $DESTDIR/usr/share/fonts/opentype/freefont
-- install -p *.otf $DESTDIR/usr/share/fonts/opentype/freefont

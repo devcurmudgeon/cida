@@ -23,8 +23,16 @@ strata:
   morph: strata/multimedia.morph
 - name: genivi
   morph: strata/genivi.morph
-- name: wayland-x86_64-generic
-  morph: strata/wayland-x86_64-generic.morph
+- name: wayland-generic
+  morph: strata/wayland-generic.morph
+- name: graphics-common
+  morph: strata/graphics-common.morph
+- name: input-common
+  morph: strata/input-common.morph
+- name: mesa-common
+  morph: strata/mesa-common.morph
+- name: weston-genivi
+  morph: strata/weston-genivi.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
