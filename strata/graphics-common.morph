@@ -1,0 +1,52 @@
+name: graphics-common
+kind: stratum
+build-depends:
+- morph: strata/x-common.morph
+- morph: strata/wayland-generic.morph
+chunks:
+- name: pixman
+  repo: upstream:pixman
+  ref: 958bd334b3c17f529c80f2eeef4224f45c62f292
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: freetype2
+  repo: upstream:freetype2
+  ref: 2ba18ba1ce730ed79672801b20f986f10a628c95
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: fontconfig
+  repo: upstream:fontconfig
+  ref: 72b0480a21958f0f8c115d8e0a5bfbd8d358b5c3
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - freetype2
+- name: freefont-otf
+  morph: strata/graphics-common/freefont-otf.morph
+  repo: upstream:freefont-otf
+  ref: 75fa95a912718bb94a135d4bf6b13bb38e186ce7
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: cairo
+  repo: upstream:cairo
+  ref: c373daa9d4bade91b3fc8b7850163db4b3aec40a
+  unpetrify-ref: baserock/genivi/1.12.10
+  build-depends:
+  - fontconfig
+  - freetype2
+  - pixman
+- name: harfbuzz
+  repo: upstream:harfbuzz
+  ref: 09b5393874e56fcfd63a92d28e6c1c2ddeee0942
+  unpetrify-ref: baserock/0.9.12
+  build-depends:
+  - freetype2
+- name: pango
+  repo: upstream:pango
+  ref: f8b1566e81af9e36ac018af4f0ae85ee7db4b8fd
+  unpetrify-ref: baserock/1.36.3
+  build-depends:
+  - cairo
+  - harfbuzz
+  - fontconfig
+  - freetype2
+  - freefont-otf
