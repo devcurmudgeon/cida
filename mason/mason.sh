@@ -11,9 +11,9 @@ if [ ! -e ws ]; then
 fi
 cd ws
 
-definitions_repo="$DEFINITIONS_REF"/"$DISTBUILD_TROVE_ADDRESS"/baserock/baserock/definitions
+definitions_repo="$DEFINITIONS_REF"/"$UPSTREAM_TROVE_ADDRESS"/baserock/baserock/definitions
 if [ ! -e "$definitions_repo" ]; then
-    morph checkout git://"$DISTBUILD_TROVE_ADDRESS"/baserock/baserock/definitions "$DEFINITIONS_REF"
+    morph checkout git://"$UPSTREAM_TROVE_ADDRESS"/baserock/baserock/definitions "$DEFINITIONS_REF"
     cd "$definitions_repo"
     git config user.name "$TROVE_ID"-mason
     git config user.email "$TROVE_ID"-mason@$(hostname)
@@ -41,9 +41,10 @@ rm -f "$HOME/success"
 echo INFO: Mason building: $DEFINITIONS_REF at $SHA1
 
 if ! "scripts/release-build" --no-default-configs \
-        --trove-host "$DISTBUILD_TROVE_ADDRESS" \
-	--controllers "$DISTBUILD_ARCH:$DISTBUILD_CONTROLLER_ADDRESS" \
-	"$BUILD_CLUSTER_MORPHOLOGY"; then
+        --trove-host "$UPSTREAM_TROVE_ADDRESS" \
+        --artifact-cache-server "http://$ARTIFACT_CACHE_SERVER:8080/" \
+        --controllers "$DISTBUILD_ARCH:$DISTBUILD_CONTROLLER_ADDRESS" \
+        "$BUILD_CLUSTER_MORPHOLOGY"; then
     echo ERROR: Failed to build release images
     echo Build logs for chunks:
     find builds -type f -exec echo {} \; -exec cat {} \;
@@ -60,11 +61,11 @@ fi
 
 "scripts/release-test" \
 	--deployment-host "$DISTBUILD_ARCH":"$TEST_VM_HOST_SSH_URL" \
-	--trove-host "$DISTBUILD_TROVE_ADDRESS" \
+	--trove-host "$UPSTREAM_TROVE_ADDRESS" \
 	--trove-id "$TROVE_ID" \
 	"$BUILD_CLUSTER_MORPHOLOGY"
 
-"scripts/release-upload" --build-trove-host "$DISTBUILD_TROVE_ADDRESS" \
+"scripts/release-upload" --build-trove-host "$ARTIFACT_CACHE_SERVER" \
 	--arch "$DISTBUILD_ARCH" \
 	--log-level=debug --log="$HOME"/release-upload.log \
 	--public-trove-host "$UPSTREAM_TROVE_ADDRESS" \

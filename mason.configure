@@ -19,8 +19,8 @@
 # a Mason instance at deployment time. It uses the following variables
 # from the environment:
 #
+#   * ARTIFACT_CACHE_SERVER
 #   * MASON_CLUSTER_MORPHOLOGY
-#   * MASON_UPSTREAM_TROVE_ADDRESS
 #   * MASON_DEFINITIONS_REF
 #   * MASON_DISTBUILD_ARCH
 #   * MASON_TEST_HOST
@@ -32,8 +32,8 @@ set -e
 
 ROOT="$1"
 
-if [ "$MASON_CLUSTER_MORPHOLOGY" = "" \
-     -o "$MASON_UPSTREAM_TROVE_ADDRESS" = "" \
+if [ "$ARTIFACT_CACHE_SERVER" = "" \
+     -o "$MASON_CLUSTER_MORPHOLOGY" = "" \
      -o "$MASON_DEFINITIONS_REF" = "" \
      -o "$MASON_DISTBUILD_ARCH" = "" \
      -o "$MASON_TEST_HOST" = "" ]; then
@@ -61,11 +61,11 @@ echo "Creating $MASON_CONFIG"
 cat >>"$MASON_CONFIG" <<EOF
 #################### START OF DEPLOY TIME CONFIGURATION #######################
 
-UPSTREAM_TROVE_ADDRESS=$(shellescape "$MASON_UPSTREAM_TROVE_ADDRESS")
+ARTIFACT_CACHE_SERVER=$(shellescape "$ARTIFACT_CACHE_SERVER")
+UPSTREAM_TROVE_ADDRESS=$(shellescape "$TROVE_HOST")
 DEFINITIONS_REF=$(shellescape "$MASON_DEFINITIONS_REF")
 DISTBUILD_ARCH=$(shellescape "$MASON_DISTBUILD_ARCH")
 DISTBUILD_CONTROLLER_ADDRESS=$(shellescape "$CONTROLLERHOST")
-DISTBUILD_TROVE_ADDRESS=$(shellescape "$TROVE_HOST")
 TROVE_ID=$(shellescape "$TROVE_ID")
 BUILD_CLUSTER_MORPHOLOGY=$(shellescape "$MASON_CLUSTER_MORPHOLOGY")
 TEST_VM_HOST_SSH_URL=$(shellescape "$MASON_TEST_HOST")
