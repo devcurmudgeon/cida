@@ -14,11 +14,11 @@ chunks:
   ref: baserock/gnome
   build-depends:
   - libxkbcommon
-- name: mesa-wayland
-  morph: strata/wayland-generic/mesa-wayland.morph
+- name: mesa
+  morph: strata/wayland-generic/mesa.morph
   repo: upstream:mesa
-  ref: a77b370b4ba1045e2612650503cf45827af94a12
-  unpetrify-ref: baserock/10.0.4-gallium
+  ref: b8e3777eb34a6f585d7c168003bd8ebd69bf107c
+  unpetrify-ref: baserock/gnome
   build-depends:
   - wayland
 - name: pixman
@@ -52,7 +52,7 @@ chunks:
   - fontconfig
   - freetype2
   - wayland
-  - mesa-wayland
+  - mesa
   - pixman
 - name: mtdev
   repo: upstream:mtdev-git
@@ -120,7 +120,7 @@ chunks:
   build-depends:
   - pango
   - wayland
-  - mesa-wayland
+  - mesa
   - libinput
   - cairo
   - pixman

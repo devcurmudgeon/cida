@@ -1,7 +1,7 @@
-name: mesa-wayland
+name: mesa
 kind: chunk
 build-system: autotools
 configure-commands:
-- ./autogen.sh --prefix="$PREFIX" --enable-gles2 --enable-gallium-egl --with-egl-platforms=wayland,drm
+- ./autogen.sh --prefix="$PREFIX" --enable-gles2 --enable-gallium-egl --with-egl-platforms=wayland,drm,x11
   --enable-gbm --enable-dri --enable-shared-glapi --with-gallium-drivers=swrast --with-dri-drivers=,i915,i965,swrast
   --with-state-trackers=egl
