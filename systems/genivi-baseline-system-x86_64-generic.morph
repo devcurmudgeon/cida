@@ -29,6 +29,8 @@ strata:
   morph: strata/graphics-common.morph
 - name: input-common
   morph: strata/input-common.morph
+- name: mesa-common
+  morph: strata/mesa-common.morph
 - name: weston-genivi
   morph: strata/weston-genivi.morph
 configuration-extensions:
