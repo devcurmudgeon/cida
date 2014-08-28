@@ -123,8 +123,8 @@ chunks:
 - name: cpython
   morph: strata/core/cpython.morph
   repo: upstream:cpython
-  ref: fa86445bfd4fb8e5441d685d92bf8a8ee237f022
-  unpetrify-ref: baserock/morph-2.7
+  ref: 1aaa7cd8880727716883d75783dc0569f3e4238b
+  unpetrify-ref: v2.7.2
   build-depends:
   - openssl-new
   - bzip2
