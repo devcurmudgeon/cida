@@ -1,6 +1,7 @@
 name: input-common
 kind: stratum
 build-depends:
+- morph: strata/build-essential.morph
 - morph: strata/x-common.morph
 chunks:
 - name: mtdev
@@ -30,16 +31,9 @@ chunks:
   ref: b23649e1ba9fd5c72fa9318e417b4f17f5f6f528
   unpetrify-ref: baserock/genivi/baseline
   build-depends: []
-- name: linux-api-headers
-  morph: strata/input-common/linux-api-headers.morph
-  repo: upstream:linux
-  ref: 316df4c3eb667636eadf4b663f4087f1f9cc3cfe
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: libinput
   repo: upstream:libinput
   ref: 0.5.0
   build-depends:
   - mtdev
   - libevdev
-  - linux-api-headers
