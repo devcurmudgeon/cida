@@ -1,3 +1,6 @@
+[Install]
+WantedBy=multi-user.target
+
 [Unit]
 Description=Morph distributed build worker helper
 Requires=morph-worker.service

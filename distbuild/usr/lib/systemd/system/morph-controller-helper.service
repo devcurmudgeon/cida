@@ -1,3 +1,6 @@
+[Install]
+WantedBy=multi-user.target
+
 [Unit]
 Description=Morph distributed build controller helper
 Requires=morph-controller.service

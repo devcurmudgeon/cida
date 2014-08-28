@@ -1,0 +1,16 @@
+[Unit]
+Description=Run distbuild-setup Ansible scripts
+Requires=network.target
+After=network.target
+Requires=opensshd.service
+After=opensshd.service
+
+# If there's a shared /var subvolume, it must be mounted before this
+# unit runs.
+Requires=local-fs.target
+After=local-fs.target
+
+ConditionPathExists=/etc/distbuild/distbuild.conf
+
+[Service]
+ExecStart=/usr/bin/ansible-playbook -v -i /usr/lib/distbuild-setup/ansible/hosts /usr/lib/distbuild-setup/ansible/distbuild-setup.yml
