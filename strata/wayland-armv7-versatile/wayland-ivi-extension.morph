@@ -1,8 +1,0 @@
-name: wayland-ivi-extension
-kind: chunk
-configure-commands:
-- cmake -DCMAKE_INSTALL_PREFIX=$PREFIX
-build-commands:
-- make
-install-commands:
-- make install DESTDIR=$DESTDIR

@@ -23,8 +23,8 @@ strata:
   morph: strata/multimedia.morph
 - name: genivi
   morph: strata/genivi.morph
-- name: wayland-armv7-versatile
-  morph: strata/wayland-armv7-versatile.morph
+- name: wayland-generic
+  morph: strata/wayland-generic.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

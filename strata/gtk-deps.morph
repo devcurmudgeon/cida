@@ -5,7 +5,7 @@ build-depends:
 - morph: strata/foundation.morph
 - morph: strata/x-common.morph
 - morph: strata/x-generic.morph
-- morph: strata/wayland-x86_64-generic.morph
+- morph: strata/wayland-generic.morph
 chunks:
 - name: shared-mime-info
   morph: strata/gtk-deps/shared-mime-info.morph

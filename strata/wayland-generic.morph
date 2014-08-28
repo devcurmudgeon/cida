@@ -1,4 +1,4 @@
-name: wayland-x86_64-generic
+name: wayland-generic
 kind: stratum
 build-depends:
 - morph: strata/x-common.morph
@@ -9,14 +9,13 @@ chunks:
   unpetrify-ref: baserock/genivi/baseline
   build-depends: []
 - name: wayland
-  morph: strata/wayland-x86_64-generic/wayland.morph
+  morph: strata/wayland-generic/wayland.morph
   repo: upstream:wayland
-  ref: cbd8ab5ba7f3f0dba6c9b04176b3a2da965cd21c
-  unpetrify-ref: baserock/1.4.0
+  ref: baserock/gnome
   build-depends:
   - libxkbcommon
 - name: mesa-wayland
-  morph: strata/wayland-x86_64-generic/mesa-wayland.morph
+  morph: strata/wayland-generic/mesa-wayland.morph
   repo: upstream:mesa
   ref: a77b370b4ba1045e2612650503cf45827af94a12
   unpetrify-ref: baserock/10.0.4-gallium
@@ -39,13 +38,13 @@ chunks:
   build-depends:
   - freetype2
 - name: freefont-otf
-  morph: strata/wayland-x86_64-generic/freefont-otf.morph
+  morph: strata/wayland-generic/freefont-otf.morph
   repo: upstream:freefont-otf
   ref: 75fa95a912718bb94a135d4bf6b13bb38e186ce7
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: cairo
-  morph: strata/wayland-x86_64-generic/cairo.morph
+  morph: strata/wayland-generic/cairo.morph
   repo: upstream:cairo
   ref: c373daa9d4bade91b3fc8b7850163db4b3aec40a
   unpetrify-ref: baserock/genivi/1.12.10
@@ -83,7 +82,7 @@ chunks:
   unpetrify-ref: baserock/genivi/baseline
   build-depends: []
 - name: linux-api-headers
-  morph: strata/wayland-x86_64-generic/linux-api-headers.morph
+  morph: strata/wayland-generic/linux-api-headers.morph
   repo: upstream:linux
   ref: 316df4c3eb667636eadf4b663f4087f1f9cc3cfe
   unpetrify-ref: baserock/morph
@@ -114,7 +113,7 @@ chunks:
   - freetype2
   - freefont-otf
 - name: weston
-  morph: strata/wayland-x86_64-generic/weston.morph
+  morph: strata/wayland-generic/weston.morph
   repo: upstream:weston
   ref: 8658e06e69cc3944e89684a2de619e479751633f
   unpetrify-ref: baserock/genivi/baseline-h-1.1
@@ -127,7 +126,7 @@ chunks:
   - pixman
   - libxkbcommon
 - name: wayland-ivi-extension
-  morph: strata/wayland-x86_64-generic/wayland-ivi-extension.morph
+  morph: strata/wayland-generic/wayland-ivi-extension.morph
   repo: upstream:genivi/wayland-ivi-extension
   ref: 8b59529cf3b279a948f253bc79263d00d3f051a5
   unpetrify-ref: baserock/genivi/baseline-h-1.1
