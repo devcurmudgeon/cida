@@ -1,14 +1,9 @@
 name: x-generic
 kind: stratum
 build-depends:
+- morph: strata/mesa-common.morph
 - morph: strata/x-common.morph
 chunks:
-- name: mesa
-  morph: strata/x-generic/mesa.morph
-  repo: upstream:mesa
-  ref: b8e3777eb34a6f585d7c168003bd8ebd69bf107c
-  unpetrify-ref: baserock/gnome
-  build-depends: []
 - name: xorg-lib-libxkbfile
   repo: upstream:xorg-lib-libxkbfile
   ref: 7381c2f9013ef7784c78091fa671e652a62ca706
@@ -103,7 +98,6 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - libsha1
-  - mesa
   - pixman
   - xorg-font-util
   - xorg-lib-libXaw

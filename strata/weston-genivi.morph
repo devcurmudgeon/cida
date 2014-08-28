@@ -3,6 +3,7 @@ kind: stratum
 build-depends:
 - morph: strata/graphics-common.morph
 - morph: strata/input-common.morph
+- morph: strata/mesa-common.morph
 - morph: strata/x-common.morph
 - morph: strata/wayland-generic.morph
 chunks:

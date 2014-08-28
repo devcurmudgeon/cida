@@ -1,0 +1,10 @@
+name: mesa-common
+kind: stratum
+build-depends:
+- morph: strata/x-common.morph
+- morph: strata/wayland-generic.morph
+chunks:
+- name: mesa
+  repo: upstream:mesa
+  ref: baserock/unified
+  build-depends: []

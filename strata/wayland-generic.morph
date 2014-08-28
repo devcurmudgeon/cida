@@ -14,10 +14,3 @@ chunks:
   ref: baserock/gnome
   build-depends:
   - libxkbcommon
-- name: mesa
-  morph: strata/wayland-generic/mesa.morph
-  repo: upstream:mesa
-  ref: b8e3777eb34a6f585d7c168003bd8ebd69bf107c
-  unpetrify-ref: baserock/gnome
-  build-depends:
-  - wayland
