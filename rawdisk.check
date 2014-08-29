@@ -46,7 +46,7 @@ class RawdiskCheckExtension(morphlib.writeexts.WriteExtension):
         else:
             if os.path.exists(location):
                 raise cliapp.AppException(
-                    'Target %s already exists. Pass --upgrade if you want to '
-                    'update an existing image.' % location)
+                    'Target %s already exists. Use `morph upgrade` if you '
+                    'want to update an existing image.' % location)
 
 RawdiskCheckExtension().run()
