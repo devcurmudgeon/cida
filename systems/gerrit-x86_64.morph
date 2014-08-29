@@ -21,6 +21,8 @@ strata:
   morph: strata/network-security.morph
 - name: cloudinit-support
   morph: strata/cloudinit-support.morph
+- name: patch-manager-gerrit
+  morph: strata/patch-manager-gerrit.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

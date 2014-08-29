@@ -1,0 +1,11 @@
+name: patch-manager-gerrit
+kind: stratum
+build-depends:
+- morph: strata/tools.morph
+chunks:
+- name: gerrit-installation-binaries
+  morph: strata/patch-manager-gerrit/gerrit-installation-binaries.morph
+  repo: github:franred/gerrit-installation-binaries
+  ref: ef262c635890f19eaff8ef6bbd831ee9b0d8693e
+  unpetrify-ref: master
+  build-depends: []
