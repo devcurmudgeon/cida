@@ -89,7 +89,30 @@ class WriteExtension(cliapp.Application):
     write extensions.
     
     '''
-    
+
+    def setup_logging(self):
+        '''Direct all logging output to MORPH_LOG_FD, if set.
+
+        This file descriptor is read by Morph and written into its own log
+        file.
+
+        This overrides cliapp's usual configurable logging setup.
+
+        '''
+        log_write_fd = int(os.environ.get('MORPH_LOG_FD', 0))
+
+        if log_write_fd == 0:
+            return
+
+        formatter = logging.Formatter('%(message)s')
+
+        handler = logging.StreamHandler(os.fdopen(log_write_fd, 'w'))
+        handler.setFormatter(formatter)
+
+        logger = logging.getLogger()
+        logger.addHandler(handler)
+        logger.setLevel(logging.DEBUG)
+
     def process_args(self, args):
         raise NotImplementedError()
 
