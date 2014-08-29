@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+#
+# This is a "morph deploy" configuration extension to enable bash
+# as default shell in gerrit systems.
+set -e
+
+ROOT="$1"
+
+###############################################################################
+
+# Set bash as default shell
+ln -sfn bash "$ROOT/bin/sh"
+
+###############################################################################
+echo "Creating gerrit-daemon unit file"
+
+cat << EOF > "$ROOT"/etc/systemd/system/gerrit-daemon.service
+[Unit]
+Description=Gerrit Code Review Server Service
+
+ConditionPathExists=/home/gerrit2/gerrit/.gerrit_controller
+
+[Service]
+User=gerrit2
+Group=gerrit2
+Environment="PATH=/usr/bin:/bin"
+Type=forking
+ExecStart=/home/gerrit2/gerrit/.gerrit_controller/bin/gerrit.sh start
+
+[Install]
+WantedBy=multi-user.target
+EOF
+ln -sfn "../gerrit-daemon.service" \
+  "$ROOT/etc/systemd/system/multi-user.target.wants/gerrit-daemon.service"

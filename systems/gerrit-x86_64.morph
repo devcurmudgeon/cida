@@ -30,3 +30,4 @@ configuration-extensions:
 - nfsboot
 - install-files
 - cloud-init
+- gerrit
