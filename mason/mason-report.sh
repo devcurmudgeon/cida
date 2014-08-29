@@ -233,10 +233,10 @@ if [ "$RESULT" = skip ]; then
 fi
 
 DURATION=$(( $(date +%s) - $(date --date="$START_TIME" +%s) ))
-SHA1="$(cd "ws/$DEFINITIONS_REF/$DISTBUILD_TROVE_ADDRESS/baserock/baserock/definitions" && git rev-parse HEAD)"
+SHA1="$(cd "ws/$DEFINITIONS_REF/$UPSTREAM_TROVE_ADDRESS/baserock/baserock/definitions" && git rev-parse HEAD)"
 
 update_report "$START_TIME" \
-              "$DISTBUILD_TROVE_ADDRESS" \
+              "$UPSTREAM_TROVE_ADDRESS" \
               "$DEFINITIONS_REF" \
               "$SHA1" \
               "$DURATION" \
