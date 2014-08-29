@@ -22,6 +22,7 @@
 #    * DISTBUILD_WORKER: if 'yes', machine is set up as a worker.
 #    * TROVE_ID: hostname and Trove prefix of the server to pull source
 #          from and push built artifacts to.
+#    * TROVE_HOST: FQDN of the same server as in TROVE_ID
 #
 # The following variable is optional:
 #
@@ -39,128 +40,88 @@
 
 set -e
 
-
-# If ARTIFACT_CACHE_SERVER isn't set, default to $TROVE_ID.
-if [ "x$ARTIFACT_CACHE_SERVER" = x ]
-then
-    ARTIFACT_CACHE_SERVER="$TROVE_HOST"
-fi
-
 set -u
 
 
-# Create the mount point for extra disk space.
-install -d -o 0 -g 0 -m 0755 "$1/srv/distbuild"
+# Check that all the variables needed are present:
 
-# Configuration shared by all instances of Morph. For reasons of
-# convenience, this sets the controller-initiator-address, so
-# that when users invoke "morph", they don't need to manually
-# specify it, or to manually add another configuration file to
-# use. However, the setting may only be set for the distbuild
-# initiator (which is what the user invokes), so in ALL other
-# configuration files we unset it.
-
-cat <<EOF > "$1/etc/morph.conf"
-[config]
-log = /srv/distbuild/morph.log
-log-max = 100M
-cachedir = /srv/distbuild
-tempdir = /srv/distbuild/tmp
-trove-host = $TROVE_HOST
-trove-id = $TROVE_ID
-controller-initiator-address = $CONTROLLERHOST
-tempdir-min-space = 4G
-cachedir-min-space = 4G
-build-ref-prefix = $TROVE_ID
-artifact-cache-server = http://$ARTIFACT_CACHE_SERVER:8080/
-git-resolve-cache-server = http://$TROVE_HOST:8080/
-EOF
-
-ln -s /srv/distbuild/morph.log "$1/var/log/morph.log"
-
-# Configuration for a distbuild controller. This configuration
-# file gets used by the systemd unit that runs the controller.
-# The existence of this configuration file triggers the systemd
-# unit, so we only create it on nodes that are meant to act as
-# the controller.
-
-if [ "$DISTBUILD_CONTROLLER" = True ]
-then
-    cat <<EOF > "$1/etc/morph-controller.conf"
-[config]
-log = /srv/distbuild/morph-controller.log
-log-max = 100M
-writeable-cache-server = http://$ARTIFACT_CACHE_SERVER:8081/
-worker = $WORKERS
-controller-helper-address = 127.0.0.1
-EOF
-
-ln -s /srv/distbuild/morph-controller.log "$1/var/log/morph-controller.log"
-
-    # Configuration for the controller's helper process. This
-    # gets used by the systemd unit that starts the helper.
-
-cat <<EOF > "$1/etc/morph-controller-helper.conf"
-[config]
-log = /srv/distbuild/morph-controller-helper.log
-log-max = 100M
-parent-port = 5656
-parent-address = 127.0.0.1
-EOF
-
-ln -s /srv/distbuild/morph-controller-helper.log "$1/var/log/morph-controller-helper.log"
-
+error_vars=false
+if [ "x$DISTBUILD_WORKER" = "x" ]; then
+    echo "ERROR: DISTBUILD_WORKER needs to be defined."
+    error_vars=true
 fi
 
-# Configuration for a distbuild worker. This gets reference
-# by the systemd unit that starts the worker. Again, the
-# existence of morph-worker.conf triggers the systemd unit
-# to starts the worker, so we only create it on systems
-# that are meant to be a worker.
+if [ "x$DISTBUILD_CONTROLLER" = "x" ]; then
+    echo "ERROR: DISTBUILD_CONTROLLER needs to be defined."
+    error_vars=true
+fi
 
+if [ "x$TROVE_HOST" = "x" ]; then
+    echo "ERROR: TROVE_HOST needs to be defined."
+    error_vars=true
+fi
+
+if [ "x$TROVE_ID" = "x" ]; then
+    echo "ERROR: TROVE_ID needs to be defined."
+    error_vars=true
+fi
+
+if [ "$DISTBUILD_WORKER" = True ]; then
+    if ! ssh-keygen -lf "$WORKER_SSH_KEY" > /dev/null 2>&1; then
+        echo "ERROR: WORKER_SSH_KEY is not a vaild ssh key."
+        error_vars=true
+    fi
+
+    if [ "x$CONTROLLERHOST" = "x" ]; then
+        echo "ERROR: CONTROLLERHOST needs to be defined."
+        error_vars=true
+    fi
+fi
+
+if [ "$DISTBUILD_CONTROLLER" = True ]; then
+    if [ "x$WORKERS" = "x" ]; then
+        echo "ERROR: WORKERS needs to be defined."
+        error_vars=true
+    fi
+fi
+
+if "$error_vars"; then
+    exit 1
+fi
+
+
+ROOT="$1"
+
+DISTBUILD_DATA="$ROOT/etc/distbuild"
+mkdir -p "$DISTBUILD_DATA"
+
+# If it's a worker, install the worker ssh key.
 if [ "$DISTBUILD_WORKER" = True ]
 then
-    cat <<EOF > "$1/etc/morph-worker.conf"
-[config]
-log = /srv/distbuild/morph-worker.log
-log-max = 100M
-controller-initiator-address =
-EOF
-
-ln -s /srv/distbuild/morph-worker.log "$1/var/log/morph-worker.log"
-
-    # This will be used for a systemd generator which
-    # nfs mounts the ccache from the trove
-    echo "$TROVE_HOST" > "$1/etc/trove-host"
-
-    # Configuration for the controller's helper process. This
-    # gets used by the systemd unit that starts the helper.
-
-cat <<EOF > "$1/etc/morph-worker-helper.conf"
-[config]
-log = /srv/distbuild/morph-worker-helper.log
-log-max = 100M
-parent-address = 127.0.0.1
-EOF
-
-ln -s /srv/distbuild/morph-worker-helper.log "$1/var/log/morph-worker-helper.log"
-
-    # Configuration for the Morph cache server daemon. We
-    # only run the cache server on workers.
-
-cat <<EOF > "$1/etc/morph-cache-server.conf"
-[config]
-port = 8080
-artifact-dir = /srv/distbuild/artifacts
-direct-mode = True
-fcgi-server = False
-EOF
-
-echo "Copy distbuild worker SSH key to system"
-mkdir -p "$1/root/.ssh"
-install -m 0600 "$WORKER_SSH_KEY" "$1/root/.ssh/id_rsa"
-install -m 0644 "${WORKER_SSH_KEY}.pub" "$1/root/.ssh/id_rsa.pub"
-
-# Add trove's host key
-ssh-keyscan -t dsa,ecdsa,rsa "$TROVE_HOST" >> "$1/root/.ssh/known_hosts"
+    install -m 0644 "$WORKER_SSH_KEY" "$DISTBUILD_DATA/worker.key"
 fi
+
+
+
+# Create the configuration file
+python <<'EOF' >"$DISTBUILD_DATA/distbuild.conf"
+import os, sys, yaml
+
+distbuild_configuration={
+    'TROVE_ID': os.environ['TROVE_ID'],
+    'TROVE_HOST': os.environ['TROVE_HOST'],
+    'DISTBUILD_WORKER': os.environ['DISTBUILD_WORKER'],
+    'DISTBUILD_CONTROLLER': os.environ['DISTBUILD_CONTROLLER'],
+    'WORKER_SSH_KEY': '/etc/distbuild/worker.key',
+}
+
+
+optional_keys = ('ARTIFACT_CACHE_SERVER', 'CONTROLLERHOST', 'WORKERS',
+                 'TROVE_BACKUP_KEYS')
+
+for key in optional_keys:
+    if key in os.environ:
+        distbuild_configuration[key] = os.environ[key]
+
+yaml.dump(distbuild_configuration, sys.stdout, default_flow_style=False)
+EOF
