@@ -32,13 +32,47 @@ set -e
 
 ROOT="$1"
 
+
+##########################################################################
+# Copy Mason files into root filesystem
+##########################################################################
+
+cp mason/mason.sh "$ROOT"/root/mason.sh
+cp mason/mason-report.sh "$ROOT"/root/mason-report.sh
+
+cp mason/mason.timer "$ROOT"/etc/systemd/system/mason.timer
+
+cp mason/mason.service "$ROOT"/etc/systemd/system/mason.service
+
+##########################################################################
+# Set up httpd web server
+##########################################################################
+
+cp mason/httpd.service "$ROOT"/etc/systemd/system/httpd.service
+
+mkdir -p "$ROOT"/srv/mason
+
+cat >>"$ROOT"/etc/httpd.conf <<EOF
+.log:text/plain
+EOF
+
+
+##########################################################################
+# Check variables
+##########################################################################
+
+if [ -n "$MASON_GENERIC" ]; then
+    echo Not configuring Mason, it will be generic
+    exit 0
+fi
+
 if [ "$ARTIFACT_CACHE_SERVER" = "" \
      -o "$MASON_CLUSTER_MORPHOLOGY" = "" \
      -o "$MASON_DEFINITIONS_REF" = "" \
      -o "$MASON_DISTBUILD_ARCH" = "" \
      -o "$MASON_TEST_HOST" = "" ]; then
     echo Not configuring as Mason, some options not defined
-    exit 0
+    exit 1
 fi
 
 
@@ -75,27 +109,9 @@ EOF
 
 
 ##########################################################################
-# Copy Mason files into root filesystem
+# Enable services
 ##########################################################################
 
-cp mason/mason.sh "$ROOT"/root/mason.sh
-cp mason/mason-report.sh "$ROOT"/root/mason-report.sh
-
-cp mason/mason.timer "$ROOT"/etc/systemd/system/mason.timer
 ln -s ../mason.timer "$ROOT"/etc/systemd/system/multi-user.target.wants/mason.timer
-
-cp mason/mason.service "$ROOT"/etc/systemd/system/mason.service
 ln -s ../mason.service "$ROOT"/etc/systemd/system/multi-user.target.wants/mason.service
-
-##########################################################################
-# Set up httpd web server
-##########################################################################
-
-cp mason/httpd.service "$ROOT"/etc/systemd/system/httpd.service
 ln -s ../httpd.service "$ROOT"/etc/systemd/system/multi-user.target.wants/httpd.service
-
-mkdir -p "$ROOT"/srv/mason
-
-cat >>"$ROOT"/etc/httpd.conf <<EOF
-.log:text/plain
-EOF
