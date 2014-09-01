@@ -3,7 +3,7 @@ Description=Mason: Continuous Delivery Service
 
 [Service]
 User=root
-ExecStart=/root/mason-report.sh
+ExecStart=/usr/lib/mason/mason-report.sh
 
 [Install]
 WantedBy=multi-user.target

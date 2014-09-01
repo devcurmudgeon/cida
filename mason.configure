@@ -37,8 +37,10 @@ ROOT="$1"
 # Copy Mason files into root filesystem
 ##########################################################################
 
-cp mason/mason.sh "$ROOT"/root/mason.sh
-cp mason/mason-report.sh "$ROOT"/root/mason-report.sh
+
+mkdir -p "$ROOT"/usr/lib/mason
+cp mason/mason.sh "$ROOT"/usr/lib/mason/mason.sh
+cp mason/mason-report.sh "$ROOT"/usr/lib/mason/mason-report.sh
 
 cp mason/mason.timer "$ROOT"/etc/systemd/system/mason.timer
 
@@ -56,6 +58,7 @@ cat >>"$ROOT"/etc/httpd.conf <<EOF
 .log:text/plain
 EOF
 
+mkdir -p "$ROOT"/var/mason
 
 ##########################################################################
 # Check variables
@@ -89,7 +92,7 @@ shellescape() {
 # Generate config variable shell snippet
 ##########################################################################
 
-MASON_CONFIG="$ROOT"/root/mason.conf
+MASON_CONFIG="$ROOT"/etc/mason.conf
 
 echo "Creating $MASON_CONFIG"
 cat >>"$MASON_CONFIG" <<EOF

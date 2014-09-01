@@ -4,7 +4,7 @@ set -e
 set -x
 
 # Load our deployment config
-. /root/mason.conf
+. /etc/mason.conf
 
 if [ ! -e ws ]; then
     morph init ws
