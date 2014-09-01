@@ -6,7 +6,7 @@ configure-commands:
 - sh autogen.sh
 - ./configure --prefix="$PREFIX" --enable-xz --disable-manpages --sysconfdir=/etc
   --localstatedir=/var --libdir="$PREFIX/lib" --libexecdir="$PREFIX/libexec" --with-rootprefix=
-  --with-rootlibdir=/lib --with-firmware-path=/lib/firmware/updates:/lib/firmware
+  --with-rootlibdir=/lib
 install-commands:
 - make DESTDIR="$DESTDIR" install
 - mkdir -p "$DESTDIR"/sbin
