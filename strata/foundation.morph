@@ -69,6 +69,15 @@ chunks:
   unpetrify-ref: baserock/genivi/dbus-1.8.8
   build-depends:
   - glib
+- name: libgpg-error
+  repo: upstream:libgpg-error
+  ref: a498812d767c59ae2b75b0c985f5280b139e7dc4
+  build-depends: []
+- name: libgcrypt
+  repo: upstream:libgcrypt
+  ref: 412eed473b557ed2172d81d76fa1e1f53c973a67
+  build-depends:
+  - libgpg-error
 - name: systemd
   morph: strata/foundation/systemd.morph
   repo: upstream:systemd
@@ -79,6 +88,7 @@ chunks:
   - gobject-introspection
   - kmod
   - libcap2
+  - libgcrypt
   - pciutils
   - usbutils
 - name: lzo
