@@ -19,8 +19,8 @@ chunks:
 - name: kmod
   morph: strata/foundation/kmod.morph
   repo: upstream:kmod
-  ref: 7f3b215d4e848afa74aea20a4c64f0cc1ef30eb4
-  unpetrify-ref: baserock/morph
+  ref: ae58de0fcb4a6528dd365e23d383bbe2eaf2d566
+  unpetrify-ref: v18
   build-depends: []
 - name: libcap2
   morph: strata/foundation/libcap2.morph
