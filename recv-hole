@@ -85,8 +85,8 @@ recv_data_to_file()
     read n
 
     local blocksize=1048576
-    local blocks="$(echo "$n" / "$blocksize" | bc)"
-    local extra="$(echo "$n" % "$blocksize" | bc)"
+    local blocks=$(($n / $blocksize))
+    local extra=$(($n % $blocksize))
 
     xfer_data_to_stdout "$blocksize" "$blocks" >> "$1"
     xfer_data_to_stdout 1 "$extra" >> "$1"
@@ -107,8 +107,8 @@ recv_data_to_stdout()
     read n
 
     local blocksize=1048576
-    local blocks="$(echo "$n" / "$blocksize" | bc)"
-    local extra="$(echo "$n" % "$blocksize" | bc)"
+    local blocks=$(($n / $blocksize))
+    local extra=$(($n % $blocksize))
 
     xfer_data_to_stdout "$blocksize" "$blocks"
     xfer_data_to_stdout 1 "$extra"
