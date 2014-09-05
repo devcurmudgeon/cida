@@ -33,6 +33,31 @@
 # This shell script can be executed over ssh (given to ssh as an arguemnt,
 # with suitable escaping) on a different computer. This allows a large
 # sparse file (e.g., disk image) be transferred quickly.
+#
+# This script should be called in one of the following ways:
+#
+#    recv-hole file FILENAME
+#    recv-hole vbox FILENAME DISKSIZE
+#
+# In both cases, FILENAME is the pathname of the disk image on the
+# receiving end. DISKSIZE is the size of the disk image in bytes. The
+# first form is used when transferring a disk image to become an
+# identical file on the receiving end.
+#
+# The second form is used when the disk image should be converted for
+# use by VirtualBox. In this case, we want to avoid writing a
+# temporary file on disk, and then calling the VirtualBox VBoxManage
+# tool to do the conversion, since that would involve large amounts of
+# unnecessary I/O and disk usage. Instead we pipe the file directly to
+# VBoxManage, avoiding those issues. The piping is done here in this
+# script, instead of in the caller, to make it easier to run things
+# over ssh.
+#
+# However, since it's not possible seek in a Unix pipe, we have to
+# explicitly write the zeroes into the pipe. This is not
+# super-efficient, but the way to avoid that would be to avoid sending
+# a sparse file, and do the conversion to a VDI on the sending end.
+# That is out of scope for xfer-hole and recv-hole.
 
 
 set -eu
