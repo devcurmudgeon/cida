@@ -94,11 +94,13 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
         xfer_hole_path = morphlib.util.get_data_path('xfer-hole')
         recv_hole = morphlib.util.get_data('recv-hole')
 
+        ssh_remote_cmd = [
+            'sh', '-c', recv_hole, 'dummy-argv0', 'file', vm_path
+            ]
+
         cliapp.runcmd(
             ['python', xfer_hole_path, raw_disk],
-            ['ssh', ssh_host,
-             'sh', '-c', cliapp.shell_quote(recv_hole),
-             'dummy-argv0', 'file', vm_path],
+            ['ssh', ssh_host] + map(cliapp.shell_quote, ssh_remote_cmd),
             stdout=None, stderr=None)
 
     def create_libvirt_guest(self, ssh_host, vm_name, vm_path, autostart):
