@@ -96,26 +96,14 @@ class OpenStackWriteExtension(morphlib.writeexts.WriteExtension):
             self.unmount(mp)
 
     def get_openstack_parameters(self):
-        '''Check the environment variables needed and returns all.
+        '''Get the environment variables needed.
 
         The environment variables are described in the class documentation.
         '''
 
         keys = ('OPENSTACK_USER', 'OPENSTACK_TENANT',
                 'OPENSTACK_IMAGENAME', 'OPENSTACK_PASSWORD')
-        for key in keys:
-            if key not in os.environ:
-                raise cliapp.AppException(key + ' was not given')
         return (os.environ[key] for key in keys)
-
-    def check_location(self, location):
-        x = urlparse.urlparse(location)
-        if x.scheme != 'http':
-            raise cliapp.AppException('URL schema must be http in %s' \
-                                      % location)
-        if (x.path != '/v2.0' and x.path != '/v2.0/'):
-            raise cliapp.AppException('API version must be v2.0 in %s'\
-                                      % location)
 
     def configure_openstack_image(self, raw_disk, auth_url, os_params):
         '''Configure the image in OpenStack using glance-client'''
