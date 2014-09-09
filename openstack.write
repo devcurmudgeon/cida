@@ -63,7 +63,6 @@ class OpenStackWriteExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException('Wrong number of command line args')
         
         temp_root, location = args
-        self.check_location(location)
 
         os_params = self.get_openstack_parameters()
 
