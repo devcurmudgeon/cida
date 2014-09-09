@@ -61,6 +61,20 @@ EOF
 mkdir -p "$ROOT"/var/mason
 
 ##########################################################################
+# Copy files needed for Ansible configuration
+##########################################################################
+
+mkdir -p "$ROOT/usr/share/mason-setup"
+mkdir -p "$ROOT/usr/lib/mason-setup"
+
+cp mason/share/* "$ROOT/usr/share/mason-setup"
+cp -r mason/ansible "$ROOT/usr/lib/mason-setup/"
+cp mason/mason-setup.service "$ROOT"/etc/systemd/system/mason-setup.service
+
+ln -s ../mason-setup.service "$ROOT"/etc/systemd/system/multi-user.target.wants/mason-setup.service
+
+
+##########################################################################
 # Check variables
 ##########################################################################
 
@@ -78,36 +92,29 @@ if [ "$ARTIFACT_CACHE_SERVER" = "" \
     exit 1
 fi
 
-
-##########################################################################
-# Functions
-##########################################################################
-
-shellescape() {
-    echo "'$(echo "$1" | sed -e "s/'/'\\''/g")'"
-}
-
-
 ##########################################################################
 # Generate config variable shell snippet
 ##########################################################################
 
-MASON_CONFIG="$ROOT"/etc/mason.conf
+MASON_DATA="$ROOT/etc/mason"
+mkdir -p "$MASON_DATA"
 
-echo "Creating $MASON_CONFIG"
-cat >>"$MASON_CONFIG" <<EOF
-#################### START OF DEPLOY TIME CONFIGURATION #######################
+python <<'EOF' >"$MASON_DATA/mason.conf"
+import os, sys, yaml
 
-ARTIFACT_CACHE_SERVER=$(shellescape "$ARTIFACT_CACHE_SERVER")
-UPSTREAM_TROVE_ADDRESS=$(shellescape "$TROVE_HOST")
-DEFINITIONS_REF=$(shellescape "$MASON_DEFINITIONS_REF")
-DISTBUILD_ARCH=$(shellescape "$MASON_DISTBUILD_ARCH")
-DISTBUILD_CONTROLLER_ADDRESS=$(shellescape "$CONTROLLERHOST")
-TROVE_ID=$(shellescape "$TROVE_ID")
-BUILD_CLUSTER_MORPHOLOGY=$(shellescape "$MASON_CLUSTER_MORPHOLOGY")
-TEST_VM_HOST_SSH_URL=$(shellescape "$MASON_TEST_HOST")
+trove_configuration={
+    'ARTIFACT_CACHE_SERVIER': os.environ['ARTIFACT_CACHE_SERVER'],
+    'MASON_CLUSTER_MORPHOLOGY': os.environ['MASON_CLUSTER_MORPHOLOGY'],
+    'MASON_DEFINITIONS_REF': os.environ['MASON_DEFINITIONS_REF'],
+    'MASON_DISTBUILD_ARCH': os.environ['MASON_DISTBUILD_ARCH'],
+    'MASON_TEST_HOST': os.environ['MASON_TEST_HOST'],
+    'TROVE_ADMIN_NAME': os.environ['TROVE_ADMIN_NAME'],
+    'TROVE_ID': os.environ['TROVE_ID'],
+    'TROVE_HOST': os.environ['TROVE_HOST'],
+    'CONTROLLERHOST': os.environ['CONTROLLERHOST'],
+}
 
-##################### END OF DEPLOY TIME CONFIGURATION ########################
+yaml.dump(trove_configuration, sys.stdout, default_flow_style=False)
 EOF
 
 
