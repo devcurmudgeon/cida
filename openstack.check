@@ -60,7 +60,7 @@ class OpenStackCheckExtension(morphlib.writeexts.WriteExtension):
     def check_location(self, location):
         x = urlparse.urlparse(location)
         if x.scheme not in ['http', 'https']:
-            raise cliapp.AppException('URL schema must be http or https in %s' \
+            raise cliapp.AppException('URL schema must be http or https in %s'\
                                       % location)
         if (x.path != '/v2.0' and x.path != '/v2.0/'):
             raise cliapp.AppException('API version must be v2.0 in %s'\
