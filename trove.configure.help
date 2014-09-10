@@ -82,8 +82,8 @@ help: |
       access it. This configuration does not do that automatically.
 
     * `UPSTREAM_TROVE` -- public name of the upstream Trove (domain
-      name or IP address). The new Trove will be configured to mirror
-      that Trove.
+      name or IP address). This is an optional setting. If it's set,
+      the new Trove will be configured to mirror that Trove.
 
     * `TROVE_ADMIN_USER`, `TROVE_ADMIN_EMAIL`, `TROVE_ADMIN_NAME`,
       `TROVE_ADMIN_SSH_PUBKEY` -- details of the Trove's (initial)
