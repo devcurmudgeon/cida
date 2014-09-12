@@ -25,6 +25,16 @@ chunks:
   ref: 75fa95a912718bb94a135d4bf6b13bb38e186ce7
   unpetrify-ref: baserock/morph
   build-depends: []
+- name: libpng
+  repo: upstream:libpng
+  ref: 981560ae6094f0b0557e82c33d7ae5f7d81ca0ea
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: libjpeg
+  repo: upstream:libjpeg
+  ref: f57ac58ac664ede6bc6e8cd9d88e0edaa366e21a
+  unpetrify-ref: baserock/morph
+  build-depends: []
 - name: cairo
   repo: upstream:cairo
   ref: c373daa9d4bade91b3fc8b7850163db4b3aec40a
@@ -33,6 +43,7 @@ chunks:
   - fontconfig
   - freetype2
   - pixman
+  - libpng
 - name: harfbuzz
   repo: upstream:harfbuzz
   ref: 09b5393874e56fcfd63a92d28e6c1c2ddeee0942
