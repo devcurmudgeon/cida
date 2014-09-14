@@ -2,8 +2,6 @@ name: graphics-common
 kind: stratum
 build-depends:
 - morph: strata/mesa-common.morph
-- morph: strata/x-common.morph
-- morph: strata/wayland-generic.morph
 chunks:
 - name: pixman
   repo: upstream:pixman

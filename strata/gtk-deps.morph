@@ -4,6 +4,7 @@ description: the GTK+ dependencies stratum
 build-depends:
 - morph: strata/foundation.morph
 - morph: strata/graphics-common.morph
+- morph: strata/x-common.morph
 chunks:
 - name: shared-mime-info
   morph: strata/gtk-deps/shared-mime-info.morph
