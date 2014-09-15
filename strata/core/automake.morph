@@ -2,7 +2,7 @@ name: automake
 kind: chunk
 build-system: autotools
 configure-commands:
-- ./bootstrap
+- ./bootstrap.sh
 - ./configure --prefix="$PREFIX"
 build-commands:
 - unset DESTDIR; make
