@@ -204,8 +204,8 @@ chunks:
   - xorg-util-macros
 - name: xorg-lib-libX11
   repo: upstream:xorg-lib-libX11
-  ref: f57fd760cba92ad846917f21e94e73e9c846185f
-  unpetrify-ref: baserock/morph
+  ref: cb107760df33ffc8630677e66e2e50aa37950a5c
+  unpetrify-ref: libX11-1.6.2
   build-depends:
   - xcb-libxcb
   - xorg-lib-libXau
