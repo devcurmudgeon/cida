@@ -139,8 +139,8 @@ chunks:
   build-depends: []
 - name: xorg-lib-libXft
   repo: upstream:xorg-lib-libXft
-  ref: c5e760a239afc62a1c75e0509868e35957c8df52
-  unpetrify-ref: baserock/morph
+  ref: 214f9b5306d833e2787c75fe41dfdc9228fcb738
+  unpetrify-ref: libXft-2.3.2
   build-depends: []
 - name: xcb-util
   repo: upstream:xcb-util
