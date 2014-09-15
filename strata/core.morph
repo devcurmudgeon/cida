@@ -206,6 +206,14 @@ chunks:
   - gettext
   - libexpat
   - openssl-new
+- name: help2man
+  morph: strata/core/help2man.morph
+  repo: upstream:help2man
+  ref: 0191a5f61525f8deea2ae8bdfea88190d85b6a71
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - autoconf
+  - automake
 - name: bison
   morph: strata/core/bison.morph
   repo: upstream:bison
@@ -218,6 +226,7 @@ chunks:
   - flex
   - gettext
   - git
+  - help2man
   - mini-utils
 - name: gperf
   morph: strata/core/gperf.morph
