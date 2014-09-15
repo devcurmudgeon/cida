@@ -204,7 +204,7 @@ chunks:
 - name: lorry-controller
   morph: strata/trove/lorry-controller.morph
   repo: baserock:baserock/lorry-controller
-  ref: 4a6d0ef584a3d87c1d6ad237336660aacd161650
+  ref: 44a2dca52d232428b5a52e2c73fcad1adfee7a8f
   unpetrify-ref: master
   build-depends: []
 - name: lighttpd
