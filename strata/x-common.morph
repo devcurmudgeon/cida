@@ -21,8 +21,8 @@ chunks:
   build-depends: []
 - name: xorg-util-macros
   repo: upstream:xorg-util-macros
-  ref: c98b41de5596c675c603ef43ae9570133f1a9921
-  unpetrify-ref: baserock/morph
+  ref: 9a54b858601bd305de2737b06e609084a2a114c2
+  unpetrify-ref: util-macros-1.19.0
   build-depends: []
 - name: xorg-proto-bigreqsproto
   repo: upstream:xorg-proto-bigreqsproto
