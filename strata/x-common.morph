@@ -176,8 +176,8 @@ chunks:
   - xorg-util-macros
 - name: xcb-proto
   repo: upstream:xcb-proto
-  ref: ca30e6d5d7a0c7618d988f9051026d250f5e124e
-  unpetrify-ref: baserock/morph
+  ref: 4b384d2a015c50d0e93dcacda4b8260a3fd37640
+  unpetrify-ref: "1.11"
   build-depends:
   - xorg-util-macros
 - name: xorg-lib-libXau
@@ -189,8 +189,8 @@ chunks:
   - xorg-util-macros
 - name: xcb-libxcb
   repo: upstream:xcb-libxcb
-  ref: 0dd8f8d26a758bc385e79d9239bf6ef2e3d7bf13
-  unpetrify-ref: baserock/morph
+  ref: d1e8ec96fca4862f37ec9f0e9407bb989c4c161a
+  unpetrify-ref: "1.11"
   build-depends:
   - xcb-proto
   - xcb-pthread-stubs
