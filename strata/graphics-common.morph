@@ -15,8 +15,8 @@ chunks:
   build-depends: []
 - name: fontconfig
   repo: upstream:fontconfig
-  ref: 72b0480a21958f0f8c115d8e0a5bfbd8d358b5c3
-  unpetrify-ref: baserock/morph
+  ref: 9260b7ec39c34ce68d74e16d47917290a8c3f35a
+  unpetrify-ref: 2.11.1
   build-depends:
   - freetype2
 - name: freefont-otf
