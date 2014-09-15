@@ -8,6 +8,5 @@ chunks:
 - name: gtk+
   morph: strata/gtk2/gtk+.morph
   repo: upstream:gtk+
-  ref: 52de99559e5b5bf09160e5a5a164d0ca5fede98c
-  unpetrify-ref: baserock/xfce-build
+  ref: fbf38d16bcc26630f0f721d266509f5bc292f606
   build-depends: []

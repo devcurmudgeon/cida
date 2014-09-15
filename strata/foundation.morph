@@ -111,12 +111,6 @@ chunks:
   build-depends:
   - glib
   - systemd
-- name: help2man
-  morph: strata/foundation/help2man.morph
-  repo: upstream:help2man
-  ref: 0191a5f61525f8deea2ae8bdfea88190d85b6a71
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: libxslt
   repo: upstream:libxslt
   ref: 8785a2ffd0d146df0395ab71ce4734d0a8ba0f7e

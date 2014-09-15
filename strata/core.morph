@@ -77,8 +77,8 @@ chunks:
 - name: automake
   morph: strata/core/automake.morph
   repo: upstream:automake
-  ref: 5ac84ae6760252fc60b144a7b4deb41694f95fe7
-  unpetrify-ref: baserock/morph
+  ref: ba4b42faff673e3e5265416dff09e59affc688fb
+  unpetrify-ref: v1.14.1
   build-depends:
   - autoconf
   - perl
@@ -169,8 +169,8 @@ chunks:
 - name: curl
   morph: strata/core/curl.morph
   repo: upstream:curl
-  ref: 3c835adc9fe20f7b34df3f0abd4db6ff8b75bc3b
-  unpetrify-ref: baserock/morph
+  ref: 202aa9f7758636730299b86715d924f54468a908
+  unpetrify-ref: curl-7_38_0
   build-depends:
   - autoconf
   - automake
@@ -206,6 +206,14 @@ chunks:
   - gettext
   - libexpat
   - openssl-new
+- name: help2man
+  morph: strata/core/help2man.morph
+  repo: upstream:help2man
+  ref: 0191a5f61525f8deea2ae8bdfea88190d85b6a71
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - autoconf
+  - automake
 - name: bison
   morph: strata/core/bison.morph
   repo: upstream:bison
@@ -218,6 +226,7 @@ chunks:
   - flex
   - gettext
   - git
+  - help2man
   - mini-utils
 - name: gperf
   morph: strata/core/gperf.morph
