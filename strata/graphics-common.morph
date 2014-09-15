@@ -27,8 +27,8 @@ chunks:
   build-depends: []
 - name: libpng
   repo: upstream:libpng
-  ref: 981560ae6094f0b0557e82c33d7ae5f7d81ca0ea
-  unpetrify-ref: baserock/morph
+  ref: 259fb7761d747655c607efcec7a12ff1f3c24561
+  unpetrify-ref: libpng-1.6.13-signed
   build-depends: []
 - name: libjpeg
   repo: upstream:libjpeg
