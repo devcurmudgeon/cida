@@ -10,8 +10,8 @@ chunks:
   build-depends: []
 - name: freetype2
   repo: upstream:freetype2
-  ref: 2ba18ba1ce730ed79672801b20f986f10a628c95
-  unpetrify-ref: baserock/morph
+  ref: ec8853cd18e1a0c275372769bdad37a79550ed66
+  unpetrify-ref: VER-2-5-3
   build-depends: []
 - name: fontconfig
   repo: upstream:fontconfig
