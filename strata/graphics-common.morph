@@ -5,8 +5,8 @@ build-depends:
 chunks:
 - name: pixman
   repo: upstream:pixman
-  ref: 958bd334b3c17f529c80f2eeef4224f45c62f292
-  unpetrify-ref: baserock/morph
+  ref: 87eea99e443b389c978cf37efc52788bf03a0ee0
+  unpetrify-ref: pixman-0.32.6
   build-depends: []
 - name: freetype2
   repo: upstream:freetype2
