@@ -62,8 +62,8 @@ chunks:
 - name: e2fsprogs
   morph: strata/tools/e2fsprogs.morph
   repo: upstream:e2fsprogs
-  ref: 485edc675200ff3097cec521c357441a1c2d9b0d
-  unpetrify-ref: baserock/morph
+  ref: 6a3741ad293031447b95b88431eafa77401a8987
+  unpetrify-ref: v1.42.12
   build-depends: []
 - name: file
   repo: upstream:file
