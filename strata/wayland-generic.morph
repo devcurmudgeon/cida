@@ -2,7 +2,7 @@ name: wayland-generic
 kind: stratum
 build-depends:
 - morph: strata/foundation.morph
-- morph: strata/x-common.morph
+- morph: strata/graphics-infra.morph
 chunks:
 - name: libxkbcommon
   repo: upstream:xorg-lib-libxkbcommon

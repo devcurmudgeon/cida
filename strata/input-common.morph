@@ -2,7 +2,7 @@ name: input-common
 kind: stratum
 build-depends:
 - morph: strata/foundation.morph
-- morph: strata/x-common.morph
+- morph: strata/graphics-infra.morph
 chunks:
 - name: mtdev
   repo: upstream:mtdev-git

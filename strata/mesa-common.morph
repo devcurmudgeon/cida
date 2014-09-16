@@ -3,6 +3,7 @@ kind: stratum
 build-depends:
 - morph: strata/llvm-common.morph
 - morph: strata/x-common.morph
+- morph: strata/graphics-infra.morph
 - morph: strata/wayland-generic.morph
 chunks:
 - name: mesa

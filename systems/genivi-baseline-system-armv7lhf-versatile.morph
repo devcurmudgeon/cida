@@ -21,6 +21,8 @@ strata:
   morph: strata/audio-bluetooth.morph
 - name: x-common
   morph: strata/x-common.morph
+- name: graphics-infra
+  morph: strata/graphics-infra.morph
 - name: multimedia
   morph: strata/multimedia.morph
 - name: genivi

@@ -1,0 +1,30 @@
+name: graphics-infra
+kind: stratum
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: xorg-util-macros
+  repo: upstream:xorg-util-macros
+  ref: 9a54b858601bd305de2737b06e609084a2a114c2
+  unpetrify-ref: util-macros-1.19.0
+  build-depends: []
+- name: xcb-pthread-stubs
+  repo: upstream:xcb-pthread-stubs
+  ref: 431d2c0be218d878b9dd3862e4232243c599df4b
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - xorg-util-macros
+- name: xorg-lib-libpciaccess
+  repo: upstream:xorg-lib-libpciaccess
+  ref: 3e17f069682a226c14bb29c802e776c6e39f7e8f
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - xorg-util-macros
+- name: drm
+  repo: upstream:drm
+  morph: strata/graphics-infra/drm.morph
+  ref: bcac0a17407dc78d0813b2eea7fae7c34de54c1b
+  unpetrify-ref: baserock/jetson/drm
+  build-depends:
+  - xcb-pthread-stubs
+  - xorg-lib-libpciaccess
