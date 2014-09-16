@@ -1,0 +1,16 @@
+name: open-stack-gerrit
+kind: cluster
+description: |
+  Deploy gerrit morphology into openstack
+systems:
+- morph: systems/gerrit-x86_64.morph
+  deploy:
+      openstack-image:
+          type: openstack
+          location: http://openstack-host:5000/v2.0/
+          DISK_SIZE: 4G
+          OPENSTACK_USER: openstack-user
+          OPENSTACK_TENANT: openstack-tenant
+          OPENSTACK_IMAGENAME: Gerrit
+          CLOUD_INIT: yes
+          KERNEL_ARGS: console=ttyS0 console=tty0

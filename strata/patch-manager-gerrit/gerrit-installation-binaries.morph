@@ -1,0 +1,28 @@
+name: gerrit-installation-binaries
+kind: chunk
+configure-commands: []
+build-commands:
+- cat jdk-8u20-linux-x64.tar.gz_* > jdk-8u20-linux-x64.tar.gz
+install-commands:
+- mkdir -p "$DESTDIR$PREFIX"/bin
+- mkdir -p "$DESTDIR$PREFIX"/lib
+- mkdir -p "$DESTDIR$PREFIX"/share/gerrit
+- cp gerrit-2.9.war "$DESTDIR$PREFIX"/share/gerrit
+- tar zxf jdk-8u20-linux-x64.tar.gz -C "$DESTDIR$PREFIX"/lib
+- unzip jce_policy-8.zip -d "$DESTDIR$PREFIX"/lib/jdk1.8.0_20/jre/lib/security
+- ln -sfn "$PREFIX"/lib/jdk1.8.0_20/jre/bin/java "$DESTDIR$PREFIX"/bin/
+system-integration:
+  gerrit-installation-binaries-misc:
+    01-adduser:
+    - adduser -D -h /home/gerrit2 -g 'Gerrit Administrator' -s /bin/sh gerrit2
+    02-install-gerrit:
+    - |
+      install -D /usr/share/gerrit/gerrit-2.9.war /home/gerrit2/gerrit/gerrit-2.9.war \
+              -o gerrit2 -g gerrit2 -m 644
+      chown gerrit2 /home/gerrit2/gerrit
+      sudo LD_LIBRARY_PATH=/usr/jdk1.8.0_20/jre/lib/amd64/jli \
+           -u gerrit2 java -jar /home/gerrit2/gerrit/gerrit-2.9.war \
+           init --batch -d /home/gerrit2/gerrit/.gerrit_controller \
+           --no-auto-start
+      sed -i "s|canonicalWebUrl =.*|canonicalWebUrl = http://localhost:8080|g" \
+              /home/gerrit2/gerrit/.gerrit_controller/etc/gerrit.config

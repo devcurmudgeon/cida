@@ -170,3 +170,9 @@ chunks:
   ref: a4769dc7999b53260325fb89945bef85714fb338
   unpetrify-ref: baserock/morph
   build-depends: []
+- name: procps-ng
+  repo: upstream:procps-ng
+  ref: 85fff468fa263cdd2ff1c0144579527c32333695
+  unpetrify-ref: v3.3.9
+  build-depends: []
+  prefix: /

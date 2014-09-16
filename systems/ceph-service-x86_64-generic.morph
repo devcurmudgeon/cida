@@ -12,6 +12,8 @@ strata:
   morph: strata/foundation.morph
 - name: bsp-x86_64-generic
   morph: strata/bsp-x86_64-generic.morph
+- name: network-security
+  morph: strata/network-security.morph
 - name: ceph-service
   morph: strata/ceph-service.morph
 configuration-extensions:
