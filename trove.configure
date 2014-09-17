@@ -64,11 +64,6 @@ if test "x$TROVE_COMPANY" = "x"; then
     error_vars=true
 fi
 
-if test "x$UPSTREAM_TROVE" = "x"; then
-    echo "ERROR: UPSTREAM_TROVE needs to be defined."
-    error_vars=true
-fi
-
 if test "x$TROVE_ADMIN_USER" = "x"; then
     echo "ERROR: TROVE_ADMIN_USER needs to be defined."
     error_vars=true
@@ -124,7 +119,6 @@ import os, sys, yaml
 trove_configuration={
     'TROVE_ID': os.environ['TROVE_ID'],
     'TROVE_COMPANY': os.environ['TROVE_COMPANY'],
-    'UPSTREAM_TROVE': os.environ['UPSTREAM_TROVE'],
     'TROVE_ADMIN_USER': os.environ['TROVE_ADMIN_USER'],
     'TROVE_ADMIN_EMAIL': os.environ['TROVE_ADMIN_EMAIL'],
     'TROVE_ADMIN_NAME': os.environ['TROVE_ADMIN_NAME'],
@@ -138,7 +132,7 @@ trove_configuration={
 
 optional_keys = ('MASON_ID', 'HOSTNAME', 'TROVE_HOSTNAME',
                  'LORRY_CONTROLLER_MINIONS', 'TROVE_BACKUP_KEYS',
-                 'UPSTREAM_TROVE_PROTOCOL')
+                 'UPSTREAM_TROVE', 'UPSTREAM_TROVE_PROTOCOL')
 
 for key in optional_keys:
     if key in os.environ:
