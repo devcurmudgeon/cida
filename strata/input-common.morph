@@ -12,8 +12,8 @@ chunks:
 - name: xkeyboard-config
   morph: strata/input-common/xkeyboard-config.morph
   repo: upstream:xkeyboard-config
-  ref: b4be67b48fb11989f1824dd0b1c8c399430162b0
-  unpetrify-ref: baserock/morph
+  ref: bc3ac1b0d152e929b3532a541596cf9fe286bb9e
+  unpetrify-ref: xkeyboard-config-2.12
   build-depends: []
 - name: libevdev
   repo: upstream:libevdev
