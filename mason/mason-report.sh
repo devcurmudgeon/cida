@@ -2,9 +2,9 @@
 
 set -x
 
-. /root/mason.conf
+. /etc/mason.conf
 
-REPORT_PATH=/root/report.html
+REPORT_PATH=/var/mason/report.html
 SERVER_PATH=/srv/mason
 
 sed_escape() {
@@ -210,7 +210,7 @@ update_report_time "$START_TIME"
 cp "$REPORT_PATH" "$SERVER_PATH/index.html"
 
 logfile="$(mktemp)"
-/root/mason.sh 2>&1 | tee "$logfile"
+/usr/lib/mason/mason.sh 2>&1 | tee "$logfile"
 case "${PIPESTATUS[0]}" in
 0)
     RESULT=pass

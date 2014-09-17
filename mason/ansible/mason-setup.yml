@@ -1,0 +1,56 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/mason/mason.conf"
+  tasks:
+
+
+  - fail: msg='TROVE_ID is mandatory'
+    when: TROVE_ID is not defined
+
+  - fail: msg='TROVE_HOST is mandatory'
+    when: TROVE_HOST is not defined
+
+  - fail: msg='ARTIFACT_CACHE_SERVER is mandatory'
+    when: ARTIFACT_CACHE_SERVER is not defined
+
+  - fail: msg='MASON_CLUSTER_MORPHOLOGY is mandatory'
+    when: MASON_CLUSTER_MORPHOLOGY is not defined
+
+  - fail: msg='MASON_DEFINITIONS_REF is mandatory'
+    when: MASON_DEFINITIONS_REF is not defined
+
+  - fail: msg='MASON_DISTBUILD_ARCH is mandatory'
+    when: MASON_DISTBUILD_ARCH is not defined
+
+  - fail: msg='MASON_TEST_HOST is mandatory'
+    when: MASON_TEST_HOST is not defined
+
+  - fail: msg='CONTROLLERHOST is mandatory'
+    when: CONTROLLERHOST is not defined
+
+  - name: Create the Mason configuration file
+    template: src=/usr/share/mason-setup/{{ item }} dest=/etc/{{ item }}
+    with_items:
+    - mason.conf
+
+  - name: Enable the mason service
+    service: name=mason.service enabled=yes
+    register: mason_service
+  - name: Restart the mason service
+    service: name=mason.service state=restarted
+    when: mason_service|changed
+
+  - name: Enable the mason timer
+    service: name=mason.timer enabled=yes
+    register: mason_timer
+  - name: Restart the mason timer
+    service: name=mason.timer state=restarted
+    when: mason_timer|changed
+
+  - name: Enable the httpd service
+    service: name=httpd.service enabled=yes
+    register: httpd_service
+  - name: Restart the httpd service
+    service: name=httpd state=restarted
+    when: httpd_service|changed
