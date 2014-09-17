@@ -6,8 +6,8 @@ build-depends:
 chunks:
 - name: libevent
   repo: upstream:libevent
-  ref: 1c41f68f2246e9144ca20c76b833004480f9d58a
-  unpetrify-ref: release-2.0.20-stable
+  ref: 9364dff5c20e9e8c18f7f20ee1c92463e9e9c8a7
+  unpetrify-ref: baserock/release-2.0.21-stable
   build-depends: []
 - name: tcp-wrappers
   morph: strata/nfs/tcp-wrappers.morph
