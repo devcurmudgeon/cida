@@ -9,16 +9,6 @@ chunks:
   ref: 60aa15443579a9542a1e8818f3c5dd901edb03d9
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: libpng
-  repo: upstream:libpng
-  ref: 981560ae6094f0b0557e82c33d7ae5f7d81ca0ea
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: libjpeg
-  repo: upstream:libjpeg
-  ref: f57ac58ac664ede6bc6e8cd9d88e0edaa366e21a
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: xorg-util-macros
   repo: upstream:xorg-util-macros
   ref: 9a54b858601bd305de2737b06e609084a2a114c2

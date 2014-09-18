@@ -3,15 +3,11 @@ kind: stratum
 build-depends:
 - morph: strata/mesa-common.morph
 - morph: strata/x-common.morph
+- morph: strata/graphics-common.morph
 chunks:
 - name: xorg-lib-libxkbfile
   repo: upstream:xorg-lib-libxkbfile
   ref: 7381c2f9013ef7784c78091fa671e652a62ca706
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: pixman
-  repo: upstream:pixman
-  ref: 958bd334b3c17f529c80f2eeef4224f45c62f292
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: xorg-font-util
@@ -25,30 +21,12 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - xorg-font-util
-- name: freetype2
-  repo: upstream:freetype2
-  ref: 2ba18ba1ce730ed79672801b20f986f10a628c95
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: fontconfig
-  repo: upstream:fontconfig
-  ref: 72b0480a21958f0f8c115d8e0a5bfbd8d358b5c3
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - freetype2
 - name: xorg-lib-libXfont
   repo: upstream:xorg-lib-libXfont
   ref: b8dd42dce868f9c16a59790ce51f0542b59cb79d
   unpetrify-ref: baserock/morph
   build-depends:
-  - freetype2
   - xorg-lib-libfontenc
-- name: freefont-otf
-  morph: strata/x-generic/freefont-otf.morph
-  repo: upstream:freefont-otf
-  ref: 75fa95a912718bb94a135d4bf6b13bb38e186ce7
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: xorg-lib-libICE
   repo: upstream:xorg-lib-libICE
   ref: 1b1cf8072b2559e15ac440d5484a29a81d6918c6
@@ -98,7 +76,6 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - libsha1
-  - pixman
   - xorg-font-util
   - xorg-lib-libXaw
   - xorg-lib-libXfont
@@ -162,11 +139,9 @@ chunks:
   build-depends: []
 - name: xorg-lib-libXft
   repo: upstream:xorg-lib-libXft
-  ref: c5e760a239afc62a1c75e0509868e35957c8df52
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - fontconfig
-  - freetype2
+  ref: 214f9b5306d833e2787c75fe41dfdc9228fcb738
+  unpetrify-ref: libXft-2.3.2
+  build-depends: []
 - name: xcb-util
   repo: upstream:xcb-util
   ref: 45215e6f56bf57efdf5469567c00eba7a991d3a3
