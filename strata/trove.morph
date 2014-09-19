@@ -198,7 +198,7 @@ chunks:
 - name: trove-setup
   morph: strata/trove/trove-setup.morph
   repo: baserock:baserock/trove-setup
-  ref: e594df7ed432d74cc56eaa5e29a1bfed7b22aae5
+  ref: 109c02002baf3c2d8eac57027f29f6c74e5233b5
   unpetrify-ref: master
   build-depends: []
 - name: lorry-controller
