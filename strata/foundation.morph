@@ -67,8 +67,8 @@ chunks:
 - name: dbus-pre
   morph: strata/foundation/dbus-pre.morph
   repo: upstream:dbus
-  ref: f2e4718bf42f507684949ebf484aa94df42abbbe
-  unpetrify-ref: baserock/v1.8.0
+  ref: ff01faa12daa3481d6a3d2936929c5a2a1fe6fb5
+  unpetrify-ref: baserock/genivi/dbus-1.8.8
   build-depends:
   - glib
 - name: systemd
@@ -106,8 +106,8 @@ chunks:
 - name: dbus
   morph: strata/foundation/dbus.morph
   repo: upstream:dbus
-  ref: f2e4718bf42f507684949ebf484aa94df42abbbe
-  unpetrify-ref: baserock/v1.8.0
+  ref: ff01faa12daa3481d6a3d2936929c5a2a1fe6fb5
+  unpetrify-ref: baserock/genivi/dbus-1.8.8
   build-depends:
   - glib
   - systemd
