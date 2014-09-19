@@ -76,6 +76,8 @@ configure-commands:
 - scripts/config -e NF_NAT_IPV4
 - scripts/config -e IP_NF_TARGET_MASQUERADE
 - scripts/config -e FB_VESA
+- scripts/config -e HOTPLUG_PCI
+- scripts/config -e HOTPLUG_PCI_ACPI
 - yes '' | make oldconfig
 build-commands:
 - make $MAKEFLAGS
