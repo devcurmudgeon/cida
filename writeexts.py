@@ -113,6 +113,10 @@ class WriteExtension(cliapp.Application):
         logger.addHandler(handler)
         logger.setLevel(logging.DEBUG)
 
+    def log_config(self):
+        with morphlib.util.hide_password_environment_variables(os.environ):
+            cliapp.Application.log_config(self)
+
     def process_args(self, args):
         raise NotImplementedError()
 
