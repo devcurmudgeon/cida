@@ -163,6 +163,11 @@ chunks:
   ref: 91df0f88b70c268f3580385a7b37543ab8c544c8
   build-depends:
   - xorg-util-macros
+- name: xorg-proto-presentproto
+  repo: upstream:xorg-proto-presentproto
+  ref: ef84007fc4a23d3897b4776906139de9d0698c2a
+  build-depends:
+  - xorg-util-macros
 - name: xcb-pthread-stubs
   repo: upstream:xcb-pthread-stubs
   ref: 431d2c0be218d878b9dd3862e4232243c599df4b
