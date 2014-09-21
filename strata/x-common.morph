@@ -232,8 +232,8 @@ chunks:
   - xorg-util-macros
 - name: drm
   repo: upstream:drm
-  ref: 7ddc98f92f92560e2b52287ae8cf816ca4a057de
-  unpetrify-ref: baserock/libdrm-2.4.49
+  ref: d6861609b2b887612d652bb2be7c39f199802937
+  unpetrify-ref: libdrm-2.4.56
   build-depends:
   - xcb-pthread-stubs
   - xorg-lib-libpciaccess
