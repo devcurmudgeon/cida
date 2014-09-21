@@ -180,6 +180,12 @@ chunks:
   unpetrify-ref: "1.11"
   build-depends:
   - xorg-util-macros
+- name: xorg-lib-libxshmfence
+  repo: upstream:xorg-lib-libxshmfence
+  ref: 9c4f070e1304a3503cfab08f68573443025fc4c9
+  build-depends:
+  - xorg-proto-x11proto
+  - xorg-util-macros
 - name: xorg-lib-libXau
   repo: upstream:xorg-lib-libXau
   ref: 1a8a1b2c68967b48c07b56142799b1020f017027
