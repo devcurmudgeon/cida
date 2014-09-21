@@ -2,6 +2,7 @@ name: x-generic
 kind: stratum
 build-depends:
 - morph: strata/foundation.morph
+- morph: strata/libdrm-common.morph
 - morph: strata/mesa-common.morph
 - morph: strata/x-common.morph
 - morph: strata/graphics-common.morph

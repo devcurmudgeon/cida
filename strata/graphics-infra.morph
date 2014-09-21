@@ -14,17 +14,3 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - xorg-util-macros
-- name: xorg-lib-libpciaccess
-  repo: upstream:xorg-lib-libpciaccess
-  ref: 3e17f069682a226c14bb29c802e776c6e39f7e8f
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-util-macros
-- name: drm
-  repo: upstream:drm
-  morph: strata/graphics-infra/drm.morph
-  ref: bcac0a17407dc78d0813b2eea7fae7c34de54c1b
-  unpetrify-ref: baserock/jetson/drm
-  build-depends:
-  - xcb-pthread-stubs
-  - xorg-lib-libpciaccess
