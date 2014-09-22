@@ -17,6 +17,8 @@ strata:
   morph: strata/nfs.morph
 - name: databases
   morph: strata/databases.morph
+- name: pcre
+  morph: strata/pcre-utils.morph
 - name: webtools
   morph: strata/webtools.morph
 - name: ruby
