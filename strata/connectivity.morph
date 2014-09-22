@@ -1,7 +1,7 @@
 name: connectivity
 kind: stratum
 build-depends:
-- morph: strata/genivi-foundation.morph
+- morph: strata/foundation.morph
 chunks:
 - name: libnl
   repo: upstream:libnl
