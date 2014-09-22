@@ -3,5 +3,5 @@ kind: chunk
 configure-commands:
 - ./autogen.sh --prefix="$PREFIX" --disable-runtime-deps
 install-commands:
-- mkdir -p "$DESTDIR"/usr/share/X11/xkb/
+- mkdir -p "$DESTDIR"/"$PREFIX"/share/X11/xkb/
 - make install DESTDIR="$DESTDIR"
