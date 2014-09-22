@@ -193,12 +193,6 @@ chunks:
   ref: d7ca3f2f14ad28437f7332ca387a790fecb8b081
   unpetrify-ref: master
   build-depends: []
-- name: lighttpd
-  morph: strata/trove/lighttpd.morph
-  repo: upstream:lighttpd
-  ref: 12e4e21763da770034267ff0a7b660876930f789
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: lua-scrypt
   morph: strata/trove/lua-scrypt.morph
   repo: upstream:lua-scrypt
