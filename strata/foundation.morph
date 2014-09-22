@@ -138,8 +138,8 @@ chunks:
   - attr
 - name: dbus-glib
   repo: upstream:dbus-glib
-  ref: ee85b071fb51efb9f9a48d4a658cbefefd14544a
-  unpetrify-ref: baserock/morph
+  ref: 397e8297d433547c9bf4150ddd2b9e0b4c39628c
+  unpetrify-ref: dbus-glib_0.102
   build-depends:
   - dbus
   - glib
