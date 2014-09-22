@@ -5,6 +5,8 @@ products:
 - artifact: net-ssh-multi-1.2.0-doc
   include:
   - usr/lib/ruby/gems/\d[\w.]*/doc/.*
+configure-commands:
+- sed -e '/cert_chain\s*=/d' -e '/signing_key\s*=/d' -i net-ssh-multi.gemspec
 build-commands:
 - gem build net-ssh-multi.gemspec
 install-commands:
