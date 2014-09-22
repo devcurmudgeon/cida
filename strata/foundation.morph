@@ -136,3 +136,10 @@ chunks:
   unpetrify-ref: master
   build-depends:
   - attr
+- name: dbus-glib
+  repo: upstream:dbus-glib
+  ref: ee85b071fb51efb9f9a48d4a658cbefefd14544a
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - dbus
+  - glib
