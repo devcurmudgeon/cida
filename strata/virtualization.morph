@@ -2,7 +2,7 @@ name: virtualization
 kind: stratum
 description: virtualization for baserock
 build-depends:
-- morph: strata/connectivity.morph
+- morph: strata/connman-common.morph
 chunks:
 - name: yajl
   morph: strata/virtualization/yajl.morph

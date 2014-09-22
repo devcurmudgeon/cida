@@ -30,6 +30,8 @@ strata:
   morph: strata/lua.morph
 - name: connectivity
   morph: strata/connectivity.morph
+- name: connman-common
+  morph: strata/connman-common.morph
 - name: enlightenment
   morph: strata/enlightenment.morph
 configuration-extensions:
