@@ -25,6 +25,8 @@ strata:
   morph: strata/nodejs.morph
 - name: ruby
   morph: strata/ruby.morph
+- name: nfs
+  morph: strata/nfs.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
