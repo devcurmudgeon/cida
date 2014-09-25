@@ -6,10 +6,10 @@ configure-commands:
   cpu=$(echo $TARGET | cut -d '-' -f 1)
   case "$cpu" in
   x86_32|x64_64)
-    DRIDRIVERS=intel,i915,i965,swrast
+    DRIDRIVERS=i915,i965,swrast,nouveau
     ;;
   *)
-    DRIDRIVERS=swrast
+    DRIDRIVERS=swrast,nouveau
     ;;
   esac
   ./autogen.sh --prefix="$PREFIX" \

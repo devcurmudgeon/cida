@@ -5,6 +5,8 @@ build-depends:
 - morph: strata/wayland-generic.morph
 chunks:
 - name: mesa
+  morph: strata/mesa-common/mesa.morph
   repo: upstream:mesa
-  ref: baserock/unified
+  ref: 1b12af300dfa77c24088780e88200703653293d3
+  unpetrify-ref: mesa-10.3
   build-depends: []

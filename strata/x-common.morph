@@ -158,6 +158,16 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - xorg-util-macros
+- name: xorg-proto-dri3proto
+  repo: upstream:xorg-proto-dri3proto
+  ref: 91df0f88b70c268f3580385a7b37543ab8c544c8
+  build-depends:
+  - xorg-util-macros
+- name: xorg-proto-presentproto
+  repo: upstream:xorg-proto-presentproto
+  ref: ef84007fc4a23d3897b4776906139de9d0698c2a
+  build-depends:
+  - xorg-util-macros
 - name: xcb-pthread-stubs
   repo: upstream:xcb-pthread-stubs
   ref: 431d2c0be218d878b9dd3862e4232243c599df4b
@@ -169,6 +179,12 @@ chunks:
   ref: 4b384d2a015c50d0e93dcacda4b8260a3fd37640
   unpetrify-ref: "1.11"
   build-depends:
+  - xorg-util-macros
+- name: xorg-lib-libxshmfence
+  repo: upstream:xorg-lib-libxshmfence
+  ref: 9c4f070e1304a3503cfab08f68573443025fc4c9
+  build-depends:
+  - xorg-proto-x11proto
   - xorg-util-macros
 - name: xorg-lib-libXau
   repo: upstream:xorg-lib-libXau
@@ -216,8 +232,8 @@ chunks:
   - xorg-util-macros
 - name: drm
   repo: upstream:drm
-  ref: 7ddc98f92f92560e2b52287ae8cf816ca4a057de
-  unpetrify-ref: baserock/libdrm-2.4.49
+  ref: d6861609b2b887612d652bb2be7c39f199802937
+  unpetrify-ref: libdrm-2.4.56
   build-depends:
   - xcb-pthread-stubs
   - xorg-lib-libpciaccess
