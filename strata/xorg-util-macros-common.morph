@@ -1,4 +1,4 @@
-name: graphics-infra
+name: xorg-util-macros-common
 kind: stratum
 build-depends:
 - morph: strata/core.morph

@@ -1,7 +1,7 @@
 name: x-common
 kind: stratum
 build-depends:
-- morph: strata/graphics-infra.morph
+- morph: strata/xorg-util-macros-common.morph
 chunks:
 - name: xorg-proto-bigreqsproto
   repo: upstream:xorg-proto-bigreqsproto
