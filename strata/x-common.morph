@@ -1,14 +1,8 @@
 name: x-common
 kind: stratum
 build-depends:
-- morph: strata/foundation.morph
+- morph: strata/core.morph
 chunks:
-- name: llvm
-  morph: strata/x-common/llvm.morph
-  repo: upstream:llvm
-  ref: 60aa15443579a9542a1e8818f3c5dd901edb03d9
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: xorg-util-macros
   repo: upstream:xorg-util-macros
   ref: 9a54b858601bd305de2737b06e609084a2a114c2
