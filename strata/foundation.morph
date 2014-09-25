@@ -132,7 +132,7 @@ chunks:
 - name: tbdiff
   morph: strata/foundation/tbdiff.morph
   repo: baserock:baserock/tbdiff
-  ref: a6c4f3b9a1d7cb509ccce670c7d2ee4048e56525
+  ref: fb9bdefbbbdbd8fef01278b7c3d9c1592998f6d1
   unpetrify-ref: master
   build-depends:
   - attr
