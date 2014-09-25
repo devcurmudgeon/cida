@@ -1,7 +1,6 @@
 name: armv7lhf-cross-linux-api-headers
 kind: chunk
 install-commands:
-- make mrproper
 - ARCH=arm make INSTALL_HDR_PATH=dest headers_install
 - |
   # Copy headers to the sysroot where the eglibc build will find them,
