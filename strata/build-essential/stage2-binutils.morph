@@ -1,6 +1,7 @@
 name: stage2-binutils
 kind: chunk
 build-system: autotools
+
 configure-commands:
 - |
   export STAGE2_SYSROOT="$(dirname $(pwd))"
@@ -11,7 +12,11 @@ configure-commands:
     --build=$(sh config.guess) \
     --host=$TARGET_STAGE1 \
     --target=$TARGET_STAGE1
+
 build-commands:
+# Nested configure scripts require that we set CPPFLAGS here as well
+# (I don't think we should have to .. . at least in GCC, I think
+# TARGET_CPPFLAGS may be the answer)
 - |
   export STAGE2_SYSROOT="$(dirname $(pwd))"
   export CPPFLAGS="--sysroot=$STAGE2_SYSROOT"

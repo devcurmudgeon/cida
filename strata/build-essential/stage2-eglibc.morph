@@ -1,8 +1,18 @@
 name: stage2-eglibc
 kind: chunk
+
 configure-commands:
 - mkdir o
+
+# Necessary for ARM port
 - cd libc && ln -s ../ports ports
+
+# Configure flag notes:
+#   1. Avoid installing to PREFIX/lib64 on x86_64.
+#   2. Location of linux-api-headers.
+#   3. Normal flags. See eglibc.morph.
+#   4. Force configuration values of certain things that can't be detected
+#      in a cross-compile.
 - |
   export CFLAGS="-O2 $CFLAGS"; export CXX=false; \
   cd o && ../libc/configure \
@@ -15,11 +25,19 @@ configure-commands:
             --enable-add-ons=nptl,ports --without-cvs --without-selinux \
     `# [4]` libc_cv_c_cleanup=yes libc_cv_ctors_header=yes \
             libc_cv_forced_unwind=yes libc_cv_ssp=no
+
 build-commands:
 - cd o && make localtime=UTC
+
 install-commands:
 - cd o && make install_root="$DESTDIR" localtime=UTC install
 - sh stage2-eglibc-fix-specs
+
+# Install a symlink for the program interpreter (ld.so) so that binaries
+# built in stage 3 before the stage 3 eglibc is built can use it.
+# FIXME: get a better way of finding the name of the loader. The lib64
+# path is hardcoded into eglibc in the file
+# sysdeps/unix/sysv/linux/configure.
 - install -d $DESTDIR/lib
 - |
   cpu=$(echo $TARGET | cut -d '-' -f 1)
