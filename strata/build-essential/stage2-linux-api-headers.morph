@@ -1,7 +1,6 @@
 name: stage2-linux-api-headers
 kind: chunk
 install-commands:
-- make mrproper
 - |
   export ARCH=$(./morph-arch)
   make INSTALL_HDR_PATH=dest headers_install
