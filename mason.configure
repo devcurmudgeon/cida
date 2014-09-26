@@ -102,19 +102,18 @@ mkdir -p "$MASON_DATA"
 python <<'EOF' >"$MASON_DATA/mason.conf"
 import os, sys, yaml
 
-trove_configuration={
+mason_configuration={
     'ARTIFACT_CACHE_SERVIER': os.environ['ARTIFACT_CACHE_SERVER'],
     'MASON_CLUSTER_MORPHOLOGY': os.environ['MASON_CLUSTER_MORPHOLOGY'],
     'MASON_DEFINITIONS_REF': os.environ['MASON_DEFINITIONS_REF'],
     'MASON_DISTBUILD_ARCH': os.environ['MASON_DISTBUILD_ARCH'],
     'MASON_TEST_HOST': os.environ['MASON_TEST_HOST'],
-    'TROVE_ADMIN_NAME': os.environ['TROVE_ADMIN_NAME'],
     'TROVE_ID': os.environ['TROVE_ID'],
     'TROVE_HOST': os.environ['TROVE_HOST'],
     'CONTROLLERHOST': os.environ['CONTROLLERHOST'],
 }
 
-yaml.dump(trove_configuration, sys.stdout, default_flow_style=False)
+yaml.dump(mason_configuration, sys.stdout, default_flow_style=False)
 EOF
 
 
