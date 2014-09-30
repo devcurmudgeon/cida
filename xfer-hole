@@ -120,8 +120,14 @@ def make_xfer_instructions(fd):
 
 def copy_slice_from_file(to, fd, start, end):
     safe_lseek(fd, start, os.SEEK_SET)
-    data = os.read(fd, end - start)
-    to.write(data)
+    nbytes = end - start
+    max_at_a_time = 1024**2
+    while nbytes > 0:
+        data = os.read(fd, min(nbytes, max_at_a_time))
+        if not data:
+            break
+        to.write(data)
+        nbytes -= len(data)
     
 
 for kind, start, end in make_xfer_instructions(fd):
