@@ -40,13 +40,12 @@
 
 set -e
 
-set -u
-
 if [ -n "$DISTBUILD_GENERIC" ]; then
     echo "Not configuring the distbuild node, it will be generic"
     exit 0
 fi
 
+set -u
 
 # Check that all the variables needed are present:
 

@@ -13,8 +13,8 @@ chunks:
 - name: cmake
   morph: strata/core/cmake.morph
   repo: upstream:cmake
-  ref: 99c4f0a49237633372f218a44e3503e0a2bddae6
-  unpetrify-ref: baserock/morph
+  ref: 0b3781e4c497566acaa504d4106d11c02a642501
+  unpetrify-ref: v2.8.12.2
   build-depends: []
 - name: gdbm
   morph: strata/core/gdbm.morph
