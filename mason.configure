@@ -103,7 +103,7 @@ python <<'EOF' >"$MASON_DATA/mason.conf"
 import os, sys, yaml
 
 mason_configuration={
-    'ARTIFACT_CACHE_SERVIER': os.environ['ARTIFACT_CACHE_SERVER'],
+    'ARTIFACT_CACHE_SERVER': os.environ['ARTIFACT_CACHE_SERVER'],
     'MASON_CLUSTER_MORPHOLOGY': os.environ['MASON_CLUSTER_MORPHOLOGY'],
     'MASON_DEFINITIONS_REF': os.environ['MASON_DEFINITIONS_REF'],
     'MASON_DISTBUILD_ARCH': os.environ['MASON_DISTBUILD_ARCH'],
