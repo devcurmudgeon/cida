@@ -9,7 +9,7 @@ configure-commands:
   x86_32|x64_64)
     DRIDRIVERS=intel,i915,i965,swrast
     GALLIUMDRIVERS=swrast
-    EGLPLATFORMS=x11,wayland,drm
+    EGLPLATFORMS=wayland,drm
     ;;
   armv7lhf)
     DRIDRIVERS=nouveau,swrast
@@ -20,12 +20,13 @@ configure-commands:
   *)
     DRIDRIVERS=swrast
     GALLIUMDRIVERS=swrast
-    EGLPLATFORMS=x11,wayland,drm
+    EGLPLATFORMS=wayland,drm
     ;;
   esac
   ./autogen.sh --prefix="$PREFIX" \
       --enable-gles2 \
       --with-egl-platforms="$EGLPLATFORMS" \
+      --disable-glx \
       --enable-gbm \
       --enable-shared-glapi \
       --with-gallium-drivers="$GALLIUMDRIVERS" \
