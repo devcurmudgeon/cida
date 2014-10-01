@@ -7,7 +7,7 @@ build-depends:
 - morph: strata/lua.morph
 - morph: strata/audio-bluetooth.morph
 - morph: strata/multimedia-gstreamer-0.10.morph
-- morph: strata/connectivity.morph
+- morph: strata/connman-common.morph
 chunks:
 - name: efl
   morph: strata/enlightenment/efl.morph

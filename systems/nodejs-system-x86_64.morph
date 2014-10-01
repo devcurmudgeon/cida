@@ -16,6 +16,8 @@ strata:
   morph: strata/bsp-x86_64-generic.morph
 - name: connectivity
   morph: strata/connectivity.morph
+- name: connman-common
+  morph: strata/connman-common.morph
 - name: audio-bluetooth
   morph: strata/audio-bluetooth.morph
 - name: x-common

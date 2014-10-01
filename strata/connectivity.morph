@@ -20,10 +20,3 @@ chunks:
   ref: 3e6fa55d5e28c93f417afeae7a7d4f349ddffcf4
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: connman
-  morph: strata/connectivity/connman.morph
-  repo: upstream:connman
-  ref: 9951ba7a0353cfc884e96833c64e58c1bcae3f44
-  unpetrify-ref: baserock/1.24
-  build-depends:
-  - iptables
