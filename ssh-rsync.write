@@ -54,9 +54,12 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         self.upgrade_remote_system(location, temp_root)
 
     def upgrade_remote_system(self, location, temp_root):
-        self.complete_fstab_for_btrfs_layout(temp_root)
-
         root_disk = self.find_root_disk(location)
+        uuid = cliapp.ssh_runcmd(location, ['blkid', '-s', 'UUID', '-o',
+                                 'value', root_disk]).strip()
+
+        self.complete_fstab_for_btrfs_layout(temp_root, uuid)
+
         version_label = os.environ.get('VERSION_LABEL')
         autostart = self.get_environment_boolean('AUTOSTART')
 
