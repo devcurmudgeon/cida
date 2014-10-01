@@ -2,7 +2,7 @@ name: audio-bluetooth
 kind: stratum
 description: Components required for audio and bluetooth.
 build-depends:
-- morph: strata/genivi-foundation.morph
+- morph: strata/foundation.morph
 chunks:
 - name: libatomic_ops
   repo: upstream:libatomic_ops

@@ -136,3 +136,10 @@ chunks:
   unpetrify-ref: master
   build-depends:
   - attr
+- name: dbus-glib
+  repo: upstream:dbus-glib
+  ref: 397e8297d433547c9bf4150ddd2b9e0b4c39628c
+  unpetrify-ref: dbus-glib_0.102
+  build-depends:
+  - dbus
+  - glib

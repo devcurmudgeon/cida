@@ -1,7 +1,7 @@
 name: x-common
 kind: stratum
 build-depends:
-- morph: strata/genivi-foundation.morph
+- morph: strata/foundation.morph
 chunks:
 - name: llvm
   morph: strata/x-common/llvm.morph

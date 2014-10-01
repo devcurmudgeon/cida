@@ -1,7 +1,7 @@
 name: input-common
 kind: stratum
 build-depends:
-- morph: strata/build-essential.morph
+- morph: strata/foundation.morph
 - morph: strata/x-common.morph
 chunks:
 - name: mtdev
