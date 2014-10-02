@@ -15,13 +15,13 @@ chunks:
 - name: weston
   morph: strata/weston-genivi/weston.morph
   repo: upstream:weston
-  ref: 8658e06e69cc3944e89684a2de619e479751633f
-  unpetrify-ref: baserock/genivi/baseline-h-1.1
+  ref: 5d9e9c1393c6b0ea6ce52912fc458c963e644547
+  unpetrify-ref: baserock/genivi/1.2.0
   build-depends:
   - linux-pam
 - name: wayland-ivi-extension
   repo: upstream:genivi/wayland-ivi-extension
-  ref: 8b59529cf3b279a948f253bc79263d00d3f051a5
-  unpetrify-ref: baserock/genivi/baseline-h-1.1
+  ref: 633ce4f89f695c575bdfc080551b0e59c8287427
+  unpetrify-ref: baserock/genivi/1.2.0
   build-depends:
   - weston
