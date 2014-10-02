@@ -1,7 +1,15 @@
 name: armv7lhf-cross-gcc
 kind: chunk
+
 configure-commands:
 - mkdir o
+
+# Configure flag notes:
+#  1. Use the default sysroot path to install to and locate headers
+#  2. Recommended by Linux From Scratch; required for C++ ABI
+#     compatibility with other Linux distributions.
+#  3. Standard flags. See gcc.morph.
+#  4. Avoid having more than one copy of ZLib in use on the system
 - |
   export MORPH_ARCH=armv7lhf
   export TARGET=armv7lhf-baserock-linux-gnueabi
@@ -23,8 +31,10 @@ configure-commands:
             --with-mpfr-include="$(pwd)/../mpfr/src" \
             --with-mpfr-lib="$(pwd)/mpfr/src/.libs" \
     `# [4]` --with-system-zlib
+
 build-commands:
 - cd o && make
+
 install-commands:
 - cd o && make DESTDIR="$DESTDIR" install
 - |

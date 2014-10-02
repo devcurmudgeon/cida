@@ -1,8 +1,20 @@
 name: armv7lhf-cross-eglibc
 kind: chunk
+
 configure-commands:
 - mkdir o
+
+# Necessary for ARM port
 - cd libc && ln -s ../ports ports
+
+# Configure flag notes:
+#   1. Location of linux-api-headers, needed since eglibc doesn't
+#      support being given a sysroot.
+#   2. Location of binutils, since we build binutils for the final
+#      target triplet, but our gcc of our stage 1 target triplet.
+#   3. Normal flags. See eglibc.morph.
+#   4. Force configuration values of certain things that can't be detected
+#      in a cross-compile.
 - |
   export MORPH_ARCH=armv7lhf
   export TARGET=armv7lhf-baserock-linux-gnueabi
@@ -22,8 +34,10 @@ configure-commands:
             --enable-add-ons=nptl,ports --without-cvs --without-selinux \
     `# [4]` libc_cv_c_cleanup=yes libc_cv_ctors_header=yes \
             libc_cv_forced_unwind=yes libc_cv_ssp=no
+
 build-commands:
 - cd o && make localtime=UTC
+
 install-commands:
 - |
   # eglibc doesn't help with sysroots, so we need to spell out the

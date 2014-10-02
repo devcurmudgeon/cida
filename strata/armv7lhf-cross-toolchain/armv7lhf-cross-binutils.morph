@@ -1,6 +1,7 @@
 name: armv7lhf-cross-binutils
 kind: chunk
 build-system: autotools
+
 configure-commands:
 - |
   # The TARGET used is the final triplet we expect, rather than that

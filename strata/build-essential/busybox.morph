@@ -1,31 +1,41 @@
 name: busybox
 kind: chunk
+
 configure-commands:
+# Busybox's default config has everything enabled.
 - make defconfig
-- sed -e 's|.*UDHCPC_DEFAULT_SCRIPT.*|CONFIG_UDHCPC_DEFAULT_SCRIPT="'"$PREFIX"/share/udhcpc/default.script'"|'
-  -i .config
-- sed -e 's|.*IFUPDOWN_IFSTATE_PATH.*|CONFIG_IFUPDOWN_IFSTATE_PATH="/run/ifstate"|'
-  -i .config
-- '[ "$PREFIX" = /usr ] || sed -e ''s/.*INSTALL_NO_USR.*/CONFIG_INSTALL_NO_USR=y/''
-  -i .config'
+
+- sed -e 's|.*UDHCPC_DEFAULT_SCRIPT.*|CONFIG_UDHCPC_DEFAULT_SCRIPT="'"$PREFIX"/share/udhcpc/default.script'"|' -i .config
+- sed -e 's|.*IFUPDOWN_IFSTATE_PATH.*|CONFIG_IFUPDOWN_IFSTATE_PATH="/run/ifstate"|' -i .config
+
+# Avoid dividing applets between $PREFIX/[s]bin and $PREFIX/usr/[s]bin.
+- '[ "$PREFIX" = /usr ] || sed -e ''s/.*INSTALL_NO_USR.*/CONFIG_INSTALL_NO_USR=y/'' -i .config'
+
+# We have GAWK, but in GENIVI baseline we want to get rid of it
+# - sed -e 's/CONFIG_AWK=y.*/# CONFIG_AWK is not set/' -i .config
+
+# Depends on stuff that was removed since eglibc 2.14.
 - sed -e 's/CONFIG_INETD=y.*/# CONFIG_INETD is not set/' -i .config
+
+# Busybox Patch is incompatible enough with GNU Patch that it can't be
+# used for GNULib projects built from Git.
 - sed -e 's/CONFIG_PATCH=y.*/# CONFIG_PATCH is not set/' -i .config
+
+# None of this is needed because we have kmod; and it actually breaks the
+# Linux build because depmod isn't compatible enough with util-linux's.
 - sed -e 's/CONFIG_DEPMOD=y.*/# CONFIG_DEPMOD is not set/' -i .config
 - sed -e 's/CONFIG_INSMOD=y.*/# CONFIG_INSMOD is not set/' -i .config
 - sed -e 's/CONFIG_MODPROBE=y.*/# CONFIG_MODPROBE is not set/' -i .config
 - sed -e 's/CONFIG_MODPROBE_SMALL=y.*/# CONFIG_MODPROBE_SMALL is not set/' -i .config
 - sed -e 's/CONFIG_LSMOD=y.*/# CONFIG_LSMOD is not set/' -i .config
 - sed -e 's/CONFIG_RMMOD=y.*/# CONFIG_RMMOD is not set/' -i .config
-- sed -e 's/CONFIG_FEATURE_MOUNT_CIFS=y.*/# CONFIG_FEATURE_MOUNT_CIFS is not set/'
-  -i .config
-- sed -e 's/CONFIG_FEATURE_EXTRA_QUIET=y.*/# CONFIG_FEATURE_EXTRA_QUIET is not set/'
-  -i .config
-- sed -e 's/CONFIG_FEATURE_INIT_COREDUMPS=y.*/# CONFIG_FEATURE_INIT_COREDUMPS is not
-  set/' -i .config
-- sed -e 's/CONFIG_FEATURE_INIT_SCTTY=y.*/# CONFIG_FEATURE_INIT_SCTTY is not set/'
-  -i .config
-- sed -e 's/CONFIG_FEATURE_INIT_SYSLOG=y.*/# CONFIG_FEATURE_INIT_SYSLOG is not set/'
-  -i .config
+
+# General features that we don't need.
+- sed -e 's/CONFIG_FEATURE_MOUNT_CIFS=y.*/# CONFIG_FEATURE_MOUNT_CIFS is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_EXTRA_QUIET=y.*/# CONFIG_FEATURE_EXTRA_QUIET is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_INIT_COREDUMPS=y.*/# CONFIG_FEATURE_INIT_COREDUMPS is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_INIT_SCTTY=y.*/# CONFIG_FEATURE_INIT_SCTTY is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_INIT_SYSLOG=y.*/# CONFIG_FEATURE_INIT_SYSLOG is not set/' -i .config
 - sed -e 's/CONFIG_FEATURE_INITRD=y.*/# CONFIG_FEATURE_INITRD is not set/' -i .config
 - sed -e 's/CONFIG_FEATURE_MINIX2=y.*/# CONFIG_FEATURE_MINIX2 is not set/' -i .config
 - sed -e 's/CONFIG_FSCK_MINIX=y.*/# CONFIG_FSCK_MINIX is not set/' -i .config
@@ -38,11 +48,13 @@ configure-commands:
 - sed -e 's/CONFIG_UNLZMA=y.*/# CONFIG_UNLZMA is not set/' -i .config
 - sed -e 's/CONFIG_UNXZ=y.*/# CONFIG_UNXZ is not set/' -i .config
 - sed -e 's/CONFIG_XZ=y.*/# CONFIG_XZ is not set/' -i .config
+
+# Now turn on some little bits we do need
 - sed -e 's/# CONFIG_BBCONFIG is not set/CONFIG_BBCONFIG=y/' -i .config
-- sed -e 's/# CONFIG_FEATURE_COMPRESS_BBCONFIG is not set/CONFIG_FEATURE_COMPRESS_BBCONFIG=y/'
-  -i .config
-- sed -e 's/# CONFIG_FEATURE_MOUNT_HELPERS is not set/CONFIG_FEATURE_MOUNT_HELPERS=y/'
-  -i .config
+- sed -e 's/# CONFIG_FEATURE_COMPRESS_BBCONFIG is not set/CONFIG_FEATURE_COMPRESS_BBCONFIG=y/' -i .config
+- sed -e 's/# CONFIG_FEATURE_MOUNT_HELPERS is not set/CONFIG_FEATURE_MOUNT_HELPERS=y/' -i .config
+
+
 build-commands:
 - make
 - |
@@ -51,12 +63,16 @@ build-commands:
       f=$(echo "$fin" | sed 's/\.in$//')
       sed -e 's|@rootprefix@||g' "$fin" >"$f";
   done
+
 install-commands:
 - |
   if [ "$PREFIX" = /usr ]; then PREFIX=; fi &&
     make CONFIG_PREFIX="$DESTDIR$PREFIX" install &&
     chmod 6755 "$DESTDIR$PREFIX"/bin/busybox
+
 - mkdir -p "$DESTDIR/var/spool/cron/crontabs"
+
+# Install systemd units
 - mkdir -p "$DESTDIR/lib/systemd/system/multi-user.target.wants"
 - |
   for f in systemd-units/*.service; do
@@ -66,11 +82,18 @@ install-commands:
   for f in $(cd systemd-units; ls *.service | grep -v -F "@"); do
       ln -s "../$f" "$DESTDIR/lib/systemd/system/multi-user.target.wants/";
   done
+
+# Install custom udev rule to run ifup for every network device detected
 - mkdir -p "$DESTDIR/lib/udev/rules.d"
-- for f in udev-rules/100-baserock.rules; do install -m 644 "$f" "$DESTDIR/lib/udev/rules.d";
+- for f in udev-rules/100-baserock.rules; do
+      install -m 644 "$f" "$DESTDIR/lib/udev/rules.d";
   done
+
+# Set up DHCP
 - mkdir -p "$DESTDIR$PREFIX"/share/udhcpc
 - cp examples/udhcp/simple.script "$DESTDIR$PREFIX"/share/udhcpc/default.script
+
+# Set up NTP
 - install scripts/run-ntpd-with-config "$DESTDIR$PREFIX"/sbin/.
 - install -d "$DESTDIR/etc"
 - |
@@ -80,6 +103,8 @@ install-commands:
   server 2.pool.ntp.org
   server 3.pool.ntp.org
   EOF
+
+# Set up man environment variables
 - |
   cat << EOF > "$DESTDIR/etc/profile"
   # Set default pager to less
