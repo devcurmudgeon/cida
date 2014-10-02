@@ -3,17 +3,8 @@ kind: stratum
 description: Trove software
 build-depends:
 - morph: strata/tools.morph
+- morph: strata/morph-utils.morph
 chunks:
-- name: bottle
-  repo: upstream:bottle
-  ref: 5238c615b3ec198fedebb0fcaad4458e3d68d70f
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: morph-cache-server
-  repo: baserock:baserock/morph-cache-server
-  ref: acefe33868585cf31cda53474a3004da42e00896
-  unpetrify-ref: master
-  build-depends: []
 - name: lua
   morph: strata/trove/lua.morph
   repo: upstream:lua
@@ -214,11 +205,6 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - pcre
-- name: flup
-  repo: upstream:flup
-  ref: 0f97c5e0ab7d9827506120efc22af3a9c21d1d70
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: lua-scrypt
   morph: strata/trove/lua-scrypt.morph
   repo: upstream:lua-scrypt

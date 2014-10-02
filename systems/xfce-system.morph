@@ -33,6 +33,8 @@ strata:
   morph: strata/gtk2.morph
 - name: tools
   morph: strata/tools.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
 - name: xfce
   morph: strata/xfce.morph
 configuration-extensions:

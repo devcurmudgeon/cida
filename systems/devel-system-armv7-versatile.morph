@@ -14,6 +14,8 @@ strata:
   morph: strata/bsp-armv7-versatile.morph
 - name: tools
   morph: strata/tools.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
 configuration-extensions:

@@ -33,6 +33,8 @@ strata:
   morph: strata/genivi-x-generic.morph
 - name: tools
   morph: strata/tools.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
 - name: virtualization
   morph: strata/virtualization.morph
 - name: openstack-clients
