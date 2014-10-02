@@ -231,9 +231,10 @@ chunks:
   build-depends:
   - xorg-util-macros
 - name: drm
+  morph: strata/x-common/drm.morph
   repo: upstream:drm
-  ref: d6861609b2b887612d652bb2be7c39f199802937
-  unpetrify-ref: libdrm-2.4.56
+  ref: bcac0a17407dc78d0813b2eea7fae7c34de54c1b
+  unpetrify-ref: baserock/jetson/drm
   build-depends:
   - xcb-pthread-stubs
   - xorg-lib-libpciaccess
