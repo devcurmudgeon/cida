@@ -1,0 +1,10 @@
+name: nouveau-drm
+kind: chunk
+build-commands:
+ - cd drm && make M=$(pwd) -C /usr/src/linux/ modules
+install-commands:
+ - cd drm && make M="$(pwd)" -C /usr/src/linux/ INSTALL_MOD_PATH="$DESTDIR" modules_install
+system-integration:
+   nouveau-drm-misc:
+       00-earlyconf:
+          - (cd /lib/modules && for version in *; do depmod -a "$version"; done)

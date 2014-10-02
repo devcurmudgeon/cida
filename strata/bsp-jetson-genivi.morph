@@ -1,0 +1,40 @@
+name: bsp-jetson-genivi
+kind: stratum
+description: The platform dependent components required to boot an NVIDIA Jetson TK1
+  genivi image board.
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: device-tree-compiler
+  morph: strata/bsp-jetson-genivi/device-tree-compiler.morph
+  repo: upstream:device-tree-compiler
+  ref: c92f284c3cf76d471eb27a271de3a51cb45ed058
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: u-boot
+  morph: strata/bsp-jetson-genivi/u-boot.morph
+  repo: upstream:u-boot
+  ref: b15ae44ab9f085140039b09a00232d5aed6596a9
+  unpetrify-ref: baserock/arm/tegra-uboot-btrfs
+  build-depends:
+  - device-tree-compiler
+- name: linux-jetson-tk1-genivi
+  morph: strata/bsp-jetson-genivi/linux-jetson-tk1-genivi.morph
+  repo: upstream:linux
+  ref: 8da6ad2e1c6366ebb2d9a72aeaf4a42dc32c8623
+  unpetrify-ref: baserock/jetson/3.17.0-rc5
+  build-depends:
+  - u-boot
+- name: bsp-support
+  morph: strata/bsp-jetson-genivi/bsp-support.morph
+  repo: baserock:baserock/bsp-support
+  ref: 19bc31ce3198a3c19cdd96d392bde34cb34ed525
+  unpetrify-ref: baserock/arm/tegra-3.10
+  build-depends: []
+- name: nouveau-drm
+  morph: strata/bsp-jetson-genivi/nouveau-drm.morph
+  repo: upstream:nouveau
+  ref: 62d1f5d2f5b3e5122eeac0f763dcdd1d04bf5c45
+  unpetrify-ref: baserock/jetson/3.17-rc5
+  build-depends:
+  - linux-jetson-tk1-genivi
