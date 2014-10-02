@@ -3,6 +3,6 @@ kind: chunk
 description: Low Level Virtual Machine
 build-system: autotools
 configure-commands:
-- ./configure --prefix="$PREFIX" --libdir="$PREFIX"/lib/llvm --sysconfdir=/etc --enable-shared
-  --enable-libffi --enable-targets=all --disable-expensive-checks --disable-debug-runtime
-  --disable-assertions --enable-optimized
+- ./configure --prefix="$PREFIX" --sysconfdir=/etc --enable-shared --enable-targets=host --enable-optimized --disable-assertions
+build-commands:
+- make $MAKEFLAGS
