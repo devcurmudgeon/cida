@@ -9,7 +9,8 @@ build-depends:
 chunks:
 - name: linux-pam
   repo: upstream:linux-pam
-  ref: master
+  ref: 6e36ca00ed774a7c5b2f2322c96b023999b733a4
+  unpetrify-ref: Linux-PAM-1.1.5
   build-depends: []
 - name: weston
   morph: strata/weston-genivi/weston.morph
