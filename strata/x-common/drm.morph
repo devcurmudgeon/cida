@@ -1,0 +1,10 @@
+name: drm
+kind: chunk
+build-system: autotools
+configure-commands:
+  - NOCONFIGURE=1 ./autogen.sh
+  - ./configure --prefix="$PREFIX" --enable-tegra-experimental-api
+install-commands:
+  - make install DESTDIR="$DESTDIR"
+  - mkdir -p "$DESTDIR"/usr/lib/pkgconfig
+  - /usr/bin/install -c -m 644 tegra/libdrm_tegra.pc "$DESTDIR"/usr/lib/pkgconfig
