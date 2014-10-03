@@ -46,6 +46,7 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
         ['m4', ''],
         ['make', ''],
         ['nano', ''],
+        ['patch', ''],
         ['texinfo-tarball', ''],
     ]
 

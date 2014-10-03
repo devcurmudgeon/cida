@@ -53,6 +53,7 @@ libtool \
 m4 \
 make \
 nano \
+patch \
 texinfo-tarball"
 
 gplv3_repos=""
