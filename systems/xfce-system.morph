@@ -27,8 +27,6 @@ strata:
   morph: strata/multimedia.morph
 - name: genivi
   morph: strata/genivi.morph
-- name: genivi-x-generic
-  morph: strata/genivi-x-generic.morph
 - name: gtk2
   morph: strata/gtk2.morph
 - name: tools
