@@ -1,7 +1,13 @@
 name: bsp-jetson-devel
 kind: stratum
-description: The platform dependent components required to boot an NVIDIA Jetson TK1
-  development image board.
+description: |
+  Platform-specific chunks for NVIDIA Jetson TK1 development system.
+
+  Support for the Tegra platform is still being developed. This BSP uses
+  a patched version of Linux 3.10 supplied by NVIDIA, which provides
+  reliable SATA, USB and networking and runs the CPUs at full speed.
+  To make use of the graphics acceleration on the Jetson you will need
+  to use a newer kernel.
 build-depends:
 - morph: strata/core.morph
 chunks:
