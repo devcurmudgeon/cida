@@ -51,3 +51,8 @@ for prefix in / /usr; do
         fi
     done
 done
+
+pxelinux_file="$ROOT/usr/share/syslinux/pxelinux.0"
+if [ -e "$pxelinux_file" ]; then
+    cp "$pxelinux_file" "$ROOT$tftp_root/pxelinux.0"
+fi
