@@ -1,7 +1,14 @@
 name: bsp-jetson-genivi
 kind: stratum
-description: The platform dependent components required to boot an NVIDIA Jetson TK1
-  genivi image board.
+description: |
+  Platform-specific chunks for NVIDIA Jetson TK1 GENIVI Baseline
+
+  Support for the Tegra platform is still being developed. A very recent
+  kernel with some patches is currently required to get a fully
+  accelerated graphics stack on this platform. Note that the SATA and
+  networking will not work unless you have flashed the bootloader on
+  your board to the version of U-Boot built in this stratum. Also, the
+  CPUs on the Jetson run at a slow speed with this version of Linux.
 build-depends:
 - morph: strata/core.morph
 chunks:
