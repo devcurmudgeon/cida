@@ -17,6 +17,10 @@ strata:
   morph: strata/nfs.morph
 - name: distbuild
   morph: strata/distbuild.morph
+- name: ansible
+  morph: strata/ansible.morph
+- name: cloudinit-support
+  morph: strata/cloudinit-support.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
@@ -25,3 +29,5 @@ configuration-extensions:
 - install-files
 - distbuild
 - fstab
+- mason
+- cloud-init
