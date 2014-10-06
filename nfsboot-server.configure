@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2013  Codethink Limited
+# Copyright (C) 2013-2014 Codethink Limited
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,21 +24,30 @@ ROOT="$1"
 
 ##########################################################################
 
-chroot "$ROOT" systemctl enable nfs-server.service
+nfsboot_root=/srv/nfsboot
+tftp_root="$nfsboot_root"/tftp
+nfs_root="$nfsboot_root"/nfs
+mkdir -p "$ROOT$tftp_root" "$ROOT$nfs_root"
 
-mkdir -p "$ROOT/srv/nfsboot/tftp" "$ROOT/srv/nfsboot/nfs"
-
-cat >"$ROOT/usr/lib/systemd/system/nfsboot-tftp.service" <<EOF
+install -D /dev/stdin "$ROOT/usr/lib/systemd/system/nfsboot-tftp.service" <<EOF
 [Unit]
 Description=tftp service for booting kernels
 After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/udpsvd -E 0 69 /usr/sbin/tftpd /srv/nfsboot/tftp/
+ExecStart=/usr/bin/udpsvd -E 0 69 /usr/sbin/tftpd $tftp_root
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
-chroot "$ROOT" systemctl enable nfsboot-tftp.service
+for prefix in / /usr; do
+    for unit in nfsboot-tftp.service nfs-server.service; do
+        unit_path="${prefix}/lib/systemd/system/$unit"
+        if [ -e "$ROOT/$unit_path" ]; then
+            ln -s "../../../../$unit_path" \
+                "$ROOT/etc/systemd/system/multi-user.target.wants/$unit"
+        fi
+    done
+done
