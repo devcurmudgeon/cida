@@ -40,11 +40,24 @@ True|yes)
 esac
 
 
-ln -sf /lib/systemd/system/cloud-config.service \
-    "$ROOT/etc/systemd/system/multi-user.target.wants/cloud-config.service"
-ln -sf /lib/systemd/system/cloud-init-local.service \
-    "$ROOT/etc/systemd/system/multi-user.target.wants/cloud-init-local.service"
-ln -sf /lib/systemd/system/cloud-init.service \
-    "$ROOT/etc/systemd/system/multi-user.target.wants/cloud-init.service"
-ln -sf /lib/systemd/system/cloud-final.service \
-    "$ROOT/etc/systemd/system/multi-user.target.wants/cloud-final.service"
+cloud_init_services="cloud-config.service
+                     cloud-init-local.service
+                     cloud-init.service
+                     cloud-final.service"
+
+# Iterate over the cloud-init services and enable them creating a link
+# into /etc/systemd/system/multi-user.target.wants.
+# If the services to link are not present, fail.
+
+services_folder="lib/systemd/system"
+for service_name in $cloud_init_services; do
+    if [ ! -f "$ROOT/$services_folder/$service_name" ]; then
+        echo "ERROR: Service $service_name is missing." >&2
+        echo "Failed to configure cloud-init."
+        exit 1
+    else
+        echo Enabling systemd service "$service_name" >"$MORPH_LOG_FD"
+        ln -sf "/$services_folder/$service_name" \
+            "$ROOT/etc/systemd/system/multi-user.target.wants/$service_name"
+    fi
+done
