@@ -13,10 +13,10 @@ strata:
   morph: strata/bsp-ppc64-generic.morph
 - name: tools
   morph: strata/tools.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
 - name: nfs
   morph: strata/nfs.morph
-- name: distbuild
-  morph: strata/distbuild.morph
 - name: ansible
   morph: strata/ansible.morph
 - name: cloudinit-support

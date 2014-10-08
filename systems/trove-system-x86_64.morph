@@ -13,6 +13,8 @@ strata:
   morph: strata/core.morph
 - name: tools
   morph: strata/tools.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
 - name: trove
   morph: strata/trove.morph
 - name: nfs
