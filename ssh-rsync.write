@@ -60,7 +60,7 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
 
         self.complete_fstab_for_btrfs_layout(temp_root, uuid)
 
-        version_label = os.environ.get('VERSION_LABEL')
+        version_label = os.environ['VERSION_LABEL']
         autostart = self.get_environment_boolean('AUTOSTART')
 
         self.status(msg='Creating remote mount point')

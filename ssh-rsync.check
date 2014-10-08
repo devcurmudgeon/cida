@@ -18,8 +18,9 @@
 
 import cliapp
 
-import morphlib.writeexts
+import os
 
+import morphlib.writeexts
 
 class SshRsyncCheckExtension(morphlib.writeexts.WriteExtension):
     def process_args(self, args):
@@ -32,6 +33,10 @@ class SshRsyncCheckExtension(morphlib.writeexts.WriteExtension):
                 'The ssh-rsync write is for upgrading existing remote '
                 'Baserock machines. It cannot be used for an initial '
                 'deployment.')
+
+        if os.environ.get('VERSION_LABEL', '') == '':
+            raise cliapp.AppException(
+                 'A VERSION_LABEL must be set when deploying an upgrade.')
 
         location = args[0]
         self.check_ssh_connectivity(location)
