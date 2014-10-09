@@ -46,6 +46,8 @@ configure-commands:
 - scripts/config -e NFSD_V3
 - scripts/config -e DRM_TEGRA_STAGING
 - scripts/config -m DRM_NOUVEAU
+- scripts/config -e VLAN_8021Q
+- scripts/config -e BRIDGE_VLAN_FILTERING
 - yes '' | make ARCH=arm oldconfig
 build-commands:
 - make $MAKEFLAGS ARCH=arm LOADADDR=0x80200000 zImage dtbs

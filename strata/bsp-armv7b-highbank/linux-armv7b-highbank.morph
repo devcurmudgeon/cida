@@ -39,6 +39,8 @@ configure-commands:
 - scripts/config -e EXT4_USE_FOR_EXT23
 - scripts/config -e MSDOS_FS
 - scripts/config -e VFAT_FS
+- scripts/config -e VLAN_8021Q
+- scripts/config -e BRIDGE_VLAN_FILTERING
 - yes '' | make oldconfig
 build-commands:
 - make zImage $MAKEFLAGS
