@@ -1,0 +1,123 @@
+help: >
+    pxeboot.write extension.
+
+
+    This write extension will serve your generated system over NFS to
+    the target system.
+
+    In all modes `location` is the mac address of the interface that
+    the target will PXE boot from. This is used so that the target will
+    load the configuration file appropriate to it.
+
+
+    # `PXEBOOT_MODE`
+
+
+    It has 4 modes, which can be specified with PXEBOOT_MODE, or inferred
+    from which parameters are passed:
+
+
+    ## spawn-vlan
+
+
+    Specify PXEBOOT_DEPLOYER_INTERFACE and PXEBOOT_VLAN to configure
+    the target to pxeboot on a vlan and spawn a dhcp, nfs and tftp
+    server. This is potentially the fastest, since it doesn't need to
+    copy data to other servers.
+
+    This will create a vlan interface for the interface specified in
+    PXEBOOT_DEPLOYER_INTERFACE and spawn a dhcp server which serves
+    pxelinux.0, a configuration file and a kernel image from itself.
+
+    The configuration file informs the target to boot with a kernel
+    command-line that uses an NFS root served from the deployment host.
+
+
+    ## spawn-novlan
+
+
+    Specify PXEBOOT_DEPLOYER_INTERFACE without PXEBOOT_VLAN to configure
+    like `spawn-vlan`, but without creating the vlan interface.
+
+    This assumes that you have exclusive access to the interface, such
+    as if you're plugged in to the device directly, or your interface
+    is vlanned by your infrastructure team.
+
+    This is required if you are serving from a VM and bridging it to the
+    correct network via macvtap. For this to work, you need to macvtap
+    bridge to a pre-vlanned interface on your host machine.
+    
+
+    ## existing-dhcp
+
+
+    Specify PXEBOOT_DEPLOYER_INTERFACE and PXEBOOT_CONFIG_TFTP_ADDRESS
+    to put config on an existing tftp server, already configured by the
+    dhcp server.
+
+    This spawns a tftp server and configures the local nfs server, but
+    doesn't spawn a dhcp server. This is useful if you have already got a
+    dhcp server that serves PXE images.
+
+    PXEBOOT_CONFIG_TFTP_ADDRESS is a URL in the form `sftp://$HOST/$PATH`. 
+    The configuration file is copied to `$PATH/pxelinux.cfg/` on the
+    target identified by `$HOST`.
+
+
+    ## existing-server
+
+
+    Specify at least PXEBOOT_CONFIG_TFTP_ADDRESS and
+    PXEBOOT_ROOTFS_RSYNC_ADDRESS to specify existing servers to copy
+    config, kernels and the rootfs to.
+
+    Configuration is copied to the target as `existing-dhcp`.
+
+    Specify PXEBOOT_KERNEL_TFTP_ADDRESS if the tftp server that the
+    kernel must be downloaded from is different to that of the pxelinux
+    configuration file.
+
+    PXEBOOT_ROOTFS_RSYNC_ADDRESS is a rsync URL describing where to copy
+    nfsroots to where they will be exported by the NFS server.
+
+    Specify PXEBOOT_ROOTFS_NFSROOT if the nfsroot appears as a different
+    address from the target's perspective.
+
+
+    # IPMI commands
+
+
+    After the PXE boot has been set up, the target needs to be rebooted
+    in PXE mode.
+
+    If the target is IPMI enabled, you can set `IPMI_USER`, `IPMI_HOST`
+    and `IPMI_PASSWORD` to make it reboot the target into netboot mode
+    automatically.
+
+    If they are not specified, then instructions will be displayed, and
+    `pxeboot.write` will wait for you to finish.
+
+    If there are command-line automation tools for rebooting the target
+    in netboot mode, then appropriate commands can be defined in the
+    following variables.
+
+
+    ## PXEBOOT_PXE_REBOOT_COMMAND
+
+
+    This command will be used to reboot the target device with its boot
+    device set to PXE boot.
+
+
+    ## PXEBOOT_REBOOT_COMMAND
+
+
+    This command will be used to reboot the target device in its default
+    boot mode.
+
+
+    ## PXEBOOT_WAIT_INSTALL_COMMAND
+
+
+    If it is possible for the target to notify you that it has finished
+    installing, you can put a command in here to wait for the event.

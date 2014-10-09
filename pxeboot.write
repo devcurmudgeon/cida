@@ -1,0 +1,679 @@
+#!/usr/bin/env python
+
+
+import collections
+import contextlib
+import errno
+import itertools
+import logging
+import os
+import select
+import signal
+import shutil
+import socket
+import string
+import StringIO
+import subprocess
+import sys
+import tempfile
+import textwrap
+import urlparse
+
+import cliapp
+
+import morphlib
+
+
+def _int_to_quad_dot(i):
+    return '.'.join((
+        str(i >> 24 & 0xff),
+        str(i >> 16 & 0xff),
+        str(i >> 8 & 0xff),
+        str(i & 0xff)))
+
+
+def _quad_dot_to_int(s):
+    i = 0
+    for octet in s.split('.'):
+        i <<= 8
+        i += int(octet, 10)
+    return i
+
+
+def _netmask_to_prefixlen(mask):
+    bs = '{:032b}'.format(mask)
+    prefix = bs.rstrip('0')
+    if '0' in prefix:
+        raise ValueError('abnormal netmask: %s' %
+                         _int_to_quad_dot(mask))
+    return len(prefix)
+
+
+def _get_routes():
+    routes = []
+    with open('/proc/net/route', 'r') as f:
+        for line in list(f)[1:]:
+            fields = line.split()
+            destination, flags, mask = fields[1], fields[3], fields[7]
+            flags = int(flags, 16)
+            if flags & 2:
+                # default route, ignore
+                continue
+            destination = socket.ntohl(int(destination, 16))
+            mask = socket.ntohl(int(mask, 16))
+            prefixlen = _netmask_to_prefixlen(mask)
+            routes.append((destination, prefixlen))
+    return routes
+
+
+class IPRange(object):
+    def __init__(self, prefix, prefixlen):
+        self.prefixlen = prefixlen
+        mask = (1 << prefixlen) - 1
+        self.mask = mask << (32 - prefixlen)
+        self.prefix = prefix & self.mask
+    @property
+    def bitstring(self):
+        return ('{:08b}' * 4).format(
+            self.prefix >> 24 & 0xff,
+            self.prefix >> 16 & 0xff,
+            self.prefix >> 8 & 0xff,
+            self.prefix & 0xff
+        )[:self.prefixlen]
+    def startswith(self, other_range):
+        return self.bitstring.startswith(other_range.bitstring)
+
+
+def find_subnet(valid_ranges, invalid_ranges):
+    for vr in valid_ranges:
+        known_subnets = set(ir for ir in invalid_ranges if ir.startswith(vr))
+        prefixlens = set(r.prefixlen for r in known_subnets)
+        prefixlens.add(32 - 2) # need at least 4 addresses in subnet
+        prefixlen = min(prefixlens)
+        if prefixlen <= vr.prefixlen:
+            # valid subnet is full, move on to next
+            continue
+        subnetlen = prefixlen - vr.prefixlen
+        for prefix in (subnetid + vr.prefix
+                       for subnetid in xrange(1 << subnetlen)):
+            if any(subnet.prefix == prefix for subnet in known_subnets):
+                continue
+            return prefix, prefixlen
+
+
+def _normalise_macaddr(macaddr):
+    '''pxelinux.0 wants the mac address to be lowercase and - separated'''
+    digits = (c for c in macaddr.lower() if c in string.hexdigits)
+    nibble_pairs = grouper(digits, 2)
+    return '-'.join(''.join(byte) for byte in nibble_pairs)
+
+
+@contextlib.contextmanager
+def executor(target_pid):
+    'Kills a process if its parent dies'
+    read_fd, write_fd = os.pipe()
+    helper_pid = os.fork()
+    if helper_pid == 0:
+        try:
+            os.close(write_fd)
+            while True:
+                rlist, _, _ = select.select([read_fd], [], [])
+                if read_fd in rlist:
+                    d = os.read(read_fd, 1)
+                    if not d:
+                        os.kill(target_pid, signal.SIGKILL)
+                    if d in ('', 'Q'):
+                        os._exit(0)
+                    else:
+                        os._exit(1)
+        except BaseException as e:
+            import traceback
+            traceback.print_exc()
+            os._exit(1)
+    os.close(read_fd)
+    yield
+    os.write(write_fd, 'Q')
+    os.close(write_fd)
+
+
+def grouper(iterable, n, fillvalue=None):
+    "Collect data into fixed-length chunks or blocks"
+    # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx"
+    args = [iter(iterable)] * n
+    return itertools.izip_longest(*args, fillvalue=fillvalue)
+
+
+class PXEBoot(morphlib.writeexts.WriteExtension):
+    @contextlib.contextmanager
+    def _vlan(self, interface, vlan):
+        viface = '%s.%s' % (interface, vlan)
+        self.status(msg='Creating vlan %(viface)s', viface=viface)
+        subprocess.check_call(['vconfig', 'add', interface, str(vlan)])
+        try:
+            yield viface
+        finally:
+            self.status(msg='Destroying vlan %(viface)s', viface=viface)
+            subprocess.call(['vconfig', 'rem', viface])
+
+    @contextlib.contextmanager
+    def _static_ip(self, iface):
+        valid_ranges = set((
+            IPRange(_quad_dot_to_int('192.168.0.0'), 16),
+            IPRange(_quad_dot_to_int('172.16.0.0'), 12),
+            IPRange(_quad_dot_to_int('10.0.0.0'), 8),
+        ))
+        invalid_ranges = set(IPRange(prefix, prefixlen)
+                             for (prefix, prefixlen) in _get_routes())
+        prefix, prefixlen = find_subnet(valid_ranges, invalid_ranges)
+        netaddr = prefix
+        dhcp_server_ip = netaddr + 1
+        client_ip = netaddr + 2
+        broadcast_ip = prefix | ((1 << (32 - prefixlen)) - 1)
+        self.status(msg='Assigning ip address %(ip)s/%(prefixlen)d to '
+                        'iface %(iface)s',
+                    ip=_int_to_quad_dot(dhcp_server_ip), prefixlen=prefixlen,
+                    iface=iface)
+        subprocess.check_call(['ip', 'addr', 'add',
+                               '{}/{}'.format(_int_to_quad_dot(dhcp_server_ip),
+                                              prefixlen),
+                               'broadcast', _int_to_quad_dot(broadcast_ip),
+                               'scope', 'global',
+                               'dev', iface])
+        try:
+            yield (dhcp_server_ip, client_ip, broadcast_ip)
+        finally:
+            self.status(msg='Removing ip addresses from iface %(iface)s',
+                        iface=iface)
+            subprocess.call(['ip', 'addr', 'flush', 'dev', iface])
+
+    @contextlib.contextmanager
+    def _up_interface(self, iface):
+        self.status(msg='Bringing interface %(iface)s up', iface=iface)
+        subprocess.check_call(['ip', 'link', 'set', iface, 'up'])
+        try:
+            yield
+        finally:
+            self.status(msg='Bringing interface %(iface)s down', iface=iface)
+            subprocess.call(['ip', 'link', 'set', iface, 'down'])
+
+    @contextlib.contextmanager
+    def static_ip(self, interface):
+        with self._static_ip(iface=interface) as (host_ip, client_ip,
+                        broadcast_ip), \
+             self._up_interface(iface=interface):
+            yield (_int_to_quad_dot(host_ip),
+                   _int_to_quad_dot(client_ip),
+                   _int_to_quad_dot(broadcast_ip))
+
+    @contextlib.contextmanager
+    def vlan(self, interface, vlan):
+        with self._vlan(interface=interface, vlan=vlan) as viface, \
+             self.static_ip(interface=viface) \
+                 as (host_ip, client_ip, broadcast_ip):
+            yield host_ip, client_ip, broadcast_ip
+
+    @contextlib.contextmanager
+    def _tempdir(self):
+        td = tempfile.mkdtemp()
+        print 'Created tempdir:', td
+        try:
+            yield td
+        finally:
+            shutil.rmtree(td, ignore_errors=True)
+
+    @contextlib.contextmanager
+    def _remote_tempdir(self, hostname, template):
+        td = cliapp.ssh_runcmd(hostname, ['mktemp', '-d', template]).strip()
+        try:
+            yield td
+        finally:
+            cliapp.ssh_runcmd(hostname, ['find', td, '-delete'])
+
+    def _serve_tftpd(self, sock, host, port, interface, tftproot):
+        self.settings.progname = 'tftp server'
+        self._set_process_name()
+        while True:
+            logging.debug('tftpd waiting for connections')
+            # recvfrom with MSG_PEEK is how you accept UDP connections
+            _, peer = sock.recvfrom(0, socket.MSG_PEEK)
+            conn = sock
+            logging.debug('Connecting socket to peer: ' + repr(peer))
+            conn.connect(peer)
+            # The existing socket is now only serving that peer, so we need to
+            # bind a new UDP socket to the wildcard address, which needs the
+            # port to be in REUSEADDR mode.
+            conn.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            logging.debug('Binding replacement socket to ' + repr((host, port)))
+            sock.bind((host, port))
+
+            logging.debug('tftpd server handing connection to tftpd')
+            tftpd_serve = ['tftpd', '-rl', tftproot]
+            ret = subprocess.call(args=tftpd_serve, stdin=conn,
+                                  stdout=conn, stderr=None, close_fds=True)
+            # It's handy to turn off REUSEADDR after the rebinding,
+            # so we can protect against future bind attempts on this port.
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 0)
+            logging.debug('tftpd exited %d' % ret)
+        os._exit(0)
+
+    @contextlib.contextmanager
+    def _spawned_tftp_server(self, tftproot, host_ip, interface, tftp_port=0):
+        # inetd-style launchers tend to bind UDP ports with SO_REUSEADDR,
+        # because they need to have multiple ports bound, one for recieving
+        # all connection attempts on that port, and one for each concurrent
+        # connection with a peer
+        # this makes detecting whether there's a tftpd running difficult, so
+        # we'll instead use an ephemeral port and configure the PXE boot to
+        # use that tftp server for the kernel
+        s = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+        s.bind((host_ip, tftp_port))
+        host, port = s.getsockname()
+        self.status(msg='Bound listen socket to %(host)s, %(port)s',
+                    host=host, port=port)
+        pid = os.fork()
+        if pid == 0:
+            try:
+                self._serve_tftpd(sock=s, host=host, port=port,
+                                  interface=interface, tftproot=tftproot)
+            except BaseException as e:
+                import traceback
+                traceback.print_exc()
+                os._exit(1)
+        s.close()
+        with executor(pid):
+            try:
+                yield port
+            finally:
+                self.status(msg='Killing tftpd listener pid=%(pid)d',
+                            pid=pid)
+                os.kill(pid, signal.SIGKILL)
+
+    @contextlib.contextmanager
+    def tftp_server(self, host_ip, interface, tftp_port=0):
+        with self._tempdir() as tftproot, \
+             self._spawned_tftp_server(tftproot=tftproot, host_ip=host_ip,
+                                       interface=interface,
+                                       tftp_port=tftp_port) as tftp_port:
+            self.status(msg='Serving tftp root %(tftproot)s, on port %(port)d',
+                        port=tftp_port, tftproot=tftproot)
+            yield tftp_port, tftproot
+
+    @contextlib.contextmanager
+    def _local_copy(self, src, dst):
+        self.status(msg='Installing %(src)s to %(dst)s',
+                    src=src, dst=dst)
+        shutil.copy2(src=src, dst=dst)
+        try:
+            yield
+        finally:
+            self.status(msg='Removing %(dst)s', dst=dst)
+            os.unlink(dst)
+
+    def local_pxelinux(self, tftproot):
+        return self._local_copy('/usr/share/syslinux/pxelinux.0',
+                                os.path.join(tftproot, 'pxelinux.0'))
+
+    def local_kernel(self, rootfs, tftproot):
+        return self._local_copy(os.path.join(rootfs, 'boot/vmlinuz'),
+                                os.path.join(tftproot, 'kernel'))
+
+    @contextlib.contextmanager
+    def _remote_copy(self, hostname, src, dst):
+        with open(src, 'r') as f:
+            cliapp.ssh_runcmd(hostname,
+                              ['install', '-D', '-m644', '/proc/self/fd/0',
+                               dst], stdin=f, stdout=None, stderr=None)
+        try:
+            yield
+        finally:
+            cliapp.ssh_runcmd(hostname, ['rm', dst])
+
+    @contextlib.contextmanager
+    def remote_kernel(self, rootfs, tftp_url, macaddr):
+        for name in ('vmlinuz', 'zImage', 'uImage'):
+            kernel_path = os.path.join(rootfs, 'boot', name)
+            if os.path.exists(kernel_path):
+                break
+        else:
+            raise cliapp.AppException('Failed to locate kernel')
+        url = urlparse.urlsplit(tftp_url)
+        basename = '{}-kernel'.format(_normalise_macaddr(macaddr))
+        target_path = os.path.join(url.path, basename)
+        with self._remote_copy(hostname=url.hostname, src=kernel_path,
+                               dst=target_path):
+            yield basename
+
+    @contextlib.contextmanager
+    def local_nfsroot(self, rootfs, target_ip):
+        nfsroot = target_ip + ':' + rootfs
+        self.status(msg='Exporting %(nfsroot)s as local nfsroot',
+                    nfsroot=nfsroot)
+        cliapp.runcmd(['exportfs', '-o', 'ro,insecure,no_root_squash',
+                       nfsroot])
+        try:
+            yield
+        finally:
+            self.status(msg='Removing %(nfsroot)s from local nfsroots',
+                        nfsroot=nfsroot)
+            cliapp.runcmd(['exportfs', '-u', nfsroot])
+
+    @contextlib.contextmanager
+    def remote_nfsroot(self, rootfs, rsync_url, macaddr):
+        url = urlparse.urlsplit(rsync_url)
+        template = os.path.join(url.path, 'nfsroot.XXXXXXXXXX')
+        with self._remote_tempdir(hostname=url.hostname, template=template) \
+                 as tempdir:
+            nfsroot = urlparse.urlunsplit(url.scheme, url.netloc, tempdir,
+                                          url.query, url.fragment)
+            cliapp.runcmd(['rsync', '-asXSPH', '--delete', rootfs, nfsroot],
+                          stdin=None, stdout=None, stderr=None)
+            yield basename
+
+    @staticmethod
+    def _write_pxe_config(fh, kernel_tftp_url, rootfs_nfs_url, extra_args=''):
+        fh.write(textwrap.dedent('''\
+            DEFAULT default
+            LABEL default
+            LINUX {kernel_url}
+            APPEND root=/dev/nfs ip=dhcp nfsroot={rootfs_nfs_url} {extra_args}
+            ''').format(kernel_url=kernel_tftp_url,
+                        rootfs_nfs_url=rootfs_nfs_url, extra_args=extra_args))
+        fh.flush()
+
+    @contextlib.contextmanager
+    def local_pxeboot_config(self, tftproot, macaddr, ip, tftp_port,
+                             nfsroot_dir):
+        kernel_tftp_url = 'tftp://{}:{}/kernel'.format(ip, tftp_port)
+        rootfs_nfs_url = '{}:{}'.format(ip, nfsroot_dir)
+        pxe_cfg_filename = _normalise_macaddr(macaddr)
+        pxe_cfg_path = os.path.join(tftproot, 'pxelinux.cfg', pxe_cfg_filename)
+        os.makedirs(os.path.dirname(pxe_cfg_path))
+        with open(pxe_cfg_path, 'w') as f:
+            self._write_pxe_config(fh=f, kernel_tftp_url=kernel_tftp_url,
+                                   rootfs_nfs_url=rootfs_nfs_url,
+                                   extra_args=os.environ.get('KERNEL_ARGS',''))
+        try:
+            yield
+        finally:
+            os.unlink(pxe_cfg_path)
+
+    @contextlib.contextmanager
+    def remote_pxeboot_config(self, tftproot, kernel_tftproot, kernel_subpath,
+                              rootfs_nfsroot, rootfs_subpath, macaddr):
+        rootfs_nfs_url = '{}:{}/{}'.format(ip, rootfs_nfsroot, rootfs_subpath)
+        kernel_tftp_url = '{}/{}'.format(kernel_tftproot, kernel_subpath)
+        pxe_cfg_filename = _normalise_macaddr(macaddr)
+        url = urlparse.urlsplit(tftproot)
+        inst_cfg_path = os.path.join(url.path, 'pxelinux.cfg',
+                                     pxe_cfg_filename)
+        with tempfile.NamedTemporaryFile() as f:
+            self._write_pxe_config(fh=f, kernel_tftp_url=kernel_tftp_url,
+                                   rootfs_nfs_url=rootfs_nfs_url,
+                                   extra_args=os.environ.get('KERNEL_ARGS',''))
+            with self._remote_copy(hostname=url.hostname, src=f.name,
+                                   dst=inst_cfg_path):
+                yield
+
+    @contextlib.contextmanager
+    def dhcp_server(self, interface, host_ip, target_ip, broadcast_ip):
+        with self._tempdir() as td:
+            leases_path = os.path.join(td, 'leases')
+            config_path = os.path.join(td, 'config')
+            stdout_path = os.path.join(td, 'stdout')
+            stderr_path = os.path.join(td, 'stderr')
+            pidfile_path = os.path.join(td, 'pid')
+            with open(config_path, 'w') as f:
+                f.write(textwrap.dedent('''\
+                start {target_ip}
+                end {target_ip}
+                interface {interface}
+                max_leases 1
+                lease_file {leases_path}
+                pidfile {pidfile_path}
+                boot_file pxelinux.0
+                option dns {host_ip}
+                option broadcast {broadcast_ip}
+                ''').format(**locals()))
+            with open(stdout_path, 'w') as stdout, \
+                 open(stderr_path, 'w') as stderr:
+                sp = subprocess.Popen(['udhcpd', '-f', config_path], cwd=td,
+                                      stdin=open(os.devnull), stdout=stdout,
+                                      stderr=stderr)
+                try:
+                    with executor(sp.pid):
+                        yield
+                finally:
+                    sp.terminate()
+
+    def get_interface_ip(self, interface):
+        ip_addresses = []
+        info = cliapp.runcmd(['ip', '-o', '-f', 'inet',
+                              'addr', 'show', interface]).rstrip('\n')
+        if info:
+            tokens = collections.deque(info.split()[1:])
+            ifname = tokens.popleft()
+            while tokens:
+                tok = tokens.popleft()
+                if tok == 'inet':
+                    address = tokens.popleft()
+                    address, netmask = address.split('/')
+                    ip_addresses.append(address)
+                elif tok == 'brd':
+                    tokens.popleft() # not interested in broadcast address
+                elif tok == 'scope':
+                    tokens.popleft() # not interested in scope tag
+                else:
+                    continue
+        if not ip_addresses:
+            raise cliapp.AppException('Interface %s has no addresses'
+                                      % interface)
+        if len(ip_addresses) > 1:
+            warnings.warn('Interface %s has multiple addresses, '
+                          'using first (%s)' % (interface, ip_addresses[0]))
+        return ip_addresses[0]
+
+    def ipmi_set_target_vlan(self):
+        if any(env_var.startswith('IPMI_') for env_var in os.environ):
+            # Needs IPMI_USER, IPMI_PASSWORD, IPMI_HOST and PXEBOOT_VLAN
+            default = textwrap.dedent('''\
+                ipmitool -I lanplus -U "$IPMI_USER" -E -H "$IPMI_HOST" \\
+                    lan set 1 vlan id "$PXEBOOT_VLAN"
+            ''')
+        else:
+            default = textwrap.dedent('''\
+                while true; do
+                    echo Please set the target\\'s vlan to $PXEBOOT_VLAN, \\
+                         then enter \\"vlanned\\"
+                    read
+                    if [ "$REPLY" = vlanned ]; then
+                        break
+                    fi
+                done
+            ''')
+        command = os.environ.get('PXEBOOT_SET_VLAN_COMMAND', default)
+        subprocess.check_call(['sh', '-euc', command, '-'])
+
+    def ipmi_pxe_reboot_target(self):
+        if any(env_var.startswith('IPMI_') for env_var in os.environ):
+            # Needs IPMI_USER, IPMI_PASSWORD, IPMI_HOST and PXEBOOT_VLAN
+            default = textwrap.dedent('''\
+                set -- ipmitool -I lanplus -U "$IPMI_USER" -E -H "$IPMI_HOST"
+                "$@" chassis bootdev pxe
+                "$@" chassis power reset
+            ''')
+        else:
+            default = textwrap.dedent('''\
+                while true; do
+                    echo Please reboot the target in PXE mode, then\\
+                         enter \\"pxe-booted\\"
+                    read
+                    if [ "$REPLY" = pxe-booted ]; then
+                        break
+                    fi
+                done
+            ''')
+        command = os.environ.get('PXEBOOT_PXE_REBOOT_COMMAND', default)
+        subprocess.check_call(['sh', '-euc', command, '-'])
+
+    def wait_for_target_to_install(self):
+        command = os.environ.get(
+            'PXEBOOT_WAIT_INSTALL_COMMAND',
+            textwrap.dedent('''\
+                while true; do
+                    echo Please wait for the system to install, then \\
+                         enter \\"installed\\"
+                    read
+                    if [ "$REPLY" = installed ]; then
+                        break
+                    fi
+                done
+            '''))
+        subprocess.check_call(['sh', '-euc', command, '-'])
+
+    def ipmi_unset_target_vlan(self):
+        if any(env_var.startswith('IPMI_') for env_var in os.environ):
+            # Needs IPMI_USER, IPMI_PASSWORD, IPMI_HOST
+            default = textwrap.dedent('''\
+                ipmitool -I lanplus -U "$IPMI_USER" -E -H "$IPMI_HOST" \\
+                    lan set 1 vlan id off
+            ''')
+        else:
+            default = textwrap.dedent('''\
+                while true; do
+                    echo Please reset the target\\'s vlan, \\
+                         then enter \\"unvlanned\\"
+                    read
+                    if [ "$REPLY" = unvlanned ]; then
+                        break
+                    fi
+                done
+            ''')
+        command = os.environ.get('PXEBOOT_UNSET_VLAN_COMMAND', default)
+        subprocess.check_call(['sh', '-euc', command, '-'])
+
+    def ipmi_reboot_target(self):
+        if any(env_var.startswith('IPMI_') for env_var in os.environ):
+            # Needs IPMI_USER, IPMI_PASSWORD, IPMI_HOST
+            default = textwrap.dedent('''\
+                ipmitool -I lanplus -U "$IPMI_USER" -E -H "$IPMI_HOST" \\
+                    chassis power reset
+            ''')
+        else:
+            default = textwrap.dedent('''\
+                while true; do
+                    echo Please reboot the target, then\\
+                         enter \\"rebooted\\"
+                    read
+                    if [ "$REPLY" = rebooted ]; then
+                        break
+                    fi
+                done
+            ''')
+        command = os.environ.get('PXEBOOT_REBOOT_COMMAND', default)
+        subprocess.check_call(['sh', '-euc', command, '-'])
+
+    def process_args(self, (temp_root, macaddr)):
+        interface = os.environ.get('PXEBOOT_DEPLOYER_INTERFACE', None)
+        vlan = os.environ.get('PXEBOOT_VLAN')
+        if vlan is not None: vlan = int(vlan)
+        mode = os.environ.get('PXEBOOT_MODE')
+        if mode is None:
+            if interface:
+                if vlan is not None:
+                    mode = 'spawn-vlan'
+                else:
+                    if 'PXEBOOT_CONFIG_TFTP_ADDRESS' in os.environ:
+                        mode = 'existing-dhcp'
+                    else:
+                        mode = 'spawn-novlan'
+            else:
+                mode = 'existing-server'
+        assert mode in ('spawn-vlan', 'spawn-novlan', 'existing-dhcp',
+                        'existing-server')
+        if mode == 'spawn-vlan':
+            with self.vlan(interface=interface, vlan=vlan) \
+                     as (host_ip, target_ip, broadcast_ip), \
+                 self.tftp_server(host_ip=host_ip, interface=interface) \
+                     as (tftp_port, tftproot), \
+                 self.local_pxelinux(tftproot=tftproot), \
+                 self.local_kernel(rootfs=temp_root, tftproot=tftproot), \
+                 self.local_nfsroot(rootfs=temp_root, target_ip=target_ip), \
+                 self.local_pxeboot_config(tftproot=tftproot, macaddr=macaddr,
+                                           ip=host_ip, tftp_port=tftp_port,
+                                           nfsroot_dir=temp_root), \
+                 self.dhcp_server(interface=interface, host_ip=host_ip,
+                                  target_ip=target_ip,
+                                  broadcast_ip=broadcast_ip):
+                self.ipmi_set_target_vlan()
+                self.ipmi_pxe_reboot_target()
+                self.wait_for_target_to_install()
+                self.ipmi_unset_target_vlan()
+                self.ipmi_reboot_target()
+        elif mode == 'spawn-novlan':
+            with self.static_ip(interface=interface) as (host_ip, target_ip,
+                            broadcast_ip), \
+                 self.tftp_server(host_ip=host_ip, interface=interface,
+                                  tftp_port=69) \
+                     as (tftp_port, tftproot), \
+                 self.local_pxelinux(tftproot=tftproot), \
+                 self.local_kernel(rootfs=temp_root, tftproot=tftproot), \
+                 self.local_nfsroot(rootfs=temp_root, target_ip=target_ip), \
+                 self.local_pxeboot_config(tftproot=tftproot, macaddr=macaddr,
+                                           ip=host_ip, tftp_port=tftp_port,
+                                           nfsroot_dir=temp_root), \
+                 self.dhcp_server(interface=interface, host_ip=host_ip,
+                                  target_ip=target_ip,
+                                  broadcast_ip=broadcast_ip):
+                self.ipmi_pxe_reboot_target()
+                self.wait_for_target_to_install()
+                self.ipmi_reboot_target()
+        elif mode == 'existing-dhcp':
+            ip = self.get_interface_ip(interface)
+            config_tftpaddr = os.environ['PXEBOOT_CONFIG_TFTP_ADDRESS']
+            with self.tftp_server(ip=ip, interface=interface, tftp_port=69) \
+                     as (tftp_port, tftproot), \
+                 self.local_kernel(rootfs=temp_root, tftproot=tftproot), \
+                 self.local_nfsroot(rootfs=temp_root, client_ip=''):
+                kernel_tftproot = 'tftp://{}:{}/'.format(ip, tftp_port)
+                rootfs_nfsroot = '{}:{}'.format(ip, temp_root)
+                with self.remote_pxeboot_config(
+                             tftproot=config_tftpaddr,
+                             kernel_tftproot=kernel_tftproot,
+                             kernel_subpath='kernel',
+                             rootfs_nfsroot=nfsroot,
+                             rootfs_subpath='',
+                             macaddr=macaddr):
+                    self.ipmi_pxe_reboot_target()
+                    self.wait_for_target_to_install()
+                    self.ipmi_reboot_target()
+        elif mode == 'existing-server':
+            config_tftpaddr = os.environ[    'PXEBOOT_CONFIG_TFTP_ADDRESS']
+            kernel_tftpaddr = os.environ.get('PXEBOOT_KERNEL_TFTP_ADDRESS',
+                                             config_tftpaddr)
+            url = urlparse.urlsplit(kernel_tftpaddr)
+            kernel_tftproot = os.environ.get('PXEBOOT_KERNEL_TFTP_ROOT',
+                                             'tftp://%s/%s' % (url.hostname,
+                                                               url.path))
+            rootfs_rsync    = os.environ['PXEBOOT_ROOTFS_RSYNC_ADDRESS']
+            url = urlparse.urlsplit(rootfs_rsync)
+            nfsroot  = os.environ.get('PXEBOOT_ROOTFS_NFSROOT',
+                                      '%s:%s' % (url.hostname, url.path))
+            with self.remote_kernel(rootfs=temp_root, url=kernel_tftpaddr,
+                                    macaddr=macaddr) as kernel_subpath, \
+                 self.remote_nfsroot(rootfs=temp_root, rsync_url=rootfs_rsync)\
+                     as rootfs_subpath, \
+                 self.remote_pxeboot_config(tftproot=config_tftpaddr,
+                                            kernel_tftproot=kernel_tftproot,
+                                            kernel_subpath=kernel_subpath,
+                                            rootfs_nfsroot=nfsroot,
+                                            rootfs_subpath=rootfs_subpath,
+                                            macaddr=macaddr):
+                self.ipmi_pxe_reboot_target()
+                self.wait_for_target_to_install()
+                self.ipmi_reboot_target()
+        else:
+            cliapp.AppException('Invalid PXEBOOT_MODE: %s' % mode)
+
+PXEBoot().run()
