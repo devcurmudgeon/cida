@@ -150,17 +150,17 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
              self._created_orig_subvolume(location, remote_mnt,
                                           version_root) as orig:
                 self.populate_remote_orig(location, orig, temp_root)
-                system_config_sync = os.path.join(
-                        remote_mnt, 'systems', version_label, 'orig',
-                        'usr', 'bin', 'baserock-system-config-sync')
-                system_version_manager = os.path.join(
-                        remote_mnt, 'systems', version_label, 'orig',
-                        'usr', 'bin', 'system-version-manager')
+                system_root = os.path.join(remote_mnt, 'systems',
+                                           version_label, 'orig')
+                config_sync = os.path.join(system_root, 'usr', 'bin',
+                                           'baserock-system-config-sync')
+                version_manager = os.path.join(system_root, 'usr', 'bin',
+                                               'system-version-manager')
                 with self._deployed_version(location, version_label,
-                         system_config_sync, system_version_manager):
+                                            config_sync, version_manager):
                     self.status(msg='Setting %(v)s as the new default system',
                                 v=version_label)
-                    cliapp.ssh_runcmd(location, [system_version_manager,
+                    cliapp.ssh_runcmd(location, [version_manager,
                                                  'set-default', version_label])
 
         if autostart:
