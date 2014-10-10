@@ -29,15 +29,22 @@ if [ -z "$1" ] || [ -z "$2" ] ; then
     exit 1
 fi
 
+if system-version-manager get-running | grep -q '^TEST$'; then
+  echo "You are currently running the TEST system."
+  echo "Maybe you want to boot into a different system version?"
+  exit 1
+fi
+
 set -e
 set -v
 
-morph gc
-morph build $1
 system-version-manager set-default factory
-if [ `system-version-manager list | grep ^TEST$` ]; then
+if system-version-manager list | grep -q '^TEST$'; then
   system-version-manager remove TEST
 fi
 
-sed -i "s|^- morph: .*$|- morph: $1|" $2
-morph deploy --upgrade $2 self.HOSTNAME=$(hostname) self.VERSION_LABEL=TEST
+morph gc
+morph build "$1"
+
+sed -i "s|^- morph: .*$|- morph: $1|" "$2"
+morph deploy --upgrade "$2" self.HOSTNAME=$(hostname) self.VERSION_LABEL=TEST
