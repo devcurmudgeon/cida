@@ -22,6 +22,8 @@ import shutil
 import sys
 import time
 import tempfile
+import errno
+import stat
 
 import morphlib
 
@@ -572,3 +574,12 @@ class WriteExtension(cliapp.Application):
             logging.error("Error checking SSH connectivity: %s", str(e))
             raise cliapp.AppException(
                 'Unable to SSH to %s: %s' % (ssh_host, e))
+
+    def is_device(self, location):
+        try:
+            st = os.stat(location)
+            return stat.S_ISBLK(st.st_mode)
+        except OSError as e:
+            if e.errno == errno.ENOENT:
+                return False
+            raise
