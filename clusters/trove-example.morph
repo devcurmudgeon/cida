@@ -29,6 +29,9 @@ description: |
 
   Remember to always specify either initial or upgrade as the
   deployment name to use, otherwise morph will attempt to deploy both.
+
+  You can find documentation for Trove at the following web address:
+  http://wiki.baserock.org/Trove/
 systems:
 - morph: systems/trove-system-x86_64.morph
   deploy-defaults:
