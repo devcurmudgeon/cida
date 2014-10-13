@@ -53,7 +53,7 @@ chunks:
 - name: cmdtest
   morph: strata/morph-utils/cmdtest.morph
   repo: upstream:cmdtest
-  ref: 62fa7e08f76a5b6bb8410add49c40656b3e73acd
+  ref: b7de175d185948c1130a1036ecd11d113dbf1175
   unpetrify-ref: baserock/morph
   build-depends:
   - cliapp
