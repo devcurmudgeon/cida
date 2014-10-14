@@ -19,8 +19,8 @@ strata:
   morph: strata/connman-common.morph
 - name: audio-bluetooth
   morph: strata/audio-bluetooth.morph
-- name: x-common
-  morph: strata/x-common.morph
+- name: libdrm-common
+  morph: strata/libdrm-common.morph
 - name: multimedia
   morph: strata/multimedia.morph
 - name: genivi
