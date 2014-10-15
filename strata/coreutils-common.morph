@@ -18,4 +18,5 @@ chunks:
   repo: upstream:coreutils
   ref: 9df9643842e4b4d8ece710fe6105f32fa38a0d22
   unpetrify-ref: baserock/8.23
-  build-depends: []
+  build-depends:
+  - patch

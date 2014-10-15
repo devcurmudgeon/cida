@@ -2,7 +2,7 @@ name: foundation
 kind: stratum
 description: Basic userland runtime system
 build-depends:
-- morph: strata/core.morph
+- morph: strata/coreutils-common.morph
 chunks:
 - name: attr
   morph: strata/foundation/attr.morph
