@@ -1,0 +1,21 @@
+name: coreutils-common
+kind: stratum
+description: |
+  We need to split this so we can build stuff using coreutils but we can not
+  having it in the final systems (for example in genivi ones that do not
+  accept GPLv3 code)
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: patch
+  morph: strata/coreutils-common/patch.morph
+  repo: upstream:patch
+  ref: 3bbb26c928a147cfcf0756f1cc0a1307e5cc663f
+  unpetrify-ref: baserock/v2.7.1
+  build-depends: []
+- name: coreutils
+  morph: strata/coreutils-common/coreutils.morph
+  repo: upstream:coreutils
+  ref: 9df9643842e4b4d8ece710fe6105f32fa38a0d22
+  unpetrify-ref: baserock/8.23
+  build-depends: []
