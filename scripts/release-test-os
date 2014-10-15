@@ -346,7 +346,7 @@ class Deployment(object):
             args = ['nova', 'boot',
                 '--flavor', 'm1.medium',
                 '--image', hostname,
-                '--user-data', '/root/os-init-script',
+                '--user-data', '/usr/lib/mason/os-init-script',
                 '--nic', "net-id=%s" % (self.net_id),
                 hostname]
             output = cliapp.runcmd(args)
