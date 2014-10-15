@@ -29,6 +29,12 @@
   - fail: msg='CONTROLLERHOST is mandatory'
     when: CONTROLLERHOST is not defined
 
+  - fail: msg='TEST_INFRASTRUCTURE_TYPE is mandatory'
+    when: TEST_INFRASTRUCTURE_TYPE is not defined
+
+  - fail: msg='OPENSTACK_NETWORK_ID is mandatory when TEST_INFRASTRUCTURE_TYPE=openstack'
+    when: TEST_INFRASTRUCTURE_TYPE == "openstack" and OPENSTACK_NETWORK_ID is not defined
+
   - name: Create the Mason configuration file
     template: src=/usr/share/mason-setup/{{ item }} dest=/etc/{{ item }}
     with_items:

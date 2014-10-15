@@ -64,14 +64,14 @@ fi
 
 if [ "$TEST_INFRASTRUCTURE_TYPE" = "openstack" ]; then
     "scripts/release-test-os" \
-        --deployment-host "$DISTBUILD_ARCH":"$TEST_VM_HOST_SSH_URL" \
+        --deployment-host "$DISTBUILD_ARCH":"$MASON_TEST_HOST" \
         --trove-host "$UPSTREAM_TROVE_ADDRESS" \
         --trove-id "$TROVE_ID" \
         --net-id "$OPENSTACK_NETWORK_ID" \
         "$BUILD_CLUSTER_MORPHOLOGY"
 elif [ "$TEST_INFRASTRUCTURE_TYPE" = "kvmhost" ]; then
     "scripts/release-test" \
-        --deployment-host "$DISTBUILD_ARCH":"$TEST_VM_HOST_SSH_URL" \
+        --deployment-host "$DISTBUILD_ARCH":"$MASON_TEST_HOST" \
         --trove-host "$UPSTREAM_TROVE_ADDRESS" \
         --trove-id "$TROVE_ID" \
         "$BUILD_CLUSTER_MORPHOLOGY"
