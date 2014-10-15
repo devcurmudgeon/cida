@@ -274,6 +274,8 @@ class Deployment(object):
     @staticmethod
     def _ssh_host_key_exists(hostname):
         """Check if an ssh host key exists in known_hosts"""
+        if not os.path.exists('/root/.ssh/known_hosts'):
+            return False
         with open('/root/.ssh/known_hosts', 'r') as known_hosts:
             return any(line.startswith(hostname) for line in known_hosts)
 
@@ -361,7 +363,7 @@ class Deployment(object):
             # Get ip address from nova list
             nl = NovaList()
             ip_addr = nl.get_nova_ip_for_instance_timeout(hostname)
-            print "IP address for inastance %s: %s" % (hostname, ip_addr)
+            print "IP address for instance %s: %s" % (hostname, ip_addr)
 
             return DeployedSystemInstance(self, config, self.host_machine,
                                           vm_id, rootpath, ip_addr, hostname)

@@ -185,6 +185,8 @@ class Deployment(object):
     @staticmethod
     def _ssh_host_key_exists(hostname):
         """Check if an ssh host key exists in known_hosts"""
+        if not os.path.exists('/root/.ssh/known_hosts'):
+            return False
         with open('/root/.ssh/known_hosts', 'r') as known_hosts:
             return any(line.startswith(hostname) for line in known_hosts)
 
