@@ -226,7 +226,7 @@ class WriteExtension(cliapp.Application):
     def mkfs_btrfs(self, location):
         '''Create a btrfs filesystem on the disk.'''
         self.status(msg='Creating btrfs filesystem')
-        cliapp.runcmd(['mkfs.btrfs', '-L', 'baserock', location])
+        cliapp.runcmd(['mkfs.btrfs', '-f', '-L', 'baserock', location])
 
     def get_uuid(self, location):
         '''Get the UUID of a block device's file system.'''
