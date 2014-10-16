@@ -246,7 +246,10 @@ class WriteExtension(cliapp.Application):
 
         self.status(msg='Mounting filesystem')        
         tempdir = tempfile.mkdtemp()
-        cliapp.runcmd(['mount', '-o', 'loop', location, tempdir])
+        if self.is_device(location):
+            cliapp.runcmd(['mount', location, tempdir])
+        else:
+            cliapp.runcmd(['mount', '-o', 'loop', location, tempdir])
         return tempdir
         
     def unmount(self, mount_point):
