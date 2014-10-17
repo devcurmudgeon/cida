@@ -1,0 +1,17 @@
+{
+    "builders": [
+        {
+            "type": "docker",
+            "image": "fedora:20",
+            "commit": true
+        }
+    ]
+    "post-processors: [
+        [
+            {
+                "type": "docker-tag",
+                "repository": "infratest"
+            }
+        ]
+    ]
+}
