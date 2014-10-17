@@ -5,12 +5,19 @@
             "image": "fedora:20",
             "commit": true
         }
-    ]
-    "post-processors: [
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "temporary-provisioner.sh"
+        }
+    ],
+    "post-processors": [
         [
             {
                 "type": "docker-tag",
-                "repository": "infratest"
+                "repository": "baserock/openid-provider",
+                "tag": "latest"
             }
         ]
     ]

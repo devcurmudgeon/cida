@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Temporary provisioner for the Baserock OpenID provider.
+# This should be done with Ansible really (or perhaps
+# Puppet, since it looks like Puppet will be the quickest
+# route to getting Storyboard up ...)
+
+yum install python-pip --assumeyes
+pip install django django_openid_provider
+
+
