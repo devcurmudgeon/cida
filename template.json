@@ -24,7 +24,7 @@
         },
         {
             "type": "file",
-            "source": ".",
+            "source": "./",
             "destination": "/srv",
             "only": ["production"]
         }
@@ -34,7 +34,8 @@
             {
                 "type": "docker-tag",
                 "repository": "baserock/openid-provider",
-                "tag": "latest"
+                "tag": "latest",
+                "only": ["development"]
             }
         ]
     ]

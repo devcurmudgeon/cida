@@ -10,5 +10,3 @@
 
 yum install python-pip --assumeyes
 pip install django django_openid_provider python-openid
-
-
