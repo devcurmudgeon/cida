@@ -6,6 +6,6 @@
 # route to getting Storyboard up ...)
 
 yum install python-pip --assumeyes
-pip install django django_openid_provider
+pip install django django_openid_provider python-openid
 
 
