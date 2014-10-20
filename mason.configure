@@ -43,6 +43,7 @@ ROOT="$1"
 mkdir -p "$ROOT"/usr/lib/mason
 cp mason/mason.sh "$ROOT"/usr/lib/mason/mason.sh
 cp mason/mason-report.sh "$ROOT"/usr/lib/mason/mason-report.sh
+cp mason/os-init-script "$ROOT"/usr/lib/mason/os-init-script
 
 cp mason/mason.timer "$ROOT"/etc/systemd/system/mason.timer
 
@@ -120,6 +121,21 @@ mason_configuration={
 yaml.dump(mason_configuration, sys.stdout, default_flow_style=False)
 EOF
 
+if [ "$TEST_INFRASTRUCTURE_TYPE" = "openstack" ]; then
+    python <<'EOF' >"$MASON_DATA/os.conf"
+import os, sys, yaml
+
+openstack_credentials={
+    'OS_USERNAME': os.environ['OPENSTACK_USER'],
+    'OS_TENANT_NAME': os.environ['OPENSTACK_TENANT'],
+    'OS_TENANT_ID': os.environ['OPENSTACK_TENANT_ID'],
+    'OS_AUTH_URL': os.environ['OPENSTACK_AUTH_URL'],
+    'OS_PASSWORD': os.environ['OPENSTACK_PASSWORD'],
+}
+
+yaml.dump(openstack_credentials, sys.stdout, default_flow_style=False)
+EOF
+fi
 
 ##########################################################################
 # Enable services
