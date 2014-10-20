@@ -1,0 +1,39 @@
+name: openstack-mason
+kind: cluster
+description: |
+  This is a template cluster morphology that can be adapted to set up a
+  Mason.  Masons are composed of a trove and a distbuild system.
+systems:
+- morph: systems/distbuild-system-x86_64-openstack.morph
+  deploy-defaults:
+    ARTIFACT_CACHE_SERVER: example-cache-server
+    CONTROLLERHOST: controller-hostname
+    DISTBUILD_CONTROLLER: true
+    DISTBUILD_WORKER: true
+    INSTALL_FILES: distbuild/manifest
+    RAM_SIZE: 8G
+    TROVE_HOST: your-upstream-trove
+    TROVE_ID: your-upstream-trove-prefix
+    VCPUS: 2
+    WORKER_SSH_KEY: ssh-keys/worker.key
+  deploy:
+    mason-openstack:
+      type: openstack
+      location: openstack-auth-url (eg example.com:5000/v2.0)
+      DISK_SIZE: 6G
+      DISTBUILD_CONTROLLER: true
+      HOSTNAME: controller-hostname
+      MASON_CLUSTER_MORPHOLOGY: clusters/ci.morph
+      MASON_DEFINITIONS_REF: master
+      MASON_DISTBUILD_ARCH: x86_64
+      MASON_TEST_HOST: user@openstack-auth-url
+      WORKERS: controller-hostname
+      OPENSTACK_AUTH_URL: openstack-auth-url
+      OPENSTACK_USER: baserock
+      OPENSTACK_TENANT: baserock
+      OPENSTACK_TENANT_ID: 7d7ebfe23367490b973a10fa426c3aec
+      OPENSTACK_IMAGENAME: mason-openstack
+      OPENSTACK_NETWORK_ID: 71f5151a-b7c3-405d-a841-d1b07e5db099
+      CLOUD_INIT: yes
+      KERNEL_ARGS: console=ttyS0 console=tty0
+      TEST_INFRASTRUCTURE_TYPE: openstack
