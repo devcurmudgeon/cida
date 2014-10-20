@@ -142,5 +142,4 @@ fi
 ##########################################################################
 
 ln -s ../mason.timer "$ROOT"/etc/systemd/system/multi-user.target.wants/mason.timer
-ln -s ../mason.service "$ROOT"/etc/systemd/system/multi-user.target.wants/mason.service
 ln -s ../httpd.service "$ROOT"/etc/systemd/system/multi-user.target.wants/httpd.service
