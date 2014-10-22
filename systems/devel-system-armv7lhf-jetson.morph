@@ -1,7 +1,10 @@
 name: devel-system-armv7lhf-jetson
 kind: system
-description: A system that is able to build other systems based on the NVIDIA Jetson
-  TK1.
+description: |
+  A system with useful tools for doing Baserock development.
+
+  For use on ARMv7 NVIDIA Jetson TK1 computers using little-endian word order
+  and hardware floating-point support.
 arch: armv7lhf
 strata:
 - name: build-essential

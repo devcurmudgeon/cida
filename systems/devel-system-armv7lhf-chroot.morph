@@ -1,6 +1,10 @@
 name: devel-system-armv7lhf-chroot
 kind: system
-description: A system that is able to build other systems based on the ARMv7lhf architecture.
+description: |
+  A system with useful tools for doing Baserock development.
+
+  For use on ARMv7 computers using little-endian word order and hardware
+  floating point support.
 arch: armv7lhf
 strata:
 - name: build-essential

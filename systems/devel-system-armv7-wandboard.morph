@@ -1,6 +1,9 @@
 name: devel-system-armv7-wandboard
 kind: system
-description: A system that is able to build other systems based on the Wandboard.
+description: |
+  A system with useful tools for doing Baserock development.
+
+  For use on ARMv7 Wandboard computers using little-endian word order.
 arch: armv7l
 strata:
 - name: build-essential
