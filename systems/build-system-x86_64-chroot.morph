@@ -1,0 +1,31 @@
+name: build-system-x86_64-chroot
+kind: system
+description: The system that should be used for building all other Baserock systems for 64-bit Intel x86 computers, chroot variant.
+arch: x86_64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: tools
+  morph: strata/tools.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
+- name: nfs
+  morph: strata/nfs.morph
+- name: ansible
+  morph: strata/ansible.morph
+- name: cloudinit-support
+  morph: strata/cloudinit-support.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+- distbuild
+- fstab
+- mason
+- cloud-init
