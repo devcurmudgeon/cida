@@ -1,6 +1,6 @@
-name: distbuild-system-armv7lhf-highbank
+name: build-system-armv7lhf-jetson
 kind: system
-description: Morph distributed build node for armv7lhf highbank
+description: The system that should be used for building all other Baserock systems for ARMv7 little-endian hard-float NVIDIA Jetson TK1 computers.
 arch: armv7lhf
 strata:
 - name: build-essential
@@ -9,8 +9,8 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
-- name: bsp-armv7-highbank
-  morph: strata/bsp-armv7-highbank.morph
+- name: bsp-jetson-devel
+  morph: strata/bsp-jetson-devel.morph
 - name: tools
   morph: strata/tools.morph
 - name: morph-utils

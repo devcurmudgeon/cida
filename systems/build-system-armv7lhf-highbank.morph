@@ -1,7 +1,7 @@
-name: distbuild-system-ppc64
+name: build-system-armv7lhf-highbank
 kind: system
-description: Morph distributed build node for ppc64
-arch: ppc64
+description: The system that should be used for building all other Baserock systems for ARMv7 little-endian hard-float Calxeda Highbank computers.
+arch: armv7lhf
 strata:
 - name: build-essential
   morph: strata/build-essential.morph
@@ -9,8 +9,8 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
-- name: bsp-ppc64-generic
-  morph: strata/bsp-ppc64-generic.morph
+- name: bsp-armv7-highbank
+  morph: strata/bsp-armv7-highbank.morph
 - name: tools
   morph: strata/tools.morph
 - name: morph-utils

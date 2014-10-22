@@ -1,7 +1,7 @@
-name: distbuild-system-x86_64
+name: build-system-ppc64
 kind: system
-description: Morph distributed build node for x86_64
-arch: x86_64
+description: The system that should be used for building all other Baserock systems for 64-bit POWER computers.
+arch: ppc64
 strata:
 - name: build-essential
   morph: strata/build-essential.morph
@@ -9,8 +9,8 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
-- name: bsp-x86_64-generic
-  morph: strata/bsp-x86_64-generic.morph
+- name: bsp-ppc64-generic
+  morph: strata/bsp-ppc64-generic.morph
 - name: tools
   morph: strata/tools.morph
 - name: morph-utils

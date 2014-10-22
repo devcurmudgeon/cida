@@ -10,7 +10,7 @@ description: |
   workers to authenticate with the Trove to give them read access to
   all source repositories.
 systems:
-- morph: systems/distbuild-system-x86_64-generic.morph
+- morph: systems/build-system-x86_64.morph
   deploy-defaults:
     CONTROLLERHOST: build-controller
     DISTBUILD_CONTROLLER: false

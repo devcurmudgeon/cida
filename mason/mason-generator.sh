@@ -84,7 +84,7 @@ sed -i "s/\.example\.com/$(sedescape "$HOST_POSTFIX")/g" "mason-$HOST_PREFIX.mor
 ##############################################################################
 
 morph build systems/trove-system-x86_64.morph
-morph build systems/distbuild-system-x86_64.morph
+morph build systems/build-system-x86_64.morph
 
 
 ##############################################################################
