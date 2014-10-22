@@ -21,6 +21,10 @@ strata:
   morph: strata/openstack-clients.morph
 - name: bsp-x86_both-tools
   morph: strata/bsp-x86_both-tools.morph
+- name: nodejs
+  morph: strata/nodejs.morph
+- name: ruby
+  morph: strata/ruby.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

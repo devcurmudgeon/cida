@@ -42,6 +42,10 @@ strata:
   morph: strata/openstack-clients.morph
 - name: virtualbox-guest-x86_64
   morph: strata/virtualbox-guest-x86_64.morph
+- name: nodejs
+  morph: strata/nodejs.morph
+- name: ruby
+  morph: strata/ruby.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

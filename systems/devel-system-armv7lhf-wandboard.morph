@@ -21,6 +21,10 @@ strata:
   morph: strata/morph-utils.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
+- name: nodejs
+  morph: strata/nodejs.morph
+- name: ruby
+  morph: strata/ruby.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
