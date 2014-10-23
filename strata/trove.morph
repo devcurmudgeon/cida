@@ -189,13 +189,13 @@ chunks:
 - name: trove-setup
   morph: strata/trove/trove-setup.morph
   repo: baserock:baserock/trove-setup
-  ref: 109c02002baf3c2d8eac57027f29f6c74e5233b5
+  ref: 5f2dab59ff6e70edf6ffbcd65fe64b487c4380c2
   unpetrify-ref: master
   build-depends: []
 - name: lorry-controller
   morph: strata/trove/lorry-controller.morph
   repo: baserock:baserock/lorry-controller
-  ref: cc8eb995bdcfe492cde33f2dbe831810e660027a
+  ref: d7ca3f2f14ad28437f7332ca387a790fecb8b081
   unpetrify-ref: master
   build-depends: []
 - name: lighttpd
