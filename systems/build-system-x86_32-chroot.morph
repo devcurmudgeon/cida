@@ -1,7 +1,7 @@
-name: distbuild-system-armv7lhf-highbank
+name: build-system-x86_32-chroot
 kind: system
-description: Morph distributed build node for armv7lhf highbank
-arch: armv7lhf
+description: The system that should be used for building all other Baserock systems for 32-bit Intel x86 computers, chroot variant.
+arch: x86_32
 strata:
 - name: build-essential
   morph: strata/build-essential.morph
@@ -9,8 +9,6 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
-- name: bsp-armv7-highbank
-  morph: strata/bsp-armv7-highbank.morph
 - name: tools
   morph: strata/tools.morph
 - name: morph-utils

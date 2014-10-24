@@ -1,6 +1,6 @@
-name: distbuild-system-x86_64
+name: build-system-x86_64
 kind: system
-description: Morph distributed build node for x86_64
+description: The system that should be used for building all other Baserock systems for 64-bit Intel x86 computers.
 arch: x86_64
 strata:
 - name: build-essential

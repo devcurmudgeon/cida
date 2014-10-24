@@ -1,10 +1,7 @@
-name: devel-system-x86_32-generic
+name: build-system-armv7lhf-jetson
 kind: system
-description: |
-  A system with useful tools for doing Baserock development.
-
-  For use on 32-bit Intel x86 computers.
-arch: x86_32
+description: The system that should be used for building all other Baserock systems for ARMv7 little-endian hard-float NVIDIA Jetson TK1 computers.
+arch: armv7lhf
 strata:
 - name: build-essential
   morph: strata/build-essential.morph
@@ -12,24 +9,25 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
-- name: bsp-x86_32-generic
-  morph: strata/bsp-x86_32-generic.morph
+- name: bsp-jetson-devel
+  morph: strata/bsp-jetson-devel.morph
 - name: tools
   morph: strata/tools.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
-- name: openstack-clients
-  morph: strata/openstack-clients.morph
+- name: nfs
+  morph: strata/nfs.morph
+- name: ansible
+  morph: strata/ansible.morph
 - name: cloudinit-support
   morph: strata/cloudinit-support.morph
-- name: nodejs
-  morph: strata/nodejs.morph
-- name: ruby
-  morph: strata/ruby.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
 - simple-network
 - nfsboot
 - install-files
+- distbuild
+- fstab
+- mason
 - cloud-init

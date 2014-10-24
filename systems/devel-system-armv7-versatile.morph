@@ -1,7 +1,9 @@
 name: devel-system-armv7-versatile
 kind: system
-description: A system that is able to build other systems based on the ARM versatile
-  architecture.
+description: |
+  A system with useful tools for doing Baserock development.
+
+  For use on generic ARMv7 versatile computers using little-endian word order.
 arch: armv7l
 strata:
 - name: build-essential
@@ -18,6 +20,10 @@ strata:
   morph: strata/morph-utils.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
+- name: nodejs
+  morph: strata/nodejs.morph
+- name: ruby
+  morph: strata/ruby.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

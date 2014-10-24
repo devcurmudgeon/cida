@@ -1,7 +1,9 @@
 name: devel-system-x86_64-generic
 kind: system
-description: A system that is able to build other systems based on the 64-bit x86
-  architecture.
+description: |
+  A system with useful tools for doing Baserock development.
+
+  For use on 64-bit Intel x86 computers.
 arch: x86_64
 strata:
 - name: build-essential
@@ -20,6 +22,10 @@ strata:
   morph: strata/openstack-clients.morph
 - name: cloudinit-support
   morph: strata/cloudinit-support.morph
+- name: nodejs
+  morph: strata/nodejs.morph
+- name: ruby
+  morph: strata/ruby.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

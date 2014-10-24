@@ -30,7 +30,7 @@ systems:
       VCPUS: 2
       VERSION_LABEL: 45
       WORKER_SSH_PUBKEY: ssh_keys/worker.key.pub
-- morph: systems/distbuild-system-x86_64.morph
+- morph: systems/build-system-x86_64.morph
   deploy-defaults:
     ARTIFACT_CACHE_SERVER: red-box-v1-trove.example.com
     CONTROLLERHOST: red-box-v1-controller.example.com
