@@ -124,7 +124,7 @@ def openid_xrds(request, identity=False, id=None):
         'host': request.build_absolute_uri('/'),
         'types': types,
         'endpoints': endpoints,
-    }, context_instance=RequestContext(request), mimetype=YADIS_CONTENT_TYPE)
+    }, context_instance=RequestContext(request), content_type=YADIS_CONTENT_TYPE)
 
 def openid_decide(request):
     """
