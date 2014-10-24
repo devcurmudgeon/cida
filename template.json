@@ -20,11 +20,16 @@
     "provisioners": [
         {
             "type": "shell",
+            "inline": [ "sleep 10" ],
+            "only": ["production"]
+        },
+        {
+            "type": "shell",
             "script": "temporary-provisioner.sh"
         },
         {
             "type": "file",
-            "source": "./",
+            "source": ".",
             "destination": "/srv",
             "only": ["production"]
         }
