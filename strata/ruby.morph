@@ -1,6 +1,12 @@
 name: ruby
 kind: stratum
-description: ruby and things from ruby world
+description: |
+  Ruby and common Ruby build dependencies.
+
+  Most Gem dependencies are not required when building or installing the
+  Gem. They are needed at runtime only. Tools which extend Rake, such as
+  'hoe' and 'rake-compiler', are exceptions to that rule, and are kept
+  in this stratum so they are always available when building other Gems.
 build-depends:
 - morph: strata/tools.morph
 chunks:
@@ -28,5 +34,19 @@ chunks:
   repo: upstream:bundler
   ref: 0708fbe62617a63300e1cc3b9869cc1280c57ef6
   unpetrify-ref: baserock/v1.6.2
+  build-depends:
+  - ruby
+- name: hoe
+  morph: strata/ruby/hoe.morph
+  repo: upstream:ruby-gems/hoe
+  ref: 50a2706d0f70ece52922ddcc56630e1e0655b83e
+  unpetrify-ref: master
+  build-depends:
+  - ruby
+- name: rake-compiler
+  morph: strata/ruby/rake-compiler.morph
+  repo: upstream:ruby-gems/rake-compiler
+  ref: aaed621f6fdb0b0395775fea5464cc83e794fbdb
+  unpetrify-ref: v0.9.3
   build-depends:
   - ruby
