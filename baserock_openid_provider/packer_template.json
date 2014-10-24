@@ -13,7 +13,7 @@
             "flavor": 2,
             "source_image": "752b66d3-8f39-4b52-831e-f638ff3c61f8",
             "networks": ["798c5c38-1983-4fd1-823b-3d32bf78f781"],
-            "floating_ip": "85.199.252.110",
+            "floating_ip": "85.199.252.126",
             "use_floating_ip": true
         }
     ],
