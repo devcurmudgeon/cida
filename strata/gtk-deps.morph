@@ -20,8 +20,8 @@ chunks:
 - name: gdk-pixbuf
   morph: strata/gtk-deps/gdk-pixbuf.morph
   repo: upstream:gdk-pixbuf
-  ref: bc45874c7ba5a6a95f032b48ab78115b3e2238ad
-  unpetrify-ref: baserock/morph
+  ref: b86959aa16e9d49ec6e286bc57d36c5249578c59
+  unpetrify-ref: 2.30.8
   build-depends: []
 - name: atk
   repo: upstream:atk

@@ -3,6 +3,4 @@ kind: chunk
 build-system: autotools
 install-commands:
 - make DESTDIR=$DESTDIR install
-- install -d "$DESTDIR/lib/systemd/system/multi-user.target.wants"
-- install -m 0644 systemd/gdk-pixbuf-cache-loaders.service "$DESTDIR/lib/systemd/system"
-- ln -s ../gdk-pixbuf-cache-loaders.service "$DESTDIR/lib/systemd/system/multi-user.target.wants/gdk-pixbuf-cache-loaders.service"
+- LD_LIBRARY_PATH=$DESTDIR/usr/lib $DESTDIR/usr/bin/gdk-pixbuf-query-loaders > $DESTDIR/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
