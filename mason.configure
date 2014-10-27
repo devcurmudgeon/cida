@@ -24,6 +24,8 @@
 #   * MASON_DEFINITIONS_REF
 #   * MASON_DISTBUILD_ARCH
 #   * MASON_TEST_HOST
+#   * OPENSTACK_NETWORK_ID
+#   * TEST_INFRASTRUCTURE_TYPE
 #   * TROVE_HOST
 #   * TROVE_ID
 #   * CONTROLLERHOST
@@ -41,6 +43,7 @@ ROOT="$1"
 mkdir -p "$ROOT"/usr/lib/mason
 cp mason/mason.sh "$ROOT"/usr/lib/mason/mason.sh
 cp mason/mason-report.sh "$ROOT"/usr/lib/mason/mason-report.sh
+cp mason/os-init-script "$ROOT"/usr/lib/mason/os-init-script
 
 cp mason/mason.timer "$ROOT"/etc/systemd/system/mason.timer
 
@@ -108,6 +111,8 @@ mason_configuration={
     'MASON_DEFINITIONS_REF': os.environ['MASON_DEFINITIONS_REF'],
     'MASON_DISTBUILD_ARCH': os.environ['MASON_DISTBUILD_ARCH'],
     'MASON_TEST_HOST': os.environ['MASON_TEST_HOST'],
+    'OPENSTACK_NETWORK_ID': os.environ['OPENSTACK_NETWORK_ID'],
+    'TEST_INFRASTRUCTURE_TYPE': os.environ['TEST_INFRASTRUCTURE_TYPE'],
     'TROVE_ID': os.environ['TROVE_ID'],
     'TROVE_HOST': os.environ['TROVE_HOST'],
     'CONTROLLERHOST': os.environ['CONTROLLERHOST'],
@@ -116,11 +121,25 @@ mason_configuration={
 yaml.dump(mason_configuration, sys.stdout, default_flow_style=False)
 EOF
 
+if [ "$TEST_INFRASTRUCTURE_TYPE" = "openstack" ]; then
+    python <<'EOF' >"$MASON_DATA/os.conf"
+import os, sys, yaml
+
+openstack_credentials={
+    'OS_USERNAME': os.environ['OPENSTACK_USER'],
+    'OS_TENANT_NAME': os.environ['OPENSTACK_TENANT'],
+    'OS_TENANT_ID': os.environ['OPENSTACK_TENANT_ID'],
+    'OS_AUTH_URL': os.environ['OPENSTACK_AUTH_URL'],
+    'OS_PASSWORD': os.environ['OPENSTACK_PASSWORD'],
+}
+
+yaml.dump(openstack_credentials, sys.stdout, default_flow_style=False)
+EOF
+fi
 
 ##########################################################################
 # Enable services
 ##########################################################################
 
 ln -s ../mason.timer "$ROOT"/etc/systemd/system/multi-user.target.wants/mason.timer
-ln -s ../mason.service "$ROOT"/etc/systemd/system/multi-user.target.wants/mason.service
 ln -s ../httpd.service "$ROOT"/etc/systemd/system/multi-user.target.wants/httpd.service

@@ -2,6 +2,7 @@
 - hosts: localhost
   vars_files:
   - "/etc/mason/mason.conf"
+  - "/etc/mason/os.conf"
   tasks:
 
 
@@ -29,10 +30,37 @@
   - fail: msg='CONTROLLERHOST is mandatory'
     when: CONTROLLERHOST is not defined
 
+  - fail: msg='TEST_INFRASTRUCTURE_TYPE is mandatory'
+    when: TEST_INFRASTRUCTURE_TYPE is not defined
+
+  - fail: msg='OPENSTACK_NETWORK_ID is mandatory when TEST_INFRASTRUCTURE_TYPE=openstack'
+    when: TEST_INFRASTRUCTURE_TYPE == "openstack" and OPENSTACK_NETWORK_ID is not defined
+
+  - fail: msg='OS_USERNAME is mandatory when TEST_INFRASTRUCTURE_TYPE=openstack'
+    when: TEST_INFRASTRUCTURE_TYPE == "openstack" and OS_USERNAME is not defined
+
+  - fail: msg='OS_PASSWORD is mandatory when TEST_INFRASTRUCTURE_TYPE=openstack'
+    when: TEST_INFRASTRUCTURE_TYPE == "openstack" and OS_PASSWORD is not defined
+
+  - fail: msg='OS_TENANT_ID is mandatory when TEST_INFRASTRUCTURE_TYPE=openstack'
+    when: TEST_INFRASTRUCTURE_TYPE == "openstack" and OS_TENANT_ID is not defined
+
+  - fail: msg='OS_TENANT_NAME is mandatory when TEST_INFRASTRUCTURE_TYPE=openstack'
+    when: TEST_INFRASTRUCTURE_TYPE == "openstack" and OS_TENANT_NAME is not defined
+
+  - fail: msg='OS_AUTH_URL is mandatory when TEST_INFRASTRUCTURE_TYPE=openstack'
+    when: TEST_INFRASTRUCTURE_TYPE == "openstack" and OS_AUTH_URL is not defined
+
   - name: Create the Mason configuration file
     template: src=/usr/share/mason-setup/{{ item }} dest=/etc/{{ item }}
     with_items:
     - mason.conf
+
+  - name: Create the OpenStack credentials file
+    template: src=/usr/share/mason-setup/{{ item }} dest=/etc/{{ item }}
+    with_items:
+    - os.conf
+    when: TEST_INFRASTRUCTURE_TYPE == "openstack"
 
   - name: Enable the mason service
     service: name=mason.service enabled=yes

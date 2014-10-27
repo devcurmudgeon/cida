@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Load OpenStack credentials
+. /etc/os.conf
+
 set -e
 set -x
 
@@ -59,11 +62,20 @@ else
     echo INFO: Created "$releases_made" release images
 fi
 
-"scripts/release-test" \
-	--deployment-host "$DISTBUILD_ARCH":"$TEST_VM_HOST_SSH_URL" \
-	--trove-host "$UPSTREAM_TROVE_ADDRESS" \
-	--trove-id "$TROVE_ID" \
-	"$BUILD_CLUSTER_MORPHOLOGY"
+if [ "$TEST_INFRASTRUCTURE_TYPE" = "openstack" ]; then
+    "scripts/release-test-os" \
+        --deployment-host "$DISTBUILD_ARCH":"$MASON_TEST_HOST" \
+        --trove-host "$UPSTREAM_TROVE_ADDRESS" \
+        --trove-id "$TROVE_ID" \
+        --net-id "$OPENSTACK_NETWORK_ID" \
+        "$BUILD_CLUSTER_MORPHOLOGY"
+elif [ "$TEST_INFRASTRUCTURE_TYPE" = "kvmhost" ]; then
+    "scripts/release-test" \
+        --deployment-host "$DISTBUILD_ARCH":"$MASON_TEST_HOST" \
+        --trove-host "$UPSTREAM_TROVE_ADDRESS" \
+        --trove-id "$TROVE_ID" \
+        "$BUILD_CLUSTER_MORPHOLOGY"
+fi
 
 "scripts/release-upload" --build-trove-host "$ARTIFACT_CACHE_SERVER" \
 	--arch "$DISTBUILD_ARCH" \

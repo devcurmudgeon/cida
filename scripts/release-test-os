@@ -35,6 +35,69 @@ import uuid
 import morphlib
 
 
+class NovaList:
+    def __init__(self):
+        self.output = []
+        self.lines = []
+        self.instance = []
+
+    def update(self):
+        self.output = cliapp.runcmd(['nova', 'list'])
+        self.lines = self.output.split('\n')
+        self.lines = self.lines[3:-2]
+
+    def get_nova_details_for_instance(self, name):
+        self.update()
+
+        for line in self.lines:
+            entries = line.split('|')
+            stripped_line = [entry.strip() for entry in entries]
+            if stripped_line.count(name) == 1:
+                self.instance = stripped_line
+
+    def get_nova_state_for_instance(self, name):
+        self.get_nova_details_for_instance(name)
+        if not self.instance:
+            return
+        return self.instance[3]
+
+    def get_nova_ip_for_instance(self, name):
+        self.get_nova_details_for_instance(name)
+        if not self.instance:
+            return
+
+        if self.get_nova_state_for_instance(name) != 'ACTIVE':
+            return
+
+        return self.instance[6]
+
+    def get_nova_ip_for_instance_timeout(self, name, timeout=120):
+        start_time = time.time()
+
+        while self.get_nova_state_for_instance(name) != 'ACTIVE':
+
+            if time.time() > start_time + timeout:
+                print "%s not ACTIVE after %i seconds" % (name, timeout)
+                return
+
+            time.sleep(1)
+
+        ip_addr = self.get_nova_ip_for_instance(name)
+        if not ip_addr:
+            return
+
+        if ip_addr.count('=') == 0:
+            return
+
+        ip_addr = ip_addr[ip_addr.find('=') + 1:]
+
+        if ip_addr.count(',') == 0:
+            return ip_addr
+
+        return ip_addr[:ip_addr.find(',')]
+
+
+
 class MorphologyHelper(object):
 
     def __init__(self):
@@ -93,21 +156,18 @@ class VMHost(object):
     def runcmd(self, *args, **kwargs):
         cliapp.ssh_runcmd(self.ssh_host, *args, **kwargs)
 
-    def virsh(self, *args, **kwargs):
-        self.runcmd(['virsh', '-c', 'qemu:///system'] + list(args), **kwargs)
-
 
 class DeployedSystemInstance(object):
 
-    def __init__(self, deployment, config, host_machine, vm_id, rootfs_path):
+    def __init__(self, deployment, config, host_machine, vm_id, rootfs_path,
+            ip_addr, hostname):
         self.deployment = deployment
         self.config = config
-        # TODO: Stop assuming test machine can DHCP and be assigned its
-        # hostname in the deployer's resolve search path.
-        self.ip_address = self.config['HOSTNAME']
+        self.ip_address = ip_addr
         self.host_machine = host_machine
         self.vm_id = vm_id
         self.rootfs_path = rootfs_path
+        self.hostname = hostname
 
     @property
     def ssh_host(self):
@@ -155,32 +215,61 @@ class DeployedSystemInstance(object):
                                        % (self.ip_address, timeout))
                 time.sleep(0.5)
 
-    def wait_until_online(self, timeout=10):
+    def _wait_for_cloud_init(self, timeout):
+        """Wait until cloud init has resized the disc"""
+        start_time = time.time()
+        while True:
+            try:
+                out = self.runcmd(['sh', '-c',
+                              'test -e "$1" && echo exists || echo does not exist',
+                              '-', 
+                              '/root/cloud-init-finished'])
+            except:
+                import traceback
+                traceback.print_exc()
+                raise
+            if out.strip() == 'exists':
+                return
+            if time.time() > start_time + timeout:
+                raise TimeoutError("Disc size not increased after %i seconds"
+                                   % (timeout))
+            time.sleep(3)
+
+    def wait_until_online(self, timeout=120):
         self._wait_for_dhcp(timeout)
         self._wait_for_ssh(timeout)
+        self._wait_for_cloud_init(timeout)
+        print "Test system %s ready to run tests." % (self.hostname)
 
     def delete(self):
         # Stop and remove VM
+        print "Deleting %s test instance" % (self.hostname)
         try:
-            self.host_machine.virsh('destroy', self.vm_id)
+            cliapp.runcmd(['nova', 'delete', self.hostname])
         except cliapp.AppException as e:
-            # TODO: Stop assuming that destroy failed because it wasn't running
+            # TODO: Stop assuming that delete failed because the instance
+            #       wasn't running
+            print "- Failed"
             pass
+        print "Deleting %s test disc image" % (self.hostname)
         try:
-            self.host_machine.virsh('undefine', self.vm_id, '--remove-all-storage')
+            cliapp.runcmd(['nova', 'image-delete', self.hostname])
         except cliapp.AppException as e:
-            # TODO: Stop assuming that undefine failed because it was
+            # TODO: Stop assuming that image-delete failed because it was
             #       already removed
+            print "- Failed"
             pass
 
 
 class Deployment(object):
 
-    def __init__(self, cluster_path, name, deployment_config, host_machine):
+    def __init__(self, cluster_path, name, deployment_config,
+                 host_machine, net_id):
         self.cluster_path = cluster_path
         self.name = name
         self.deployment_config = deployment_config
         self.host_machine = host_machine
+        self.net_id = net_id
 
     @staticmethod
     def _ssh_host_key_exists(hostname):
@@ -220,17 +309,22 @@ class Deployment(object):
         image_base = self.host_machine.disk_path
         rootpath = '{image_base}/{hostname}.img'.format(image_base=image_base,
                                                         hostname=hostname)
-        loc = 'kvm+ssh://{ssh_host}/{id}/{path}'.format(
+        loc = 'http://{ssh_host}:5000/v2.0'.format(
             ssh_host=self.host_machine.ssh_host, id=vm_id, path=rootpath)
 
         options = {
-            'type': 'kvm',
+            'type': 'openstack',
             'location': loc,
-            'AUTOSTART': 'True',
             'HOSTNAME': hostname,
-            'DISK_SIZE': '20G',
+            'DISK_SIZE': '5G',
             'RAM_SIZE': '2G',
             'VERSION_LABEL': 'release-test',
+            'OPENSTACK_USER': os.environ['OS_USERNAME'],
+            'OPENSTACK_TENANT': os.environ['OS_TENANT_NAME'],
+            'OPENSTACK_PASSWORD': os.environ['OS_PASSWORD'],
+            'OPENSTACK_IMAGENAME': hostname,
+            'CLOUD_INIT': 'yes',
+            'KERNEL_ARGS': 'console=tty0 console=ttyS0',
         }
 
         tempdir = tempfile.mkdtemp()
@@ -239,6 +333,7 @@ class Deployment(object):
                 self._generate_sshkey_config(tempdir,
                                             self.deployment_config))
 
+            # Deploy the image to openstack
             args = ['morph', 'deploy', self.cluster_path, self.name]
             for k, v in options.iteritems():
                 args.append('%s.%s=%s' % (self.name, k, v))
@@ -247,8 +342,31 @@ class Deployment(object):
             config = dict(self.deployment_config)
             config.update(options)
 
+            # Boot an instance from the image
+            args = ['nova', 'boot',
+                '--flavor', 'm1.medium',
+                '--image', hostname,
+                '--user-data', '/usr/lib/mason/os-init-script',
+                '--nic', "net-id=%s" % (self.net_id),
+                hostname]
+            output = cliapp.runcmd(args)
+
+            # Print nova boot output, with adminPass line removed
+            output_lines = output.split('\n')
+            for line in output_lines:
+                if line.find('adminPass') != -1:
+                    password_line = line
+            output_lines.remove(password_line)
+            output = '\n'.join(output_lines)
+            print output
+
+            # Get ip address from nova list
+            nl = NovaList()
+            ip_addr = nl.get_nova_ip_for_instance_timeout(hostname)
+            print "IP address for instance %s: %s" % (hostname, ip_addr)
+
             return DeployedSystemInstance(self, config, self.host_machine,
-                                          vm_id, rootpath)
+                                          vm_id, rootpath, ip_addr, hostname)
         finally:
             shutil.rmtree(tempdir)
 
@@ -274,6 +392,10 @@ class ReleaseApp(cliapp.Application):
                              group=group_main)
         self.settings.string(['build-ref-prefix'],
                              'Prefix of build branches for test systems',
+                             default=None,
+                             group=group_main)
+        self.settings.string(['net-id'],
+                             'Openstack network ID',
                              default=None,
                              group=group_main)
 
@@ -336,7 +458,8 @@ class ReleaseApp(cliapp.Application):
             test(instance)
 
     def deploy_and_test_systems(self, cluster_path,
-                                deployment_hosts, build_test_config):
+                                deployment_hosts, build_test_config,
+                                net_id):
         """Run the deployments and tests"""
 
         version = 'release-test'
@@ -358,7 +481,8 @@ class ReleaseApp(cliapp.Application):
                 continue
             host_machine = deployment_hosts[system_morph['arch']]
             deployment = Deployment(cluster_path, deployment_name,
-                                    deployment_config, host_machine)
+                                    deployment_config, host_machine,
+                                    net_id)
 
             instance = deployment.deploy()
             try:
@@ -373,7 +497,7 @@ class ReleaseApp(cliapp.Application):
             self.settings['build-ref-prefix'] = (
                 os.path.join(self.settings['trove-id'], 'builds'))
         for setting in ('deployment-host', 'trove-host',
-                        'trove-id', 'build-ref-prefix'):
+                        'trove-id', 'build-ref-prefix', 'net-id'):
             self.settings.require(setting)
 
         deployment_hosts = {}
@@ -394,7 +518,8 @@ class ReleaseApp(cliapp.Application):
             raise cliapp.AppException('Usage: release-test CLUSTER')
         cluster_path = morphlib.util.sanitise_morphology_path(args[0])
         self.deploy_and_test_systems(cluster_path, deployment_hosts,
-                                     build_test_config)
+                                     build_test_config,
+                                     self.settings['net-id'])
 
 
 if __name__ == '__main__':
