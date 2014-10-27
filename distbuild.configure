@@ -45,20 +45,21 @@ if [ -n "$DISTBUILD_GENERIC" ]; then
     exit 0
 fi
 
+# Set default values for these two options if they are unset, so that if the
+# user specifies no distbuild config at all the configure extension exits
+# without doing anything but does not raise an error.
+DISTBUILD_CONTROLLER=${DISTBUILD_CONTROLLER-False}
+DISTBUILD_WORKER=${DISTBUILD_WORKER-False}
+
+if [ "$DISTBUILD_CONTROLLER" = False -a "$DISTBUILD_WORKER" = False ]; then
+    exit 0
+fi
+
 set -u
 
 # Check that all the variables needed are present:
 
 error_vars=false
-if [ "x$DISTBUILD_WORKER" = "x" ]; then
-    echo "ERROR: DISTBUILD_WORKER needs to be defined."
-    error_vars=true
-fi
-
-if [ "x$DISTBUILD_CONTROLLER" = "x" ]; then
-    echo "ERROR: DISTBUILD_CONTROLLER needs to be defined."
-    error_vars=true
-fi
 
 if [ "x$TROVE_HOST" = "x" ]; then
     echo "ERROR: TROVE_HOST needs to be defined."
