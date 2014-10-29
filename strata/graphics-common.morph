@@ -41,9 +41,10 @@ chunks:
   unpetrify-ref: Release-v4-0-3
   build-depends: []
 - name: cairo
+  morph: strata/graphics-common/cairo.morph
   repo: upstream:cairo
-  ref: c373daa9d4bade91b3fc8b7850163db4b3aec40a
-  unpetrify-ref: baserock/genivi/1.12.10
+  ref: f6fd372a8b31a0bebbdfe36090d6ffc7bab9a2f8
+  unpetrify-ref: 1.14.0
   build-depends:
   - fontconfig
   - freetype2
@@ -55,13 +56,3 @@ chunks:
   unpetrify-ref: baserock/0.9.12
   build-depends:
   - freetype2
-- name: pango
-  repo: upstream:pango
-  ref: f8b1566e81af9e36ac018af4f0ae85ee7db4b8fd
-  unpetrify-ref: baserock/1.36.3
-  build-depends:
-  - cairo
-  - harfbuzz
-  - fontconfig
-  - freetype2
-  - freefont-otf

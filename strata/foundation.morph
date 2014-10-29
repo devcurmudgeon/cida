@@ -54,14 +54,12 @@ chunks:
   - libusbx
 - name: glib
   repo: upstream:glib
-  ref: 3f8f040349ae821854bccb2c3535a58b0ee66803
-  unpetrify-ref: baserock/2.40.0
+  ref: 4125415e7f4d1213fc7122beac0d91af08e37b28
   build-depends:
   - libffi
 - name: gobject-introspection
   repo: upstream:gobject-introspection
-  ref: 6750a92ca83aa301eeac5eb59e918576fe544231
-  unpetrify-ref: baserock/GOBJECT_INTROSPECTION_1_40_0
+  ref: a543d8563f8e9ca059afb7218c63496f577cd0fc
   build-depends:
   - glib
 - name: dbus-pre

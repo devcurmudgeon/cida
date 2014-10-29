@@ -6,6 +6,11 @@ build-depends:
 - morph: strata/graphics-common.morph
 - morph: strata/x-common.morph
 chunks:
+- name: pango
+  repo: upstream:pango
+  ref: e0a21abf52a0b7588b1aa3357818948816ed9103
+  unpetrify-ref: 1.36.8
+  build-depends: []
 - name: shared-mime-info
   morph: strata/gtk-deps/shared-mime-info.morph
   repo: upstream:shared-mime-info
@@ -20,8 +25,8 @@ chunks:
 - name: gdk-pixbuf
   morph: strata/gtk-deps/gdk-pixbuf.morph
   repo: upstream:gdk-pixbuf
-  ref: bc45874c7ba5a6a95f032b48ab78115b3e2238ad
-  unpetrify-ref: baserock/morph
+  ref: b86959aa16e9d49ec6e286bc57d36c5249578c59
+  unpetrify-ref: 2.30.8
   build-depends: []
 - name: atk
   repo: upstream:atk
