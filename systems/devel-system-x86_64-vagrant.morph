@@ -12,8 +12,6 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
-- name: genivi-foundation
-  morph: strata/genivi-foundation.morph
 - name: bsp-x86_64-generic
   morph: strata/bsp-x86_64-generic.morph
 - name: tools

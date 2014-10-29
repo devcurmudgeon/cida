@@ -9,8 +9,6 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
-- name: genivi-foundation
-  morph: strata/genivi-foundation.morph
 - name: bsp-x86_64-generic
   morph: strata/bsp-x86_64-generic.morph
 - name: connectivity
@@ -27,8 +25,6 @@ strata:
   morph: strata/multimedia.morph
 - name: genivi
   morph: strata/genivi.morph
-- name: genivi-x-generic
-  morph: strata/genivi-x-generic.morph
 - name: gtk2
   morph: strata/gtk2.morph
 - name: tools
