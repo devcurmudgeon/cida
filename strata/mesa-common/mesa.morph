@@ -4,32 +4,21 @@ build-system: autotools
 configure-commands:
 - |
   cpu=$(echo $TARGET | cut -d '-' -f 1)
-  EXTRAARGS=--disable-gallium-egl
   case "$cpu" in
-  x86_32|x64_64)
-    DRIDRIVERS=intel,i915,i965,swrast
-    GALLIUMDRIVERS=swrast
-    EGLPLATFORMS=wayland,drm
-    ;;
   armv7lhf)
-    DRIDRIVERS=nouveau,swrast
-    GALLIUMDRIVERS=nouveau,swrast
-    EXTRAARGS="--with-state-trackers=egl --enable-gallium-egl"
-    EGLPLATFORMS=wayland,drm
+    DRIDRIVERS=no
+    GALLIUMDRIVERS=nouveau,freedreno,svga,swrast,vc4
+    EXTRAARGS="--enable-gallium-egl"
     ;;
   *)
-    DRIDRIVERS=swrast
-    GALLIUMDRIVERS=swrast
-    EGLPLATFORMS=wayland,drm
+    DRIDRIVERS=yes
+    GALLIUMDRIVERS=yes
     ;;
   esac
   ./autogen.sh --prefix="$PREFIX" \
       --enable-gles2 \
-      --with-egl-platforms="$EGLPLATFORMS" \
       --disable-glx \
-      --enable-gbm \
-      --enable-shared-glapi \
+      --with-egl-platforms=drm,wayland \
       --with-gallium-drivers="$GALLIUMDRIVERS" \
       --with-dri-drivers="$DRIDRIVERS" \
-      --disable-dri3 $EXTRAARGS
-
+      $EXTRAARGS
