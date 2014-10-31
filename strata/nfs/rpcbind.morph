@@ -3,7 +3,7 @@ kind: chunk
 build-system: autotools
 configure-commands:
 - NOCONFIGURE=1 ./autogen.sh
-- ./configure --prefix="$PREFIX" --enable-libwrap --with-rpcuser=nobody --enable-warmstarts
+- ./configure --prefix="$PREFIX" --with-rpcuser=nobody --enable-warmstarts
 install-commands:
 - make DESTDIR="$DESTDIR" install
 - mkdir -p "$DESTDIR"/lib/systemd/system
