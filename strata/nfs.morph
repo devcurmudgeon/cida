@@ -9,12 +9,6 @@ chunks:
   ref: 9364dff5c20e9e8c18f7f20ee1c92463e9e9c8a7
   unpetrify-ref: baserock/release-2.0.21-stable
   build-depends: []
-- name: tcp-wrappers
-  morph: strata/nfs/tcp-wrappers.morph
-  repo: upstream:tcp-wrappers
-  ref: 23b65f29b324b65a057a3fa87613b788856d6e4e
-  unpetrify-ref: baserock/fedora-patches
-  build-depends: []
 - name: ti-rpc
   morph: strata/nfs/ti-rpc.morph
   repo: upstream:ti-rpc
@@ -28,7 +22,6 @@ chunks:
   unpetrify-ref: baserock/master
   build-depends:
   - ti-rpc
-  - tcp-wrappers
 - name: nfs-utils
   morph: strata/nfs/nfs-utils.morph
   repo: upstream:nfs-utils
@@ -36,5 +29,4 @@ chunks:
   unpetrify-ref: baserock/master
   build-depends:
   - libevent
-  - tcp-wrappers
   - ti-rpc
