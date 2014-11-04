@@ -15,22 +15,31 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 usage() {
-    echo "Usage: cycle.sh some-system some-cluster"
+    echo "Usage: cycle.sh some-system some-cluster [newversion]"
     echo
     echo "This builds and deploys the current checked out version of"
     echo "some-system, applying it as a self-upgrade to the system you"
     echo "are working in, using configuration from some-cluster."
-    echo "The upgrade is labelled TEST, and is set to be the default for"
-    echo "next boot."
+    echo "The upgrade is labelled TEST by default, or [newversion] if"
+    echo "specified, and is set to be the default for next boot."
 }
 
-if [ -z "$1" ] || [ -z "$2" ] ; then
+if [ -z "$1" ] || [ -z "$2" ] || [ ! -z "$4" ] ; then
     usage
     exit 1
 fi
 
-if system-version-manager get-running | grep -q '^TEST$'; then
-  echo "You are currently running the TEST system."
+newversion=TEST
+if [ ! -z "$3" ] ; then
+    newversion=$3
+    if (echo "$newversion" | grep ' ' > /dev/null 2>&1) ; then
+        echo 'Version label must not contain spaces.'
+        exit 1
+    fi
+fi
+
+if system-version-manager get-running | grep -q "^$newversion$"; then
+  echo "You are currently running the $newversion system."
   echo "Maybe you want to boot into a different system version?"
   exit 1
 fi
@@ -38,13 +47,15 @@ fi
 set -e
 set -v
 
-system-version-manager set-default factory
-if system-version-manager list | grep -q '^TEST$'; then
-  system-version-manager remove TEST
+runningversion=`system-version-manager get-running`
+system-version-manager set-default $runningversion
+if system-version-manager list | grep -q "^$newversion$"; then
+  system-version-manager remove $newversion
 fi
 
 morph gc
 morph build "$1"
 
 sed -i "s|^- morph: .*$|- morph: $1|" "$2"
-morph deploy --upgrade "$2" self.HOSTNAME=$(hostname) self.VERSION_LABEL=TEST
+morph deploy --upgrade "$2" self.HOSTNAME=$(hostname) self.VERSION_LABEL=$newversion
+system-version-manager list
