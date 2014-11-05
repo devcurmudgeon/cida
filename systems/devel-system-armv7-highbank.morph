@@ -24,6 +24,8 @@ strata:
   morph: strata/nodejs.morph
 - name: ruby
   morph: strata/ruby.morph
+- name: baserock-import
+  morph: strata/baserock-import.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
