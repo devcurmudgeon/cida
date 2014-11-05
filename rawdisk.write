@@ -68,7 +68,7 @@ class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
         version_root = os.path.join(mp, 'systems', version_label)
         os.mkdir(version_root)
 
-        old_orig = os.path.join(mp, 'systems', 'factory', 'orig')
+        old_orig = os.path.join(mp, 'systems', 'default', 'orig')
         new_orig = os.path.join(version_root, 'orig')
         cliapp.runcmd(
             ['btrfs', 'subvolume', 'snapshot', old_orig, new_orig])

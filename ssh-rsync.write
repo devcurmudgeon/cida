@@ -92,8 +92,8 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
     def get_old_orig(self, location, remote_mnt):
         '''Identify which subvolume to snapshot from'''
 
-        # rawdisk upgrades use 'factory'
-        return os.path.join(remote_mnt, 'systems', 'factory', 'orig')
+        # rawdisk upgrades use 'default'
+        return os.path.join(remote_mnt, 'systems', 'default', 'orig')
 
     @contextlib.contextmanager
     def _created_orig_subvolume(self, location, remote_mnt, version_root):
