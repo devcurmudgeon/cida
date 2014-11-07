@@ -1,0 +1,3 @@
+[submodule "baserock_storyboard/puppet-storyboard"]
+	path = baserock_storyboard/puppet-storyboard
+	url = https://github.com/openstack-infra/puppet-storyboard

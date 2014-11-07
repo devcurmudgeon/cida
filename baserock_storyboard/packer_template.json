@@ -1,0 +1,39 @@
+{
+    "builders": [
+        {
+            "name": "development",
+            "type": "docker",
+            "image": "fedora:20",
+            "commit": true
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "yum install -y puppet"
+            ]
+        }
+        {   "type": "shell",
+            "inline": [
+                "cd /src/test-baserock-infrastructure/baserock_storyboard",
+                "puppet module build puppet-storyboard",
+                "puppet module install --no-dependencies puppet-storyboard/pkg/openstack-storyboard-*.*.*.tar.gz"
+            ]
+        },
+        {
+            "type": "puppet-masterless",
+            "manifests_file": "site.pp"
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "docker-tag",
+                "repository": "baserock/storyboard",
+                "tag": "latest",
+                "only": ["development"]
+            }
+        ]
+    ]
+}
