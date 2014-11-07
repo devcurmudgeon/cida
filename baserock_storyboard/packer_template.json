@@ -14,17 +14,18 @@
                 "yum install -y ruby gem",
                 "gem install puppet"
             ]
-        }
+        },
         {   "type": "shell",
             "inline": [
                 "cd /src/test-baserock-infrastructure/baserock_storyboard",
                 "puppet module build puppet-storyboard",
-                "puppet module install --no-dependencies puppet-storyboard/pkg/openstack-storyboard-*.*.*.tar.gz"
+                "puppet module install puppet-storyboard/pkg/openstack-storyboard-*.*.*.tar.gz",
+                "puppet module install camptocamp-openssl"
             ]
         },
         {
             "type": "puppet-masterless",
-            "manifests_file": "site.pp"
+            "manifest_file": "baserock_storyboard/site.pp"
         }
     ],
     "post-processors": [
