@@ -25,11 +25,15 @@
         },
         {
             "type": "shell",
-            "script": "temporary-provisioner.sh"
+            "inline": [ "sudo yum install -y ansible"]
+        },
+        {
+            "type": "ansible-local",
+            "playbook_file": "baserock_openid_provider/local.yml"
         },
         {
             "type": "file",
-            "source": ".",
+            "source": "baserock_openid_provider",
             "destination": "/srv",
             "only": ["production"]
         }

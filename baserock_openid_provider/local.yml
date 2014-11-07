@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  tasks:
+  - name: install PIP package manager
+    yum: name=python-pip state=latest
+
+  - name: install Django
+    pip: name=django
+
+  - name: install django-registration
+    pip: name=django-registration
+
+  - name: install python-openid
+    pip: name=python-openid
+
