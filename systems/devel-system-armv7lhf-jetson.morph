@@ -19,8 +19,8 @@ strata:
   morph: strata/morph-utils.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
-- name: bsp-jetson-devel
-  morph: strata/bsp-jetson-devel.morph
+- name: bsp-jetson
+  morph: strata/bsp-jetson.morph
 - name: nodejs
   morph: strata/nodejs.morph
 - name: ruby

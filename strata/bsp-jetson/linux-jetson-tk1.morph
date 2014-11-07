@@ -1,7 +1,7 @@
 name: linux-jetson-tk1
 kind: chunk
 configure-commands:
-- make ARCH=arm tegra12_defconfig
+- make ARCH=arm tegra_defconfig
 - scripts/config -d KERNEL_LZO
 - scripts/config -e KERNEL_GZIP
 - scripts/config -e NAMESPACES
@@ -44,10 +44,28 @@ configure-commands:
 - scripts/config -d DEBUG_STACK_TRACE
 - scripts/config -e NFSD
 - scripts/config -e NFSD_V3
+- scripts/config -e DRM_TEGRA_STAGING
+- scripts/config -m DRM_NOUVEAU
 - yes '' | make ARCH=arm oldconfig
 build-commands:
 - make $MAKEFLAGS ARCH=arm LOADADDR=0x80200000 zImage dtbs
 install-commands:
 - mkdir -p "$DESTDIR"/boot
 - cp arch/arm/boot/zImage "$DESTDIR"/boot/zImage
-- cp arch/arm/boot/dts/tegra124-pm375.dtb "$DESTDIR"/boot/.
+- cp arch/arm/boot/dts/tegra124-jetson-tk1.dtb "$DESTDIR"/boot/.
+- make modules
+- make INSTALL_MOD_PATH="$DESTDIR" modules_install
+- install -d "$DESTDIR$PREFIX/src/linux"
+- |
+  (
+      printf 'Makefile\0'
+      printf 'Module.symvers\0'
+      find arch/arm -maxdepth 1 -name 'Makefile*' -print0
+      find arch/arm \( -name 'module.lds' -o -name 'Kbuild.platforms' -o -name 'Platform' \) -print0
+      find arch/arm \( -type d -a \( -name include -o -name scripts \) \) -o \
+                               \! -type d -a \( -path '*include/*' -o -path '*scripts/*' \) -print0
+      find include -name 'asm*' -prune -o -print0
+      find include/asm-generic -print0
+      find include/uapi -print0
+      find scripts -print0
+  ) | cpio -0pumd "$DESTDIR$PREFIX/src/linux"

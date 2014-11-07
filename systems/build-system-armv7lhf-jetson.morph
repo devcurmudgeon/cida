@@ -9,8 +9,8 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
-- name: bsp-jetson-devel
-  morph: strata/bsp-jetson-devel.morph
+- name: bsp-jetson
+  morph: strata/bsp-jetson.morph
 - name: tools
   morph: strata/tools.morph
 - name: morph-utils
