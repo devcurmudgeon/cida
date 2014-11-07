@@ -2,5 +2,10 @@
 {% load i18n %}
 
 {% block content %}
-Index page
+<p>This is the Baserock OpenID provider.</p>
+
+{% if user.is_authenticated %}
+  <p>Your OpenID is: <a href="http://login.baserock.org/openid/{{ user.username }}">http://login.baserock.org/openid/{{ user.username }}</a></p>
+{% endif %}
+
 {% endblock %}
