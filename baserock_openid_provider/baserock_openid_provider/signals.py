@@ -14,4 +14,16 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import signals
+from django.dispatch import receiver
+import registration.signals
+
+import logging
+
+
+# This should watch 'registration.signals.user_activated' instead, if we ever
+# decide to enable activation emails (i.e. if we switch from the 'simple'
+# backend to the 'default' backend).
+@receiver(registration.signals.user_registered)
+def user_creation_handler(sender, user, request, **kwargs):
+    logging.info('Creating OpenID for user %s' % (user.username))
+    user.openid_set.create(openid=user.username)
