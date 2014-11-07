@@ -11,7 +11,8 @@
         {
             "type": "shell",
             "inline": [
-                "yum install -y puppet"
+                "yum install -y ruby gem",
+                "gem install puppet"
             ]
         }
         {   "type": "shell",
