@@ -41,7 +41,7 @@ chunks:
 - name: nouveau-drm
   morph: strata/bsp-jetson/nouveau-drm.morph
   repo: upstream:nouveau
-  ref: 62d1f5d2f5b3e5122eeac0f763dcdd1d04bf5c45
-  unpetrify-ref: baserock/jetson/3.17-rc5
+  ref: 4d0929aa231a0c2d2b66fa1f8ea1c8fa4d872501
+  unpetrify-ref: baserock/jetson/gk20a
   build-depends:
   - linux-jetson-tk1
