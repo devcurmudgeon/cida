@@ -4,13 +4,15 @@
   - name: install PIP package manager
     yum: name=python-pip state=latest
 
-  # django-registration doesn't yet work with Django 1.7. See:
-  # https://stackoverflow.com/questions/25537905/django-1-7-throws-django-core-exceptions-appregistrynotready-models-arent-load
   - name: install Django
-    pip: name=django version=1.6.8
+    pip: name=django
 
-  - name: install django-registration
-    pip: name=django-registration
+  # This is a fork of django-registration which supports Django 1.7.
+  # Source: https://github.com/macropin/django-registration
+  # The original django-registration (which seems to be abandoned) lives at:
+  # https://bitbucket.org/ubernostrum/django-registration/
+  - name: install django-registration-redux
+    pip: name=django-registration-redux
 
   - name: install python-openid
     pip: name=python-openid
