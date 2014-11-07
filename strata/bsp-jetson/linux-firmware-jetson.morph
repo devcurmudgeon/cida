@@ -1,0 +1,6 @@
+name: linux-firmware-jetson
+kind: chunk
+install-commands:
+- install -d "$DESTDIR/lib/firmware/nvidia/tegra124"
+- install -m644 nvidia/tegra124/gk20a_ctxsw.bin "$DESTDIR/lib/firmware/nvidia/tegra124"
+- install -m644 nvidia/tegra124/xusb.bin "$DESTDIR/lib/firmware/nvidia/tegra124"

@@ -45,3 +45,9 @@ chunks:
   unpetrify-ref: baserock/jetson/gk20a
   build-depends:
   - linux-jetson-tk1
+- name: linux-firmware-jetson
+  morph: strata/bsp-jetson/linux-firmware-jetson.morph
+  repo: upstream:linux-firmware
+  ref: 9322ef5b14c78ec28163baa41bff240a0e098810
+  unpetrify-ref: baserock/jetson
+  build-depends: []
