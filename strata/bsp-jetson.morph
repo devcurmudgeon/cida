@@ -28,8 +28,8 @@ chunks:
 - name: linux-jetson-tk1
   morph: strata/bsp-jetson/linux-jetson-tk1.morph
   repo: upstream:linux
-  ref: 8da6ad2e1c6366ebb2d9a72aeaf4a42dc32c8623
-  unpetrify-ref: baserock/jetson/3.17.0-rc5
+  ref: 8c885b20c4c9115d29dca4e5afd66228c51c5f69
+  unpetrify-ref: baserock/jetson/linux-tegra-3.18-rc3
   build-depends:
   - u-boot
 - name: bsp-support
