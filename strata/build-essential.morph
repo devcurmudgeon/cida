@@ -293,7 +293,7 @@ chunks:
 - name: gcc
   morph: strata/build-essential/gcc.morph
   repo: upstream:gcc-tarball
-  ref: b0254026149b13782eae26d38435a4c62a002cf0
+  ref: 5c08cea34d5562dc828b85c7c02519246823aaf0
   unpetrify-ref: baserock/build-essential-4.7
   build-depends:
   - stage2-binutils
