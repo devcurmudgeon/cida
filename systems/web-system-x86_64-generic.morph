@@ -19,6 +19,8 @@ strata:
   morph: strata/databases.morph
 - name: pcre
   morph: strata/pcre-utils.morph
+- name: lighttpd-server
+  morph: strata/lighttpd-server.morph
 - name: webtools
   morph: strata/webtools.morph
 - name: erlang
