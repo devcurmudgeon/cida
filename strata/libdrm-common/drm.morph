@@ -3,7 +3,7 @@ kind: chunk
 build-system: autotools
 configure-commands:
   - NOCONFIGURE=1 ./autogen.sh
-  - ./configure --prefix="$PREFIX" --enable-tegra-experimental-api
+  - ./configure --prefix="$PREFIX" --enable-tegra-experimental-api --enable-freedreno-experimental-api
 install-commands:
   - make install DESTDIR="$DESTDIR"
   - mkdir -p "$DESTDIR"/usr/lib/pkgconfig
