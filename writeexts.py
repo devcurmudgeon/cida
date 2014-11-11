@@ -24,6 +24,7 @@ import time
 import tempfile
 import errno
 import stat
+import contextlib
 
 import morphlib
 
@@ -147,25 +148,39 @@ class WriteExtension(cliapp.Application):
 
     def create_local_system(self, temp_root, raw_disk):
         '''Create a raw system image locally.'''
+
+        with self.created_disk_image(raw_disk):
+            self.format_btrfs(raw_disk)
+            self.create_system(temp_root, raw_disk)
+
+    @contextlib.contextmanager
+    def created_disk_image(self, location):
         size = self.get_disk_size()
         if not size:
             raise cliapp.AppException('DISK_SIZE is not defined')
-        self.create_raw_disk_image(raw_disk, size)
+        self.create_raw_disk_image(location, size)
+        try:
+            yield
+        except BaseException:
+            os.unlink(location)
+            raise
+
+    def format_btrfs(self, raw_disk):
         try:
             self.mkfs_btrfs(raw_disk)
-            mp = self.mount(raw_disk)
         except BaseException:
             sys.stderr.write('Error creating disk image')
-            os.remove(raw_disk)
             raise
+
+    def create_system(self, temp_root, raw_disk):
         try:
+            mp = self.mount(raw_disk)
             self.create_btrfs_system_layout(
                 temp_root, mp, version_label='factory',
                 disk_uuid=self.get_uuid(raw_disk))
         except BaseException, e:
             sys.stderr.write('Error creating Btrfs system layout')
             self.unmount(mp)
-            os.remove(raw_disk)
             raise
         else:
             self.unmount(mp)
