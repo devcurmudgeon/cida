@@ -15,8 +15,12 @@ strata:
   morph: strata/tools.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
+- name: pcre-utils
+  morph: strata/pcre-utils.morph
 - name: trove
   morph: strata/trove.morph
+- name: lighttpd-server
+  morph: strata/lighttpd-server.morph
 - name: nfs
   morph: strata/nfs.morph
 - name: ansible

@@ -1,0 +1,13 @@
+name: lighttpd-server
+kind: stratum
+description: lighttpd web server
+build-depends:
+- morph: strata/tools.morph
+- morph: strata/pcre-utils.morph
+chunks:
+- name: lighttpd
+  morph: strata/lighttpd-server/lighttpd.morph
+  repo: upstream:lighttpd
+  ref: 12e4e21763da770034267ff0a7b660876930f789
+  unpetrify-ref: baserock/morph
+  build-depends: []

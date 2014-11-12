@@ -4,6 +4,7 @@ description: Trove software
 build-depends:
 - morph: strata/tools.morph
 - morph: strata/morph-utils.morph
+- morph: strata/pcre-utils.morph
 chunks:
 - name: lua
   morph: strata/trove/lua.morph
@@ -48,18 +49,12 @@ chunks:
   build-depends:
   - lua
   - luxio
-- name: pcre
-  repo: upstream:pcre
-  ref: 2720152c58e13e7cc7403642ec33127101b9971b
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: lrexlib-pcre
   morph: strata/trove/lrexlib-pcre.morph
   repo: upstream:lrexlib
   ref: 0524a6e3ab6d50cba63c8642a875e246de53d651
   unpetrify-ref: baserock/morph
   build-depends:
-  - pcre
   - lua
 - name: gitano
   morph: strata/trove/gitano.morph
@@ -198,13 +193,6 @@ chunks:
   ref: d7ca3f2f14ad28437f7332ca387a790fecb8b081
   unpetrify-ref: master
   build-depends: []
-- name: lighttpd
-  morph: strata/trove/lighttpd.morph
-  repo: upstream:lighttpd
-  ref: 12e4e21763da770034267ff0a7b660876930f789
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - pcre
 - name: lua-scrypt
   morph: strata/trove/lua-scrypt.morph
   repo: upstream:lua-scrypt

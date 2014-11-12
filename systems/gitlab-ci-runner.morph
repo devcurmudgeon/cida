@@ -33,6 +33,8 @@ strata:
   morph: strata/openstack-clients.morph
 - name: databases
   morph: strata/databases.morph
+- name: pcre-utils
+  morph: strata/pcre-utils.morph
 - name: webtools
   morph: strata/webtools.morph
 - name: ruby

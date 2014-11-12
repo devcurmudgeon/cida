@@ -3,6 +3,7 @@ kind: stratum
 description: pip, node and other fun things
 build-depends:
 - morph: strata/tools.morph
+- morph: strata/pcre-utils.morph
 chunks:
 - name: icu
   morph: strata/webtools/icu.morph
@@ -26,15 +27,9 @@ chunks:
   ref: d4b691b743a91500cf49119d28a805db8313f129
   unpetrify-ref: master
   build-depends: []
-- name: pcre
-  repo: upstream:pcre
-  ref: 2720152c58e13e7cc7403642ec33127101b9971b
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: nginx
   morph: strata/webtools/nginx.morph
   repo: upstream:nginx
   ref: 37a582c9ea3e731c115e560d31b26f78535b8fca
   unpetrify-ref: baserock/v1.7.0
-  build-depends:
-  - pcre
+  build-depends: []
