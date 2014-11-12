@@ -36,4 +36,4 @@ systems:
   deploy:
     self:
       type: ssh-rsync
-      location: root@localhost
+      location: root@127.0.0.1
