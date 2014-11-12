@@ -1,6 +1,7 @@
 name: bison
 kind: chunk
 configure-commands:
+- echo $(grep '* Noteworthy changes in release' NEWS | grep -v '?\\.?' | head -n1 | cut -d' ' -f6) > .tarball-version
 - bash bootstrap --skip-po
 - ./configure --prefix=/usr --disable-nls
 build-commands:
