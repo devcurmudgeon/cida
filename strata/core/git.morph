@@ -1,6 +1,7 @@
 name: git
 kind: chunk
+build-system: autotools
+pre-configure-commands:
+- make configure
 build-commands:
-- make prefix=${PREFIX-/usr} all PYTHON_PATH=${PREFIX-/usr}/bin/python NO_TCLTK=YesPlease
-install-commands:
-- make prefix=${PREFIX-/usr} install
+- make all
