@@ -1,1 +1,38 @@
-Experiments in deploying infrastructure for the Baserock project
+Baserock project public infrastructure
+======================================
+
+None of these systems are currently Baserock systems, which should be
+considered a bug. The need for project infrastructure outweighs the
+benefit of using the infrastructure to drive improvements to Baserock,
+at the time of writing.
+
+The infrastructure is set up in a way that parallels the preferred Baserock
+approach to deployment. All files necessary for (re)deploying the systems
+should be contained in this Git repository, with the exception of certain
+private tokens (which should be simple to inject at deploy time). Each
+service should be provided by a system which services only one function.
+
+Front-end
+---------
+
+All of the Baserock project's infrastructure should be behind a single
+IP address, with a reverse proxy that forwards the request to the
+appropriate machine based on the URL (primarily the subdomain).
+
+The 'frontend' system takes care of this. If you want to add a new
+service to the Baserock Project infrastructure you will need to alter
+the haproxy.cfg file in the frontend/ directory.
+
+To deploy this system:
+
+    packer build -only=production frontend/packer_template.json
+
+Full HAProxy 1.5 documentation: <https://cbonte.github.io/haproxy-dconv/configuration-1.5.html>.
+
+Deployment to DataCentred
+-------------------------
+
+The Packer tool requires a floating IP to be available at the time a system is
+being deployed to OpenStack. Currently 85.199.252.152 should be used for this.
+If you specify a floating IP that is in use by an existing instance, you will
+steal it for your own instance and probably break one of our web services.
