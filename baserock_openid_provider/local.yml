@@ -1,8 +1,14 @@
 ---
 - hosts: localhost
   tasks:
+  - name: install Cherokee web server
+    yum: name=cherokee state=latest
+
   - name: install PIP package manager
     yum: name=python-pip state=latest
+
+  - name: install uWSGI application container server and Python plugin
+    yum: name=uwsgi-plugin-python state=latest
 
   - name: install Django
     pip: name=django
@@ -17,3 +23,5 @@
   - name: install python-openid
     pip: name=python-openid
 
+  - name: install Cherokee configuration
+    shell: ln -sf /srv/baserock_openid_provider/cherokee.conf /etc/cherokee/cherokee.conf

@@ -24,6 +24,12 @@
             "only": ["production"]
         },
         {
+            "type": "file",
+            "source": "baserock_openid_provider",
+            "destination": "/srv",
+            "only": ["production"]
+        },
+        {
             "type": "shell",
             "inline": [ "sudo yum install -y ansible"]
         },
@@ -32,9 +38,18 @@
             "playbook_file": "baserock_openid_provider/local.yml"
         },
         {
-            "type": "file",
-            "source": "baserock_openid_provider",
-            "destination": "/srv",
+            "type": "shell",
+            "inline": [
+                "ln -s /srv/test_baserock_infrastructure/baserock_openid_provider /srv"
+            ],
+            "only": ["development"]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo systemctl enable cherokee",
+                "sudo systemctl start cherokee"
+            ],
             "only": ["production"]
         }
     ],
