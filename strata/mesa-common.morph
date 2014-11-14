@@ -8,6 +8,6 @@ chunks:
 - name: mesa
   morph: strata/mesa-common/mesa.morph
   repo: upstream:mesa
-  ref: 3b6a4758fa8958db4b76e6d7efccc93b12b1da06
-  unpetrify-ref: mesa-10.3.2
+  ref: 1a9cc5f50db5d27530a3449743b43aac389d781f
+  unpetrify-ref: mesa-10.3.3
   build-depends: []
