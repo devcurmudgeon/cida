@@ -70,8 +70,8 @@ chunks:
 - name: ofono
   morph: strata/audio-bluetooth/ofono.morph
   repo: upstream:ofono
-  ref: a53228f6b1b32d0405c0c3c8e0861d6202ffbba2
-  unpetrify-ref: baserock/morph
+  ref: d05b718cc0b0d367227fbfbf52e60fc5462cc549
+  unpetrify-ref: "1.15"
   build-depends:
   - mobile-broadband-provider-info
   - bluez

@@ -37,13 +37,13 @@ chunks:
   - googletest
 - name: genivi-common-api-runtime
   repo: upstream:genivi-common-api-runtime
-  ref: 8a62115bad2c0615fdf40f4e54a41454ae6e4698
+  ref: 188abb5e24d6a2a7fdd7e5d150439a162621292c
   unpetrify-ref: 2.1.6
   build-depends: []
 - name: genivi-common-api-dbus-runtime
   repo: upstream:genivi-common-api-dbus-runtime
-  ref: 53d9341444ff9a31b9cc551b10fd0b341207937b
-  unpetrify-ref: 2.1.6
+  ref: 3372155b32a2cf3b05e1a2a13f6f8413069de33f
+  unpetrify-ref: 2.1.6-p1                      
   build-depends:
   - genivi-common-api-runtime
 - name: audiomanager
