@@ -8,7 +8,6 @@ configure-commands:
   armv7lhf)
     DRIDRIVERS=no
     GALLIUMDRIVERS=nouveau,freedreno,svga,swrast,vc4
-    EXTRAARGS="--enable-gallium-egl"
     ;;
   *)
     DRIDRIVERS=yes
@@ -21,4 +20,4 @@ configure-commands:
       --with-egl-platforms=drm,wayland \
       --with-gallium-drivers="$GALLIUMDRIVERS" \
       --with-dri-drivers="$DRIDRIVERS" \
-      $EXTRAARGS
+      --enable-gallium-egl
