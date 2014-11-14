@@ -10,16 +10,15 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: alsa-lib
-  morph: strata/audio-bluetooth/alsa-lib.morph
   repo: upstream:alsa-lib
-  ref: ab715503853be8d8f365fd157c3cb97ef7a89f7b
-  unpetrify-ref: baserock/morph
+  ref: 9cfd1faa27511edbb8bebbab85030125f33590ae
+  unpetrify-ref: v1.0.28
   build-depends: []
 - name: alsa-utils
   morph: strata/audio-bluetooth/alsa-utils.morph
   repo: upstream:alsa-utils
-  ref: f12208425051a7abf5ffc87ac2b9d2bd9e096fe1
-  unpetrify-ref: baserock/morph
+  ref: bbf137f66b2c8ce36db73f59ee69d5c443436524
+  unpetrify-ref: v1.0.28
   build-depends:
   - alsa-lib
 - name: libical
