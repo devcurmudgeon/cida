@@ -6,33 +6,33 @@ build-depends:
 chunks:
 - name: orc
   repo: upstream:orc
-  ref: ec132ae118bead13312f126a1f6e5709a2429ff6
-  unpetrify-ref: orc-0.4.19
+  ref: 16e053b8f2359196fd50b111f1c10b93590f5cb9
+  unpetrify-ref: orc-0.4.22
   build-depends: []
 - name: gstreamer
   repo: upstream:gstreamer
-  ref: 0217fba607637860a475d0b5d48a3d4b249ca360
-  unpetrify-ref: baserock/morph/1.2
+  ref: b9b3440e323c7b32a8c3a9d52c7bf1a229850558
+  unpetrify-ref: baserock/1.4
   build-depends:
   - orc
 - name: gstreamer-plugins-base
   repo: upstream:gstreamer-plugins-base
-  ref: 1263caa96fcc1e3d2963bc27acbcf88b5b17d5dd
-  unpetrify-ref: baserock/morph/1.2
+  ref: 3b38ad94a2d58c07c24e4647e08afa1fe4dd7d46
+  unpetrify-ref: baserock/1.4
   build-depends:
   - gstreamer
 - name: gstreamer-plugins-good
   repo: upstream:gstreamer-plugins-good
-  ref: b7e3af91197812e41028016d2e75ad2d6530b9b3
-  unpetrify-ref: baserock/morph/1.2
+  ref: 9d48c2f7a7b63fd967de7eec72434bc876c02667
+  unpetrify-ref: baserock/1.4
   build-depends:
   - gstreamer
   - gstreamer-plugins-base
   - orc
 - name: gstreamer-plugins-bad
   repo: upstream:gstreamer-plugins-bad
-  ref: 343470e7fd1e7a6bb95b953d25b2caf5425d0185
-  unpetrify-ref: baserock/morph/1.2
+  ref: bb2a4669ff57af90c8101c54744d3228aa060475
+  unpetrify-ref: baserock/1.4
   build-depends:
   - gstreamer
   - gstreamer-plugins-base
