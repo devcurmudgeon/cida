@@ -1,0 +1,50 @@
+{
+    "builders": [
+        {
+            "name": "development",
+            "type": "docker",
+            "image": "fedora:20",
+            "commit": true
+        },
+        {
+            "name": "production",
+            "type": "openstack",
+            "image_name": "sam-baserock-openid-test",
+            "flavor": 2,
+            "source_image": "eb6cc57b-da78-408a-a4b4-20a27168198b",
+            "networks": ["d079fa3e-2558-4bcb-ad5a-279040c202b5"],
+            "floating_ip": "85.199.252.161",
+            "use_floating_ip": true
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [ "sleep 10" ],
+            "only": ["production"]
+        },
+        {
+            "type": "file",
+            "source": "frontend/haproxy.cfg",
+            "destination": "/etc/haproxy"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo yum install -y haproxy",
+                "systemctl enable haproxy.service",
+                "systemctl start haproxy.service"
+            ]
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "docker-tag",
+                "repository": "baserock/openid-provider",
+                "tag": "latest",
+                "only": ["development"]
+            }
+        ]
+    ]
+}
