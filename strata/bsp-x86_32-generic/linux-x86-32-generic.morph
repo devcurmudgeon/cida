@@ -78,6 +78,8 @@ configure-commands:
 - scripts/config -e FB_VESA
 - scripts/config -e HOTPLUG_PCI
 - scripts/config -e HOTPLUG_PCI_ACPI
+- scripts/config -e VLAN_8021Q
+- scripts/config -e BRIDGE_VLAN_FILTERING
 - yes '' | make oldconfig
 build-commands:
 - make $MAKEFLAGS

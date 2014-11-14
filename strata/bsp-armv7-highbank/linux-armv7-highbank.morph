@@ -37,6 +37,8 @@ configure-commands:
 - scripts/config -e TMPFS
 - scripts/config -e TMPFS_POSIX_ACL
 - scripts/config -e VFAT_FS
+- scripts/config -e VLAN_8021Q
+- scripts/config -e BRIDGE_VLAN_FILTERING
 - yes '' | make oldconfig
 build-commands:
 - make zImage $MAKEFLAGS

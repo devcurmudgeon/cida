@@ -20,6 +20,8 @@ strata:
   morph: strata/morph-utils.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
+- name: nfs
+  morph: strata/nfs.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

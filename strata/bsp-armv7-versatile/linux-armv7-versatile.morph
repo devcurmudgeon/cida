@@ -17,6 +17,8 @@ configure-commands:
 - scripts/config -e SECCOMP
 - scripts/config -d DEBUG_STACK_TRACE
 - scripts/config -e FB_VESA
+- scripts/config -e VLAN_8021Q
+- scripts/config -e BRIDGE_VLAN_FILTERING
 - yes '' | make oldconfig
 build-commands:
 - make ARCH=arm zImage $MAKEFLAGS

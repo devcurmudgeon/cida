@@ -44,6 +44,8 @@ configure-commands:
 - scripts/config -d DEBUG_STACK_TRACE
 - scripts/config -e NFSD
 - scripts/config -e NFSD_V3
+- scripts/config -e VLAN_8021Q
+- scripts/config -e BRIDGE_VLAN_FILTERING
 - yes '' | make oldconfig
 build-commands:
 - make $MAKEFLAGS ARCH=arm LOADADDR=0x10800000 uImage dtbs
