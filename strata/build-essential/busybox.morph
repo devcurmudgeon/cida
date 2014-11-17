@@ -57,12 +57,6 @@ configure-commands:
 
 build-commands:
 - make
-- |
-  for fin in systemd-units/*.in
-  do
-      f=$(echo "$fin" | sed 's/\.in$//')
-      sed -e 's|@rootprefix@||g' "$fin" >"$f";
-  done
 
 install-commands:
 - |
@@ -70,41 +64,8 @@ install-commands:
     make CONFIG_PREFIX="$DESTDIR$PREFIX" install &&
     chmod 6755 "$DESTDIR$PREFIX"/bin/busybox
 
-- mkdir -p "$DESTDIR/var/spool/cron/crontabs"
-
-# Install systemd units
-- mkdir -p "$DESTDIR/lib/systemd/system/multi-user.target.wants"
-- |
-  for f in systemd-units/*.service; do
-      install -m 644 "$f" "$DESTDIR/lib/systemd/system";
-  done
-- |
-  for f in $(cd systemd-units; ls *.service | grep -v -F "@"); do
-      ln -s "../$f" "$DESTDIR/lib/systemd/system/multi-user.target.wants/";
-  done
-
-# Install custom udev rule to run ifup for every network device detected
-- mkdir -p "$DESTDIR/lib/udev/rules.d"
-- for f in udev-rules/100-baserock.rules; do
-      install -m 644 "$f" "$DESTDIR/lib/udev/rules.d";
-  done
-
-# Set up DHCP
-- mkdir -p "$DESTDIR$PREFIX"/share/udhcpc
-- cp examples/udhcp/simple.script "$DESTDIR$PREFIX"/share/udhcpc/default.script
-
-# Set up NTP
-- install scripts/run-ntpd-with-config "$DESTDIR$PREFIX"/sbin/.
-- install -d "$DESTDIR/etc"
-- |
-  cat << EOF > "$DESTDIR/etc/ntpd.conf"
-  server 0.pool.ntp.org
-  server 1.pool.ntp.org
-  server 2.pool.ntp.org
-  server 3.pool.ntp.org
-  EOF
-
 # Set up man environment variables
+- mkdir -p "$DESTDIR"/etc
 - |
   cat << EOF > "$DESTDIR/etc/profile"
   # Set default pager to less

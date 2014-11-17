@@ -25,6 +25,5 @@ strata:
 configuration-extensions:
 - set-hostname
 - add-config-files
-- simple-network
 - nfsboot
 - install-files

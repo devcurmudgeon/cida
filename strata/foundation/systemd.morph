@@ -6,16 +6,23 @@ configure-commands:
 - sh autogen.sh
 - ./configure --prefix="$PREFIX" --enable-xz --disable-manpages --sysconfdir=/etc
   --localstatedir=/var --libdir="$PREFIX/lib" --libexecdir="$PREFIX/libexec" --with-rootprefix=
-  --with-rootlibdir=/lib --with-firmware-path=/lib/firmware/updates:/lib/firmware
+  --with-rootlibdir=/lib
 install-commands:
 - make DESTDIR="$DESTDIR" install
 - mkdir -p "$DESTDIR"/sbin
 - ln -s /lib/systemd/systemd "$DESTDIR"/sbin/init
 - for f in telinit runlevel shutdown poweroff reboot halt; do ln -s /bin/systemctl
   "$DESTDIR/sbin/$f"; done
-- rm -f "$DESTDIR/etc/udev/rules.d/80-net-name-slot.rules"
-- touch "$DESTDIR/etc/udev/rules.d/80-net-name-slot.rules"
 - sed -e 's|@sushell@|/bin/sh|g' units/debug-shell.service.in >"$DESTDIR/etc/systemd/system/debug-shell.service"
 - sed -r -e '/Options=/s/,?strictatime//' "$DESTDIR/lib/systemd/system/tmp.mount"
   >"$DESTDIR/etc/systemd/system/tmp.mount"
 - touch "$DESTDIR/etc/machine-id"
+post-install-commands:
+- |
+  cat > "$DESTDIR/etc/systemd/network/10-dhcp.network" << "EOF"
+  [Match]
+  Name=en*
+
+  [Network]
+  DHCP=yes
+  EOF

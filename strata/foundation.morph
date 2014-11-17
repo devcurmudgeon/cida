@@ -19,8 +19,8 @@ chunks:
 - name: kmod
   morph: strata/foundation/kmod.morph
   repo: upstream:kmod
-  ref: 7f3b215d4e848afa74aea20a4c64f0cc1ef30eb4
-  unpetrify-ref: baserock/morph
+  ref: ae58de0fcb4a6528dd365e23d383bbe2eaf2d566
+  unpetrify-ref: v18
   build-depends: []
 - name: libcap2
   morph: strata/foundation/libcap2.morph
@@ -69,16 +69,26 @@ chunks:
   unpetrify-ref: baserock/genivi/dbus-1.8.8
   build-depends:
   - glib
+- name: libgpg-error
+  repo: upstream:libgpg-error
+  ref: a498812d767c59ae2b75b0c985f5280b139e7dc4
+  build-depends: []
+- name: libgcrypt
+  repo: upstream:libgcrypt
+  ref: 412eed473b557ed2172d81d76fa1e1f53c973a67
+  build-depends:
+  - libgpg-error
 - name: systemd
   morph: strata/foundation/systemd.morph
   repo: upstream:systemd
-  ref: a77af3ec96015b2382ea31020d0a14b482d10a76
-  unpetrify-ref: baserock/morph
+  ref: 941a643569dc6b53d0b334276d2a3cc0ed159e88
+  unpetrify-ref: v217
   build-depends:
   - dbus-pre
   - gobject-introspection
   - kmod
   - libcap2
+  - libgcrypt
   - pciutils
   - usbutils
 - name: lzo
