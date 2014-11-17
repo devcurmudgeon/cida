@@ -1,7 +1,7 @@
-name: bsp-jetson-genivi
+name: bsp-jetson
 kind: stratum
 description: |
-  Platform-specific chunks for NVIDIA Jetson TK1 GENIVI Baseline
+  Platform-specific chunks for NVIDIA Jetson TK1
 
   Support for the Tegra platform is still being developed. A very recent
   kernel with some patches is currently required to get a fully
@@ -13,35 +13,41 @@ build-depends:
 - morph: strata/core.morph
 chunks:
 - name: device-tree-compiler
-  morph: strata/bsp-jetson-genivi/device-tree-compiler.morph
+  morph: strata/bsp-jetson/device-tree-compiler.morph
   repo: upstream:device-tree-compiler
   ref: c92f284c3cf76d471eb27a271de3a51cb45ed058
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: u-boot
-  morph: strata/bsp-jetson-genivi/u-boot.morph
+  morph: strata/bsp-jetson/u-boot.morph
   repo: upstream:u-boot
   ref: c77921345b943cdf5f2f28bbe88c6d8970620d2e
   unpetrify-ref: baserock/jetson/u-boot-tegra-next
   build-depends:
   - device-tree-compiler
-- name: linux-jetson-tk1-genivi
-  morph: strata/bsp-jetson-genivi/linux-jetson-tk1-genivi.morph
+- name: linux-jetson-tk1
+  morph: strata/bsp-jetson/linux-jetson-tk1.morph
   repo: upstream:linux
-  ref: 8da6ad2e1c6366ebb2d9a72aeaf4a42dc32c8623
-  unpetrify-ref: baserock/jetson/3.17.0-rc5
+  ref: 8c885b20c4c9115d29dca4e5afd66228c51c5f69
+  unpetrify-ref: baserock/jetson/linux-tegra-3.18-rc3
   build-depends:
   - u-boot
 - name: bsp-support
-  morph: strata/bsp-jetson-genivi/bsp-support.morph
+  morph: strata/bsp-jetson/bsp-support.morph
   repo: baserock:baserock/bsp-support
   ref: 19bc31ce3198a3c19cdd96d392bde34cb34ed525
   unpetrify-ref: baserock/arm/tegra-3.10
   build-depends: []
 - name: nouveau-drm
-  morph: strata/bsp-jetson-genivi/nouveau-drm.morph
+  morph: strata/bsp-jetson/nouveau-drm.morph
   repo: upstream:nouveau
-  ref: 62d1f5d2f5b3e5122eeac0f763dcdd1d04bf5c45
-  unpetrify-ref: baserock/jetson/3.17-rc5
+  ref: 4d0929aa231a0c2d2b66fa1f8ea1c8fa4d872501
+  unpetrify-ref: baserock/jetson/gk20a
   build-depends:
-  - linux-jetson-tk1-genivi
+  - linux-jetson-tk1
+- name: linux-firmware-jetson
+  morph: strata/bsp-jetson/linux-firmware-jetson.morph
+  repo: upstream:linux-firmware
+  ref: 9322ef5b14c78ec28163baa41bff240a0e098810
+  unpetrify-ref: baserock/jetson
+  build-depends: []

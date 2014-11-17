@@ -9,8 +9,8 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
-- name: bsp-jetson-genivi
-  morph: strata/bsp-jetson-genivi.morph
+- name: bsp-jetson
+  morph: strata/bsp-jetson.morph
 - name: connectivity
   morph: strata/connectivity.morph
 - name: connman-common
