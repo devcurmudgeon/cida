@@ -190,7 +190,7 @@ chunks:
 - name: lorry-controller
   morph: strata/trove/lorry-controller.morph
   repo: baserock:baserock/lorry-controller
-  ref: d7ca3f2f14ad28437f7332ca387a790fecb8b081
+  ref: 689174532cc4920d2ef96bcebeb8a1adaf985804
   unpetrify-ref: master
   build-depends: []
 - name: lua-scrypt
