@@ -130,7 +130,7 @@ yaml.dump(mason_configuration, sys.stdout, default_flow_style=False)
 EOF
 
 if [ "$TEST_INFRASTRUCTURE_TYPE" = "openstack" ]; then
-    python <<'EOF' >"$MASON_DATA/os.conf"
+    python <<'EOF' >>"$MASON_DATA/mason.conf"
 import os, sys, yaml
 
 openstack_credentials={

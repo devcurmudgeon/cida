@@ -2,7 +2,6 @@
 - hosts: localhost
   vars_files:
   - "/etc/mason/mason.conf"
-  - "/etc/mason/os.conf"
   tasks:
 
 
