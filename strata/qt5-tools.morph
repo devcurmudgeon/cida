@@ -4,7 +4,6 @@ description: Qt5 Development Libraries and Tools
 build-depends:
 - morph: strata/tools.morph
 - morph: strata/x-generic.morph
-- morph: strata/multimedia-gstreamer-0.10.morph
 chunks:
 - name: icu
   morph: strata/qt5-tools/icu.morph
@@ -12,179 +11,129 @@ chunks:
   ref: ba023548a3bff7277cbea4acade3042ce9d8949e
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: ruby-1.8
-  morph: strata/qt5-tools/ruby-1.8.morph
-  repo: upstream:ruby
-  ref: 7a24f1710028d568ad61d0aa49d5178260178d77
-  unpetrify-ref: baserock/morph/ruby_1_8_7
-  build-depends: []
-- name: ruby-1.9
-  morph: strata/qt5-tools/ruby-1.9.morph
-  repo: upstream:ruby
-  ref: cb3ea602294b5038b5f7ac21d3875a2b52342956
-  unpetrify-ref: baserock/morph/ruby_1_9_3
-  build-depends:
-  - ruby-1.8
 - name: qtbase
   morph: strata/qt5-tools/qtbase.morph
   repo: upstream:qt5/qtbase
-  ref: 55f24d7e91e7c906cf4e3a3ef7a4d95ff094a7a8
-  unpetrify-ref: baserock/morph
+  ref: 05670f586ffe05425b7542a27fcca31bddf231aa
+  unpetrify-ref: v5.3.2
   build-depends:
   - icu
 - name: qtsvg
   morph: strata/qt5-tools/qtsvg.morph
   repo: upstream:qt5/qtsvg
-  ref: 552bf3adcc48c669f9dfbda5818142fb18c9e957
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - qtbase
-- name: qtjsbackend
-  morph: strata/qt5-tools/qtjsbackend.morph
-  repo: upstream:qt5/qtjsbackend
-  ref: c6978bf56f599a3da8c03b1a7e58102aa84223e7
-  unpetrify-ref: baserock/morph
+  ref: 35a2f0880831d38c60d2b4820dac808f48f6f3a8
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
 - name: qtscript
   morph: strata/qt5-tools/qtscript.morph
   repo: upstream:qt5/qtscript
-  ref: d20e99b3bdbcf77b69a92a2ba1b3ca1f1379e7c8
-  unpetrify-ref: baserock/morph
+  ref: 71f6dee8791c95fd862ca3651d7f4b7d6b9f440e
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
-  - qtjsbackend
 - name: qtdeclarative
   morph: strata/qt5-tools/qtdeclarative.morph
   repo: upstream:qt5/qtdeclarative
-  ref: 774d0310883a9526210c4530bbb9d0af26d88699
-  unpetrify-ref: baserock/morph
+  ref: a67aa6abc6a406b00ef58a7e07fd39012bfa3eb1
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
-  - qtjsbackend
   - qtscript
 - name: qtquick1
   morph: strata/qt5-tools/qtquick1.morph
   repo: upstream:qt5/qtquick1
-  ref: b13755a2411dca01e65bb443a399ed130d5dd738
-  unpetrify-ref: baserock/morph
+  ref: 8e7fa2b5aa2e2e4371c4b73926d0e6ad2ebdbd96
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
-  - qtjsbackend
   - qtscript
 - name: qt3d
   morph: strata/qt5-tools/qt3d.morph
   repo: upstream:qt5/qt3d
-  ref: 805fbf45a54f1b69f4b13f6dc9f962b07c017d3b
+  ref: bdb98baf8253c69949a8c259369203da9ffb269c
   unpetrify-ref: baserock/morph
   build-depends:
   - qtbase
-  - qtjsbackend
   - qtscript
   - qtdeclarative
 - name: qtquickcontrols
   morph: strata/qt5-tools/qtquickcontrols.morph
   repo: upstream:qt5/qtquickcontrols
-  ref: acf9e50d52c4d09a1aed9490bb2f3c5de7dce9bb
-  unpetrify-ref: baserock/morph
+  ref: bc91574cca8b6f24968ab4e1cc11fe1fd10f3061
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
-  - qtjsbackend
   - qtdeclarative
 - name: qtsensors
   morph: strata/qt5-tools/qtsensors.morph
   repo: upstream:qt5/qtsensors
-  ref: cd22d77e07af6046be24d0322187a86c9a3c4d1d
-  unpetrify-ref: baserock/morph
+  ref: fd3e65ef5ab6eb8e4b5bdad380d1f6862799856c
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
 - name: qtserialport
   morph: strata/qt5-tools/qtserialport.morph
   repo: upstream:qt5/qtserialport
-  ref: b1abca2eee45e7b8ecf71cb5cd1e77a2821fcac2
-  unpetrify-ref: baserock/morph
+  ref: 286d64c202f461cb8ff5a4cc4c2320af8195b8f0
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
 - name: qtx11extras
   morph: strata/qt5-tools/qtx11extras.morph
   repo: upstream:qt5/qtx11extras
-  ref: 3b33afd2814c88002e2efc4955e5b1851aff0c58
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - qtbase
-- name: qtwebkit
-  morph: strata/qt5-tools/qtwebkit.morph
-  repo: upstream:qt5/qtwebkit
-  ref: 15a558c03ea7a35f97dfc0b16024d026d20920be
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - qtbase
-  - icu
-  - ruby-1.9
-  - qtjsbackend
-  - qtdeclarative
-- name: qtwebkit-examples
-  morph: strata/qt5-tools/qtwebkit-examples.morph
-  repo: upstream:qt5/qtwebkit-examples
-  ref: fdaa2bb5e47d6ca1d3e8c681f88eae0b9d4ae351
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - qtbase
-  - qtjsbackend
-  - qtdeclarative
-  - qtwebkit
-- name: qtmultimedia
-  morph: strata/qt5-tools/qtmultimedia.morph
-  repo: upstream:qt5/qtmultimedia
-  ref: 8b73d090f87f88ee3ae4efc437ac866d05df76be
-  unpetrify-ref: baserock/morph
+  ref: 2d84caf5ef1b5dace0d678df4581db3c955be6ee
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
 - name: qtxmlpatterns
   morph: strata/qt5-tools/qtxmlpatterns.morph
   repo: upstream:qt5/qtxmlpatterns
-  ref: ed713a904ee55f1c345d2d6c35e77892be96977e
-  unpetrify-ref: baserock/morph
+  ref: 78c2367e22d87b529610117f5b6abef6934abdcf
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
 - name: qtdoc
   morph: strata/qt5-tools/qtdoc.morph
   repo: upstream:qt5/qtdoc
-  ref: 674abef4f06bdde57a272d69750e2a4ac5027ea9
-  unpetrify-ref: baserock/morph
+  ref: 688019893d2cbd9ccdc4d75c550bca4530a46ee4
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
 - name: qtgraphicaleffects
   morph: strata/qt5-tools/qtgraphicaleffects.morph
   repo: upstream:qt5/qtgraphicaleffects
-  ref: e41d08f95d74d7309fc976cb62141b78239de975
-  unpetrify-ref: baserock/morph
+  ref: 82abf6975b6737259ee656564e5ec7f8ad1d0508
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
-  - qtjsbackend
   - qtdeclarative
 - name: qtimageformats
   morph: strata/qt5-tools/qtimageformats.morph
   repo: upstream:qt5/qtimageformats
-  ref: 3f7f6126d9832e03a4dcaaca5279220f00126e89
-  unpetrify-ref: baserock/morph
+  ref: 85e621e3ecf449bb0587bd4da97ca66179b24f31
+  unpetrify-ref: v5.3.2
   build-depends:
   - qtbase
-- name: qttools
-  morph: strata/qt5-tools/qttools.morph
-  repo: upstream:qt5/qttools
-  ref: 1369d91dd095cd4ea2febe759ef6446e41bd2d80
-  unpetrify-ref: baserock/morph
-  build-depends:
+- name: qtconnectivity
+  morph: strata/qt5-tools/qtconnectivity.morph
+  repo: upstream:qt5/qtconnectivity
+  ref: 8a33a9b43dcc5e7f9a77237a660a3759286e6b86
+  unpetrify-ref: v5.3.2
+  build-depends:                 
   - qtbase
-  - qtjsbackend
-  - qtdeclarative
-  - qtwebkit
-- name: qttranslations
-  morph: strata/qt5-tools/qttranslations.morph
-  repo: upstream:qt5/qttranslations
-  ref: e91af8e6363a4538f08992b6af51d17b91453080
-  unpetrify-ref: baserock/morph
-  build-depends:
+- name: qtlocation
+  morph: strata/qt5-tools/qtlocation.morph
+  repo: upstream:qt5/qtlocation
+  ref: a36d9e67e3b8168cb4d1eb76eda96ebb8242fd20
+  unpetrify-ref: v5.3.2
+  build-depends:                 
   - qtbase
-  - qttools
+- name: qtwebsockets
+  morph: strata/qt5-tools/qtwebsockets.morph
+  repo: upstream:qt5/qtwebsockets
+  ref: 00f77bdc5beb62e980216cfee906ab7aa1d1c4f7
+  unpetrify-ref: v5.3.2
+  build-depends:                 
+  - qtbase
+

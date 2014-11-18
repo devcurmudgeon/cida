@@ -10,3 +10,10 @@ chunks:
   ref: 948063437e0350d9ef1649ec3a76d0c24a5c8642
   unpetrify-ref: baserock/5.1-morph
   build-depends: []
+- name: luajit2
+  morph: strata/lua/luajit2.morph
+  repo: upstream:lua
+  repo: upstream:luajit2
+  ref: master
+  build-depends:
+  - lua

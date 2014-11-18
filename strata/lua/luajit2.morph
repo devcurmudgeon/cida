@@ -1,0 +1,7 @@
+name: luajit2
+kind: chunk
+build-commands:
+- make PREFIX="$PREFIX"
+install-commands:
+- make install PREFIX="$PREFIX" DESTDIR="$DESTDIR"
+
