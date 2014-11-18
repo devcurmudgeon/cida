@@ -22,6 +22,8 @@ strata:
   morph: strata/openstack-clients.morph
 - name: ruby
   morph: strata/ruby.morph
+- name: baserock-import
+  morph: strata/baserock-import.morph
 - name: nfs
   morph: strata/nfs.morph
 configuration-extensions:
