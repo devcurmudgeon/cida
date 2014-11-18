@@ -32,36 +32,6 @@
 
 set -e
 
-
-##########################################################################
-# Check variables
-##########################################################################
-
-if [ -n "$MASON_GENERIC" ]; then
-    echo Not configuring Mason, it will be generic
-    exit 0
-fi
-
-if [ -z "$MASON_CLUSTER_MORPHOLOGY" -a \
-     -z "$MASON_DEFINITIONS_REF" -a \
-     -z "$MASON_DISTBUILD_ARCH" -a \
-     -z "$MASON_TEST_HOST" ]; then
-    # No Mason options defined, do nothing.
-    exit 0
-fi
-
-if [ -z "$ARTIFACT_CACHE_SERVER" -o \
-     -z "$CONTROLLERHOST" -o \
-     -z "$MASON_CLUSTER_MORPHOLOGY" -o \
-     -z "$MASON_DEFINITIONS_REF" -o \
-     -z "$MASON_DISTBUILD_ARCH" -o \
-     -z "$MASON_TEST_HOST" -o \
-     -z "$TROVE_HOST" -o \
-     -z "$TROVE_ID" ]; then
-    echo Some options required for Mason were defined, but not all.
-    exit 1
-fi
-
 ##########################################################################
 # Copy Mason files into root filesystem
 ##########################################################################
@@ -104,6 +74,34 @@ cp mason/mason-setup.service "$ROOT"/etc/systemd/system/mason-setup.service
 
 ln -s ../mason-setup.service "$ROOT"/etc/systemd/system/multi-user.target.wants/mason-setup.service
 
+##########################################################################
+# Check variables
+##########################################################################
+
+if [ -n "$MASON_GENERIC" ]; then
+    echo Not configuring Mason, it will be generic
+    exit 0
+fi
+
+if [ -z "$MASON_CLUSTER_MORPHOLOGY" -a \
+     -z "$MASON_DEFINITIONS_REF" -a \
+     -z "$MASON_DISTBUILD_ARCH" -a \
+     -z "$MASON_TEST_HOST" ]; then
+    # No Mason options defined, do nothing.
+    exit 0
+fi
+
+if [ -z "$ARTIFACT_CACHE_SERVER" -o \
+     -z "$CONTROLLERHOST" -o \
+     -z "$MASON_CLUSTER_MORPHOLOGY" -o \
+     -z "$MASON_DEFINITIONS_REF" -o \
+     -z "$MASON_DISTBUILD_ARCH" -o \
+     -z "$MASON_TEST_HOST" -o \
+     -z "$TROVE_HOST" -o \
+     -z "$TROVE_ID" ]; then
+    echo Some options required for Mason were defined, but not all.
+    exit 1
+fi
 
 ##########################################################################
 # Generate config variable shell snippet
