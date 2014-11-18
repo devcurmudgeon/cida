@@ -27,6 +27,8 @@ strata:
   morph: strata/nodejs.morph
 - name: ruby
   morph: strata/ruby.morph
+- name: lorry
+  morph: strata/lorry.morph
 - name: baserock-import
   morph: strata/baserock-import.morph
 configuration-extensions:
