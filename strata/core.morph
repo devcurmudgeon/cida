@@ -205,8 +205,8 @@ chunks:
 - name: git
   morph: strata/core/git.morph
   repo: upstream:git
-  ref: 43efcf42382e87de4aa423e5e1607958ad1717d0
-  unpetrify-ref: baserock/morph
+  ref: 49c3e926349e964b311b46251bb2b97d3d669855
+  unpetrify-ref: v2.1.3
   build-depends:
   - autoconf
   - cpython
