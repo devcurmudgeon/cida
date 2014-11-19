@@ -33,10 +33,11 @@ class RawdiskCheckExtension(morphlib.writeexts.WriteExtension):
         location = args[0]
         upgrade = self.get_environment_boolean('UPGRADE')
         if upgrade:
-            if not os.path.isfile(location):
-                raise cliapp.AppException(
-                    'Cannot upgrade %s: it is not an existing disk image' %
-                    location)
+            if not self.is_device(location):
+                if not os.path.isfile(location):
+                    raise cliapp.AppException(
+                        'Cannot upgrade %s: it is not an existing disk image' %
+                        location)
 
             version_label = os.environ.get('VERSION_LABEL')
             if version_label is None:
@@ -44,9 +45,10 @@ class RawdiskCheckExtension(morphlib.writeexts.WriteExtension):
                     'VERSION_LABEL was not given. It is required when '
                     'upgrading an existing system.')
         else:
-            if os.path.exists(location):
-                raise cliapp.AppException(
-                    'Target %s already exists. Use `morph upgrade` if you '
-                    'want to update an existing image.' % location)
+            if not self.is_device(location):
+                if os.path.exists(location):
+                    raise cliapp.AppException(
+                        'Target %s already exists. Use `morph upgrade` if you '
+                        'want to update an existing image.' % location)
 
 RawdiskCheckExtension().run()
