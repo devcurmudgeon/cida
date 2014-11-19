@@ -1,6 +1,6 @@
 name: webtools
 kind: stratum
-description: pip, node and other fun things
+description: web things
 build-depends:
 - morph: strata/tools.morph
 - morph: strata/pcre-utils.morph
@@ -21,11 +21,6 @@ chunks:
   repo: upstream:tar
   ref: 9a58d148c26c220cb1b163c71e7a51a2e41f6b37 
   unpetrify-ref: baserock/release_1_28
-  build-depends: []
-- name: pip
-  repo: upstream:pip.git
-  ref: d4b691b743a91500cf49119d28a805db8313f129
-  unpetrify-ref: master
   build-depends: []
 - name: nginx
   morph: strata/webtools/nginx.morph
