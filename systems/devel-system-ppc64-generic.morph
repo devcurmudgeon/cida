@@ -22,6 +22,8 @@ strata:
   morph: strata/openstack-clients.morph
 - name: ruby
   morph: strata/ruby.morph
+- name: lorry
+  morph: strata/lorry.morph
 - name: baserock-import
   morph: strata/baserock-import.morph
 - name: nfs

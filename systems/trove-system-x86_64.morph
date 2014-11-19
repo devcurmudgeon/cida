@@ -17,6 +17,8 @@ strata:
   morph: strata/morph-utils.morph
 - name: pcre-utils
   morph: strata/pcre-utils.morph
+- name: lorry
+  morph: strata/lorry.morph
 - name: trove
   morph: strata/trove.morph
 - name: lighttpd-server
