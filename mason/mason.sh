@@ -1,7 +1,9 @@
 #!/bin/sh
 
 # Load OpenStack credentials
-. /etc/os.conf
+if [ -f "/etc/os.conf" ]; then
+    . /etc/os.conf
+fi
 
 set -e
 set -x
