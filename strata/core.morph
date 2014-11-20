@@ -279,9 +279,9 @@ chunks:
   - texinfo-tarball
 - name: python-setuptools
   morph: strata/core/python-setuptools.morph
-  repo: upstream:python-setuptools
-  ref: 05b07a427a1eae2a51d527f7ac5135a8fd215d77
-  unpetrify-ref: baserock/morph
+  repo: upstream:python-setuptools-bitbucket
+  ref: 0aa6a4de5931d02876428388678802db2371fd37
+  unpetrify-ref: baserock/master
   build-depends:
   - cpython
 - name: pyyaml

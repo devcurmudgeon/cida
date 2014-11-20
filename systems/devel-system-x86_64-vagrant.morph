@@ -30,6 +30,8 @@ strata:
   morph: strata/lorry.morph
 - name: baserock-import
   morph: strata/baserock-import.morph
+- name: python-tools
+  morph: strata/python-tools.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
