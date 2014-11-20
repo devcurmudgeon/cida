@@ -16,6 +16,8 @@ strata:
   morph: strata/network-security.morph
 - name: ceph-service
   morph: strata/ceph-service.morph
+- name: tools
+  morph: strata/tools.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
