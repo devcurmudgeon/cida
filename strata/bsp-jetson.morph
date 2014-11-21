@@ -19,7 +19,7 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: u-boot@jetson
-  morph: strata/bsp-jetson/u-boot.morph
+  morph: strata/bsp-jetson/u-boot@jetson.morph
   repo: upstream:u-boot
   ref: c77921345b943cdf5f2f28bbe88c6d8970620d2e
   unpetrify-ref: baserock/jetson/u-boot-tegra-next
