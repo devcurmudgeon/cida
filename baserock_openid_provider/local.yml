@@ -1,6 +1,11 @@
 ---
 - hosts: localhost
   tasks:
+  - name: enable persistant journal
+    shell: mkdir /var/log/journal
+    args:
+      creates: /var/log/journal
+
   - name: install Cherokee web server
     yum: name=cherokee state=latest
 

@@ -31,7 +31,7 @@
         },
         {
             "type": "shell",
-            "inline": [ "sudo yum install -y ansible"]
+            "inline": [ "sudo yum install -y ansible libselinux-python"]
         },
         {
             "type": "ansible-local",
@@ -47,6 +47,9 @@
         {
             "type": "shell",
             "inline": [
+                "sudo yum install libselinux-python",
+                "sudo ansible localhost -m selinux -a state=disabled",
+                "sudo setenforce 0",
                 "sudo systemctl enable cherokee",
                 "sudo systemctl start cherokee"
             ],
