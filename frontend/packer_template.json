@@ -20,11 +20,6 @@
     ],
     "provisioners": [
         {
-            "type": "shell",
-            "inline": [ "sleep 10" ],
-            "only": ["production"]
-        },
-        {
             "type": "file",
             "source": "frontend/haproxy.cfg",
             "destination": "/var/tmp/haproxy.cfg"
@@ -43,6 +38,11 @@
                 "sudo systemctl enable haproxy.service",
                 "sudo systemctl start haproxy.service"
             ],
+            "only": ["production"]
+        },
+        {
+            "type": "shell",
+            "inline": [ "sync; sync; sleep 10; sync" ],
             "only": ["production"]
         }
     ],

@@ -21,11 +21,6 @@
     "provisioners": [
         {
             "type": "shell",
-            "inline": [ "sleep 10" ],
-            "only": ["production"]
-        },
-        {
-            "type": "shell",
             "inline": [ "sudo chown fedora:fedora /srv" ],
             "only": ["production"]
         },
@@ -60,6 +55,11 @@
                 "sudo systemctl enable cherokee",
                 "sudo systemctl start cherokee"
             ],
+            "only": ["production"]
+        },
+        {
+            "type": "shell",
+            "inline": [ "sync; sync; sleep 10; sync" ],
             "only": ["production"]
         }
     ],
