@@ -9,12 +9,13 @@
         {
             "name": "production",
             "type": "openstack",
-            "image_name": "sam-baserock-openid-test",
+            "image_name": "frontend-haproxy",
             "flavor": 2,
-            "source_image": "eb6cc57b-da78-408a-a4b4-20a27168198b",
+            "source_image": "742e0414-c985-4994-b307-4aafade942b3",
             "networks": ["d079fa3e-2558-4bcb-ad5a-279040c202b5"],
-            "floating_ip": "85.199.252.161",
-            "use_floating_ip": true
+            "floating_ip": "85.199.252.162",
+            "use_floating_ip": true,
+            "ssh_username": "fedora"
         }
     ],
     "provisioners": [
@@ -26,22 +27,30 @@
         {
             "type": "file",
             "source": "frontend/haproxy.cfg",
-            "destination": "/etc/haproxy"
+            "destination": "/var/tmp/haproxy.cfg"
         },
         {
             "type": "shell",
             "inline": [
                 "sudo yum install -y haproxy",
-                "systemctl enable haproxy.service",
-                "systemctl start haproxy.service"
+                "sudo mv /var/tmp/haproxy.cfg /etc/haproxy/haproxy.cfg",
+                "sudo mkdir /var/log/journal"
             ]
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo systemctl enable haproxy.service",
+                "sudo systemctl start haproxy.service"
+            ],
+            "only": ["production"]
         }
     ],
     "post-processors": [
         [
             {
                 "type": "docker-tag",
-                "repository": "baserock/openid-provider",
+                "repository": "baserock/frontend",
                 "tag": "latest",
                 "only": ["development"]
             }
