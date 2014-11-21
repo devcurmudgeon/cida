@@ -18,7 +18,7 @@ chunks:
   ref: c92f284c3cf76d471eb27a271de3a51cb45ed058
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: u-boot
+- name: u-boot@jetson
   morph: strata/bsp-jetson/u-boot.morph
   repo: upstream:u-boot
   ref: c77921345b943cdf5f2f28bbe88c6d8970620d2e
@@ -31,7 +31,7 @@ chunks:
   ref: 8c885b20c4c9115d29dca4e5afd66228c51c5f69
   unpetrify-ref: baserock/jetson/linux-tegra-3.18-rc3
   build-depends:
-  - u-boot
+  - u-boot@jetson
 - name: bsp-support
   morph: strata/bsp-jetson/bsp-support.morph
   repo: baserock:baserock/bsp-support

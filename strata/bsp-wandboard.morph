@@ -4,7 +4,7 @@ description: The platform dependent components required to boot an wandboard ARM
 build-depends:
 - morph: strata/core.morph
 chunks:
-- name: u-boot
+- name: u-boot@wandboard
   morph: strata/bsp-wandboard/u-boot.morph
   repo: upstream:u-boot
   ref: fe57382d04b46c37f34cf8d3b3ad876554fd12bf
@@ -16,4 +16,4 @@ chunks:
   ref: 9573986cf27ff44814f3efb1f1e95638406db456
   unpetrify-ref: baserock/morph
   build-depends:
-  - u-boot
+  - u-boot@wandboard

@@ -1,4 +1,4 @@
-name: u-boot
+name: u-boot@wandboard
 kind: chunk
 build-commands:
 - make tools
