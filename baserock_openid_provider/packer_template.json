@@ -9,18 +9,24 @@
         {
             "name": "production",
             "type": "openstack",
-            "image_name": "sam-baserock-openid-test",
+            "image_name": "openid.baserock.org",
             "flavor": 2,
-            "source_image": "752b66d3-8f39-4b52-831e-f638ff3c61f8",
-            "networks": ["798c5c38-1983-4fd1-823b-3d32bf78f781"],
-            "floating_ip": "85.199.252.126",
-            "use_floating_ip": true
+            "source_image": "742e0414-c985-4994-b307-4aafade942b3",
+            "networks": ["d079fa3e-2558-4bcb-ad5a-279040c202b5"],
+            "floating_ip": "85.199.252.132",
+            "use_floating_ip": true,
+            "ssh_username": "fedora"
         }
     ],
     "provisioners": [
         {
             "type": "shell",
             "inline": [ "sleep 10" ],
+            "only": ["production"]
+        },
+        {
+            "type": "shell",
+            "inline": [ "sudo chown fedora:fedora /srv" ],
             "only": ["production"]
         },
         {
@@ -35,7 +41,8 @@
         },
         {
             "type": "ansible-local",
-            "playbook_file": "baserock_openid_provider/local.yml"
+            "playbook_file": "baserock_openid_provider/local.yml",
+            "command": "sudo ansible-playbook"
         },
         {
             "type": "shell",
