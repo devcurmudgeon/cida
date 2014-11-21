@@ -7,6 +7,6 @@ build-depends:
 chunks:
 - name: pip
   repo: upstream:pip
-  ref: d4b691b743a91500cf49119d28a805db8313f129
-  unpetrify-ref: master
+  ref: ea680f204fb0e48789710c22c8f597a9bf01bc16
+  unpetrify-ref: baserock/master
   build-depends: []
