@@ -4,7 +4,8 @@
             "name": "development",
             "type": "docker",
             "image": "fedora:20",
-            "commit": true
+            "commit": true,
+            "run_command": ["-d", "-i", "-t", "{{.Image}}", "/bin/sh"]
         }
     ],
     "provisioners": [
