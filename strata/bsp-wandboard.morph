@@ -5,7 +5,7 @@ build-depends:
 - morph: strata/core.morph
 chunks:
 - name: u-boot@wandboard
-  morph: strata/bsp-wandboard/u-boot.morph
+  morph: strata/bsp-wandboard/u-boot@wandboard.morph
   repo: upstream:u-boot
   ref: fe57382d04b46c37f34cf8d3b3ad876554fd12bf
   unpetrify-ref: baserock/morph
