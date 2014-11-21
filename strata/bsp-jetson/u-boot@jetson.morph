@@ -1,4 +1,4 @@
-name: u-boot
+name: u-boot@jetson
 kind: chunk
 configure-commands:
 - make ARCH=arm jetson-tk1_config
