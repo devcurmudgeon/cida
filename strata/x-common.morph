@@ -30,18 +30,18 @@ chunks:
   build-depends: []
 - name: xorg-proto-fontsproto
   repo: upstream:xorg-proto-fontsproto
-  ref: 81e4d4ec53f1f3848ff269fe476c3a1d35d93aef
-  unpetrify-ref: baserock/morph
+  ref: df8c05f7c0253a36589d96efa52938215eff9d4d
+  unpetrify-ref: fontsproto-2.1.3
   build-depends: []
 - name: xorg-proto-glproto
   repo: upstream:xorg-proto-glproto
-  ref: 8e3407e02980d088e20041e79bdcdd3737e7827e
-  unpetrify-ref: baserock/morph
+  ref: f84853d97d5749308992412a215fa518b6536eb3
+  unpetrify-ref: glproto-1.4.17
   build-depends: []
 - name: xorg-proto-inputproto
   repo: upstream:xorg-proto-inputproto
-  ref: f8428123019e7357891bbfc0aef21dbb4d0db10f
-  unpetrify-ref: baserock/morph
+  ref: 343ff0938f592876b9d82c966f166bf45a78c3c8
+  unpetrify-ref: inputproto-2.3.1
   build-depends: []
 - name: xorg-proto-kbproto
   repo: upstream:xorg-proto-kbproto
@@ -90,8 +90,8 @@ chunks:
   build-depends: []
 - name: xorg-proto-xextproto
   repo: upstream:xorg-proto-xextproto
-  ref: f27fcc99d1cf935cc289933326f7d3baacd5107a
-  unpetrify-ref: baserock/morph
+  ref: 66afec3f49e8eb0d4c2e9af7088fc3116d4bafd7
+  unpetrify-ref: xextproto-7.3.0
   build-depends: []
 - name: xorg-proto-xf86bigfontproto
   repo: upstream:xorg-proto-xf86bigfontproto
@@ -115,8 +115,8 @@ chunks:
   build-depends: []
 - name: xorg-proto-x11proto
   repo: upstream:xorg-proto-x11proto
-  ref: f8c43d587e43fee2c22bd7b5f35a9d4dc8bdb580
-  unpetrify-ref: baserock/morph
+  ref: 03cbbf6c3e811c026c86e3a60d2f9af56606e155
+  unpetrify-ref: xproto-7.0.26
   build-depends: []
 - name: xorg-proto-dri2proto
   repo: upstream:xorg-proto-dri2proto
@@ -156,8 +156,8 @@ chunks:
   - xorg-lib-libXau
 - name: xorg-lib-libxtrans
   repo: upstream:xorg-lib-libxtrans
-  ref: bd53f4c8543faf910a7a151241ee07661b4d57ad
-  unpetrify-ref: baserock/morph
+  ref: 7cbad9fe2e61cd9d5caeaf361826a6f4bd320f03
+  unpetrify-ref: xtrans-1.3.5
   build-depends: []
 - name: xorg-lib-libX11
   repo: upstream:xorg-lib-libX11
@@ -201,8 +201,8 @@ chunks:
   - xorg-proto-x11proto
 - name: xorg-lib-libXfixes
   repo: upstream:xorg-lib-libXfixes
-  ref: 73a0fbb479f5b7806a3dd0741be55c9abda76220
-  unpetrify-ref: baserock/morph
+  ref: 0cb446962381f750e05d97bfb974ca1e32481d5d
+  unpetrify-ref: libXfixes-5.0.1
   build-depends:
   - xorg-lib-libXext
   - xorg-proto-fixesproto

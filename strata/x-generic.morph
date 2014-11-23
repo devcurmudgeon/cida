@@ -24,8 +24,8 @@ chunks:
   - xorg-font-util
 - name: xorg-lib-libXfont
   repo: upstream:xorg-lib-libXfont
-  ref: b8dd42dce868f9c16a59790ce51f0542b59cb79d
-  unpetrify-ref: baserock/morph
+  ref: ad4f4d8a2d0730c0ea3c09210bf921638b4682bc
+  unpetrify-ref: libXfont-1.5.0
   build-depends:
   - xorg-lib-libfontenc
 - name: xorg-lib-libICE
