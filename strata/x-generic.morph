@@ -73,8 +73,8 @@ chunks:
 - name: xserver
   morph: strata/x-generic/xserver.morph
   repo: upstream:xserver
-  ref: b7cbfa882778cf8857577e0da77aa9295f072db3
-  unpetrify-ref: baserock/morph
+  ref: 4393c7f1ba6140a02232f04fbb434a80d663a99d
+  unpetrify-ref: xorg-server-1.16.2
   build-depends:
   - libsha1
   - xorg-font-util
