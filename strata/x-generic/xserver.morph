@@ -2,4 +2,4 @@ name: xserver
 kind: chunk
 build-system: autotools
 configure-commands:
-- ./autogen.sh --prefix="$PREFIX" --with-sha1=libsha1
+- ./autogen.sh --prefix="$PREFIX" --with-sha1=libsha1 --disable-glx
