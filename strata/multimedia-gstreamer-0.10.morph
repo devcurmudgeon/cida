@@ -13,7 +13,7 @@ chunks:
   build-depends: []
 - name: gstreamer
   repo: upstream:gstreamer
-  ref: c7e4a97d26396882960fd399b1a5e298e40d2a35
+  ref: 1bb950008f4656f6a6153fa88a8ebb5a39fbe84f
   unpetrify-ref: baserock/morph/0.10
   build-depends:
   - orc
