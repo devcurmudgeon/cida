@@ -89,12 +89,6 @@ chunks:
   ref: 3590145af6f1c9fa321dff231f69ae696e7e740b
   unpetrify-ref: baserock/bash-4.3-patch-27
   build-depends: []
-- name: error-perl-tarball
-  repo: upstream:error-perl-tarball
-  ref: 661707e7bd4282aeab5a2f6a8f02ca5731fd813f
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - perl
 - name: flex
   morph: strata/core/flex.morph
   repo: upstream:flex
@@ -211,7 +205,6 @@ chunks:
   - autoconf
   - cpython
   - curl
-  - error-perl-tarball
   - gettext
   - libexpat
   - openssl-new
