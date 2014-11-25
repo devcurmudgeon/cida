@@ -30,26 +30,6 @@ import morphlib.writeexts
 
 class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
-    '''Create a KVM/LibVirt virtual machine during Morph's deployment.
-
-    The location command line argument is the pathname of the disk image
-    to be created. The user is expected to provide the location argument
-    using the following syntax:
-
-        kvm+ssh://HOST/GUEST/PATH
-
-    where:
-
-    * HOST is the host on which KVM/LibVirt is running
-    * GUEST is the name of the guest virtual machine on that host
-    * PATH is the path to the disk image that should be created,
-      on that host
-
-    The extension will connect to HOST via ssh to run libvirt's
-    command line management tools.
-
-    '''
-
     location_pattern = '^/(?P<guest>[^/]+)(?P<path>/.+)$'
 
     def process_args(self, args):

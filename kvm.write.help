@@ -1,4 +1,27 @@
 help: |
-    The INITRAMFS_PATH option can be used to specify the location of an
-    initramfs for syslinux to tell Linux to use, rather than booting
-    the rootfs directly.
+
+    Create a KVM/LibVirt virtual machine during Morph's deployment.
+
+    Parameters:
+
+    * location: a custom URL scheme of the form `kvm+ssh://HOST/GUEST/PATH`,
+      where:
+        * HOST is the name of the host on which KVM/LibVirt is running
+        * GUEST is the name of the guest VM on that host
+        * PATH is the path to the disk image that should be created,
+          on that host. For example,
+          `kvm+ssh://alice@192.168.122.1/testsys/home/alice/testys.img` where
+            * `alice@192.168.122.1` is the target host as given to ssh,
+              **from within the development host** (which may be
+              different from the target host's normal address);
+            * `testsys` is the name of the new guest VM';
+            * `/home/alice/testys.img` is the pathname of the disk image files
+              on the target host.
+    * HOSTNAME: the hostname of the **guest** VM within the network into which
+      it is being deployed
+    * DISK_SIZE: the size of the VM's primary virtual hard disk
+    * RAM_SIZE: The amount of RAM that the virtual machine should allocate for
+      itself from the host.
+    * VCPUS: the number of virtual CPUs for the VM
+    * INITRAMFS_PATH: the location of an initramfs for the bootloader to tell
+      Linux to use, rather than booting the rootfs directly.
