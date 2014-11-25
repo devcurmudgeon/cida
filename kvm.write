@@ -31,23 +31,23 @@ import morphlib.writeexts
 class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
     '''Create a KVM/LibVirt virtual machine during Morph's deployment.
-    
+
     The location command line argument is the pathname of the disk image
     to be created. The user is expected to provide the location argument
     using the following syntax:
-    
+
         kvm+ssh://HOST/GUEST/PATH
-        
+
     where:
-    
+
     * HOST is the host on which KVM/LibVirt is running
     * GUEST is the name of the guest virtual machine on that host
     * PATH is the path to the disk image that should be created,
       on that host
-  
+
     The extension will connect to HOST via ssh to run libvirt's
     command line management tools.
-    
+
     '''
 
     location_pattern = '^/(?P<guest>[^/]+)(?P<path>/.+)$'
@@ -55,15 +55,15 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
     def process_args(self, args):
         if len(args) != 2:
             raise cliapp.AppException('Wrong number of command line args')
-        
+
         temp_root, location = args
         ssh_host, vm_name, vm_path = self.parse_location(location)
         autostart = self.get_environment_boolean('AUTOSTART')
-        
+
         fd, raw_disk = tempfile.mkstemp()
         os.close(fd)
         self.create_local_system(temp_root, raw_disk)
-        
+
         try:
             self.transfer(raw_disk, ssh_host, vm_path)
             self.create_libvirt_guest(ssh_host, vm_name, vm_path, autostart)
@@ -105,7 +105,7 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
 
     def create_libvirt_guest(self, ssh_host, vm_name, vm_path, autostart):
         '''Create the libvirt virtual machine.'''
-        
+
         self.status(msg='Creating libvirt/kvm virtual machine')
 
         attach_disks = self.parse_attach_disks()
@@ -135,4 +135,3 @@ class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
                 ['virsh', '--connect', 'qemu:///system', 'autostart', vm_name])
 
 KvmPlusSshWriteExtension().run()
-
