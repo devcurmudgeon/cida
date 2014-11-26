@@ -1,0 +1,21 @@
+name: weston-common
+kind: stratum
+build-depends:
+- morph: strata/graphics-common.morph
+- morph: strata/input-common.morph
+- morph: strata/mesa-common.morph
+- morph: strata/libdrm-common.morph
+- morph: strata/wayland-generic.morph
+chunks:
+- name: linux-pam
+  repo: upstream:linux-pam
+  ref: b1521c97e73b10469f7b34c0571d51c647eca83c
+  unpetrify-ref: Linux-PAM-1.1.8
+  build-depends: []
+- name: weston
+  morph: strata/weston-common/weston.morph
+  repo: upstream:weston
+  ref: 463b914d4f1efbf5de6d1f45e9037b88a1eb107f
+  unpetrify-ref: baserock/weston-1.6.0/tegra
+  build-depends:
+  - linux-pam
