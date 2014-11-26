@@ -5,6 +5,8 @@ configure-commands:
 build-commands:
 - make
 - touch /qtbase.build/src/corelib/corelib.pro
+- touch /qtbase.build/qmake/qmake.pro
+- touch /qtbase.build/qmake/qmake-docs.pro
 - ./bin/qmake -set QDOC /qtbase.build/bin/qdoc
 - make html_docs
 - ./bin/qmake -unset QDOC
