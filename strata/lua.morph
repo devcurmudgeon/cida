@@ -12,8 +12,7 @@ chunks:
   build-depends: []
 - name: luajit2
   morph: strata/lua/luajit2.morph
-  repo: upstream:lua
   repo: upstream:luajit2
-  ref: master
-  build-depends:
-  - lua
+  ref: 880ca300e8fb7b432b9d25ed377db2102e4cb63d
+  unpetrify-ref: v2.0.3
+  build-depends: []

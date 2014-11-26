@@ -9,12 +9,6 @@ build-depends:
 - morph: strata/multimedia.morph
 - morph: strata/connman-common.morph
 chunks:
-- name: luajit2
-  morph: strata/lua/luajit2.morph
-  repo: upstream:luajit2
-  ref: 880ca300e8fb7b432b9d25ed377db2102e4cb63d
-  unpetrify-ref: v2.0.3
-  build-depends: []
 - name: fribidi
   repo: upstream:fribidi
   ref: c9916f2ab289126a32febcc4754efc73a011fb0c
