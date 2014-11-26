@@ -3,7 +3,7 @@ kind: chunk
 build-system: autotools
 configure-commands:
 - NOCONFIGURE=1 ./autogen.sh
-- ./configure --with-nss --prefix="$PREFIX" --sysconfdir=/etc --without-fuse --without-libatomic-ops
+- ./configure --with-nss --prefix="$PREFIX" --sysconfdir=/etc --without-fuse --without-libatomic-ops --without-libxfs
 install-commands:
 - make install
 - install -D -m 755 src/init-ceph $DESTDIR/etc/init.d/ceph
