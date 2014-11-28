@@ -17,19 +17,25 @@ help: |
             * `testsys` is the name of the new guest VM';
             * `/home/alice/testys.img` is the pathname of the disk image files
               on the target host.
+
     * HOSTNAME=name: the hostname of the **guest** VM within the network into
       which it is being deployed
+
     * DISK_SIZE=X: the size of the VM's primary virtual hard disk. `X` should
       use a suffix of `K`, `M`, or `G` (in upper or lower case) to indicate
       kilo-, mega-, or gigabytes. For example, `DISK_SIZE=100G` would create a
       100 gigabyte disk image. **This parameter is mandatory**.
+
     * RAM_SIZE=X: The amount of RAM that the virtual machine should allocate for
       itself from the host. `X` is interpreted in the same was as for
       DISK_SIZE`, and defaults to `1G`
+
     * VCPUS=n: the number of virtual CPUs for the VM. Allowed values 1-32. Do
       not use more CPU cores than you have available physically (real cores, no
       hyperthreads)
+
     * INITRAMFS_PATH=path: the location of an initramfs for the bootloader to
       tell Linux to use, rather than booting the rootfs directly.
+
     * AUTOSTART=<VALUE>` - allowed values are `yes` and `no` (default). If the
       value is 'yes', the VM will be started when it has been deployed
