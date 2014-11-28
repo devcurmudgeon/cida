@@ -33,7 +33,7 @@
         },
         {
             "type": "shell",
-            "inline": [ "sudo yum install -y ansible libselinux-python"]
+            "inline": [ "sudo yum install -y ansible"]
         },
         {
             "type": "ansible-local",
