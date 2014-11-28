@@ -15,7 +15,11 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-'''A Morph deployment write extension for deploying to KVM+libvirt.'''
+'''A Morph deployment write extension for deploying to KVM+libvirt.
+
+See file kvm.write.help for documentation
+
+'''
 
 
 import cliapp
