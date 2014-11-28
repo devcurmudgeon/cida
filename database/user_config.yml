@@ -1,0 +1,63 @@
+# User account configuration for Baserock database server.
+#
+# If you're setting up a production deployment, you'll need to temporarily give
+# the database instance a public floating IP, then edit 'hosts' in this file
+# to point to that IP and run:
+#
+#   ansible-playbook database/user_config.yml
+#
+# The relevant .database_password.yml files will need to be available too.
+# You should then remove the floating IP from the instance (you can re-add one
+# any time you want to remotely administer the database).
+---
+- hosts: localhost
+  vars_files:
+    - root.database_password.yml
+    - baserock_openid_provider.database_password.yml
+  tasks:
+    - name: configuring the root database user
+      mysql_user: |
+        name=root
+        password={{ root_password }}
+        login_host=127.0.0.1
+        login_user=root
+        login_password={{ root_password }}
+        check_implicit_admin=yes
+
+    - name: remove the MySQL test database
+      mysql_db:
+        name=test state=absent
+        login_host=127.0.0.1
+        login_user=root
+        login_password={{ root_password }}
+
+    - name: adding databases
+      mysql_db: |
+        name={{ item.name }}
+        state=present
+        login_host=127.0.0.1
+        login_user=root
+        login_password={{ root_password }}
+      with_items:
+        - { name: baserock_openid_provider }
+
+    # We could probably restrict the privileges of these users further...
+    #
+    # I feel like setting 'host="%"' (i.e. not enforcing that the account can
+    # only be used by IPs within the cloud's local network, or even a single
+    # known IP adress) is kind of bad practice, but since the database server
+    # is not exposed to the internet anyway I don't think it's important right
+    # now.
+    - name: adding other database users
+      mysql_user: |
+        name="{{ item.name }}"
+        host="%"
+        password={{ item.password }}
+        priv={{ item.priv }}
+        login_host=127.0.0.1
+        login_user=root
+        login_password={{ root_password }}
+      with_items:
+        - name: openid
+          password: "{{ baserock_openid_provider_password }}"
+          priv: baserock_openid_provider.*:ALL;

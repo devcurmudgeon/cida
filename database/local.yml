@@ -1,0 +1,18 @@
+# System configuration for Baserock database server.
+#
+# Packer runs this playbook inside the system at 'build' time, using the
+# command `sudo ansible-playbook`.
+---
+- hosts: localhost
+  tasks:
+  - name: enable persistant journal
+    shell: mkdir /var/log/journal
+    args:
+      creates: /var/log/journal
+
+  - name: install MariaDB
+    yum: name={{ item }} state=latest
+    with_items:
+        - mariadb
+        - mariadb-server
+        - MySQL-python

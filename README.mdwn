@@ -12,6 +12,11 @@ should be contained in this Git repository, with the exception of certain
 private tokens (which should be simple to inject at deploy time). Each
 service should be provided by a system which services only one function.
 
+I apologise if it's a bit over-complicated! Part of the goal for this work
+has been to learn Ansible and Packer, and see how they can be helpful for
+Baserock. Feel free to discuss simplifying things which appear overengineered
+or needlessly confusing!
+
 Front-end
 ---------
 
@@ -28,6 +33,47 @@ To deploy this system:
     packer build -only=production frontend/packer_template.json
 
 Full HAProxy 1.5 documentation: <https://cbonte.github.io/haproxy-dconv/configuration-1.5.html>.
+
+Database
+--------
+
+Baserock uses MariaDB (a fork of MySQL). Storyboard has database migration
+files which are tied to this database, so we do not have the choice of using
+others at this time.
+
+The Packer build only creates an image with MariaDB installed. To deploy, you
+will need to set up and attach a volume and then start the 'mariadb' service.
+Also, you must create or have access to an Ansible playbook which will set up
+the user accounts. For development deployments you can use the 'develop.sh'
+script which sets up all the necessary accounts using dummy passwords.
+
+To deploy this system to production:
+
+    packer build -only=production database/packer_template.json
+    nova create \
+        --flavor 2 --image 'database-mariadb' \
+        --key-name=<your-keypair> database-mariadb
+    nova volume-create \
+        --display-name database-volume \
+        --display-description 'Database volume' \
+        10G
+    nova volume-attach database-mariadb <volume ID> auto
+
+    nova floating-ip-associate database-mariadb <some floating IP>
+
+    # Set up the volume inside the machine
+    ansible <IP> --user=fedora --sudo -m shell \
+        -a "mkfs.ext4 /dev/vdb -L database-volume"
+    ansible <IP> --user=fedora --sudo -m lineinfile \
+        -a "dest=/etc/fstab create=yes line='LABEL=database-volume /var/lib/mysql ext4 defaults 1 2'"
+
+    # FIXME: here we start the service before setting the root password!!!!
+    ansible <IP> --user=fedora --sudo -m service \
+        -a "name=mariadb enabled=true state=started"
+
+    # edit 'hosts' line of database/user_accounts.yml to point to the server's IP
+    ansible-playbook database/user_accounts.yml
+
 
 Deployment to DataCentred
 -------------------------
