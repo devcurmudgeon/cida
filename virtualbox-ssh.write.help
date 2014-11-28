@@ -1,4 +1,85 @@
 help: |
-    The INITRAMFS_PATH option can be used to specify the location of an
-    initramfs for syslinux to tell Linux to use, rather than booting
-    the rootfs directly.
+
+    Deploy a Baserock system as a *new* VirtualBox virtual machine.
+    (Use the `ssh-rsync` write extension to deploy upgrades to an *existing*
+    VM)
+
+    Connects to HOST via ssh to run VirtualBox's command line management tools.
+
+    Parameters:
+
+    * location: a custom URL scheme of the form `vbox+ssh://HOST/GUEST/PATH`,
+      where:
+        * HOST is the name of the host on which VirtualBox is running
+        * GUEST is the name of the guest VM on that host
+        * PATH is the path to the disk image that should be created,
+          on that host. For example,
+          `vbox+ssh://alice@192.168.122.1/testsys/home/alice/testys.img` where
+            * `alice@192.168.122.1` is the target host as given to ssh,
+              **from within the development host** (which may be
+              different from the target host's normal address);
+            * `testsys` is the name of the new guest VM';
+            * `/home/alice/testys.img` is the pathname of the disk image files
+              on the target host.
+
+    * HOSTNAME=name: the hostname of the **guest** VM within the network into
+      which it is being deployed.
+
+    * DISK_SIZE=X: **(MANDATORY)** the size of the VM's primary virtual hard
+      disk. `X` should use a suffix of `K`, `M`, or `G` (in upper or lower case)
+      to indicate kilo-, mega-, or gigabytes. For example, `DISK_SIZE=100G`
+      would create a 100 gigabyte virtual hard disk.
+
+    * RAM_SIZE=X: The amount of RAM that the virtual machine should allocate for
+      itself from the host. `X` is interpreted in the same as for DISK_SIZE`,
+      and defaults to `1G`.
+
+    * VCPUS=n: the number of virtual CPUs for the VM. Allowed values 1-32. Do
+      not use more CPU cores than you have available physically (real cores, no
+      hyperthreads).
+
+    * INITRAMFS_PATH=path: the location of an initramfs for the bootloader to
+      tell Linux to use, rather than booting the rootfs directly.
+
+    * AUTOSTART=<VALUE> - allowed values are `yes` and `no` (default). If the
+      value is 'yes', the VM will be started when it has been deployed.
+
+    * VAGRANT=<VALUE> - allowed values are `yes` and `no` (default). If the
+      value is 'yes', then networking is configured so that the VM will work
+      with Vagrant. Otherwise networking is configured to run directly in
+      VirtualBox.
+
+    * HOST_IPADDR=<ip_address> - the IP address of the VM host.
+
+    * NETMASK=<netmask> - the netmask of the VM host.
+
+    * NETWORK_CONFIG=<net_config>  - `net_config` is used to set up the VM's
+      network interfaces. It is a string containing semi-colon separated
+      'stanzas' where each stanza provides information about a network
+      interface. Each stanza is of the form name:type[,arg=value] e.g.
+
+        lo:loopback
+        eth0:dhcp
+        eth1:static,address=10.0.0.1,netmask=255.255.0.0
+
+      An example of the NETWORK_CONFIG parameter
+
+        `"lo:loopback;eth0:static,address=192.168.100.2,netmask=255.255.255.0;eth1:dhcp,hostname=$(hostname)"`
+
+      It is useful to configure one interface to use NAT to give the VM access
+      to the outside world and another interface to use the Virtual Box host
+      adapter to allow you to access the Trove from the host machine.
+
+      The NAT interface eth1 is set up to use dhcp, the host-only adapter
+      interface is configured statically.
+
+      Note: you must give the host-only adapter interface an address that lies
+      **on the same network** as the host adapter. So if the host adapter has an
+      IP of 192.168.100.1 eth0 should have an address such as 192.168.100.42.
+
+      The settings of the host adapter, including its IP can be changed either
+      in the VirtualBox manager UI  (https://www.virtualbox.org/manual/ch03.html#settings-network)
+      or via the VBoxManage command line (https://www.virtualbox.org/manual/ch08.html#idp57572192)
+
+      See Chapter 6 of the VirtualBox User Manual for more information about
+      virtual networking (https://www.virtualbox.org/manual/ch06.html)
