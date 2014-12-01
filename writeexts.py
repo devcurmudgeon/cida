@@ -173,17 +173,14 @@ class WriteExtension(cliapp.Application):
             raise
 
     def create_system(self, temp_root, raw_disk):
-        try:
-            mp = self.mount(raw_disk)
-            self.create_btrfs_system_layout(
-                temp_root, mp, version_label='factory',
-                disk_uuid=self.get_uuid(raw_disk))
-        except BaseException, e:
-            sys.stderr.write('Error creating Btrfs system layout')
-            self.unmount(mp)
-            raise
-        else:
-            self.unmount(mp)
+        with self.mount(raw_disk) as mp:
+            try:
+                self.create_btrfs_system_layout(
+                    temp_root, mp, version_label='factory',
+                    disk_uuid=self.get_uuid(raw_disk))
+            except BaseException, e:
+                sys.stderr.write('Error creating Btrfs system layout')
+                raise
 
     def _parse_size(self, size):
         '''Parse a size from a string.
@@ -249,34 +246,26 @@ class WriteExtension(cliapp.Application):
         # lies by exiting successfully.
         return cliapp.runcmd(['blkid', '-s', 'UUID', '-o', 'value',
                               location]).strip()
-        
-    def mount(self, location):
-        '''Mount the filesystem so it can be tweaked.
-        
-        Return path to the mount point.
-        The mount point is a newly created temporary directory.
-        The caller must call self.unmount to unmount on the return value.
-        
-        '''
 
-        self.status(msg='Mounting filesystem')        
-        tempdir = tempfile.mkdtemp()
-        if self.is_device(location):
-            cliapp.runcmd(['mount', location, tempdir])
-        else:
-            cliapp.runcmd(['mount', '-o', 'loop', location, tempdir])
-        return tempdir
-        
-    def unmount(self, mount_point):
-        '''Unmount the filesystem mounted by self.mount.
-        
-        Also, remove the temporary directory.
-        
-        '''
-        
-        self.status(msg='Unmounting filesystem')
-        cliapp.runcmd(['umount', mount_point])
-        os.rmdir(mount_point)
+    @contextlib.contextmanager
+    def mount(self, location):
+        self.status(msg='Mounting filesystem')
+        try:
+            mount_point = tempfile.mkdtemp()
+            if self.is_device(location):
+                cliapp.runcmd(['mount', location, mount_point])
+            else:
+                cliapp.runcmd(['mount', '-o', 'loop', location, mount_point])
+        except BaseException, e:
+            sys.stderr.write('Error mounting filesystem')
+            os.rmdir(mount_point)
+            raise
+        try:
+            yield mount_point
+        finally:
+            self.status(msg='Unmounting filesystem')
+            cliapp.runcmd(['umount', mount_point])
+            os.rmdir(mount_point)
 
     def create_btrfs_system_layout(self, temp_root, mountpoint, version_label,
                                    disk_uuid):
