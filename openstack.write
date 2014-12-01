@@ -79,8 +79,7 @@ class OpenStackWriteExtension(morphlib.writeexts.WriteExtension):
     def set_extlinux_root_to_virtio(self, raw_disk):
         '''Re-configures extlinux to use virtio disks'''
         self.status(msg='Updating extlinux.conf')
-        mp = self.mount(raw_disk)
-        try:
+        with self.mount(raw_disk) as mp:
             path = os.path.join(mp, 'extlinux.conf')
 
             with open(path) as f:
@@ -90,9 +89,6 @@ class OpenStackWriteExtension(morphlib.writeexts.WriteExtension):
                                                   'root=/dev/vda')
             with open(path, "w") as f:
                 f.write(extlinux_conf)
-
-        finally:
-            self.unmount(mp)
 
     def get_openstack_parameters(self):
         '''Get the environment variables needed.
