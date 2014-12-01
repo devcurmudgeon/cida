@@ -41,13 +41,12 @@ help: |
     * INITRAMFS_PATH=path: the location of an initramfs for the bootloader to
       tell Linux to use, rather than booting the rootfs directly.
 
-    * AUTOSTART=<VALUE> - allowed values are `yes` and `no` (default). If the
-      value is 'yes', the VM will be started when it has been deployed.
+    * AUTOSTART=<VALUE> - boolean. If it is set, the VM will be started when
+      it has been deployed.
 
-    * VAGRANT=<VALUE> - allowed values are `yes` and `no` (default). If the
-      value is 'yes', then networking is configured so that the VM will work
-      with Vagrant. Otherwise networking is configured to run directly in
-      VirtualBox.
+    * VAGRANT=<VALUE> - boolean. If it is set, then networking is configured
+      so that the VM will work with Vagrant. Otherwise networking is configured
+      to run directly in VirtualBox.
 
     * HOST_IPADDR=<ip_address> - the IP address of the VM host.
 
