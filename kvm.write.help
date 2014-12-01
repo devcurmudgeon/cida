@@ -28,8 +28,8 @@ help: |
       kilo-, mega-, or gigabytes. For example, `DISK_SIZE=100G` would create a
       100 gigabyte disk image. **This parameter is mandatory**.
 
-    * RAM_SIZE=X: The amount of RAM that the virtual machine should allocate for
-      itself from the host. `X` is interpreted in the same was as for
+    * RAM_SIZE=X: The amount of RAM that the virtual machine should allocate
+      for itself from the host. `X` is interpreted in the same was as for
       DISK_SIZE`, and defaults to `1G`
 
     * VCPUS=n: the number of virtual CPUs for the VM. Allowed values 1-32. Do
@@ -42,5 +42,6 @@ help: |
     * AUTOSTART=<VALUE>` - boolean. If it is set, the VM will be started when
       it has been deployed.
 
-    (See `morph help deploy` for details of how to pass parameters to write extensions)
+    (See `morph help deploy` for details of how to pass parameters to write
+    extensions)
     

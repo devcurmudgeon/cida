@@ -26,17 +26,17 @@ help: |
       which it is being deployed.
 
     * DISK_SIZE=X: **(MANDATORY)** the size of the VM's primary virtual hard
-      disk. `X` should use a suffix of `K`, `M`, or `G` (in upper or lower case)
-      to indicate kilo-, mega-, or gigabytes. For example, `DISK_SIZE=100G`
-      would create a 100 gigabyte virtual hard disk.
+      disk. `X` should use a suffix of `K`, `M`, or `G` (in upper or lower
+      case) to indicate kilo-, mega-, or gigabytes. For example,
+      `DISK_SIZE=100G` would create a 100 gigabyte virtual hard disk.
 
-    * RAM_SIZE=X: The amount of RAM that the virtual machine should allocate for
-      itself from the host. `X` is interpreted in the same as for DISK_SIZE`,
-      and defaults to `1G`.
+    * RAM_SIZE=X: The amount of RAM that the virtual machine should allocate
+      for itself from the host. `X` is interpreted in the same as for
+      DISK_SIZE, and defaults to `1G`.
 
     * VCPUS=n: the number of virtual CPUs for the VM. Allowed values 1-32. Do
-      not use more CPU cores than you have available physically (real cores, no
-      hyperthreads).
+      not use more CPU cores than you have available physically (real cores,
+      no hyperthreads).
 
     * INITRAMFS_PATH=path: the location of an initramfs for the bootloader to
       tell Linux to use, rather than booting the rootfs directly.
@@ -45,8 +45,8 @@ help: |
       it has been deployed.
 
     * VAGRANT=<VALUE> - boolean. If it is set, then networking is configured
-      so that the VM will work with Vagrant. Otherwise networking is configured
-      to run directly in VirtualBox.
+      so that the VM will work with Vagrant. Otherwise networking is
+      configured to run directly in VirtualBox.
 
     * HOST_IPADDR=<ip_address> - the IP address of the VM host.
 
@@ -61,9 +61,10 @@ help: |
         eth0:dhcp
         eth1:static,address=10.0.0.1,netmask=255.255.0.0
 
-      An example of the NETWORK_CONFIG parameter
+      An example of the NETWORK_CONFIG parameter (It should be in one line)
 
-        `"lo:loopback;eth0:static,address=192.168.100.2,netmask=255.255.255.0;eth1:dhcp,hostname=$(hostname)"`
+        `"lo:loopback;eth0:static,address=192.168.100.2,netmask=255.255.255.0;
+          eth1:dhcp,hostname=$(hostname)"`
 
       It is useful to configure one interface to use NAT to give the VM access
       to the outside world and another interface to use the Virtual Box host
@@ -73,14 +74,18 @@ help: |
       interface is configured statically.
 
       Note: you must give the host-only adapter interface an address that lies
-      **on the same network** as the host adapter. So if the host adapter has an
-      IP of 192.168.100.1 eth0 should have an address such as 192.168.100.42.
+      **on the same network** as the host adapter. So if the host adapter has
+      an IP of 192.168.100.1 eth0 should have an address such as
+      192.168.100.42.
 
       The settings of the host adapter, including its IP can be changed either
-      in the VirtualBox manager UI  (https://www.virtualbox.org/manual/ch03.html#settings-network)
-      or via the VBoxManage command line (https://www.virtualbox.org/manual/ch08.html#idp57572192)
+      in the VirtualBox manager UI
+      (https://www.virtualbox.org/manual/ch03.html#settings-network)
+      or via the VBoxManage command line
+      (https://www.virtualbox.org/manual/ch08.html#idp57572192)
 
       See Chapter 6 of the VirtualBox User Manual for more information about
       virtual networking (https://www.virtualbox.org/manual/ch06.html)
 
-    (See `morph help deploy` for details of how to pass parameters to write extensions)
+    (See `morph help deploy` for details of how to pass parameters to write
+    extensions)
