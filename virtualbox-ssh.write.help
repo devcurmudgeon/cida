@@ -82,3 +82,5 @@ help: |
 
       See Chapter 6 of the VirtualBox User Manual for more information about
       virtual networking (https://www.virtualbox.org/manual/ch06.html)
+
+    (See `morph help deploy` for details of how to pass parameters to write extensions)

@@ -1,6 +1,8 @@
 help: |
 
-    Create a KVM/LibVirt virtual machine during Morph's deployment.
+    Deploy a Baserock system as a *new* KVM/LibVirt virtual machine.
+
+    Use the `ssh-rsync` write extension to deploy upgrades to an *existing* VM
 
     Parameters:
 
@@ -37,5 +39,8 @@ help: |
     * INITRAMFS_PATH=path: the location of an initramfs for the bootloader to
       tell Linux to use, rather than booting the rootfs directly.
 
-    * AUTOSTART=<VALUE>` - allowed values are `yes` and `no` (default). If the
-      value is 'yes', the VM will be started when it has been deployed
+    * AUTOSTART=<VALUE>` - boolean. If it is set, the VM will be started when
+      it has been deployed.
+
+    (See `morph help deploy` for details of how to pass parameters to write extensions)
+    
