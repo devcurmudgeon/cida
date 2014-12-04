@@ -1,0 +1,36 @@
+help: |
+
+    Upgrade a Baserock system which is already deployed:
+    - as a KVM/LibVirt, OpenStack or vbox-ssh  virtual machine;
+    - on a Jetson board.
+
+    Copies a binary delta over to the target system and arranges for it
+    to be bootable.
+
+    The recommended way to use this extension is by calling `morph upgrade`.
+    Using `morph deploy --upgrade` is deprecated.
+
+    The upgrade will fail if:
+    - no VM is deployed and running at `location`;
+    - the target system is not a Baserock system;
+    - the target's filesystem and its layout are not compatible with that
+      created by `morph deploy`."
+
+    See also the 'Upgrading a Baserock installation' section of the 'Using
+    Baserock` page at wiki.baserock.org
+    http://wiki.baserock.org/devel-with/#index8h2
+
+    Parameters:
+
+    * location: the 'user@hostname' string that will be used by ssh and rsync.
+      'user' will always be `root` and `hostname` the hostname or address of the
+      system being upgraded.
+
+    * VERSION_LABEL=label - **(MANDATORY)** should contain only alpha-numeric
+      characters and the '-' (hyphen) character.
+
+    * AUTOSTART=<VALUE>` - boolean. If it is set, the VM will be started when
+      it has been deployed.
+
+    (See `morph help deploy` for details of how to pass parameters to write
+    extensions)
