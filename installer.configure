@@ -1,0 +1,48 @@
+#!/usr/bin/python
+#
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# This is a "morph deploy" configuration extension to configure an installer
+# system. It will create the configuration needed in the installer system
+# to perform an installation. It uses the following variables from the
+# environment:
+#
+#   * INSTALLER_TARGET_STORAGE_DEVICE
+#   * INSTALLER_ROOTFS_TO_INSTALL
+#   * INSTALLER_POST_INSTALL_COMMAND (optional, defaults to `reboot -f`)
+
+import os
+import sys
+import yaml
+
+install_config_file = os.path.join(sys.argv[1], 'etc', 'install.conf')
+
+try:
+    installer_configuration = {
+        'INSTALLER_TARGET_STORAGE_DEVICE': os.environ['INSTALLER_TARGET_STORAGE_DEVICE'],
+        'INSTALLER_ROOTFS_TO_INSTALL': os.environ['INSTALLER_ROOTFS_TO_INSTALL'],
+    }
+except KeyError as e:
+    print "Not configuring as an installer system"
+    sys.exit(0)
+
+postinstkey = 'INSTALLER_POST_INSTALL_COMMAND'
+installer_configuration[postinstkey] = os.environ.get(postinstkey, 'reboot -f')
+
+with open(install_config_file, 'w') as f:
+    f.write( yaml.dump(installer_configuration, default_flow_style=False) )
+
+print "Configuration of the installer system in %s" % install_config_file
