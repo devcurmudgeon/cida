@@ -36,6 +36,26 @@ To deploy this system:
 
 Full HAProxy 1.5 documentation: <https://cbonte.github.io/haproxy-dconv/configuration-1.5.html>.
 
+When setting up a new instance with the frontend already deployed, do the
+following:
+
+- request a subdomain that points at 85.199.252.162
+- log in to the frontend-haproxy machine
+- edit /etc/haproxy.conf as described below, and make the same changes to the
+  copy in this repo
+- run: `sudo haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -sf
+  $(cat /var/run/haproxy.pid)` to reload the configuration without interrupting
+  the service (this confuses systemd, but I'm not sure how to avoid that)
+
+If I was adding monkeys.baserock.org, this is what I'd add to the config file:
+
+    # (in the 'frontend' section)
+        acl host_monkeys hdr(host) -m beg -i monkeys
+        use_backend baserock_monkey_service if host_monkeys
+
+    backend baserock_monkey_service
+        server baserock_monkey_service 192.168.x.x
+
 Database
 --------
 
