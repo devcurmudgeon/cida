@@ -1,11 +1,37 @@
 help: |
-    Create a raw disk image during Morph's deployment.
-    
-    If the image already exists, it is upgraded.
 
-    The `location` argument is a pathname to the image to be
-    created or upgraded.
+    Write a system produced by Morph to a physical disk, or to a file that can
+    be used as a virtual disk. The target will be formatted as a single Btrfs
+    partition, with the system image written to a subvolume in /systems, and
+    other subvolumes created for /home, /opt, /root, /srv and /var.
 
-    The INITRAMFS_PATH option can be used to specify the location of an
-    initramfs for syslinux to tell Linux to use, rather than booting
-    the rootfs directly.
+    When written to a physical drive, the drive can be used as the boot device
+    for a 'real' machine.
+
+    When written to a file, the file can be used independently of `morph` to
+    create virtual machines with KVM / libvirt, OpenStack or, after converting
+    it to VDI format, VirtualBox.
+
+    `morph deploy` will fail if the file specified by `location` already exists.
+
+    If used in `morph upgrade`, the rootfs produced by 'morph build' is added to
+    the existing raw disk image or device as an additional btrfs sub-volume.
+    `morph upgrade` will fail if the file specified by `location` does not
+    exist, or is not a Baserock raw disk image. (Most users are unlikely to need
+    or use this functionality: it is useful mainly for developers working on the
+    Baserock tools.)
+
+    Parameters:
+
+    * location: the pathname of the disk image to be created/upgraded, or the
+      path to the physical device.
+
+    * VERSION_LABEL=label - should contain only alpha-numeric
+      characters and the '-' (hyphen) character. Mandatory if being used with
+      `morph update`
+
+    * INITRAMFS_PATH=path: the location of an initramfs for the bootloader to
+      tell Linux to use, rather than booting the rootfs directly.
+
+    (See `morph help deploy` for details of how to pass parameters to write
+    extensions)
