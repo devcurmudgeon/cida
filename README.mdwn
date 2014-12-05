@@ -26,7 +26,9 @@ appropriate machine based on the URL (primarily the subdomain).
 
 The 'frontend' system takes care of this. If you want to add a new
 service to the Baserock Project infrastructure you will need to alter
-the haproxy.cfg file in the frontend/ directory.
+the haproxy.cfg file in the frontend/ directory. OpenStack doesn't
+provide any kind of internal DNS service, so you must put the fixed IP
+of each instance.
 
 To deploy this system:
 
