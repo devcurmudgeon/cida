@@ -6,27 +6,47 @@
             "image": "fedora:20",
             "commit": true,
             "run_command": ["-d", "-i", "-t", "{{.Image}}", "/bin/sh"]
+        },
+        {
+            "name": "production",
+            "type": "openstack",
+            "image_name": "baserock_storyboard",
+            "flavor": "f0577618-9125-4948-b450-474e225bbc4c",
+            "source_image": "742e0414-c985-4994-b307-4aafade942b3",
+            "networks": ["d079fa3e-2558-4bcb-ad5a-279040c202b5"],
+            "floating_ip": "85.199.252.159",
+            "use_floating_ip": true,
+            "ssh_username": "fedora"
         }
     ],
     "provisioners": [
         {
             "type": "shell",
             "inline": [
-                "yum install -y ruby gem",
-                "gem install puppet"
-            ]
-        },
-        {   "type": "shell",
-            "inline": [
-                "cd /src/test-baserock-infrastructure/baserock_storyboard",
-                "puppet module build puppet-storyboard",
-                "puppet module install puppet-storyboard/pkg/openstack-storyboard-*.*.*.tar.gz",
-                "puppet module install camptocamp-openssl"
+                "sudo yum install -y ruby gem",
+                "sudo gem install puppet"
             ]
         },
         {
-            "type": "puppet-masterless",
-            "manifest_file": "baserock_storyboard/site.pp"
+            "type": "shell",
+            "inline": [
+               "sudo chown fedora:fedora /srv"
+            ],
+            "only": ["production"]
+        },
+        {
+            "type": "file",
+            "source": "baserock_storyboard",
+            "destination": "/srv",
+            "only": ["production"]
+        },
+        {   "type": "shell",
+            "inline": [
+                "cd /srv/baserock_storyboard",
+                "sudo /usr/local/bin/puppet module build puppet-storyboard",
+                "sudo /usr/local/bin/puppet module install puppet-storyboard/pkg/openstack-storyboard-*.*.*.tar.gz",
+                "sudo /usr/local/bin/puppet module install camptocamp-openssl"
+            ]
         }
     ],
     "post-processors": [
