@@ -28,6 +28,7 @@ import morphlib.writeexts
 
 class OpenStackWriteExtension(morphlib.writeexts.WriteExtension):
 
+    '''See openstack.write.help for documentation'''
 
     def process_args(self, args):
         if len(args) != 2:

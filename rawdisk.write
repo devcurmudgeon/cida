@@ -29,19 +29,12 @@ import morphlib.writeexts
 
 class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
 
-    '''Create a raw disk image during Morph's deployment.
-    
-    If the image already exists, it is upgraded.
-
-    The location command line argument is the pathname of the disk image
-    to be created/upgraded.
-    
-    '''
+    '''See rawdisk.write.help for documentation'''
 
     def process_args(self, args):
         if len(args) != 2:
             raise cliapp.AppException('Wrong number of command line args')
-        
+
         temp_root, location = args
         upgrade = self.get_environment_boolean('UPGRADE')
 
@@ -114,4 +107,3 @@ class RawDiskWriteExtension(morphlib.writeexts.WriteExtension):
 
 
 RawDiskWriteExtension().run()
-

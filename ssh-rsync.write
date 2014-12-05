@@ -37,14 +37,8 @@ def ssh_runcmd_ignore_failure(location, command, **kwargs):
 
 class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
 
-    '''Upgrade a running baserock system with ssh and rsync.
-
-    It assumes the system is baserock-based and has a btrfs partition.
-
-    The location command line argument is the 'user@hostname' string
-    that will be passed to ssh and rsync
-
-    '''
+    '''See ssh-rsync.write.help for documentation'''
+    
 
     def find_root_disk(self, location):
         '''Read /proc/mounts on location to find which device contains "/"'''
