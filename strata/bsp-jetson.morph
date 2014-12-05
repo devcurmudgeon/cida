@@ -30,8 +30,7 @@ chunks:
   repo: upstream:linux
   ref: 8c885b20c4c9115d29dca4e5afd66228c51c5f69
   unpetrify-ref: baserock/jetson/linux-tegra-3.18-rc3
-  build-depends:
-  - u-boot@jetson
+  build-depends: []
 - name: bsp-support
   morph: strata/bsp-jetson/bsp-support.morph
   repo: baserock:baserock/bsp-support
