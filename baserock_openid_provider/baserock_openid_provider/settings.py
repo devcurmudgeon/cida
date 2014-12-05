@@ -62,10 +62,8 @@ WSGI_APPLICATION = 'baserock_openid_provider.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'baserock_openid_provider',
+        'NAME': 'openid_provider',
         'USER': 'openid',
-
-
         'PORT': '3306',
 
         # You must change this to the correct IP address when
