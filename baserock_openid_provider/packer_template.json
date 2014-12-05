@@ -22,8 +22,15 @@
     "provisioners": [
         {
             "type": "shell",
-            "inline": [ "sudo chown fedora:fedora /srv" ],
+            "inline": [
+               "sudo chown fedora:fedora /srv"
+            ],
             "only": ["production"]
+        },
+        {
+            "type": "file",
+            "source": "database/baserock_openid_provider.database_password.yml",
+            "destination": "/var/lib/baserock_openid_provider.database_password.yml"
         },
         {
             "type": "file",
@@ -43,7 +50,7 @@
         {
             "type": "shell",
             "inline": [
-                "ln -s /srv/test_baserock_infrastructure/baserock_openid_provider /srv"
+                "ln -s /srv/test-baserock-infrastructure/baserock_openid_provider /srv"
             ],
             "only": ["development"]
         },

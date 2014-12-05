@@ -47,6 +47,11 @@ Also, you must create or have access to an Ansible playbook which will set up
 the user accounts. For development deployments you can use the 'develop.sh'
 script which sets up all the necessary accounts using dummy passwords.
 
+To deploy a development instance:
+
+    packer build -only=development database/packer_template.json
+    database/develop.sh
+
 To deploy this system to production:
 
     packer build -only=production database/packer_template.json
@@ -73,6 +78,32 @@ To deploy this system to production:
 
     # edit 'hosts' line of database/user_accounts.yml to point to the server's IP
     ansible-playbook database/user_accounts.yml
+
+    nova floating-ip-disassociate database-mariadb <some floating IP>
+
+OpenID provider
+---------------
+
+To deploy a development instance:
+
+    packer build -only=development baserock_openid_provider/packer_template.json
+    baserock_openid_provider/develop.sh
+    # Now you have a root shell inside your container
+    cd /srv/baserock_openid_provider
+    python ./manage.py runserver 0.0.0.0:80
+    # Now you can browse to http://localhost:80/ and see the server.
+
+To deploy this system to production:
+
+    vim baserock_openid_provider/baserock_openid_provider/settings.py
+    # Edit the DATABASES['default']['HOST'] to point to the fixed IP of
+    # the 'database' machine.
+    packer build -only=production database/packer_template.json
+    nova boot openid_provider
+
+    # Now you need to SSH into the system (via the frontend system perhaps)
+    # and run the database migrations, before the app will work:
+    python /srv/baserock_openid_provider/manage.py migrate
 
 
 Deployment to DataCentred

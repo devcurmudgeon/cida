@@ -28,5 +28,13 @@
   - name: install python-openid
     pip: name=python-openid
 
+  # Install the MySQL-python package from Yum, because if it's installed from
+  # PyPI you need to have the mariadb-devel package installed to build the C
+  # code and that's an extra 21MB of dependencies or so. Note that this driver
+  # doesn't support Python 3, but there is a fork available which does, see:
+  # https://docs.djangoproject.com/en/dev/ref/databases/#mysql-db-api-drivers
+  - name: install MySQL-python
+    yum: name=MySQL-python state=latest
+
   - name: install Cherokee configuration
     shell: ln -sf /srv/baserock_openid_provider/cherokee.conf /etc/cherokee/cherokee.conf

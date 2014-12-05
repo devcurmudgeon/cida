@@ -8,8 +8,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import yaml
+
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -59,10 +61,32 @@ WSGI_APPLICATION = 'baserock_openid_provider.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'baserock_openid_provider',
+        'USER': 'openid',
+
+
+        'PORT': '3306',
+
+        # You must change this to the correct IP address when
+        # deploying to production! For development deployments this
+        # gets the IP of the 'baserock-database' container from the
+        # environment, which Docker will have set if you passed it
+        # `--link=baseock-database:db`.
+        'HOST': os.environ['DB_PORT_3306_TCP_ADDR']
     }
 }
+
+
+# This file lives under /var/lib currently so that the user who runs
+# this code can read it. That user is 'uwsgi'. Putting it in /srv would
+# be fine except that it interferes with the way development deployments
+# are done.
+pw_file = '/var/lib/baserock_openid_provider.database_password.yml'
+with open(pw_file) as f:
+    data = yaml.load(f)
+    password = data['baserock_openid_provider_password']
+    DATABASES['default']['PASSWORD'] = password
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
