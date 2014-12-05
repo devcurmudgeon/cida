@@ -10,10 +10,11 @@
 # You should then remove the floating IP from the instance (you can re-add one
 # any time you want to remotely administer the database).
 ---
-- hosts: localhost
+- hosts: all
   vars_files:
     - root.database_password.yml
     - baserock_openid_provider.database_password.yml
+    - baserock_storyboard.database_password.yml
   tasks:
     - name: configuring the root database user
       mysql_user: |
@@ -33,13 +34,14 @@
 
     - name: adding databases
       mysql_db: |
-        name={{ item.name }}
+        name={{ item }}
         state=present
         login_host=127.0.0.1
         login_user=root
         login_password={{ root_password }}
       with_items:
-        - { name: baserock_openid_provider }
+        - openid_provider
+        - storyboard
 
     # We could probably restrict the privileges of these users further...
     #
@@ -60,4 +62,7 @@
       with_items:
         - name: openid
           password: "{{ baserock_openid_provider_password }}"
-          priv: baserock_openid_provider.*:ALL;
+          priv: openid_provider.*:ALL
+        - name: storyboard
+          password: "{{ baserock_storyboard_password }}"
+          priv: storyboard.*:ALL

@@ -57,31 +57,35 @@ To deploy a development instance:
 To deploy this system to production:
 
     packer build -only=production database/packer_template.json
-    nova create \
-        --flavor 2 --image 'database-mariadb' \
-        --key-name=<your-keypair> database-mariadb
+    nova boot \
+        --flavor dc1.1x1 --image 'database-mariadb' \
+        --key-name=<your-keypair> database-mariadb \
+        --nic='net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5,v4-fixed-ip=192.168.222.30'
     nova volume-create \
         --display-name database-volume \
         --display-description 'Database volume' \
-        10G
+        10
     nova volume-attach database-mariadb <volume ID> auto
 
     nova floating-ip-associate database-mariadb <some floating IP>
 
     # Set up the volume inside the machine
-    ansible <IP> --user=fedora --sudo -m shell \
+    echo <IP> > dbhost
+    ansible \* -i dbhost --user=fedora --sudo -m shell \
         -a "mkfs.ext4 /dev/vdb -L database-volume"
-    ansible <IP> --user=fedora --sudo -m lineinfile \
+    ansible \* -i dbhost --user=fedora --sudo -m lineinfile \
         -a "dest=/etc/fstab create=yes line='LABEL=database-volume /var/lib/mysql ext4 defaults 1 2'"
+    ansible \* -i dbhost --user=fedora --sudo -m shell \
+        -a "mount -a"
 
     # FIXME: here we start the service before setting the root password!!!!
-    ansible <IP> --user=fedora --sudo -m service \
+    ansible \* -i dbhost --user=fedora --sudo -m service \
         -a "name=mariadb enabled=true state=started"
 
-    # edit 'hosts' line of database/user_accounts.yml to point to the server's IP
-    ansible-playbook database/user_accounts.yml
+    ansible-playbook -i dbhost --user=fedora database/user_config.yml
 
     nova floating-ip-disassociate database-mariadb <some floating IP>
+
 
 OpenID provider
 ---------------
@@ -102,9 +106,13 @@ To deploy this system to production:
     # the 'database' machine.
     packer build -only=production database/packer_template.json
     nova boot openid_provider
+        --flavor dc1.1x1 --image 'baserock_openid_provider' \
+        --key-name=<your-keypair> openid.baserock.org \
+        --nic='net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5'
 
-    # Now you need to SSH into the system (via the frontend system perhaps)
-    # and run the database migrations, before the app will work:
+Now you need to SSH into the system (via the frontend system perhaps) and run
+the database migrations, before the app will work:
+
     python /srv/baserock_openid_provider/manage.py migrate
 
 
