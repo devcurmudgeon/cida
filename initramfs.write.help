@@ -1,4 +1,5 @@
 help: |
+
     Create an initramfs for a system by taking an existing system and
     converting it to the appropriate format.
 
@@ -33,3 +34,8 @@ help: |
               initramfs:
                 type: initramfs
                 location: boot/initramfs.gz
+
+    Parameters:
+
+    * location: the path where the initramfs will be installed (e.g.
+      `boot/initramfs.gz`) in the above example
