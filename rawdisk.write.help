@@ -12,14 +12,15 @@ help: |
     create virtual machines with KVM / libvirt, OpenStack or, after converting
     it to VDI format, VirtualBox.
 
-    `morph deploy` will fail if the file specified by `location` already exists.
+    `morph deploy` will fail if the file specified by `location` already
+    exists.
 
-    If used in `morph upgrade`, the rootfs produced by 'morph build' is added to
-    the existing raw disk image or device as an additional btrfs sub-volume.
+    If used in `morph upgrade`, the rootfs produced by 'morph build' is added
+    to the existing raw disk image or device as an additional btrfs sub-volume.
     `morph upgrade` will fail if the file specified by `location` does not
-    exist, or is not a Baserock raw disk image. (Most users are unlikely to need
-    or use this functionality: it is useful mainly for developers working on the
-    Baserock tools.)
+    exist, or is not a Baserock raw disk image. (Most users are unlikely to
+    need or use this functionality: it is useful mainly for developers working
+    on the Baserock tools.)
 
     Parameters:
 

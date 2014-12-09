@@ -23,8 +23,8 @@ help: |
     Parameters:
 
     * location: the 'user@hostname' string that will be used by ssh and rsync.
-      'user' will always be `root` and `hostname` the hostname or address of the
-      system being upgraded.
+      'user' will always be `root` and `hostname` the hostname or address of
+      the system being upgraded.
 
     * VERSION_LABEL=label - **(MANDATORY)** should contain only alpha-numeric
       characters and the '-' (hyphen) character.

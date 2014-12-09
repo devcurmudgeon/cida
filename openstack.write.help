@@ -16,15 +16,15 @@ help: |
         where
 
         * HOST is the host running OpenStack
-        * PORT is the port which is using OpenStack for authentifications.
-        * VERSION is the authentification version of OpenStack (Only v2.0
+        * PORT is the port which is using OpenStack for authentications.
+        * VERSION is the authentication version of OpenStack (Only v2.0
           supported)
 
     * OPENSTACK_USER=username: the username to use in the `--os-username`
       argument to `glance`.
 
-    * OPENSTACK_TENANT=tenant: the project name to use in the `--os-tenant-name`
-      argument to `glance`.
+    * OPENSTACK_TENANT=tenant: the project name to use in the
+      `--os-tenant-name` argument to `glance`.
 
     * OPENSTACK_IMAGENAME=imagename: the name of the image to use in the
       `--name` argument to `glance`.
