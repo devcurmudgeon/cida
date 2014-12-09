@@ -160,7 +160,13 @@ To deploy the production version:
 Deployment to DataCentred
 -------------------------
 
-The Packer tool requires a floating IP to be available at the time a system is
-being deployed to OpenStack. Currently 85.199.252.152 should be used for this.
-If you specify a floating IP that is in use by an existing instance, you will
-steal it for your own instance and probably break one of our web services.
+When instantiating a machine that will be public, remember that all operators
+who are responsible for security updates and maintenance must be given access
+to the machine. This can be done using a post-creation customisation script
+that injecting all of their SSH keys: the Baserock Ops team use the file
+`baserock-ops-team.cloud-config` from this repo.
+
+The the Packer tool requires a floating IP to be available at the time a system
+is being deployed to OpenStack. Currently 85.199.252.152 should be used for
+this.  If you specify a floating IP that is in use by an existing instance, you
+will steal it for your own instance and probably break one of our web services.
