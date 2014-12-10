@@ -77,9 +77,16 @@ class OpenStackCheckExtension(morphlib.writeexts.WriteExtension):
                    '--os-password', password,
                    '--os-auth-url', auth_url,
                    'image-list']
-        try:
-            cliapp.runcmd(cmdline)
-        except cliapp.AppException:
-            raise cliapp.AppException('Wrong OpenStack credentals.')
+
+        exit, out, err = cliapp.runcmd_unchecked(cmdline)
+
+        if exit != 0:
+            if err.startswith('The request you have made requires ' \
+                              'authentication. (HTTP 401)'):
+                raise cliapp.AppException('Invalid OpenStack credentials.')
+            else:
+                raise cliapp.AppException(
+                    'Failed to connect to OpenStack instance at %s: %s' %
+                    (auth_url, err))
 
 OpenStackCheckExtension().run()
