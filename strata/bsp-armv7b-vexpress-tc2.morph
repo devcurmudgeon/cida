@@ -7,6 +7,6 @@ chunks:
 - name: linux-armv7b-vexpress-tc2
   morph: strata/bsp-armv7b-vexpress-tc2/linux-armv7b-vexpress-tc2.morph
   repo: upstream:linux
-  ref: d67a0e110187abd560a1de63fa172894a52839d5
-  unpetrify-ref: baserock/morph
+  ref: b2776bf7149bddd1f4161f14f79520f17fc1d71d
+  unpetrify-ref: v3.18
   build-depends: []
