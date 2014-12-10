@@ -21,7 +21,7 @@ post-install-commands:
 - |
   cat > "$DESTDIR/etc/systemd/network/10-dhcp.network" << "EOF"
   [Match]
-  Name=en*
+  Name=e*
 
   [Network]
   DHCP=yes
