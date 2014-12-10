@@ -1,0 +1,12 @@
+name: installer-utils
+kind: stratum
+description: stratum for Baserock installer script.
+build-depends:
+- morph: strata/build-essential.morph
+chunks:
+- name: installer-scripts
+  morph: strata/installer-utils/installer-scripts.morph
+  repo: baserock:baserock/installer-scripts
+  ref: master
+  unpetrify-ref: master
+  build-depends: []
