@@ -89,8 +89,6 @@ chunks:
   - kmod
   - libcap2
   - libgcrypt
-  - pciutils
-  - usbutils
 - name: lzo
   morph: strata/foundation/lzo.morph
   repo: upstream:lzo
