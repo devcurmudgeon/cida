@@ -1,0 +1,17 @@
+name: zookeeper-client
+kind: stratum
+description: |
+  This stratum installs a small demonstration program for the
+  client side of ZooKeeper. The program can take up to two
+  arguments:
+   (1) The IP address of the ZooKeeper server to connect to
+   (2) The type of client that this will be (default client
+       types are typeOneNode & typeTwoNode)
+build-depends:
+- morph: strata/zookeeper.morph
+chunks:
+- name: zookeeper-client
+  morph: strata/zookeeper/zookeeper-client.morph
+  repo: baserock:tests/zookeeper-test
+  ref: master
+  build-depends: []
