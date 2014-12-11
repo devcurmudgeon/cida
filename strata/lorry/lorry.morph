@@ -1,0 +1,3 @@
+name: lorry
+kind: chunk
+build-system: python-distutils

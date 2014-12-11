@@ -1,0 +1,8 @@
+name: cmake
+kind: chunk
+configure-commands:
+- ./bootstrap --prefix="$PREFIX" --docdir=/share/doc/cmake --mandir=/share/man
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" install

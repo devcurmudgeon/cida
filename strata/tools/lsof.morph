@@ -1,0 +1,12 @@
+name: lsof
+kind: chunk
+configure-commands:
+- tar xf lsof_*_src.tar
+- cd lsof_*_src/ && ./Configure -n linux
+build-commands:
+- cd lsof_*_src/ && make
+install-commands:
+- mkdir -p "$DESTDIR$PREFIX"/bin
+- mv lsof_*_src/lsof "$DESTDIR$PREFIX"/bin/lsof
+- mkdir -p "$DESTDIR$PREFIX"/man/man8
+- mv lsof_*_src/lsof.8 "$DESTDIR$PREFIX"/man/man8

@@ -1,0 +1,6 @@
+name: python-prettytable
+kind: chunk
+build-commands:
+- cd src && python setup.py build
+install-commands:
+- cd src && python setup.py install --prefix "$PREFIX" --root "$DESTDIR"

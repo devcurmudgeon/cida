@@ -1,0 +1,32 @@
+name: nfs
+kind: stratum
+description: NFS utilities
+build-depends:
+- morph: strata/foundation.morph
+chunks:
+- name: libevent
+  repo: upstream:libevent
+  ref: 9364dff5c20e9e8c18f7f20ee1c92463e9e9c8a7
+  unpetrify-ref: baserock/release-2.0.21-stable
+  build-depends: []
+- name: ti-rpc
+  morph: strata/nfs/ti-rpc.morph
+  repo: upstream:ti-rpc
+  ref: c5a7a19070e74115fc9c26aa6f3dfec1da220c1f
+  unpetrify-ref: baserock/master
+  build-depends: []
+- name: rpcbind
+  morph: strata/nfs/rpcbind.morph
+  repo: upstream:rpcbind
+  ref: aa3ac0d86c258d3e355ae59df31a96da795ecdfa
+  unpetrify-ref: baserock/master
+  build-depends:
+  - ti-rpc
+- name: nfs-utils
+  morph: strata/nfs/nfs-utils.morph
+  repo: upstream:nfs-utils
+  ref: 08baf3bc2f66a1ca6401191e19380028d2fc2c6d
+  unpetrify-ref: baserock/master
+  build-depends:
+  - libevent
+  - ti-rpc

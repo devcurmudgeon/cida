@@ -1,0 +1,28 @@
+name: openssh
+kind: chunk
+configure-commands:
+- autoreconf -if
+- |
+  OPENSSL_SEEDS_ITSELF=yes ./configure \
+      --prefix="$PREFIX" --sysconfdir=/etc/ssh \
+      --datadir="$PREFIX/share/sshd" \
+      --libexecdir="$PREFIX/lib/openssh" \
+      --with-privsep-path=/var/lib/sshd
+build-commands:
+- make
+- |
+  sed -e "s|@prefix@|$PREFIX|g" \
+      -e 's|@STARTUP_SCRIPT_SHELL@|/bin/sh|g' \
+      -e 's|@sysconfdir@|/etc/ssh|g' \
+      -e 's|@COMMENT_OUT_ECC@||g' \
+      sshd-keygen.in >sshd-keygen
+- sed -e "s|@prefix@|$PREFIX|g" opensshd.service.in >opensshd.service
+install-commands:
+- make DESTDIR="$DESTDIR" install
+- mkdir -p "$DESTDIR/$PREFIX/sbin"
+- chmod go= "$DESTDIR"/var/lib/sshd
+- install -m 744 sshd-keygen "$DESTDIR/$PREFIX/sbin/sshd-keygen"
+- install -m 755 contrib/ssh-copy-id "$DESTDIR/$PREFIX/bin/ssh-copy-id"
+- mkdir -p "$DESTDIR/lib/systemd/system/multi-user.target.wants"
+- install -m 644 opensshd.service "$DESTDIR/lib/systemd/system/opensshd.service"
+- ln -s ../opensshd.service "$DESTDIR/lib/systemd/system/multi-user.target.wants/opensshd.service"

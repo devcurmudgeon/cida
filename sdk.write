@@ -1,0 +1,284 @@
+#!/bin/sh
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# =*= License: GPL-2 =*=
+
+set -eu
+
+die(){
+    echo "$@" >&2
+    exit 1
+}
+
+shellescape(){
+    echo "'$(echo "$1" | sed -e "s/'/'\\''/g")'"
+}
+
+########################## END OF COMMON HEADER ###############################
+#
+# The above lines, as well as being part of this script, are copied into the
+# self-installing SDK blob's header script, as a means of re-using content.
+#
+
+help(){
+    cat <<EOF
+sdk.write: Write extension for making an SDK installer.
+
+Description:
+  This is a write extension for producing a self-installing SDK blob
+  from a configured system.
+
+  It generates a shell script header and appends the rootfs as a tarball,
+  which the header later extracts, and performs various configuration
+  to have it useable as a relocatable toolchain.
+
+  This is similar to what the shar and makeself programs do, but we
+  need custom setup, so shar isn't appropriate, and makeself's api is
+  insufficiently flexible for our requirements.
+
+  The toolchain relocation is handled by sedding every text file in the
+  SDK directory, and using the patchelf from inside the SDK to change
+  every ELF binary in the toolchain to use the linker and libraries from
+  inside the SDK.
+
+  The ELF patching is required so that the SDK can work independently
+  of the versions of libraries installed on the host system.
+
+Location: Path to create the script at
+
+ENV VARS:
+    PREFIX (optional)  The prefix the toolchain is built with
+                       defaults to /usr
+    TARGET (mandatory) The gnu triplet the toolchain was built with
+EOF
+}
+
+ROOTDIR="$1"
+OUTPUT_SCRIPT="$2"
+PREFIX=${PREFIX-/usr}
+
+find_patchelf(){
+    # Look for patchelf in the usual places
+    for binpath in /bin "$PREFIX/bin"; do
+        if [ -x "$ROOTDIR$binpath/patchelf" ]; then
+            echo "$binpath/patchelf"
+            return
+        fi
+    done
+    die "patchelf not found in rootfs"
+}
+
+read_elf_interpreter(){
+    # Use readelf and sed to find the interpreter a binary uses this is
+    # required since we can't yet guarantee that the deploying system
+    # contains patchelf
+    readelf --wide --program-headers "$1" |
+    sed -nr -f /proc/self/fd/3 3<<'EOF'
+/\s+INTERP/{
+  n         # linker is on line after INTERP line
+  s/^\s*\[Requesting program interpreter: (.*)]$/\1/
+  p         # in -n mode, so need to print our text
+}
+EOF
+}
+
+find_lib_paths(){
+    local found_first=false
+    for libpath in "$PREFIX/lib32" "$PREFIX/lib64" "$PREFIX/lib" \
+                   /lib32 /lib64 /lib; do
+        if [ -e "$ROOTDIR$libpath" ]; then
+            if "$found_first"; then
+                printf ":%s" "$libpath"
+            else
+                printf "%s" "$libpath"
+                found_first=true
+            fi
+        fi
+    done
+}
+
+# Create script with common header
+header_end=$(grep -En -m1 -e '^#+ END OF COMMON HEADER #+$' "$0" | cut -d: -f1)
+head -n "$header_end" "$0" | install -m 755 -D /dev/stdin "$OUTPUT_SCRIPT"
+
+# Determine any config
+PATCHELF="$(find_patchelf)"
+RTLD="$(read_elf_interpreter "$ROOTDIR$PATCHELF")"
+LIB_PATH="${LIB_PATH-$(find_lib_paths)}"
+
+# Append deploy-time config to header
+cat >>"$OUTPUT_SCRIPT" <<EOF
+#################### START OF DEPLOY TIME CONFIGURATION #######################
+
+TARGET=$(shellescape "$TARGET")
+PREFIX=$(shellescape "$PREFIX")
+PATCHELF=$(shellescape "$PATCHELF")
+RTLD=$(shellescape "$RTLD")
+LIB_PATH=$(shellescape "$LIB_PATH")
+
+##################### END OF DEPLOY TIME CONFIGURATION ########################
+EOF
+
+# Append deployment script
+cat >>"$OUTPUT_SCRIPT" <<'EOF'
+########################### START OF HEADER SCRIPT ############################
+
+usage(){
+    cat <<USAGE
+usage: $0 TOOLCHAIN_PATH
+USAGE
+}
+
+if [ "$#" != 1 ]; then
+    echo TOOLCHAIN_PATH not given >&2
+    usage >&2
+    exit 1
+fi
+
+TOOLCHAIN_PATH="$1"
+
+sedescape(){
+    # Escape the passed in string so it can be safely interpolated into
+    # a sed expression as a literal value.
+    echo "$1" | sed -e 's/[\/&]/\\&/g'
+}
+
+prepend_to_path_elements(){
+    # Prepend $1 to every entry in the : separated list specified as $2.
+    local prefix="$1"
+    (
+        # Split path into components
+        IFS=:
+        set -- $2
+        # Print path back out with new prefix
+        printf %s "$prefix/$1"
+        shift
+        for arg in "$@"; do
+            printf ":%s" "$prefix/$arg"
+        done
+    )
+}
+
+extract_rootfs(){
+    # Extract the bzipped tarball at the end of the script passed as $1
+    # to the path specified as $2
+    local selfextractor="$1"
+    local target="$2"
+    local script_end="$(($(\
+        grep -aEn -m1 -e '^#+ END OF HEADER SCRIPT #+$' "$selfextractor" |
+            cut -d: -f1) + 1 ))"
+    mkdir -p "$target"
+    tail -n +"$script_end" "$selfextractor" | tar -xj -C "$target" .
+}
+
+amend_text_file_paths(){
+    # Replace all instances of $3 with $4 in the directory specified by $1
+    # excluding the subdirectory $2
+    local root="$1"
+    local inner_sysroot="$2"
+    local old_prefix="$3"
+    local new_prefix="$4"
+    find "$root" \( -path "$inner_sysroot" -prune \) -o -type f \
+        -exec sh -c 'file "$1" | grep -q text' - {} \; \
+        -exec sed -i -e \
+          "s/$(sedescape "$old_prefix")/$(sedescape "$new_prefix")/g" {} +
+}
+
+filter_patchelf_errors(){
+    # Filter out warnings from patchelf that are acceptable
+    # The warning that it's making a file bigger is just noise
+    # The warning about not being an ELF executable just means we got a
+    # false positive from file that it was an ELF binary
+    # Failing to find .interp is because for convenience, we set the
+    # interpreter in the same command as setting the rpath, even though
+    # we give it both executables and libraries.
+    grep -v -e 'warning: working around a Linux kernel bug' \
+            -e 'not an ELF executable' \
+            -e 'cannot find section .interp'
+}
+
+patch_elves(){
+    # Set the interpreter and library paths of ELF binaries in $1,
+    # except for the $2 subdirectory, using the patchelf command in the
+    # toolchain specified as $3, so that it uses the linker specified
+    # as $4 as the interpreter, and the runtime path specified by $5.
+    #
+    # The patchelf inside the toolchain is used to ensure that it works
+    # independently of the availability of patchelf on the host.
+    #
+    # This is possible by invoking the linker directly and specifying
+    # --linker-path as the RPATH we want to set the binaries to use.
+    local root="$1"
+    local inner_sysroot="$2"
+    local patchelf="$3"
+    local linker="$4"
+    local lib_path="$5"
+    find "$root" \( -path "$inner_sysroot" -prune \) -o -type f \
+        -type f -perm +111 \
+        -exec sh -c 'file "$1" | grep -q "ELF"' - {} \; \
+        -exec "$linker" --library-path "$lib_path" \
+                  "$patchelf" --set-interpreter "$linker" \
+                              --set-rpath "$lib_path" {} \; 2>&1 \
+    | filter_patchelf_errors
+}
+
+generate_environment_setup(){
+    local target="$1"
+    install -m 644 -D /dev/stdin "$target" <<ENVSETUP
+export PATH=$(shellescape "$TOOLCHAIN_PATH/usr/bin"):"\$PATH"
+export TARGET_PREFIX=$(shellescape "$TARGET"-)
+export CC=$(shellescape "$TARGET-gcc")
+export CXX=$(shellescape "$TARGET-g++")
+export CPP=$(shellescape "$TARGET-gcc -E")
+export AS=$(shellescape "$TARGET-as")
+export LD=$(shellescape "$TARGET-ld")
+export STRIP=$(shellescape "$TARGET-strip")
+export RANLIB=$(shellescape "$TARGET-ranlib")
+export OBJCOPY=$(shellescape "$TARGET-objcopy")
+export OBJDUMP=$(shellescape "$TARGET-objdump")
+export AR=$(shellescape "$TARGET-ar")
+export NM=$(shellescape "$TARGET-nm")
+ENVSETUP
+}
+
+SYSROOT="$TOOLCHAIN_PATH$PREFIX/$TARGET/sys-root"
+PATCHELF="$TOOLCHAIN_PATH$PATCHELF"
+RTLD="$TOOLCHAIN_PATH$RTLD"
+OLD_PREFIX="$PREFIX"
+NEW_PREFIX="$TOOLCHAIN_PATH/$PREFIX"
+RPATH="$(prepend_to_path_elements "$TOOLCHAIN_PATH" "$LIB_PATH")"
+ENV_SETUP_FILE="$(dirname "$TOOLCHAIN_PATH")/environment-setup-$TARGET"
+
+echo Writing environment setup script to "$ENV_SETUP_FILE"
+generate_environment_setup "$ENV_SETUP_FILE"
+
+echo Extracting rootfs
+extract_rootfs "$0" "$TOOLCHAIN_PATH"
+
+echo "Relocating prefix references of $OLD_PREFIX to $NEW_PREFIX in" \
+     "the toolchain's textual config files."
+amend_text_file_paths "$TOOLCHAIN_PATH" "$SYSROOT" "$OLD_PREFIX" "$NEW_PREFIX"
+
+echo "Patching ELF binary files' interpreter and runtime library paths" \
+     "to refer to libraries within the toolchain"
+patch_elves "$TOOLCHAIN_PATH" "$SYSROOT" "$PATCHELF" "$RTLD" "$RPATH"
+
+exit
+############################ END OF HEADER SCRIPT #############################
+EOF
+
+# Append rootfs as tarball
+tar -C "$1" -cj >>"$OUTPUT_SCRIPT" .

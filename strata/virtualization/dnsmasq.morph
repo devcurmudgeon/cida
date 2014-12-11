@@ -1,0 +1,6 @@
+name: dnsmasq
+kind: chunk
+build-system: autotools
+configure-commands: []
+install-commands:
+- make install PREFIX="$PREFIX" DESTDIR="$DESTDIR"

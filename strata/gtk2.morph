@@ -1,0 +1,12 @@
+name: gtk2
+kind: stratum
+description: the gtk2 stratum
+build-depends:
+- morph: strata/gtk-deps.morph
+- morph: strata/x-generic.morph
+chunks:
+- name: gtk+
+  morph: strata/gtk2/gtk+.morph
+  repo: upstream:gtk+
+  ref: fbf38d16bcc26630f0f721d266509f5bc292f606
+  build-depends: []

@@ -1,0 +1,7 @@
+name: supple
+kind: chunk
+description: Sandbox (for) Untrusted Procedure Partitioning (in) Lua Engine.
+build-commands:
+- make
+install-commands:
+- make INST_BASE="$PREFIX" DESTDIR="$DESTDIR" install

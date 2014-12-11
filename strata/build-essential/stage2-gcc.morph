@@ -1,0 +1,68 @@
+name: stage2-gcc
+kind: chunk
+
+configure-commands:
+- mkdir o
+
+# In other projects we specify the sysroot location using CPPFLAGS. Here,
+# that breaks because GCC compiles stuff for the *build* machine, too ...
+# and this requires using the host's compiler, which cannot use the same
+# set of CPPFLAGS as the target. If we specify the sysroot using CC instead
+# then we don't interfere, because we are only specifying the *host* C
+# compiler.
+#
+# Configure flag notes:
+#  1. It's vital that this compiler targets the bootstrap machine
+#     (TARGET_STAGE1) so that the stage 1 GCC is used instead of the
+#     compiler of the build machine.
+#  2. Disable searching /usr/local/include for headers
+#  3. This flag causes the correct --sysroot flag to be passed when calling
+#     stage 1 GCC.
+#  4. C++ is built in stage 3.
+#  5. Standard flags. See gcc.morph.
+- |
+  export STAGE2_SYSROOT="$(dirname $(pwd))"
+  export CC="$TARGET_STAGE1-gcc --sysroot=$STAGE2_SYSROOT"
+  export LDFLAGS="-Wl,--sysroot=$STAGE2_SYSROOT"
+  cd o && ../configure \
+    $(../morph-arch-config) \
+    `# [1]` --build=$(sh ../config.guess) \
+            --host=$TARGET_STAGE1 \
+            --target=$TARGET_STAGE1 \
+    --prefix="$PREFIX" \
+    `# [2]` --with-local-prefix=$PREFIX \
+    `# [3]` --with-build-sysroot="$STAGE2_SYSROOT" \
+    --disable-bootstrap \
+    --enable-clocale=gnu --enable-shared --enable-threads=posix \
+    `# [4]` --enable-languages=c \
+    `# [5]` --libdir=$PREFIX/lib \
+            --disable-libgomp --disable-multilib --disable-nls \
+            --without-cloog --without-ppl \
+            --with-mpfr-include="$(pwd)/../mpfr/src" \
+            --with-mpfr-lib="$(pwd)/mpfr/src/.libs"
+
+build-commands:
+- |
+  export STAGE2_SYSROOT="$(dirname $(pwd))"
+  cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install
+
+# Stage 3 builds need to link against this file in the location that
+# it will be in the final system, so we make a temporary link now.
+#
+# On x86_64 GCC resolutely installs its libraries into lib64. To fix this
+# would require hobbling the MULTILIB_OSDIRNAMES field in
+# gcc/config/i386/t-linux64 and this might break things, so for now we
+# tolerate the inconsistency.
+- |
+  if [ "$(echo $TARGET | cut -c -6)" = "x86_64" ]; then
+    libdir=lib64
+  else
+    libdir=lib
+  fi
+
+  install -d "$DESTDIR/lib"
+  ln -s "$PREFIX/$libdir/libgcc_s.so" "$DESTDIR/lib/"
+  ln -s "$PREFIX/$libdir/libgcc_s.so.1" "$DESTDIR/lib/"

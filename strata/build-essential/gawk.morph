@@ -1,0 +1,5 @@
+name: gawk
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./configure --prefix="$PREFIX" --disable-nls

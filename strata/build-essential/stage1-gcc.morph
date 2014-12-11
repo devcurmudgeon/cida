@@ -1,0 +1,48 @@
+name: stage1-gcc
+kind: chunk
+
+configure-commands:
+- mkdir o
+
+# Configure flag notes:
+#  1. Standard flags. See gcc.morph.
+#  2. Disable searching /usr/local/include for headers
+#  3. The pass 1 compiler needs to find the libraries we build in pass 2.
+#     Include path must be set explicility, because it defaults to
+#     $SYSROOT/usr/include rather than $SYSROOT/include.
+#     FIXME: this flag is not present until GCC 4.6.3!
+#  4. Disable stuff that doesn't work when building a cross compiler
+#     without an existing libc, and generally try to keep this build as
+#     simple as possible.
+- |
+  cd o &&
+  ../configure \
+    $(../morph-arch-config) \
+    --build=$(sh ../config.guess) --host=$(sh ../config.guess) \
+    --target=$TARGET_STAGE1 \
+    --prefix="$PREFIX" \
+    --disable-bootstrap --disable-nls \
+    `# [1]` --libdir="$PREFIX/lib" --disable-multilib --disable-libgomp \
+            --without-cloog --without-ppl \
+            --with-mpfr-include="$(pwd)/../mpfr/src" \
+            --with-mpfr-lib="$(pwd)/mpfr/src/.libs" \
+    `# [2]` --with-local-prefix="$PREFIX" \
+    `# [3]` --with-native-system-header-dir="$PREFIX/include" \
+    `# [4]` --enable-languages=c --disable-decimal-float \
+            --disable-libmudflap --disable-libquadmath --disable-libssp \
+            --disable-shared --disable-threads --disable-target-libiberty \
+            --disable-target-zlib --without-headers --with-newlib \
+            --with-system-zlib
+
+build-commands:
+- cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install
+
+# The file libgcc_eh is required during eglibc's build, but is not created
+# because we built GCC with --disable-shared. This is a workaround for
+# eglibc's build system being slightly broken.
+- |
+  libgcc_filename=$($DESTDIR$PREFIX/bin/$TARGET_STAGE1-gcc -print-libgcc-file-name)
+  ln -sv libgcc.a $(echo $libgcc_filename | sed 's/libgcc/&_eh/')

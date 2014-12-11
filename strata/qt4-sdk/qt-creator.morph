@@ -1,0 +1,9 @@
+name: qt-creator
+kind: chunk
+configure-commands:
+- qmake
+build-commands:
+- make
+install-commands:
+- make install INSTALL_ROOT=$DESTDIR
+- ./qhelpgenerator.sh

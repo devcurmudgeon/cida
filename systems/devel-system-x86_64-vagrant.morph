@@ -1,0 +1,40 @@
+name: devel-system-x86_64-vagrant
+kind: system
+description: |
+  A system with useful tools for doing Baserock development, using Vagrant.
+
+  For use with the Vagrant tool for x86_64 virtual machines.
+arch: x86_64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-x86_64-generic
+  morph: strata/bsp-x86_64-generic.morph
+- name: tools
+  morph: strata/tools.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
+- name: openstack-clients
+  morph: strata/openstack-clients.morph
+- name: virtualbox-guest-x86_64
+  morph: strata/virtualbox-guest-x86_64.morph
+- name: nodejs
+  morph: strata/nodejs.morph
+- name: ruby
+  morph: strata/ruby.morph
+- name: lorry
+  morph: strata/lorry.morph
+- name: baserock-import
+  morph: strata/baserock-import.morph
+- name: python-tools
+  morph: strata/python-tools.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- nfsboot
+- install-files
+- vagrant

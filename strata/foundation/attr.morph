@@ -1,0 +1,14 @@
+name: attr
+kind: chunk
+description:
+- 'The DESTDIR patch idea comes from: http://pkgs.fedoraproject.org/gitweb/?p=attr.git;a=blob_plain;f=attr-2.4.32-build.patch'
+configure-commands:
+- sed -i -e 's,PKG_\(.*\)_DIR\t= ,PKG_\1_DIR\t= \$(DESTDIR),g' include/builddefs.in
+- sed -i -e 's,\$\$LOCAL_CONFIGURE_OPTIONS,\$(LOCAL_CONFIGURE_OPTIONS),g' Makefile
+- make LOCAL_CONFIGURE_OPTIONS="--prefix=/usr --exec-prefix=/usr --sbindir=/usr/sbin
+  --bindir=/usr/bin --libdir=/usr/lib --libexecdir=/usr/lib --enable-lib64=yes --includedir=/usr/include
+  --mandir=/usr/share/man --datadir=/usr/share" configure
+build-commands:
+- make SHELL=/bin/bash
+install-commands:
+- make SHELL=/bin/bash DESTDIR="$DESTDIR" install-lib install-dev

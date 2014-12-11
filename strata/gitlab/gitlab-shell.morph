@@ -1,0 +1,6 @@
+name: gitlab-shell
+kind: chunk
+install-commands:
+- mkdir -p "$DESTDIR/$PREFIX/share/gitlab-shell"
+- cp -R * "$DESTDIR/$PREFIX/share/gitlab-shell"
+- chmod -R a+rX,g+w "$DESTDIR/$PREFIX/share/gitlab-shell"

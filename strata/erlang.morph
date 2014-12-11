@@ -1,0 +1,12 @@
+name: erlang
+kind: stratum
+description: stratum for erlang/otp and stuff
+build-depends:
+- morph: strata/tools.morph
+chunks:
+- name: erlang
+  morph: strata/erlang/erlang.morph
+  repo: upstream:erlang
+  ref: 9417f044ee3c291c2ea343c203aebdcc40597226
+  unpetrify-ref: OTP-17.3.4
+  build-depends: []

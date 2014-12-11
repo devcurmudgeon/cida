@@ -1,0 +1,48 @@
+name: gtk-deps
+kind: stratum
+description: the GTK+ dependencies stratum
+build-depends:
+- morph: strata/foundation.morph
+- morph: strata/graphics-common.morph
+- morph: strata/x-common.morph
+chunks:
+- name: pango
+  repo: upstream:pango
+  ref: e0a21abf52a0b7588b1aa3357818948816ed9103
+  unpetrify-ref: 1.36.8
+  build-depends: []
+- name: shared-mime-info
+  morph: strata/gtk-deps/shared-mime-info.morph
+  repo: upstream:shared-mime-info
+  ref: 0d440d85a126ff8d535d4f70f2203a76a21d5f71
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: gnome-common
+  repo: upstream:gnome-common
+  ref: d213283fcb5228d05eb2c796579f18240e8467e8
+  unpetrify-ref: 3.12.0
+  build-depends: []
+- name: gdk-pixbuf
+  morph: strata/gtk-deps/gdk-pixbuf.morph
+  repo: upstream:gdk-pixbuf
+  ref: b86959aa16e9d49ec6e286bc57d36c5249578c59
+  unpetrify-ref: 2.30.8
+  build-depends: []
+- name: atk
+  repo: upstream:atk
+  ref: 94766ee6f1a42f94eb9736ba8396bc90af937fe4
+  unpetrify-ref: ATK_2_12_0
+  build-depends:
+  - gnome-common
+- name: at-spi2-core
+  repo: upstream:at-spi2-core
+  ref: c354b5e8d8157e1018eafeca48642116a65c4ff5
+  unpetrify-ref: AT_SPI2_CORE_2_12_0
+  build-depends: []
+- name: at-spi2-atk
+  repo: upstream:at-spi2-atk
+  ref: 01e49759d5d1fc22fb108fc9f80cd34d8eb814f6
+  unpetrify-ref: AT_SPI2_ATK_2_12_1
+  build-depends:
+  - at-spi2-core
+  - atk

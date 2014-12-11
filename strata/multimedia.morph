@@ -1,0 +1,39 @@
+name: multimedia
+kind: stratum
+description: Codecs
+build-depends:
+- morph: strata/audio-bluetooth.morph
+chunks:
+- name: orc
+  repo: upstream:orc
+  ref: 16e053b8f2359196fd50b111f1c10b93590f5cb9
+  unpetrify-ref: orc-0.4.22
+  build-depends: []
+- name: gstreamer
+  repo: upstream:gstreamer
+  ref: b9b3440e323c7b32a8c3a9d52c7bf1a229850558
+  unpetrify-ref: baserock/1.4
+  build-depends:
+  - orc
+- name: gstreamer-plugins-base
+  repo: upstream:gstreamer-plugins-base
+  ref: 3b38ad94a2d58c07c24e4647e08afa1fe4dd7d46
+  unpetrify-ref: baserock/1.4
+  build-depends:
+  - gstreamer
+- name: gstreamer-plugins-good
+  repo: upstream:gstreamer-plugins-good
+  ref: 9d48c2f7a7b63fd967de7eec72434bc876c02667
+  unpetrify-ref: baserock/1.4
+  build-depends:
+  - gstreamer
+  - gstreamer-plugins-base
+  - orc
+- name: gstreamer-plugins-bad
+  repo: upstream:gstreamer-plugins-bad
+  ref: bb2a4669ff57af90c8101c54744d3228aa060475
+  unpetrify-ref: baserock/1.4
+  build-depends:
+  - gstreamer
+  - gstreamer-plugins-base
+  - orc

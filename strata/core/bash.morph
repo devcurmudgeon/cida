@@ -1,0 +1,8 @@
+name: bash
+kind: chunk
+configure-commands:
+- ./configure --prefix=/usr --bindir=/bin --without-bash-malloc --with-installed-readline
+build-commands:
+- make
+install-commands:
+- make  DESTDIR="$DESTDIR" install

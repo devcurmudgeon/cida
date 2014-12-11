@@ -1,0 +1,17 @@
+name: stage1-binutils
+kind: chunk
+build-system: autotools
+
+configure-commands:
+# We set the sysroot location dynamically at runtime by passing -B to GCC,
+# so we configure with sysroot=/. Setting the lib path is vital to avoid
+# the tools we build linking to the libraries on the host system; the '='
+# makes the path we give relative to the sysroot, which we can then set
+# at runtime by passing -Wl,--sysroot to GCC.
+
+- |
+  ./configure --prefix="$PREFIX" --disable-nls --disable-werror \
+    --build=$(sh config.guess) \
+    --host=$(sh config.guess) \
+    --target=$TARGET_STAGE1 \
+    --with-sysroot="/" --with-lib-path="=$PREFIX/lib"

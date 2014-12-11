@@ -1,0 +1,7 @@
+name: alsa-utils
+kind: chunk
+description: ALSA utilities
+build-system: autotools
+configure-commands:
+- autoreconf -ifv
+- ./configure --prefix="$PREFIX" --disable-xmlto

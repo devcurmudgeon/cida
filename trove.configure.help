@@ -1,0 +1,126 @@
+help: |
+    This is a "morph deploy" configuration extension to fully configure
+    a Trove instance at deployment time. It uses the following 
+    configuration variables:
+
+    * `TROVE_ID`
+    * `TROVE_HOSTNAME` (optional, defaults to `TROVE_ID`)
+    * `TROVE_COMPANY`
+    * `LORRY_SSH_KEY`
+    * `UPSTREAM_TROVE`
+    * `TROVE_ADMIN_USER`
+    * `TROVE_ADMIN_EMAIL`
+    * `TROVE_ADMIN_NAME`
+    * `TROVE_ADMIN_SSH_PUBKEY`
+    * `LORRY_CONTROLLER_MINIONS` (optional, defaults to 4)
+    * `TROVE_BACKUP_KEYS` - a space-separated list of paths to SSH keys.
+      (optional)
+
+    The variables are described in more detail below.
+
+    A Trove deployment needs to know the following things:
+
+    * The Trove's ID and public name.
+    * The Trove's administrator name and access details.
+    * Private and public SSH keys for the Lorry user on the Trove.
+    * Which upstream Trove it should be set to mirror upon initial deploy.
+
+    These are specified with the configuration variables described in this
+    help.
+
+    * `TROVE_GENERIC` -- boolean. If it's true the trove will be generic
+      and it won't be configured with any of the other variables listed
+      here.
+
+    * `TROVE_ID` -- the identifier of the Trove. This separates it from
+      other Troves, and allows mirroring of Troves to happen without local
+      changes getting overwritten.
+
+      The Trove ID is used in several ways. Any local repositories (those not
+      mirrored from elsewhere) get created under a prefix that is the ID.
+      Thus, the local repositories on the `git.baserock.org` Trove, whose
+      Trove ID is `baserock`, are named
+      `baserock/baserock/definitions.git` and similar. The ID is used
+      there twice: first as a prefix and then as a "project name" within
+      that prefix. There can be more projects under the prefix. For
+      example, there is a `baserock/local-config/lorries.git` repository,
+      where `local-config` is a separate project from `baserock`. Projects
+      here are a concept for the Trove's git access control language.
+
+      The Trove ID also used as the prefix for any branch and tag names
+      created locally for repositories that are not local. Thus, in the
+      `delta/linux.git` repository, any local branches would be called
+      something like `baserock/morph`, instead of just `morph`. The
+      Trove's git access control prevents normal uses from pushing
+      branches and tags that do not have the Trove ID as the prefix.
+
+    * `TROVE_HOSTNAME` -- the public name of the Trove. This is an
+      optional setting, and defaults to `TROVE_ID`. The public name is
+      typically the domain name of the server (e.g., `git.baserock.org`),
+      but can also be an IP address. This setting is used when Trove needs
+      to generate URLs that point to itself, such as the `git://` and
+      `http://` URLs for each git repository that is viewed via the web
+      interface.
+
+      Note that this is _not_ the system hostname. That is set separately,
+      with the `HOSTNAME` configuration setting (see the
+      `set-hostname.configure` extension).
+
+    * `TROVE_COMPANY` -- a description of the organisation who own the
+      Trove. This is shown in various parts of the web interface of the
+      Trove. It is for descriptive purposes only.
+
+    * `LORRY_SSH_KEY` -- ssh key pair that the Trove's Lorry will use to
+      access an upstream Trove, and to push updates to the Trove's git
+      server.
+
+      The value is a filename on the system doing the deployment (where
+      `morph deploy` is run). The file contains the _private_ key, and the
+      public key is in a file with the `.pub` suffix added to the name.
+
+      The upstream Trove needs to be configured to allow this key to
+      access it. This configuration does not do that automatically.
+
+    * `UPSTREAM_TROVE` -- public name of the upstream Trove (domain
+      name or IP address). This is an optional setting. If it's set,
+      the new Trove will be configured to mirror that Trove.
+
+    * `TROVE_ADMIN_USER`, `TROVE_ADMIN_EMAIL`, `TROVE_ADMIN_NAME`,
+      `TROVE_ADMIN_SSH_PUBKEY` -- details of the Trove's (initial)
+      administrator.
+
+      Each Trove needs at least one administrator user, and one is created
+      upon initial deployment. `TROVE_ADMIN_USER` is the username of the
+      account to be created, `TROVE_ADMIN_EMAIL` should be the e-mail of
+      the user, and `TROVE_ADMIN_NAME` is their name. If more
+      administrators are needed, the initial person should create them
+      using the usual Gitano commands.
+
+    * `LORRY_CONTROLLER_MINIONS` -- the number of Lorry Controller worker
+     processes to start. This is an optional setting and defaults to 4.
+     The more workers are running, the more Lorry jobs can run at the same
+     time, but the more resources they require.
+
+    * `TROVE_BACKUP_KEYS` -- a space-separated list of paths to SSH keys.
+      If this is set, the Trove will have a backup user that can be accessed
+      with rsync using the SSH keys provided.
+
+    Example
+    -------
+
+    The following set of variables could be to deploy a Trove instance:
+
+        TROVE_ID: my-trove
+        TROVE_HOSTNAME: my-trove.example.com
+        TROVE_COMPANY: My Personal Trove for Me, Myself and I
+        LORRY_SSH_KEY: my-trove/lorry.key
+        UPSTREAM_TROVE: git.baserock.org
+        UPSTREAM_TROVE_USER: my-trove
+        UPSTREAM_TROVE_EMAIL: my-trove@example.com
+        TROVE_ADMIN_USER: tomjon
+        TROVE_ADMIN_EMAIL: tomjon@example.com
+        TROVE_ADMIN_NAME: Tomjon of Lancre
+        TROVE_ADMIN_SSH_PUBKEY: my-trove/tomjon.key.pub
+
+    These would be put into the cluster morphology used to do the
+    deployment.

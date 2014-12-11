@@ -1,0 +1,40 @@
+name: weston-system-x86_64-generic
+kind: system
+description: A weston system for a 64-bit x86 system.
+arch: x86_64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: coreutils-common
+  morph: strata/coreutils-common.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-x86_64-generic
+  morph: strata/bsp-x86_64-generic.morph
+- name: connectivity
+  morph: strata/connectivity.morph
+- name: audio-bluetooth
+  morph: strata/audio-bluetooth.morph
+- name: libdrm-common
+  morph: strata/libdrm-common.morph
+- name: multimedia
+  morph: strata/multimedia.morph
+- name: wayland-generic
+  morph: strata/wayland-generic.morph
+- name: graphics-common
+  morph: strata/graphics-common.morph
+- name: input-common
+  morph: strata/input-common.morph
+- name: llvm-common
+  morph: strata/llvm-common.morph
+- name: mesa-common
+  morph: strata/mesa-common.morph
+- name: weston-common
+  morph: strata/weston-common.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- nfsboot
+- install-files

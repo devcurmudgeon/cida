@@ -1,0 +1,55 @@
+#!/bin/sh
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.5
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+set -e
+
+ROOT="$1"
+
+if test "x$VAGRANT" = "x"; then
+  exit 0
+fi
+
+for needed in etc/ssh/sshd_config etc/sudoers; do
+  if ! test -e "$ROOT/$needed"; then
+    echo >&2 "Unable to find $needed"
+    echo >&2 "Cannot continue configuring as Vagrant basebox"
+    exit 1
+  fi
+done
+
+# SSH daemon needs to be configured to not use DNS...
+sed -i -e's/^(.*[Uu]][Ss][Ee][Dd][Nn][Ss].*)$/#\1/' "$ROOT/etc/ssh/sshd_config"
+echo "UseDNS no" >> "$ROOT/etc/ssh/sshd_config"
+
+# We need to add a vagrant user with "vagrant" as the password We're doing this
+# manually because chrooting in to run adduser is not really allowed for
+# deployment time since we wouldn't be able to run the adduser necessarily.  In
+# practice for now we'd be able to because we can't deploy raw disks
+# cross-platform and expect extlinux to install but we won't, for good
+# practice and to hilight this deficiency.
+echo 'vagrant:x:1000:1000:Vagrant User:/home/vagrant:/bin/bash' >> "$ROOT/etc/passwd"
+echo 'vagrant:/6PTOoWylhw3w:16198:0:99999:7:::' >> "$ROOT/etc/shadow"
+echo 'vagrant:x:1000:' >> "$ROOT/etc/group"
+mkdir -p "$ROOT/home/vagrant"
+chown -R 1000:1000 "$ROOT/home/vagrant"
+
+# Next, the vagrant user is meant to have sudo access
+echo 'vagrant ALL=(ALL) NOPASSWD: ALL' >> "$ROOT/etc/sudoers"
+
+# And ensure that we get sbin in our path
+echo 'PATH="$PATH:/sbin:/usr/sbin"' >> "$ROOT/etc/profile"
+echo 'export PATH' >> "$ROOT/etc/profile"
+

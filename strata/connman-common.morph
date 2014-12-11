@@ -1,0 +1,11 @@
+name: connman-common
+kind: stratum
+build-depends:
+- morph: strata/connectivity.morph
+chunks:
+- name: connman
+  morph: strata/connman-common/connman.morph
+  repo: upstream:connman
+  ref: 9951ba7a0353cfc884e96833c64e58c1bcae3f44
+  unpetrify-ref: baserock/1.24
+  build-depends: []

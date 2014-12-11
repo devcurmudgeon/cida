@@ -1,0 +1,90 @@
+name: trove
+kind: stratum
+description: Trove software
+build-depends:
+- morph: strata/tools.morph
+- morph: strata/morph-utils.morph
+- morph: strata/pcre-utils.morph
+chunks:
+- name: lua
+  morph: strata/trove/lua.morph
+  repo: upstream:lua
+  ref: 948063437e0350d9ef1649ec3a76d0c24a5c8642
+  unpetrify-ref: baserock/5.1-morph
+  build-depends: []
+- name: lace
+  morph: strata/trove/lace.morph
+  repo: upstream:gitano/lace
+  ref: d1b540b6d361d6a1f51e53cdaab69f053340efbb
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - lua
+- name: luxio
+  morph: strata/trove/luxio.morph
+  repo: upstream:luxio
+  ref: be9d125080b9ff2376273e21b75669b65dc88d46
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - lua
+- name: supple
+  morph: strata/trove/supple.morph
+  repo: upstream:gitano/supple
+  ref: 0963e5706d78d0ae7446ea91af986de1e196eb39
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - lua
+  - luxio
+- name: clod
+  morph: strata/trove/clod.morph
+  repo: upstream:gitano/clod
+  ref: da15894f42f48d15db997c4355d6b672371a4163
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - lua
+- name: gall
+  morph: strata/trove/gall.morph
+  repo: upstream:gitano/gall
+  ref: f58c7526fbb0421d7f5446644f01f4cf57035ee2
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - lua
+  - luxio
+- name: lrexlib-pcre
+  morph: strata/trove/lrexlib-pcre.morph
+  repo: upstream:lrexlib
+  ref: 0524a6e3ab6d50cba63c8642a875e246de53d651
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - lua
+- name: gitano
+  morph: strata/trove/gitano.morph
+  repo: upstream:gitano/gitano
+  ref: 4b8ce6875266fdd6609a217dcf2924d7d4815cc2
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - lua
+- name: cgit
+  morph: strata/trove/cgit.morph
+  repo: upstream:cgit
+  ref: acbf4a15e260c711094455dbef7c024f2553fd32
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: trove-setup
+  morph: strata/trove/trove-setup.morph
+  repo: baserock:baserock/trove-setup
+  ref: 5f2dab59ff6e70edf6ffbcd65fe64b487c4380c2
+  unpetrify-ref: master
+  build-depends: []
+- name: lorry-controller
+  morph: strata/trove/lorry-controller.morph
+  repo: baserock:baserock/lorry-controller
+  ref: 4b1fcab140d940470c342c6857cdc8682406f0b7
+  unpetrify-ref: master
+  build-depends: []
+- name: lua-scrypt
+  morph: strata/trove/lua-scrypt.morph
+  repo: upstream:lua-scrypt
+  ref: 0d7f74cd3eab7d54fbb13294194de7ea70ac34a5
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - lua

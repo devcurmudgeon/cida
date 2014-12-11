@@ -1,0 +1,10 @@
+name: elementary-xfce
+kind: chunk
+install-commands:
+- mkdir -p $DESTDIR/usr/share/icons/
+- cp -R elementary-xfce $DESTDIR/usr/share/icons/
+- cp -R elementary-xfce-* $DESTDIR/usr/share/icons/
+- gtk-update-icon-cache -t -f $DESTDIR/usr/share/icons/elementary-xfce
+- gtk-update-icon-cache -t -f $DESTDIR/usr/share/icons/elementary-xfce-dark
+- gtk-update-icon-cache -t -f $DESTDIR/usr/share/icons/elementary-xfce-darker
+- gtk-update-icon-cache -t -f $DESTDIR/usr/share/icons/elementary-xfce-darkest

@@ -1,0 +1,72 @@
+name: stage2-busybox
+kind: chunk
+
+configure-commands:
+# Explicitly setting HOSTCC is required because we have a 'gcc' earlier in
+# the PATH supplied by the stage2-gcc chunk, which can't execute outside of
+# the stage 3 staging area.
+- make HOSTCC="/usr/bin/gcc" CROSS_COMPILE=$TARGET_STAGE1- defconfig
+
+# Avoid dividing applets between $PREFIX/[s]bin and $PREFIX/usr/[s]bin.
+- '[ "$PREFIX" = /usr ] || sed -e ''s/.*INSTALL_NO_USR.*/CONFIG_INSTALL_NO_USR=y/'' -i .config'
+
+# We have GAWK.
+- sed -e 's/CONFIG_AWK=y.*/# CONFIG_AWK is not set/' -i .config
+
+# Depends on stuff that was removed since eglibc 2.14.
+- sed -e 's/CONFIG_INETD=y.*/# CONFIG_INETD is not set/' -i .config
+
+# Busybox Patch is incompatible enough with GNU Patch that it can't be
+# used for GNULib projects built from Git.
+- sed -e 's/CONFIG_PATCH=y.*/# CONFIG_PATCH is not set/' -i .config
+
+# None of this is needed because we have kmod; and it actually breaks the
+# Linux build because depmod isn't compatible enough with util-linux's.
+- sed -e 's/CONFIG_DEPMOD=y.*/# CONFIG_DEPMOD is not set/' -i .config
+- sed -e 's/CONFIG_INSMOD=y.*/# CONFIG_INSMOD is not set/' -i .config
+- sed -e 's/CONFIG_MODPROBE=y.*/# CONFIG_MODPROBE is not set/' -i .config
+- sed -e 's/CONFIG_MODPROBE_SMALL=y.*/# CONFIG_MODPROBE_SMALL is not set/' -i .config
+- sed -e 's/CONFIG_LSMOD=y.*/# CONFIG_LSMOD is not set/' -i .config
+- sed -e 's/CONFIG_RMMOD=y.*/# CONFIG_RMMOD is not set/' -i .config
+
+# General features that we don't need.
+- sed -e 's/CONFIG_FEATURE_MOUNT_CIFS=y.*/# CONFIG_FEATURE_MOUNT_CIFS is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_EXTRA_QUIET=y.*/# CONFIG_FEATURE_EXTRA_QUIET is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_INIT_COREDUMPS=y.*/# CONFIG_FEATURE_INIT_COREDUMPS is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_INIT_SCTTY=y.*/# CONFIG_FEATURE_INIT_SCTTY is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_INIT_SYSLOG=y.*/# CONFIG_FEATURE_INIT_SYSLOG is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_INITRD=y.*/# CONFIG_FEATURE_INITRD is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_USE_INITTAB=y.*/# CONFIG_FEATURE_USE_INITTAB is not set/' -i .config
+- sed -e 's/CONFIG_FEATURE_MINIX2=y.*/# CONFIG_FEATURE_MINIX2 is not set/' -i .config
+- sed -e 's/CONFIG_FSCK_MINIX=y.*/# CONFIG_FSCK_MINIX is not set/' -i .config
+- sed -e 's/CONFIG_HALT=y.*/# CONFIG_HALT is not set/' -i .config
+- sed -e 's/CONFIG_INIT=y.*/# CONFIG_INIT is not set/' -i .config
+- sed -e 's/CONFIG_INIT_TERMINAL_TYPE=y.*/CONFIG_INIT_TERMINAL_TYPE=""/' -i .config
+- sed -e 's/CONFIG_LOSETUP=y.*/# CONFIG_LOSETUP is not set/' -i .config
+- sed -e 's/CONFIG_LSUSB=y.*/# CONFIG_LSUSB is not set/' -i .config
+- sed -e 's/CONFIG_LZMA=y.*/# CONFIG_LZMA is not set/' -i .config
+- sed -e 's/CONFIG_MKFS_EXT2=y.*/# CONFIG_MKFS_EXT2 is not set/' -i .config
+- sed -e 's/CONFIG_MKFS_MINIX=y.*/# CONFIG_MKFS_MINIX is not set/' -i .config
+- sed -e 's/CONFIG_RUNLEVEL=y.*/# CONFIG_RUNLEVEL is not set/' -i .config
+- sed -e 's/CONFIG_STRINGS=y.*/# CONFIG_STRINGS is not set/' -i .config
+- sed -e 's/CONFIG_UNLZMA=y.*/# CONFIG_UNLZMA is not set/' -i .config
+- sed -e 's/CONFIG_UNXZ=y.*/# CONFIG_UNXZ is not set/' -i .config
+- sed -e 's/CONFIG_XZ=y.*/# CONFIG_XZ is not set/' -i .config
+
+build-commands:
+- |
+  export STAGE2_SYSROOT="$(dirname $(pwd))"
+  export CPPFLAGS="--sysroot=$STAGE2_SYSROOT"
+  export LDFLAGS="-Wl,--sysroot=$STAGE2_SYSROOT"
+  make HOSTCC="/usr/bin/gcc" CROSS_COMPILE=$TARGET_STAGE1-
+
+install-commands:
+# We expect to be built with a non-standard prefix in stage 2 (i.e. not
+# /usr). The install will break if prefix is set to /usr.
+- |
+  export STAGE2_SYSROOT="$(dirname $(pwd))"
+  export CPPFLAGS="--sysroot=$STAGE2_SYSROOT"
+  export LDFLAGS="-Wl,--sysroot=$STAGE2_SYSROOT"
+  make CONFIG_PREFIX="$DESTDIR$PREFIX" \
+       HOSTCC="/usr/bin/gcc" CROSS_COMPILE=$TARGET_STAGE1- install &&
+  chmod 6755 "$DESTDIR$PREFIX"/bin/busybox

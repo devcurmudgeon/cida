@@ -1,0 +1,42 @@
+name: gcc
+kind: chunk
+
+configure-commands:
+- mkdir o
+
+# Configure flag notes:    
+#   1. An attempt to stop anything going in $PREFIX/lib64 (which doesn't
+#      fully work; we will need to hobble the multilib configuration in
+#      config/i386/t-linux64 if we really want to kill /lib64).
+#   2. Multilib does not make sense in Baserock.
+#   3. Optimisation libraries which for now we do without.
+#   4. Recommended by Linux From Scratch; required for C++ ABI
+#      compatibility with other Linux distributions.
+#   5. MPFR is built in the GCC tree, we need to locate it.
+#   6. Avoid having more than one copy of ZLib in use on the system
+- |
+  cd o && \
+  ../configure \
+    $(../morph-arch-config) \
+    --prefix="$PREFIX" \
+    `# [1]` --libdir=$PREFIX/lib \
+    --disable-nls \
+    --enable-languages=c,c++,fortran \
+    --enable-shared --enable-threads=posix \
+    `# [2]` --disable-multilib \
+    `# [3]` --disable-libgomp --without-cloog --without-ppl \
+    `# [4]` --enable-__cxa_atexit \
+    `# [5]` --with-mpfr-include="$(pwd)/../mpfr/src" \
+            --with-mpfr-lib="$(pwd)/mpfr/src/.libs" \
+    `# [6]` --with-system-zlib
+
+build-commands:
+- cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install
+- ln -s gcc "$DESTDIR/$PREFIX/bin/cc"
+- >
+  for fortran_alias in f77 f90 f95; do
+      ln -s gfortran "$DESTDIR/$PREFIX/bin/$fortran_alias"
+  done

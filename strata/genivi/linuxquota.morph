@@ -1,0 +1,10 @@
+name: linuxquota
+kind: chunk
+build-system: autotools
+configure-commands:
+- autoreconf -ivf
+- ./configure --prefix="$PREFIX"
+build-commands:
+- make "RPCGEN=rpcgen -Y /usr/bin"
+install-commands:
+- make ROOTDIR="$DESTDIR" install

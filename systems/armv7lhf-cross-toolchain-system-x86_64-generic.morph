@@ -1,0 +1,18 @@
+name: armv7lhf-cross-toolchain-system-x86_64-generic
+kind: system
+description: A system that contains an ARM cross compiler, intended to be used as
+  a sysroot.
+arch: x86_64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: armv7lhf-cross-toolchain
+  morph: strata/armv7lhf-cross-toolchain.morph
+- name: cross-tools
+  morph: strata/cross-tools.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files

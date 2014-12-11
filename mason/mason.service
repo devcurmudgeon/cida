@@ -1,0 +1,10 @@
+[Unit]
+Description=Mason: Continuous Delivery Service
+After=mason-setup.service
+
+[Service]
+User=root
+ExecStart=/usr/lib/mason/mason-report.sh
+
+[Install]
+WantedBy=multi-user.target

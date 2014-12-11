@@ -1,0 +1,15 @@
+name: rake-compiler
+kind: chunk
+description: |
+  Provide a standard and simplified way to build and package Ruby
+  extensions (C, Java) using Rake as glue.
+products:
+- artifact: rake-compiler-doc
+  include:
+  - usr/lib/ruby/gems/\d[\w.]*/doc/.*
+build-commands:
+- rake gem
+install-commands:
+- mkdir -p "$DESTDIR/$(gem environment home)"
+- gem install --install-dir "$DESTDIR/$(gem environment home)" --bindir "$DESTDIR/$PREFIX/bin"
+  --ignore-dependencies --local ./pkg/rake-compiler-*.gem

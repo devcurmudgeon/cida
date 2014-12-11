@@ -1,0 +1,52 @@
+name: ruby
+kind: stratum
+description: |
+  Ruby and common Ruby build dependencies.
+
+  Most Gem dependencies are not required when building or installing the
+  Gem. They are needed at runtime only. Tools which extend Rake, such as
+  'hoe' and 'rake-compiler', are exceptions to that rule, and are kept
+  in this stratum so they are always available when building other Gems.
+build-depends:
+- morph: strata/tools.morph
+chunks:
+- name: ruby-1.8
+  morph: strata/ruby/ruby-1.8.morph
+  repo: upstream:ruby
+  ref: 7a24f1710028d568ad61d0aa49d5178260178d77
+  unpetrify-ref: baserock/morph/ruby_1_8_7
+  build-depends: []
+- name: libyaml
+  repo: upstream:libyaml-hg
+  ref: 0577078d6625a7bf06e6bc7fb26a43e27400b17e
+  unpetrify-ref: master
+  build-depends: []
+- name: ruby
+  morph: strata/ruby/ruby.morph
+  repo: upstream:ruby
+  ref: 05604af5a6da635b8bca51269db8b433972e82c0
+  unpetrify-ref: baserock/ruby_2_0_0
+  build-depends:
+  - ruby-1.8
+  - libyaml
+- name: bundler
+  morph: strata/ruby/bundler.morph
+  repo: upstream:bundler
+  ref: 0708fbe62617a63300e1cc3b9869cc1280c57ef6
+  unpetrify-ref: baserock/v1.6.2
+  build-depends:
+  - ruby
+- name: hoe
+  morph: strata/ruby/hoe.morph
+  repo: upstream:ruby-gems/hoe
+  ref: 50a2706d0f70ece52922ddcc56630e1e0655b83e
+  unpetrify-ref: master
+  build-depends:
+  - ruby
+- name: rake-compiler
+  morph: strata/ruby/rake-compiler.morph
+  repo: upstream:ruby-gems/rake-compiler
+  ref: aaed621f6fdb0b0395775fea5464cc83e794fbdb
+  unpetrify-ref: v0.9.3
+  build-depends:
+  - ruby

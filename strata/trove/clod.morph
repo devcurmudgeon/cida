@@ -1,0 +1,7 @@
+name: clod
+kind: chunk
+description: Configuration Language Organised (by) Dots.
+build-commands:
+- make
+install-commands:
+- make INST_BASE="$PREFIX" DESTDIR="$DESTDIR" install

@@ -1,0 +1,49 @@
+name: ci
+kind: cluster
+description: |
+  Deploy all the systems for CD.
+
+  This cluster morph is for use by the Mason Continuous Delivery pipeline
+  during development.
+systems:
+- morph: systems/devel-system-x86_64-generic.morph
+  deploy:
+    devel-system-x86_64-generic:
+      type: rawdisk
+      location: devel-system-x86_64-generic.img
+      DISK_SIZE: 4G
+- morph: systems/devel-system-x86_32-generic.morph
+  deploy:
+    devel-system-x86_32-generic:
+      type: rawdisk
+      location: devel-system-x86_32-generic.img
+      DISK_SIZE: 4G
+- morph: systems/build-system-armv7lhf-jetson.morph
+  deploy:
+    devel-system-armv7lhf-jetson:
+      type: rawdisk
+      location: build-system-armv7lhf-jetson.img
+      DISK_SIZE: 2G
+      ROOT_DEVICE: "/dev/mmcblk0p1"
+      DTB_PATH: "boot/tegra124-jetson-tk1.dtb"
+      BOOTLOADER_CONFIG_FORMAT: "extlinux"
+      BOOTLOADER_INSTALL: "none"
+      KERNEL_ARGS: cma=256M console=tty0 console=ttyS0,115200n8 no_console_suspend=1 nouveau.pstate=1
+- morph: systems/weston-system-x86_64-generic.morph
+  deploy:
+    weston-system-x86_64-generic:
+      type: rawdisk
+      location: weston-system-x86_64-generic.img
+      DISK_SIZE: 4G
+      KERNEL_ARGS: vga=788
+- morph: systems/weston-system-armv7lhf-jetson.morph
+  deploy:
+    weston-system-armv7lhf-jetson:
+      type: rawdisk
+      location: weston-system-armv7lhf-jetson.img
+      DISK_SIZE: 4G
+      ROOT_DEVICE: "/dev/mmcblk0p1"
+      DTB_PATH: "boot/tegra124-jetson-tk1.dtb"
+      BOOTLOADER_CONFIG_FORMAT: "extlinux"
+      BOOTLOADER_INSTALL: "none"
+      KERNEL_ARGS: cma=256M console=tty0 console=ttyS0,115200n8 no_console_suspend=1 nouveau.pstate=1

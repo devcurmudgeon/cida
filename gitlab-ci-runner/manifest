@@ -1,0 +1,4 @@
+0040755 0 0 /usr/share/gitlab-install
+0100755 0 0 /usr/share/gitlab-install/install-runner
+0040755 0 0 /usr/share/gitlab-install/systemd-units
+0100644 0 0 /usr/share/gitlab-install/systemd-units/gitlab-ci-runner.service

@@ -1,0 +1,5 @@
+name: pkg-config
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./configure --prefix="$PREFIX" --with-internal-glib

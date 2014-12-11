@@ -1,0 +1,7 @@
+name: json-c
+kind: chunk
+description: JSON C Library
+build-system: autotools
+install-commands:
+- make DESTDIR="$DESTDIR" install
+- install -m755 json_object_iterator.h "$DESTDIR/usr/include/json"

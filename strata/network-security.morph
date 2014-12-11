@@ -1,0 +1,19 @@
+name: network-security
+kind: stratum
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: nspr
+  morph: strata/network-security/nspr.morph
+  repo: upstream:nspr-hg
+  ref: a6ee84946475c1fb7624973af28163f6da247c0d
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: nss
+  morph: strata/network-security/nss.morph
+  repo: upstream:nss
+  ref: ee1c99a3c8c29f50a91ab28f2f7b7773f6355487
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - nspr
+

@@ -1,0 +1,5 @@
+name: ansible
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+- install -D -m644 ansible.cfg "$DESTDIR/etc/ansible/ansible.cfg"

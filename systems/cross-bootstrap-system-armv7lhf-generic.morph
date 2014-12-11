@@ -1,0 +1,11 @@
+name: cross-bootstrap-system-armv7lhf-generic
+kind: system
+description: A system that produces the minimum needed to build a devel system
+arch: armv7lhf
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: cross-bootstrap
+  morph: strata/cross-bootstrap.morph

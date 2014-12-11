@@ -1,0 +1,19 @@
+name: NetworkManager-common
+kind: stratum
+build-depends:
+- morph: strata/audio-bluetooth.morph
+- morph: strata/network-security.morph
+- morph: strata/connectivity.morph
+chunks:
+- name: libndp
+  repo: upstream:libndp
+  ref: f3a3a63d5b5abced8f75731d7b995606933c6e33
+  unpetrify-ref: v1.4
+  build-depends: []
+- name: NetworkManager
+  morph: strata/NetworkManager-common/NetworkManager.morph
+  repo: upstream:NetworkManager
+  ref: 6eb82acd6dce882f4b91aafcf68dd9e143ce34e2
+  unpetrify-ref: 0.9.10
+  build-depends:
+  - libndp

@@ -1,0 +1,38 @@
+name: devel-system-x86_32-chroot
+kind: system
+description: |
+  A system with useful tools for doing Baserock development.
+
+  For use as a chroot inside a Linux operating system on 32-bit Intel x86
+  computers.
+arch: x86_32
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: tools
+  morph: strata/tools.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
+- name: openstack-clients
+  morph: strata/openstack-clients.morph
+- name: bsp-x86_both-tools
+  morph: strata/bsp-x86_both-tools.morph
+- name: nodejs
+  morph: strata/nodejs.morph
+- name: ruby
+  morph: strata/ruby.morph
+- name: lorry
+  morph: strata/lorry.morph
+- name: baserock-import
+  morph: strata/baserock-import.morph
+- name: python-tools
+  morph: strata/python-tools.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- nfsboot
+- install-files

@@ -1,0 +1,19 @@
+name: stage2-gcc-fixed-headers
+kind: chunk
+install-commands:
+# Stage 1 GCC's fixincludes process created a limits.h before there was
+# a real limits.h available for the target. This step (taken from Linux
+# Linux From Scratch) creates a better one so that stage 2 GCC can compile.
+#
+# THIS IS A FRAGILE HACK! We need to replace the headers. The only way to
+# overwrite files in a staging area is to install a new chunk.
+# This is undesired behaviour in the long term, as we want to never
+# have overlaps, so this functionality may go away.
+- |
+  libgcc_dir=$(dirname $($TARGET_STAGE1-gcc -print-libgcc-file-name))
+  sysroot="$(dirname "$(pwd)")"
+  target_libgcc_dir="${libgcc_dir#$sysroot}"
+  mkdir -p "$DESTDIR/$target_libgcc_dir/include-fixed"
+  cat "gcc/limitx.h" "gcc/glimits.h" "gcc/limity.h" \
+      >"$DESTDIR/$target_libgcc_dir/include-fixed/limits.h"
+

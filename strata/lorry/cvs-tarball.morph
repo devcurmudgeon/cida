@@ -1,0 +1,6 @@
+name: cvs-tarball
+kind: chunk
+build-system: autotools
+configure-commands:
+- YACC='bison -y' ./configure --prefix "$PREFIX" --with-external-zlib --without-gssapi
+  --without-krb4 --disable-dependency-tracking --disable-nls --disable-rpath

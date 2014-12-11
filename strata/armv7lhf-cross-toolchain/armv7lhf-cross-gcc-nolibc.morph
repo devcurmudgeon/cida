@@ -1,0 +1,54 @@
+name: armv7lhf-cross-gcc-nolibc
+kind: chunk
+
+configure-commands:
+- mkdir o
+
+# Configure flag notes:
+#  1. Standard flags. See gcc.morph.
+#  2. Our binutils is for the final $TARGET, rather than the intermediate
+#     target our GCC is being built for, so we need to set
+#     with-build-time-tools to get it to find our binutils at
+#     build-time and with-as and with-ld so our temporary GCC uses
+#     the appropriate tools when it compiles our libc, rather than
+#     trying to use $TARGET_STAGE1-as when producing binaries.
+#  3. Disable stuff that doesn't work when building a cross compiler
+#     without an existing libc, and generally try to keep this build as
+#     simple as possible.
+- |
+  export MORPH_ARCH=armv7lhf
+  export TARGET=armv7lhf-baserock-linux-gnueabi
+  export TARGET_STAGE1=armv7lhf-none-linux-gnueabi
+  cd o &&
+  ../configure \
+    $(../morph-arch-config) \
+    --build=$(sh ../config.guess) --host=$(sh ../config.guess) \
+    --target="$TARGET_STAGE1" \
+    --prefix="$PREFIX" \
+    --disable-bootstrap --disable-nls \
+    `# [1]` --libdir="$PREFIX/lib" --disable-multilib --disable-libgomp \
+            --without-cloog --without-ppl \
+            --with-mpfr-include="$(pwd)/../mpfr/src" \
+            --with-mpfr-lib="$(pwd)/mpfr/src/.libs" \
+    `# [2]` --with-build-time-tools="$PREFIX/$TARGET/bin" \
+            --with-as="$PREFIX/$TARGET/bin/as" \
+            --with-ld="$PREFIX/$TARGET/bin/ld" \
+    `# [3]` --enable-languages=c --disable-decimal-float \
+            --disable-libmudflap --disable-libquadmath --disable-libssp \
+            --disable-shared --disable-threads --disable-target-libiberty \
+            --disable-target-zlib --without-headers --with-newlib \
+            --with-system-zlib
+
+build-commands:
+- cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install
+
+# The file libgcc_eh is required during eglibc's build, but is not created
+# because we built GCC with --disable-shared. This is a workaround for
+# eglibc's build system being slightly broken.
+- |
+  export TARGET_STAGE1=armv7lhf-none-linux-gnueabi
+  libgcc_filename="$("$DESTDIR$PREFIX/bin/$TARGET_STAGE1-gcc" -print-libgcc-file-name)"
+  ln -sv libgcc.a "$(echo "$libgcc_filename" | sed 's/libgcc/&_eh/')"

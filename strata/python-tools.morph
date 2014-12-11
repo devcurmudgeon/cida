@@ -1,0 +1,12 @@
+name: python-tools
+kind: stratum
+description: "A stratum for non-essential python tools:
+useful python tools that we don't want to include in core."
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: pip
+  repo: upstream:pip
+  ref: ea680f204fb0e48789710c22c8f597a9bf01bc16
+  unpetrify-ref: baserock/master
+  build-depends: []

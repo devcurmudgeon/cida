@@ -1,0 +1,6 @@
+name: mini-utils
+kind: chunk
+build-system: autotools
+configure-commands: []
+install-commands:
+- make PREFIX="$PREFIX" DESTDIR="$DESTDIR" install

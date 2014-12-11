@@ -1,0 +1,20 @@
+name: minimal-system-x86_64-generic
+kind: system
+description: The set of strata required to have a minimal system for a 64-bit x86
+  system.
+arch: x86_64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+  artifacts:
+  - build-essential-minimal
+- name: bsp-x86_64-generic
+  morph: strata/bsp-x86_64-generic.morph
+  artifacts:
+  - bsp-x86_64-generic-runtime
+configuration-extensions:
+- set-hostname
+- simple-network
+- nfsboot
+- install-files
+- busybox-init

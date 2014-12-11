@@ -1,0 +1,36 @@
+#!/bin/sh
+# Script for writing the system to a disk image file.
+# This creates a file of the right size, attaches it to a loop device,
+# then hands the rest of the work off to disk-install.sh
+
+usage(){
+    cat <<EOF
+usage: $0 FILENAME SIZE [TARGET_DISK]
+
+FILENAME:    Location to write the disk image to
+SIZE:        Size to create the disk image with
+TARGET_DISK: What the disk will appear as on the target machine
+EOF
+}
+
+. @@SCRIPT_DIR@@/common.sh
+
+if [ "$#" -lt 2 -o "$#" -gt 3 ]; then
+    usage
+    exit 1
+fi
+
+DISK_IMAGE="$1"
+DISK_SIZE="$2"
+TARGET_DISK="${3-/dev/vda}"
+
+make_disk_image "$DISK_SIZE" "$DISK_IMAGE"
+
+(
+    LOOP="$(loop_file "$DISK_IMAGE")"
+    set +e
+    @@SCRIPT_DIR@@/disk-install.sh "$DISK_IMAGE" "$TARGET_DISK"
+    ret="$?"
+    unloop_file "$LOOP"
+    exit "$ret"
+)

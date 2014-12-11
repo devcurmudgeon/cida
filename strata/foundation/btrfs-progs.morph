@@ -1,0 +1,6 @@
+name: btrfs-progs
+kind: chunk
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" prefix="$PREFIX" install

@@ -1,0 +1,4 @@
+0040755 0 0 /home
+0040755 1000 0000 /home/vagrant
+0040700 1000 1000 /home/vagrant/.ssh
+0100600 1000 1000 /home/vagrant/.ssh/authorized_keys

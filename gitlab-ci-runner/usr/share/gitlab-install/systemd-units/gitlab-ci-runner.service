@@ -1,0 +1,15 @@
+[Unit]
+Description=GitLab CI Runner
+ 
+[Service]
+User=root
+WorkingDirectory=/root/gitlab-ci-runner
+SyslogIdentifier=gitlab-ci-runner
+ 
+ExecStart=/usr/bin/bundle exec "./bin/runner"
+ExecStop=/bin/kill -s QUIT $MAINPID
+ExecReload=/bin/kill -s USR2 $MAINPID
+ 
+[Install]
+WantedBy=multi-user.target
+

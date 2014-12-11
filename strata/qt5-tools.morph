@@ -1,0 +1,139 @@
+name: qt5-tools
+kind: stratum
+description: Qt5 Development Libraries and Tools
+build-depends:
+- morph: strata/tools.morph
+- morph: strata/x-generic.morph
+chunks:
+- name: icu
+  morph: strata/qt5-tools/icu.morph
+  repo: upstream:icu
+  ref: ba023548a3bff7277cbea4acade3042ce9d8949e
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: qtbase
+  morph: strata/qt5-tools/qtbase.morph
+  repo: upstream:qt5/qtbase
+  ref: 05670f586ffe05425b7542a27fcca31bddf231aa
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - icu
+- name: qtsvg
+  morph: strata/qt5-tools/qtsvg.morph
+  repo: upstream:qt5/qtsvg
+  ref: 35a2f0880831d38c60d2b4820dac808f48f6f3a8
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+- name: qtscript
+  morph: strata/qt5-tools/qtscript.morph
+  repo: upstream:qt5/qtscript
+  ref: 71f6dee8791c95fd862ca3651d7f4b7d6b9f440e
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+- name: qtdeclarative
+  morph: strata/qt5-tools/qtdeclarative.morph
+  repo: upstream:qt5/qtdeclarative
+  ref: a67aa6abc6a406b00ef58a7e07fd39012bfa3eb1
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+  - qtscript
+- name: qtquick1
+  morph: strata/qt5-tools/qtquick1.morph
+  repo: upstream:qt5/qtquick1
+  ref: 8e7fa2b5aa2e2e4371c4b73926d0e6ad2ebdbd96
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+  - qtscript
+- name: qt3d
+  morph: strata/qt5-tools/qt3d.morph
+  repo: upstream:qt5/qt3d
+  ref: bdb98baf8253c69949a8c259369203da9ffb269c
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - qtbase
+  - qtscript
+  - qtdeclarative
+- name: qtquickcontrols
+  morph: strata/qt5-tools/qtquickcontrols.morph
+  repo: upstream:qt5/qtquickcontrols
+  ref: bc91574cca8b6f24968ab4e1cc11fe1fd10f3061
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+  - qtdeclarative
+- name: qtsensors
+  morph: strata/qt5-tools/qtsensors.morph
+  repo: upstream:qt5/qtsensors
+  ref: fd3e65ef5ab6eb8e4b5bdad380d1f6862799856c
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+- name: qtserialport
+  morph: strata/qt5-tools/qtserialport.morph
+  repo: upstream:qt5/qtserialport
+  ref: 286d64c202f461cb8ff5a4cc4c2320af8195b8f0
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+- name: qtx11extras
+  morph: strata/qt5-tools/qtx11extras.morph
+  repo: upstream:qt5/qtx11extras
+  ref: 2d84caf5ef1b5dace0d678df4581db3c955be6ee
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+- name: qtxmlpatterns
+  morph: strata/qt5-tools/qtxmlpatterns.morph
+  repo: upstream:qt5/qtxmlpatterns
+  ref: 78c2367e22d87b529610117f5b6abef6934abdcf
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+- name: qtdoc
+  morph: strata/qt5-tools/qtdoc.morph
+  repo: upstream:qt5/qtdoc
+  ref: 688019893d2cbd9ccdc4d75c550bca4530a46ee4
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+- name: qtgraphicaleffects
+  morph: strata/qt5-tools/qtgraphicaleffects.morph
+  repo: upstream:qt5/qtgraphicaleffects
+  ref: 82abf6975b6737259ee656564e5ec7f8ad1d0508
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+  - qtdeclarative
+- name: qtimageformats
+  morph: strata/qt5-tools/qtimageformats.morph
+  repo: upstream:qt5/qtimageformats
+  ref: 85e621e3ecf449bb0587bd4da97ca66179b24f31
+  unpetrify-ref: v5.3.2
+  build-depends:
+  - qtbase
+- name: qtconnectivity
+  morph: strata/qt5-tools/qtconnectivity.morph
+  repo: upstream:qt5/qtconnectivity
+  ref: 8a33a9b43dcc5e7f9a77237a660a3759286e6b86
+  unpetrify-ref: v5.3.2
+  build-depends:                 
+  - qtbase
+- name: qtlocation
+  morph: strata/qt5-tools/qtlocation.morph
+  repo: upstream:qt5/qtlocation
+  ref: a36d9e67e3b8168cb4d1eb76eda96ebb8242fd20
+  unpetrify-ref: v5.3.2
+  build-depends:                 
+  - qtbase
+- name: qtwebsockets
+  morph: strata/qt5-tools/qtwebsockets.morph
+  repo: upstream:qt5/qtwebsockets
+  ref: 00f77bdc5beb62e980216cfee906ab7aa1d1c4f7
+  unpetrify-ref: v5.3.2
+  build-depends:                 
+  - qtbase
+

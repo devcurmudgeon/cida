@@ -1,0 +1,6 @@
+name: lvm2
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./configure --prefix="$PREFIX" --enable-applib --enable-cmdlib --enable-pkgconfig
+  --enable-dmeventd --enable-udev_sync

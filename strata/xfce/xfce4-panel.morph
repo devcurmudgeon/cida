@@ -1,0 +1,8 @@
+name: xfce4-panel
+kind: chunk
+configure-commands:
+- ./autogen.sh --prefix="$PREFIX" --enable-debug=yes
+build-commands:
+- make
+install-commands:
+- make install

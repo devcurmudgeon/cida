@@ -1,0 +1,3 @@
+name: xz
+kind: chunk
+build-system: autotools

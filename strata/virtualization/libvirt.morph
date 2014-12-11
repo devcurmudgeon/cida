@@ -1,0 +1,6 @@
+name: libvirt
+kind: chunk
+build-system: autotools
+configure-commands:
+- |
+  GNULIB_SRCDIR=gnulib-src ./autogen.sh --without-apparmor --with-attr --without-audit --without-avahi --with-blkid --without-capng --with-curl --with-dbus --with-fuse --without-glusterfs --without-hal --without-netcf --without-numactl --without-openwsman --with-pciaccess --without-readline --without-sanlock --without-sasl --without-selinux --without-ssh2 --with-systemd-daemon --with-udev --with-yajl --without-xen --with-qemu --without-uml --without-openvz --without-vmware --without-phyp --without-xenapi --without-libxl --without-vbox --without-lxc --without-esx --without-hyperv --without-parallels --with-test --with-remote --with-libvirtd --with-init-script=systemd --without-bhyve --without-gnutls --without-polkit --without-firewalld --without-dtrace --without-numad --with-network --with-secrets --with-storage-dir --with-storage-fs --with-storage-lvm --without-storage-iscsi --without-storage-scsi --without-storage-mpath --without-storage-disk --with-storage-rbd --without-storage-sheepdog --without-storage-gluster --without-wireshark-dissector --with-python --prefix="$PREFIX"
