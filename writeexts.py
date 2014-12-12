@@ -474,6 +474,12 @@ class WriteExtension(cliapp.Application):
 
         self.status(msg='Creating extlinux.conf')
         config = os.path.join(real_root, 'extlinux.conf')
+
+        ''' Please also update the documentation in the following files
+            if you change these default kernel args:
+            - kvm.write.help
+            - rawdisk.write.help
+            - virtualbox-ssh.write.help '''
         kernel_args = (
             'rw ' # ro ought to work, but we don't test that regularly
             'init=/sbin/init ' # default, but it doesn't hurt to be explicit
