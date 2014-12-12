@@ -545,9 +545,8 @@ class WriteExtension(cliapp.Application):
         '''Does the user want to generate a bootloader config?
 
         The user may set $BOOTLOADER_CONFIG_FORMAT to the desired
-        format (u-boot or extlinux). If not set, extlinux is the
-        default but will be generated on x86-32 and x86-64, but not
-        otherwise.
+        format. 'extlinux' is the only allowed value, and is the default
+        value for x86-32 and x86-64.
 
         '''
 
