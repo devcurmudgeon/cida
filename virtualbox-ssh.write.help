@@ -41,6 +41,11 @@ help: |
     * INITRAMFS_PATH=path: the location of an initramfs for the bootloader to
       tell Linux to use, rather than booting the rootfs directly.
 
+    * DTB_PATH=path: **(MANDATORY)** for systems that require a device tree
+      binary - Give the full path (without a leading /) to the location of the
+      DTB in the built system image . The deployment will fail if `path` does
+      not exist.
+
     * AUTOSTART=<VALUE> - boolean. If it is set, the VM will be started when
       it has been deployed.
 
