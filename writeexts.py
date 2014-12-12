@@ -83,14 +83,14 @@ class Fstab(object):
 class WriteExtension(cliapp.Application):
 
     '''A base class for deployment write extensions.
-    
+
     A subclass should subclass this class, and add a
     ``process_args`` method.
-    
+
     Note that it is not necessary to subclass this class for write
     extensions. This class is here just to collect common code for
     write extensions.
-    
+
     '''
 
     def setup_logging(self):
@@ -125,13 +125,13 @@ class WriteExtension(cliapp.Application):
 
     def status(self, **kwargs):
         '''Provide status output.
-        
+
         The ``msg`` keyword argument is the actual message,
         the rest are values for fields in the message as interpolated
         by %.
-        
+
         '''
-        
+
         self.output.write('%s\n' % (kwargs['msg'] % kwargs))
         self.output.flush()
 
@@ -184,9 +184,9 @@ class WriteExtension(cliapp.Application):
 
     def _parse_size(self, size):
         '''Parse a size from a string.
-        
+
         Return size in bytes.
-        
+
         '''
 
         m = re.match('^(\d+)([kmgKMG]?)$', size)
