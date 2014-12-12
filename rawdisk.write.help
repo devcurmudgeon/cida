@@ -39,5 +39,21 @@ help: |
       DTB in the built system image . The deployment will fail if `path` does
       not exist.
 
+    * BOOTLOADER_INSTALL=value: the bootloader to be installed
+      **(MANDATORY)** for non-x86 systems
+
+        allowed values =
+        - 'extlinux' (default) - the extlinux bootloader will
+           be installed
+        - 'none' - no bootloader will be installed by `morph deploy`. A
+           bootloader must be installed manually. This value must be used when
+           deploying non-x86 systems such as ARM.
+
+    * BOOTLOADER_CONFIG_FORMAT=value: the bootloader format to be used.
+      If not specified for x86-32 and x86-64 systems, 'extlinux' will be used
+
+        allowed values =
+        - 'extlinux'
+
     (See `morph help deploy` for details of how to pass parameters to write
     extensions)
