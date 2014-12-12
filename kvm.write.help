@@ -63,5 +63,14 @@ help: |
         allowed values =
         - 'extlinux'
 
+    * KERNEL_ARGS=args: optional additional kernel command-line parameters to
+      be appended to the default set. The default set is:
+
+        'rw init=/sbin/init rootfstype=btrfs \
+          rootflags=subvol=systems/default/run \
+          root=[name or UUID of root filesystem]'
+
+        (See https://www.kernel.org/doc/Documentation/kernel-parameters.txt)
+
     (See `morph help deploy` for details of how to pass parameters to write
     extensions)
