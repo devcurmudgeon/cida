@@ -54,10 +54,9 @@ elif len(complete_matches) > 1:
     removable_sets = frozenset(matched_options - frozenset(os) for os in
                                powerset(matched_options)
                                if len(compute_matches(os)) == 1)
-    print('Please unset %s' % ' or '.join(
+    print('WARNING: Following options might not be needed: %s' % ' or '.join(
             word_separate_options(list(opt_set))
             for opt_set in removable_sets if opt_set))
-    sys.exit(1)
 
 if 'PXEBOOT_MODE' in os.environ:
     mode = os.environ['PXEBOOT_MODE']
