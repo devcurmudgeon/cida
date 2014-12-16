@@ -2,6 +2,7 @@
 
 import itertools
 import os
+import subprocess
 import sys
 flatten = itertools.chain.from_iterable
 
@@ -74,3 +75,12 @@ else:
 if mode not in valid_modes:
     print('%s is not a valid PXEBOOT_MODE' % mode)
     sys.exit(1)
+
+if mode != 'existing-server':
+    with open(os.devnull, 'w') as devnull:
+        if subprocess.call(['systemctl', 'is-active', 'nfs-server'],
+                           stdout=devnull) != 0:
+            print ('ERROR: nfs-server.service is not running and is needed '
+               'for this deployment. Please, run `systemctl start nfs-server` '
+               'and try `morph deploy` again.')
+            sys.exit(1)
