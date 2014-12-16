@@ -61,8 +61,15 @@ elif len(complete_matches) > 1:
 if 'PXEBOOT_MODE' in os.environ:
     mode = os.environ['PXEBOOT_MODE']
 else:
-    mode, = (mode for (mode, opt_set) in valid_option_sets
-             if all(o in os.environ for o in opt_set))
+    try:
+        mode, = (mode for (mode, opt_set) in valid_option_sets
+                 if all(o in os.environ for o in opt_set))
+
+    except ValueError as e:
+        print ('More than one candidate for PXEBOOT_MODE, please '
+               'set a value for it. Type `morph help pxeboot.write for '
+               'more info')
+        sys.exit(1)
 
 if mode not in valid_modes:
     print('%s is not a valid PXEBOOT_MODE' % mode)
