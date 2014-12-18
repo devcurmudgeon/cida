@@ -23,8 +23,8 @@ chunks:
   build-depends: []
 - name: gperftools
   repo: upstream:gperftools
-  ref: 2a2d6596f8c3d62b7ec444761f4edf0c85d10d92
-  unpetrify-ref: baserock/morph
+  ref: 846b775dfadb77901202ae7ddbac30ad1de7df01
+  unpetrify-ref: gperftools-2.2 
   build-depends:
   - libunwind
 - name: snappy
