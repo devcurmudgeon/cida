@@ -81,7 +81,7 @@ class OpenStackCheckExtension(morphlib.writeexts.WriteExtension):
         exit, out, err = cliapp.runcmd_unchecked(cmdline)
 
         if exit != 0:
-            if err.startswith('The request you have made requires ' \
+            if err.startswith('The request you have made requires '
                               'authentication. (HTTP 401)'):
                 raise cliapp.AppException('Invalid OpenStack credentials.')
             else:
