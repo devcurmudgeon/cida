@@ -28,9 +28,9 @@ chunks:
   build-depends:
   - libunwind
 - name: snappy
-  repo: upstream:snappy
-  ref: 760c6ffc67836027c5f1d307e5c6cb012dfbdf72
-  unpetrify-ref: baserock/morph
+  repo: upstream:snappy-git
+  ref: 1ff9be9b8fafc8528ca9e055646f5932aa5db9c4
+  unpetrify-ref: master
   build-depends: []
 - name: leveldb
   morph: strata/ceph-service/leveldb.morph
