@@ -48,8 +48,8 @@ chunks:
 - name: boost
   morph: strata/ceph-service/boost.morph
   repo: upstream:boost-tarball
-  ref: 026fc3d84a27e84a61d0f4c26f011a68271a0d6e
-  unpetrify-ref: baserock/markdoffman/morph
+  ref: 1c3648bf5b7d17fcd4fe9bc95802b16fd9eee304
+  unpetrify-ref: boost_1_56_0
   build-depends: []
 - name: ceph
   morph: strata/ceph-service/ceph.morph
