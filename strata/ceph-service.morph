@@ -35,8 +35,8 @@ chunks:
 - name: leveldb
   morph: strata/ceph-service/leveldb.morph
   repo: upstream:leveldb
-  ref: 0f0ed46e70967365c851243663689e156fe1b7b5
-  unpetrify-ref: baserock/morph
+  ref: e353fbc7ea81f12a5694991b708f8f45343594b1
+  unpetrify-ref: v1.17
   build-depends:
   - snappy
   - gperftools
