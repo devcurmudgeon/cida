@@ -18,8 +18,8 @@ chunks:
   build-depends: []
 - name: libunwind
   repo: upstream:libunwind
-  ref: 4b8404d153c58b95cb4420fc7603fdae62489a31
-  unpetrify-ref: v0.99
+  ref: d7322f0f64dab715c4feb5f08edef5660d8719c0
+  unpetrify-ref: v1.1
   build-depends: []
 - name: gperftools
   repo: upstream:gperftools
