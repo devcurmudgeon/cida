@@ -7,8 +7,8 @@ chunks:
 - name: libaio
   morph: strata/ceph-service/libaio.morph
   repo: upstream:libaio
-  ref: 262e589ea4ac3d1ff809648c8f2caa3836e69b25
-  unpetrify-ref: baserock/morph
+  ref: 08f50baec0e7731116d3f665c6155d7829edf5d7
+  unpetrify-ref: libaio-0.3.110-1
   build-depends: []
 - name: keyutils
   morph: strata/ceph-service/keyutils.morph
