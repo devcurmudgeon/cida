@@ -13,8 +13,8 @@ chunks:
 - name: keyutils
   morph: strata/ceph-service/keyutils.morph
   repo: upstream:keyutils
-  ref: 116417bce1e1df06a918de5e9e63f6ba88e2f4f5
-  unpetrify-ref: baserock/morph
+  ref: 9209a0c8fd63afc59f644e078b40cec531409c30
+  unpetrify-ref: v1.5.9
   build-depends: []
 - name: libunwind
   repo: upstream:libunwind
