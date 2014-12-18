@@ -4,15 +4,22 @@ build-system: autotools
 configure-commands:
 - NOCONFIGURE=1 ./autogen.sh
 - ./configure --with-nss --prefix="$PREFIX" --sysconfdir=/etc --without-fuse --without-libatomic-ops --without-libxfs
+build-commands:
+- make
 install-commands:
 - make install
-- install -D -m 755 src/init-ceph $DESTDIR/etc/init.d/ceph
-- install -d $DESTDIR/etc/ceph
-- install -D -d $DESTDIR/var/lib/ceph
-- install -d $DESTDIR/var/lib/ceph/mon
-- install -d $DESTDIR/var/lib/ceph/osd
-- install -d $DESTDIR/var/lib/ceph/mds
-- install -d $DESTDIR/var/lib/ceph/tmp
-- install -d $DESTDIR/var/lib/ceph/bootstrap-mds
-- install -d $DESTDIR/var/lib/ceph/bootstrap-osd
-- install -D -d $DESTDIR/var/log/ceph
+- install -D -m 755 src/init-ceph.in "$DESTDIR"/etc/init.d/ceph-SysV
+- install -D -m 755 systemd/ceph "$DESTDIR"/etc/systemd/system/ceph
+- install -D -m 755 systemd/ceph-mon@.service "$DESTDIR"/etc/systemd/system/ceph-mon@.service
+- install -D -m 755 systemd/ceph-osd@.service "$DESTDIR"/etc/systemd/system/ceph-osd@.service
+- install -D -m 755 systemd/ceph-mds@.service "$DESTDIR"/etc/systemd/system/ceph-mds@.service
+- install -D -m 755 systemd/ceph.target "$DESTDIR"/etc/systemd/system/ceph.target
+- install -d "$DESTDIR"/etc/ceph
+- install -D -d "$DESTDIR"/var/lib/ceph
+- install -d "$DESTDIR"/var/lib/ceph/mon
+- install -d "$DESTDIR"/var/lib/ceph/osd
+- install -d "$DESTDIR"/var/lib/ceph/mds
+- install -d "$DESTDIR"/var/lib/ceph/tmp
+- install -d "$DESTDIR"/var/lib/ceph/bootstrap-mds
+- install -d "$DESTDIR"/var/lib/ceph/bootstrap-osd
+- install -D -d "$DESTDIR"/var/log/ceph
