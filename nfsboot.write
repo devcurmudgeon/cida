@@ -17,6 +17,16 @@
 
 '''A Morph deployment write extension for deploying to an nfsboot server
 
+*** DO NOT USE ***
+- This was written before 'proper' deployment mechanisms were in place
+It is unlikely to work at all and will not work correctly
+
+Use the pxeboot write extension instead
+
+***
+
+
+
 An nfsboot server is defined as a baserock system that has tftp and nfs
 servers running, the tftp server is exporting the contents of
 /srv/nfsboot/tftp/ and the user has sufficient permissions to create nfs roots
@@ -125,7 +135,7 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
 
         self.status(msg='Creating destination directories')
         try:
-            cliapp.ssh_runcmd('root@%s' % location, 
+            cliapp.ssh_runcmd('root@%s' % location,
                               ['mkdir', '-p', orig_path, run_path])
         except cliapp.AppException:
             raise cliapp.AppException('Could not create dirs %s and %s on %s'
@@ -191,4 +201,3 @@ mv "$temp" "$target"
 
 
 NFSBootWriteExtension().run()
-

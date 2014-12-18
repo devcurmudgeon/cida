@@ -1,6 +1,13 @@
 help: |
+    *** DO NOT USE ***
+    - This was written before 'proper' deployment mechanisms were in place.
+    It is unlikely to work at all, and will not work correctly.
+
+    Use the pxeboot write extension instead
+
+    ***
     Deploy a system image and kernel to an nfsboot server.
-    
+
     An nfsboot server is defined as a baserock system that has
     tftp and nfs servers running, the tftp server is exporting
     the contents of /srv/nfsboot/tftp/ and the user has sufficient
