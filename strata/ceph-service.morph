@@ -7,36 +7,36 @@ chunks:
 - name: libaio
   morph: strata/ceph-service/libaio.morph
   repo: upstream:libaio
-  ref: 262e589ea4ac3d1ff809648c8f2caa3836e69b25
-  unpetrify-ref: baserock/morph
+  ref: 08f50baec0e7731116d3f665c6155d7829edf5d7
+  unpetrify-ref: libaio-0.3.110-1
   build-depends: []
 - name: keyutils
   morph: strata/ceph-service/keyutils.morph
   repo: upstream:keyutils
-  ref: 116417bce1e1df06a918de5e9e63f6ba88e2f4f5
-  unpetrify-ref: baserock/morph
+  ref: 9209a0c8fd63afc59f644e078b40cec531409c30
+  unpetrify-ref: v1.5.9
   build-depends: []
 - name: libunwind
   repo: upstream:libunwind
-  ref: 4b8404d153c58b95cb4420fc7603fdae62489a31
-  unpetrify-ref: v0.99
+  ref: d7322f0f64dab715c4feb5f08edef5660d8719c0
+  unpetrify-ref: v1.1
   build-depends: []
 - name: gperftools
   repo: upstream:gperftools
-  ref: 2a2d6596f8c3d62b7ec444761f4edf0c85d10d92
-  unpetrify-ref: baserock/morph
+  ref: 846b775dfadb77901202ae7ddbac30ad1de7df01
+  unpetrify-ref: gperftools-2.2 
   build-depends:
   - libunwind
 - name: snappy
-  repo: upstream:snappy
-  ref: 760c6ffc67836027c5f1d307e5c6cb012dfbdf72
-  unpetrify-ref: baserock/morph
+  repo: upstream:snappy-git
+  ref: 1ff9be9b8fafc8528ca9e055646f5932aa5db9c4
+  unpetrify-ref: master
   build-depends: []
 - name: leveldb
   morph: strata/ceph-service/leveldb.morph
   repo: upstream:leveldb
-  ref: 0f0ed46e70967365c851243663689e156fe1b7b5
-  unpetrify-ref: baserock/morph
+  ref: e353fbc7ea81f12a5694991b708f8f45343594b1
+  unpetrify-ref: v1.17
   build-depends:
   - snappy
   - gperftools
@@ -48,14 +48,14 @@ chunks:
 - name: boost
   morph: strata/ceph-service/boost.morph
   repo: upstream:boost-tarball
-  ref: 026fc3d84a27e84a61d0f4c26f011a68271a0d6e
-  unpetrify-ref: baserock/markdoffman/morph
+  ref: 1c3648bf5b7d17fcd4fe9bc95802b16fd9eee304
+  unpetrify-ref: boost_1_56_0
   build-depends: []
 - name: ceph
   morph: strata/ceph-service/ceph.morph
   repo: upstream:ceph
-  ref: 8fdf1df512b73bad0eb695cdf9cbf2d09f0327d4
-  unpetrify-ref: baserock/morph
+  ref: d3f2ec34d26264ec4deb0b54678ee7bbb2ebc76f
+  unpetrify-ref: master
   build-depends:
   - libaio
   - gperftools
