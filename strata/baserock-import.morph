@@ -26,6 +26,6 @@ chunks:
   build-depends: []
 - name: baserock-import
   repo: baserock:baserock/import
-  ref: edd18a77973d8cd12b09bc6e3ac06fecd72a7e45
+  ref: 764531201f99bf1d9c6dd451a212b741bfb6715e
   unpetrify-ref: master
   build-depends: []
