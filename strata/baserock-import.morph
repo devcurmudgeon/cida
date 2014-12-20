@@ -28,4 +28,7 @@ chunks:
   repo: baserock:baserock/import
   ref: 764531201f99bf1d9c6dd451a212b741bfb6715e
   unpetrify-ref: master
-  build-depends: []
+  build-depends:
+  - ansicolor
+  - networkx
+  - python-decorator
