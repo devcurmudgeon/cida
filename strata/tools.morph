@@ -105,3 +105,10 @@ chunks:
   unpetrify-ref: v3.3.9
   build-depends: []
   prefix: /
+- name: ipmitool
+  morph: strata/tools/ipmitool.morph
+  repo: upstream:ipmitool
+  ref: be7917f9f58c8a354bc0960ed57516af5d2bd29a
+  unpetrify-ref: IPMITOOL_1_8_14
+  build-depends:
+  - file
