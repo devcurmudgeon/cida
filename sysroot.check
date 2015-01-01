@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2014,2015  Codethink Limited
+# Copyright (C) 2015  Codethink Limited
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,14 +14,17 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-# A Morph write extension to deploy to another directory
+# Preparatory checks for Morph 'sysroot' write extension
 
 set -eu
 
-mkdir -p "$2"
+location="$1"
+if [ -d "$location" ]; then
+    echo >&2 "ERROR: Deployment directory already exists: $location"
+    exit 1
+fi
 
-# Move the contents of our source directory to our target
-# Previously we would (cd "$1" && find -print0 | cpio -0pumd "$absolute_path")
-# to do this, but the source directory is disposable anyway, so we can move
-# its contents to save time
-find "$1" -maxdepth 1 -mindepth 1 -exec mv {} "$2/." +
+if [ "$UPGRADE" == "yes" ]; then
+    echo >&2 "ERROR: Cannot upgrade a sysroot deployment"
+    exit 1
+fi
