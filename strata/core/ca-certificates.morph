@@ -16,3 +16,7 @@ post-install-commands:
   export ETCCERTSDIR="$DESTDIR/etc/ssl/certs"
   mkdir -p "$ETCCERTSDIR"
   ./sbin/update-ca-certificates
+system-integration:
+  ca-certificates-misc:
+    00-update-ca-certs:
+    - update-ca-certificates
