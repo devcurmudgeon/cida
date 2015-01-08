@@ -41,8 +41,8 @@ chunks:
 - name: stage1-binutils
   morph: strata/build-essential/stage1-binutils.morph
   repo: upstream:binutils-redhat
-  ref: 987eb543a034cddc4eeb103f08f566f24a5f964a
-  unpetrify-ref: baserock/build-essential
+  ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
+  unpetrify-ref: baserock/tiagogomes/update-toolchain
   build-depends: []
   build-mode: bootstrap
   prefix: /tools
@@ -83,8 +83,8 @@ chunks:
 - name: stage2-binutils
   morph: strata/build-essential/stage2-binutils.morph
   repo: upstream:binutils-redhat
-  ref: 987eb543a034cddc4eeb103f08f566f24a5f964a
-  unpetrify-ref: baserock/build-essential
+  ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
+  unpetrify-ref: baserock/tiagogomes/update-toolchain
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -260,8 +260,8 @@ chunks:
 - name: binutils
   morph: strata/build-essential/binutils.morph
   repo: upstream:binutils-redhat
-  ref: 987eb543a034cddc4eeb103f08f566f24a5f964a
-  unpetrify-ref: baserock/build-essential
+  ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
+  unpetrify-ref: baserock/tiagogomes/update-toolchain
   build-depends:
   - stage2-binutils
   - stage2-busybox
