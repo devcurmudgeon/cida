@@ -5,34 +5,45 @@ configure-commands:
 - mkdir o
 
 # Configure flag notes:
-#  1. Standard flags. See gcc.morph.
+#  1. See gcc.morph.
 #  2. Disable searching /usr/local/include for headers
-#  3. The pass 1 compiler needs to find the libraries we build in pass 2.
-#     Include path must be set explicility, because it defaults to
-#     $SYSROOT/usr/include rather than $SYSROOT/include.
-#     FIXME: this flag is not present until GCC 4.6.3!
+#  3. The pass 1 compiler needs to find the libraries we build in pass
+#     2.  Include path must be set explicility, because it defaults to
+#     $SYSROOT/usr/include rather than $SYSROOT/include.  FIXME: this
+#     flag is not present until GCC 4.6.3!
 #  4. Disable stuff that doesn't work when building a cross compiler
 #     without an existing libc, and generally try to keep this build as
 #     simple as possible.
 - |
-  cd o &&
-  ../configure \
-    $(../morph-arch-config) \
-    --build=$(sh ../config.guess) --host=$(sh ../config.guess) \
-    --target=$TARGET_STAGE1 \
-    --prefix="$PREFIX" \
-    --disable-bootstrap --disable-nls \
-    `# [1]` --libdir="$PREFIX/lib" --disable-multilib --disable-libgomp \
-            --without-cloog --without-ppl \
-            --with-mpfr-include="$(pwd)/../mpfr/src" \
-            --with-mpfr-lib="$(pwd)/mpfr/src/.libs" \
-    `# [2]` --with-local-prefix="$PREFIX" \
+  cd o && ../configure                                        \
+            $(../morph-arch-config)                           \
+            --build=$(sh ../config.guess)                     \
+            --host=$(sh ../config.guess)                      \
+            --target=$TARGET_STAGE1                           \
+            --prefix="$PREFIX"                                \
+    `# [1]` --libdir="$PREFIX/lib"                            \
+            --with-newlib                                     \
+    `# [2]` --with-local-prefix="$PREFIX"                     \
     `# [3]` --with-native-system-header-dir="$PREFIX/include" \
-    `# [4]` --enable-languages=c --disable-decimal-float \
-            --disable-libmudflap --disable-libquadmath --disable-libssp \
-            --disable-shared --disable-threads --disable-target-libiberty \
-            --disable-target-zlib --without-headers --with-newlib \
-            --with-system-zlib
+            --with-mpfr-include="$(pwd)/../mpfr/src"          \
+            --with-mpfr-lib="$(pwd)/mpfr/src/.libs"           \
+            --with-system-zlib                                \
+            --without-headers                                 \
+            --without-cloog                                   \
+            --without-ppl                                     \
+            --disable-bootstrap                               \
+            --disable-nls                                     \
+            --disable-shared                                  \
+            --disable-multilib                                \
+    `# [4]` --disable-decimal-float                           \
+    `# [4]` --disable-threads                                 \
+    `# [4]` --disable-libgomp                                 \
+    `# [4]` --disable-libmudflap                              \
+    `# [4]` --disable-libquadmath                             \
+    `# [4]` --disable-libssp                                  \
+    `# [4]` --disable-target-libiberty                        \
+    `# [4]` --disable-target-zlib                             \
+            --enable-languages=c
 
 build-commands:
 - cd o && make
