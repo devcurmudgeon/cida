@@ -26,7 +26,7 @@ chunks:
   build-depends: []
 - name: baserock-import
   repo: baserock:baserock/import
-  ref: 45c31c5d34d5c98627af3953027a2a8a35adfce4
+  ref: b092a66c21cb977a872d2b45d8edec31d96eeb28
   unpetrify-ref: master
   build-depends:
   - ansicolor
