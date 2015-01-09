@@ -172,6 +172,15 @@ this.  If you specify a floating IP that is in use by an existing instance, you
 will steal it for your own instance and probably break one of our web services.
 
 
+General notes
+-------------
+
+Ensure SSH password login is disabled in all systems you deploy! See:
+<https://testbit.eu/is-ssh-insecure/> for why. The Ansible playbook
+admin/sshd_config.yaml can ensure that all systems have password login
+disabled.
+
+
 Administration
 --------------
 
