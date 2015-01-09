@@ -28,7 +28,7 @@
         {
             "type": "shell",
             "inline": [
-                "sudo yum install -y haproxy",
+                "sudo yum install -y haproxy nc",
                 "sudo mv /var/tmp/haproxy.cfg /etc/haproxy/haproxy.cfg",
                 "sudo mkdir /var/log/journal"
             ]
