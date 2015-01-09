@@ -192,5 +192,5 @@ To run a playbook:
 
 To run an ad-hoc command (upgrading, for example):
 
-    ansible-playbook -i hosts fedora -m command -a 'sudo yum update'
-    ansible-playbook -i hosts ubuntu -m command -a 'sudo apt-get update'
+    ansible-playbook -i hosts fedora -m command -a 'sudo yum update -y'
+    ansible-playbook -i hosts ubuntu -m command -a 'sudo apt-get update -y'
