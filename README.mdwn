@@ -170,3 +170,18 @@ The the Packer tool requires a floating IP to be available at the time a system
 is being deployed to OpenStack. Currently 85.199.252.152 should be used for
 this.  If you specify a floating IP that is in use by an existing instance, you
 will steal it for your own instance and probably break one of our web services.
+
+
+Administration
+--------------
+
+You can use Ansible to automate tasks on the baserock.org systems.
+
+To run a playbook:
+
+    ansible-playbook -i hosts $PLAYBOOK.yaml
+
+To run an ad-hoc command (upgrading, for example):
+
+    ansible-playbook -i hosts fedora -m command -a 'sudo yum update'
+    ansible-playbook -i hosts ubuntu -m command -a 'sudo apt-get update'
