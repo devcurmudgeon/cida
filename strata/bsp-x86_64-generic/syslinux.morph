@@ -2,7 +2,7 @@ name: syslinux
 kind: chunk
 build-commands:
 - make clean
-- make
-- make installer
+- make NO_WERROR=1
+- make NO_WERROR=1 installer
 install-commands:
 - make INSTALLROOT="$DESTDIR" install

@@ -5,5 +5,7 @@ configure-commands:
 - sed -i -e '/^buildreq="/,/^"/{/rsync/d}' bootstrap.conf
 - bash bootstrap --skip-po
 - FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix="$PREFIX" --disable-nls
+build-commands:
+- make WERROR_CFLAGS=
 install-commands:
 - make INSTALL_PROGRAM=install DESTDIR="$DESTDIR" install

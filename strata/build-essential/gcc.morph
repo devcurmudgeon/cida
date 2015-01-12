@@ -8,32 +8,25 @@ configure-commands:
 #   1. An attempt to stop anything going in $PREFIX/lib64 (which doesn't
 #      fully work; we will need to hobble the multilib configuration in
 #      config/i386/t-linux64 if we really want to kill /lib64).
-#   2. MPFR is built in the GCC tree, we need to locate it.
-#   3. Avoid having more than one copy of ZLib in use on the system
-#   4. Optimisation libraries which for now we do without.
-#   5. Multilib does not make sense in Baserock.
-#   6. Recommended by Linux From Scratch; required for C++ ABI
-#      compatibility with other Linux distributions.
+#   2. Avoid having more than one copy of ZLib in use on the system
+#   3. Multilib does not make sense in Baserock.
 - |
   cd o && ../configure                                        \
             $(../morph-arch-config)                           \
             --prefix="$PREFIX"                                \
     `# [1]` --libdir=$PREFIX/lib                              \
-    `# [2]` --with-mpfr-include="$(pwd)/../mpfr/src"          \
-    `# [2]` --with-mpfr-lib="$(pwd)/mpfr/src/.libs"           \
-    `# [3]` --with-system-zlib                                \
-    `# [4]` --without-cloog                                   \
-    `# [4]` --without-ppl                                     \
-            --disable-nls                                     \
-    `# [5]` --disable-multilib                                \
-            --disable-libgomp                                 \
-    `# [6]` --enable-__cxa_atexit                             \
-            --enable-shared                                   \
-            --enable-threads=posix                            \
+            --disable-bootstrap                               \
+    `# [2]` --with-system-zlib                                \
+    `# [3]` --disable-multilib                                \
             --enable-languages=c,c++,fortran
 
 build-commands:
-- cd o && make
+- |
+  case "$MORPH_ARCH" in
+      armv7*)   sed -i "s/--host=none/--host=armv7a/" o/Makefile
+                sed -i "s/--target=none/--target=armv7a/" o/Makefile ;;
+  esac
+  cd o && make
 
 install-commands:
 - cd o && make DESTDIR="$DESTDIR" install

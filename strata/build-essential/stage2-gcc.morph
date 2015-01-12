@@ -19,11 +19,12 @@ configure-commands:
 #  3. Disable searching /usr/local/include for headers
 #  4. This flag causes the correct --sysroot flag to be passed when
 #     calling stage 1 GCC.
-#  5. C++ is built in stage 3.
 - |
   export STAGE2_SYSROOT="$(dirname $(pwd))"
   export CC="$TARGET_STAGE1-gcc --sysroot=$STAGE2_SYSROOT"
-  export LDFLAGS="-Wl,--sysroot=$STAGE2_SYSROOT"
+  export CXX="$TARGET_STAGE1-g++ --sysroot=$STAGE2_SYSROOT"
+  export AR="$TARGET_STAGE1-ar"
+  export RANLIB="$TARGET_STAGE1-ranlib"
   cd o && ../configure                                         \
             $(../morph-arch-config)                            \
             --build=$(sh ../config.guess)                      \
@@ -33,21 +34,19 @@ configure-commands:
     `# [2]` --libdir=$PREFIX/lib                               \
     `# [3]` --with-local-prefix=$PREFIX                        \
     `# [4]` --with-build-sysroot="$STAGE2_SYSROOT"             \
-            --with-mpfr-include="$(pwd)/../mpfr/src"           \
-            --with-mpfr-lib="$(pwd)/mpfr/src/.libs"            \
-            --without-cloog                                    \
-            --without-ppl                                      \
             --disable-bootstrap                                \
             --disable-nls                                      \
             --disable-multilib                                 \
             --disable-libgomp                                  \
-            --enable-clocale=gnu                               \
-            --enable-shared                                    \
-            --enable-threads=posix                             \
-    `# [5]` --enable-languages=c
+            --disable-libstdcxx-pch                            \
+            --enable-languages=c,c++
 
 build-commands:
 - |
+  case "$MORPH_ARCH" in
+      armv7*)   sed -i "s/--host=none/--host=armv7a/" o/Makefile
+                sed -i "s/--target=none/--target=armv7a/" o/Makefile ;;
+  esac
   export STAGE2_SYSROOT="$(dirname $(pwd))"
   cd o && make
 

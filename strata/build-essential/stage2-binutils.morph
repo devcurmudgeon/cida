@@ -5,20 +5,17 @@ build-system: autotools
 configure-commands:
 - |
   export STAGE2_SYSROOT="$(dirname $(pwd))"
-  export CPPFLAGS="--sysroot=$STAGE2_SYSROOT"
   export CXX=false
-  export LDFLAGS="-Wl,--sysroot=$STAGE2_SYSROOT"
+  # binutils has its own embedded libtool, which is old and strips out
+  # `--sysroot`.  Work around by modifying the compiler command to
+  # include the sysroot flag
+  export CC="$TARGET_STAGE1-gcc --sysroot=$STAGE2_SYSROOT"
   ./configure --prefix="$PREFIX" --disable-nls --disable-werror \
     --build=$(sh config.guess) \
     --host=$TARGET_STAGE1 \
     --target=$TARGET_STAGE1
 
 build-commands:
-# Nested configure scripts require that we set CPPFLAGS here as well
-# (I don't think we should have to .. . at least in GCC, I think
-# TARGET_CPPFLAGS may be the answer)
 - |
   export STAGE2_SYSROOT="$(dirname $(pwd))"
-  export CPPFLAGS="--sysroot=$STAGE2_SYSROOT"
-  export LDFLAGS="-Wl,--sysroot=$STAGE2_SYSROOT"
   make
