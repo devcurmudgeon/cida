@@ -46,6 +46,7 @@ chunks:
   build-depends: []
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage1-gcc
   morph: strata/build-essential/stage1-gcc.morph
   repo: upstream:gcc-tarball
@@ -55,6 +56,7 @@ chunks:
   - stage1-binutils
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-linux-api-headers
   morph: strata/build-essential/stage2-linux-api-headers.morph
   repo: upstream:linux
@@ -65,6 +67,7 @@ chunks:
   - stage1-gcc
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-glibc
   morph: strata/build-essential/stage2-glibc.morph
   repo: upstream:glibc
@@ -76,6 +79,7 @@ chunks:
   - stage2-linux-api-headers
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-binutils
   morph: strata/build-essential/stage2-binutils.morph
   repo: upstream:binutils-redhat
@@ -87,6 +91,7 @@ chunks:
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-gcc-fixed-headers
   morph: strata/build-essential/stage2-gcc-fixed-headers.morph
   repo: upstream:gcc-tarball
@@ -98,6 +103,7 @@ chunks:
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-gcc
   morph: strata/build-essential/stage2-gcc.morph
   repo: upstream:gcc-tarball
@@ -110,6 +116,7 @@ chunks:
   - stage2-gcc-fixed-headers
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-busybox
   morph: strata/build-essential/stage2-busybox.morph
   repo: upstream:busybox
@@ -121,6 +128,7 @@ chunks:
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-fake-bash
   morph: strata/build-essential/stage2-fake-bash.morph
   repo: upstream:bash
@@ -129,6 +137,7 @@ chunks:
   build-depends: []
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-fhs-dirs
   morph: strata/build-essential/stage2-fhs-dirs.morph
   repo: baserock:baserock/fhs-dirs
@@ -137,6 +146,7 @@ chunks:
   build-depends: []
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-gawk
   morph: strata/build-essential/stage2-gawk.morph
   repo: upstream:gawk
@@ -148,6 +158,7 @@ chunks:
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-make
   morph: strata/build-essential/stage2-make.morph
   repo: upstream:make
@@ -159,6 +170,7 @@ chunks:
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
+
 - name: stage2-reset-specs
   morph: strata/build-essential/stage2-reset-specs.morph
   repo: upstream:glibc
@@ -171,6 +183,7 @@ chunks:
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
+
 - name: fhs-dirs
   morph: strata/build-essential/fhs-dirs.morph
   repo: baserock:baserock/fhs-dirs
@@ -186,6 +199,7 @@ chunks:
   - stage2-linux-api-headers
   - stage2-make
   - stage2-reset-specs
+
 - name: linux-api-headers
   morph: strata/build-essential/linux-api-headers.morph
   repo: upstream:linux
@@ -201,6 +215,7 @@ chunks:
   - stage2-linux-api-headers
   - stage2-make
   - stage2-reset-specs
+
 - name: glibc
   morph: strata/build-essential/glibc.morph
   repo: upstream:glibc
@@ -222,6 +237,7 @@ chunks:
     glibc-gconv: build-essential-runtime
     glibc-libs: build-essential-minimal
     glibc-nss: build-essential-runtime
+
 - name: zlib
   morph: strata/build-essential/zlib.morph
   repo: upstream:zlib
@@ -240,6 +256,7 @@ chunks:
   - glibc
   artifacts:
     zlib-libs: build-essential-minimal
+
 - name: binutils
   morph: strata/build-essential/binutils.morph
   repo: upstream:binutils-redhat
@@ -257,6 +274,7 @@ chunks:
   - stage2-reset-specs
   - glibc
   - zlib
+
 - name: busybox
   morph: strata/build-essential/busybox.morph
   repo: upstream:busybox
@@ -273,6 +291,7 @@ chunks:
   - stage2-make
   - stage2-reset-specs
   - glibc
+
 - name: gawk
   morph: strata/build-essential/gawk.morph
   repo: upstream:gawk
@@ -289,6 +308,7 @@ chunks:
   - stage2-make
   - stage2-reset-specs
   - glibc
+
 - name: gcc
   morph: strata/build-essential/gcc.morph
   repo: upstream:gcc-tarball
@@ -308,6 +328,7 @@ chunks:
   - zlib
   artifacts:
     gcc-libs: build-essential-minimal
+
 - name: make
   morph: strata/build-essential/make.morph
   repo: upstream:make
@@ -324,6 +345,7 @@ chunks:
   - stage2-make
   - stage2-reset-specs
   - glibc
+
 - name: ccache
   morph: strata/build-essential/ccache.morph
   repo: upstream:ccache
