@@ -11,8 +11,17 @@ configure-commands:
 #   2. Avoid having more than one copy of ZLib in use on the system
 #   3. Multilib does not make sense in Baserock.
 - |
+  case "$MORPH_ARCH" in
+      armv7lhf) ARCH_FLAGS="--with-arch=armv7-a \
+                            --with-cpu=cortex-a9 \
+                            --with-tune=cortex-a9 \
+                            --with-fpu=vfpv3-d16 \
+                            --with-float=hard" ;;
+      armv7*)   ARCH_FLAGS="--with-arch=armv7-a" ;;
+  esac
+
   cd o && ../configure                                        \
-            $(../morph-arch-config)                           \
+            $ARCH_FLAGS                                       \
             --prefix="$PREFIX"                                \
     `# [1]` --libdir=$PREFIX/lib                              \
             --disable-bootstrap                               \

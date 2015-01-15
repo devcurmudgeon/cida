@@ -23,8 +23,17 @@ configure-commands:
 #     without an existing libc, and generally try to keep this build as
 #     simple as possible.
 - |
+  case "$MORPH_ARCH" in
+      armv7lhf) ARCH_FLAGS="--with-arch=armv7-a \
+                            --with-cpu=cortex-a9 \
+                            --with-tune=cortex-a9 \
+                            --with-fpu=vfpv3-d16 \
+                            --with-float=hard" ;;
+      armv7*)   ARCH_FLAGS="--with-arch=armv7-a" ;;
+  esac
+
   cd o && ../configure                                        \
-            $(../morph-arch-config)                           \
+            $ARCH_FLAGS                                       \
             --build=$(sh ../config.guess)                     \
             --host=$(sh ../config.guess)                      \
             --target=$TARGET_STAGE1                           \

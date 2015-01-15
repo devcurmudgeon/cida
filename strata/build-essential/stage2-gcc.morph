@@ -20,13 +20,21 @@ configure-commands:
 #  4. This flag causes the correct --sysroot flag to be passed when
 #     calling stage 1 GCC.
 - |
+  case "$MORPH_ARCH" in
+      armv7lhf) ARCH_FLAGS="--with-arch=armv7-a \
+                            --with-cpu=cortex-a9 \
+                            --with-tune=cortex-a9 \
+                            --with-fpu=vfpv3-d16 \
+                            --with-float=hard" ;;
+      armv7*)   ARCH_FLAGS="--with-arch=armv7-a" ;;
+  esac
   export STAGE2_SYSROOT="$(dirname $(pwd))"
   export CC="$TARGET_STAGE1-gcc --sysroot=$STAGE2_SYSROOT"
   export CXX="$TARGET_STAGE1-g++ --sysroot=$STAGE2_SYSROOT"
   export AR="$TARGET_STAGE1-ar"
   export RANLIB="$TARGET_STAGE1-ranlib"
   cd o && ../configure                                         \
-            $(../morph-arch-config)                            \
+            $ARCH_FLAGS                                        \
             --build=$(sh ../config.guess)                      \
     `# [1]` --host=$TARGET_STAGE1                              \
     `# [1]` --target=$TARGET_STAGE1                            \
