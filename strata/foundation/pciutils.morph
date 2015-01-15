@@ -1,11 +1,11 @@
 name: pciutils
 kind: chunk
 configure-commands:
-- make ZLIB=no lib/config.mk
+- make PREFIX="$PREFIX" ZLIB=no lib/config.mk
 - echo PREFIX=$PREFIX >>lib/config.mk
 - echo MANDIR=$PREFIX/share/man >>lib/config.mk
 build-commands:
-- make
+- make PREFIX="$PREFIX"
 install-commands:
-- make DESTDIR="$DESTDIR" install
-- make DESTDIR="$DESTDIR" install-lib
+- make PREFIX="$PREFIX" DESTDIR="$DESTDIR" install
+- make PREFIX="$PREFIX" DESTDIR="$DESTDIR" install-lib
