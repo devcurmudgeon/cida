@@ -3,7 +3,7 @@ kind: chunk
 configure-commands:
 - make PREFIX="$PREFIX" ZLIB=no lib/config.mk
 - echo PREFIX="$PREFIX" >>lib/config.mk
-- echo MANDIR="$PREFIX/share/man" >>lib/config.mk
+- echo MANDIR="$PREFIX/share/man" >>lib/config.mk  # ensure manpages are always installed in share/man
 build-commands:
 - make PREFIX="$PREFIX"
 install-commands:
