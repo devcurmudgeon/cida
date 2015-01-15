@@ -41,6 +41,7 @@ configure-commands:
 - sed -e 's/CONFIG_FSCK_MINIX=y.*/# CONFIG_FSCK_MINIX is not set/' -i .config
 - sed -e 's/CONFIG_LOSETUP=y.*/# CONFIG_LOSETUP is not set/' -i .config
 - sed -e 's/CONFIG_LSUSB=y.*/# CONFIG_LSUSB is not set/' -i .config
+- sed -e 's/CONFIG_LSPCI=y.*/# CONFIG_LSPCI is not set/' -i .config
 - sed -e 's/CONFIG_LZMA=y.*/# CONFIG_LZMA is not set/' -i .config
 - sed -e 's/CONFIG_MKFS_EXT2=y.*/# CONFIG_MKFS_EXT2 is not set/' -i .config
 - sed -e 's/CONFIG_MKFS_MINIX=y.*/# CONFIG_MKFS_MINIX is not set/' -i .config
