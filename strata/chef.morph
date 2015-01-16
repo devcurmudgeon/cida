@@ -205,10 +205,12 @@ chunks:
   morph: strata/core/libpopt.morph
   repo: upstream:libpopt
   ref: c224abf28f4ff9bbf292908324359cb5905addf8
+  unpetrify-ref: master
   build-depends: []
 - name: sgdisk
   morph: strata/core/sgdisk.morph
   repo: upstream:sgdisk
   ref: a920398fa393f9d6301b32b191bc01e086ab8bc8
+  unpetrify-ref: master
   build-depends:
   - libpopt

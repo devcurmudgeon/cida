@@ -1,0 +1,7 @@
+name: sgdisk
+kind: chunk
+build-commands:
+- make
+install-commands:
+- install -D -m 0755 -o root -g root sgdisk "$DESTDIR$PREFIX/bin/sgdisk"
+
