@@ -1,0 +1,3 @@
+0040755 0 0 /root
+0040700 1000 1000 /root/.ssh
+0100600 1000 1000 /root/.ssh/authorized_keys
