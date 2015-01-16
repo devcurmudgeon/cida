@@ -1,0 +1,14 @@
+---
+name: erubis-master
+kind: chunk
+build-system: manual
+products:
+- artifact: erubis-doc
+  include:
+  - usr/lib/ruby/gems/\d[\w.]*/doc/.*
+build-commands:
+- gem build erubis.gemspec
+install-commands:
+- mkdir -p "$DESTDIR/$(gem environment home)"
+- gem install --install-dir "$DESTDIR/$(gem environment home)" --bindir "$DESTDIR/$PREFIX/bin"
+  --ignore-dependencies --local ./erubis-master.gem
