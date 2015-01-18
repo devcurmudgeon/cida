@@ -1,0 +1,11 @@
+name: ocaml-language
+kind: stratum
+description: |
+  OCaml
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: ocaml
+  morph: strata/ocaml/ocaml.morph
+  repo: upstream:ocaml
+  ref: fa7961d5fada53056f38a9ae36615df26352028a
