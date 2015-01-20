@@ -1,6 +1,6 @@
 name: tools
 kind: stratum
-description: Extra development tools included in the devel system
+description: Various tools
 build-depends:
 - morph: strata/foundation.morph
 chunks:
@@ -26,11 +26,6 @@ chunks:
   ref: c4bf5268b1a32ec475b61d2fe90e9218780c03c8
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: less
-  repo: upstream:less
-  ref: 09a405d8f652b56944c93ebf5c673cdfe5319b04
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: linux-user-chroot
   repo: upstream:linux-user-chroot
   ref: d25cc110f69e6e71a95b4ac532dcfc5423d4a16b
@@ -40,11 +35,6 @@ chunks:
   morph: strata/tools/lsof.morph
   repo: upstream:lsof
   ref: fffb8558208586338587027c265fd0eca44466be
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: pv
-  repo: upstream:pv
-  ref: d6ce7cfec684fa72d7a919d7b1aa817a0ca6102a
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: rsync
@@ -63,18 +53,6 @@ chunks:
   repo: upstream:vala
   ref: 4e4a02c03445336237b36723b23a91670ef7621b
   unpetrify-ref: baserock/bootstrap
-  build-depends: []
-- name: vim
-  morph: strata/tools/vim.morph
-  repo: upstream:vim
-  ref: 592b8c975bf83b4dcf608769bc664a80cb1daf9e
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: screen
-  morph: strata/tools/screen.morph
-  repo: upstream:screen
-  ref: 7dd4a9e5f385c96a77e8ee5c977a1dde4c0ff467
-  unpetrify-ref: baserock/morph
   build-depends: []
 - name: u-boot
   morph: strata/tools/u-boot.morph
