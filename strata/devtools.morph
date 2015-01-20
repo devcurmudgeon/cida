@@ -11,7 +11,7 @@ chunks:
 - name: vim
   morph: strata/devtools/vim.morph
   repo: upstream:vim
-  ref: 592b8c975bf83b4dcf608769bc664a80cb1daf9e
+  ref: 07c2c06799e0579e6bfb1a7d98acf38e36a98f79
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: pv
