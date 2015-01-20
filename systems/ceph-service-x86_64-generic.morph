@@ -46,3 +46,4 @@ configuration-extensions:
 - nfsboot
 - install-files
 - ceph
+- cloud-init
