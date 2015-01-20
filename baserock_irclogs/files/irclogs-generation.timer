@@ -1,0 +1,9 @@
+[Unit]
+Description=Generates the irclogs in html every 5 minutes
+
+[Timer]
+OnUnitActiveSec=5min
+Unit=irclogs-generation.service
+
+[Install]
+WantedBy=multi-user.target

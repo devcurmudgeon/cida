@@ -1,0 +1,12 @@
+[Unit]
+Description=Irclogs generation
+Requires=supybot.service
+
+[Service]
+Type=oneshot
+User=supybot
+ExecStart=/usr/bin/logs2html -t 'IRC logs for #baserock' -p 'IRC logs for #baserock for ' /home/supybot/logs/ChannelLogger/freenode/#baserock/
+ExecStart=/bin/sh -c "/usr/bin/rsync -a /home/supybot/logs/ChannelLogger/freenode/\#baserock/*html /home/supybot/logs/ChannelLogger/freenode/\#baserock/*css /srv/irclogs/"
+
+[Install]
+WantedBy=multi-user.target
