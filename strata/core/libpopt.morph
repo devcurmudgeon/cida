@@ -1,0 +1,10 @@
+name: libpopt
+kind: chunk
+configure-commands:
+- autoreconf -if
+- ./configure
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" install
+

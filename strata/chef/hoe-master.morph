@@ -1,0 +1,14 @@
+---
+name: hoe-master
+kind: chunk
+build-system: manual
+products:
+- artifact: hoe-doc
+  include:
+  - usr/lib/ruby/gems/\d[\w.]*/doc/.*
+build-commands:
+- rake gem
+install-commands:
+- mkdir -p "$DESTDIR/$(gem environment home)"
+- gem install --install-dir "$DESTDIR/$(gem environment home)" --bindir "$DESTDIR/$PREFIX/bin"
+  --ignore-dependencies --local ./pkg/hoe-3.12.0.gem

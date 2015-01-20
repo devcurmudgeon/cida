@@ -1,0 +1,19 @@
+---
+name: erubis-master
+kind: chunk
+build-system: manual
+products:
+- artifact: erubis-doc
+  include:
+  - usr/lib/ruby/gems/\d[\w.]*/doc/.*
+configure-commands:
+# Manually do what it seems like the 'rook' build system would do, if it worked
+# Values taken from 'Rookbook.props'.
+- find -type f -exec sed -e 's/\$Release\$/2.7.0/g' -i \{} \;
+- find -type f -exec sed -e 's/\$Copyright\$/copyright(c) 2006-2011 kuwata-lab.com all rights reserved./g' -i \{} \;
+build-commands:
+- gem build erubis.gemspec
+install-commands:
+- mkdir -p "$DESTDIR/$(gem environment home)"
+- gem install --install-dir "$DESTDIR/$(gem environment home)" --bindir "$DESTDIR/$PREFIX/bin"
+  --ignore-dependencies --local ./erubis-2.7.0.gem
