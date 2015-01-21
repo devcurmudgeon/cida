@@ -169,20 +169,6 @@ class VirtualBoxPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
     def get_host_interface(self, ssh_host):
         host_ipaddr = os.environ.get('HOST_IPADDR')
         netmask = os.environ.get('NETMASK')
-        network_config = os.environ.get("NETWORK_CONFIG")
-
-        if network_config is None:
-            raise cliapp.AppException('NETWORK_CONFIG was not given')
-
-        if "eth0:" not in network_config:
-            raise cliapp.AppException(
-                'NETWORK_CONFIG does not contain '
-                'the eth0 configuration')
-
-        if "eth1:" not in network_config:
-            raise cliapp.AppException(
-                'NETWORK_CONFIG does not contain '
-                'the eth1 configuration')
 
         if host_ipaddr is None:
             raise cliapp.AppException('HOST_IPADDR was not given')
