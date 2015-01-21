@@ -21,6 +21,8 @@ strata:
   morph: strata/cloudinit-support.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
+- name: devtools
+  morph: strata/devtools.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
