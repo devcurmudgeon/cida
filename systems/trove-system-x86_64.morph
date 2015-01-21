@@ -29,6 +29,8 @@ strata:
   morph: strata/ansible.morph
 - name: cloudinit-support
   morph: strata/cloudinit-support.morph
+- name: devtools
+  morph: strata/devtools.morph
 configuration-extensions:
 - set-hostname
 - trove
