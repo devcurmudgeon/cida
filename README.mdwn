@@ -129,6 +129,48 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
     ansible-playbook -i hosts baserock_openid_provider/instance-config.yml
 
+Gerrit
+------
+
+To deploy to production:
+
+    morph build baserock_gerrit/gerrit-system-x86_64.morph
+    morph deploy baserock_gerrit/baserock_gerrit.morph
+
+    nova boot gerrit.baserock.org \
+        --key-name $keyname \
+        --flavor 'dc1.2x4.40' \
+        --image baserock_gerrit \
+        --nic net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5,v4-fixed-ip=192.168.222.69 \
+        --user-data baserock-ops-team.cloud-config
+
+    nova volume-create \
+        --display-name gerrit-volume \
+        --display-description 'Gerrit volume' \
+        --volume-type Ceph \
+        100
+    nova volume-attach gerrit.baserock.org <volume-id> /dev/vdb
+
+    # Download the JRE -- this implies that you accept the 'Oracle Binary Code
+    # License Agreement for Java SE'. Visit Make sure you use the latest
+    # version of Java, don't copy-paste this commandline directly ;)
+    # 
+    # See: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+    wget --no-cookies --no-check-certificate \
+        --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+        "http://download.oracle.com/otn-pub/java/jdk/8u31-b13/server-jre-8u31-linux-x64.tar.gz" 
+
+    ansible-playbook -i hosts baserock_gerrit/instance-config.yml
+
+Now, log into the new Gerrit instance with your OpenID. Make sure you're the
+first one to have registered, and you will automatically have been added to the
+Administrators group.
+
+You can add more users into the Administrators group later on using the [gerrit
+set-members] command, or the web interface.
+
+[gerrit set-members]: https://gerrit-documentation.storage.googleapis.com/Documentation/2.9.4/cmd-set-members.html
+
 Storyboard
 ----------
 

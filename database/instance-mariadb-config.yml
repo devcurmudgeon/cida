@@ -39,7 +39,7 @@
         collation=utf8_unicode_ci
         encoding=utf8
       with_items:
-        - reviewdb
+        - gerrit
         - openid_provider
         - storyboard
 
@@ -62,7 +62,7 @@
       with_items:
         - name: gerrit
           password: "{{ baserock_gerrit_password }}"
-          priv: reviewdb.*:ALL
+          priv: gerrit.*:ALL
         - name: openid
           password: "{{ baserock_openid_provider_password }}"
           priv: openid_provider.*:ALL
