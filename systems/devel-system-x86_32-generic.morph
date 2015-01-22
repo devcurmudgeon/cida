@@ -34,6 +34,8 @@ strata:
   morph: strata/nfs.morph
 - name: python-tools
   morph: strata/python-tools.morph
+- name: devtools
+  morph: strata/devtools.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
