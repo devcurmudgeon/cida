@@ -91,8 +91,7 @@ def openid_server(request):
                 validated = True
 
         if openid is not None and (validated or trust_root_valid == 'Valid'):
-            id_url = request.build_absolute_uri(
-                reverse('openid-provider-identity', args=[openid.openid]))
+            id_url = orequest.identity
             oresponse = orequest.answer(True, identity=id_url)
             logger.debug('orequest.answer(True, identity="%s")', id_url)
         elif orequest.immediate:
@@ -270,13 +269,15 @@ def openid_get_identity(request, identity_url):
     """
     logger.debug('Looking for %s in user %s set of OpenIDs %s',
                  identity_url, request.user, request.user.openid_set)
+    if not identity_url.endswith('/'):
+        identity_url += '/'
     for openid in request.user.openid_set.iterator():
         logger.debug(
             'Comparing: %s with %s', identity_url,
             url_for_openid(request, openid))
         if identity_url == url_for_openid(request, openid):
             return openid
-    if identity_url == 'http://specs.openid.net/auth/2.0/identifier_select':
+    if identity_url == 'http://specs.openid.net/auth/2.0/identifier_select/':
         # no claim was made, choose user default openid:
         openids = request.user.openid_set.filter(default=True)
         if openids.count() == 1:
