@@ -309,6 +309,21 @@ chunks:
   - stage2-reset-specs
   - glibc
 
+- name: m4
+  morph: strata/build-essential/m4.morph
+  repo: upstream:m4
+  ref: cfbd353f3a2dc517992bcdc747281a22feb0c4db
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gcc
+  - stage2-make
+  - stage2-reset-specs
+  - glibc
+
 - name: gcc
   morph: strata/build-essential/gcc.morph
   repo: upstream:gcc-tarball
@@ -326,6 +341,7 @@ chunks:
   - stage2-reset-specs
   - glibc
   - zlib
+  - m4
   artifacts:
     gcc-libs: build-essential-minimal
 
