@@ -101,6 +101,12 @@ def openid_server(request):
         else:
             request.session['OPENID_REQUEST'] = orequest.message.toPostArgs()
             request.session['OPENID_TRUSTROOT_VALID'] = trust_root_valid
+            logger.debug(
+                'Set OPENID_REQUEST to %s in session %s',
+                request.session['OPENID_REQUEST'], request.session)
+            logger.debug(
+                'Set OPENID_TRUSTROOT_VALID to %s in session %s',
+                request.session['OPENID_TRUSTROOT_VALID'], request.session)
             logger.debug('redirecting to decide page')
             return HttpResponseRedirect(reverse('openid-provider-decide'))
     else:
@@ -136,6 +142,9 @@ def openid_decide(request):
     server = openid_get_server(request)
     orequest = server.decodeRequest(request.session.get('OPENID_REQUEST'))
     trust_root_valid = request.session.get('OPENID_TRUSTROOT_VALID')
+
+    logger.debug('Got OPENID_REQUEST %s, OPENID_TRUSTROOT_VALID %s from '
+                  'session %s', orequest, trust_root_valid, request.session)
 
     if not request.user.is_authenticated():
         return landing_page(request, orequest)
@@ -198,6 +207,9 @@ def landing_page(request, orequest, login_url=None,
     them to log in manually is displayed.
     """
     request.session['OPENID_REQUEST'] = orequest.message.toPostArgs()
+    logger.debug(
+        'Set OPENID_REQUEST to %s in session %s',
+        request.session['OPENID_REQUEST'], request.session)
     if not login_url:
         login_url = settings.LOGIN_URL
     path = request.get_full_path()
