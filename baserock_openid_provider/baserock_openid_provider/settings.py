@@ -14,7 +14,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -54,6 +53,35 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'baserock_openid_provider.urls'
 
 WSGI_APPLICATION = 'baserock_openid_provider.wsgi.application'
+
+
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '/var/log/baserock_openid_provider/debug.log',
+            'maxBytes': 10 * 1024 * 1024,
+            'backupCount': 0,
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'openid_provider.views': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        }
+    }
+}
 
 
 # Database

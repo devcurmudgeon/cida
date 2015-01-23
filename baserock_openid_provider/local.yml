@@ -38,3 +38,6 @@
 
   - name: install Cherokee configuration
     shell: ln -sf /srv/baserock_openid_provider/cherokee.conf /etc/cherokee/cherokee.conf
+
+  - name: create log directory for baserock_openid_provider
+    file: path=/var/log/baserock_openid_provider owner=uwsgi group=uwsgi state=directory
