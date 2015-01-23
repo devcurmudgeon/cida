@@ -39,6 +39,8 @@
         login_host=127.0.0.1
         login_user=root
         login_password={{ root_password }}
+        collation='utf8_unicode_ci',
+        encoding='utf8',
       with_items:
         - openid_provider
         - storyboard
