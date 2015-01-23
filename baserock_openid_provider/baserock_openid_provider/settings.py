@@ -99,7 +99,7 @@ DATABASES = {
         # gets the IP of the 'baserock-database' container from the
         # environment, which Docker will have set if you passed it
         # `--link=baseock-database:db`.
-        'HOST': os.environ['DB_PORT_3306_TCP_ADDR']
+        'HOST': os.environ.get('DB_PORT_3306_TCP_ADDR', '192.168.222.30')
     }
 }
 
