@@ -15,3 +15,8 @@ chunks:
   unpetrify-ref: 0.10.7
   build-depends:
   - pip
+- name: python-requests
+  repo: upstream:python-requests
+  ref: b891877ee6d76b0a3f8cbf2e7cd34cc4cbc40b6b
+  unpetrify-ref: baserock/morph
+  build-depends: []
