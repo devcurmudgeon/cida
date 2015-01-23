@@ -37,7 +37,7 @@
     yum: name=MySQL-python state=latest
 
   - name: install Cherokee configuration
-    shell: ln -sf /srv/baserock_openid_provider/cherokee.conf /etc/cherokee/cherokee.conf
+    file: src=/srv/baserock_openid_provider/cherokee.conf dest=/etc/cherokee/cherokee.conf state=link
 
   - name: create log directory for baserock_openid_provider
     file: path=/var/log/baserock_openid_provider owner=uwsgi group=uwsgi state=directory
