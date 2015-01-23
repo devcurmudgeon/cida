@@ -132,6 +132,26 @@ def openid_xrds(request, identity=False, id=None):
         'endpoints': endpoints,
     }, context_instance=RequestContext(request), content_type=YADIS_CONTENT_TYPE)
 
+
+def url_for_openid(request, openid):
+    return request.build_absolute_uri(
+        reverse('openid-provider-identity', args=[openid.openid]))
+
+
+def openid_not_found_error_message(request, identity_url):
+    ids = request.user.openid_set
+    if ids.count() == 0:
+        message = "You have no OpenIDs configured. Contact the administrator."
+    else:
+        id_urls = [url_for_openid(request, id) for id in ids.iterator()]
+        id_urls = ', '.join(id_urls)
+        if ids.count() != 1:
+            message = "You somehow have multiple OpenIDs: " + id_urls
+        else:
+            message = "Your OpenID URL is: " + id_urls
+    return "You do not have the OpenID '%s'. %s" % (identity_url, message)
+
+
 def openid_decide(request):
     """
     The page that asks the user if they really want to sign in to the site, and
@@ -151,8 +171,10 @@ def openid_decide(request):
 
     openid = openid_get_identity(request, orequest.identity)
     if openid is None:
-        return error_page(
-            request, "You are signed in but you don't have OpenID here!")
+        # User should only ever have one OpenID, created for them when they
+        # registered.
+        message = openid_not_found_error_message(request, orequest.identity)
+        return error_page(request, message)
 
     if request.method == 'POST' and request.POST.get('decide_page', False):
         if request.POST.get('allow', False):
@@ -246,9 +268,13 @@ def openid_get_identity(request, identity_url):
     - if user has no default one, return any
     - in other case return None!
     """
+    logger.debug('Looking for %s in user %s set of OpenIDs %s',
+                 identity_url, request.user, request.user.openid_set)
     for openid in request.user.openid_set.iterator():
-        if identity_url == request.build_absolute_uri(
-                reverse('openid-provider-identity', args=[openid.openid])):
+        logger.debug(
+            'Comparing: %s with %s', identity_url,
+            url_for_openid(request, openid))
+        if identity_url == url_for_openid(request, openid):
             return openid
     if identity_url == 'http://specs.openid.net/auth/2.0/identifier_select':
         # no claim was made, choose user default openid:
