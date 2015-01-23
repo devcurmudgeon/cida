@@ -168,6 +168,14 @@ def openid_decide(request):
     if not request.user.is_authenticated():
         return landing_page(request, orequest)
 
+    if orequest is None:
+        # This isn't normal, but can occur if the user uses the 'back' button
+        # or if the session data is otherwise lost for some reason.
+        return error_page(
+            request, "I've lost track of your session now. Sorry! Please go "
+                     "back to the site you are logging in to with a Baserock "
+                     "OpenID and, if you're not yet logged in, try again.")
+
     openid = openid_get_identity(request, orequest.identity)
     if openid is None:
         # User should only ever have one OpenID, created for them when they
