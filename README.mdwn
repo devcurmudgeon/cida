@@ -133,7 +133,7 @@ To deploy this system to production:
 Now you need to SSH into the system (via the frontend system perhaps) and run
 the database migrations, before the app will work:
 
-    python /srv/baserock_openid_provider/manage.py migrate
+    sudo -u cherokee python /srv/baserock_openid_provider/manage.py migrate
 
 FIXME: I guess this could be done with cloud-init.
 
