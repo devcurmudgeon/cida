@@ -40,4 +40,10 @@
     file: src=/srv/baserock_openid_provider/cherokee.conf dest=/etc/cherokee/cherokee.conf state=link
 
   - name: create log directory for baserock_openid_provider
-    file: path=/var/log/baserock_openid_provider owner=uwsgi group=uwsgi state=directory
+    file: path=/var/log/baserock_openid_provider owner=cherokee group=cherokee state=directory
+
+  - name: create directory for static content
+    file: path=/var/www/static owner=cherokee group=cherokee state=directory
+
+  - name: install static content
+    django_manage: app_path=/srv/baserock_openid_provider command=collectstatic
