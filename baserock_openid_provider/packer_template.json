@@ -14,7 +14,7 @@
             "flavor": "f0577618-9125-4948-b450-474e225bbc4c",
             "source_image": "742e0414-c985-4994-b307-4aafade942b3",
             "networks": ["d079fa3e-2558-4bcb-ad5a-279040c202b5"],
-            "floating_ip": "85.199.252.164",
+            "floating_ip": "185.43.218.169",
             "use_floating_ip": true,
             "ssh_username": "fedora"
         }
@@ -29,17 +29,6 @@
         },
         {
             "type": "file",
-            "source": "database/baserock_openid_provider.database_password.yml",
-            "destination": "/var/tmp/baserock_openid_provider.database_password.yml"
-        },
-        {
-            "type": "shell",
-            "inline": [
-               "sudo mv /var/tmp/baserock_openid_provider.database_password.yml /var/lib"
-            ]
-        },
-        {
-            "type": "file",
             "source": "baserock_openid_provider",
             "destination": "/srv",
             "only": ["production"]
@@ -50,7 +39,7 @@
         },
         {
             "type": "ansible-local",
-            "playbook_file": "baserock_openid_provider/local.yml",
+            "playbook_file": "baserock_openid_provider/image-config.yml",
             "command": "sudo ansible-playbook"
         },
         {
@@ -65,9 +54,7 @@
             "inline": [
                 "sudo yum install -y libselinux-python",
                 "sudo ansible localhost -m selinux -a state=disabled",
-                "sudo setenforce 0",
-                "sudo systemctl enable cherokee",
-                "sudo systemctl start cherokee"
+                "sudo setenforce 0"
             ],
             "only": ["production"]
         },

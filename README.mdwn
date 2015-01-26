@@ -122,21 +122,21 @@ To deploy a development instance:
 To deploy this system to production:
 
     vim baserock_openid_provider/baserock_openid_provider/settings.py
-    # Edit the DATABASES['default']['HOST'] to point to the fixed IP of
-    # the 'database' machine.
-    packer build -only=production database/packer_template.json
-    nova boot openid_provider
-        --flavor dc1.1x1 --image 'baserock_openid_provider' \
-        --key-name=<your-keypair> openid.baserock.org \
-        --nic='net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5'
 
-Now you need to SSH into the system (via the frontend system perhaps) and run
-the database migrations, before the app will work:
+Edit the DATABASES['default']['HOST'] to point to the fixed IP of the
+'database' machine, and check the settings. See:
+https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-    sudo -u cherokee python /srv/baserock_openid_provider/manage.py migrate
+    packer build -only=production baserock_openid_provider/packer_template.json
 
-FIXME: I guess this could be done with cloud-init.
+    nova boot openid.baserock.org \
+        --key-name <your-keypair> \
+        --flavor dc1.1x1 \
+        --image 'baserock_openid_provider' \
+        --nic 'net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5',v4-fixed-ip=192.168.222.67 \
+        --user-data ./baserock-ops-team.cloud-config
 
+    ansible-playbook -i hosts baserock_openid_provider/instance-config.yml
 
 Storyboard
 ----------
@@ -160,6 +160,11 @@ To deploy the production version:
 Deployment to DataCentred
 -------------------------
 
+The following error from Packer means that you didn't set your credentials
+correctly in the `OS_...` environment variables, or they were not accepted.
+
+> Build 'production' errored: Missing or incorrect provider
+
 When instantiating a machine that will be public, remember that all operators
 who are responsible for security updates and maintenance must be given access
 to the machine. This can be done using a post-creation customisation script
@@ -167,7 +172,7 @@ that injecting all of their SSH keys: the Baserock Ops team use the file
 `baserock-ops-team.cloud-config` from this repo.
 
 The the Packer tool requires a floating IP to be available at the time a system
-is being deployed to OpenStack. Currently 85.199.252.152 should be used for
+is being deployed to OpenStack. Currently 185.43.218.169 should be used for
 this.  If you specify a floating IP that is in use by an existing instance, you
 will steal it for your own instance and probably break one of our web services.
 

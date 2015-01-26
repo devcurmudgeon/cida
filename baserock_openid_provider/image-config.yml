@@ -1,3 +1,6 @@
+# Image configuration for Baserock OpenID provider.
+#
+# This playbook is run at image-creation time by Packer.
 ---
 - hosts: localhost
   tasks:
@@ -40,18 +43,10 @@
     yum: name=MySQL-python state=latest
 
   - name: install Cherokee configuration
-    file: src=/srv/baserock_openid_provider/cherokee.conf dest=/etc/cherokee/cherokee.conf state=link
+    file: src=/srv/baserock_openid_provider/cherokee.conf dest=/etc/cherokee/cherokee.conf state=link force=yes
 
   - name: create log directory for baserock_openid_provider
     file: path=/var/log/baserock_openid_provider owner=cherokee group=cherokee state=directory
 
   - name: create directory for static content
     file: path=/var/www/static owner=cherokee group=cherokee state=directory
-
-  - name: install static content
-    django_manage: app_path=/srv/baserock_openid_provider command=collectstatic
-
-  # Default configuration of Sendmail in Fedora is to only accept connections from
-  # localhost. This is what we want.
-  - name: enable and start sendmail service
-    service: name=sendmail enabled=yes state=started

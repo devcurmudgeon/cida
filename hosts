@@ -18,7 +18,7 @@ mason-x86-64.baserock.org ansible_ssh_host=192.168.222.13
 [fedora]
 frontend-haproxy ansible_ssh_host=185.43.218.170
 database-mariadb ansible_ssh_host=192.168.222.30
-openid.baserock.org ansible_ssh_host=192.168.222.39
+openid.baserock.org ansible_ssh_host=192.168.222.67
 storyboard.baserock.org ansible_ssh_host=192.168.222.40
 
 [ubuntu]

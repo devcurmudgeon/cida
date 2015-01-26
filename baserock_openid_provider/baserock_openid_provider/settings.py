@@ -18,14 +18,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#k9g0dclqiqxomjk2=&fu+$n-(b$d4**5usy!%(b3#k8m)qpif'
+secret_key_file = '/etc/baserock_openid_provider.secret_key.yml'
+with open(secret_key_file) as f:
+    data = yaml.load(f)
+    SECRET_KEY = data['baserock_openid_provider_secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'openid.baserock.org',
+]
 
 
 # Application definition
@@ -105,11 +110,7 @@ DATABASES = {
 }
 
 
-# This file lives under /var/lib currently so that the user who runs
-# this code can read it. That user is 'uwsgi'. Putting it in /srv would
-# be fine except that it interferes with the way development deployments
-# are done.
-pw_file = '/var/lib/baserock_openid_provider.database_password.yml'
+pw_file = '/etc/baserock_openid_provider.database_password.yml'
 with open(pw_file) as f:
     data = yaml.load(f)
     password = data['baserock_openid_provider_password']
