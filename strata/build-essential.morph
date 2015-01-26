@@ -42,7 +42,7 @@ chunks:
   morph: strata/build-essential/stage1-binutils.morph
   repo: upstream:binutils-redhat
   ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
-  unpetrify-ref: baserock/tiagogomes/update-toolchain
+  unpetrify-ref: baserock/build-essential
   build-depends: []
   build-mode: bootstrap
   prefix: /tools
@@ -51,7 +51,7 @@ chunks:
   morph: strata/build-essential/stage1-gcc.morph
   repo: upstream:gcc-tarball
   ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
-  unpetrify-ref: baserock/tiagogomes/update-toolchain
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   build-mode: bootstrap
@@ -84,7 +84,7 @@ chunks:
   morph: strata/build-essential/stage2-libstdc++.morph
   repo: upstream:gcc-tarball
   ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
-  unpetrify-ref: baserock/tiagogomes/update-toolchain
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -96,7 +96,7 @@ chunks:
   morph: strata/build-essential/stage2-binutils.morph
   repo: upstream:binutils-redhat
   ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
-  unpetrify-ref: baserock/tiagogomes/update-toolchain
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -108,7 +108,7 @@ chunks:
   morph: strata/build-essential/stage2-gcc-fixed-headers.morph
   repo: upstream:gcc-tarball
   ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
-  unpetrify-ref: baserock/tiagogomes/update-toolchain
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -120,7 +120,7 @@ chunks:
   morph: strata/build-essential/stage2-gcc.morph
   repo: upstream:gcc-tarball
   ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
-  unpetrify-ref: baserock/tiagogomes/update-toolchain
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -274,7 +274,7 @@ chunks:
   morph: strata/build-essential/binutils.morph
   repo: upstream:binutils-redhat
   ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
-  unpetrify-ref: baserock/tiagogomes/update-toolchain
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -341,7 +341,7 @@ chunks:
   morph: strata/build-essential/gcc.morph
   repo: upstream:gcc-tarball
   ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
-  unpetrify-ref: baserock/tiagogomes/update-toolchain
+  unpetrify-ref: baserock/build-essential
   build-depends:
   - stage2-binutils
   - stage2-busybox
