@@ -142,3 +142,15 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 # Other stuff
 
 LOGIN_REDIRECT_URL = '/'
+
+
+# We get mailed when stuff breaks.
+ADMINS = (
+    ('Sam Thursfield', 'sam.thursfield@codethink.co.uk'),
+)
+
+# FIXME: this email address doesn't actually exist.
+DEFAULT_FROM_EMAIL = 'openid@baserock.org'
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
