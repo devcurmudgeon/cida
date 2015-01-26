@@ -28,12 +28,6 @@ chunks:
   ref: 3898e324f07c05404b63d71f0e519f352fb1e072
   unpetrify-ref: baserock/build-essential
   build-depends: []
-- name: m4
-  morph: strata/core/m4.morph
-  repo: upstream:m4
-  ref: cfbd353f3a2dc517992bcdc747281a22feb0c4db
-  unpetrify-ref: baserock/build-essential
-  build-depends: []
 - name: mini-utils
   morph: strata/core/mini-utils.morph
   repo: baserock:baserock/mini-utils
@@ -72,7 +66,6 @@ chunks:
   ref: cffdb90be331111ce3fbe4a32320181ec2b92652
   unpetrify-ref: baserock/build-essential
   build-depends:
-  - m4
   - perl
 - name: automake
   morph: strata/core/automake.morph
@@ -94,8 +87,7 @@ chunks:
   repo: upstream:flex
   ref: de10f98e8a2dc2a021796811490d0f30c3cd90bf
   unpetrify-ref: baserock/build-essential
-  build-depends:
-  - m4
+  build-depends: []
 - name: openssl-new
   morph: strata/core/openssl-new.morph
   repo: upstream:openssl-new

@@ -22,6 +22,7 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: gdb
+  morph: strata/tools/gdb.morph
   repo: upstream:gdb
   ref: c4bf5268b1a32ec475b61d2fe90e9218780c03c8
   unpetrify-ref: baserock/morph
