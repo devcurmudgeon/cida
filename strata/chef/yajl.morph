@@ -1,0 +1,6 @@
+name: yajl
+kind: chunk
+description: YAJL JSON parsing library
+build-system: cmake
+max-jobs: 1
+

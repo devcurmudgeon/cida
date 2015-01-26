@@ -1,0 +1,32 @@
+name: devtools
+kind: stratum
+description: |
+  Extra development tools included in the devel system, this stratum
+  is here to help reduce unnecessary building, chunks added to this
+  stratum should not have any dependants (please don't build-depend on this
+  stratum)
+build-depends:
+- morph: strata/foundation.morph
+chunks:
+- name: vim
+  morph: strata/devtools/vim.morph
+  repo: upstream:vim
+  ref: 07c2c06799e0579e6bfb1a7d98acf38e36a98f79
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: pv
+  repo: upstream:pv
+  ref: d6ce7cfec684fa72d7a919d7b1aa817a0ca6102a
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: screen
+  morph: strata/devtools/screen.morph
+  repo: upstream:screen
+  ref: 7dd4a9e5f385c96a77e8ee5c977a1dde4c0ff467
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: less
+  repo: upstream:less
+  ref: 09a405d8f652b56944c93ebf5c673cdfe5319b04
+  unpetrify-ref: baserock/morph
+  build-depends: []

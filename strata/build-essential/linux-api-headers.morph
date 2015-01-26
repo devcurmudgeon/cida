@@ -1,6 +1,20 @@
 name: linux-api-headers
 kind: chunk
 install-commands:
-- ARCH=$(./morph-arch) make INSTALL_HDR_PATH=dest headers_install
+- |
+  case "$MORPH_ARCH" in
+      armv7b|armv7l|armv7lhf)
+          ARCH="arm" ;;
+      x86_32)
+          ARCH="i386" ;;
+      x86_64)
+          ARCH="x86_64" ;;
+      ppc64)
+          ARCH="powerpc" ;;
+      *)
+          echo "Error: unsupported Morph architecture: $MORPH_ARCH" >&2
+          exit 1
+  esac
+  ARCH=$ARCH make INSTALL_HDR_PATH=dest headers_install
 - install -d "$DESTDIR${PREFIX-/usr}/include"
 - cp -r dest/include/* "$DESTDIR/${PREFIX-/usr}/include"

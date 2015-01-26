@@ -18,9 +18,32 @@ strata:
   morph: strata/ceph-service.morph
 - name: tools
   morph: strata/tools.morph
+- name: ruby
+  morph: strata/ruby.morph
+- name: ntpd
+  morph: strata/ntpd.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
+- name: openstack-clients
+  morph: strata/openstack-clients.morph
+- name: cloudinit-support
+  morph: strata/cloudinit-support.morph
+- name: nodejs
+  morph: strata/nodejs.morph
+- name: lorry
+  morph: strata/lorry.morph
+- name: baserock-import
+  morph: strata/baserock-import.morph
+- name: nfs
+  morph: strata/nfs.morph
+- name: python-tools
+  morph: strata/python-tools.morph
+- name: chef
+  morph: strata/chef.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
 - nfsboot
 - install-files
 - ceph
+- cloud-init

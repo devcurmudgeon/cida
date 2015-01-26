@@ -1,0 +1,36 @@
+name: hardware-deployment
+kind: cluster
+description: |
+  Deploy a build-system into hardware using the combination
+  of the pxeboot.write extension and the installer system.
+  This examples uses the spawn-novlan mode of pxeboot.write.
+systems:
+- morph: systems/installer-system-x86_64.morph
+  deploy:
+    installer:
+      type: pxeboot
+      location: AB:CD:EF:12:34:56:78   #MAC address.
+      PXEBOOT_MODE: spawn-novlan
+      PXEBOOT_DEPLOYER_INTERFACE: ens6
+      DISK_SIZE: 6G
+      KERNEL_ARGS: console=ttyS1,9600 console=tty0 init=/usr/lib/baserock-installer/installer
+      HOSTNAME: installer-system
+      IPMI_USER: myipmiuser
+      IPMI_PASSWORD: myipmipassword
+      IPMI_HOST: 123.34.45.120         #IPMI ip address
+      INSTALLER_TARGET_STORAGE_DEVICE: /dev/sda
+      INSTALLER_ROOTFS_TO_INSTALL: /rootfs
+  subsystems:
+  - morph: systems/build-system-x86_64.morph
+    deploy:
+      to-install:
+        type: sysroot
+        location: /rootfs
+        INITRAMFS_PATH: boot/initramfs.gz
+        KERNEL_ARGS: console=ttyS1,9600 console=tty0
+    subsystems:
+    - morph: systems/initramfs-x86_64.morph
+      deploy:
+        initramfs:
+          type: initramfs
+          location: boot/initramfs.gz

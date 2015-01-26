@@ -1,0 +1,5 @@
+name: ipmitool
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- touch NEWS

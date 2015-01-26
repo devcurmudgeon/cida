@@ -2,6 +2,7 @@
 
 import itertools
 import os
+import subprocess
 import sys
 flatten = itertools.chain.from_iterable
 
@@ -18,7 +19,7 @@ valid_option_sets = frozenset((
     ('existing-server', frozenset(('PXEBOOT_CONFIG_TFTP_ADDRESS',
                                    'PXEBOOT_ROOTFS_RSYNC_ADDRESS'))),
 ))
-valid_modes = frozenset(mode for (mode, opt_set in valid_option_sets))
+valid_modes = frozenset(mode for mode, opt_set in valid_option_sets)
 
 
 def compute_matches(env):
@@ -27,6 +28,7 @@ def compute_matches(env):
         if all(k in env for k in opt_set):
             complete_matches.add(opt_set)
     return complete_matches
+
 complete_matches = compute_matches(os.environ)
 
 def word_separate_options(options):
@@ -39,7 +41,7 @@ def word_separate_options(options):
 
 valid_options = frozenset(flatten(opt_set for (mode, opt_set)
                                   in valid_option_sets))
-matched_options = frozenset(o for o in valid_options)
+matched_options = frozenset(o for o in valid_options
                             if o in os.environ)
 if not complete_matches:
     addable_sets = frozenset(frozenset(os) - matched_options for os in
@@ -53,17 +55,32 @@ elif len(complete_matches) > 1:
     removable_sets = frozenset(matched_options - frozenset(os) for os in
                                powerset(matched_options)
                                if len(compute_matches(os)) == 1)
-    print('Please unset %s' % ' or '.join(
+    print('WARNING: Following options might not be needed: %s' % ' or '.join(
             word_separate_options(list(opt_set))
             for opt_set in removable_sets if opt_set))
-    sys.exit(1)
 
 if 'PXEBOOT_MODE' in os.environ:
     mode = os.environ['PXEBOOT_MODE']
 else:
-    mode, = (mode for (mode, opt_set) in valid_option_sets
-             if all(o in os.environ for o in opt_set))
+    try:
+        mode, = (mode for (mode, opt_set) in valid_option_sets
+                 if all(o in os.environ for o in opt_set))
+
+    except ValueError as e:
+        print ('More than one candidate for PXEBOOT_MODE, please '
+               'set a value for it. Type `morph help pxeboot.write for '
+               'more info')
+        sys.exit(1)
 
 if mode not in valid_modes:
     print('%s is not a valid PXEBOOT_MODE' % mode)
     sys.exit(1)
+
+if mode != 'existing-server':
+    with open(os.devnull, 'w') as devnull:
+        if subprocess.call(['systemctl', 'is-active', 'nfs-server'],
+                           stdout=devnull) != 0:
+            print ('ERROR: nfs-server.service is not running and is needed '
+               'for this deployment. Please, run `systemctl start nfs-server` '
+               'and try `morph deploy` again.')
+            sys.exit(1)
