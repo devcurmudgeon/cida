@@ -1,22 +1,15 @@
-# User account configuration for Baserock database server.
+# MariaDB configuration for Baserock database server.
 #
-# If you're setting up a production deployment, you'll need to temporarily give
-# the database instance a public floating IP, then edit 'hosts' in this file
-# to point to that IP and run:
-#
-#   ansible-playbook database/user_config.yml
-#
-# The relevant .database_password.yml files will need to be available too.
-# You should then remove the floating IP from the instance (you can re-add one
-# any time you want to remotely administer the database).
+# The relevant .database_password.yml files will need to be available already.
+# Create these manually and keep them somewhere safe and secret.
 ---
-- hosts: all
+- hosts: database-mariadb
   vars_files:
     - root.database_password.yml
     - baserock_openid_provider.database_password.yml
     - baserock_storyboard.database_password.yml
   tasks:
-    - name: configuring the root database user
+    - name: creating root database user
       mysql_user: |
         name=root
         password={{ root_password }}
@@ -39,8 +32,8 @@
         login_host=127.0.0.1
         login_user=root
         login_password={{ root_password }}
-        collation='utf8_unicode_ci',
-        encoding='utf8',
+        collation=utf8_unicode_ci
+        encoding=utf8
       with_items:
         - openid_provider
         - storyboard

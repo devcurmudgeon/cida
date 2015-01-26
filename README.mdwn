@@ -77,34 +77,21 @@ To deploy a development instance:
 To deploy this system to production:
 
     packer build -only=production database/packer_template.json
-    nova boot \
-        --flavor dc1.1x1 --image 'database-mariadb' \
-        --key-name=<your-keypair> database-mariadb \
-        --nic='net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5,v4-fixed-ip=192.168.222.30'
+    nova boot database-mariadb \
+        --key-name=<your keypair> \
+        --flavor dc1.1x1 \
+        --image 'database-mariadb' \
+        --nic='net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5,v4-fixed-ip=192.168.222.30' \
+        --user-data ./baserock-ops-team.cloud-config
     nova volume-create \
         --display-name database-volume \
         --display-description 'Database volume' \
-        10
-    nova volume-attach database-mariadb <volume ID> auto
+        --volume-type Ceph \
+        100
+    nova volume-attach database-mariadb <volume ID> /dev/vdb
 
-    nova floating-ip-associate database-mariadb <some floating IP>
-
-    # Set up the volume inside the machine
-    echo <IP> > dbhost
-    ansible \* -i dbhost --user=fedora --sudo -m shell \
-        -a "mkfs.ext4 /dev/vdb -L database-volume"
-    ansible \* -i dbhost --user=fedora --sudo -m lineinfile \
-        -a "dest=/etc/fstab create=yes line='LABEL=database-volume /var/lib/mysql ext4 defaults 1 2'"
-    ansible \* -i dbhost --user=fedora --sudo -m shell \
-        -a "mount -a"
-
-    # FIXME: here we start the service before setting the root password!!!!
-    ansible \* -i dbhost --user=fedora --sudo -m service \
-        -a "name=mariadb enabled=true state=started"
-
-    ansible-playbook -i dbhost --user=fedora database/user_config.yml
-
-    nova floating-ip-disassociate database-mariadb <some floating IP>
+    ansible-playbook -i hosts database/instance-config.yml
+    ansible-playbook -i hosts database/instance-mariadb-config.yml
 
 
 OpenID provider
@@ -199,3 +186,22 @@ To run an ad-hoc command (upgrading, for example):
 
     ansible-playbook -i hosts fedora -m command -a 'sudo yum update -y'
     ansible-playbook -i hosts ubuntu -m command -a 'sudo apt-get update -y'
+
+Backups
+-------
+
+The database server doesn't yet have automated backups running. You can
+manually take a backup like this:
+
+    sudo systemctl stop mariadb.service
+    sudo lvcreate \
+        --name database-backup-20150126 \
+        --snapshot /dev/vg0/database \
+        --extents 100%ORIGIN \
+        --permission=r
+    sudo systemctl start mariadb.service
+    sudo mount /dev/vg0/database-backup-20150126 /mnt
+    # use your preferred backup tool (`rsync` is recommended) to extract the
+    # contents of /mnt somewhere safe.
+    sudo umount /dev/vg0/database-backup-20150126
+    sudo lvremove /dev/vg0/database-backup-20150126

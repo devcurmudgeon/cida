@@ -1,0 +1,37 @@
+# Instance configuration for Baserock database server.
+#
+# This script expects a volume to be available at /dev/vdb.
+---
+- hosts: database-mariadb
+  sudo: yes
+  vars:
+    DATABASE_VOLUME_SIZE: 25g
+  tasks:
+    - name: ensure system up to date
+      yum: name=* state=latest
+
+    - name: ensure LVM metadata service is running
+      service: name=lvm2-lvmetad enabled=yes state=started
+
+    # We use LVM on the storage volume to allow taking a snapshot of the
+    # database as part of the database backup procedure.
+    - name: LVM logical volume group on /dev/vdb
+      lvg: vg=vg0 pvs=/dev/vdb
+
+    - name: logical volume for database
+      lvol: vg=vg0 lv=database size={{ DATABASE_VOLUME_SIZE }}
+
+    # This will NEVER overwrite an existing filesystem. Unless you add
+    # 'force=yes' to the arguments. So don't do that. See:
+    # http://docs.ansible.com/filesystem_module.html.
+    - name: ext4 filesystem on /dev/vg0/database
+      filesystem: fstype=ext4 dev=/dev/vg0/database
+
+    - name: mount database logical volume
+      mount: src=/dev/vg0/database name=/var/lib/mysql fstype=ext4 state=mounted
+
+    - name: ensure mysql user owns /var/lib/mysql
+      file: path=/var/lib/mysql owner=mysql group=mysql mode=600 state=directory
+
+    - name: restart the MariaDB service
+      service: name=mariadb enabled=true state=restarted
