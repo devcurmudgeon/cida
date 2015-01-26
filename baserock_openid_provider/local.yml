@@ -12,6 +12,9 @@
   - name: install PIP package manager
     yum: name=python-pip state=latest
 
+  - name: install Sendmail mail transfer agent
+    yum: name=sendmail state=latest
+
   - name: install uWSGI application container server and Python plugin
     yum: name=uwsgi-plugin-python state=latest
 
@@ -47,3 +50,8 @@
 
   - name: install static content
     django_manage: app_path=/srv/baserock_openid_provider command=collectstatic
+
+  # Default configuration of Sendmail in Fedora is to only accept connections from
+  # localhost. This is what we want.
+  - name: enable and start sendmail service
+    service: name=sendmail enabled=yes state=started
