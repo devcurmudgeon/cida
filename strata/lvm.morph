@@ -11,6 +11,6 @@ chunks:
 - name: lvm2
   morph: strata/lvm/lvm2.morph
   repo: upstream:lvm2
-  ref: 8c5b90b50bdf9f1a7ae1d3c4cf58ce4b0d7c2768
-  unpetrify-ref: baserock/morph
+  ref: fa01faaa4aa96de834ba7e8fbb9d9aff908571c3
+  unpetrify-ref: v2_02_115
   build-depends: []
