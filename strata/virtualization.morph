@@ -16,19 +16,12 @@ chunks:
   ref: 1d4a2abc875c4dda1b5eadc0a097a48a8d2ec82b
   unpetrify-ref: master
   build-depends: []
-- name: lvm2
-  morph: strata/virtualization/lvm2.morph
-  repo: upstream:lvm2
-  ref: 8c5b90b50bdf9f1a7ae1d3c4cf58ce4b0d7c2768
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: dnsmasq
   morph: strata/virtualization/dnsmasq.morph
   repo: upstream:dnsmasq
   ref: 8471cd938ca41fbe4fee8ae3f657625c92cfb954
   unpetrify-ref: baserock/morph
-  build-depends:
-  - lvm2
+  build-depends: []
 - name: qemu
   morph: strata/virtualization/qemu.morph
   repo: upstream:qemu

@@ -1,0 +1,16 @@
+name: lvm
+kind: stratum
+description: |
+  LVM userland tools.
+
+  LVM is a logical volume manager for the Linux kernel. This stratum contains
+  the tools necessary to manage volumes with LVM.
+build-depends:
+- morph: strata/foundation.morph
+chunks:
+- name: lvm2
+  morph: strata/lvm/lvm2.morph
+  repo: upstream:lvm2
+  ref: 8c5b90b50bdf9f1a7ae1d3c4cf58ce4b0d7c2768
+  unpetrify-ref: baserock/morph
+  build-depends: []
