@@ -1,0 +1,16 @@
+name: lorry-controller
+kind: stratum
+description: |
+  Lorry Controller mirroring service.
+
+  This is a component of Trove, but can
+  also be used with other Git servers.
+build-depends:
+- morph: strata/foundation.morph
+chunks:
+- name: lorry-controller
+  morph: strata/trove/lorry-controller.morph
+  repo: baserock:baserock/lorry-controller
+  ref: 4b1fcab140d940470c342c6857cdc8682406f0b7
+  unpetrify-ref: master
+  build-depends: []
