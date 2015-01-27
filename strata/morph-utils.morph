@@ -71,7 +71,7 @@ chunks:
   build-depends: []
 - name: morph
   repo: baserock:baserock/morph
-  ref: f2f3e4e5f3d5162890d03494f405cff5177aaad8
+  ref: f0c5d4c0ef35cc43aa059cd2255e41c60c4cac77
   unpetrify-ref: master
   build-depends:
   - cliapp
