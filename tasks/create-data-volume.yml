@@ -1,0 +1,26 @@
+# Format a volume for data storage
+#
+# The pattern is to create an LVM volume group on the volume, with
+# one logical volume set up. Snapshots can be taken of the data LV
+# very quickly, allowing us to take backup copies without requiring
+# long periods of downtime for the relevant services.
+---
+
+- name: ensure LVM metadata service is running
+  service: name=lvm2-lvmetad enabled=yes state=started
+
+- name: LVM logical volume group on /dev/vdb
+  lvg: vg=vg0 pvs=/dev/vdb
+
+- name: logical volume for {{ lv_name }}
+  lvol: vg=vg0 lv={{ lv_name }} size={{ lv_size }}
+
+# This will NEVER overwrite an existing filesystem. Unless you add
+# 'force=yes' to the arguments. So don't do that. See:
+# http://docs.ansible.com/filesystem_module.html.
+- name: ext4 filesystem on /dev/vg0/{{ lv_name }}
+  filesystem: fstype=ext4 dev=/dev/vg0/{{ lv_name }}
+
+- name: mount {{ lv_name }} logical volume
+  mount: src=/dev/vg0/{{ lv_name }} name={{ mountpoint }} fstype=ext4 state=mounted
+
