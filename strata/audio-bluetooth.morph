@@ -77,8 +77,8 @@ chunks:
 - name: json-c
   morph: strata/audio-bluetooth/json-c.morph
   repo: upstream:json-c
-  ref: 60a5f3dedc879db3e5dacdd3b7e3e543c2e1bae7
-  unpetrify-ref: baserock/morph
+  ref: e8bd6865d7a671e9f75ece05dfe86a19ba610581
+  unpetrify-ref: baserock/json-c-0.12-20140410-plus-patch
   build-depends: []
 - name: libsndfile
   morph: strata/audio-bluetooth/libsndfile.morph
