@@ -7,6 +7,7 @@
   gather_facts: False
   vars_files:
     - root.database_password.yml
+    - baserock_gerrit.database_password.yml
     - baserock_openid_provider.database_password.yml
     - baserock_storyboard.database_password.yml
   tasks:
@@ -26,6 +27,8 @@
         login_user=root
         login_password={{ root_password }}
 
+    # Note that UTF-8 encoding and collation is *not* the default. Don't remove
+    # those lines or you will end up with a horrible disaster of a database.
     - name: adding databases
       mysql_db: |
         name={{ item }}
@@ -36,6 +39,7 @@
         collation=utf8_unicode_ci
         encoding=utf8
       with_items:
+        - reviewdb
         - openid_provider
         - storyboard
 
@@ -56,6 +60,9 @@
         login_user=root
         login_password={{ root_password }}
       with_items:
+        - name: gerrit
+          password: "{{ baserock_gerrit_password }}"
+          priv: reviewdb.*:ALL
         - name: openid
           password: "{{ baserock_openid_provider_password }}"
           priv: openid_provider.*:ALL
