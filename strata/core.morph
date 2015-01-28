@@ -70,8 +70,8 @@ chunks:
 - name: automake
   morph: strata/core/automake.morph
   repo: upstream:automake
-  ref: ba4b42faff673e3e5265416dff09e59affc688fb
-  unpetrify-ref: v1.14.1
+  ref: db43dd473361d90d8b00362cfef5bac8e722000d
+  unpetrify-ref: v1.15
   build-depends:
   - autoconf
   - perl
