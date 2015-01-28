@@ -3,6 +3,7 @@
 # This script expects a volume to be available at /dev/vdb.
 ---
 - hosts: database-mariadb
+  gather_facts: False
   sudo: yes
   vars:
     DATABASE_VOLUME_SIZE: 25g

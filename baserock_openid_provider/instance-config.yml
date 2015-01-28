@@ -4,6 +4,7 @@
 # OpenID Provider image.
 ---
 - hosts: openid.baserock.org
+  gather_facts: False
   sudo: yes
   tasks:
   - name: ensure system up to date

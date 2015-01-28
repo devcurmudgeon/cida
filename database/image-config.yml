@@ -4,6 +4,7 @@
 # command `sudo ansible-playbook`.
 ---
 - hosts: localhost
+  gather_facts: False
   tasks:
   - name: enable persistant journal
     shell: mkdir /var/log/journal

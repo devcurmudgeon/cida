@@ -4,6 +4,7 @@
 # Create these manually and keep them somewhere safe and secret.
 ---
 - hosts: database-mariadb
+  gather_facts: False
   vars_files:
     - root.database_password.yml
     - baserock_openid_provider.database_password.yml
