@@ -27,6 +27,8 @@ strata:
   morph: strata/genivi.morph
 - name: tools
   morph: strata/tools.morph
+- name: lvm
+  morph: strata/lvm.morph
 - name: virtualization
   morph: strata/virtualization.morph
 - name: openstack-clients

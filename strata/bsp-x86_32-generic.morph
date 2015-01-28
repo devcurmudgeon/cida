@@ -21,6 +21,6 @@ chunks:
   morph: strata/bsp-x86_32-generic/syslinux.morph
   repo: upstream:syslinux
   ref: 2aab8555987b547b617cbb887e61083fece01541
-  unpetrify-ref: baserock/tiagogomes/update-toolchain
+  unpetrify-ref: baserock/morph
   build-depends:
   - nasm
