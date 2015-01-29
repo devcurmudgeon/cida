@@ -82,8 +82,8 @@ chunks:
 - name: systemd
   morph: strata/foundation/systemd.morph
   repo: upstream:systemd
-  ref: 941a643569dc6b53d0b334276d2a3cc0ed159e88
-  unpetrify-ref: v217
+  ref: df0082ede6d0ca4db6773747eaf1c36d97458744
+  unpetrify-ref: baserock/v218-with-canonical-hostname-fix
   build-depends:
   - dbus-pre
   - gobject-introspection
