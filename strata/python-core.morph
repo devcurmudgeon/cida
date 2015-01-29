@@ -1,0 +1,11 @@
+name: python-core
+kind: stratum
+description: Core python packages
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: pip
+  repo: upstream:pip
+  ref: ea680f204fb0e48789710c22c8f597a9bf01bc16
+  unpetrify-ref: baserock/master
+  build-depends: []
