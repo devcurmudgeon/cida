@@ -5,8 +5,8 @@ useful python tools that we don't want to include in core."
 build-depends:
 - morph: strata/core.morph
 chunks:
-- name: pip
-  repo: upstream:pip
-  ref: ea680f204fb0e48789710c22c8f597a9bf01bc16
-  unpetrify-ref: baserock/master
+- name: virtualenv
+  repo: upstream:python-packages/virtualenv
+  ref: 9205ff46a67130e8835f14bb4f802fd59e7dcf2c
+  unpetrify-ref: 12.0.5
   build-depends: []
