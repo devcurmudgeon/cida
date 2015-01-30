@@ -1,34 +1,118 @@
 Baserock project public infrastructure
 ======================================
 
-None of these systems are currently Baserock systems, which should be
-considered a bug. The need for project infrastructure outweighs the
-benefit of using the infrastructure to drive improvements to Baserock,
-at the time of writing.
+This repository contains the definitions for all of the Baserock Project's
+infrastructure. This includes every service used by the project, except for
+the mailing lists (hosted by [Pepperfish]) and the wiki (hosted by
+[Branchable]).
+
+Some of these systems are Baserock systems. Other are Ubuntu or Fedora based.
+Eventually we want to move all of these to being Baserock systems.
 
 The infrastructure is set up in a way that parallels the preferred Baserock
 approach to deployment. All files necessary for (re)deploying the systems
 should be contained in this Git repository, with the exception of certain
-private tokens (which should be simple to inject at deploy time). Each
-service should be provided by a system which services only one function.
+private tokens (which should be simple to inject at deploy time).
 
-I apologise if it's a bit over-complicated! Part of the goal for this work
-has been to learn Ansible and Packer, and see how they can be helpful for
-Baserock. Feel free to discuss simplifying things which appear overengineered
-or needlessly confusing!
+[Pepperfish]: http://listmaster.pepperfish.net/cgi-bin/mailman/listinfo
+[Branchable]: http://www.branchable.com/
 
-Front-end
----------
 
-All of the Baserock project's infrastructure should be behind a single
-IP address, with a reverse proxy that forwards the request to the
-appropriate machine based on the URL (primarily the subdomain).
+General notes
+-------------
 
-The 'frontend' system takes care of this. If you want to add a new
-service to the Baserock Project infrastructure you will need to alter
-the haproxy.cfg file in the frontend/ directory. OpenStack doesn't
-provide any kind of internal DNS service, so you must put the fixed IP
-of each instance.
+When instantiating a machine that will be public, remember to give shell
+access everyone on the ops team. This can be done using a post-creation
+customisation script that injecting all of their SSH keys. The SSH public
+keys of the Baserock Operations team are collected in
+`baserock-ops-team.cloud-config.`.
+
+Ensure SSH password login is disabled in all systems you deploy! See:
+<https://testbit.eu/is-ssh-insecure/> for why. The Ansible playbook
+`admin/sshd_config.yaml` can ensure that all systems have password login
+disabled.
+
+
+Administration
+--------------
+
+You can use [Ansible] to automate tasks on the baserock.org systems.
+
+To run a playbook:
+
+    ansible-playbook -i hosts $PLAYBOOK.yaml
+
+To run an ad-hoc command (upgrading, for example):
+
+    ansible-playbook -i hosts fedora -m command -a 'sudo yum update -y'
+    ansible-playbook -i hosts ubuntu -m command -a 'sudo apt-get update -y'
+
+[Ansible]: http://www.ansible.com
+
+
+Backups
+-------
+
+The database server doesn't yet have automated backups running. You can
+manually take a backup like this:
+
+    sudo systemctl stop mariadb.service
+    sudo lvcreate \
+        --name database-backup-20150126 \
+        --snapshot /dev/vg0/database \
+        --extents 100%ORIGIN \
+        --permission=r
+    sudo systemctl start mariadb.service
+    sudo mount /dev/vg0/database-backup-20150126 /mnt
+    # use your preferred backup tool (`rsync` is recommended) to extract the
+    # contents of /mnt somewhere safe.
+    sudo umount /dev/vg0/database-backup-20150126
+    sudo lvremove /dev/vg0/database-backup-20150126
+
+The Gerrit instance stores the Gerrit site path on an LVM volume and can be
+manually backed up in exactly the same way.
+
+git.baserock.org has automated backups of /home and /etc, which are run by
+Codethink to an internal Codethink server.
+
+
+Deployment with Packer
+----------------------
+
+Some of the systems are built with [Packer]. I chose Packer because it provides
+similar functionality to the `morph deploy` command, although its
+implementation makes different tradeoffs. The documentation below shows the
+commands you need to run to build systems with Packer. Some of the systems can
+be deployed as Docker images as well as OpenStack images, to enable local
+development and testing.
+
+The following error from Packer means that you didn't set your credentials
+correctly in the `OS_...` environment variables, or they were not accepted.
+
+> Build 'production' errored: Missing or incorrect provider
+
+The the Packer tool requires a floating IP to be available at the time a system
+is being deployed to OpenStack. Currently 185.43.218.169 should be used for
+this.  If you specify a floating IP that is in use by an existing instance, you
+will steal it for your own instance and probably break one of our web services.
+
+[Packer]: http://www.packer.io/
+
+
+Systems
+-------
+
+### Front-end
+
+The front-end provides a reverse proxy, to allow more flexible routing than
+simply pointing each subdomain to a different instance using separate public
+IPs. It also provides a starting point for future load-balancing and failover
+configuration.
+
+If you want to add a new service to the Baserock Project infrastructure via
+the frontend, alter the haproxy.cfg file in the frontend/ directory. Our
+OpenStack instance doesn't provide any kind of internal DNS service, so you
+must put the fixed IP of each instance.
 
 To deploy this system:
 
@@ -41,38 +125,16 @@ following:
 
 - request a subdomain that points at 85.199.252.162
 - log in to the frontend-haproxy machine
-- edit /etc/haproxy.conf as described below, and make the same changes to the
-  copy in this repo
+- edit /etc/haproxy/haproxy.conf, and make the same changes to the copy in this
+  repo.
 - run: `sudo haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -sf
   $(cat /var/run/haproxy.pid)` to reload the configuration without interrupting
   the service (this confuses systemd, but I'm not sure how to avoid that)
 
-If I was adding monkeys.baserock.org, this is what I'd add to the config file:
+### Database
 
-    # (in the 'frontend' section)
-        acl host_monkeys hdr(host) -m beg -i monkeys
-        use_backend baserock_monkey_service if host_monkeys
-
-    backend baserock_monkey_service
-        server baserock_monkey_service 192.168.x.x
-
-Database
---------
-
-Baserock uses MariaDB (a fork of MySQL). Storyboard has database migration
-files which are tied to this database, so we do not have the choice of using
-others at this time.
-
-The Packer build only creates an image with MariaDB installed. To deploy, you
-will need to set up and attach a volume and then start the 'mariadb' service.
-Also, you must create or have access to an Ansible playbook which will set up
-the user accounts. For development deployments you can use the 'develop.sh'
-script which sets up all the necessary accounts using dummy passwords.
-
-To deploy a development instance:
-
-    packer build -only=development database/packer_template.json
-    database/develop.sh
+Baserock infrastructure uses a shared [MariaDB] database. MariaDB was chosen
+because Storyboard only supports MariaDB.
 
 To deploy this system to production:
 
@@ -93,9 +155,9 @@ To deploy this system to production:
     ansible-playbook -i hosts database/instance-config.yml
     ansible-playbook -i hosts database/instance-mariadb-config.yml
 
+[MariaDB]: https://www.mariadb.org
 
-OpenID provider
----------------
+### OpenID provider
 
 To deploy a development instance:
 
@@ -125,8 +187,7 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
     ansible-playbook -i hosts baserock_openid_provider/instance-config.yml
 
-Storyboard
-----------
+### Storyboard
 
 We use a slightly adapted version of
 <https://github.com/openstack-infra/puppet-storyboard> to deploy Storyboard.
@@ -143,65 +204,5 @@ To deploy the production version:
         --key-name=<your-keypair> storyboard.baserock.org \
         --nic='net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5'
 
-
-Deployment to DataCentred
--------------------------
-
-The following error from Packer means that you didn't set your credentials
-correctly in the `OS_...` environment variables, or they were not accepted.
-
-> Build 'production' errored: Missing or incorrect provider
-
-When instantiating a machine that will be public, remember that all operators
-who are responsible for security updates and maintenance must be given access
-to the machine. This can be done using a post-creation customisation script
-that injecting all of their SSH keys: the Baserock Ops team use the file
-`baserock-ops-team.cloud-config` from this repo.
-
-The the Packer tool requires a floating IP to be available at the time a system
-is being deployed to OpenStack. Currently 185.43.218.169 should be used for
-this.  If you specify a floating IP that is in use by an existing instance, you
-will steal it for your own instance and probably break one of our web services.
-
-
-General notes
--------------
-
-Ensure SSH password login is disabled in all systems you deploy! See:
-<https://testbit.eu/is-ssh-insecure/> for why. The Ansible playbook
-admin/sshd_config.yaml can ensure that all systems have password login
-disabled.
-
-
-Administration
---------------
-
-You can use Ansible to automate tasks on the baserock.org systems.
-
-To run a playbook:
-
-    ansible-playbook -i hosts $PLAYBOOK.yaml
-
-To run an ad-hoc command (upgrading, for example):
-
-    ansible-playbook -i hosts fedora -m command -a 'sudo yum update -y'
-    ansible-playbook -i hosts ubuntu -m command -a 'sudo apt-get update -y'
-
-Backups
--------
-
-The database server doesn't yet have automated backups running. You can
-manually take a backup like this:
-
-    sudo systemctl stop mariadb.service
-    sudo lvcreate \
-        --name database-backup-20150126 \
-        --snapshot /dev/vg0/database \
-        --extents 100%ORIGIN \
-        --permission=r
-    sudo systemctl start mariadb.service
-    sudo mount /dev/vg0/database-backup-20150126 /mnt
-    # use your preferred backup tool (`rsync` is recommended) to extract the
-    # contents of /mnt somewhere safe.
-    sudo umount /dev/vg0/database-backup-20150126
-    sudo lvremove /dev/vg0/database-backup-20150126
+Storyboard deployment does not yet work fully (you can manually kludge it into
+working after deploying it, though).
