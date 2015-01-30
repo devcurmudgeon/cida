@@ -23,7 +23,7 @@ General notes
 
 When instantiating a machine that will be public, remember to give shell
 access everyone on the ops team. This can be done using a post-creation
-customisation script that injecting all of their SSH keys. The SSH public
+customisation script that injects all of their SSH keys. The SSH public
 keys of the Baserock Operations team are collected in
 `baserock-ops-team.cloud-config.`.
 
