@@ -20,10 +20,7 @@ import registration.signals
 import logging
 
 
-# This should watch 'registration.signals.user_activated' instead, if we ever
-# decide to enable activation emails (i.e. if we switch from the 'simple'
-# backend to the 'default' backend).
-@receiver(registration.signals.user_registered)
-def user_creation_handler(sender, user, request, **kwargs):
+@receiver(registration.signals.user_activated)
+def user_activation_handler(sender, user, request, **kwargs):
     logging.info('Creating OpenID for user %s' % (user.username))
     user.openid_set.create(openid=user.username)

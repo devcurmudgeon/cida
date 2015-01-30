@@ -2,9 +2,6 @@
 {% load i18n %}
 
 {% block content %}
-<p>You are now registered as {{ user.get_full_name }}.</p>
-
-<p>Your OpenID is:
-<a href="http://openid.baserock.org/openid/{{ user.username }}/">http://openid.baserock.org/openid/{{ user.username }}/</a>
-</p>
+<p>You are now registered. An activation email has been sent to you with
+a link that you will need to click to activate your account.</p>
 {% endblock %}

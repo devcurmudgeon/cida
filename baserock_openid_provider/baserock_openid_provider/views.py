@@ -14,7 +14,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import registration.backends.simple.views
+import registration.backends.default.views
 
 from registration import signals
 from registration.users import UserModel
@@ -30,26 +30,25 @@ def index(request):
     return render(request, '../templates/index.html')
 
 
-class RegistrationViewWithNames(registration.backends.simple.views.RegistrationView):
+class RegistrationViewWithNames(registration.backends.default.views.RegistrationView):
     # Overrides the django-registration default view so that the extended form
     # including the full name gets used.
     form_class = forms.RegistrationFormWithNames
 
     def register(self, request, **cleaned_data):
-        # It's a shame that we have to override the whole class here. We could
-        # patch django-registration(-redux) to avoid the need.
-        username, email, password = cleaned_data['username'], cleaned_data['email'], cleaned_data['password1']
+        # Calling the base class first means that we don't have to copy and
+        # paste the contents of the register() function, but it has the
+        # downside that we don't know the user's name when we send the
+        # activation email.
+        superclass = super(RegistrationViewWithNames, self)
+        user = superclass.register(request, **cleaned_data)
+
         first_name, last_name = cleaned_data['first_name'], cleaned_data['last_name']
-        UserModel().objects.create_user(username, email, password,
-                                        first_name=first_name,
-                                        last_name=last_name)
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
 
-        new_user = authenticate(username=username, password=password)
-        login(request, new_user)
-        signals.user_registered.send(sender=self.__class__,
-                                     user=new_user,
-                                     request=request)
-        return new_user
+        return user
 
 
-registration.backends.simple.views.RegistrationView = RegistrationViewWithNames
+registration.backends.default.views.RegistrationView = RegistrationViewWithNames

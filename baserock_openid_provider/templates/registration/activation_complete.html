@@ -3,4 +3,8 @@
 
 {% block content %}
 <p>{% trans "Your account is now activated." %}</p>
+
+<p>Your OpenID is:
+<a href="http://openid.baserock.org/openid/{{ user.username }}/">http://openid.baserock.org/openid/{{ user.username }}/</a>
+</p>
 {% endblock %}

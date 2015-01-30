@@ -161,3 +161,8 @@ DEFAULT_FROM_EMAIL = 'openid@baserock.org'
 
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
+
+
+# django-registration-redux settings
+
+ACCOUNT_ACTIVATION_DAYS = 3
