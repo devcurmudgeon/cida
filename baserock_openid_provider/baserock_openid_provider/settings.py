@@ -66,9 +66,15 @@ WSGI_APPLICATION = 'baserock_openid_provider.wsgi.application'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s %(message)s'
+        }
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
+            'formatter': 'simple',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': '/var/log/baserock_openid_provider/debug.log',
             'maxBytes': 10 * 1024 * 1024,
