@@ -133,10 +133,9 @@ chunks:
   - automake
   - libtool-tarball
 - name: xz
-  morph: strata/core/xz.morph
   repo: upstream:xz
-  ref: 581deedf9d1eadcd84c4fcd23b9fdfe2dde18cc2
-  unpetrify-ref: baserock/morph
+  ref: a0cd05ee71d330b79ead6eb9222e1b24e1559d3a
+  unpetrify-ref: v5.2.0
   build-depends:
   - autoconf-tarball
   - automake
