@@ -1,4 +1,4 @@
-name: autoconf
+name: autoconf-tarball
 kind: chunk
 build-system: autotools
 configure-commands:
