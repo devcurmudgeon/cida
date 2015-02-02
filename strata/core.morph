@@ -22,11 +22,11 @@ chunks:
   ref: 51871d08a48ff781186f7a7b22ec69a1db38eb4c
   unpetrify-ref: baserock/build-essential
   build-depends: []
-- name: gettext
-  morph: strata/core/gettext.morph
-  repo: upstream:gettext
-  ref: 3898e324f07c05404b63d71f0e519f352fb1e072
-  unpetrify-ref: baserock/build-essential
+- name: gettext-tarball
+  morph: strata/core/gettext-tarball.morph
+  repo: upstream:gettext-tarball
+  ref: 482840e61f86ca321838a91e902c41d40c098bbb
+  unpetrify-ref: gettext-0.19.4
   build-depends: []
 - name: mini-utils
   morph: strata/core/mini-utils.morph
@@ -140,7 +140,7 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
-  - gettext
+  - gettext-tarball
   - libtool
 - name: libxml2
   repo: upstream:libxml2
@@ -197,7 +197,7 @@ chunks:
   - autoconf-tarball
   - cpython
   - curl
-  - gettext
+  - gettext-tarball
   - libexpat
   - openssl-new
 - name: help2man
@@ -218,7 +218,7 @@ chunks:
   - automake
   - bash
   - flex
-  - gettext
+  - gettext-tarball
   - git
   - help2man
   - mini-utils
@@ -245,7 +245,7 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
-  - gettext
+  - gettext-tarball
   - git
   - libtool
   - pkg-config
@@ -284,7 +284,7 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
-  - gettext
+  - gettext-tarball
   - libtool
   - bison
 - name: patch
