@@ -117,11 +117,11 @@ chunks:
   - sqlite3
   - ncurses
   - readline
-- name: libtool
-  morph: strata/core/libtool.morph
-  repo: upstream:libtool
-  ref: d388b7f2dc628b22006025d01179bc09b8aabe81
-  unpetrify-ref: baserock/build-essential
+- name: libtool-tarball
+  morph: strata/core/libtool-tarball.morph
+  repo: upstream:libtool-tarball
+  ref: f7bbc21981ffdbbe2d4435556e3ead0828dce160
+  unpetrify-ref: libtool-2.4.5
   build-depends:
   - bash
 - name: gtk-doc-stub
@@ -131,7 +131,7 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
-  - libtool
+  - libtool-tarball
 - name: xz
   morph: strata/core/xz.morph
   repo: upstream:xz
@@ -141,7 +141,7 @@ chunks:
   - autoconf-tarball
   - automake
   - gettext-tarball
-  - libtool
+  - libtool-tarball
 - name: libxml2
   repo: upstream:libxml2
   ref: ee8f1d4cda8dc1a6f2c515fe234f7bc89cdc9f80
@@ -150,7 +150,7 @@ chunks:
   - autoconf-tarball
   - automake
   - cpython
-  - libtool
+  - libtool-tarball
   - xz
 - name: ca-certificates
   morph: strata/core/ca-certificates.morph
@@ -168,7 +168,7 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
-  - libtool
+  - libtool-tarball
   - openssl-new
   - ca-certificates
 - name: libexpat
@@ -179,7 +179,7 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
-  - libtool
+  - libtool-tarball
 - name: XML-Parser
   repo: upstream:XML-Parser
   ref: e1a3ec157140a699e3020836475a0df622f70f1b
@@ -247,7 +247,7 @@ chunks:
   - automake
   - gettext-tarball
   - git
-  - libtool
+  - libtool-tarball
   - pkg-config
 - name: nano
   repo: upstream:nano-tarball
@@ -285,7 +285,7 @@ chunks:
   - autoconf-tarball
   - automake
   - gettext-tarball
-  - libtool
+  - libtool-tarball
   - bison
 - name: patch
   morph: strata/core/patch.morph
