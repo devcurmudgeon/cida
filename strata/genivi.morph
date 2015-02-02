@@ -3,6 +3,7 @@ kind: stratum
 description: Software components designed by genivi, for genivi.
 build-depends:
 - morph: strata/foundation.morph
+- morph: strata/audio-bluetooth.morph
 chunks:
 - name: linuxquota
   morph: strata/genivi/linuxquota.morph
@@ -78,3 +79,27 @@ chunks:
   build-depends:
   - DLT-daemon
   - persistence-client-library
+- name: libarchive
+  morph: strata/genivi/libarchive.morph
+  repo: git://github.com/libarchive/libarchive.git
+  ref: 19f23e191f9d3e1dd2a518735046100419965804
+  unpetrify-ref: v3.1.2
+  build-depends: []
+- name: persistence-common-object
+  morph: strata/genivi/persistence-common-object.morph
+  repo: upstream:genivi/persistence-common-object
+  ref: dc46126214022d068729f7ccd47415dc5f86f425
+  unpetrify-ref: baserock/pedroalvarez/1.0.2
+  build-depends:
+  - itzam-tarball
+  - DLT-daemon
+- name: persistence-administrator
+  morph: strata/genivi/persistence-administrator.morph
+  repo: upstream:genivi/persistence-administrator
+  ref: f9d62e70237c05323cbd60f1d5c7b574fbc2de43
+  unpetrify-ref: baserock/pedroalvarez/1.0.5
+  build-depends:
+  - persistence-common-object
+  - DLT-daemon
+  - libarchive
+  - node-state-manager
