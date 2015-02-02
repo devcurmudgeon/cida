@@ -47,12 +47,6 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - gdbm
-- name: pkg-config
-  morph: strata/core/pkg-config.morph
-  repo: upstream:pkg-config
-  ref: 67a702a15cf88e270539484929ffa1f42b90c728
-  unpetrify-ref: baserock/build-essential
-  build-depends: []
 - name: texinfo-tarball
   morph: strata/core/texinfo-tarball.morph
   repo: upstream:texinfo-tarball
@@ -236,6 +230,15 @@ chunks:
   - autoconf-tarball
   - automake
   - perl
+- name: pkg-config
+  morph: strata/core/pkg-config.morph
+  repo: upstream:pkg-config
+  ref: 74ceac54ef6f9247c00f08eecd8cca811a3c5934
+  unpetrify-ref: pkg-config-0.28
+  build-depends:
+  - autoconf-tarball
+  - automake
+  - libtool-tarball
 - name: util-linux
   morph: strata/core/util-linux.morph
   repo: upstream:util-linux
