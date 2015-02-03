@@ -50,10 +50,11 @@ chunks:
 - name: texinfo-tarball
   morph: strata/core/texinfo-tarball.morph
   repo: upstream:texinfo-tarball
-  ref: 4843a7f5ff14ac802a56f1cdd49960b25c15702b
-  unpetrify-ref: baserock/morph
+  ref: 6a55f074b1f67d02149c13931eb1df9f0e539b15
+  unpetrify-ref: texinfo-5.2
   build-depends:
   - ncurses
+  - perl
 - name: autoconf-tarball
   morph: strata/core/autoconf-tarball.morph
   repo: upstream:autoconf-tarball
