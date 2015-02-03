@@ -163,8 +163,8 @@ chunks:
 - name: stage2-gawk
   morph: strata/build-essential/stage2-gawk.morph
   repo: upstream:gawk
-  ref: 6a0eb04c3d2ac24d80d505b42a8f67799487d133
-  unpetrify-ref: baserock/build-essential
+  ref: dc5af665700d9b04fdf9c18930526d28eef5d5d9
+  unpetrify-ref: gawk-4.1.1
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -308,8 +308,8 @@ chunks:
 - name: gawk
   morph: strata/build-essential/gawk.morph
   repo: upstream:gawk
-  ref: 6a0eb04c3d2ac24d80d505b42a8f67799487d133
-  unpetrify-ref: baserock/build-essential
+  ref: dc5af665700d9b04fdf9c18930526d28eef5d5d9
+  unpetrify-ref: gawk-4.1.1
   build-depends:
   - stage2-binutils
   - stage2-busybox
