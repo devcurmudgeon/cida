@@ -98,19 +98,9 @@ chunks:
   ref: f805b328b2195de384c0fb6b82ef5f88c179b2c0
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: xorg-proto-xf86dgaproto
-  repo: upstream:xorg-proto-xf86dgaproto
-  ref: c52b205c3175309be7952774668c87dd2d5ce30e
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: xorg-proto-xf86driproto
   repo: upstream:xorg-proto-xf86driproto
   ref: cb03b8d49bf063860859c1ed8bcecd055551e93a
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: xorg-proto-xf86vidmodeproto
-  repo: upstream:xorg-proto-xf86vidmodeproto
-  ref: 15c05b263eb6cc0eaa7ab49c39fe489613d6d796
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: xorg-proto-x11proto
@@ -165,13 +155,10 @@ chunks:
   unpetrify-ref: libX11-1.6.2
   build-depends:
   - xcb-libxcb
-  - xorg-lib-libXau
   - xorg-lib-libxtrans
-  - xorg-proto-bigreqsproto
   - xorg-proto-inputproto
   - xorg-proto-kbproto
   - xorg-proto-x11proto
-  - xorg-proto-xcmiscproto
   - xorg-proto-xextproto
   - xorg-proto-xf86bigfontproto
 - name: xorg-lib-libXext
@@ -193,12 +180,6 @@ chunks:
   - xorg-proto-inputproto
   - xorg-proto-x11proto
   - xorg-proto-xextproto
-- name: xorg-util-makedepend
-  repo: upstream:xorg-util-makedepend
-  ref: 87fd28cd5a5acfe6e91c97c4af0a469e1e86cbd5
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-proto-x11proto
 - name: xorg-lib-libXfixes
   repo: upstream:xorg-lib-libXfixes
   ref: 0cb446962381f750e05d97bfb974ca1e32481d5d
@@ -206,14 +187,6 @@ chunks:
   build-depends:
   - xorg-lib-libXext
   - xorg-proto-fixesproto
-- name: xorg-lib-libXcomposite
-  repo: upstream:xorg-lib-libXcomposite
-  ref: eda48b1bedaa344ada8e13930c9ab3058b836190
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libX11
-  - xorg-lib-libXfixes
-  - xorg-proto-compositeproto
 - name: xorg-lib-libXrender
   repo: upstream:xorg-lib-libXrender
   ref: 1af52cb334377611233d7dc156bc1e6f7923756d
@@ -232,24 +205,6 @@ chunks:
   - xorg-proto-randrproto
   - xorg-proto-renderproto
   - xorg-proto-xextproto
-- name: xorg-lib-libXinerama
-  repo: upstream:xorg-lib-libXinerama
-  ref: 470b9356af961ff7d3968b164aa73872b49a5dcc
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libX11
-  - xorg-lib-libXext
-  - xorg-proto-xextproto
-  - xorg-proto-xineramaproto
-- name: xorg-lib-libdmx
-  repo: upstream:xorg-lib-libdmx
-  ref: 9f470c92bc2d194c8abb9154f42864e6c82f43ef
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libX11
-  - xorg-lib-libXext
-  - xorg-proto-dmxproto
-  - xorg-proto-xextproto
 - name: xorg-lib-libXtst
   repo: upstream:xorg-lib-libXtst
   ref: 2aafac9474a0a0a0c39797862f823255918cf368
@@ -260,15 +215,6 @@ chunks:
   - xorg-lib-libXi
   - xorg-proto-inputproto
   - xorg-proto-recordproto
-  - xorg-proto-xextproto
-- name: xorg-lib-libXRes
-  repo: upstream:xorg-lib-libXRes
-  ref: 83e7693515369d57dcd11c2bb1f03563f51bc500
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libX11
-  - xorg-lib-libXext
-  - xorg-proto-resourceproto
   - xorg-proto-xextproto
 - name: xorg-lib-libXdamage
   repo: upstream:xorg-lib-libXdamage
@@ -286,27 +232,4 @@ chunks:
   - xorg-lib-libXfixes
   - xorg-proto-fixesproto
   - xorg-lib-libXau
-  - xorg-lib-libX11
-- name: xorg-proto-printproto
-  repo: upstream:xorg-proto-printproto
-  ref: cca2ca69d2a6b4b133dba69d5330499fbfe88257
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: xorg-lib-libXp
-  repo: upstream:xorg-lib-libXp
-  ref: 41aab7d289aba2aaf3839e96d0c9e2f15ede4bd1
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-proto-printproto
-  - xorg-proto-xextproto
-  - xorg-lib-libXext
-  - xorg-lib-libX11
-- name: xorg-lib-libXScrnSaver
-  repo: upstream:xorg-lib-libXScrnSaver
-  ref: f388a2ff259ee1c1c6058762e900bb29550e8246
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-proto-scrnsaverproto
-  - xorg-proto-xextproto
-  - xorg-lib-libXext
   - xorg-lib-libX11
