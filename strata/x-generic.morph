@@ -50,3 +50,25 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - xorg-lib-libxkbfile
+- name: xcb-util
+  repo: upstream:xcb-util
+  ref: 45215e6f56bf57efdf5469567c00eba7a991d3a3
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: util-wm
+  repo: upstream:util-wm
+  ref: 18bde07dc7cb44617c0d159ccd9ef640804296e3
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: util-keysyms
+  morph: strata/x-generic/util-keysyms.morph
+  repo: upstream:util-keysyms
+  ref: 0be179eff4eadb99ee303891d1c29c4e4dd6fbab
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: util-image
+  repo: upstream:util-image
+  ref: 66b0caa72eb5011d89d0346424ea40b9e8e93816
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - xcb-util
