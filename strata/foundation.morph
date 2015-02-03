@@ -106,8 +106,8 @@ chunks:
 - name: lzo
   morph: strata/foundation/lzo.morph
   repo: upstream:lzo
-  ref: 2cdfe9375f1145603d002c12be950062ae54da21
-  unpetrify-ref: baserock/morph
+  ref: 5cca83e4d1b0be5825a597ab24ffa6126dc0bc95
+  unpetrify-ref: lzo-2.08
   build-depends: []
 - name: fuse
   morph: strata/foundation/fuse.morph
