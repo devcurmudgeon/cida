@@ -18,9 +18,9 @@ chunks:
   build-depends: []
 - name: gdbm
   morph: strata/core/gdbm.morph
-  repo: upstream:gdbm
-  ref: 51871d08a48ff781186f7a7b22ec69a1db38eb4c
-  unpetrify-ref: baserock/build-essential
+  repo: upstream:gdbm-tarball
+  ref: e5faeaaf75ecfb705a9b643b3e4cb881ebb69f48
+  unpetrify-ref: gdbm-1.11
   build-depends: []
 - name: gettext-tarball
   morph: strata/core/gettext-tarball.morph
