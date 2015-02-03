@@ -2,6 +2,7 @@ name: graphics-common
 kind: stratum
 build-depends:
 - morph: strata/mesa-common.morph
+- morph: strata/x-common.morph
 chunks:
 - name: pixman
   repo: upstream:pixman

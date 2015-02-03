@@ -3,9 +3,15 @@ kind: stratum
 build-depends:
 - morph: strata/foundation.morph
 - morph: strata/libdrm-common.morph
+- morph: strata/mesa-common.morph
 - morph: strata/x-common.morph
 - morph: strata/graphics-common.morph
 chunks:
+- name: libepoxy
+  repo: upstream:libepoxy
+  ref: 7422de5b4be7b19d789136b3bb5f932de42db27c
+  unpetrify-ref: v1.2
+  build-depends: []
 - name: xorg-lib-libxkbfile
   repo: upstream:xorg-lib-libxkbfile
   ref: 7381c2f9013ef7784c78091fa671e652a62ca706
