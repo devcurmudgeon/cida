@@ -28,7 +28,6 @@ chunks:
   build-depends:
   - bullet3
   - fribidi
-  - luajit2
 - name: elementary
   morph: strata/enlightenment/elementary.morph
   repo: upstream:enlightenment/elementary
