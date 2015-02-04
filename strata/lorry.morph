@@ -114,7 +114,7 @@ chunks:
 - name: lorry
   morph: strata/lorry/lorry.morph
   repo: baserock:baserock/lorry
-  ref: c972012707f6555de6cf636d8eb5e2bf6e8ebf87
+  ref: 4fcff82742ce3325a860c060b597ff281872c594
   unpetrify-ref: master
   build-depends:
   - bzr-tarball
