@@ -1,0 +1,39 @@
+name: build-system-armv8l64
+kind: system
+description:
+- |
+  The system that should be used for building all other Baserock systems
+  for little endian 64-bit ARMv8 computers.
+arch: armv8l64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-armv8l64-generic
+  morph: strata/bsp-armv8l64-generic.morph
+- name: tools
+  morph: strata/tools.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
+- name: nfs
+  morph: strata/nfs.morph
+- name: ansible
+  morph: strata/ansible.morph
+- name: cloudinit-support
+  morph: strata/cloudinit-support.morph
+- name: openstack-clients
+  morph: strata/openstack-clients.morph
+- name: devtools
+  morph: strata/devtools.morph
+configuration-extensions:
+- set-hostname
+- add-config-files
+- nfsboot
+- install-files
+- distbuild
+- fstab
+- mason
+- cloud-init
