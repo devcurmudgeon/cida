@@ -18,7 +18,8 @@ chunks:
 - name: NetworkManager
   morph: strata/NetworkManager-common/NetworkManager.morph
   repo: upstream:NetworkManager
-  ref: 6eb82acd6dce882f4b91aafcf68dd9e143ce34e2
-  unpetrify-ref: 0.9.10
+  ref: acdaf78a068b6c65ba799a7098b867953db4801c
+  unpetrify-ref: 1.0.0
   build-depends:
   - libndp
+  - readline6
