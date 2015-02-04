@@ -115,14 +115,29 @@ chunks:
   ref: d69e627e79862e2df4ff9ff1ddb0363c4520d8a8
   unpetrify-ref: baserock/tiagogomes/armv8l64
   build-depends: []
+- name: acl
+  morph: strata/foundation/acl.morph
+  repo: upstream:acl
+  ref: f13e09bd54fd4a501c4952f002ed2752bdd9f93b
+  unpetrify-ref: v2.2.52
+  build-depends:
+  - attr
+- name: e2fsprogs
+  morph: strata/foundation/e2fsprogs.morph
+  repo: upstream:e2fsprogs
+  ref: 6a3741ad293031447b95b88431eafa77401a8987
+  unpetrify-ref: v1.42.12
+  build-depends: []
 - name: btrfs-progs
   morph: strata/foundation/btrfs-progs.morph
   repo: upstream:btrfs-progs
-  ref: 304f215abb836811e6d78e0a3da53d48aa0e7ca7
-  unpetrify-ref: baserock/morph
+  ref: 563ff3b07d85517e3589a1f2e6f45a8265e3f071
+  unpetrify-ref: v3.18.2
   build-depends:
   - attr
+  - acl
   - lzo
+  - e2fsprogs
 - name: dbus
   morph: strata/foundation/dbus.morph
   repo: upstream:dbus
