@@ -1,9 +1,8 @@
 name: libexpat
 kind: chunk
 configure-commands:
-- autoreconf -i
-- ./configure --prefix="${PREFIX-/usr}"
+- mkdir o && cd o && cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 build-commands:
-- make
+- cd o && make
 install-commands:
-- make DESTDIR="$DESTDIR" install
+- cd o && make DESTDIR="$DESTDIR" install

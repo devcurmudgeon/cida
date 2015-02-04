@@ -168,12 +168,10 @@ chunks:
 - name: libexpat
   morph: strata/core/libexpat.morph
   repo: upstream:libexpat
-  ref: 97678ab13f6d29878997256b6ae1ded679ae5c5c
-  unpetrify-ref: baserock/morph
+  ref: 7cfc09db3e258129ab05811f2f9e351746ddab9f
+  unpetrify-ref: R_2_1_0
   build-depends:
-  - autoconf-tarball
-  - automake
-  - libtool-tarball
+  - cmake
 - name: XML-Parser
   repo: upstream:XML-Parser
   ref: e1a3ec157140a699e3020836475a0df622f70f1b
