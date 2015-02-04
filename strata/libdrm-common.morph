@@ -11,7 +11,7 @@ chunks:
 - name: drm
   repo: upstream:drm
   morph: strata/libdrm-common/drm.morph
-  ref: 83b2c40922ce451f5844aae0707ae9783a78d74f
-  unpetrify-ref: baserock/drm_2.4.58/jetson
+  ref: d2e0f552467ca11162fe04dfed55de4590280f23
+  unpetrify-ref: libdrm-2.4.59
   build-depends:
   - xorg-lib-libpciaccess
