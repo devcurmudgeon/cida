@@ -40,8 +40,8 @@ chunks:
   build-depends: []
 - name: strace
   repo: upstream:strace
-  ref: ad232c6aa0c2a07830d61dc4b9912478634b23b5
-  unpetrify-ref: baserock/morph
+  ref: 6d8c0637e8dd0f65c667af33c612230552419db1
+  unpetrify-ref: v4.8
   build-depends: []
 - name: vala-bootstrap
   morph: strata/tools/vala-bootstrap.morph
