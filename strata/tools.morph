@@ -17,9 +17,9 @@ chunks:
   build-depends: []
 - name: gdb
   morph: strata/tools/gdb.morph
-  repo: upstream:gdb
-  ref: c4bf5268b1a32ec475b61d2fe90e9218780c03c8
-  unpetrify-ref: baserock/morph
+  repo: upstream:binutils-gdb
+  ref: 129ee12d013f4a2f09fe40a33072e6e47e949890
+  unpetrify-ref: gdb-7.8-branch
   build-depends: []
 - name: linux-user-chroot
   repo: upstream:linux-user-chroot
