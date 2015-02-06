@@ -1,6 +1,5 @@
-name: libtool
+name: m4-tarball
 kind: chunk
-max-jobs: 1
 build-system: autotools
 configure-commands:
 - ./configure --prefix="$PREFIX"
