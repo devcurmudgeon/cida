@@ -64,8 +64,8 @@ chunks:
 - name: kexec-tools
   morph: strata/tools/kexec-tools.morph
   repo: upstream:kexec-tools
-  ref: 9359b61ca44980d33c0bee42b9bb2e36e72835dd
-  unpetrify-ref: baserock/morph
+  ref: f4d1d2ad474e882df13418239aa3050673a844d7
+  unpetrify-ref: baserock/tiagogomes/armv8l64
   build-depends: []
 - name: device-tree-compiler
   morph: strata/tools/device-tree-compiler.morph
