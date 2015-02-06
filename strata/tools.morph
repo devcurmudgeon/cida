@@ -49,12 +49,18 @@ chunks:
   ref: ad232c6aa0c2a07830d61dc4b9912478634b23b5
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: vala
-  morph: strata/tools/vala.morph
+- name: vala-bootstrap
+  morph: strata/tools/vala-bootstrap.morph
   repo: upstream:vala
   ref: 4e4a02c03445336237b36723b23a91670ef7621b
   unpetrify-ref: baserock/bootstrap
   build-depends: []
+- name: vala
+  repo: upstream:vala
+  ref: 682eba5880fbd76402dec10118883da913a7b255
+  unpetrify-ref: 0.26.2
+  build-depends:
+  - vala-bootstrap
 - name: u-boot
   morph: strata/tools/u-boot.morph
   repo: upstream:u-boot

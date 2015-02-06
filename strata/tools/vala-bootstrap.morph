@@ -1,4 +1,4 @@
-name: vala
+name: vala-bootstrap
 kind: chunk
 build-system: autotools
 configure-commands:
