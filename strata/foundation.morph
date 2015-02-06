@@ -35,23 +35,12 @@ chunks:
   ref: 77d4586cc47e8f4c02278afbc220145bba0d442b
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: libusbx
-  repo: upstream:libusbx
-  ref: 7ec94a45ed8155e7a1d4d5d75575099b09c78834
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: pciutils
   morph: strata/foundation/pciutils.morph
   repo: upstream:pciutils
   ref: bae04bd0473c68a2f21b7712a627abb08fd84b29
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: usbutils
-  repo: upstream:usbutils
-  ref: 410f1474af0ddb391bc6ec391777f116eee31569
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - libusbx
 - name: glib
   repo: upstream:glib
   ref: 4125415e7f4d1213fc7122beac0d91af08e37b28
@@ -89,6 +78,18 @@ chunks:
   - kmod
   - libcap2
   - libgcrypt
+- name: libusb
+  repo: upstream:libusb
+  ref: e11525c66c7dd2db466c8f5785ff0b37d6a99ec9
+  unpetrify-ref: v1.0.19
+  build-depends:
+  - systemd
+- name: usbutils
+  repo: upstream:usbutils
+  ref: c37f146eb2c6642c600f1b025a6d56996b0697ff
+  unpetrify-ref: baserock/v008
+  build-depends:
+  - libusb
 - name: lzo
   morph: strata/foundation/lzo.morph
   repo: upstream:lzo
