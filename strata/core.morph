@@ -7,8 +7,8 @@ build-depends:
 chunks:
 - name: sqlite3
   repo: upstream:sqlite3
-  ref: f6c2a9fe49d20654c2c41844d056033692a223b7
-  unpetrify-ref: baserock/morph
+  ref: 24adc227bc29cd17e39df097fbca389c7724cd14
+  unpetrify-ref: sqlite-autoconf-3080801
   build-depends: []
 - name: cmake
   morph: strata/core/cmake.morph
