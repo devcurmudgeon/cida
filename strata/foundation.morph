@@ -99,8 +99,8 @@ chunks:
 - name: fuse
   morph: strata/foundation/fuse.morph
   repo: upstream:fuse
-  ref: 13ee8f62d4aa3360adb6956fb30da0c858928fa2
-  unpetrify-ref: baserock/genivi/morph
+  ref: 4163109fd5bfe67973262610dd95ae60888c92e9
+  unpetrify-ref: fuse_2_9_bugfix
   build-depends: []
 - name: btrfs-progs
   morph: strata/foundation/btrfs-progs.morph
