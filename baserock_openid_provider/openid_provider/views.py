@@ -33,6 +33,11 @@ from openid_provider.models import TrustedRoot
 
 logger = logging.getLogger(__name__)
 
+
+# Special URL which means 'let the user choose whichever identity'.
+IDENTIFIER_SELECT_URL = 'http://specs.openid.net/auth/2.0/identifier_select'
+
+
 @csrf_exempt
 def openid_server(request):
     """
@@ -91,7 +96,14 @@ def openid_server(request):
                 validated = True
 
         if openid is not None and (validated or trust_root_valid == 'Valid'):
-            id_url = orequest.identity
+            if orequest.identity == IDENTIFIER_SELECT_URL:
+                id_url = request.build_absolute_uri(
+                    reverse('openid-provider-identity', args=[openid.openid]))
+            else:
+                # We must return exactly the identity URL that was requested,
+                # otherwise the openid.server module raises an error.
+                id_url = orequest.identity
+
             oresponse = orequest.answer(True, identity=id_url)
             logger.debug('orequest.answer(True, identity="%s")', id_url)
         elif orequest.immediate:
@@ -266,6 +278,14 @@ def openid_is_authorized(request, identity_url, trust_root):
 
     return openid
 
+
+def url_is_equivalent(a, b):
+    """
+    Test if two URLs are equivalent OpenIDs.
+    """
+    return a.rstrip('/') == b.rstrip('/')
+
+
 def openid_get_identity(request, identity_url):
     """
     Select openid based on claim (identity_url).
@@ -277,15 +297,10 @@ def openid_get_identity(request, identity_url):
     """
     logger.debug('Looking for %s in user %s set of OpenIDs %s',
                  identity_url, request.user, request.user.openid_set)
-    if not identity_url.endswith('/'):
-        identity_url += '/'
     for openid in request.user.openid_set.iterator():
-        logger.debug(
-            'Comparing: %s with %s', identity_url,
-            url_for_openid(request, openid))
-        if identity_url == url_for_openid(request, openid):
+        if url_is_equivalent(identity_url, url_for_openid(request, openid)):
             return openid
-    if identity_url == 'http://specs.openid.net/auth/2.0/identifier_select/':
+    if identity_url == IDENTIFIER_SELECT_URL:
         # no claim was made, choose user default openid:
         openids = request.user.openid_set.filter(default=True)
         if openids.count() == 1:
