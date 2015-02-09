@@ -11,9 +11,9 @@ chunks:
   build-depends: []
 - name: groff
   morph: strata/cross-bootstrap/groff.morph
-  repo: upstream:groff
-  ref: c7017a099f954bb6de60e79c876935b1bf438b9a
-  unpetrify-ref: baserock/morph
+  repo: upstream:groff-git
+  ref: 16305a24e67966ace06d55e2a0b98cc0e3127a93
+  unpetrify-ref: 1.22.3
   build-depends: []
 - name: openssh
   morph: strata/cross-bootstrap/openssh.morph
