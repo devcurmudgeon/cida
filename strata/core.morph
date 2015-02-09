@@ -37,8 +37,8 @@ chunks:
 - name: ncurses
   morph: strata/core/ncurses.morph
   repo: upstream:ncurses
-  ref: 0fe89dc66ec061b839bea3ab451207e2dee757b9
-  unpetrify-ref: baserock/morph
+  ref: f67398afa6a76fbc902cc0cea963d5151fa2a953
+  unpetrify-ref: ncurses-5.9-20150131
   build-depends: []
 - name: perl
   morph: strata/core/perl.morph
