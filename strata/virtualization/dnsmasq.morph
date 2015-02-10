@@ -1,6 +1,10 @@
 name: dnsmasq
 kind: chunk
-build-system: autotools
-configure-commands: []
+build-system: manual
+build-commands:
+- make
+- make -C contrib/wrt
 install-commands:
 - make install PREFIX="$PREFIX" DESTDIR="$DESTDIR"
+- install -D -m 755 contrib/wrt/dhcp_release "$DESTDIR$PREFIX"/bin/dhcp_release
+- install -D -m 755 contrib/wrt/dhcp_lease_time "$DESTDIR$PREFIX"/bin/dhcp_lease_time
