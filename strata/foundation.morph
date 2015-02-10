@@ -138,9 +138,9 @@ chunks:
   build-depends: []
 - name: openssh
   morph: strata/foundation/openssh.morph
-  repo: upstream:openssh
-  ref: 233514106dcde5ac61a70f1043de563122e2f1c9
-  unpetrify-ref: baserock/morph
+  repo: upstream:openssh-git
+  ref: 782fe9e725243eeb5ad6ab9a1783b5d6bedfe0d7
+  unpetrify-ref: baserock/tiagogomes/armv8l64
   build-depends:
   - groff
 - name: tbdiff
