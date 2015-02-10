@@ -11,11 +11,6 @@ chunks:
   ref: 935a78736e4eb43b9fafae87f5e9902328673f63
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: python-requests
-  repo: upstream:python-requests
-  ref: b891877ee6d76b0a3f8cbf2e7cd34cc4cbc40b6b
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: python-prettytable
   morph: strata/cloudinit-support/python-prettytable.morph
   repo: upstream:python-prettytable
@@ -51,7 +46,6 @@ chunks:
   build-depends:
   - boto
   - configobj
-  - python-requests
   - python-prettytable
   - python-json-pointer
   - python-cheetah

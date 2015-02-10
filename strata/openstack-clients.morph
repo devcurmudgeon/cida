@@ -49,11 +49,6 @@ chunks:
   ref: ac5470ec9e68332ebc499c4f9f21e7e3cb31ecb6
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: python-requests
-  repo: upstream:python-requests
-  ref: b891877ee6d76b0a3f8cbf2e7cd34cc4cbc40b6b
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: simplejson
   repo: upstream:simplejson
   ref: 35816bfe2d0ddeb5ddcc68239683cbb35b7e3ff2
@@ -83,7 +78,6 @@ chunks:
   build-depends:
   - pyiso8601
   - python-prettytable
-  - python-requests
   - simplejson
   - netaddr
   - babel
@@ -105,6 +99,5 @@ chunks:
   - python-prettytable
   - argparse
   - pyiso8601
-  - python-requests
   - simplejson
   - babel

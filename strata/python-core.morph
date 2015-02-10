@@ -15,3 +15,8 @@ chunks:
   unpetrify-ref: 0.10.7
   build-depends:
   - pip
+- name: python-requests
+  repo: upstream:python-requests
+  ref: b83131779c701720a9ae9efae78996277d416269
+  unpetrify-ref: v2.5.1
+  build-depends: []
