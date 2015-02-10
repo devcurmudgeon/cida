@@ -13,7 +13,7 @@ chunks:
 - name: wayland
   morph: strata/wayland-generic/wayland.morph
   repo: upstream:wayland
-  ref: 339e83aa579569711cd14623ca4b2db46256b766
-  unpetrify-ref: 1.6.0
+  ref: 52d971c924d0147d6949096c9cf001d75828a054
+  unpetrify-ref: 1.6.93
   build-depends:
   - libxkbcommon
