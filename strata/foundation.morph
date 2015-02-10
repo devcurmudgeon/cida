@@ -22,6 +22,12 @@ chunks:
   ref: ae58de0fcb4a6528dd365e23d383bbe2eaf2d566
   unpetrify-ref: v18
   build-depends: []
+- name: time-zone-database
+  morph: strata/foundation/time-zone-database.morph
+  repo: upstream:tz
+  ref: a0782484f101ac55c916568bc1c490d7761fc904
+  unpetrify-ref: 2015a
+  build-depends: []
 - name: libcap2
   morph: strata/foundation/libcap2.morph
   repo: upstream:libcap2
