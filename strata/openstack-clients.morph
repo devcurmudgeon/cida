@@ -2,6 +2,7 @@ name: openstack-clients
 kind: stratum
 description: A stratum with OpenStack clients, for OpenStack deployments.
 build-depends:
+- morph: strata/python-core.morph
 - morph: strata/tools.morph
 chunks:
 - name: jsonschema
@@ -31,11 +32,6 @@ chunks:
   morph: strata/openstack-clients/python-prettytable.morph
   repo: upstream:python-prettytable
   ref: 941133673e5a0003cd5ce1b6db2a51cf3307d9c1
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: pbr
-  repo: upstream:pbr
-  ref: 510ee9e9dcb94c5884c215fa3535a1f77f3d2a51
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: argparse
@@ -85,7 +81,6 @@ chunks:
   ref: 21cc66a850c5ea1d2ffffb655da0c452b919ed3b
   unpetrify-ref: baserock/morph
   build-depends:
-  - pbr
   - pyiso8601
   - python-prettytable
   - python-requests
@@ -98,7 +93,6 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - python-prettytable
-  - pbr
   - argparse
   - pyopenssl
   - python-keystoneclient
@@ -109,7 +103,6 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - python-prettytable
-  - pbr
   - argparse
   - pyiso8601
   - python-requests

@@ -21,6 +21,8 @@ strata:
   morph: strata/openstack-clients.morph
 - name: baserock-import
   morph: strata/baserock-import.morph
+- name: python-core
+  morph: strata/python-core.morph
 - name: python-tools
   morph: strata/python-tools.morph
 - name: devtools
