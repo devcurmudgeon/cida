@@ -67,6 +67,11 @@ chunks:
   ref: 412eed473b557ed2172d81d76fa1e1f53c973a67
   build-depends:
   - libgpg-error
+- name: linux-pam
+  repo: upstream:linux-pam
+  ref: b1521c97e73b10469f7b34c0571d51c647eca83c
+  unpetrify-ref: Linux-PAM-1.1.8
+  build-depends: []
 - name: systemd
   morph: strata/foundation/systemd.morph
   repo: upstream:systemd
@@ -78,6 +83,7 @@ chunks:
   - kmod
   - libcap2
   - libgcrypt
+  - linux-pam
 - name: libusb
   repo: upstream:libusb
   ref: e11525c66c7dd2db466c8f5785ff0b37d6a99ec9
