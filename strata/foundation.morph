@@ -74,6 +74,7 @@ chunks:
   build-depends:
   - libgpg-error
 - name: linux-pam
+  morph: strata/foundation/linux-pam.morph
   repo: upstream:linux-pam
   ref: b1521c97e73b10469f7b34c0571d51c647eca83c
   unpetrify-ref: Linux-PAM-1.1.8
