@@ -1,5 +1,7 @@
 name: flex
 kind: chunk
+pre-configure-commands:
+- autoreconf -ivf
 configure-commands:
 - ./configure --prefix="$PREFIX"
 build-commands:
