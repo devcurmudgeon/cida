@@ -5,6 +5,8 @@ install-commands:
   case "$MORPH_ARCH" in
       armv7b|armv7l|armv7lhf)
           ARCH="arm" ;;
+      armv8l64|armv8b64)
+          ARCH="arm64" ;;
       x86_32)
           ARCH="i386" ;;
       x86_64)
