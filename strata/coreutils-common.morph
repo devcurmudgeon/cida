@@ -20,3 +20,10 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - coreutils
+- name: diff
+  morph: strata/coreutils-common/diff.morph
+  repo: upstream:diffutils
+  ref: bd86eb1a1e87ab85a7c8dbb658fa829ce69c252e
+  unpetrify-ref: baserock/v3.3
+  build-depends:
+  - coreutils
