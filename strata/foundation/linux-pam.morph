@@ -1,6 +1,8 @@
 name: linux-pam
 kind: chunk
 build-system: autotools
+pre-configure-commands:
+- autoreconf -ivf
 post-install-commands:
 # sudo command is expecting this file.
 - |

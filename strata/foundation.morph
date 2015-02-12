@@ -12,9 +12,9 @@ chunks:
   build-depends: []
 - name: groff
   morph: strata/foundation/groff.morph
-  repo: upstream:groff
-  ref: c7017a099f954bb6de60e79c876935b1bf438b9a
-  unpetrify-ref: baserock/morph
+  repo: upstream:groff-git
+  ref: 16305a24e67966ace06d55e2a0b98cc0e3127a93
+  unpetrify-ref: 1.22.3
   build-depends: []
 - name: kmod
   morph: strata/foundation/kmod.morph
@@ -106,23 +106,38 @@ chunks:
 - name: lzo
   morph: strata/foundation/lzo.morph
   repo: upstream:lzo
-  ref: 2cdfe9375f1145603d002c12be950062ae54da21
-  unpetrify-ref: baserock/morph
+  ref: 5cca83e4d1b0be5825a597ab24ffa6126dc0bc95
+  unpetrify-ref: lzo-2.08
   build-depends: []
 - name: fuse
   morph: strata/foundation/fuse.morph
   repo: upstream:fuse
-  ref: 4163109fd5bfe67973262610dd95ae60888c92e9
-  unpetrify-ref: fuse_2_9_bugfix
+  ref: d69e627e79862e2df4ff9ff1ddb0363c4520d8a8
+  unpetrify-ref: baserock/morph
+  build-depends: []
+- name: acl
+  morph: strata/foundation/acl.morph
+  repo: upstream:acl
+  ref: f13e09bd54fd4a501c4952f002ed2752bdd9f93b
+  unpetrify-ref: v2.2.52
+  build-depends:
+  - attr
+- name: e2fsprogs
+  morph: strata/foundation/e2fsprogs.morph
+  repo: upstream:e2fsprogs
+  ref: 6a3741ad293031447b95b88431eafa77401a8987
+  unpetrify-ref: v1.42.12
   build-depends: []
 - name: btrfs-progs
   morph: strata/foundation/btrfs-progs.morph
   repo: upstream:btrfs-progs
-  ref: 304f215abb836811e6d78e0a3da53d48aa0e7ca7
-  unpetrify-ref: baserock/morph
+  ref: 563ff3b07d85517e3589a1f2e6f45a8265e3f071
+  unpetrify-ref: v3.18.2
   build-depends:
   - attr
+  - acl
   - lzo
+  - e2fsprogs
 - name: dbus
   morph: strata/foundation/dbus.morph
   repo: upstream:dbus
@@ -138,8 +153,8 @@ chunks:
   build-depends: []
 - name: openssh
   morph: strata/foundation/openssh.morph
-  repo: upstream:openssh
-  ref: 233514106dcde5ac61a70f1043de563122e2f1c9
+  repo: upstream:openssh-git
+  ref: 782fe9e725243eeb5ad6ab9a1783b5d6bedfe0d7
   unpetrify-ref: baserock/morph
   build-depends:
   - groff

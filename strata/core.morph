@@ -18,9 +18,9 @@ chunks:
   build-depends: []
 - name: gdbm
   morph: strata/core/gdbm.morph
-  repo: upstream:gdbm
-  ref: 51871d08a48ff781186f7a7b22ec69a1db38eb4c
-  unpetrify-ref: baserock/build-essential
+  repo: upstream:gdbm-tarball
+  ref: e5faeaaf75ecfb705a9b643b3e4cb881ebb69f48
+  unpetrify-ref: gdbm-1.11
   build-depends: []
 - name: gettext-tarball
   morph: strata/core/gettext-tarball.morph
@@ -37,8 +37,8 @@ chunks:
 - name: ncurses
   morph: strata/core/ncurses.morph
   repo: upstream:ncurses
-  ref: 0fe89dc66ec061b839bea3ab451207e2dee757b9
-  unpetrify-ref: baserock/morph
+  ref: f67398afa6a76fbc902cc0cea963d5151fa2a953
+  unpetrify-ref: ncurses-5.9-20150131
   build-depends: []
 - name: perl
   morph: strata/core/perl.morph
@@ -50,10 +50,11 @@ chunks:
 - name: texinfo-tarball
   morph: strata/core/texinfo-tarball.morph
   repo: upstream:texinfo-tarball
-  ref: 4843a7f5ff14ac802a56f1cdd49960b25c15702b
-  unpetrify-ref: baserock/morph
+  ref: 6a55f074b1f67d02149c13931eb1df9f0e539b15
+  unpetrify-ref: texinfo-5.2
   build-depends:
   - ncurses
+  - perl
 - name: autoconf-tarball
   morph: strata/core/autoconf-tarball.morph
   repo: upstream:autoconf-tarball
@@ -81,7 +82,9 @@ chunks:
   repo: upstream:flex
   ref: de10f98e8a2dc2a021796811490d0f30c3cd90bf
   unpetrify-ref: baserock/build-essential
-  build-depends: []
+  build-depends:
+  - automake
+  - gettext-tarball
 - name: openssl-new
   morph: strata/core/openssl-new.morph
   repo: upstream:openssl-new
@@ -96,10 +99,12 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: readline
+  morph: strata/core/readline.morph
   repo: upstream:readline
   ref: 518937ab89be812ccd45e9b8c1ce4ad721d35ef6
   unpetrify-ref: baserock/genivi/baseline
-  build-depends: []
+  build-depends:
+  - automake
 - name: cpython
   morph: strata/core/cpython.morph
   repo: upstream:cpython
@@ -167,12 +172,10 @@ chunks:
 - name: libexpat
   morph: strata/core/libexpat.morph
   repo: upstream:libexpat
-  ref: 97678ab13f6d29878997256b6ae1ded679ae5c5c
-  unpetrify-ref: baserock/morph
+  ref: 7cfc09db3e258129ab05811f2f9e351746ddab9f
+  unpetrify-ref: R_2_1_0
   build-depends:
-  - autoconf-tarball
-  - automake
-  - libtool-tarball
+  - cmake
 - name: XML-Parser
   repo: upstream:XML-Parser
   ref: e1a3ec157140a699e3020836475a0df622f70f1b
@@ -252,11 +255,14 @@ chunks:
   - libtool-tarball
   - pkg-config
 - name: nano
+  morph: strata/core/nano.morph
   repo: upstream:nano-tarball
   ref: 8b74abeb02c01ddc768c465a826360cf33cec063
   unpetrify-ref: baserock/morph
   build-depends:
   - ncurses
+  - automake
+  - gettext-tarball
 - name: bc
   repo: upstream:bc-tarball
   ref: 0956d119432ff6a2e85bae1fa336df799cad70b0
