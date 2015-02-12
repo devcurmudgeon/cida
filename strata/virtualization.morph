@@ -128,3 +128,9 @@ chunks:
   ref: 09792f0107a9318da809908db31f0b826017de7b
   unpetrify-ref: master
   build-depends: []
+- name: openvswitch
+  morph: strata/virtualization/openvswitch.morph
+  repo: upstream:openvswitch
+  ref: a52b0492a4d0398a24ed2a3566ff55ac53fea31f
+  unpretrify-ref: master
+  build-depends: []
