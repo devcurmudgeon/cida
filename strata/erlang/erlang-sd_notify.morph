@@ -1,0 +1,8 @@
+name: erlang
+kind: chunk
+build-commands:
+- LDFLAGS=-lsystemd REBAR_FLAGS="--verbose 2" make
+install-commands:
+- install -D -m 644 -p ebin/sd_notify.app "$DESTDIR$PREFIX"/lib/erlang/lib/sd_notify-0.1/ebin/sd_notify.app
+- install -D -m 644 -p ebin/sd_notify.beam "$DESTDIR$PREFIX"/lib/erlang/lib/sd_notify-0.1/ebin/sd_notify.beam
+- install -D -m 755 -p priv/sd_notify_drv.so "$DESTDIR$PREFIX"/lib/erlang/lib/sd_notify-0.1/priv/sd_notify_drv.so
