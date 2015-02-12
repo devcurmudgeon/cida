@@ -26,8 +26,8 @@ chunks:
 - name: qemu
   morph: strata/virtualization/qemu.morph
   repo: upstream:qemu
-  ref: f8d1fb61e65575011a67d7ba97b690feb5630c91
-  unpetrify-ref: baserock/morph
+  ref: c5691f7ecb32cbe7a95b491314ce070e211fd97d
+  unpetrify-ref: baserock/v2.2.0
   build-depends: []
 - name: xorg-util-macros
   repo: upstream:xorg-util-macros
