@@ -22,3 +22,14 @@ chunks:
   ref: c5530027c8ea28674358327ab8212ebaf014c848
   unpetrify-ref: 1.4.22
   build-depends: []
+- name: psycopg2
+  repo: upstream:python-packages/psycopg2
+  ref: 00cafbe85bb82d85cbfe0f062a73c562433b5bc8
+  unpetrify-ref: 2.5.4
+  build-depends:
+  - postgresql
+- name: python-memcached
+  repo: upstream:python-packages/python-memcached
+  ref: 156ee975ff6e5c69e1d6c58b09bedf03c182c5db
+  unpetrify-ref: master
+  build-depends: []
