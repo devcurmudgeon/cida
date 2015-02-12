@@ -1,6 +1,6 @@
 name: databases
 kind: stratum
-description: some popular databases
+description: some popular databases and some utils related to databases
 build-depends:
 - morph: strata/tools.morph
 - morph: strata/nfs.morph
@@ -17,7 +17,8 @@ chunks:
   unpetrify-ref: baserock/3.0
   build-depends: []
 - name: memcached
+  morph: strata/databases/memcached.morph
   repo: upstream:memcached
-  ref: d8b1047620a54443f6bdca7f0dc5ee3b4d99378e
-  unpetrify-ref: master
+  ref: c5530027c8ea28674358327ab8212ebaf014c848
+  unpetrify-ref: 1.4.22
   build-depends: []
