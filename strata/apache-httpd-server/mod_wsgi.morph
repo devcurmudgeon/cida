@@ -1,0 +1,18 @@
+name: mod_wsgi
+kind: chunk
+build-system: autotools
+configure-commands:
+- |
+  ./configure --prefix="$PREFIX" \
+              --with-apxs=/usr/bin/apxs
+post-install-commands:
+- |
+  install -D -m 644 /proc/self/fd/0 <<'EOF' "$DESTDIR"/etc/httpd/conf.d/wsgi.conf
+  # NOTE: mod_wsgi can not coexist in the same apache process as
+  # mod_wsgi_python3.  Only load if mod_wsgi_python3 is not
+  # already loaded.
+
+  <IfModule !wsgi_module>
+  LoadModule wsgi_module /usr/lib/httpd/modules/mod_wsgi.so
+  </IfModule>
+  EOF
