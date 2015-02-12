@@ -51,6 +51,7 @@ configure-commands:
 - scripts/config -e ROOT_NFS
 - scripts/config -e PCI
 - scripts/config -e TIGON3
+- scripts/config -e BLK_DEV_NBD
 - yes '' | make oldconfig
 build-commands:
 - make $MAKEFLAGS ARCH=powerpc zImage
