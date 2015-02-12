@@ -12,6 +12,8 @@ cache.baserock.org ansible_ssh_host=192.168.222.14
 devel-system-64b ansible_ssh_host=192.168.222.41
 firehose ansible_ssh_host=192.168.222.45
 git.baserock.org ansible_ssh_host=192.168.222.58
+gerrit.baserock.org ansible_ssh_host=192.168.222.69
+irclogs.baserock.org ansible_ssh_host=192.168.222.74
 mason-armv7lhf.baserock.org ansible_ssh_host=192.168.222.15
 mason-x86-64.baserock.org ansible_ssh_host=192.168.222.13
 
@@ -23,9 +25,7 @@ storyboard.baserock.org ansible_ssh_host=192.168.222.40
 
 [ubuntu]
 paste.baserock.org ansible_ssh_host=192.168.222.6
-testgerrit.baserock.org ansible_ssh_host=192.168.222.46
-testirclogs.baserock.org ansible_ssh_host=192.168.222.11
-#gerrit.baserock.org-test ansible_ssh_host=192.168.222.44  # (off)
+#testgerrit.baserock.org ansible_ssh_host=192.168.222.46
 
 
 [baserock:vars]
