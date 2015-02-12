@@ -90,8 +90,8 @@ chunks:
   - urlgrabber
 - name: gnome-common
   repo: upstream:gnome-common
-  ref: 766c35359ef924ceb2288c14c2d6239fcc0618f8
-  unpetrify-ref: 3.7.4
+  ref: d213283fcb5228d05eb2c796579f18240e8467e8
+  unpetrify-ref: 3.12.0
   build-depends: []
 - name: pygobject
   morph: strata/virtualization/pygobject.morph
