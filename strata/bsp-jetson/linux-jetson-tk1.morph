@@ -66,6 +66,7 @@ configure-commands:
 - scripts/config -e NET_SCH_HTB
 - scripts/config -e NET_SCH_HFSC
 - scripts/config -e VXLAN
+- scripts/config -e VETH
 - yes '' | make ARCH=arm oldconfig
 build-commands:
 - make $MAKEFLAGS ARCH=arm LOADADDR=0x80200000 zImage dtbs

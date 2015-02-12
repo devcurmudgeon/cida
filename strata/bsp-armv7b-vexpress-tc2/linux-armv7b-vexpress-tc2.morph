@@ -42,6 +42,7 @@ configure-commands:
 - scripts/config -e VFAT_FS
 - scripts/config -e VLAN_8021Q
 - scripts/config -e BRIDGE_VLAN_FILTERING
+- scripts/config -e VETH
 - yes '' | make oldconfig
 build-commands:
 - make zImage vexpress-v2p-ca15_a7.dtb

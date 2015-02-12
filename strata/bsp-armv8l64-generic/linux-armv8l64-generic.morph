@@ -89,6 +89,7 @@ configure-commands:
 - scripts/config -e NET_SCH_HTB
 - scripts/config -e NET_SCH_HFSC
 - scripts/config -e VXLAN
+- scripts/config -e VETH
 # Required for M400
 - scripts/config -e SATA_AHCI_PLATFORM
 - scripts/config -e AHCI_XGENE
