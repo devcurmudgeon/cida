@@ -1,6 +1,10 @@
 name: virtualization
 kind: stratum
-description: virtualization for baserock
+description: |
+    Virtualization for baserock
+    NOTE: this stratum requires kernel support, please see openstack bsp
+    kernel history to check which config are needed for openvswitch, libvirt,
+    or ebtables, for example.
 build-depends:
 - morph: strata/connman-common.morph
 - morph: strata/lvm.morph
