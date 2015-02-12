@@ -20,3 +20,8 @@ chunks:
   ref: b83131779c701720a9ae9efae78996277d416269
   unpetrify-ref: v2.5.1
   build-depends: []
+- name: six
+  repo: upstream:six
+  ref: 8cfbff6b764af86d825086fa1637aa009e90d75a
+  unpetrify-ref: 1.9.0
+  build-depends: []
