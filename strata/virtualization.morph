@@ -1,8 +1,13 @@
 name: virtualization
 kind: stratum
-description: virtualization for baserock
+description: |
+    Virtualization for baserock
+    NOTE: this stratum requires kernel support, please see openstack bsp
+    kernel history to check which config are needed for openvswitch, libvirt,
+    or ebtables, for example.
 build-depends:
 - morph: strata/connman-common.morph
+- morph: strata/lvm.morph
 chunks:
 - name: yajl
   morph: strata/virtualization/yajl.morph
@@ -25,8 +30,8 @@ chunks:
 - name: qemu
   morph: strata/virtualization/qemu.morph
   repo: upstream:qemu
-  ref: f8d1fb61e65575011a67d7ba97b690feb5630c91
-  unpetrify-ref: baserock/morph
+  ref: c5691f7ecb32cbe7a95b491314ce070e211fd97d
+  unpetrify-ref: baserock/v2.2.0
   build-depends: []
 - name: xorg-util-macros
   repo: upstream:xorg-util-macros
@@ -39,17 +44,24 @@ chunks:
   unpetrify-ref: master
   build-depends:
   - xorg-util-macros
+- name: dmidecode
+  morph: strata/virtualization/dmidecode.morph
+  repo: upstream:dmidecode
+  ref: 47a0aa5d6696a83922ee70279b7253a4e55947d5
+  unpetrify-ref: master
+  build-depends: []
 - name: libvirt
   morph: strata/virtualization/libvirt.morph
   repo: upstream:libvirt
-  ref: 13b7bb4acba9b70e015b7faa020b08018885aad8
-  unpetrify-ref: baserock/morph
+  ref: 7b1ceec1e2f141d36ed9b7ef3a660ff8bb34fc53
+  unpetrify-ref: baserock/v1.2.10
   build-depends:
   - libpciaccess
   - dnsmasq
   - qemu
   - xml-catalog
   - yajl
+  - dmidecode
 - name: pycurl
   repo: upstream:pycurl
   ref: 5ca370827d88817eeca3c56cbb37e4ddccc16c6e
@@ -74,16 +86,16 @@ chunks:
   - cython
 - name: libvirt-python
   repo: upstream:libvirt-python
-  ref: 4382fc518cbd11d9af5727fb403e175818c25db5
-  unpetrify-ref: v1.2.2
+  ref: 8e09c79a07b097a6ba9af83be4916fb9c9538500
+  unpetrify-ref: v1.2.10
   build-depends:
   - libvirt
   - python-lxml
   - urlgrabber
 - name: gnome-common
   repo: upstream:gnome-common
-  ref: 766c35359ef924ceb2288c14c2d6239fcc0618f8
-  unpetrify-ref: 3.7.4
+  ref: d213283fcb5228d05eb2c796579f18240e8467e8
+  unpetrify-ref: 3.12.0
   build-depends: []
 - name: pygobject
   morph: strata/virtualization/pygobject.morph
@@ -114,3 +126,15 @@ chunks:
   build-depends:
   - libvirt-python
   - libosinfo
+- name: ebtables
+  morph: strata/virtualization/ebtables.morph
+  repo: upstream:ebtables
+  ref: 09792f0107a9318da809908db31f0b826017de7b
+  unpetrify-ref: master
+  build-depends: []
+- name: openvswitch
+  morph: strata/virtualization/openvswitch.morph
+  repo: upstream:openvswitch
+  ref: a52b0492a4d0398a24ed2a3566ff55ac53fea31f
+  unpretrify-ref: master
+  build-depends: []
