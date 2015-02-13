@@ -6,4 +6,40 @@ build-commands:
 - make
 install-commands:
 - make  DESTDIR="$DESTDIR" install
-- sh ncurses-morph-postinstall.sh
+post-install-commands:
+- |
+  # lfs recommends some alterations for software that looks for
+  # libcurses instead of libncurses
+  # it's more convenient to have this in a separate file than the
+  # morph as less strings have to be escaped and comments are possible
+
+  # some software expects to find libcurses in /lib
+  mkdir -p "$DESTDIR/lib"
+  mv "$DESTDIR"/"$PREFIX"/lib/libncursesw.so.5* "$DESTDIR"/lib
+  ln -sf ../../lib/libncursesw.so.5 "$DESTDIR"/"$PREFIX"/lib/libncursesw.so
+
+  # some linker tricks for libraries that look for non-wide character
+  # versions of ncurses
+  for lib in ncurses form panel menu; do
+      # remove non-wide shared object
+      rm -f "$DESTDIR/${PREFIX}/lib/lib${lib}.so"
+      # use a linker script to find the wide character variant
+      echo "INPUT(-l${lib}w)" >"$DESTDIR/${PREFIX}/lib/lib${lib}.so"
+      # symlink the non-shared library
+      ln -sf "lib${lib}w.a" "$DESTDIR/${PREFIX}/lib/lib${lib}.a"
+  done
+  ln -sf libncurses++w.a "$DESTDIR/${PREFIX}/lib/libncurses++.a"
+
+  # redirect software that looks for libcurses
+  rm -f "$DESTDIR/${PREFIX}/lib/libcursesw.so"
+  echo "INPUT(-lncursesw)" >"$DESTDIR/${PREFIX}/lib/libcursesw.so"
+  ln -sf libncurses.so "$DESTDIR/${PREFIX}/lib/libcurses.so"
+  ln -sf libncursesw.a "$DESTDIR/${PREFIX}/lib/libcursesw.a"
+  ln -sf libncurses.a "$DESTDIR/${PREFIX}/lib/libcurses.a"
+
+  # install documentation
+  mkdir -p "$DESTDIR/${PREFIX}/share/doc/ncurses"
+  cp -R doc/* "$DESTDIR/${PREFIX}/share/doc/ncurses"
+
+  # remove 'clear' and 'reset' executables, busybox provides them
+  rm -f "$DESTDIR/${PREFIX}/bin/clear" "$DESTDIR/${PREFIX}/bin/reset"

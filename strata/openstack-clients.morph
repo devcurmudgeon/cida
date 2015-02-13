@@ -2,6 +2,7 @@ name: openstack-clients
 kind: stratum
 description: A stratum with OpenStack clients, for OpenStack deployments.
 build-depends:
+- morph: strata/python-core.morph
 - morph: strata/tools.morph
 chunks:
 - name: jsonschema
@@ -33,11 +34,6 @@ chunks:
   ref: 941133673e5a0003cd5ce1b6db2a51cf3307d9c1
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: pbr
-  repo: upstream:pbr
-  ref: 510ee9e9dcb94c5884c215fa3535a1f77f3d2a51
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: argparse
   repo: upstream:argparse
   ref: c9b3f9b32949cb7dd798e7d1aedbeeef064aa4b1
@@ -51,11 +47,6 @@ chunks:
 - name: pyiso8601
   repo: upstream:pyiso8601
   ref: ac5470ec9e68332ebc499c4f9f21e7e3cb31ecb6
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: python-requests
-  repo: upstream:python-requests
-  ref: b891877ee6d76b0a3f8cbf2e7cd34cc4cbc40b6b
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: simplejson
@@ -85,10 +76,8 @@ chunks:
   ref: 21cc66a850c5ea1d2ffffb655da0c452b919ed3b
   unpetrify-ref: baserock/morph
   build-depends:
-  - pbr
   - pyiso8601
   - python-prettytable
-  - python-requests
   - simplejson
   - netaddr
   - babel
@@ -98,7 +87,6 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - python-prettytable
-  - pbr
   - argparse
   - pyopenssl
   - python-keystoneclient
@@ -109,9 +97,7 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - python-prettytable
-  - pbr
   - argparse
   - pyiso8601
-  - python-requests
   - simplejson
   - babel

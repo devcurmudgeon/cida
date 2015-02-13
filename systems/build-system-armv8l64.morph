@@ -1,7 +1,10 @@
-name: build-system-x86_64-chroot
+name: build-system-armv8l64
 kind: system
-description: The system that should be used for building all other Baserock systems for 64-bit Intel x86 computers, chroot variant.
-arch: x86_64
+description:
+- |
+  The system that should be used for building all other Baserock systems
+  for little endian 64-bit ARMv8 computers.
+arch: armv8l64
 strata:
 - name: build-essential
   morph: strata/build-essential.morph
@@ -9,8 +12,8 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
-- name: python-core
-  morph: strata/python-core.morph
+- name: bsp-armv8l64-generic
+  morph: strata/bsp-armv8l64-generic.morph
 - name: tools
   morph: strata/tools.morph
 - name: morph-utils
@@ -25,8 +28,6 @@ strata:
   morph: strata/openstack-clients.morph
 - name: devtools
   morph: strata/devtools.morph
-- name: bsp-x86_both-tools
-  morph: strata/bsp-x86_both-tools.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

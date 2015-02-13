@@ -1,0 +1,4 @@
+name: acl
+kind: chunk
+install-commands:
+- make DESTDIR="$DESTDIR" install-dev

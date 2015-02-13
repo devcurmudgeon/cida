@@ -9,3 +9,8 @@ build-commands:
 - make WERROR_CFLAGS=
 install-commands:
 - make INSTALL_PROGRAM=install DESTDIR="$DESTDIR" install
+# This hack is for supporting "fdatasync" argument in "dd" command
+# which busybox "dd" does not support.
+# This hack should dissappear when we merge /usr/bin and /bin.
+- mkdir -p "$DESTDIR"/bin/
+- ln -sf ../usr/bin/dd "$DESTDIR"/bin/

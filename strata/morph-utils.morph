@@ -2,6 +2,7 @@ name: morph-utils
 kind: stratum
 build-depends:
 - morph: strata/core.morph
+- morph: strata/python-core.morph
 chunks:
 - name: python-ttystatus
   morph: strata/morph-utils/python-ttystatus.morph
@@ -20,18 +21,12 @@ chunks:
   ref: 208f88d0f0ef04c25e8a231979eb0083f57b1610
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: six
-  repo: upstream:six
-  ref: e66d45c46afc42eb89d7d2515b79f0ededa0e0fa
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: pyfilesystem
   morph: strata/morph-utils/pyfilesystem.morph
   repo: upstream:pyfilesystem
   ref: 821f7db1ce3a3e1ac53fa514ddacbc2871eac0f6
   unpetrify-ref: baserock/morph
-  build-depends:
-  - six
+  build-depends: []
 - name: python-coveragepy
   morph: strata/morph-utils/python-coveragepy.morph
   repo: upstream:python-coveragepy
@@ -71,7 +66,7 @@ chunks:
   build-depends: []
 - name: morph
   repo: baserock:baserock/morph
-  ref: f0c5d4c0ef35cc43aa059cd2255e41c60c4cac77
+  ref: 954baf68b9bb7f8bc4fae2447ef16f37928ff01c
   unpetrify-ref: master
   build-depends:
   - cliapp

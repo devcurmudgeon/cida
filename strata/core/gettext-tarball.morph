@@ -1,4 +1,4 @@
-name: autoconf
+name: gettext-tarball
 kind: chunk
 build-system: autotools
 configure-commands:

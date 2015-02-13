@@ -1,4 +1,4 @@
-name: vala
+name: m4-tarball
 kind: chunk
 build-system: autotools
 configure-commands:

@@ -163,8 +163,8 @@ chunks:
 - name: stage2-gawk
   morph: strata/build-essential/stage2-gawk.morph
   repo: upstream:gawk
-  ref: 6a0eb04c3d2ac24d80d505b42a8f67799487d133
-  unpetrify-ref: baserock/build-essential
+  ref: dc5af665700d9b04fdf9c18930526d28eef5d5d9
+  unpetrify-ref: gawk-4.1.1
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -174,9 +174,9 @@ chunks:
 
 - name: stage2-make
   morph: strata/build-essential/stage2-make.morph
-  repo: upstream:make
-  ref: 56968f58301e6e5157cf4c8b6deefbaff2955eba
-  unpetrify-ref: baserock/build-essential
+  repo: upstream:make-tarball
+  ref: f75919b038da8a28388a911303fb86ed7a70ea2c
+  unpetrify-ref: make-4.1
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -308,8 +308,8 @@ chunks:
 - name: gawk
   morph: strata/build-essential/gawk.morph
   repo: upstream:gawk
-  ref: 6a0eb04c3d2ac24d80d505b42a8f67799487d133
-  unpetrify-ref: baserock/build-essential
+  ref: dc5af665700d9b04fdf9c18930526d28eef5d5d9
+  unpetrify-ref: gawk-4.1.1
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -322,11 +322,11 @@ chunks:
   - stage2-reset-specs
   - glibc
 
-- name: m4
-  morph: strata/build-essential/m4.morph
-  repo: upstream:m4
-  ref: cfbd353f3a2dc517992bcdc747281a22feb0c4db
-  unpetrify-ref: baserock/build-essential
+- name: m4-tarball
+  morph: strata/build-essential/m4-tarball.morph
+  repo: upstream:m4-tarball
+  ref: 23c11479b3ad787adc7a651ee0c4347839e47723
+  unpetrify-ref: m4-1.4.17
   build-depends:
   - stage2-binutils
   - stage2-busybox
@@ -354,15 +354,15 @@ chunks:
   - stage2-reset-specs
   - glibc
   - zlib
-  - m4
+  - m4-tarball
   artifacts:
     gcc-libs: build-essential-minimal
 
 - name: make
   morph: strata/build-essential/make.morph
-  repo: upstream:make
-  ref: 56968f58301e6e5157cf4c8b6deefbaff2955eba
-  unpetrify-ref: baserock/build-essential
+  repo: upstream:make-tarball
+  ref: f75919b038da8a28388a911303fb86ed7a70ea2c
+  unpetrify-ref: make-4.1
   build-depends:
   - stage2-binutils
   - stage2-busybox

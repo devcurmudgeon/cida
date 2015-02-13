@@ -9,6 +9,8 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
+- name: python-core
+  morph: strata/python-core.morph
 - name: bsp-x86_64-generic
   morph: strata/bsp-x86_64-generic.morph
 - name: tools
@@ -25,6 +27,8 @@ strata:
   morph: strata/openstack-clients.morph
 - name: devtools
   morph: strata/devtools.morph
+- name: bsp-x86_both-tools
+  morph: strata/bsp-x86_both-tools.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

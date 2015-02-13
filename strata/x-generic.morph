@@ -3,9 +3,15 @@ kind: stratum
 build-depends:
 - morph: strata/foundation.morph
 - morph: strata/libdrm-common.morph
+- morph: strata/mesa-common.morph
 - morph: strata/x-common.morph
 - morph: strata/graphics-common.morph
 chunks:
+- name: libepoxy
+  repo: upstream:libepoxy
+  ref: 7422de5b4be7b19d789136b3bb5f932de42db27c
+  unpetrify-ref: v1.2
+  build-depends: []
 - name: xorg-lib-libxkbfile
   repo: upstream:xorg-lib-libxkbfile
   ref: 7381c2f9013ef7784c78091fa671e652a62ca706
@@ -28,153 +34,19 @@ chunks:
   unpetrify-ref: libXfont-1.5.0
   build-depends:
   - xorg-lib-libfontenc
-- name: xorg-lib-libICE
-  repo: upstream:xorg-lib-libICE
-  ref: 1b1cf8072b2559e15ac440d5484a29a81d6918c6
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: xorg-lib-libSM
-  repo: upstream:xorg-lib-libSM
-  ref: 77ddd273239a629eeed7bd1d5b4509b1bd6d4e37
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libICE
-- name: xorg-lib-libXt
-  repo: upstream:xorg-lib-libXt
-  ref: ead50a9a274aa96bef94e57c4625be8e9288af4e
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libSM
-- name: xorg-lib-libXmu
-  repo: upstream:xorg-lib-libXmu
-  ref: 474d22468c90f99104873b4c5fd7b0f0d2cbf823
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libXt
-- name: xorg-lib-libXpm
-  repo: upstream:xorg-lib-libXpm
-  ref: 81608285e11f2455800001a965dfece878861162
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libXt
-- name: xorg-lib-libXaw
-  repo: upstream:xorg-lib-libXaw
-  ref: a5630e166921b5b5322b30fb152df01bb6536e42
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libXmu
-  - xorg-lib-libXpm
-  - xorg-lib-libXt
-- name: libsha1
-  repo: upstream:libsha1
-  ref: 17173732b9f1b2d4142de27913250b4563db2436
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: xserver
   morph: strata/x-generic/xserver.morph
   repo: upstream:xserver
   ref: 4393c7f1ba6140a02232f04fbb434a80d663a99d
   unpetrify-ref: xorg-server-1.16.2
   build-depends:
-  - libsha1
+  - libepoxy
   - xorg-font-util
-  - xorg-lib-libXaw
   - xorg-lib-libXfont
-  - xorg-lib-libXmu
-  - xorg-lib-libXpm
-  - xorg-lib-libXt
-  - xorg-lib-libfontenc
   - xorg-lib-libxkbfile
-- name: xorg-driver-xf86-video-cirrus
-  repo: upstream:xorg-driver-xf86-video-cirrus
-  ref: 6504929481eab616f064b5d661a057de74b8b488
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xserver
-- name: xorg-driver-xf86-video-fbdev
-  repo: upstream:xorg-driver-xf86-video-fbdev
-  ref: ac293412a01d87f87eb61f4adb9db7486a75d3fc
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xserver
-- name: xorg-driver-xf86-video-vesa
-  repo: upstream:xorg-driver-xf86-video-vesa
-  ref: 29a149544e2120a582043738d5b09dd80e896345
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xserver
-- name: xorg-driver-xf86-input-evdev
-  repo: upstream:xorg-driver-xf86-input-evdev
-  ref: 2b8b0df62ec554952784f2820fb4143c495232b0
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xserver
-- name: xorg-driver-xf86-input-keyboard
-  repo: upstream:xorg-driver-xf86-input-keyboard
-  ref: 4a954bc6a8fbc4aa50dfcabec011274252713204
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xserver
-- name: xorg-driver-xf86-input-mouse
-  repo: upstream:xorg-driver-xf86-input-mouse
-  ref: 585f4030d77accf2a4ba115729ca08da82217863
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xserver
 - name: xorg-app-xkbcomp
   repo: upstream:xorg-app-xkbcomp
   ref: 705b9bbb426410f9510601c7010da51184919b36
   unpetrify-ref: baserock/morph
   build-depends:
   - xorg-lib-libxkbfile
-- name: xkeyboard-config
-  repo: upstream:xkeyboard-config
-  ref: b4be67b48fb11989f1824dd0b1c8c399430162b0
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-app-xkbcomp
-- name: xorg-app-xinit
-  repo: upstream:xorg-app-xinit
-  ref: 4e85bce64acef1fa0ddff04d59737444e942ff12
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: xorg-lib-libXft
-  repo: upstream:xorg-lib-libXft
-  ref: 214f9b5306d833e2787c75fe41dfdc9228fcb738
-  unpetrify-ref: libXft-2.3.2
-  build-depends: []
-- name: xcb-util
-  repo: upstream:xcb-util
-  ref: 45215e6f56bf57efdf5469567c00eba7a991d3a3
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: util-wm
-  repo: upstream:util-wm
-  ref: 18bde07dc7cb44617c0d159ccd9ef640804296e3
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: util-keysyms
-  morph: strata/x-generic/util-keysyms.morph
-  repo: upstream:util-keysyms
-  ref: 0be179eff4eadb99ee303891d1c29c4e4dd6fbab
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: util-image
-  repo: upstream:util-image
-  ref: 66b0caa72eb5011d89d0346424ea40b9e8e93816
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xcb-util
-- name: xterm
-  repo: upstream:xterm
-  ref: 7fc0a9529babac61d9a0b30e6ddb3c79e44af0e5
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libXaw
-  - xorg-lib-libxkbfile
-- name: xorg-app-xauth
-  repo: upstream:xorg-app-xauth
-  ref: 6dda11c17f2fdc47d43f269dccee98ec66cc8c4b
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - xorg-lib-libXmu

@@ -10,22 +10,16 @@ chunks:
   ref: c9691a9604fdf9d6711204999787d332b7141692
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: e2fsprogs
-  morph: strata/tools/e2fsprogs.morph
-  repo: upstream:e2fsprogs
-  ref: 6a3741ad293031447b95b88431eafa77401a8987
-  unpetrify-ref: v1.42.12
-  build-depends: []
 - name: file
   repo: upstream:file
-  ref: 3b49db406667ee7189b9ea69b9d9e0bdcc43c5b7
-  unpetrify-ref: baserock/morph
+  ref: f69c3fd9bcb108292e7887dd889e8b49f68c4a52
+  unpetrify-ref: file-5.22
   build-depends: []
 - name: gdb
   morph: strata/tools/gdb.morph
-  repo: upstream:gdb
-  ref: c4bf5268b1a32ec475b61d2fe90e9218780c03c8
-  unpetrify-ref: baserock/morph
+  repo: upstream:binutils-gdb
+  ref: 129ee12d013f4a2f09fe40a33072e6e47e949890
+  unpetrify-ref: gdb-7.8-branch
   build-depends: []
 - name: linux-user-chroot
   repo: upstream:linux-user-chroot
@@ -41,20 +35,26 @@ chunks:
 - name: rsync
   morph: strata/tools/rsync.morph
   repo: upstream:rsync
-  ref: 9faf8e0ccff2755cd019ff64d8322226a214b013
-  unpetrify-ref: baserock/morph
+  ref: 7cb0de6326c915a72253fd103dae93308031ec3f
+  unpetrify-ref: v3.1.1
   build-depends: []
 - name: strace
   repo: upstream:strace
-  ref: ad232c6aa0c2a07830d61dc4b9912478634b23b5
-  unpetrify-ref: baserock/morph
+  ref: 6d8c0637e8dd0f65c667af33c612230552419db1
+  unpetrify-ref: v4.8
   build-depends: []
-- name: vala
-  morph: strata/tools/vala.morph
+- name: vala-bootstrap
+  morph: strata/tools/vala-bootstrap.morph
   repo: upstream:vala
   ref: 4e4a02c03445336237b36723b23a91670ef7621b
   unpetrify-ref: baserock/bootstrap
   build-depends: []
+- name: vala
+  repo: upstream:vala
+  ref: 682eba5880fbd76402dec10118883da913a7b255
+  unpetrify-ref: 0.26.2
+  build-depends:
+  - vala-bootstrap
 - name: u-boot
   morph: strata/tools/u-boot.morph
   repo: upstream:u-boot
@@ -64,7 +64,7 @@ chunks:
 - name: kexec-tools
   morph: strata/tools/kexec-tools.morph
   repo: upstream:kexec-tools
-  ref: 9359b61ca44980d33c0bee42b9bb2e36e72835dd
+  ref: f4d1d2ad474e882df13418239aa3050673a844d7
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: device-tree-compiler

@@ -1,0 +1,6 @@
+name: readline
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- cp /usr/share/automake*/config.guess support
+- cp /usr/share/automake*/config.sub support

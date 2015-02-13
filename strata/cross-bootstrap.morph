@@ -3,22 +3,18 @@ kind: stratum
 description: The minimal development tools to build a baserock devel system
 build-depends:
 - morph: strata/core.morph
+- morph: strata/python-core.morph
 chunks:
-- name: six
-  repo: upstream:six
-  ref: e66d45c46afc42eb89d7d2515b79f0ededa0e0fa
-  unpetrify-ref: baserock/morph
-  build-depends: []
 - name: groff
   morph: strata/cross-bootstrap/groff.morph
-  repo: upstream:groff
-  ref: c7017a099f954bb6de60e79c876935b1bf438b9a
-  unpetrify-ref: baserock/morph
+  repo: upstream:groff-git
+  ref: 16305a24e67966ace06d55e2a0b98cc0e3127a93
+  unpetrify-ref: 1.22.3
   build-depends: []
 - name: openssh
   morph: strata/cross-bootstrap/openssh.morph
-  repo: upstream:openssh
-  ref: 233514106dcde5ac61a70f1043de563122e2f1c9
+  repo: upstream:openssh-git
+  ref: 782fe9e725243eeb5ad6ab9a1783b5d6bedfe0d7
   unpetrify-ref: baserock/morph
   build-depends:
   - groff
@@ -70,11 +66,10 @@ chunks:
   repo: upstream:pyfilesystem
   ref: 821f7db1ce3a3e1ac53fa514ddacbc2871eac0f6
   unpetrify-ref: baserock/morph
-  build-depends:
-  - six
+  build-depends: []
 - name: morph
   repo: baserock:baserock/morph
-  ref: 67afd098cd297b769b1341a460d160a2902ba4e4
+  ref: 954baf68b9bb7f8bc4fae2447ef16f37928ff01c
   unpetrify-ref: master
   build-depends:
   - cliapp
@@ -84,6 +79,6 @@ chunks:
 - name: rsync
   morph: strata/cross-bootstrap/rsync.morph
   repo: upstream:rsync
-  ref: 9faf8e0ccff2755cd019ff64d8322226a214b013
-  unpetrify-ref: baserock/morph
+  ref: 7cb0de6326c915a72253fd103dae93308031ec3f
+  unpetrify-ref: v3.1.1
   build-depends: []
