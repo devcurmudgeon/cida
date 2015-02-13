@@ -85,8 +85,8 @@ chunks:
 - name: subversion-tarball
   morph: strata/lorry/subversion-tarball.morph
   repo: upstream:subversion-tarball
-  ref: 351e074672d9aa6446d5829938b697a3d6b23266
-  unpetrify-ref: baserock/morph
+  ref: baserock/tiagogomes/armv8l64-devel
+  unpetrify-ref: 351e074672d9aa6446d5829938b697a3d6b23266
   build-depends:
   - swig-tarball
   - libapr

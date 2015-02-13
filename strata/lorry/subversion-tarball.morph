@@ -1,6 +1,8 @@
 name: subversion-tarball
 kind: chunk
 build-system: autotools
+pre-configure-commands:
+- LIBTOOL_CONFIG=/usr/share/libtool/build-aux/ ./autogen.sh
 configure-commands:
 - python gen-make.py build.conf
 - ./configure --prefix="$PREFIX" --without-berkeley-db
