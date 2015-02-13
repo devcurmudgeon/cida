@@ -1,6 +1,9 @@
 name: cvs-tarball
 kind: chunk
 build-system: autotools
+pre-configure-commands:
+- cp /usr/share/automake*/config.guess build-aux
+- cp /usr/share/automake*/config.sub build-aux
 configure-commands:
 - YACC='bison -y' ./configure --prefix "$PREFIX" --with-external-zlib --without-gssapi
   --without-krb4 --disable-dependency-tracking --disable-nls --disable-rpath
