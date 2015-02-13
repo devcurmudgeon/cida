@@ -1,0 +1,21 @@
+name: libapr-tarball
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- ./buildconf
+configure-commands:
+- |
+  ./configure \
+    --prefix "$PREFIX" \
+    --disable-static \
+    --with-installbuilddir=/usr/share/apr-1/build
+post-install-commands:
+- |
+  # Install files required for apr-util
+  for file in find_apr.m4 apr_common.m4 install.sh gen-build.py \
+      get-version.sh config.guess config.sub
+  do
+    cp build/$file "$DESTDIR/$PREFIX"/share/apr-1/build/"$file"
+  done
+  # Create a symlink in the build directory to the include directory
+  ln -sf /usr/include/apr-1 "$DESTDIR/$PREFIX"/share/apr-1/build/

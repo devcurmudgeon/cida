@@ -38,18 +38,19 @@ chunks:
   ref: ca4cd317a75ef4349563b5a9a734561beb4a4f98
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: libapr-tarball
-  repo: upstream:libapr-tarball
-  ref: dea1efeb7f60fc6848e1e72b3fc973d0057565db
-  unpetrify-ref: baserock/morph
+- name: libapr
+  morph: strata/lorry/libapr.morph
+  repo: upstream:libapr
+  ref: 10835ec9a2d8bb9f7b867d15f29984d29744f028
+  unpetrify-ref: 1.5.1
   build-depends: []
-- name: libapr-util-tarball
-  morph: strata/lorry/libapr-util-tarball.morph
-  repo: upstream:libapr-util-tarball
-  ref: daba269ee5a262cc23621b3ee37ed368d2a2b69b
-  unpetrify-ref: baserock/morph
+- name: libapr-util
+  morph: strata/lorry/libapr-util.morph
+  repo: upstream:libapr-util
+  ref: 718a507e2e33d87ab15ff80cfe80aea8ae6c7163
+  unpetrify-ref: 1.5.4
   build-depends:
-  - libapr-tarball
+  - libapr
 - name: perl-dbi-tarball
   morph: strata/lorry/perl-dbi-tarball.morph
   repo: upstream:perl-dbi-tarball
@@ -67,8 +68,8 @@ chunks:
   ref: 6f61a1acd01dc2ad1d2f5c1f7458702c77c69f9c
   unpetrify-ref: baserock/morph
   build-depends:
-  - libapr-tarball
-  - libapr-util-tarball
+  - libapr
+  - libapr-util
 - name: swig-tarball
   morph: strata/lorry/swig-tarball.morph
   repo: upstream:swig-tarball
@@ -88,8 +89,8 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - swig-tarball
-  - libapr-tarball
-  - libapr-util-tarball
+  - libapr
+  - libapr-util
   - libserf-tarball
   - neon
 - name: mercurial-tarball
