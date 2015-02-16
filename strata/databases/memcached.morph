@@ -1,0 +1,8 @@
+name: memcached
+kind: chunk
+build-system: autotools
+configure-commands:
+- perl version.pl
+- touch README
+- autoreconf -fvi
+- ./configure --prefix="$PREFIX"

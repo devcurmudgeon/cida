@@ -6,8 +6,8 @@ build-depends:
 chunks:
 - name: libevent
   repo: upstream:libevent
-  ref: 9364dff5c20e9e8c18f7f20ee1c92463e9e9c8a7
-  unpetrify-ref: baserock/release-2.0.21-stable
+  ref: 0b49ae34594533daa82c06a506078de9e336a013
+  unpetrify-ref: release-2.1.5-beta
   build-depends: []
 - name: ti-rpc
   morph: strata/nfs/ti-rpc.morph
