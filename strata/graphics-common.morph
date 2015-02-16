@@ -5,6 +5,7 @@ build-depends:
 - morph: strata/x-common.morph
 chunks:
 - name: pixman
+  morph: strata/graphics-common/pixman.morph
   repo: upstream:pixman
   ref: 87eea99e443b389c978cf37efc52788bf03a0ee0
   unpetrify-ref: pixman-0.32.6
