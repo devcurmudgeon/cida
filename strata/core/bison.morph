@@ -2,4 +2,4 @@ name: bison
 kind: chunk
 build-system: autotools
 pre-configure-commands:
-- bash bootstrap --skip-po
+- ./bootstrap --skip-po

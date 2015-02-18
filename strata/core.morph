@@ -212,7 +212,6 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
-  - bash
   - flex
   - gettext-tarball
   - git
