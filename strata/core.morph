@@ -195,10 +195,9 @@ chunks:
   - libexpat
   - openssl-new
 - name: help2man
-  morph: strata/core/help2man.morph
   repo: upstream:help2man
-  ref: 0191a5f61525f8deea2ae8bdfea88190d85b6a71
-  unpetrify-ref: baserock/morph
+  ref: 83bab7e2e8e24a380266a9a247c029c49b0de666
+  unpetrify-ref: baserock/v1.46.5
   build-depends:
   - autoconf-tarball
   - automake
