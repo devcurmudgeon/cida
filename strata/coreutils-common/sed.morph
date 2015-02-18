@@ -1,4 +1,4 @@
-me: sed
+name: sed
 kind: chunk
 build-system: autotools
 configure-commands:
