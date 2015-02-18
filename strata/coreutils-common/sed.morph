@@ -1,7 +1,8 @@
-me: sed
+name: sed
 kind: chunk
 build-system: autotools
 configure-commands:
+- sed -i -e '/^buildreq="/,/^"/{/rsync/d}' bootstrap.conf
 - ./bootstrap --skip-po
 - ./configure --prefix="$PREFIX" --disable-gcc-warnings
 post-install-commands:
