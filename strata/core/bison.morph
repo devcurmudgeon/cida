@@ -2,5 +2,4 @@ name: bison
 kind: chunk
 build-system: autotools
 pre-configure-commands:
-- echo $(grep '* Noteworthy changes in release' NEWS | grep -v '?\\.?' | head -n1 | cut -d' ' -f6) > .tarball-version
 - bash bootstrap --skip-po
