@@ -11,6 +11,7 @@ baserock-mason-x86-64 ansible_ssh_host=192.168.222.48
 cache.baserock.org ansible_ssh_host=192.168.222.14
 devel-system-64b ansible_ssh_host=192.168.222.41
 firehose ansible_ssh_host=192.168.222.45
+gerrit.baserock.org ansible_ssh_host=192.168.222.69
 git.baserock.org ansible_ssh_host=192.168.222.58
 gerrit.baserock.org ansible_ssh_host=192.168.222.69
 irclogs.baserock.org ansible_ssh_host=192.168.222.74
