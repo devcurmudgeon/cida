@@ -282,5 +282,4 @@ chunks:
   ref: 3bbb26c928a147cfcf0756f1cc0a1307e5cc663f
   unpetrify-ref: baserock/v2.7.1
   build-depends:
-  - bash
   - shadow

@@ -1,7 +1,7 @@
 name: patch
 kind: chunk
 configure-commands:
-- bash bootstrap --skip-po
+- ./bootstrap --skip-po
 - ./configure --prefix="$PREFIX" --disable-nls
 build-commands:
 - make
