@@ -128,9 +128,7 @@ chunks:
   ref: 58ec0d8593541ef7ae522ce42ebec6f98536c4e0
   unpetrify-ref: baserock/morph
   build-depends:
-  - autoconf-tarball
-  - automake
-  - libtool-tarball
+  - bash
 - name: xz
   repo: upstream:xz
   ref: a0cd05ee71d330b79ead6eb9222e1b24e1559d3a
