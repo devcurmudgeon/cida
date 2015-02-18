@@ -33,6 +33,12 @@ strata:
   morph: strata/mesa-common.morph
 - name: weston-common
   morph: strata/weston-common.morph
+- name: x-common
+  morph: strata/x-common.morph
+- name: x-generic
+  morph: strata/x-generic.morph
+- name: tools
+  morph: strata/tools.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
