@@ -1,4 +1,4 @@
-name: libapr-tarball
+name: libapr
 kind: chunk
 build-system: autotools
 pre-configure-commands:
