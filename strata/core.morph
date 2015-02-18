@@ -121,8 +121,7 @@ chunks:
   repo: upstream:libtool-tarball
   ref: c026ca36e37d2643623a75d0d3e9e451023139f3
   unpetrify-ref: libtool-2.4.6
-  build-depends:
-  - bash
+  build-depends: []
 - name: gtk-doc-stub
   repo: upstream:gtk-doc-stub
   ref: 58ec0d8593541ef7ae522ce42ebec6f98536c4e0
