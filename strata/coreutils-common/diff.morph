@@ -1,0 +1,6 @@
+name: diff
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./bootstrap --skip-po
+- ./configure --prefix="$PREFIX"
