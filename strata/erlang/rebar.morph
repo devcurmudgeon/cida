@@ -1,4 +1,4 @@
-name: erlang
+name: rebar
 kind: chunk
 build-commands:
 - ./bootstrap

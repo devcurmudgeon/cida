@@ -1,4 +1,4 @@
-name: erlang
+name: erlang-sd_notify
 kind: chunk
 build-commands:
 - LDFLAGS=-lsystemd REBAR_FLAGS="--verbose 2" make
