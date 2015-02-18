@@ -1,9 +1,9 @@
 name: ruby-1.8
 kind: chunk
-configure-commands:
+build-system: autotools
+pre-configure-commands:
+- cp /usr/share/automake*/config.guess .
+- cp /usr/share/automake*/config.sub .
 - autoconf
+configure-commands:
 - ./configure --prefix=/usr --program-suffix=-1.8
-build-commands:
-- make
-install-commands:
-- make DESTDIR="$DESTDIR" install
