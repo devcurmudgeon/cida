@@ -60,8 +60,8 @@ chunks:
 - name: stage2-linux-api-headers
   morph: strata/build-essential/stage2-linux-api-headers.morph
   repo: upstream:linux
-  ref: df2e1b9168a7ab5dd8149e38b5ac70cdef86d1fa
-  unpetrify-ref: baserock/v3.8
+  ref: bfa76d49576599a4b9f9b7a71f23d73d6dcff735
+  unpetrify-ref: v3.19
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -216,8 +216,8 @@ chunks:
 - name: linux-api-headers
   morph: strata/build-essential/linux-api-headers.morph
   repo: upstream:linux
-  ref: df2e1b9168a7ab5dd8149e38b5ac70cdef86d1fa
-  unpetrify-ref: baserock/v3.8
+  ref: bfa76d49576599a4b9f9b7a71f23d73d6dcff735
+  unpetrify-ref: v3.19
   build-depends:
   - stage2-binutils
   - stage2-busybox
