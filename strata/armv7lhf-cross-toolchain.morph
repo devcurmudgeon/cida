@@ -10,12 +10,14 @@ chunks:
   ref: 987eb543a034cddc4eeb103f08f566f24a5f964a
   unpetrify-ref: baserock/build-essential
   build-depends: []
+
 - name: armv7lhf-cross-linux-api-headers
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-linux-api-headers.morph
   repo: upstream:linux
   ref: df2e1b9168a7ab5dd8149e38b5ac70cdef86d1fa
   unpetrify-ref: baserock/v3.8
   build-depends: []
+
 - name: armv7lhf-cross-gcc-nolibc
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-gcc-nolibc.morph
   repo: upstream:gcc-tarball
@@ -23,6 +25,7 @@ chunks:
   unpetrify-ref: baserock/build-essential
   build-depends:
   - armv7lhf-cross-binutils
+
 - name: armv7lhf-cross-eglibc
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-eglibc.morph
   repo: upstream:eglibc2
@@ -32,6 +35,7 @@ chunks:
   - armv7lhf-cross-binutils
   - armv7lhf-cross-gcc-nolibc
   - armv7lhf-cross-linux-api-headers
+
 - name: armv7lhf-cross-gcc
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-gcc.morph
   repo: upstream:gcc-tarball
