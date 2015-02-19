@@ -227,7 +227,7 @@ patch_elves(){
     local linker="$4"
     local lib_path="$5"
     find "$root" \( -path "$inner_sysroot" -prune \) -o -type f \
-        -type f -perm +111 \
+        -type f -perm +u=x \
         -exec sh -c 'file "$1" | grep -q "ELF"' - {} \; \
         -exec "$linker" --library-path "$lib_path" \
                   "$patchelf" --set-interpreter "$linker" \
