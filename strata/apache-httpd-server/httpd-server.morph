@@ -1,0 +1,67 @@
+name: httpd-server
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./buildconf --with-apr=/usr/share/apr-1
+# We override --libexecdir with the same value as --enable-layout=RPM
+# ought to provide, because otherwise there is a bug where when mod_wsgi
+# calls apxs, it fails as follows because the variable is empty.
+#
+#/usr/share/apr-1/build/libtool --silent --mode=link gcc -std=gnu99
+# -o src/server/mod_wsgi.la  -rpath # -module -avoid-version
+# src/server/wsgi_validate.lo src/server/wsgi_stream.lo
+# src/server/wsgi_server.lo src/server/wsgi_restrict.lo
+# src/server/wsgi_metrics.lo src/server/wsgi_logger.lo
+# src/server/wsgi_interp.lo src/server/wsgi_daemon.lo
+# src/server/wsgi_convert.lo src/server/wsgi_buckets.lo
+# src/server/wsgi_apache.lo src/server/mod_wsgi.lo
+# -L/usr/lib -L/usr/lib/python2.7/config -lpython2.7 -lpthread -ldl -lutil -lm
+# libtool:   error: only absolute run-paths are allowed
+# apxs:Error: Command failed with rc=65536
+#
+- |
+  ./configure --prefix="$PREFIX" \
+              --libexecdir="$PREFIX"/lib/httpd/modules \
+              --enable-layout=RPM \
+              --enable-mpms-shared=all \
+              --with-apr="$PREFIX"/bin/apr-2-config \
+              --enable-suexec --with-suexec \
+              --with-suexec-caller=apache \
+              --with-suexec-docroot=/var/www \
+              --with-suexec-logfile=/var/log/httpd/suexec.log \
+              --with-suexec-bin="$PREFIX"/lib/httpd/suexec \
+              --with-suexec-uidmin=500 --with-suexec-gidmin=100\
+              --with-suexec-userdir=public_html \
+              --enable-pie \
+              --with-pcre \
+              --enable-mods-shared=all \
+              --enable-ssl --with-ssl \
+              --enable-case-filter --enable-case-filter-in \
+              --enable-cgid --enable-cgi\
+              --enable-so
+post-install-commands:
+# Add perl interpreter path to apxs script, required for loading mod_wsgi.
+- |
+  sed -i 's|#!/replace/with/path/to/perl/interpreter -w|#!/usr/bin/perl -w|g' \
+      "$DESTDIR$PREFIX"/bin/apxs
+# Add conf.d directory where apache will look for other configurations to load.
+- mkdir -p "$DESTDIR"/etc/httpd/conf.d
+- echo 'Include /etc/httpd/conf.d/*.conf' >> "$DESTDIR"/etc/httpd/conf/httpd.conf
+####################################################################################
+# This chunk should add an apache user and an apache group, create the apache home
+# directory and move suexec to /usr/lib/httpd/suexec as system-integration time.
+# This is not possible because linux-user-chroot drops all capabilities for security so
+# it does not allow to change the owners of directories or files.
+# So for now you should create a script which includes the following commands:
+# - mkdir -p /var/www
+# - groupadd -r apache
+# - |
+#    useradd -c "Apache Server" -d /var/www -g apache \
+#           -s /bin/false apache
+#
+# - mkdir -p /usr/lib/httpd
+# - mv -v /usr/bin/suexec /usr/lib/httpd/suexec
+# - chgrp apache /usr/lib/httpd/suexec
+# - chmod 4754 /usr/lib/httpd/suexec
+# - chown -R apache:apache /var/www
+####################################################################################
