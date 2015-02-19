@@ -660,7 +660,7 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
             url = urlparse.urlsplit(rootfs_rsync)
             nfsroot  = os.environ.get('PXEBOOT_ROOTFS_NFSROOT',
                                       '%s:%s' % (url.hostname, url.path))
-            with self.remote_kernel(rootfs=temp_root, url=kernel_tftpaddr,
+            with self.remote_kernel(rootfs=temp_root, tftp_url=kernel_tftpaddr,
                                     macaddr=macaddr) as kernel_subpath, \
                  self.remote_nfsroot(rootfs=temp_root, rsync_url=rootfs_rsync)\
                      as rootfs_subpath, \
