@@ -119,8 +119,8 @@ chunks:
 - name: libtool-tarball
   morph: strata/core/libtool-tarball.morph
   repo: upstream:libtool-tarball
-  ref: f7bbc21981ffdbbe2d4435556e3ead0828dce160
-  unpetrify-ref: libtool-2.4.5
+  ref: c026ca36e37d2643623a75d0d3e9e451023139f3
+  unpetrify-ref: libtool-2.4.6
   build-depends:
   - bash
 - name: gtk-doc-stub
