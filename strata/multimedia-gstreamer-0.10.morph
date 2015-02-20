@@ -5,6 +5,7 @@ build-depends:
 - morph: strata/core.morph
 - morph: strata/foundation.morph
 - morph: strata/audio-bluetooth.morph
+- morph: strata/multimedia-common.morph
 chunks:
 - name: orc
   repo: upstream:orc

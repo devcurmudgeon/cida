@@ -19,6 +19,8 @@ strata:
   morph: strata/audio-bluetooth.morph
 - name: libdrm-common
   morph: strata/libdrm-common.morph
+- name: multimedia-common
+  morph: strata/multimedia-common.morph
 - name: multimedia
   morph: strata/multimedia.morph
 - name: wayland-generic

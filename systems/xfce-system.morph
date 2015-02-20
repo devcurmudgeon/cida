@@ -23,6 +23,8 @@ strata:
   morph: strata/x-common.morph
 - name: x-generic
   morph: strata/x-generic.morph
+- name: multimedia-common
+  morph: strata/multimedia-common.morph
 - name: multimedia
   morph: strata/multimedia.morph
 - name: genivi
