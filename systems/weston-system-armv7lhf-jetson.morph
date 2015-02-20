@@ -21,8 +21,8 @@ strata:
   morph: strata/libdrm-common.morph
 - name: multimedia-common
   morph: strata/multimedia-common.morph
-- name: multimedia
-  morph: strata/multimedia.morph
+- name: multimedia-gstreamer
+  morph: strata/multimedia-gstreamer.morph
 - name: wayland-generic
   morph: strata/wayland-generic.morph
 - name: graphics-common
