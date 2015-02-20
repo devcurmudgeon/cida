@@ -31,11 +31,11 @@ description: |
 
   See the documentation of the sdk.write extension for more information.
 systems:
-- morph: systems/armv7lhf-cross-toolchain-system-x86_32-generic.morph
+- morph: systems/armv7lhf-cross-toolchain-system-x86_64.morph
   deploy:
     sdk:
       type: sdk
-      location: armv7lhf-cross-toolchain-system-x86_32-generic.sh
+      location: armv7lhf-cross-toolchain-system-x86_64.sh
       PREFIX: /usr
       TARGET: armv7lhf-baserock-linux-gnueabi
   subsystems:

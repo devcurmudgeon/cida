@@ -31,6 +31,9 @@ description: |
   stage2-fhs-dirs.morph for details. Basically, /bin is a symlink to
   /tools/bin during stage 2 but in stage 3 it becomes a real directory
   again.
+
+  PLEASE KEEP THE REFS IN 'armv7lhf-cross-toolchain' STRATUM UP TO DATE WITH
+  THIS ONE!
 products:
 - artifact: build-essential-minimal
   include:
