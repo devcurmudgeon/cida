@@ -1,0 +1,20 @@
+name: mason-x86-32
+kind: cluster
+description: |
+  Generic x86_32 Mason image.
+systems:
+- morph: systems/build-system-x86_32.morph
+  deploy:
+    mason:
+      type: openstack
+      location: https://compute.datacentred.io:5000/v2.0
+      CLOUD_INIT: yes
+      DISK_SIZE: 3G
+      DISTBUILD_GENERIC: true
+      INSTALL_FILES: distbuild/manifest
+      KERNEL_ARGS: console=ttyS0 console=tty0
+      MASON_GENERIC: true
+      OPENSTACK_IMAGENAME: baserock_mason_x86_32
+      # Note that this *must* match the name of the instance, as
+      # cloud-init will override this hostname.
+      HOSTNAME: mason-x86-32
