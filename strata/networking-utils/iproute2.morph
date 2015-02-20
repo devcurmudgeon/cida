@@ -1,0 +1,10 @@
+name: iproute2
+kind: chunk
+build-commands:
+# arpd binary is dependent on Berkeley DB, which is licensed by Oracle
+# as arpd is not needed for Openstack systems, arpd will not be compiled
+# or installed.
+- sed -i '/^TARGETS/s@arpd@@g' misc/Makefile
+- make
+install-commands:
+- DESTDIR="$DESTDIR" PREFIX="$PREFIX" make install

@@ -1,0 +1,6 @@
+name: libserf
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- cp /usr/share/automake*/config.guess build
+- cp /usr/share/automake*/config.sub build

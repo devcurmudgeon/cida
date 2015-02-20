@@ -1,0 +1,40 @@
+name: apache-httpd-server
+kind: stratum
+description: apache http web server and some utilities related to it
+build-depends:
+- morph: strata/tools.morph
+- morph: strata/pcre-utils.morph
+chunks:
+- name: apr
+  morph: strata/apache-httpd-server/apr.morph
+  repo: upstream:apache/apr
+  ref: 3c818c6d7351f0130282d212a69035642f5fecad
+  unpetrify-ref: trunk
+  build-depends: []
+- name: httpd
+  morph: strata/apache-httpd-server/httpd-server.morph
+  repo: upstream:apache/httpd
+  ref: 6d8e0b2fd95268fcba96326ba9dce7bb8f712c19
+  unpetrify-ref: 2.4.10
+  build-depends:
+  - apr
+- name: psutil
+  repo: upstream:python-packages/psutil
+  ref: 2bc8555f0428af81c2d067aa76168ed7bc5e0179
+  unpetrify-ref: release-2.2.0
+  build-depends: []
+- name: mod_wsgi-metrics
+  repo: upstream:python-packages/mod_wsgi-metrics
+  ref: ec715eb593255229f9f45f3f323edbb845c691d8
+  unpetrify-ref: 1.1.1
+  build-depends:
+  - psutil
+- name: mod_wsgi
+  morph: strata/apache-httpd-server/mod_wsgi.morph
+  repo: upstream:python-packages/mod_wsgi
+  ref: 1be8b37aaf07d8cb3083da99d6fda12375221b07
+  unpetrify-ref: 4.4.5
+  build-depends:
+  - apr
+  - httpd
+  - mod_wsgi-metrics

@@ -1,0 +1,6 @@
+name: rebar
+kind: chunk
+build-commands:
+- ./bootstrap
+install-commands:
+- install -D -m 755 rebar "$DESTDIR$PREFIX"/bin/rebar

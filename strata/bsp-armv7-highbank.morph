@@ -7,6 +7,6 @@ chunks:
 - name: linux-armv7-highbank
   morph: strata/bsp-armv7-highbank/linux-armv7-highbank.morph
   repo: upstream:linux
-  ref: b2776bf7149bddd1f4161f14f79520f17fc1d71d
-  unpetrify-ref: v3.18
+  ref: bfa76d49576599a4b9f9b7a71f23d73d6dcff735
+  unpetrify-ref: v3.19
   build-depends: []

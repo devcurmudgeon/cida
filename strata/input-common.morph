@@ -22,8 +22,8 @@ chunks:
   build-depends: []
 - name: libinput
   repo: upstream:libinput
-  ref: fd8a29fb692404ace405631012d0b708362b1fa0
-  unpetrify-ref: 0.9.0
+  ref: ca4e03fb11429b6a3704206124fbff2f57d121f9
+  unpetrify-ref: 0.10.0
   build-depends:
   - mtdev
   - libevdev

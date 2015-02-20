@@ -1,5 +1,7 @@
-name: libapr-util-tarball
+name: libapr-util
 kind: chunk
 build-system: autotools
+pre-configure-commands:
+- ./buildconf --with-apr=/usr/share/apr-1
 configure-commands:
 - ./configure --prefix "$PREFIX" --with-apr=/usr/bin/apr-1-config

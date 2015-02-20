@@ -19,8 +19,10 @@ strata:
   morph: strata/audio-bluetooth.morph
 - name: libdrm-common
   morph: strata/libdrm-common.morph
-- name: multimedia
-  morph: strata/multimedia.morph
+- name: multimedia-common
+  morph: strata/multimedia-common.morph
+- name: multimedia-gstreamer
+  morph: strata/multimedia-gstreamer.morph
 - name: wayland-generic
   morph: strata/wayland-generic.morph
 - name: graphics-common
@@ -33,6 +35,12 @@ strata:
   morph: strata/mesa-common.morph
 - name: weston-common
   morph: strata/weston-common.morph
+- name: x-common
+  morph: strata/x-common.morph
+- name: x-generic
+  morph: strata/x-generic.morph
+- name: tools
+  morph: strata/tools.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

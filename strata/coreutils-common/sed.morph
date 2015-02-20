@@ -1,0 +1,12 @@
+name: sed
+kind: chunk
+build-system: autotools
+configure-commands:
+- sed -i -e '/^buildreq="/,/^"/{/rsync/d}' bootstrap.conf
+- ./bootstrap --skip-po
+- ./configure --prefix="$PREFIX" --disable-gcc-warnings
+post-install-commands:
+# This hack is to use GNU sed instead the busybox one.
+# This will dissappear when we merge /usr/bin and /bin.
+- mkdir -p "$DESTDIR"/bin/
+- ln -sf ../usr/bin/sed "$DESTDIR"/bin/

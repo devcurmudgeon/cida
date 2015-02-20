@@ -6,37 +6,40 @@ configure-commands:
 
 # Configure flag notes:
 #  1. Use the default sysroot path to install to and locate headers
-#  2. Recommended by Linux From Scratch; required for C++ ABI
-#     compatibility with other Linux distributions.
+#  2. Avoid having more than one copy of ZLib in use on the system
 #  3. Standard flags. See gcc.morph.
-#  4. Avoid having more than one copy of ZLib in use on the system
 - |
   export MORPH_ARCH=armv7lhf
   export TARGET=armv7lhf-baserock-linux-gnueabi
-  export TARGET_STAGE1=armv7lhf-none-linux-gnueabi
-  cd o && ../configure \
-    $(../morph-arch-config) \
-    --build=$(sh ../config.guess) \
-    --host=$(sh ../config.guess) \
-    --target="$TARGET" \
-    `# [1]` --with-sysroot \
-    --prefix="$PREFIX" \
-    --disable-bootstrap \
-    --enable-shared --enable-threads=posix \
-    `# [2]` --enable-__cxa_atexit \
-    --enable-languages=c,c++,fortran \
-    `# [3]` --libdir="$PREFIX/lib" \
-            --disable-libgomp --disable-multilib \
-            --without-cloog --without-ppl \
-            --with-mpfr-include="$(pwd)/../mpfr/src" \
-            --with-mpfr-lib="$(pwd)/mpfr/src/.libs" \
-    `# [4]` --with-system-zlib
+
+  case "$MORPH_ARCH" in
+      armv7lhf) ARCH_FLAGS="--with-arch=armv7-a \
+                            --with-cpu=cortex-a9 \
+                            --with-tune=cortex-a9 \
+                            --with-fpu=vfpv3-d16 \
+                            --with-float=hard" ;;
+      armv7*)   ARCH_FLAGS="--with-arch=armv7-a" ;;
+  esac
+
+  cd o && ../configure                                         \
+            $ARCH_FLAGS                                        \
+            --build=$(sh ../config.guess)                      \
+            --host=$(sh ../config.guess)                       \
+            --target="$TARGET"                                 \
+            --prefix="$PREFIX"                                 \
+    `# [1]` --with-sysroot                                     \
+            --disable-bootstrap                                \
+    `# [2]` --with-system-zlib                                 \
+    `# [3]` --libdir="$PREFIX/lib"                             \
+    `# [3]` --disable-multilib                                 \
+    `# [3]` --enable-languages=c,c++,fortran
 
 build-commands:
 - cd o && make
 
 install-commands:
 - cd o && make DESTDIR="$DESTDIR" install
+- ln -s gcc "$DESTDIR/$PREFIX/bin/cc"
 - |
   export TARGET=armv7lhf-baserock-linux-gnueabi
   for fortran_alias in f77 f90 f95; do

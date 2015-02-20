@@ -10,3 +10,18 @@ chunks:
   ref: 9417f044ee3c291c2ea343c203aebdcc40597226
   unpetrify-ref: OTP-17.3.4
   build-depends: []
+- name: rebar
+  morph: strata/erlang/rebar.morph
+  repo: upstream:erlang-modules/rebar
+  ref: d42ed4683576d995f60e3222f076e99f0b081f79
+  unpretrify-ref: master
+  build-depends:
+  - erlang
+- name: erlang-sd_notify
+  morph: strata/erlang/erlang-sd_notify.morph
+  repo: upstream:erlang-modules/erlang-sd_notify
+  ref: 99f4689c2c18570680329f822591f95f9341ca10
+  unpretrify-ref: master
+  build-depends:
+  - erlang
+  - rebar

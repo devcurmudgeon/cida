@@ -14,7 +14,7 @@ chunks:
 - name: syslinux
   morph: strata/bsp-x86_both-tools/syslinux.morph
   repo: upstream:syslinux
-  ref: baserock/morph
-  unpetrify-ref: 2f6d21d2a560cb5581694fef42ee9a350d5f302f
+  ref:  d715b39c0801ecea5e52f9029cea7c76320f93cf
+  unpetrify-ref: baserock/morph
   build-depends:
   - nasm

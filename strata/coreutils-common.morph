@@ -13,3 +13,17 @@ chunks:
   ref: 9df9643842e4b4d8ece710fe6105f32fa38a0d22
   unpetrify-ref: baserock/8.23
   build-depends: []
+- name: sed
+  morph: strata/coreutils-common/sed.morph
+  repo: upstream:sed
+  ref: ed4b1d7c04f92b330b940d4f0d02cd51d2473ce9
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - coreutils
+- name: diff
+  morph: strata/coreutils-common/diff.morph
+  repo: upstream:diffutils
+  ref: bd86eb1a1e87ab85a7c8dbb658fa829ce69c252e
+  unpetrify-ref: baserock/v3.3
+  build-depends:
+  - coreutils

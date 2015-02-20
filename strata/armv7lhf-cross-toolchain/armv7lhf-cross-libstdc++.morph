@@ -1,0 +1,32 @@
+name: armv7lhf-cross-libstdc++
+kind: chunk
+configure-commands:
+- mkdir o
+
+# Configure flag notes:
+#  1. Use the default sysroot path to install to and locate headers
+#  2. From LFS: the header location of C++ needs to be explicitly given
+#     as we are running the configure script from the top-level
+#     directory.
+- |
+  export MORPH_ARCH=armv7lhf
+  export TARGET=armv7lhf-baserock-linux-gnueabi
+
+  # -fPIC must be given, otherwise it will not be possible to create
+  # shared libraries linked to libstdc++
+  export CPPFLAGS="-fPIC"
+  cd o && ../libstdc++-v3/configure                           \
+            --build=$(sh ../config.guess)                     \
+            --host=$(sh ../config.guess)                      \
+            --target="$TARGET"                                \
+            --prefix="$PREFIX"                                \
+            --disable-nls                                     \
+            --disable-shared                                  \
+            --disable-multilib                                \
+    `# [1]` --with-sysroot
+
+build-commands:
+- cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install

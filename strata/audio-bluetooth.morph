@@ -89,8 +89,8 @@ chunks:
 - name: pulseaudio
   morph: strata/audio-bluetooth/pulseaudio.morph
   repo: upstream:pulseaudio
-  ref: 34862dbd43079d19faff31fa9ba996acc874d586
-  unpetrify-ref: v5.99.3
+  ref:  53ad8aa7caa33caac52e35f71253e29d5a15f6e7
+  unpetrify-ref: v6.0
   build-depends:
   - libsndfile
   - libatomic_ops

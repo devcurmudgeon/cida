@@ -1,0 +1,29 @@
+name: networking-utils
+kind: stratum
+description: |
+    Stratum which contains utils to works with networks: create, enable, filter...
+
+    This stratum requires kernel config flags which are not enabled in the default
+    Baserock kernel found in the BSP strata. See the Openstack BSP stratum to get
+    an idea of what is needed.
+build-depends:
+- morph: strata/foundation.morph
+chunks:
+- name: iproute2
+  morph: strata/networking-utils/iproute2.morph
+  repo: upstream:iproute2
+  ref: 50231ad2a554fcb02462bed6405c970833c1baee
+  unpetrify-ref: v3.17.0
+  build-depends: []
+- name: libmnl
+  repo: upstream:libmnl
+  ref: c9f19b98cd8e108617e825e071091df14f78c53a
+  unpetrify-ref: master
+  build-depends: []
+- name: ipset
+  morph: strata/networking-utils/ipset.morph
+  repo: upstream:ipset
+  ref: cf25c4c50e9996af30499e5b1c3354ab53be7237
+  unpetrify-ref: v6.24
+  build-depends:
+  - libmnl
