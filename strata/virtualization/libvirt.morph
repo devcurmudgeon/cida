@@ -19,7 +19,7 @@ configure-commands:
   --with-secrets --with-storage-dir --with-storage-fs --with-storage-lvm \
   --without-storage-iscsi --without-storage-scsi --without-storage-mpath \
   --without-storage-disk --with-storage-rbd --without-storage-sheepdog \
-  --without-storage-gluster --without-wireshark-dissector \
+  --without-storage-gluster --without-wireshark-dissector --disable-werror \
   --prefix="$PREFIX"
 system-integration:
   libvirt-misc:
