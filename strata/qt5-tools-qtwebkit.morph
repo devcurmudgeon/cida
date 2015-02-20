@@ -2,7 +2,7 @@ name: qt5-tools-qtwebkit
 kind: stratum
 description: Qt5 WebKit Development Libraries and Tools
 build-depends:
-- morph: strata/multimedia.morph
+- morph: strata/multimedia-gstreamer.morph
 - morph: strata/qt5-tools.morph
 - morph: strata/ruby.morph
 chunks:

@@ -21,8 +21,10 @@ strata:
   morph: strata/x-common.morph
 - name: x-generic
   morph: strata/x-generic.morph
-- name: multimedia
-  morph: strata/multimedia.morph
+- name: multimedia-common
+  morph: strata/multimedia-common.morph
+- name: multimedia-gstreamer
+  morph: strata/multimedia-gstreamer.morph
 - name: genivi
   morph: strata/genivi.morph
 - name: tools

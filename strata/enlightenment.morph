@@ -6,7 +6,7 @@ build-depends:
 - morph: strata/x-generic.morph
 - morph: strata/lua.morph
 - morph: strata/audio-bluetooth.morph
-- morph: strata/multimedia.morph
+- morph: strata/multimedia-gstreamer.morph
 - morph: strata/connman-common.morph
 chunks:
 - name: fribidi
