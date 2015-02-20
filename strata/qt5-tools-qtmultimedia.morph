@@ -8,5 +8,5 @@ chunks:
 - name: qtmultimedia
   morph: strata/qt5-tools/qtmultimedia-gstreamer.morph
   repo: upstream:qt5/qtmultimedia
-  ref: b3c2dca466042cf362ffb8d803bf05c9b8a0f95f
-  unpetrify-ref: v5.3.2
+  ref: 8b1ee1724071cc4bbe8cefe195e375ef583d9d7f
+  unpetrify-ref: v5.4.0
