@@ -356,6 +356,21 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
             yield basename
 
     @contextlib.contextmanager
+    def remote_fdt(self, rootfs, tftp_url, macaddr):
+        fdt_rel_path = os.environ.get('DTB_PATH', '')
+        if fdt_rel_path == '':
+            yield
+        fdt_abs_path = os.path.join(rootfs, fdt_rel_path)
+        if not fdt_abs_path:
+            raise cliapp.AppException('Failed to locate Flattened Device Tree')
+        url = urlparse.urlsplit(tftp_url)
+        basename = '{}-fdt'.format(_normalise_macaddr(macaddr))
+        target_path = os.path.join(url.path, basename)
+        with self._remote_copy(hostname=url.hostname, src=fdt_abs_path,
+                               dst=target_path):
+            yield basename
+
+    @contextlib.contextmanager
     def local_nfsroot(self, rootfs, target_ip):
         nfsroot = target_ip + ':' + rootfs
         self.status(msg='Exporting %(nfsroot)s as local nfsroot',
@@ -384,7 +399,8 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
                                os.path.basename(rootfs))
 
     @staticmethod
-    def _write_pxe_config(fh, kernel_tftp_url, rootfs_nfs_url, extra_args=''):
+    def _write_pxe_config(fh, kernel_tftp_url, rootfs_nfs_url,
+                          fdt_subpath=None, extra_args=''):
         fh.write(textwrap.dedent('''\
             DEFAULT default
             LABEL default
@@ -392,6 +408,8 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
             APPEND root=/dev/nfs ip=dhcp nfsroot={rootfs_nfs_url} {extra_args}
             ''').format(kernel_url=kernel_tftp_url,
                         rootfs_nfs_url=rootfs_nfs_url, extra_args=extra_args))
+        if fdt_subpath is not None:
+            fh.write("FDT {}\n".format(fdt_subpath))
         fh.flush()
 
     @contextlib.contextmanager
@@ -413,7 +431,8 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
 
     @contextlib.contextmanager
     def remote_pxeboot_config(self, tftproot, kernel_tftproot, kernel_subpath,
-                              rootfs_nfsroot, rootfs_subpath, macaddr):
+                              fdt_subpath, rootfs_nfsroot, rootfs_subpath,
+                              macaddr):
         rootfs_nfs_url = '{}/{}'.format(rootfs_nfsroot, rootfs_subpath)
         url = urlparse.urlsplit(kernel_tftproot)
         kernel_tftp_url = '{}:{}'.format(url.netloc, kernel_subpath)
@@ -423,6 +442,7 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
         with tempfile.NamedTemporaryFile() as f:
             self._write_pxe_config(
                     fh=f, kernel_tftp_url=kernel_tftp_url,
+                    fdt_subpath=fdt_subpath,
                     rootfs_nfs_url=rootfs_nfs_url,
                     extra_args=os.environ.get('KERNEL_ARGS',''))
             with self._remote_copy(
@@ -682,11 +702,14 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
                                       '%s:%s' % (url.hostname, url.path))
             with self.remote_kernel(rootfs=temp_root, tftp_url=kernel_tftpaddr,
                                     macaddr=macaddr) as kernel_subpath, \
+                 self.remote_fdt(rootfs=temp_root, tftp_url=kernel_tftpaddr,
+                                 macaddr=macaddr) as fdt_subpath, \
                  self.remote_nfsroot(rootfs=temp_root, rsync_url=rootfs_rsync, \
                                      macaddr=macaddr) as rootfs_subpath, \
                  self.remote_pxeboot_config(tftproot=config_tftpaddr,
                                             kernel_tftproot=kernel_tftproot,
                                             kernel_subpath=kernel_subpath,
+                                            fdt_subpath=fdt_subpath,
                                             rootfs_nfsroot=nfsroot,
                                             rootfs_subpath=rootfs_subpath,
                                             macaddr=macaddr):

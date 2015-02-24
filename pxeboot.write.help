@@ -135,3 +135,10 @@ help: >
         root=/dev/nfs ip=dhcp nfsroot=$NFSROOT`
 
     are implicitly added by the extension.
+
+
+    ## DTB_PATH
+
+
+    Location in the deployed root filesystem of the Flattened Device
+    Tree blob (FDT) to use.
