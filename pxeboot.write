@@ -331,6 +331,16 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
             cliapp.ssh_runcmd(hostname, ['rm', dst])
 
     @contextlib.contextmanager
+    def _remote_symlink(self, hostname, src, dst):
+        cliapp.ssh_runcmd(hostname,
+                          ['ln', '-s', '-f', src, dst],
+                          stdin=None, stdout=None, stderr=None)
+        try:
+            yield
+        finally:
+            cliapp.ssh_runcmd(hostname, ['rm', '-f', dst])
+
+    @contextlib.contextmanager
     def remote_kernel(self, rootfs, tftp_url, macaddr):
         for name in ('vmlinuz', 'zImage', 'uImage'):
             kernel_path = os.path.join(rootfs, 'boot', name)
@@ -408,14 +418,21 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
         kernel_tftp_url = '{}/{}'.format(kernel_tftproot, kernel_subpath)
         pxe_cfg_filename = _normalise_macaddr(macaddr)
         url = urlparse.urlsplit(tftproot)
-        inst_cfg_path = os.path.join(url.path, 'pxelinux.cfg',
-                                     pxe_cfg_filename)
+        inst_cfg_path = os.path.join(url.path, 'pxelinux.cfg')
         with tempfile.NamedTemporaryFile() as f:
-            self._write_pxe_config(fh=f, kernel_tftp_url=kernel_tftp_url,
-                                   rootfs_nfs_url=rootfs_nfs_url,
-                                   extra_args=os.environ.get('KERNEL_ARGS',''))
-            with self._remote_copy(hostname=url.hostname, src=f.name,
-                                   dst=inst_cfg_path):
+            self._write_pxe_config(
+                    fh=f, kernel_tftp_url=kernel_tftp_url,
+                    rootfs_nfs_url=rootfs_nfs_url,
+                    extra_args=os.environ.get('KERNEL_ARGS',''))
+            with self._remote_copy(
+                    hostname=url.hostname, src=f.name,
+                    dst=os.path.join(inst_cfg_path,
+                                     pxe_cfg_filename)), \
+                 self._remote_symlink(
+                    hostname=url.hostname,
+                    src=pxe_cfg_filename,
+                    dst=os.path.join(inst_cfg_path,
+                                     '01-' + pxe_cfg_filename)):
                 yield
 
     @contextlib.contextmanager
