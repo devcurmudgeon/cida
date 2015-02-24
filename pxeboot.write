@@ -415,7 +415,8 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
     def remote_pxeboot_config(self, tftproot, kernel_tftproot, kernel_subpath,
                               rootfs_nfsroot, rootfs_subpath, macaddr):
         rootfs_nfs_url = '{}/{}'.format(rootfs_nfsroot, rootfs_subpath)
-        kernel_tftp_url = '{}/{}'.format(kernel_tftproot, kernel_subpath)
+        url = urlparse.urlsplit(kernel_tftproot)
+        kernel_tftp_url = '{}:{}'.format(url.netloc, kernel_subpath)
         pxe_cfg_filename = _normalise_macaddr(macaddr)
         url = urlparse.urlsplit(tftproot)
         inst_cfg_path = os.path.join(url.path, 'pxelinux.cfg')
