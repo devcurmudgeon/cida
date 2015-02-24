@@ -403,7 +403,7 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
     @contextlib.contextmanager
     def remote_pxeboot_config(self, tftproot, kernel_tftproot, kernel_subpath,
                               rootfs_nfsroot, rootfs_subpath, macaddr):
-        rootfs_nfs_url = '{}:{}/{}'.format(ip, rootfs_nfsroot, rootfs_subpath)
+        rootfs_nfs_url = '{}/{}'.format(rootfs_nfsroot, rootfs_subpath)
         kernel_tftp_url = '{}/{}'.format(kernel_tftproot, kernel_subpath)
         pxe_cfg_filename = _normalise_macaddr(macaddr)
         url = urlparse.urlsplit(tftproot)
