@@ -662,8 +662,8 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
                                       '%s:%s' % (url.hostname, url.path))
             with self.remote_kernel(rootfs=temp_root, tftp_url=kernel_tftpaddr,
                                     macaddr=macaddr) as kernel_subpath, \
-                 self.remote_nfsroot(rootfs=temp_root, rsync_url=rootfs_rsync)\
-                     as rootfs_subpath, \
+                 self.remote_nfsroot(rootfs=temp_root, rsync_url=rootfs_rsync, \
+                                     macaddr=macaddr) as rootfs_subpath, \
                  self.remote_pxeboot_config(tftproot=config_tftpaddr,
                                             kernel_tftproot=kernel_tftproot,
                                             kernel_subpath=kernel_subpath,
