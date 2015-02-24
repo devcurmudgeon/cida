@@ -368,7 +368,8 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
             nfsroot = urlparse.urlunsplit((url.scheme, url.netloc, tempdir,
                                            url.query, url.fragment))
             cliapp.runcmd(['rsync', '-asXSPH', '--delete', rootfs, nfsroot],
-                          stdin=None, stdout=None, stderr=None)
+                          stdin=None, stdout=open(os.devnull, 'w'),
+                          stderr=None)
             yield os.path.join(os.path.basename(tempdir),
                                os.path.basename(rootfs))
 
