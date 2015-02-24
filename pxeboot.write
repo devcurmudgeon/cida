@@ -369,7 +369,8 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
                                            url.query, url.fragment))
             cliapp.runcmd(['rsync', '-asXSPH', '--delete', rootfs, nfsroot],
                           stdin=None, stdout=None, stderr=None)
-            yield basename
+            yield os.path.join(os.path.basename(tempdir),
+                               os.path.basename(rootfs))
 
     @staticmethod
     def _write_pxe_config(fh, kernel_tftp_url, rootfs_nfs_url, extra_args=''):
