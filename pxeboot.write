@@ -393,7 +393,8 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
     @contextlib.contextmanager
     def remote_nfsroot(self, rootfs, rsync_url, macaddr):
         url = urlparse.urlsplit(rsync_url)
-        template = os.path.join(url.path, 'nfsroot.XXXXXXXXXX')
+        template = os.path.join(url.path,
+                                _normalise_macaddr(macaddr) + '.XXXXXXXXXX')
         with self._remote_tempdir(hostname=url.hostname, template=template) \
                  as tempdir:
             nfsroot = urlparse.urlunsplit((url.scheme, url.netloc, tempdir,
