@@ -245,8 +245,8 @@ chunks:
 - name: util-linux
   morph: strata/core/util-linux.morph
   repo: upstream:util-linux
-  ref: c5c1033c5c7deda8abe3448ec81bbb33c72219e0
-  unpetrify-ref: baserock/morph
+  ref: b567c9cbc854a36da0a198e4dcc463e134d26a25
+  unpetrify-ref: v2.25.2
   build-depends:
   - autoconf-tarball
   - automake
