@@ -18,64 +18,11 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - groff
-- name: python-ttystatus
-  morph: strata/cross-bootstrap/python-ttystatus.morph
-  repo: upstream:python-ttystatus
-  ref: 47d871216cea6ce3b9d6efd70e9a0f38ab8604f0
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: python-coveragepy
-  morph: strata/cross-bootstrap/python-coveragepy.morph
-  repo: upstream:python-coveragepy
-  ref: 77d2e3bfd8fb325092aaed37ba1378054d182d19
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: python-coverage-test-runner
-  repo: upstream:python-coverage-test-runner
-  ref: 8ea9421ac3384b2e88e0c36f2cfa52586c4798b7
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - python-coveragepy
-- name: cliapp
-  repo: upstream:cliapp
-  ref: cec20cedd062a3aef1b04f997e77b45090c07806
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - python-coverage-test-runner
-- name: python-markdown
-  repo: upstream:python-markdown
-  ref: a9ca97325e9039de90eae29fb3d8879bc9f367f6
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: cmdtest
-  morph: strata/cross-bootstrap/cmdtest.morph
-  repo: upstream:cmdtest
-  ref: ac91791842c6e7e6eda3213916af413255999c7b
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - cliapp
-  - python-ttystatus
-  - python-markdown
 - name: linux-user-chroot
   repo: upstream:linux-user-chroot
   ref: d25cc110f69e6e71a95b4ac532dcfc5423d4a16b
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: pyfilesystem
-  morph: strata/cross-bootstrap/pyfilesystem.morph
-  repo: upstream:pyfilesystem
-  ref: 821f7db1ce3a3e1ac53fa514ddacbc2871eac0f6
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: morph
-  repo: baserock:baserock/morph
-  ref: 954baf68b9bb7f8bc4fae2447ef16f37928ff01c
-  unpetrify-ref: master
-  build-depends:
-  - cliapp
-  - cmdtest
-  - python-coverage-test-runner
-  - pyfilesystem
 - name: rsync
   morph: strata/cross-bootstrap/rsync.morph
   repo: upstream:rsync
