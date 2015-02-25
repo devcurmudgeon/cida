@@ -270,20 +270,6 @@ chunks:
   build-depends:
   - flex
   - texinfo-tarball
-- name: python-setuptools
-  morph: strata/core/python-setuptools.morph
-  repo: upstream:python-setuptools-bitbucket
-  ref: 0aa6a4de5931d02876428388678802db2371fd37
-  unpetrify-ref: baserock/master
-  build-depends:
-  - cpython
-- name: pyyaml
-  morph: strata/core/pyyaml.morph
-  repo: upstream:pyyaml
-  ref: d9fbcceaed39d955f6871b07c61dc42f824285c1
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - python-setuptools
 - name: shadow
   morph: strata/core/shadow.morph
   repo: upstream:shadow
