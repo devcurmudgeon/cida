@@ -223,11 +223,13 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
 
     @contextlib.contextmanager
     def _remote_tempdir(self, hostname, template):
+        persist = os.environ.get('PXE_INSTALLER') in ('no', 'False')
         td = cliapp.ssh_runcmd(hostname, ['mktemp', '-d', template]).strip()
         try:
             yield td
         finally:
-            cliapp.ssh_runcmd(hostname, ['find', td, '-delete'])
+            if not persist:
+                cliapp.ssh_runcmd(hostname, ['find', td, '-delete'])
 
     def _serve_tftpd(self, sock, host, port, interface, tftproot):
         self.settings.progname = 'tftp server'
@@ -321,6 +323,7 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
 
     @contextlib.contextmanager
     def _remote_copy(self, hostname, src, dst):
+        persist = os.environ.get('PXE_INSTALLER') in ('no', 'False')
         with open(src, 'r') as f:
             cliapp.ssh_runcmd(hostname,
                               ['install', '-D', '-m644', '/proc/self/fd/0',
@@ -328,17 +331,20 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
         try:
             yield
         finally:
-            cliapp.ssh_runcmd(hostname, ['rm', dst])
+            if not persist:
+                cliapp.ssh_runcmd(hostname, ['rm', dst])
 
     @contextlib.contextmanager
     def _remote_symlink(self, hostname, src, dst):
+        persist = os.environ.get('PXE_INSTALLER') in ('no', 'False')
         cliapp.ssh_runcmd(hostname,
                           ['ln', '-s', '-f', src, dst],
                           stdin=None, stdout=None, stderr=None)
         try:
             yield
         finally:
-            cliapp.ssh_runcmd(hostname, ['rm', '-f', dst])
+            if not persist:
+                cliapp.ssh_runcmd(hostname, ['rm', '-f', dst])
 
     @contextlib.contextmanager
     def remote_kernel(self, rootfs, tftp_url, macaddr):
@@ -713,9 +719,11 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
                                             rootfs_nfsroot=nfsroot,
                                             rootfs_subpath=rootfs_subpath,
                                             macaddr=macaddr):
-                self.ipmi_pxe_reboot_target()
-                self.wait_for_target_to_install()
-                self.ipmi_reboot_target()
+                persist = os.environ.get('PXE_INSTALLER') in ('no', 'False')
+                if not persist:
+                    self.ipmi_pxe_reboot_target()
+                    self.wait_for_target_to_install()
+                    self.ipmi_reboot_target()
         else:
             cliapp.AppException('Invalid PXEBOOT_MODE: %s' % mode)
 
