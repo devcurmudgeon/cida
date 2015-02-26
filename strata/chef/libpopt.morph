@@ -1,10 +1,6 @@
 name: libpopt
 kind: chunk
+build-system: autotools
 configure-commands:
 - autoreconf -if
 - ./configure
-build-commands:
-- make
-install-commands:
-- make DESTDIR="$DESTDIR" install
-
