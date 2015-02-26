@@ -1,6 +1,5 @@
 name: systemd
 kind: chunk
-max-jobs: 1
 build-system: autotools
 configure-commands:
 - sh autogen.sh

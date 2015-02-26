@@ -10,6 +10,7 @@ description: |
     but it is required right now for the Openstack system to work.
 build-depends:
 - morph: strata/foundation.morph
+- morph: strata/python-core.morph
 chunks:
 - name: xstatic
   repo: upstream:xstatic
@@ -21,15 +22,40 @@ chunks:
   ref: dac047df05da5bb20de4e78876bc03820d0c6671
   unpetrify-ref: 1.3.7.0
   build-depends: []
+- name: xstatic-angular-animate
+  repo: upstream:xstatic-packages/xstatic-angular-animate
+  ref: 91b9d3197f67213e4e35e9a35ba7196b898731e7
+  unpetrify-ref: master
+  build-depends: []
+- name: xstatic-angular-bootstrap
+  repo: upstream:xstatic-packages/xstatic-angular-bootstrap
+  ref: 2a8c157b8b0733afbfdaf7eea29cf012a8b7f483
+  unpetrify-ref: master
+  build-depends: []
 - name: xstatic-angular-cookies
   repo: upstream:xstatic-packages/xstatic-angular-cookies
   ref: 66141a33ae7ad84b82ba9384a8101ae15ccd6da5
   unpetrify-ref: 1.2.1.1
   build-depends: []
+- name: xstatic-angular-fileupload
+  repo: upstream:xstatic-packages/xstatic-angular-fileupload
+  ref: 04bcd774dae17cfff5e826fc0874f6403b4a6cae
+  unpetrify-ref: master
+  build-depends: []
 - name: xstatic-angular-mock
   repo: upstream:xstatic-packages/xstatic-angular-mock
   ref: 20fdada109b167bcdcacec22986b43fdb42866f3
   unpetrify-ref: 1.2.1.1
+  build-depends: []
+- name: xstatic-angular-sanitize
+  repo: upstream:xstatic-packages/xstatic-angular-sanitize
+  ref: 9e0f03ada6fc00f8583903aeb6d9fc6516784999
+  unpetrify-ref: master
+  build-depends: []
+- name: xstatic-angular-smart-table
+  repo: upstream:xstatic-packages/xstatic-angular-smart-table
+  ref: e0fbf69fb156b995547471d71c5c6a7f88989d47
+  unpetrify-ref: master
   build-depends: []
 - name: xstatic-bootstrap-datepicker
   repo: upstream:xstatic-packages/xstatic-bootstrap-datepicker
@@ -64,6 +90,11 @@ chunks:
 - name: xstatic-jquery
   repo: upstream:xstatic-packages/xstatic-jquery
   ref: e91c5bf82535a62c1cfac61b5efb6b5c0157c1f5
+  unpetrify-ref: master
+  build-depends: []
+- name: xstatic-jquery-bootstrap-wizard
+  repo: upstream:xstatic-packages/xstatic-jquery-bootstrap-wizard
+  ref: 07ae7e3a15b3af3d3d378d1f2412fe503ee42142
   unpetrify-ref: master
   build-depends: []
 - name: xstatic-jquery-migrate

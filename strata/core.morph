@@ -119,18 +119,15 @@ chunks:
 - name: libtool-tarball
   morph: strata/core/libtool-tarball.morph
   repo: upstream:libtool-tarball
-  ref: f7bbc21981ffdbbe2d4435556e3ead0828dce160
-  unpetrify-ref: libtool-2.4.5
-  build-depends:
-  - bash
+  ref: c026ca36e37d2643623a75d0d3e9e451023139f3
+  unpetrify-ref: libtool-2.4.6
+  build-depends: []
 - name: gtk-doc-stub
   repo: upstream:gtk-doc-stub
   ref: 58ec0d8593541ef7ae522ce42ebec6f98536c4e0
   unpetrify-ref: baserock/morph
   build-depends:
-  - autoconf-tarball
-  - automake
-  - libtool-tarball
+  - bash
 - name: xz
   repo: upstream:xz
   ref: a0cd05ee71d330b79ead6eb9222e1b24e1559d3a
@@ -197,10 +194,9 @@ chunks:
   - libexpat
   - openssl-new
 - name: help2man
-  morph: strata/core/help2man.morph
   repo: upstream:help2man
-  ref: 0191a5f61525f8deea2ae8bdfea88190d85b6a71
-  unpetrify-ref: baserock/morph
+  ref: 83bab7e2e8e24a380266a9a247c029c49b0de666
+  unpetrify-ref: baserock/v1.46.5
   build-depends:
   - autoconf-tarball
   - automake
@@ -212,7 +208,6 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
-  - bash
   - flex
   - gettext-tarball
   - git
@@ -245,8 +240,8 @@ chunks:
 - name: util-linux
   morph: strata/core/util-linux.morph
   repo: upstream:util-linux
-  ref: c5c1033c5c7deda8abe3448ec81bbb33c72219e0
-  unpetrify-ref: baserock/morph
+  ref: b567c9cbc854a36da0a198e4dcc463e134d26a25
+  unpetrify-ref: v2.25.2
   build-depends:
   - autoconf-tarball
   - automake
@@ -270,20 +265,6 @@ chunks:
   build-depends:
   - flex
   - texinfo-tarball
-- name: python-setuptools
-  morph: strata/core/python-setuptools.morph
-  repo: upstream:python-setuptools-bitbucket
-  ref: 0aa6a4de5931d02876428388678802db2371fd37
-  unpetrify-ref: baserock/master
-  build-depends:
-  - cpython
-- name: pyyaml
-  morph: strata/core/pyyaml.morph
-  repo: upstream:pyyaml
-  ref: d9fbcceaed39d955f6871b07c61dc42f824285c1
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - python-setuptools
 - name: shadow
   morph: strata/core/shadow.morph
   repo: upstream:shadow
@@ -301,5 +282,4 @@ chunks:
   ref: 3bbb26c928a147cfcf0756f1cc0a1307e5cc663f
   unpetrify-ref: baserock/v2.7.1
   build-depends:
-  - bash
   - shadow

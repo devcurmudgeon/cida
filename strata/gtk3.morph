@@ -13,7 +13,7 @@ chunks:
 - name: gtk3
   morph: strata/gtk3/gtk3.morph
   repo: upstream:gtk+
-  ref: 9e96461aa59cdb5454a48200b8b80caaf04c4147
-  unpetrify-ref: 3.15.5
+  ref: da163469f9d344190f69bfc163517154af0e2dab
+  unpetrify-ref: 3.15.4
   build-depends:
   - libepoxy
