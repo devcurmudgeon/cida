@@ -237,8 +237,32 @@ class WriteExtension(cliapp.Application):
 
     def mkfs_btrfs(self, location):
         '''Create a btrfs filesystem on the disk.'''
+
         self.status(msg='Creating btrfs filesystem')
-        cliapp.runcmd(['mkfs.btrfs', '-f', '-L', 'baserock', location])
+        try:
+            # The following command disables some new filesystem features. We
+            # need to do this because at the time of writing, SYSLINUX has not
+            # been updated to understand these new features and will fail to
+            # boot if the kernel is on a filesystem where they are enabled.
+            cliapp.runcmd(
+                ['mkfs.btrfs','-f', '-L', 'baserock',
+                '--features', '^extref',
+                '--features', '^skinny-metadata',
+                '--features', '^mixed-bg',
+                '--nodesize', '4096',
+                location])
+        except cliapp.AppException as e:
+            if 'unrecognized option \'--features\'' in e.msg:
+                # Old versions of mkfs.btrfs (including v0.20, present in many
+                # Baserock releases) don't support the --features option, but
+                # also don't enable the new features by default. So we can
+                # still create a bootable system in this situation.
+                logging.debug(
+                    'Assuming mkfs.btrfs failure was because the tool is too '
+                    'old to have --features flag.')
+                cliapp.runcmd(['mkfs.btrfs','-f', '-L', 'baserock', location])
+            else:
+                raise
 
     def get_uuid(self, location):
         '''Get the UUID of a block device's file system.'''
