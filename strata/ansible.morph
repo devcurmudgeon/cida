@@ -3,6 +3,7 @@ kind: stratum
 description: A stratum with ansible and its dependencies
 build-depends:
 - morph: strata/core.morph
+- morph: strata/python-core.morph
 chunks:
 - name: paramiko
   repo: upstream:paramiko
