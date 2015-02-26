@@ -121,16 +121,13 @@ chunks:
   repo: upstream:libtool-tarball
   ref: c026ca36e37d2643623a75d0d3e9e451023139f3
   unpetrify-ref: libtool-2.4.6
-  build-depends:
-  - bash
+  build-depends: []
 - name: gtk-doc-stub
   repo: upstream:gtk-doc-stub
   ref: 58ec0d8593541ef7ae522ce42ebec6f98536c4e0
   unpetrify-ref: baserock/morph
   build-depends:
-  - autoconf-tarball
-  - automake
-  - libtool-tarball
+  - bash
 - name: xz
   repo: upstream:xz
   ref: a0cd05ee71d330b79ead6eb9222e1b24e1559d3a
@@ -197,10 +194,9 @@ chunks:
   - libexpat
   - openssl-new
 - name: help2man
-  morph: strata/core/help2man.morph
   repo: upstream:help2man
-  ref: 0191a5f61525f8deea2ae8bdfea88190d85b6a71
-  unpetrify-ref: baserock/morph
+  ref: 83bab7e2e8e24a380266a9a247c029c49b0de666
+  unpetrify-ref: baserock/v1.46.5
   build-depends:
   - autoconf-tarball
   - automake
@@ -212,7 +208,6 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
-  - bash
   - flex
   - gettext-tarball
   - git
@@ -287,5 +282,4 @@ chunks:
   ref: 3bbb26c928a147cfcf0756f1cc0a1307e5cc663f
   unpetrify-ref: baserock/v2.7.1
   build-depends:
-  - bash
   - shadow
