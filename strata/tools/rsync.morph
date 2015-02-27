@@ -4,3 +4,6 @@ build-system: autotools
 build-commands:
 - make proto
 - make
+install-commands:
+- make install
+- install -D -m 755 packaging/systemd/rsync.service "$DESTDIR"/etc/systemd/system/rsync.service
