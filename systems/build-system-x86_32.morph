@@ -19,6 +19,8 @@ strata:
   morph: strata/morph-utils.morph
 - name: nfs
   morph: strata/nfs.morph
+- name: python-common
+  morph: strata/python-common.morph
 - name: ansible
   morph: strata/ansible.morph
 - name: cloudinit-support

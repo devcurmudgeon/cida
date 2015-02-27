@@ -1,0 +1,35 @@
+name: python-common
+kind: stratum
+description: Common dependencies of some python chunks
+build-depends:
+- morph: strata/python-core.morph
+chunks:
+- name: pycrypto
+  morph: strata/openstack-services/pycrypto.morph
+  repo: upstream:python-packages/pycrypto
+  ref: af058ee6f5da391a05275470ab4a4a96aa22b350
+  unpetrify-ref: v2.7a1
+  build-depends: []
+- name: ecdsa
+  repo: upstream:python-packages/ecdsa
+  ref: 36e9cfa80fcf8b53119adc787e54a5892ec1eb2c
+  unpetrify-ref: python-ecdsa-0.11
+  build-depends: []
+- name: paramiko
+  repo: upstream:paramiko
+  ref: 424ba615c2a94d3b059e7f24db1a1093a92d8d22
+  unpetrify-ref: v1.15.2
+  build-depends:
+  - pycrypto
+  - ecdsa
+- name: markupsafe
+  repo: upstream:markupsafe
+  ref: feb1d70c16df62f60dcb521d127fdad8819fc036
+  unpetrify-ref: 0.23
+  build-depends: []
+- name: jinja2
+  repo: upstream:jinja2
+  ref: 762c612e7276889aac265645da00e62e33d1573c
+  unpetrify-ref: 2.7.3
+  build-depends:
+  - markupsafe
