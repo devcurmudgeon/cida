@@ -84,3 +84,9 @@ install-commands:
   netgroup: nis
   EOF
 - install -m 644 -o root -g root nsswitch.conf "$DESTDIR/etc/nsswitch.conf"
+# Compatibility symlink to work around the ABI break GLIBC introduced for
+# ARMv7 hard-float platforms in commit d3b36017d43.
+- case "$MORPH_ARCH" in
+      armv7*hf*)
+          ln -s ld-2.20.so "$DESTDIR/lib/ld-linux.so.3" ;;
+  esac
