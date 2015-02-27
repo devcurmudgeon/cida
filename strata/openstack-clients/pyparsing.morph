@@ -1,4 +1,4 @@
-name: pytz
+name: pyparsing
 kind: chunk
 build-commands:
 - cd src && python setup.py build
