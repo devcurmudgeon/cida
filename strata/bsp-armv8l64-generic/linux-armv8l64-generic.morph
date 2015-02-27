@@ -102,3 +102,4 @@ build-commands:
 install-commands:
 - mkdir -p "$DESTDIR"/boot
 - make install dtbs_install INSTALL_PATH="$DESTDIR/boot"
+- cp arch/arm64/boot/Image "$DESTDIR/boot/vmlinux"
