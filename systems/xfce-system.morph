@@ -39,6 +39,10 @@ strata:
   morph: strata/python-pygobject.morph
 - name: python-wsgi
   morph: strata/python-wsgi.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
+- name: ostree-core
+  morph: strata/ostree-core.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: xfce

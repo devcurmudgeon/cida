@@ -37,6 +37,10 @@ strata:
   morph: strata/devtools.morph
 - name: bsp-x86_both-tools
   morph: strata/bsp-x86_both-tools.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
+- name: ostree-core
+  morph: strata/ostree-core.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
