@@ -23,6 +23,8 @@ strata:
   morph: strata/ansible.morph
 - name: cloudinit-support
   morph: strata/cloudinit-support.morph
+- name: openstack-common
+  morph: strata/openstack-common.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
 - name: devtools

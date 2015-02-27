@@ -33,6 +33,8 @@ strata:
   morph: strata/lvm.morph
 - name: virtualization
   morph: strata/virtualization.morph
+- name: openstack-common
+  morph: strata/openstack-common.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
 - name: databases
