@@ -129,7 +129,7 @@ chunks:
 - name: ebtables
   morph: strata/virtualization/ebtables.morph
   repo: upstream:ebtables
-  ref: 09792f0107a9318da809908db31f0b826017de7b
+  ref: f4bdc80ae8c1a79b4ab5dcb8431ad85aea618d66
   unpetrify-ref: master
   build-depends: []
 - name: openvswitch
