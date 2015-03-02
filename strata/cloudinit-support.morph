@@ -4,6 +4,7 @@ description: A stratum with cloudinit to fit a system in the OpenStack cloud.
 build-depends:
 - morph: strata/build-essential.morph
 - morph: strata/python-core.morph
+- morph: strata/python-common.morph
 - morph: strata/foundation.morph
 chunks:
 - name: configobj
@@ -11,23 +12,6 @@ chunks:
   ref: 935a78736e4eb43b9fafae87f5e9902328673f63
   unpetrify-ref: baserock/morph
   build-depends: []
-- name: python-prettytable
-  morph: strata/cloudinit-support/python-prettytable.morph
-  repo: upstream:python-prettytable
-  ref: 941133673e5a0003cd5ce1b6db2a51cf3307d9c1
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: python-json-patch
-  repo: upstream:python-json-patch
-  ref: 27c7032de25923593fa17cc14f535fb7abd52448
-  unpetrify-ref: baserock/morph
-  build-depends: []
-- name: python-json-pointer
-  repo: upstream:python-json-pointer
-  ref: 48dce313141ba5bf0d2f3dd2e590042c05755e53
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - python-json-patch
 - name: python-cheetah
   repo: upstream:python-cheetah
   ref: 831aa6b99d9b4fb012ee644d8e80e0bc0eb6d6ed
@@ -46,6 +30,4 @@ chunks:
   build-depends:
   - boto
   - configobj
-  - python-prettytable
-  - python-json-pointer
   - python-cheetah

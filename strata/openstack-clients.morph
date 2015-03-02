@@ -21,23 +21,17 @@ chunks:
   unpetrify-ref: 1.1.0
   build-depends:
   - python-json-pointer
-- name: python-prettytable
-  repo: upstream:python-prettytable
-  ref: 7a48f1e84049577370cf28632a75d2fd01e4142d
-  unpetrify-ref: master
   build-depends: []
 - name: python-keystoneclient
   repo: upstream:openstack/python-keystoneclient
   ref: 79d1eec35aad874a7c08ff22c39260884a5524ba
   unpetrify-ref: 0.11.1
-  build-depends:
-  - python-prettytable
+  build-depends: []
 - name: python-glanceclient
   repo: upstream:openstack/python-glanceclient
   ref: 8a877b2752162d6a2db43d7d61d6311c4f42285b
   unpetrify-ref: 0.14.1
   build-depends:
-  - python-prettytable
   - python-keystoneclient
   - warlock
 - name: python-novaclient
@@ -45,7 +39,6 @@ chunks:
   ref: 5ecfdac6b34769e200ff5c4c7429c20518c5b24f
   unpetrify-ref: 2.20.0
   build-depends:
-  - python-prettytable
   - python-keystoneclient
 - name: python-swiftclient
   repo: upstream:openstack/python-swiftclient
@@ -56,14 +49,12 @@ chunks:
   repo: upstream:openstack/python-troveclient
   ref: e010a919750f07493afd42a4db867853b925bcbf
   unpetrify-ref: 1.0.7
-  build-depends:
-  - python-prettytable
+  build-depends: []
 - name: python-cinderclient
   repo: upstream:openstack/python-cinderclient
   ref: ac9b0913904c43f4bf12c8164324d6e6a55dc1ab
   unpetrify-ref: 1.1.1
   build-depends:
-  - python-prettytable
   - python-keystoneclient
 - name: pyparsing
   morph: strata/openstack-clients/pyparsing.morph
@@ -83,7 +74,6 @@ chunks:
   unpetrify-ref: 1.7.0
   build-depends:
   - cmd2
-  - python-prettytable
   - pyparsing
 - name: python-neutronclient
   repo: upstream:openstack/python-neutronclient
@@ -97,14 +87,12 @@ chunks:
   ref: 7316dd16b8850270db27c1298dcf5a2223f2f1e1
   unpetrify-ref: 1.0.12
   build-depends:
-  - python-prettytable
   - python-keystoneclient
 - name: python-heatclient
   repo: upstream:openstack/python-heatclient
   ref: 6089d31e302d80910cc15132f99a1bf358bbb64f
   unpetrify-ref: 0.2.12
   build-depends:
-  - python-prettytable
   - python-keystoneclient
 - name: python-designateclient
   repo: upstream:openstack/python-designateclient
@@ -121,9 +109,8 @@ chunks:
   - python-keystoneclient
   - cliff
 - name: python-saharaclient
-  repo: github:openstack/python-saharaclient
+  repo: upstream:openstack/python-saharaclient
   ref: eadb40ccb62566f02cb93ec03aa232e48835dec3
   unpetrify-ref: 0.7.6
   build-depends:
   - python-keystoneclient
-  - python-prettytable
