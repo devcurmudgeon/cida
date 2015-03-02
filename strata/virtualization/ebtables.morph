@@ -4,4 +4,4 @@ build-system: manual
 build-commands:
 - make
 install-commands:
-- make install DESTDIR="$DESTDIR" BINDIR="$DESDIR"/sbin
+- make install DESTDIR="$DESTDIR" BINDIR="$PREFIX/sbin"
