@@ -5,7 +5,7 @@ build-depends:
 - morph: strata/python-core.morph
 chunks:
 - name: pycrypto
-  morph: strata/openstack-services/pycrypto.morph
+  morph: strata/python-common/pycrypto.morph
   repo: upstream:python-packages/pycrypto
   ref: af058ee6f5da391a05275470ab4a4a96aa22b350
   unpetrify-ref: v2.7a1
