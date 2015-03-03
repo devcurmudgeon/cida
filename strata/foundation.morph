@@ -7,7 +7,7 @@ chunks:
 - name: attr
   morph: strata/foundation/attr.morph
   repo: upstream:attr
-  ref: bf32f1769e9895f8546570f0c841a945c93a5b22
+  ref: 4b005410f865895d4dcd56e2c135278a7a315877
   unpetrify-ref: baserock/morph
   build-depends: []
 - name: groff
