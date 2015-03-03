@@ -4,23 +4,10 @@ description: Stratum with all the OpenStack clients and their dependencies.
 build-depends:
 - morph: strata/openstack-common.morph
 chunks:
-- name: python-json-pointer
-  repo: upstream:python-json-pointer
-  ref: 34073e561261cb413b9bdff5beac31b070d98ea2
-  unpetrify-ref: v1.4
-  build-depends: []
-- name: python-json-patch
-  repo: upstream:python-json-patch
-  ref: e4da658a5dc9f68d3386017ffdcc8e07d22b51a3
-  unpetrify-ref: v1.8
-  build-depends:
-  - python-json-pointer
 - name: warlock
   repo: upstream:warlock
   ref: 408ccb82347aabf3dc7cf6eccbd2ed2475cb0d60
   unpetrify-ref: 1.1.0
-  build-depends:
-  - python-json-pointer
   build-depends: []
 - name: python-keystoneclient
   repo: upstream:openstack/python-keystoneclient
