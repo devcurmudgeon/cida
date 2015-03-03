@@ -36,11 +36,13 @@ chunks:
   build-depends:
   - googletest
 - name: genivi-common-api-runtime
+  morph: strata/genivi/genivi-common-api-runtime.morph
   repo: upstream:genivi-common-api-runtime
   ref: 188abb5e24d6a2a7fdd7e5d150439a162621292c
   unpetrify-ref: 2.1.6
   build-depends: []
 - name: genivi-common-api-dbus-runtime
+  morph: strata/genivi/genivi-common-api-dbus-runtime.morph
   repo: upstream:genivi-common-api-dbus-runtime
   ref: 3372155b32a2cf3b05e1a2a13f6f8413069de33f
   unpetrify-ref: 2.1.6-p1
