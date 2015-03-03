@@ -24,6 +24,8 @@ strata:
   morph: strata/ntpd.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
+- name: openstack-common
+  morph: strata/openstack-common.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
 - name: cloudinit-support
@@ -38,6 +40,8 @@ strata:
   morph: strata/nfs.morph
 - name: python-core
   morph: strata/python-core.morph
+- name: python-common
+  morph: strata/python-common.morph
 - name: chef
   morph: strata/chef.morph
 configuration-extensions:

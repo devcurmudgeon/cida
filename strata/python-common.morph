@@ -33,3 +33,19 @@ chunks:
   unpetrify-ref: 2.7.3
   build-depends:
   - markupsafe
+- name: python-json-pointer
+  repo: upstream:python-json-pointer
+  ref: 34073e561261cb413b9bdff5beac31b070d98ea2
+  unpetrify-ref: v1.4
+  build-depends: []
+- name: python-json-patch
+  repo: upstream:python-json-patch
+  ref: e4da658a5dc9f68d3386017ffdcc8e07d22b51a3
+  unpetrify-ref: v1.8
+  build-depends:
+  - python-json-pointer
+- name: python-prettytable
+  repo: upstream:python-prettytable
+  ref: 7a48f1e84049577370cf28632a75d2fd01e4142d
+  unpetrify-ref: master
+  build-depends: []

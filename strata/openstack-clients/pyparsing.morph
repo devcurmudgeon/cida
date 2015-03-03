@@ -1,4 +1,4 @@
-name: python-prettytable
+name: pyparsing
 kind: chunk
 build-commands:
 - cd src && python setup.py build

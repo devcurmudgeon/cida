@@ -25,8 +25,12 @@ strata:
   morph: strata/python-core.morph
 - name: python-tools
   morph: strata/python-tools.morph
+- name: python-common
+  morph: strata/python-common.morph
 - name: devtools
   morph: strata/devtools.morph
+- name: ansible
+  morph: strata/ansible.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

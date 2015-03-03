@@ -18,6 +18,8 @@ strata:
   morph: strata/tools.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
+- name: openstack-common
+  morph: strata/openstack-common.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
 - name: cloudinit-support
@@ -36,8 +38,12 @@ strata:
   morph: strata/python-core.morph
 - name: python-tools
   morph: strata/python-tools.morph
+- name: python-common
+  morph: strata/python-common.morph
 - name: devtools
   morph: strata/devtools.morph
+- name: ansible
+  morph: strata/ansible.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
