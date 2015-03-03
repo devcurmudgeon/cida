@@ -57,23 +57,16 @@ chunks:
   ref: bbb31ed50a5338a7d1c0011fc4429d09954f9f0b
   unpetrify-ref: release-0.7.12
   build-depends: []
-- name: argparse
-  repo: upstream:argparse
-  ref: 3c7e856bdba0dc993f21b8440ccbfac6ec292a8c
-  unpetrify-ref: r12
-  build-depends: []
 - name: stevedore
   ref: 860bd8f8ecba38fdfda5b41a3a1dbe854d6528e2
   unpetrify-ref: 1.0.0.0a2
   repo: upstream:openstack/stevedore
-  build-depends:
-  - argparse
+  build-depends: []
 - name: oslo-config
   repo: upstream:openstack/oslo-config
   ref: 059579ac2189b94bc9e9555b2e9acfb31a83ef53
   unpetrify-ref: 1.4.0.0a5
   build-depends:
-  - argparse
   - netaddr
   - stevedore
 - name: pyopenssl
