@@ -65,11 +65,21 @@ chunks:
   ref: 4ebcf671416927b64475da7b810b6016c847bf73
   unpetrify-ref: baserock/genivi/baseline
   build-depends: []
-- name: persistence-client-library
-  repo: upstream:genivi/persistence-client-library
-  ref: 0934ba263e69be8453cc3150f997dad28489f0c7
-  unpetrify-ref: baserock/genivi/baseline
+- name: persistence-common-object
+  morph: strata/genivi/persistence-common-object.morph
+  repo: upstream:genivi/persistence-common-object
+  ref: dc46126214022d068729f7ccd47415dc5f86f425
+  unpetrify-ref: baserock/pedroalvarez/1.0.2
   build-depends:
+  - itzam-tarball
+  - DLT-daemon
+- name: persistence-client-library
+  morph: strata/genivi/persistence-client-library.morph
+  repo: upstream:genivi/persistence-client-library
+  ref: 39c68df2a9ee0b089212855f64a61fbd671b1a80
+  unpetrify-ref: baserock/pedroalvarez/v1.0.0
+  build-depends:
+  - persistence-common-object
   - DLT-daemon
   - itzam-tarball
 - name: node-state-manager
@@ -85,14 +95,6 @@ chunks:
   ref: 19f23e191f9d3e1dd2a518735046100419965804
   unpetrify-ref: v3.1.2
   build-depends: []
-- name: persistence-common-object
-  morph: strata/genivi/persistence-common-object.morph
-  repo: upstream:genivi/persistence-common-object
-  ref: dc46126214022d068729f7ccd47415dc5f86f425
-  unpetrify-ref: baserock/pedroalvarez/1.0.2
-  build-depends:
-  - itzam-tarball
-  - DLT-daemon
 - name: persistence-administrator
   morph: strata/genivi/persistence-administrator.morph
   repo: upstream:genivi/persistence-administrator
