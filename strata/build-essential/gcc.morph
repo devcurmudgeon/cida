@@ -1,6 +1,22 @@
 name: gcc
 kind: chunk
 
+products:
+- artifact: gcc-libs
+  include:
+  - (usr/)lib/lib.*\.so(\.\d+)*$
+- artifact: gcc-doc
+  include:
+  - (usr/)?share/doc/.*
+  - (usr/)?share/man/.*
+  - (usr/)?share/info/.*
+- artifact: gcc-devel
+  # devel includes everything which isn't documentation or libs, since
+  # everything else gcc produces is required for compiling
+  # this is the -devel artifact instead of -misc, since it goes in -devel
+  # stratum artifacts by default
+  include: [ .* ]
+
 configure-commands:
 - mkdir o
 
