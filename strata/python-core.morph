@@ -36,3 +36,13 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - python-setuptools
+- name: cython
+  repo: upstream:cython
+  ref: 4dd8e762fa51d01775506fbbc102c45dbcea065d
+  unpetrify-ref: 0.22
+- name: python-lxml
+  repo: upstream:python-lxml
+  ref: 14505bc62f5f1fc9fb0ff007955f3e67ab4562bb
+  unpetrify-ref: lxml-3.4.0
+  build-depends:
+  - cython
