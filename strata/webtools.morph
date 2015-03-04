@@ -10,21 +10,17 @@ chunks:
   repo: upstream:icu
   ref: ba023548a3bff7277cbea4acade3042ce9d8949e
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: libgit2
   repo: upstream:libgit2
   ref: 4b0a36e881506a02b43a4ae3c19c93c919b36eeb
   unpetrify-ref: master
-  build-depends: []
 - name: tar
   morph: strata/webtools/tar.morph
   repo: upstream:tar
   ref: 9a58d148c26c220cb1b163c71e7a51a2e41f6b37 
   unpetrify-ref: baserock/release_1_28
-  build-depends: []
 - name: nginx
   morph: strata/webtools/nginx.morph
   repo: upstream:nginx
   ref: 37a582c9ea3e731c115e560d31b26f78535b8fca
   unpetrify-ref: baserock/v1.7.0
-  build-depends: []

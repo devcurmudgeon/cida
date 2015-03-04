@@ -13,4 +13,3 @@ chunks:
   repo: baserock:baserock/lorry-controller
   ref: ce97e140f61cfc3781c3082febeacd0e5fb145cd
   unpetrify-ref: master
-  build-depends: []

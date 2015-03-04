@@ -12,7 +12,6 @@ chunks:
   repo: upstream:lua
   ref: 948063437e0350d9ef1649ec3a76d0c24a5c8642
   unpetrify-ref: baserock/5.1-morph
-  build-depends: []
 - name: lace
   morph: strata/trove/lace.morph
   repo: upstream:gitano/lace
@@ -69,13 +68,11 @@ chunks:
   repo: upstream:cgit
   ref: acbf4a15e260c711094455dbef7c024f2553fd32
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: trove-setup
   morph: strata/trove/trove-setup.morph
   repo: baserock:baserock/trove-setup
   ref: 1b89b00ccfed5adf796c2a5180a8cf6b2e2badf2
   unpetrify-ref: master
-  build-depends: []
 - name: lua-scrypt
   morph: strata/trove/lua-scrypt.morph
   repo: upstream:lua-scrypt
