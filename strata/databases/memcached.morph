@@ -8,7 +8,7 @@ configure-commands:
 - ./configure --prefix="$PREFIX"
 install-commands:
 - make install
-- install -D -m 755 scripts/memcached.service "$DESTDIR"/etc/systemd/system/memcached.service
+- install -D -m 755 scripts/memcached.service "$DESTDIR$PREFIX"/lib/systemd/system/memcached.service
 post-install-commands:
 - mkdir -p "$DESTDIR"/etc/sysconfig
 - |
