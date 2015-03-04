@@ -9,25 +9,21 @@ chunks:
   repo: upstream:attr
   ref: 4b005410f865895d4dcd56e2c135278a7a315877
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: groff
   morph: strata/foundation/groff.morph
   repo: upstream:groff-git
   ref: 16305a24e67966ace06d55e2a0b98cc0e3127a93
   unpetrify-ref: 1.22.3
-  build-depends: []
 - name: kmod
   morph: strata/foundation/kmod.morph
   repo: upstream:kmod
   ref: ae58de0fcb4a6528dd365e23d383bbe2eaf2d566
   unpetrify-ref: v18
-  build-depends: []
 - name: time-zone-database
   morph: strata/foundation/time-zone-database.morph
   repo: upstream:tz
   ref: a0782484f101ac55c916568bc1c490d7761fc904
   unpetrify-ref: 2015a
-  build-depends: []
 - name: libcap2
   morph: strata/foundation/libcap2.morph
   repo: upstream:libcap2
@@ -40,13 +36,11 @@ chunks:
   repo: upstream:libffi
   ref: 77d4586cc47e8f4c02278afbc220145bba0d442b
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: pciutils
   morph: strata/foundation/pciutils.morph
   repo: upstream:pciutils
   ref: bae04bd0473c68a2f21b7712a627abb08fd84b29
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: glib
   repo: upstream:glib
   ref: 4125415e7f4d1213fc7122beac0d91af08e37b28
@@ -67,7 +61,6 @@ chunks:
 - name: libgpg-error
   repo: upstream:libgpg-error
   ref: a498812d767c59ae2b75b0c985f5280b139e7dc4
-  build-depends: []
 - name: libgcrypt
   repo: upstream:libgcrypt
   ref: 412eed473b557ed2172d81d76fa1e1f53c973a67
@@ -78,7 +71,6 @@ chunks:
   repo: upstream:linux-pam
   ref: b1521c97e73b10469f7b34c0571d51c647eca83c
   unpetrify-ref: Linux-PAM-1.1.8
-  build-depends: []
 - name: systemd
   morph: strata/foundation/systemd.morph
   repo: upstream:systemd
@@ -108,13 +100,11 @@ chunks:
   repo: upstream:lzo
   ref: 5cca83e4d1b0be5825a597ab24ffa6126dc0bc95
   unpetrify-ref: lzo-2.08
-  build-depends: []
 - name: fuse
   morph: strata/foundation/fuse.morph
   repo: upstream:fuse
   ref: d69e627e79862e2df4ff9ff1ddb0363c4520d8a8
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: acl
   morph: strata/foundation/acl.morph
   repo: upstream:acl
@@ -127,7 +117,6 @@ chunks:
   repo: upstream:e2fsprogs
   ref: 6a3741ad293031447b95b88431eafa77401a8987
   unpetrify-ref: v1.42.12
-  build-depends: []
 - name: btrfs-progs
   morph: strata/foundation/btrfs-progs.morph
   repo: upstream:btrfs-progs
@@ -150,7 +139,6 @@ chunks:
   repo: upstream:libxslt
   ref: 8785a2ffd0d146df0395ab71ce4734d0a8ba0f7e
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: openssh
   morph: strata/foundation/openssh.morph
   repo: upstream:openssh-git

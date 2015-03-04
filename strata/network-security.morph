@@ -8,7 +8,6 @@ chunks:
   repo: upstream:nspr-hg
   ref: a6ee84946475c1fb7624973af28163f6da247c0d
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: nss
   morph: strata/network-security/nss.morph
   repo: upstream:nss

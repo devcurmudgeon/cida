@@ -15,12 +15,10 @@ chunks:
   repo: upstream:ruby
   ref: 7a24f1710028d568ad61d0aa49d5178260178d77
   unpetrify-ref: baserock/morph/ruby_1_8_7
-  build-depends: []
 - name: libyaml
   repo: upstream:libyaml-hg
   ref: 0577078d6625a7bf06e6bc7fb26a43e27400b17e
   unpetrify-ref: master
-  build-depends: []
 - name: ruby
   morph: strata/ruby/ruby.morph
   repo: upstream:ruby

@@ -9,4 +9,3 @@ chunks:
   repo: upstream:cpython
   ref: d1414cefaddc7b56caef75eea87226b1fce5ca7c
   unpetrify-ref: v3.4.2
-  build-depends: []

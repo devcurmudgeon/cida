@@ -14,30 +14,25 @@ chunks:
   repo: upstream:yajl
   ref: 52fc681857228c65c1cb439782da485554875481
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: xml-catalog
   morph: strata/virtualization/xml-catalog.morph
   repo: baserock:baserock/xml-catalog
   ref: 1d4a2abc875c4dda1b5eadc0a097a48a8d2ec82b
   unpetrify-ref: master
-  build-depends: []
 - name: dnsmasq
   morph: strata/virtualization/dnsmasq.morph
   repo: upstream:dnsmasq
   ref: 8471cd938ca41fbe4fee8ae3f657625c92cfb954
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: qemu
   morph: strata/virtualization/qemu.morph
   repo: upstream:qemu
   ref: c5691f7ecb32cbe7a95b491314ce070e211fd97d
   unpetrify-ref: baserock/v2.2.0
-  build-depends: []
 - name: xorg-util-macros
   repo: upstream:xorg-util-macros
   ref: c98b41de5596c675c603ef43ae9570133f1a9921
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: libpciaccess
   repo: upstream:libpciaccess
   ref: b9c068896914b4132a24839c9ef7f9fcd6282d88
@@ -49,7 +44,6 @@ chunks:
   repo: upstream:dmidecode
   ref: 47a0aa5d6696a83922ee70279b7253a4e55947d5
   unpetrify-ref: master
-  build-depends: []
 - name: libvirt
   morph: strata/virtualization/libvirt.morph
   repo: upstream:libvirt
@@ -66,7 +60,6 @@ chunks:
   repo: upstream:pycurl
   ref: 5ca370827d88817eeca3c56cbb37e4ddccc16c6e
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: urlgrabber
   repo: upstream:urlgrabber
   ref: bf0a0be71373dec515bbb54e0613a3b9b0c00b04
@@ -77,7 +70,6 @@ chunks:
   repo: upstream:cython
   ref: 005d38d5921a603d5f4d413aae72f98a6d33192f
   unpetrify-ref: master
-  build-depends: []
 - name: python-lxml
   repo: upstream:python-lxml
   ref: 8fc99f8ef3e2f12e74fb407ae62c5db50cfe7b92
@@ -96,7 +88,6 @@ chunks:
   repo: upstream:gnome-common
   ref: d213283fcb5228d05eb2c796579f18240e8467e8
   unpetrify-ref: 3.12.0
-  build-depends: []
 - name: pygobject
   morph: strata/virtualization/pygobject.morph
   repo: upstream:pygobject
@@ -131,10 +122,8 @@ chunks:
   repo: upstream:ebtables
   ref: f4bdc80ae8c1a79b4ab5dcb8431ad85aea618d66
   unpetrify-ref: master
-  build-depends: []
 - name: openvswitch
   morph: strata/virtualization/openvswitch.morph
   repo: upstream:openvswitch
   ref: a52b0492a4d0398a24ed2a3566ff55ac53fea31f
   unpretrify-ref: master
-  build-depends: []
