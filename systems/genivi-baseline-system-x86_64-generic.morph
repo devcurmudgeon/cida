@@ -35,6 +35,8 @@ strata:
   morph: strata/llvm-common.morph
 - name: mesa-common
   morph: strata/mesa-common.morph
+- name: x-common
+  morph: strata/x-common.morph
 - name: weston-genivi
   morph: strata/weston-genivi.morph
 configuration-extensions:
