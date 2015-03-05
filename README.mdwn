@@ -232,6 +232,42 @@ Administrators group.
 You can add more users into the Administrators group later on using the [gerrit
 set-members] command, or the web interface.
 
+Go to the settings page, 'HTTP Password' and generate a HTTP password for
+yourself. You'll need it in the next step. The password can take a long time to
+appear for some reason, or it might not work at all. Click off the page and
+come back to it and it might suddenly have appeared. I've not investigated why
+this happens.
+
+#### Access control rules
+
+Now set up the Gerrit access configuration. You'll need to have cloned 
+<https://github.com/ssssam/ansible-gerrit> alongside infrastructure.git, and ran
+`make` in that directory. You'll also need 'pygerrit' installed somewhere
+Python can find it.
+
+    export GERRIT_URL=http://gerrit.baserock.org
+    export GERRIT_ADMIN_USERNAME=your username
+    export GERRIT_ADMIN_PASSWORD=your generated HTTP password
+
+    ANSIBLE_LIBRARY=../ansible-gerrit \
+    ansible-playbook baserock_gerrit/gerrit-access-config.yml
+
+As well as creating all the groups and initial users in the new Gerrit
+instance, Ansible should update the file baserock_gerrit/All-Projects/groups,
+which will be needed in the next step.
+
+    git clone ssh://$GERRIT_ADMIN_USERNAME@gerrit.baserock.org:29418/All-Projects.git /tmp/All-Projects
+    cp -a baserock_gerrit/All-Projects/*  /tmp/All-Projects
+    cd /tmp/All-Projects
+    git checkout -b config
+    git commit -a -m "Set up initial access controls."
+    git push origin config:refs/meta/config
+    cd -
+
+#### Mirroring
+
+TO DO: link to document on setting up mirroring.
+
 [gerrit set-members]: https://gerrit-documentation.storage.googleapis.com/Documentation/2.9.4/cmd-set-members.html
 
 ### Storyboard
