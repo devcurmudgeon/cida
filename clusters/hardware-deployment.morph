@@ -12,7 +12,6 @@ systems:
       location: AB:CD:EF:12:34:56:78   #MAC address.
       PXEBOOT_MODE: spawn-novlan
       PXEBOOT_DEPLOYER_INTERFACE: ens6
-      DISK_SIZE: 6G
       KERNEL_ARGS: console=ttyS1,9600 console=tty0 init=/usr/lib/baserock-installer/installer
       HOSTNAME: installer-system
       IPMI_USER: myipmiuser
