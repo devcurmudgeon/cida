@@ -1,0 +1,5 @@
+name: persistence-common-object
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- chmod +x autogen.sh

@@ -1,0 +1,5 @@
+name: DLT-deamon
+kind: chunk
+build-system: cmake
+configure-commands:
+- cmake -DCMAKE_INSTALL_PREFIX="$PREFIX" -DWITH_SYSTEMD=ON
