@@ -7,3 +7,4 @@ chunks:
   repo: upstream:ntp
   ref: d4b7cd9723cce9561fa15f74b90b85a3a61b5ef8
   unpetrify-ref: ntp-dev-4.2.7p482
+  build-depends: []

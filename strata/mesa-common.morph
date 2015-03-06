@@ -10,3 +10,4 @@ chunks:
   repo: upstream:mesa
   ref: 1a9cc5f50db5d27530a3449743b43aac389d781f
   unpetrify-ref: mesa-10.3.3
+  build-depends: []

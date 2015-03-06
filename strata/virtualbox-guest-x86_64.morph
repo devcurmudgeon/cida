@@ -13,6 +13,7 @@ chunks:
   repo: upstream:yasm
   ref: fefefe262eb29081f0bcb4d48f2d476ce5730562
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: vboxguest
   morph: strata/virtualbox-guest-x86_64/vboxguest.morph
   repo: upstream:VirtualBox

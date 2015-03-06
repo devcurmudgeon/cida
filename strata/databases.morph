@@ -10,16 +10,19 @@ chunks:
   repo: upstream:postgresql
   ref: d4f8dde3c1c2c90c723ab550e7f449fc75599316
   unpetrify-ref: REL9_3_4
+  build-depends: []
 - name: redis
   morph: strata/databases/redis.morph
   repo: upstream:redis
   ref: 9ee59fca9c5c429185d35779c2d5db64005091b0
   unpetrify-ref: baserock/3.0
+  build-depends: []
 - name: memcached
   morph: strata/databases/memcached.morph
   repo: upstream:memcached
   ref: c5530027c8ea28674358327ab8212ebaf014c848
   unpetrify-ref: 1.4.22
+  build-depends: []
 - name: psycopg2
   repo: upstream:python-packages/psycopg2
   ref: 00cafbe85bb82d85cbfe0f062a73c562433b5bc8
@@ -30,3 +33,4 @@ chunks:
   repo: upstream:python-packages/python-memcached
   ref: 156ee975ff6e5c69e1d6c58b09bedf03c182c5db
   unpetrify-ref: master
+  build-depends: []

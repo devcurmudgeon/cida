@@ -8,3 +8,4 @@ chunks:
   morph: strata/zookeeper/zookeeper-server.morph
   repo: baserock:tests/zookeeper-test
   ref: master
+  build-depends: []

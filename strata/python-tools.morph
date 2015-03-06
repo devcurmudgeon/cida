@@ -9,3 +9,4 @@ chunks:
   repo: upstream:python-packages/virtualenv
   ref: 9205ff46a67130e8835f14bb4f802fd59e7dcf2c
   unpetrify-ref: 12.0.5
+  build-depends: []

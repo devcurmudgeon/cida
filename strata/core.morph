@@ -9,31 +9,37 @@ chunks:
   repo: upstream:sqlite3
   ref: 24adc227bc29cd17e39df097fbca389c7724cd14
   unpetrify-ref: sqlite-autoconf-3080801
+  build-depends: []
 - name: cmake
   morph: strata/core/cmake.morph
   repo: upstream:cmake
   ref: 0b3781e4c497566acaa504d4106d11c02a642501
   unpetrify-ref: v2.8.12.2
+  build-depends: []
 - name: gdbm
   morph: strata/core/gdbm.morph
   repo: upstream:gdbm-tarball
   ref: e5faeaaf75ecfb705a9b643b3e4cb881ebb69f48
   unpetrify-ref: gdbm-1.11
+  build-depends: []
 - name: gettext-tarball
   morph: strata/core/gettext-tarball.morph
   repo: upstream:gettext-tarball
   ref: 482840e61f86ca321838a91e902c41d40c098bbb
   unpetrify-ref: gettext-0.19.4
+  build-depends: []
 - name: mini-utils
   morph: strata/core/mini-utils.morph
   repo: baserock:baserock/mini-utils
   ref: 5293265b29bbf468ab9d7f3302b19dbc81d0f8b8
   unpetrify-ref: master
+  build-depends: []
 - name: ncurses
   morph: strata/core/ncurses.morph
   repo: upstream:ncurses
   ref: f67398afa6a76fbc902cc0cea963d5151fa2a953
   unpetrify-ref: ncurses-5.9-20150131
+  build-depends: []
 - name: perl
   morph: strata/core/perl.morph
   repo: upstream:perl
@@ -70,6 +76,7 @@ chunks:
   repo: upstream:bash
   ref: 3590145af6f1c9fa321dff231f69ae696e7e740b
   unpetrify-ref: baserock/bash-4.3-patch-27
+  build-depends: []
 - name: flex
   morph: strata/core/flex.morph
   repo: upstream:flex
@@ -90,6 +97,7 @@ chunks:
   repo: upstream:bzip2
   ref: 8deafa68e52b230018c0318dc7959ff9af3ad2a5
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: readline
   morph: strata/core/readline.morph
   repo: upstream:readline
@@ -113,6 +121,7 @@ chunks:
   repo: upstream:libtool-tarball
   ref: c026ca36e37d2643623a75d0d3e9e451023139f3
   unpetrify-ref: libtool-2.4.6
+  build-depends: []
 - name: gtk-doc-stub
   repo: upstream:gtk-doc-stub
   ref: 58ec0d8593541ef7ae522ce42ebec6f98536c4e0
@@ -209,6 +218,7 @@ chunks:
   repo: upstream:gperf
   ref: 5094e4a539adf845111013f82c2c4fcaec637983
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: intltool
   repo: upstream:intltool
   ref: 12f04c88be9ff8a578d8fd6990ee2448c66dc5f4

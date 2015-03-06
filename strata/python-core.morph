@@ -9,6 +9,7 @@ chunks:
   repo: upstream:python-setuptools-bitbucket
   ref: 0aa6a4de5931d02876428388678802db2371fd37
   unpetrify-ref: baserock/master
+  build-depends: []
 - name: pip
   repo: upstream:pip
   ref: ea680f204fb0e48789710c22c8f597a9bf01bc16
@@ -25,10 +26,12 @@ chunks:
   repo: upstream:python-requests
   ref: b83131779c701720a9ae9efae78996277d416269
   unpetrify-ref: v2.5.1
+  build-depends: []
 - name: six
   repo: upstream:six
   ref: 8cfbff6b764af86d825086fa1637aa009e90d75a
   unpetrify-ref: 1.9.0
+  build-depends: []
 - name: pyyaml
   morph: strata/python-core/pyyaml.morph
   repo: upstream:pyyaml

@@ -14,3 +14,4 @@ chunks:
   morph: strata/zookeeper/zookeeper-client.morph
   repo: baserock:tests/zookeeper-test
   ref: master
+  build-depends: []

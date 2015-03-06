@@ -9,12 +9,14 @@ chunks:
   repo: upstream:binutils-redhat
   ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
   unpetrify-ref: baserock/build-essential
+  build-depends: []
 
 - name: armv7lhf-cross-linux-api-headers
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-linux-api-headers.morph
   repo: upstream:linux
   ref: df2e1b9168a7ab5dd8149e38b5ac70cdef86d1fa
   unpetrify-ref: baserock/v3.8
+  build-depends: []
 
 - name: armv7lhf-cross-gcc-nolibc
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-gcc-nolibc.morph

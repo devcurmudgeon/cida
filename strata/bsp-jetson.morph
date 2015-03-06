@@ -17,6 +17,7 @@ chunks:
   repo: upstream:device-tree-compiler
   ref: c92f284c3cf76d471eb27a271de3a51cb45ed058
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: u-boot@jetson
   morph: strata/bsp-jetson/u-boot@jetson.morph
   repo: upstream:u-boot
@@ -29,11 +30,13 @@ chunks:
   repo: upstream:linux
   ref: 682c943b0159b1a4105f31020605bf8a0f155ffd
   unpetrify-ref: baserock/v3.18-with-cpufreq
+  build-depends: []
 - name: bsp-support
   morph: strata/bsp-jetson/bsp-support.morph
   repo: baserock:baserock/bsp-support
   ref: 19bc31ce3198a3c19cdd96d392bde34cb34ed525
   unpetrify-ref: baserock/arm/tegra-3.10
+  build-depends: []
 - name: nouveau-drm
   morph: strata/bsp-jetson/nouveau-drm.morph
   repo: upstream:nouveau
@@ -46,3 +49,4 @@ chunks:
   repo: upstream:linux-firmware
   ref: 9322ef5b14c78ec28163baa41bff240a0e098810
   unpetrify-ref: baserock/jetson
+  build-depends: []

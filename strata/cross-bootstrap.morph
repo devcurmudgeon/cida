@@ -10,6 +10,7 @@ chunks:
   repo: upstream:groff-git
   ref: 16305a24e67966ace06d55e2a0b98cc0e3127a93
   unpetrify-ref: 1.22.3
+  build-depends: []
 - name: openssh
   morph: strata/cross-bootstrap/openssh.morph
   repo: upstream:openssh-git
@@ -21,8 +22,10 @@ chunks:
   repo: upstream:linux-user-chroot
   ref: d25cc110f69e6e71a95b4ac532dcfc5423d4a16b
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: rsync
   morph: strata/cross-bootstrap/rsync.morph
   repo: upstream:rsync
   ref: 7cb0de6326c915a72253fd103dae93308031ec3f
   unpetrify-ref: v3.1.1
+  build-depends: []

@@ -46,6 +46,7 @@ chunks:
   repo: upstream:binutils-redhat
   ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
   unpetrify-ref: baserock/build-essential
+  build-depends: []
   build-mode: bootstrap
   prefix: /tools
 
@@ -149,6 +150,7 @@ chunks:
   repo: upstream:bash
   ref: 3590145af6f1c9fa321dff231f69ae696e7e740b
   unpetrify-ref: baserock/bash-4.3-patch-27
+  build-depends: []
   build-mode: bootstrap
   prefix: /tools
 
@@ -157,6 +159,7 @@ chunks:
   repo: baserock:baserock/fhs-dirs
   ref: 41bbb474cd4647ee715bc94c21c161d12a20deb4
   unpetrify-ref: master
+  build-depends: []
   build-mode: bootstrap
   prefix: /tools
 

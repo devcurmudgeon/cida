@@ -9,15 +9,18 @@ chunks:
   repo: upstream:libcroco
   ref: 611f624a6e15065792b41eb5ce14811293f3fb0a
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: librsvg
   morph: strata/xfce/librsvg.morph
   repo: upstream:librsvg
   ref: 61171ca59d02b58b7da1697ca1d924bff93e66cb
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: xfce-dev-tools
   repo: upstream:xfce/xfce4-dev-tools
   ref: 9244250ac0c15ba160688758c5dccf97f3f160ef
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: libxfce4util
   morph: strata/xfce/libxfce4util.morph
   repo: upstream:xfce/libxfce4util
@@ -53,6 +56,7 @@ chunks:
   repo: upstream:libwww-perl/uri
   ref: 3dd72ded7f043a4f6973781fe594722e2e95f491
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: exo
   morph: strata/xfce/exo.morph
   repo: upstream:xfce/exo
@@ -67,6 +71,7 @@ chunks:
   repo: upstream:libwnck
   ref: 6792abcdf27aceba1012406d51606e84b065a526
   unpetrify-ref: baserock/xfce-build
+  build-depends: []
 - name: xfce4-panel
   morph: strata/xfce/xfce4-panel.morph
   repo: upstream:xfce/xfce4-panel
@@ -102,6 +107,7 @@ chunks:
   repo: upstream:iceauth
   ref: c07d443d43e53cfe21b53a9a0eafcd6189432867
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: xfce4-session
   morph: strata/xfce/xfce4-session.morph
   repo: upstream:xfce/xfce4-session
@@ -162,3 +168,4 @@ chunks:
   repo: upstream:elementary-xfce
   ref: 81e683bb46f8ba58c49c60ed75124951b7ba0779
   unpetrify-ref: baserock/morph
+  build-depends: []

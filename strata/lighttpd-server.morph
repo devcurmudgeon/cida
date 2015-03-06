@@ -10,3 +10,4 @@ chunks:
   repo: upstream:lighttpd
   ref: 12e4e21763da770034267ff0a7b660876930f789
   unpetrify-ref: baserock/morph
+  build-depends: []

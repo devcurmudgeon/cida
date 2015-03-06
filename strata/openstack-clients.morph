@@ -8,10 +8,12 @@ chunks:
   repo: upstream:warlock
   ref: 408ccb82347aabf3dc7cf6eccbd2ed2475cb0d60
   unpetrify-ref: 1.1.0
+  build-depends: []
 - name: python-keystoneclient
   repo: upstream:openstack/python-keystoneclient
   ref: 79d1eec35aad874a7c08ff22c39260884a5524ba
   unpetrify-ref: 0.11.1
+  build-depends: []
 - name: python-glanceclient
   repo: upstream:openstack/python-glanceclient
   ref: 8a877b2752162d6a2db43d7d61d6311c4f42285b
@@ -29,10 +31,12 @@ chunks:
   repo: upstream:openstack/python-swiftclient
   ref: bb4d2ab59c4de9389667eeed255642f51e276f1e
   unpetrify-ref: 2.3.1
+  build-depends: []
 - name: python-troveclient
   repo: upstream:openstack/python-troveclient
   ref: e010a919750f07493afd42a4db867853b925bcbf
   unpetrify-ref: 1.0.7
+  build-depends: []
 - name: python-cinderclient
   repo: upstream:openstack/python-cinderclient
   ref: ac9b0913904c43f4bf12c8164324d6e6a55dc1ab
@@ -44,6 +48,7 @@ chunks:
   repo: upstream:python-packages/pyparsing.git
   ref: 8062c76ab3958a570052124f17e71f3dd3ec2257
   unpetrify-ref: pyparsing_2.0.3
+  build-depends: []
 - name: cmd2
   repo: upstream:python-packages/cmd2.git
   ref: 07b4dc3d6991cbdc420c246e807371c97a467d1a

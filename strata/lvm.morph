@@ -13,3 +13,4 @@ chunks:
   repo: upstream:lvm2
   ref: fa01faaa4aa96de834ba7e8fbb9d9aff908571c3
   unpetrify-ref: v2_02_115
+  build-depends: []

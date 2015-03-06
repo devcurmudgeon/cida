@@ -10,6 +10,7 @@ chunks:
   repo: upstream:icu
   ref: ba023548a3bff7277cbea4acade3042ce9d8949e
   unpetrify-ref: baserock/morph
+  build-depends: []
 - name: qtbase
   morph: strata/qt5-tools/qtbase.morph
   repo: upstream:qt5/qtbase
