@@ -118,8 +118,37 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         lines += ["[Network]"]
         if itype == "dhcp":
             lines += ["DHCP=yes"]
+        else:
+            lines += self.generate_networkd_entries(pairs)
 
         return "\n".join(lines)
+
+    def generate_networkd_entries(self, pairs):
+        """Generate networkd configuration entries with the other parameters"""
+
+        address = None
+        netmask = None
+        gateway = None
+        lines = []
+        for pair in pairs:
+            if pair[0] == 'address':
+                address = pair[1]
+            elif pair[0] == 'netmask':
+                netmask = pair[1]
+            elif pair[0] == 'gateway':
+                gateway = pair[1]
+
+        if address and netmask:
+            network_suffix = self.convert_net_mask_to_cidr_suffix (netmask);
+            address_line = address + '/' + str(network_suffix)
+            lines += ["Address=%s" % address_line]
+        elif address or netmask:
+            raise Exception('address and netmask must be specified together')
+
+        if gateway is not None:
+            lines += ["Gateway=%s" % gateway]
+
+        return lines
 
     def convert_net_mask_to_cidr_suffix(self, mask):
         """Convert dotted decimal form of a subnet mask to CIDR suffix notation
