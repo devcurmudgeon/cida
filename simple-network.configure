@@ -42,15 +42,29 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
     '''
 
     def process_args(self, args):
-        network_config = os.environ.get(
-            "NETWORK_CONFIG", "lo:loopback;eth0:dhcp,hostname=$(hostname)")
+        network_config = os.environ.get("NETWORK_CONFIG")
 
-        self.status(msg="Processing NETWORK_CONFIG=%(nc)s", nc=network_config)
+        if network_config is None:
+            self.generate_default_network_config(args)
+        else:
+            self.status(msg="Processing NETWORK_CONFIG=%(nc)s", nc=network_config)
 
-        stanzas = self.parse_network_stanzas(network_config)
+            stanzas = self.parse_network_stanzas(network_config)
 
-        self.generate_interfaces_file(args, stanzas)
-        self.generate_networkd_files(args, stanzas)
+            self.generate_interfaces_file(args, stanzas)
+            self.generate_networkd_files(args, stanzas)
+
+    def generate_default_network_config(self, args):
+        """Generate default network configuration: DHCP in all the interfaces"""
+
+        default_network_config_interfaces = "lo:loopback;eth0:dhcp,hostname=$(hostname)"
+        default_network_config_networkd = "e*:dhcp"
+
+        stanzas_interfaces = self.parse_network_stanzas(default_network_config_interfaces)
+        stanzas_networkd = self.parse_network_stanzas(default_network_config_networkd)
+
+        self.generate_interfaces_file(args, stanzas_interfaces)
+        self.generate_networkd_files(args, stanzas_networkd)
 
     def generate_interfaces_file(self, args, stanzas):
         """Generate /etc/network/interfaces file"""
