@@ -121,6 +121,13 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
 
         return "\n".join(lines)
 
+    def convert_net_mask_to_cidr_suffix(self, mask):
+        """Convert dotted decimal form of a subnet mask to CIDR suffix notation
+
+        For example: 255.255.255.0 -> 24
+        """
+        return sum(bin(int(x)).count('1') for x in mask.split('.'))
+
     def parse_network_stanzas(self, config):
         """Parse a network config environment variable into stanzas.
 
