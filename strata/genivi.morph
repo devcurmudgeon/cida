@@ -70,7 +70,7 @@ chunks:
   morph: strata/genivi/persistence-common-object.morph
   repo: upstream:genivi/persistence-common-object
   ref: dc46126214022d068729f7ccd47415dc5f86f425
-  unpetrify-ref: baserock/pedroalvarez/1.0.2
+  unpetrify-ref: baserock/1.0.2
   build-depends:
   - itzam-tarball
   - DLT-daemon
@@ -78,7 +78,7 @@ chunks:
   morph: strata/genivi/persistence-client-library.morph
   repo: upstream:genivi/persistence-client-library
   ref: 39c68df2a9ee0b089212855f64a61fbd671b1a80
-  unpetrify-ref: baserock/pedroalvarez/v1.0.0
+  unpetrify-ref: baserock/v1.0.0
   build-depends:
   - persistence-common-object
   - DLT-daemon
@@ -100,7 +100,7 @@ chunks:
   morph: strata/genivi/persistence-administrator.morph
   repo: upstream:genivi/persistence-administrator
   ref: f9d62e70237c05323cbd60f1d5c7b574fbc2de43
-  unpetrify-ref: baserock/pedroalvarez/1.0.5
+  unpetrify-ref: baserock/1.0.5
   build-depends:
   - persistence-common-object
   - DLT-daemon
@@ -109,7 +109,7 @@ chunks:
 - name: node-health-monitor
   repo: upstream:genivi/node-health-monitor
   ref: 2af264563ef1b60ba2636cbf5e8cd6a7ed07b0c0
-  unpetrify-ref: baserock/pedroalvarez/1.3.3
+  unpetrify-ref: baserock/1.3.3
   build-depends:
   - node-state-manager
   - persistence-client-library
