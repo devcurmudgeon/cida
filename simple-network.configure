@@ -48,8 +48,13 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         self.status(msg="Processing NETWORK_CONFIG=%(nc)s", nc=network_config)
 
         stanzas = self.parse_network_stanzas(network_config)
-        iface_file = self.generate_iface_file(stanzas)
 
+        self.generate_interfaces_file(args, stanzas)
+
+    def generate_interfaces_file(self, args, stanzas):
+        """Generate /etc/network/interfaces file"""
+
+        iface_file = self.generate_iface_file(stanzas)
         with open(os.path.join(args[0], "etc/network/interfaces"), "w") as f:
             f.write(iface_file)
 
