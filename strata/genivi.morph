@@ -12,6 +12,7 @@ chunks:
   unpetrify-ref: baserock/genivi/morph
   build-depends: []
 - name: DLT-daemon
+  morph: strata/genivi/DLT-daemon.morph
   repo: upstream:DLT-daemon
   ref: 8b48e73f79b4463393916e4c6696917e3dedd026
   unpetrify-ref: v2.10.0
