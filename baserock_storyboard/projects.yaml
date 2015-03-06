@@ -1,0 +1,31 @@
+# Projects defined for Baserock Storyboard
+
+# This file lives in <http://git.baserock.org/baserock/baserock/infrastructure>.
+# This is a temporary version for the work-in-progress storyboard.
+
+# If you update this list, you'll need to log into storyboard.baserock.org and
+# run the following:
+#
+#  sudo -u apache storyboard-db-manage \
+#     --config-file /etc/storyboard/storyboard.conf \
+#     load_projects ./projects.yaml
+
+- project: baserock/definitions
+  description: Baserock reference system definitions
+  use-storyboard: true
+
+- project: baserock/import
+  description: Baserock Import Tool
+  use-storyboard: true
+
+- project: baserock/morph
+  description: Morph build tool
+  use-storyboard: true
+
+- project: baserock/infrastructure
+  description: baserock.org infrastructure
+  use-storyboard: true
+
+- project: baserock/wiki
+  description: Baserock Wiki at http://wiki.baserock.org/
+  use-storyboard: true
