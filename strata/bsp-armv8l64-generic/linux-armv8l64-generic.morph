@@ -71,6 +71,7 @@ configure-commands:
 - scripts/config -e HOTPLUG_PCI_ACPI
 - scripts/config -e VLAN_8021Q
 - scripts/config -e BRIDGE_VLAN_FILTERING
+- scripts/config -e IPV6
 # Required for M400
 - scripts/config -e SATA_AHCI_PLATFORM
 - scripts/config -e AHCI_XGENE
