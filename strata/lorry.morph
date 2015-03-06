@@ -19,12 +19,10 @@ chunks:
   repo: upstream:bzr-tarball
   ref: e61c7edb4789abcd0f73c30fe719fa6fea478a52
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: python-fastimport
   repo: upstream:python-fastimport
   ref: 6500a5e7d82651ade9002d44e3ecc71a50302616
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: bzr-fastimport
   repo: upstream:bzr-fastimport
   ref: b3cda9967f857127bd4dab5eb72223a95916f5ea
@@ -37,13 +35,11 @@ chunks:
   repo: upstream:cvs-tarball
   ref: ca4cd317a75ef4349563b5a9a734561beb4a4f98
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: libapr
   morph: strata/lorry/libapr.morph
   repo: upstream:libapr
   ref: 10835ec9a2d8bb9f7b867d15f29984d29744f028
   unpetrify-ref: 1.5.1
-  build-depends: []
 - name: libapr-util
   morph: strata/lorry/libapr-util.morph
   repo: upstream:libapr-util
@@ -56,7 +52,6 @@ chunks:
   repo: upstream:perl-dbi-tarball
   ref: 09e269cff811f0c1881ea0d6b7571173bab8377b
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: perl-dbd-sqlite-tarball
   repo: upstream:perl-dbd-sqlite-tarball
   ref: 485b97be9f2f2abf5a40923b5fd85f75714a8c02
@@ -76,13 +71,11 @@ chunks:
   repo: upstream:swig-tarball
   ref: 1f6cb46b6a4b3ebf9352fa10198b0b286f84138b
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: neon
   morph: strata/lorry/neon.morph
   repo: upstream:neon
   ref: 837374e9d797e216f1de684595cefe791f67c0e4
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: subversion-tarball
   morph: strata/lorry/subversion-tarball.morph
   repo: upstream:subversion-tarball
@@ -99,7 +92,6 @@ chunks:
   repo: upstream:mercurial-tarball
   ref: 4b0aa73b8c69bd5b7521337809f7bc4714209a5a
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: hg-fast-export
   morph: strata/lorry/hg-fast-export.morph
   repo: upstream:hg-fast-export
@@ -112,7 +104,6 @@ chunks:
   repo: upstream:cvsps
   ref: 71c6d1f5668f405a7b259a0aac0d423f6c9b4d49
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: lorry
   morph: strata/lorry/lorry.morph
   repo: baserock:baserock/lorry

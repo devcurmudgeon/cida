@@ -10,13 +10,11 @@ chunks:
   repo: upstream:linuxquota
   ref: 0804c89a16736533e440771dc42a15e5d0223902
   unpetrify-ref: baserock/genivi/morph
-  build-depends: []
 - name: DLT-daemon
   morph: strata/genivi/DLT-daemon.morph
   repo: upstream:DLT-daemon
   ref: 8b48e73f79b4463393916e4c6696917e3dedd026
   unpetrify-ref: v2.10.0
-  build-depends: []
 - name: node-startup-controller
   morph: strata/genivi/node-startup-controller.morph
   repo: upstream:node-startup-controller
@@ -29,7 +27,6 @@ chunks:
   repo: upstream:googletest
   ref: 5e3f7d3db4c16e2ba8b42b0bf4689f7d2abbcb08
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: googlemock
   morph: strata/genivi/googlemock.morph
   repo: upstream:googlemock
@@ -42,7 +39,6 @@ chunks:
   repo: upstream:genivi-common-api-runtime
   ref: 188abb5e24d6a2a7fdd7e5d150439a162621292c
   unpetrify-ref: 2.1.6
-  build-depends: []
 - name: genivi-common-api-dbus-runtime
   morph: strata/genivi/genivi-common-api-dbus-runtime.morph
   repo: upstream:genivi-common-api-dbus-runtime
@@ -65,7 +61,6 @@ chunks:
   repo: upstream:itzam-tarball
   ref: 4ebcf671416927b64475da7b810b6016c847bf73
   unpetrify-ref: baserock/genivi/baseline
-  build-depends: []
 - name: persistence-common-object
   morph: strata/genivi/persistence-common-object.morph
   repo: upstream:genivi/persistence-common-object
@@ -95,7 +90,6 @@ chunks:
   repo: git://github.com/libarchive/libarchive.git
   ref: 19f23e191f9d3e1dd2a518735046100419965804
   unpetrify-ref: v3.1.2
-  build-depends: []
 - name: persistence-administrator
   morph: strata/genivi/persistence-administrator.morph
   repo: upstream:genivi/persistence-administrator

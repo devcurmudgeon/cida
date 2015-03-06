@@ -13,13 +13,11 @@ chunks:
   repo: upstream:fribidi
   ref: c9916f2ab289126a32febcc4754efc73a011fb0c
   unpetrify-ref: baserock/morph/0.19.6
-  build-depends: []
 - name: bullet3
   morph: strata/enlightenment/bullet3.morph
   repo: upstream:bullet3
   ref: 940059ddb3c4476bb9860f79f35b0b1230857f54
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: efl
   morph: strata/enlightenment/efl.morph
   repo: upstream:enlightenment/efl

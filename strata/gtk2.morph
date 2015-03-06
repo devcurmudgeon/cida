@@ -9,4 +9,3 @@ chunks:
   morph: strata/gtk2/gtk+.morph
   repo: upstream:gtk+
   ref: fbf38d16bcc26630f0f721d266509f5bc292f606
-  build-depends: []

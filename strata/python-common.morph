@@ -9,12 +9,10 @@ chunks:
   repo: upstream:python-packages/pycrypto
   ref: af058ee6f5da391a05275470ab4a4a96aa22b350
   unpetrify-ref: v2.7a1
-  build-depends: []
 - name: ecdsa
   repo: upstream:python-packages/ecdsa
   ref: 36e9cfa80fcf8b53119adc787e54a5892ec1eb2c
   unpetrify-ref: python-ecdsa-0.11
-  build-depends: []
 - name: paramiko
   repo: upstream:paramiko
   ref: 424ba615c2a94d3b059e7f24db1a1093a92d8d22
@@ -26,7 +24,6 @@ chunks:
   repo: upstream:markupsafe
   ref: feb1d70c16df62f60dcb521d127fdad8819fc036
   unpetrify-ref: 0.23
-  build-depends: []
 - name: jinja2
   repo: upstream:jinja2
   ref: 762c612e7276889aac265645da00e62e33d1573c
@@ -37,7 +34,6 @@ chunks:
   repo: upstream:python-json-pointer
   ref: 34073e561261cb413b9bdff5beac31b070d98ea2
   unpetrify-ref: v1.4
-  build-depends: []
 - name: python-json-patch
   repo: upstream:python-json-patch
   ref: e4da658a5dc9f68d3386017ffdcc8e07d22b51a3
@@ -48,4 +44,3 @@ chunks:
   repo: upstream:python-prettytable
   ref: 7a48f1e84049577370cf28632a75d2fd01e4142d
   unpetrify-ref: master
-  build-depends: []

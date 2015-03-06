@@ -13,4 +13,3 @@ chunks:
   repo: upstream:linux
   ref: 5f06398ae6a04f414932243de38b5cf3d264ff84
   unpetrify-ref: baserock/apm-xgene-m400-moonshot-cartridge
-  build-depends: []

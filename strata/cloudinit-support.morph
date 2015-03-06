@@ -11,17 +11,14 @@ chunks:
   repo: upstream:configobj
   ref: 935a78736e4eb43b9fafae87f5e9902328673f63
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: python-cheetah
   repo: upstream:python-cheetah
   ref: 831aa6b99d9b4fb012ee644d8e80e0bc0eb6d6ed
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: boto
   repo: upstream:boto
   ref: bd49c22b5a30bf58096d58efc4762f1fea3e2caf
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: cloud-init
   morph: strata/cloudinit-support/cloud-init.morph
   repo: upstream:cloud-init
