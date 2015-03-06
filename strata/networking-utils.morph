@@ -14,12 +14,10 @@ chunks:
   repo: upstream:iproute2
   ref: 50231ad2a554fcb02462bed6405c970833c1baee
   unpetrify-ref: v3.17.0
-  build-depends: []
 - name: libmnl
   repo: upstream:libmnl
   ref: c9f19b98cd8e108617e825e071091df14f78c53a
   unpetrify-ref: master
-  build-depends: []
 - name: ipset
   morph: strata/networking-utils/ipset.morph
   repo: upstream:ipset

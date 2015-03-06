@@ -9,4 +9,3 @@ chunks:
   repo: baserock:baserock/initramfs-scripts
   ref: a97dea93d28ba272613029e46a8a0b1f699729d8
   unpetrify-ref: master
-  build-depends: []

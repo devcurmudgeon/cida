@@ -12,4 +12,3 @@ chunks:
   repo: upstream:weston
   ref: 322383ed469d69401b502618718a97a4e85c97d8 
   unpetrify-ref: baserock/weston-1.7.0/tegra
-  build-depends: []

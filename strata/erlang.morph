@@ -9,7 +9,6 @@ chunks:
   repo: upstream:erlang
   ref: 9417f044ee3c291c2ea343c203aebdcc40597226
   unpetrify-ref: OTP-17.3.4
-  build-depends: []
 - name: rebar
   morph: strata/erlang/rebar.morph
   repo: upstream:erlang-modules/rebar

@@ -10,4 +10,3 @@ chunks:
   repo: upstream:ansible
   ref: ebc8d48d34296fe010096f044e2b7591df37a622
   unpetrify-ref: baserock/v1.8.4
-  build-depends: []

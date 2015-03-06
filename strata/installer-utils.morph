@@ -9,4 +9,3 @@ chunks:
   repo: baserock:baserock/installer-scripts
   ref: master
   unpetrify-ref: master
-  build-depends: []
