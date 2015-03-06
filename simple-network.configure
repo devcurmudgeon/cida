@@ -50,6 +50,7 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         stanzas = self.parse_network_stanzas(network_config)
 
         self.generate_interfaces_file(args, stanzas)
+        self.generate_networkd_files(args, stanzas)
 
     def generate_interfaces_file(self, args, stanzas):
         """Generate /etc/network/interfaces file"""
@@ -87,6 +88,38 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         lines += [""]
         return "\n".join(lines)
 
+    def generate_networkd_files(self, args, stanzas):
+        """Generate .network files"""
+
+        for i, stanza in enumerate(stanzas, 50):
+            iface_file = self.generate_networkd_file(stanza)
+
+            if iface_file is None:
+                continue
+
+            path = os.path.join(args[0], "etc", "systemd", "network",
+                                "%s-%s.network" % (i, stanza['name']))
+
+            with open(path, "w") as f:
+                f.write(iface_file)
+
+    def generate_networkd_file(self, stanza):
+        """Generate an .network file from the provided data."""
+
+        name = stanza['name']
+        itype = stanza['type']
+        pairs = stanza['args'].items()
+
+        if itype == "loopback":
+            return
+
+        lines = ["[Match]"]
+        lines += ["Name=%s\n" % name]
+        lines += ["[Network]"]
+        if itype == "dhcp":
+            lines += ["DHCP=yes"]
+
+        return "\n".join(lines)
 
     def parse_network_stanzas(self, config):
         """Parse a network config environment variable into stanzas.
