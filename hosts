@@ -16,8 +16,8 @@ git.baserock.org ansible_ssh_host=192.168.222.58
 gerrit.baserock.org ansible_ssh_host=192.168.222.69
 irclogs.baserock.org ansible_ssh_host=192.168.222.74
 #mason-armv7lhf.baserock.org ansible_ssh_host=192.168.222.15
-mason-x86-32.baserock.org ansible_ssh_host=192.168.222.78
-mason-x86-64.baserock.org ansible_ssh_host=192.168.222.77
+mason-x86-32.baserock.org ansible_ssh_host=192.168.222.81
+mason-x86-64.baserock.org ansible_ssh_host=192.168.222.80
 
 [fedora]
 frontend-haproxy ansible_ssh_host=185.43.218.170
