@@ -1,0 +1,285 @@
+# OpenStack firewall setup for baserock.org
+#
+# This rather ugly and verbose Ansible script defines the firewall
+# configuration for the baserock.org cloud.
+#
+# OpenStack security group rules are all ACCEPT rules, and an instance
+# can be in multiple security groups.
+#
+# Note that many systems don't have a floating IP assigned and thus are
+# isolated from the internet. Requests to them are proxied by the
+# frontend-haproxy system.
+#
+# This playbook requires the 'neutron_sec_group' module, available in
+# <https://github.com/openstack-ansible/openstack-ansible-modules/>.
+
+- hosts: localhost
+  tasks:
+    - name: default security group
+      neutron_sec_group:
+        name: default
+        description: Allow all outgoing traffic, and allow incoming ICMP (ping) and SSH connections
+        state: present
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+
+        rules:
+          - direction: egress
+            port_range_min: 1
+            port_range_max: 65535
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          - direction: egress
+            port_range_min: 1
+            port_range_max: 65535
+            ethertype: IPv4
+            protocol: udp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # ICMP: allow ping!
+          - direction: ingress
+            port_range_min: 0
+            port_range_max: 255
+            ethertype: IPv4
+            protocol: icmp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 22: Allow SSH access to all instances.
+          - direction: ingress
+            port_range_min: 22
+            port_range_max: 22
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+    - name: open security group
+      neutron_sec_group:
+        name: open
+        description: Allow inbound traffic on all ports. DO NOT USE EXCEPT FOR TESTING!!!
+        state: present
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+
+        rules:
+          - direction: ingress
+            port_range_min: 1
+            port_range_max: 65535
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          - direction: ingress
+            port_range_min: 1
+            port_range_max: 65535
+            ethertype: IPv4
+            protocol: udp
+            remote_ip_prefix: 0.0.0.0/0
+
+    - name: database-mysql security group
+      neutron_sec_group:
+        name: database-mysql
+        description: Allow internal machines to access MariaDB database.
+        state: present
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+        rules:
+          # 3306: MariaDB
+          - direction: ingress
+            port_range_min: 3306
+            port_range_max: 3306
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+    - name: gerrit security group
+      neutron_sec_group:
+        name: gerrit
+        description: Allow access to Gerrit SSH daemon port 29418, plus HTTP, HTTPS and Git protocol.
+        state: present
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+        rules:
+          # 80: HTTP, for browsing repos with cgit, and Git-over-HTTP.
+          - direction: ingress
+            port_range_min: 80
+            port_range_max: 80
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 443: HTTPS, for browsing repos with cgit, and Git-over-HTTPS.
+          - direction: ingress
+            port_range_min: 443
+            port_range_max: 443
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 8080: HTTP, for Gerrit web frontend
+          - direction: ingress
+            port_range_min: 8080
+            port_range_max: 8080
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 9418: Git.
+          - direction: ingress
+            port_range_min: 9418
+            port_range_max: 9418
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 29418: Gerrit SSH daemon.
+          - direction: ingress
+            port_range_min: 22
+            port_range_max: 22
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+    - name: git-server security group
+      neutron_sec_group:
+        name: git-server
+        description: Allow inbound SSH, HTTP, HTTPS and Git.
+        state: present
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+        rules:
+          # 22: SSH, for Git-over-SSH access.
+          - direction: ingress
+            port_range_min: 22
+            port_range_max: 22
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 80: HTTP, for browsing repos with cgit, and Git-over-HTTP.
+          - direction: ingress
+            port_range_min: 80
+            port_range_max: 80
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 443: HTTPS, for browsing repos with cgit, and Git-over-HTTPS.
+          - direction: ingress
+            port_range_min: 443
+            port_range_max: 443
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 9418: Git.
+          - direction: ingress
+            port_range_min: 9418
+            port_range_max: 9418
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+    - name: shared-artifact-cache security group
+      neutron_sec_group:
+        name: shared-artifact-cache
+        description: Allow inbound HTTP, HTTPS and read-only Morph artifact cache access. Allow writable Morph artifact cache access from internal IPs.
+        state: present
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+        rules:
+          # 80: HTTP for cache server web frontend (at the time of writing, this
+          # is a useless and empty cgit page, but we may improve it in future).
+          - direction: ingress
+            port_range_min: 80
+            port_range_max: 80
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 443: HTTPS.
+          - direction: ingress
+            port_range_min: 443
+            port_range_max: 443
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 8080: Read-only Morph artifact cache server.
+          - direction: ingress
+            port_range_min: 8080
+            port_range_max: 8080
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 8081: 'writable cache server' port. Anyone who can connect
+          # to this port can delete or overwrite cached artifacts.
+          #
+          # FIXME: because the Masons use cache.baserock.org instead of
+          # 192.168.0.16 to access the shared artifact cache, we need to
+          # permit traffic from our public IP range. This provides a
+          # theoritical attack vector from other tenancies, so we should
+          # fix the Masons and remove this rule.
+          - direction: ingress
+            port_range_min: 8081
+            port_range_max: 8081
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 185.43.218.0/0
+            # It'd be nice to limit access by security group, but it doesn't
+            # seem to actually work. Perhaps because we use external IP to
+            # access instead of internal IP.
+            #remote_group_id: "{{ default_group.sec_group.id }}"
+
+    - name: web-server security group
+      neutron_sec_group:
+        name: web-server
+        description: Allow inbound HTTP and HTTPS.
+        state: present
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+        rules:
+          # 80: HTTP
+          - direction: ingress
+            port_range_min: 80
+            port_range_max: 80
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 443: HTTPS
+          - direction: ingress
+            port_range_min: 443
+            port_range_max: 443
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+    # Old ones
+
+    - name: remove Mason security group (just use 'web-server' for now)
+      neutron_sec_group:
+        name: mason
+        state: absent
+
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+
