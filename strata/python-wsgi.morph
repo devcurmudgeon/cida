@@ -1,0 +1,15 @@
+name: python-wsgi
+kind: stratum
+description: |
+  Python modules for web applications using Web Server Gateway Interface.
+build-depends:
+- morph: strata/python-core.morph
+chunks:
+- name: bottle
+  repo: upstream:bottle
+  ref: 5238c615b3ec198fedebb0fcaad4458e3d68d70f
+  unpetrify-ref: baserock/morph
+- name: flup
+  repo: upstream:flup
+  ref: 0f97c5e0ab7d9827506120efc22af3a9c21d1d70
+  unpetrify-ref: baserock/morph

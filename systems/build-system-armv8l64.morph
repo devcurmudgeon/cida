@@ -20,6 +20,8 @@ strata:
   morph: strata/tools.morph
 - name: python-cliapp
   morph: strata/python-cliapp.morph
+- name: python-wsgi
+  morph: strata/python-wsgi.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: nfs

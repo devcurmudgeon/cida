@@ -3,6 +3,7 @@ kind: stratum
 build-depends:
 - morph: strata/core.morph
 - morph: strata/python-cliapp.morph
+- morph: strata/python-wsgi.morph
 chunks:
 - name: python-ttystatus
   morph: strata/morph-utils/python-ttystatus.morph
@@ -31,14 +32,6 @@ chunks:
   build-depends:
   - python-ttystatus
   - python-markdown
-- name: bottle
-  repo: upstream:bottle
-  ref: 5238c615b3ec198fedebb0fcaad4458e3d68d70f
-  unpetrify-ref: baserock/morph
-- name: flup
-  repo: upstream:flup
-  ref: 0f97c5e0ab7d9827506120efc22af3a9c21d1d70
-  unpetrify-ref: baserock/morph
 - name: pylru
   repo: upstream:python-packages/pylru
   ref: 221dd259f5c34562c835611d1cf62384b9019da4
@@ -50,6 +43,4 @@ chunks:
   build-depends:
   - cmdtest
   - pyfilesystem
-  - bottle
-  - flup
   - pylru
