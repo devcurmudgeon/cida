@@ -22,6 +22,8 @@ strata:
   morph: strata/ruby.morph
 - name: ntpd
   morph: strata/ntpd.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: openstack-common

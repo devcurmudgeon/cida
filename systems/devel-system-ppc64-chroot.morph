@@ -15,6 +15,8 @@ strata:
   morph: strata/foundation.morph
 - name: tools
   morph: strata/tools.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: openstack-common
