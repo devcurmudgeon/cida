@@ -144,6 +144,7 @@ To deploy this system to production:
         --flavor dc1.1x1 \
         --image 'database-mariadb' \
         --nic='net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5,v4-fixed-ip=192.168.222.30' \
+        --security-groups default,database-mariadb
         --user-data ./baserock-ops-team.cloud-config
     nova volume-create \
         --display-name database-volume \
@@ -187,6 +188,7 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
         --flavor dc1.1x1 \
         --image 'baserock_openid_provider' \
         --nic 'net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5',v4-fixed-ip=192.168.222.67 \
+        --security-groups default,web-server
         --user-data ./baserock-ops-team.cloud-config
 
     ansible-playbook -i hosts baserock_openid_provider/instance-config.yml
@@ -248,6 +250,8 @@ To deploy the production version:
         --flavor dc1.1x1 --image 'baserock_storyboard' \
         --key-name=$keyname storyboard.baserock.org \
         --nic='net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5'
+        --security-groups default,web-server
+        --user-data baserock-ops-team.cloud-config
 
 Storyboard deployment does not yet work fully (you can manually kludge it into
 working after deploying it, though).
