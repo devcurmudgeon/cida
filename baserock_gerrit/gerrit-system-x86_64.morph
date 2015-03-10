@@ -8,31 +8,56 @@ description: |
   are downloaded from the web and installed on first-boot by the configuration
   management scripts.
 
-  So this system is really just a Baserock base system plus Ansible.
+  So this system is really just a Baserock base system plus
+  Ansible and some extras.
 arch: x86_64
 strata:
 - name: build-essential
   morph: strata/build-essential.morph
 - name: core
   morph: strata/core.morph
-- name: foundation
-  morph: strata/foundation.morph
-- name: lvm
-  morph: strata/lvm.morph
+- name: python-core
+  morph: strata/python-core.morph
 - name: bsp-x86_64-generic
   morph: strata/bsp-x86_64-generic.morph
+- name: foundation
+  morph: strata/foundation.morph
 - name: cloudinit-support
   morph: strata/cloudinit-support.morph
+
+- name: lvm
+  morph: strata/lvm.morph
+
+- name: python-common
+  morph: strata/python-common.morph
 - name: ansible
   morph: strata/ansible.morph
+
+# lighttpd is needed for Lorry Controller. Gerrit uses its own web server.
+#
+# pcre-utils is a dependency of lighttpd.
+# python-cliapp and python-wsgi are needed for lorry-controller.
+- name: pcre-utils
+  morph: strata/pcre-utils.morph
+- name: lighttpd-server
+  morph: strata/lighttpd-server.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
+- name: python-wsgi
+  morph: strata/python-wsgi.morph
 - name: lorry
   morph: strata/lorry.morph
 - name: lorry-controller
   morph: strata/lorry-controller.morph
-# FIXME: 'tools' is needed purely because mkfs.ext4 resides there.
-# Which doesn't make much sense really.
+
+- name: gerrit-tools
+  morph: baserock_gerrit/gerrit-tools.morph
+
+# FIXME: 'tools' is needed mainly because rsync lives there and we need
+# rsync for upgrades using system-version-manager.
 - name: tools
   morph: strata/tools.morph
+
 configuration-extensions:
 - set-hostname
 - add-config-files
