@@ -108,6 +108,15 @@
             - Testers
         #ssh_key: xx
 
+    # It'd make more sense to do this in the mirroring-config.yml file, but
+    # then the admin would need to supply their Gerrit credentials to that
+    # playbook too (which is more tricky, because it doesn't run on
+    # 'localhost').
+    - name: repo to hold Lorry Controller mirroring configuration
+      gerrit_project:
+        name: local-config/lorries
+        description: Configuration for Lorry for mirroring from Trove
+
     - name: create 'groups' mapping required by Gerrit
       lineinfile:
         create: yes
@@ -122,7 +131,6 @@
           - "{{ release_team_group }}"
           - "{{ reviewers_group }}"
           - "{{ testers_group }}"
-
 
 # it'd be nice if this module existed... but it doesn't right now. You'll have
 # to commit the files manually.
