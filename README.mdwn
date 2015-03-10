@@ -238,6 +238,8 @@ appear for some reason, or it might not work at all. Click off the page and
 come back to it and it might suddenly have appeared. I've not investigated why
 this happens.
 
+[gerrit set-members]: https://gerrit-documentation.storage.googleapis.com/Documentation/2.9.4/cmd-set-members.html
+
 #### Access control rules
 
 Now set up the Gerrit access configuration. You'll need to have cloned 
@@ -268,7 +270,10 @@ which will be needed in the next step.
 
 TO DO: link to document on setting up mirroring.
 
-[gerrit set-members]: https://gerrit-documentation.storage.googleapis.com/Documentation/2.9.4/cmd-set-members.html
+Run:
+
+    ANSIBLE_LIBRARY=../ansible-gerrit \
+    ansible-playbook baserock_gerrit/mirroring-config.yml
 
 ### Storyboard
 
