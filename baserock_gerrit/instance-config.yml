@@ -12,10 +12,10 @@
     GERRIT_VERSION: 2.9.4
 
     # Download from http://www.oracle.com/technetwork/java/javase/downloads/server-jre8-downloads-2133154.html
-    JRE_FILE: server-jre-8u31-linux-x64.tar.gz
+    JRE_FILE: server-jre-8u40-linux-x64.tar.gz
     # This path should correspond to where the JRE ends up if you extract the
     # downloaded tarball in /opt.
-    JRE_DIR: /opt/jdk1.8.0_31
+    JRE_DIR: /opt/jdk1.8.0_40
 
     # Download from http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
     JCE_FILE: jce_policy-8.zip
@@ -29,7 +29,7 @@
       user: name=gerrit shell=/bin/false
 
     - name: unpack the Java Runtime Environment
-      unarchive: src=/root/{{ JRE_FILE }} dest=/opt owner=root group=root creates={{ JRE_DIR }}
+      unarchive: src={{ JRE_FILE }} dest=/opt owner=root group=root creates={{ JRE_DIR }}
 
     # The Java Cryptography Extensions are needed in order to enable all SSH
     # ciphers, due to US export restrictions.

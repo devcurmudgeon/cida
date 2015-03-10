@@ -197,6 +197,12 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 To deploy to production:
 
+    nova volume-create \
+        --display-name gerrit-volume \
+        --display-description 'Gerrit volume' \
+        --volume-type Ceph \
+        100
+
     morph build baserock_gerrit/gerrit-system-x86_64.morph
     morph deploy baserock_gerrit/baserock_gerrit.morph
 
@@ -205,25 +211,31 @@ To deploy to production:
         --flavor 'dc1.2x4.40' \
         --image baserock_gerrit \
         --nic net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5,v4-fixed-ip=192.168.222.69 \
+        --security-groups default,gerrit,git-server,web-server
         --user-data baserock-ops-team.cloud-config
 
-    nova volume-create \
-        --display-name gerrit-volume \
-        --display-description 'Gerrit volume' \
-        --volume-type Ceph \
-        100
     nova volume-attach gerrit.baserock.org <volume-id> /dev/vdb
 
-    # Download the JRE -- this implies that you accept the 'Oracle Binary Code
-    # License Agreement for Java SE'. Visit Make sure you use the latest
-    # version of Java, don't copy-paste this commandline directly ;)
-    # 
-    # See: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+Accept the license and download the latest Java Runtime Environment from
+http://www.oracle.com/technetwork/java/javase/downloads/server-jre8-downloads-2133154.html
+
+Accept the license and download the latest Java Cryptography Extensions from
+http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+
+Save these two files in the baserock_gerrit/ folder. The instance-config.yml
+Ansible playbook will upload them to the new system.
+
+    # Don't copy-paste this! Use the Oracle website instead!
     wget --no-cookies --no-check-certificate \
-        --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
-        "http://download.oracle.com/otn-pub/java/jdk/8u31-b13/server-jre-8u31-linux-x64.tar.gz" 
+         --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+         "http://download.oracle.com/otn-pub/java/jdk/8u40-b25/server-jre-8u40-linux-x64.tar.gz" 
+    wget --no-cookies --no-check-certificate \
+          --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+          "http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip"
 
     ansible-playbook -i hosts baserock_gerrit/instance-config.yml
+
+#### Access control
 
 Now, log into the new Gerrit instance with your OpenID. Make sure you're the
 first one to have registered, and you will automatically have been added to the
@@ -237,10 +249,6 @@ yourself. You'll need it in the next step. The password can take a long time to
 appear for some reason, or it might not work at all. Click off the page and
 come back to it and it might suddenly have appeared. I've not investigated why
 this happens.
-
-[gerrit set-members]: https://gerrit-documentation.storage.googleapis.com/Documentation/2.9.4/cmd-set-members.html
-
-#### Access control rules
 
 Now set up the Gerrit access configuration. You'll need to have cloned 
 <https://github.com/ssssam/ansible-gerrit> alongside infrastructure.git, and ran
@@ -266,14 +274,15 @@ which will be needed in the next step.
     git push origin config:refs/meta/config
     cd -
 
+[gerrit set-members]: https://gerrit-documentation.storage.googleapis.com/Documentation/2.9.4/cmd-set-members.html
+
 #### Mirroring
 
 TO DO: link to document on setting up mirroring.
 
 Run:
 
-    ANSIBLE_LIBRARY=../ansible-gerrit \
-    ansible-playbook baserock_gerrit/mirroring-config.yml
+    ansible-playbook -i hosts baserock_gerrit/instance-mirroring-config.yml
 
 ### Storyboard
 
