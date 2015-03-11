@@ -47,6 +47,8 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
     def process_args(self, args):
         network_config = os.environ.get("NETWORK_CONFIG")
 
+        self.rename_networkd_chunk_file(args)
+
         if network_config is None:
             self.generate_default_network_config(args)
         else:
@@ -56,6 +58,33 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
 
             self.generate_interfaces_file(args, stanzas)
             self.generate_networkd_files(args, stanzas)
+
+    def rename_networkd_chunk_file(self, args):
+        """Rename the 10-dchp.network file generated in the systemd chunk
+
+        The systemd chunk will place something in 10-dhcp.network, which will
+        have higher precedence than anything added in this extension (we
+        start at 50-*).
+
+        We should check for that file and rename it instead remove it in
+        case the file is being used by the user.
+
+        Until both the following happen, we should continue to rename that
+        default config file:
+
+        1.  simple-network.configure is always run when systemd is included
+        2.  We've been building systems without systemd including that default
+            networkd config for long enough that nobody should be including
+            that config file.
+        """
+        file_path = os.path.join(args[0], "etc", "systemd", "network",
+                                 "10-dhcp.network")
+        try:
+            os.rename(file_path, file_path + ".morph")
+            self.status(msg="Renaming networkd file from systemd chunk: %(f)s \
+                        to %(f)s.morph", f=file_path)
+        except OSError:
+            pass
 
     def generate_default_network_config(self, args):
         """Generate default network configuration: DHCP in all the interfaces"""
