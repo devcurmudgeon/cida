@@ -1,0 +1,108 @@
+name: linux-armv8b64-generic
+kind: chunk
+configure-commands:
+- make ARCH=arm64 defconfig
+- scripts/config -e PACKET
+- scripts/config -e SATA_AHCI
+- scripts/config -e ATA_GENERIC
+- scripts/config -e HAVE_IDE
+- scripts/config -d BLK_DEV_IDE_SATA
+- scripts/config -e BTRFS_FS
+- scripts/config -e BTRFS_FS_POSIX_ACL
+- scripts/config -e DEVTMPFS
+- scripts/config -e DEVTMPFS_MOUNT
+- scripts/config -e CONFIG_FHANDLE
+- scripts/config -e CGROUPS
+- scripts/config -e AUTOFS4_FS
+- scripts/config --set-str UEVENT_HELPER_PATH ''
+- scripts/config -e EXT2_FS
+- scripts/config -e EXT2_FS_XATTR
+- scripts/config -e EXT2_FS_POSIX_ACL
+- scripts/config -e EXT2_FS_SECURITY
+- scripts/config -e EXT2_FS_XIP
+- scripts/config -e EXT3_FS
+- scripts/config -d EXT3_DEFAULTS_TO_ORDERED
+- scripts/config -e EXT3_FS_XATTR
+- scripts/config -e EXT3_FS_POSIX_ACL
+- scripts/config -e EXT3_FS_SECURITY
+- scripts/config -e EXT4_FS
+- scripts/config -e EXT4_FS_XATTR
+- scripts/config -e EXT4_FS_POSIX_ACL
+- scripts/config -e EXT4_FS_SECURITY
+- scripts/config -d EXT4_DEBUG
+- scripts/config -d JBD_DEBUG
+- scripts/config -d JBD2_DEBUG
+- scripts/config -e BLK_DEV_LOOP
+- scripts/config -d BLK_DEV_CRYPTOLOOP
+- scripts/config -e CEPH_FS
+- scripts/config --set-val BLK_DEV_LOOP_MIN_COUNT 8
+- scripts/config -e VIRTIO
+- scripts/config -e VIRTIO_RING
+- scripts/config -e VIRTIO_PCI
+- scripts/config -e VIRTIO_BALLOON
+- scripts/config -e VIRTIO_BLK
+- scripts/config -e VIRTIO_NET
+- scripts/config -e VIRTIO_CONSOLE
+- scripts/config -e HW_RANDOM_VIRTIO
+- scripts/config -e 9P_FS
+- scripts/config -e 9P_FSCACHE
+- scripts/config -e 9P_FS_POSIX_ACL
+- scripts/config -e NET_9P
+- scripts/config -e NET_9P_VIRTIO
+- scripts/config -e R8169
+- scripts/config -e 8139TOO
+- scripts/config -e 8139CP
+- scripts/config -e IKCONFIG
+- scripts/config -e IKCONFIG_PROC
+- scripts/config -e SECCOMP
+- scripts/config -d DEBUG_STACK_TRACE
+- scripts/config -e NFSD
+- scripts/config -e NFSD_V3
+- scripts/config -e KVM
+- scripts/config -e TUN
+- scripts/config -e BRIDGE
+- scripts/config -e VHOST_NET
+- scripts/config -e NF_NAT
+- scripts/config -e NF_NAT_IPV4
+- scripts/config -e IP_NF_TARGET_MASQUERADE
+- scripts/config -e FB_VESA
+- scripts/config -e HOTPLUG_PCI
+- scripts/config -e HOTPLUG_PCI_ACPI
+- scripts/config -e VLAN_8021Q
+- scripts/config -e BRIDGE_VLAN_FILTERING
+- scripts/config -e IPV6
+# Required for M400
+- scripts/config -e SATA_AHCI_PLATFORM
+- scripts/config -e AHCI_XGENE
+- scripts/config -e GENERIC_PHY
+- scripts/config -e PHY_XGENE
+- scripts/config -e NET_VENDOR_MELLANOX
+- scripts/config -e MLX4_EN
+- scripts/config -e MLX4_EN_DCB
+- scripts/config -e MLX4_EN_VXLAN
+- scripts/config -e MLX4_CORE
+- scripts/config -e MLX5_CORE
+- scripts/config -e NET_IP_TUNNEL
+- scripts/config -e VXLAN
+- scripts/config -e UIO
+- scripts/config -e UIO_PDRV_GENIRQ
+- scripts/config -e GPIO_DWAPB
+- scripts/config -e KEYBOARD_GPIO
+- scripts/config -e INPUT_POLLDEV
+- scripts/config -e KEYBOARD_GPIO_POLLED
+- scripts/config -d DMA_CMA
+- scripts/config -e POWER_RESET
+- scripts/config -e POWER_RESET_GPIO
+- scripts/config -e POWER_RESET_SYSCON
+- scripts/config -e POWER_AVS
+# Big endian kernel
+- scripts/config -e CPU_BIG_ENDIAN
+- yes '' | make ARCH=arm64 oldconfig
+build-commands:
+# Only generate Image here, uImage generated in deployment
+# due to availability of mkimage build systems
+- make vmlinux dtbs $MAKEFLAGS
+install-commands:
+- mkdir -p "$DESTDIR"/boot
+- make install dtbs_install INSTALL_PATH="$DESTDIR/boot"
+- cp arch/arm64/boot/Image "$DESTDIR/boot/vmlinux"
