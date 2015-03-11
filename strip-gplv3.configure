@@ -47,6 +47,7 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
         ['make', ''],
         ['nano', ''],
         ['patch', ''],
+        ['rsync', ''],
         ['texinfo-tarball', ''],
     ]
 

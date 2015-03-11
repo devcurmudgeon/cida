@@ -54,6 +54,7 @@ m4 \
 make \
 nano \
 patch \
+rsync \
 texinfo-tarball"
 
 gplv3_repos=""
