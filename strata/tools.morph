@@ -27,11 +27,6 @@ chunks:
   repo: upstream:lsof
   ref: fffb8558208586338587027c265fd0eca44466be
   unpetrify-ref: baserock/morph
-- name: rsync
-  morph: strata/tools/rsync.morph
-  repo: upstream:rsync
-  ref: 7cb0de6326c915a72253fd103dae93308031ec3f
-  unpetrify-ref: v3.1.1
 - name: strace
   repo: upstream:strace
   ref: 6d8c0637e8dd0f65c667af33c612230552419db1
