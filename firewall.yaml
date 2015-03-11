@@ -198,6 +198,49 @@
             protocol: tcp
             remote_ip_prefix: 0.0.0.0/0
 
+    - name: Mason x86 security group
+      neutron_sec_group:
+        name: mason-x86
+        description: Allow inbound HTTP and HTTPS, and cache server fetches from port 8080.
+        state: present
+
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+
+        rules:
+          # 80: HTTP
+          - direction: ingress
+            port_range_min: 80
+            port_range_max: 80
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 443: HTTPS
+          - direction: ingress
+            port_range_min: 443
+            port_range_max: 443
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 8080: morph-cache-server server port. The x86 Masons use
+          # cache.baserock.org as the cache server for their distbuild
+          # networks. So cache.baserock.org needs to be able to connect to
+          # them on this port to fetch artifacts.
+          - direction: ingress
+            port_range_min: 8080
+            port_range_max: 8080
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 185.43.218.0/0
+            # It'd be nice to limit access by security group, but it doesn't
+            # seem to actually work. Perhaps because we use external IP to
+            # access instead of internal IP.
+            #remote_group_id: "{{ default_group.sec_group.id }}"
+
     - name: shared-artifact-cache security group
       neutron_sec_group:
         name: shared-artifact-cache
@@ -277,16 +320,3 @@
             ethertype: IPv4
             protocol: tcp
             remote_ip_prefix: 0.0.0.0/0
-
-    # Old ones
-
-    - name: remove Mason security group (just use 'web-server' for now)
-      neutron_sec_group:
-        name: mason
-        state: absent
-
-        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
-        login_username: "{{ ansible_env.OS_USERNAME }}"
-        login_password: "{{ ansible_env.OS_PASSWORD }}"
-        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
-
