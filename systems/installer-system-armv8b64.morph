@@ -1,0 +1,29 @@
+name: installer-system-armv8b64
+kind: system
+description: The system that should be used as an Installer to install other Baserock systems.
+arch: armv8b64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: python-core
+  morph: strata/python-core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-armv8b64-generic
+  morph: strata/bsp-armv8b64-generic.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
+- name: python-wsgi
+  morph: strata/python-wsgi.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
+- name: installer-utils
+  morph: strata/installer-utils.morph
+configuration-extensions:
+- set-hostname
+- install-files
+- fstab
+- installer
+- moonshot-kernel
