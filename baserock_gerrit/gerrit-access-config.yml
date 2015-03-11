@@ -97,7 +97,9 @@
         groups:
             - Mirroring Tools
             - Non-Interactive Users
-        #ssh_key: xx
+        # FIXME: ansible-gerrit module should be able to handle a filename
+        # here, instead of needing this hack to read the contents.
+        ssh_key: "{{ lookup('file', '../keys/lorry-gerrit.key.pub') }}"
 
     - gerrit_account:
         username: mason
