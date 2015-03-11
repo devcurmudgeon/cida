@@ -87,7 +87,7 @@ chunks:
   - persistence-client-library
 - name: libarchive
   morph: strata/genivi/libarchive.morph
-  repo: git://github.com/libarchive/libarchive.git
+  repo: upstream:libarchive
   ref: 19f23e191f9d3e1dd2a518735046100419965804
   unpetrify-ref: v3.1.2
 - name: persistence-administrator
