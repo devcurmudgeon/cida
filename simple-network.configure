@@ -13,13 +13,15 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-'''A Morph deployment configuration extension to handle /etc/network/interfaces
+'''A Morph deployment configuration extension to handle network configutation
 
-This extension prepares /etc/network/interfaces with the interfaces specified
-during deployment.
+This extension prepares /etc/network/interfaces and networkd .network files
+in /etc/systemd/network/ with the interfaces specified during deployment.
 
 If no network configuration is provided, eth0 will be configured for DHCP
-with the hostname of the system.
+with the hostname of the system in the case of /etc/network/interfaces.
+In the case of networkd, any interface starting by e* will be configured
+for DHCP
 '''
 
 
@@ -36,9 +38,10 @@ class SimpleNetworkError(morphlib.Error):
 
 
 class SimpleNetworkConfigurationExtension(cliapp.Application):
-    '''Configure /etc/network/interfaces
+    '''Configure /etc/network/interfaces and generate networkd .network files
 
-    Reading NETWORK_CONFIG, this extension sets up /etc/network/interfaces.
+    Reading NETWORK_CONFIG, this extension sets up /etc/network/interfaces
+    and .network files in /etc/systemd/network/.
     '''
 
     def process_args(self, args):
