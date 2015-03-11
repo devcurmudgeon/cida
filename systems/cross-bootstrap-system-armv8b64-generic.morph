@@ -1,0 +1,15 @@
+name: cross-bootstrap-system-armv8b64-generic
+kind: system
+description: A system that produces the minimum needed to build a devel system
+arch: armv8b64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
+- name: cross-bootstrap
+  morph: strata/cross-bootstrap.morph
