@@ -32,6 +32,15 @@ build-commands:
 
 install-commands:
 - cd o && make install_root="$DESTDIR" localtime=UTC install
+- mkdir -p "$DESTDIR/etc"
+- |
+  cat <<EOF > ld.so.conf
+  /lib
+  /usr/lib
+  /usr/local/lib
+  include /etc/ld.so.conf.d/*.conf
+  EOF
+- install -m 644 -o root -g root ld.so.conf "$DESTDIR/etc/ld.so.conf"
 - sh stage2-glibc-fix-specs
 
 # Install a symlink for the program interpreter (ld.so) so that binaries
