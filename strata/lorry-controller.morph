@@ -7,6 +7,7 @@ description: |
   also be used with other Git servers.
 build-depends:
 - morph: strata/python-cliapp.morph
+- morph: strata/python-wsgi.morph
 chunks:
 - name: lorry-controller
   morph: strata/lorry-controller/lorry-controller.morph
