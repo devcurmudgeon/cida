@@ -360,7 +360,7 @@ class WriteExtension(cliapp.Application):
         self.status(msg='Creating %s subvolume' % state_subdir)
         subvolume = os.path.join(mountpoint, 'state', state_subdir)
         cliapp.runcmd(['btrfs', 'subvolume', 'create', subvolume])
-        os.chmod(subvolume, 0755)
+        os.chmod(subvolume, 0o755)
 
         existing_state_dir = os.path.join(system_dir, state_subdir)
         files = []
