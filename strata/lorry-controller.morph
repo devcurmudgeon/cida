@@ -6,7 +6,7 @@ description: |
   This is a component of Trove, but can
   also be used with other Git servers.
 build-depends:
-- morph: strata/python-core.morph
+- morph: strata/python-cliapp.morph
 chunks:
 - name: lorry-controller
   morph: strata/lorry-controller/lorry-controller.morph

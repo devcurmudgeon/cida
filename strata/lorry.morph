@@ -10,10 +10,8 @@ description: |
   The commandline tools 'hg', 'bzr', 'svn', and 'cvs' are also made available
   by this stratum.
 build-depends:
-# The 'morph-utils' stratum is required for 'cliapp', which Lorry needs at
-# build-time to generate its man page. Otherwise we could simply depend on
-# the 'foundation' stratum.
-- morph: strata/morph-utils.morph
+- morph: strata/foundation.morph
+- morph: strata/python-cliapp.morph
 chunks:
 - name: bzr-tarball
   repo: upstream:bzr-tarball

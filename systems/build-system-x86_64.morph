@@ -15,6 +15,8 @@ strata:
   morph: strata/bsp-x86_64-generic.morph
 - name: tools
   morph: strata/tools.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: nfs

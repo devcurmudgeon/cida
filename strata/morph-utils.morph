@@ -2,7 +2,7 @@ name: morph-utils
 kind: stratum
 build-depends:
 - morph: strata/core.morph
-- morph: strata/python-core.morph
+- morph: strata/python-cliapp.morph
 chunks:
 - name: python-ttystatus
   morph: strata/morph-utils/python-ttystatus.morph
@@ -23,30 +23,12 @@ chunks:
   repo: upstream:pyfilesystem
   ref: 821f7db1ce3a3e1ac53fa514ddacbc2871eac0f6
   unpetrify-ref: baserock/morph
-- name: python-coveragepy
-  morph: strata/morph-utils/python-coveragepy.morph
-  repo: upstream:python-coveragepy
-  ref: 77d2e3bfd8fb325092aaed37ba1378054d182d19
-  unpetrify-ref: baserock/morph
-- name: python-coverage-test-runner
-  repo: upstream:python-coverage-test-runner
-  ref: 8ea9421ac3384b2e88e0c36f2cfa52586c4798b7
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - python-coveragepy
-- name: cliapp
-  repo: upstream:cliapp
-  ref: cec20cedd062a3aef1b04f997e77b45090c07806
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - python-coverage-test-runner
 - name: cmdtest
   morph: strata/morph-utils/cmdtest.morph
   repo: upstream:cmdtest
   ref: ac91791842c6e7e6eda3213916af413255999c7b
   unpetrify-ref: baserock/morph
   build-depends:
-  - cliapp
   - python-ttystatus
   - python-markdown
 - name: bottle
@@ -66,9 +48,7 @@ chunks:
   ref: 68395a12c79c22e266b4a06095533e38da6e29d0
   unpetrify-ref: master
   build-depends:
-  - cliapp
   - cmdtest
-  - python-coverage-test-runner
   - pyfilesystem
   - bottle
   - flup
