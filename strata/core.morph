@@ -275,8 +275,8 @@ chunks:
   - shadow
 - name: libxslt
   repo: upstream:libxslt
-  ref: 8785a2ffd0d146df0395ab71ce4734d0a8ba0f7e
-  unpetrify-ref: baserock/morph
+  ref: 73e08bf7c36a9145d38f51d37e66529b873c011a
+  unpetrify-ref: master
   build-depends:
   - autoconf-tarball
   - libtool-tarball
