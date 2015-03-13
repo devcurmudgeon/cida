@@ -3,7 +3,7 @@ kind: stratum
 description: Tools for importing software into Baserock definitions.
 build-depends:
 - morph: strata/python-common.morph
-- morph: strata/python-cliapp.morph
+- morph: strata/morph-utils.morph
 chunks:
 - name: ansicolor
   repo: upstream:python-packages/ansicolor
