@@ -7,5 +7,9 @@ strata:
   morph: strata/build-essential.morph
 - name: core
   morph: strata/core.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
 - name: cross-bootstrap
   morph: strata/cross-bootstrap.morph

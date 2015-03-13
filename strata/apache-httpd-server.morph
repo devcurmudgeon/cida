@@ -11,7 +11,6 @@ chunks:
   repo: upstream:apache/apr
   ref: 3c818c6d7351f0130282d212a69035642f5fecad
   unpetrify-ref: trunk
-  build-depends: []
 - name: httpd
   morph: strata/apache-httpd-server/httpd-server.morph
   repo: upstream:apache/httpd
@@ -23,7 +22,6 @@ chunks:
   repo: upstream:python-packages/psutil
   ref: 2bc8555f0428af81c2d067aa76168ed7bc5e0179
   unpetrify-ref: release-2.2.0
-  build-depends: []
 - name: mod_wsgi-metrics
   repo: upstream:python-packages/mod_wsgi-metrics
   ref: ec715eb593255229f9f45f3f323edbb845c691d8

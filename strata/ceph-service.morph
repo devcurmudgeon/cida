@@ -9,18 +9,15 @@ chunks:
   repo: upstream:libaio
   ref: 08f50baec0e7731116d3f665c6155d7829edf5d7
   unpetrify-ref: libaio-0.3.110-1
-  build-depends: []
 - name: keyutils
   morph: strata/ceph-service/keyutils.morph
   repo: upstream:keyutils
   ref: 9209a0c8fd63afc59f644e078b40cec531409c30
   unpetrify-ref: v1.5.9
-  build-depends: []
 - name: libunwind
   repo: upstream:libunwind
   ref: d7322f0f64dab715c4feb5f08edef5660d8719c0
   unpetrify-ref: v1.1
-  build-depends: []
 - name: gperftools
   repo: upstream:gperftools
   ref: 846b775dfadb77901202ae7ddbac30ad1de7df01
@@ -31,7 +28,6 @@ chunks:
   repo: upstream:snappy-git
   ref: 1ff9be9b8fafc8528ca9e055646f5932aa5db9c4
   unpetrify-ref: master
-  build-depends: []
 - name: leveldb
   morph: strata/ceph-service/leveldb.morph
   repo: upstream:leveldb
@@ -44,13 +40,11 @@ chunks:
   repo: upstream:libeditline-tarball
   ref: 7503ff5f8610734521f40e276b59b3b6291830e7
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: boost
   morph: strata/ceph-service/boost.morph
   repo: upstream:boost-tarball
   ref: 1c3648bf5b7d17fcd4fe9bc95802b16fd9eee304
   unpetrify-ref: boost_1_56_0
-  build-depends: []
 - name: ceph
   morph: strata/ceph-service/ceph.morph
   repo: upstream:ceph

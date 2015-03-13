@@ -8,7 +8,6 @@ chunks:
   repo: upstream:ogg
   ref: 0deb6226917e32a71f15d5279d0bc76d8b97c13f
   unpetrify-ref: master
-  build-depends: []
 - name: libvorbis
   repo: upstream:libvorbis
   ref: 2ae58009cbc655a6031280f92fb1e7b324318ae8

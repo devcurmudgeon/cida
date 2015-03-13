@@ -8,4 +8,3 @@ chunks:
   repo: upstream:llvm
   ref: a93239b7c6f0d78cb8836768c3ffbc39fb15b79f
   unpetrify-ref: release_33
-  build-depends: []

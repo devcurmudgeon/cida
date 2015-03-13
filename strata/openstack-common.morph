@@ -1,0 +1,98 @@
+name: openstack-common
+kind: stratum
+description: |
+             Stratum with the python packages needed to compile openstack
+             clients and services.
+build-depends:
+- morph: strata/python-common.morph
+- morph: strata/foundation.morph
+chunks:
+- name: pycparser
+  repo: upstream:python-packages/pycparser
+  ref: c926670643ebb5f88a2bf56579fc9934c82be6d2
+  unpetrify-ref: master
+- name: cffi
+  repo: upstream:python-packages/cffi
+  ref: fc53b53095d61a1ec5814c09c3bf2c7e18627fb5
+  unpretrify-ref: master
+  build-depends:
+  - pycparser
+- name: pytz
+  repo: upstream:pytz-tarball
+  ref: c414cb801776e11c769fb36c0d37b8d7a7c8712c
+  unpetrify-ref: pytz-2014.10
+- name: babel
+  repo: upstream:babel
+  ref: 246996b0ee51e49ebcd504e234d3bcdcb178996c
+  unpetrify-ref: master
+  build-depends:
+  - pytz
+- name: enum34
+  repo: upstream:python-packages/enum34.git
+  ref: f1fa1787ceaac72b9934f318ea2135d28c05dd55
+  unpetrify-ref: enum34-1.0
+- name: pyasn1
+  repo: upstream:python-packages/pyasn1
+  ref: fa8e66c5f4367a1e39b53dcddc133d084b10400f
+  unpetrify-ref: release_0_1_7_tag
+- name: cryptography
+  repo: upstream:python-packages/cryptography
+  ref: 9ac7d55150c8410a08ee3b00b89bfeac3dbd8e8f
+  unpetrify-ref: 0.7.2
+  build-depends:
+  - pyasn1
+  - enum34
+  - cffi
+- name: pyiso8601
+  repo: upstream:pyiso8601
+  ref: 9eb87a9bab114e9cc9a8d3dceb04362644d89cab
+  unpetrify-ref: 0.1.10
+- name: netaddr
+  repo: upstream:netaddr
+  ref: bbb31ed50a5338a7d1c0011fc4429d09954f9f0b
+  unpetrify-ref: release-0.7.12
+- name: stevedore
+  ref: 860bd8f8ecba38fdfda5b41a3a1dbe854d6528e2
+  unpetrify-ref: 1.0.0.0a2
+  repo: upstream:openstack/stevedore
+- name: oslo-config
+  repo: upstream:openstack/oslo-config
+  ref: 059579ac2189b94bc9e9555b2e9acfb31a83ef53
+  unpetrify-ref: 1.4.0.0a5
+  build-depends:
+  - netaddr
+  - stevedore
+- name: pyopenssl
+  repo: upstream:python-packages/pyopenssl
+  ref: 0146d447e63a737b4f05a1164d5950eff68543e7
+  unpetrify-ref: 0.14
+- name: oslo-i18n
+  repo: upstream:openstack/oslo-i18n
+  ref: 040f1d6afa733527385d2309e485bf37e9843b0e
+  unpetrify-ref: 0.4.0
+  build-depends:
+  - babel
+- name: oslo-utils
+  repo: upstream:openstack/oslo-utils
+  ref: 6a123fce93895e92004ce9d5bd8dee3c3642cf41
+  unpetrify-ref: 0.3.0
+  build-depends:
+  - babel
+  - pyiso8601
+  - oslo-i18n
+- name: futures
+  repo: upstream:python-packages/futures
+  ref: 4f7ceedb8a7742e52b0436a4160c7c44665a2597
+  unpetrify-ref: 2.2.0
+- name: oslo-serialization
+  repo: upstream:openstack/oslo-serialization.git
+  ref: 80fec894a54253d9b4c80dd8a563957966ca0b88
+  unpetrify-ref: 0.3.0
+- name: jsonschema
+  repo: upstream:jsonschema
+  ref: 35b60f390098d3306c03eee27ceec8cf8a493579
+  unpetrify-ref: v2.3.0
+- name: simplejson
+  repo: upstream:simplejson
+  ref: 54d5ff15d508c51366986cc4f77f2f287f036582
+  unpetrify-ref: v3.6.4

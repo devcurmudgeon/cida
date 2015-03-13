@@ -1,0 +1,5 @@
+name: genivi-common-api-dbus-runtime
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- ln -s . build-aux

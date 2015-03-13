@@ -1,6 +1,0 @@
-name: rsync
-kind: chunk
-build-system: autotools
-build-commands:
-- make proto
-- make

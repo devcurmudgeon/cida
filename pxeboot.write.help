@@ -121,3 +121,34 @@ help: >
 
     If it is possible for the target to notify you that it has finished
     installing, you can put a command in here to wait for the event.
+
+
+    # Misc
+
+
+    ## KERNEL_ARGS
+
+
+    Additional kernel command line options.  Note that the following
+    options
+
+        root=/dev/nfs ip=dhcp nfsroot=$NFSROOT`
+
+    are implicitly added by the extension.
+
+
+    ## DTB_PATH
+
+
+    Location in the deployed root filesystem of the Flattened Device
+    Tree blob (FDT) to use.
+
+
+    ## PXE_INSTALLER
+
+
+    If set to `no`, `False` or any other YAML value for false, the
+    remotely installed rootfs, kernel, bootloader config file and
+    device tree blob if specified, will not be removed after the
+    deployment finishes.  This variable is only meanful on the
+    `existing-server` mode.

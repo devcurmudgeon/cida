@@ -1,0 +1,24 @@
+name: python-cliapp
+kind: stratum
+description: |
+  Cliapp command line application framework.
+build-depends:
+- morph: strata/python-core.morph
+chunks:
+- name: python-coveragepy
+  morph: strata/morph-utils/python-coveragepy.morph
+  repo: upstream:python-coveragepy
+  ref: 77d2e3bfd8fb325092aaed37ba1378054d182d19
+  unpetrify-ref: baserock/morph
+- name: python-coverage-test-runner
+  repo: upstream:python-coverage-test-runner
+  ref: 8ea9421ac3384b2e88e0c36f2cfa52586c4798b7
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - python-coveragepy
+- name: cliapp
+  repo: upstream:cliapp
+  ref: cec20cedd062a3aef1b04f997e77b45090c07806
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - python-coverage-test-runner

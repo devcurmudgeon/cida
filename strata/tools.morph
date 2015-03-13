@@ -9,46 +9,33 @@ chunks:
   repo: upstream:distcc
   ref: c9691a9604fdf9d6711204999787d332b7141692
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: file
   repo: upstream:file
   ref: f69c3fd9bcb108292e7887dd889e8b49f68c4a52
   unpetrify-ref: file-5.22
-  build-depends: []
 - name: gdb
   morph: strata/tools/gdb.morph
   repo: upstream:binutils-gdb
   ref: 129ee12d013f4a2f09fe40a33072e6e47e949890
   unpetrify-ref: gdb-7.8-branch
-  build-depends: []
 - name: linux-user-chroot
   repo: upstream:linux-user-chroot
   ref: d25cc110f69e6e71a95b4ac532dcfc5423d4a16b
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: lsof
   morph: strata/tools/lsof.morph
   repo: upstream:lsof
   ref: fffb8558208586338587027c265fd0eca44466be
   unpetrify-ref: baserock/morph
-  build-depends: []
-- name: rsync
-  morph: strata/tools/rsync.morph
-  repo: upstream:rsync
-  ref: 7cb0de6326c915a72253fd103dae93308031ec3f
-  unpetrify-ref: v3.1.1
-  build-depends: []
 - name: strace
   repo: upstream:strace
   ref: 6d8c0637e8dd0f65c667af33c612230552419db1
   unpetrify-ref: v4.8
-  build-depends: []
 - name: vala-bootstrap
   morph: strata/tools/vala-bootstrap.morph
   repo: upstream:vala
   ref: 4e4a02c03445336237b36723b23a91670ef7621b
   unpetrify-ref: baserock/bootstrap
-  build-depends: []
 - name: vala
   repo: upstream:vala
   ref: 682eba5880fbd76402dec10118883da913a7b255
@@ -60,29 +47,24 @@ chunks:
   repo: upstream:u-boot
   ref: fe57382d04b46c37f34cf8d3b3ad876554fd12bf
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: kexec-tools
   morph: strata/tools/kexec-tools.morph
   repo: upstream:kexec-tools
   ref: f4d1d2ad474e882df13418239aa3050673a844d7
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: device-tree-compiler
   morph: strata/tools/device-tree-compiler.morph
   repo: upstream:device-tree-compiler
   ref: c92f284c3cf76d471eb27a271de3a51cb45ed058
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: sudo
   repo: upstream:sudo
   ref: a4769dc7999b53260325fb89945bef85714fb338
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: procps-ng
   repo: upstream:procps-ng
   ref: 85fff468fa263cdd2ff1c0144579527c32333695
   unpetrify-ref: v3.3.9
-  build-depends: []
   prefix: /
 - name: ipmitool
   morph: strata/tools/ipmitool.morph

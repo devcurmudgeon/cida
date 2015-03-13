@@ -3,18 +3,18 @@ kind: stratum
 description: Software components designed by genivi, for genivi.
 build-depends:
 - morph: strata/foundation.morph
+- morph: strata/audio-bluetooth.morph
 chunks:
 - name: linuxquota
   morph: strata/genivi/linuxquota.morph
   repo: upstream:linuxquota
   ref: 0804c89a16736533e440771dc42a15e5d0223902
   unpetrify-ref: baserock/genivi/morph
-  build-depends: []
 - name: DLT-daemon
+  morph: strata/genivi/DLT-daemon.morph
   repo: upstream:DLT-daemon
   ref: 8b48e73f79b4463393916e4c6696917e3dedd026
   unpetrify-ref: v2.10.0
-  build-depends: []
 - name: node-startup-controller
   morph: strata/genivi/node-startup-controller.morph
   repo: upstream:node-startup-controller
@@ -27,7 +27,6 @@ chunks:
   repo: upstream:googletest
   ref: 5e3f7d3db4c16e2ba8b42b0bf4689f7d2abbcb08
   unpetrify-ref: baserock/morph
-  build-depends: []
 - name: googlemock
   morph: strata/genivi/googlemock.morph
   repo: upstream:googlemock
@@ -36,11 +35,12 @@ chunks:
   build-depends:
   - googletest
 - name: genivi-common-api-runtime
+  morph: strata/genivi/genivi-common-api-runtime.morph
   repo: upstream:genivi-common-api-runtime
   ref: 188abb5e24d6a2a7fdd7e5d150439a162621292c
   unpetrify-ref: 2.1.6
-  build-depends: []
 - name: genivi-common-api-dbus-runtime
+  morph: strata/genivi/genivi-common-api-dbus-runtime.morph
   repo: upstream:genivi-common-api-dbus-runtime
   ref: 3372155b32a2cf3b05e1a2a13f6f8413069de33f
   unpetrify-ref: 2.1.6-p1
@@ -61,12 +61,21 @@ chunks:
   repo: upstream:itzam-tarball
   ref: 4ebcf671416927b64475da7b810b6016c847bf73
   unpetrify-ref: baserock/genivi/baseline
-  build-depends: []
-- name: persistence-client-library
-  repo: upstream:genivi/persistence-client-library
-  ref: 0934ba263e69be8453cc3150f997dad28489f0c7
-  unpetrify-ref: baserock/genivi/baseline
+- name: persistence-common-object
+  morph: strata/genivi/persistence-common-object.morph
+  repo: upstream:genivi/persistence-common-object
+  ref: dc46126214022d068729f7ccd47415dc5f86f425
+  unpetrify-ref: baserock/1.0.2
   build-depends:
+  - itzam-tarball
+  - DLT-daemon
+- name: persistence-client-library
+  morph: strata/genivi/persistence-client-library.morph
+  repo: upstream:genivi/persistence-client-library
+  ref: 39c68df2a9ee0b089212855f64a61fbd671b1a80
+  unpetrify-ref: baserock/v1.0.0
+  build-depends:
+  - persistence-common-object
   - DLT-daemon
   - itzam-tarball
 - name: node-state-manager
@@ -76,3 +85,26 @@ chunks:
   build-depends:
   - DLT-daemon
   - persistence-client-library
+- name: libarchive
+  morph: strata/genivi/libarchive.morph
+  repo: upstream:libarchive
+  ref: 19f23e191f9d3e1dd2a518735046100419965804
+  unpetrify-ref: v3.1.2
+- name: persistence-administrator
+  morph: strata/genivi/persistence-administrator.morph
+  repo: upstream:genivi/persistence-administrator
+  ref: f9d62e70237c05323cbd60f1d5c7b574fbc2de43
+  unpetrify-ref: baserock/1.0.5
+  build-depends:
+  - persistence-common-object
+  - DLT-daemon
+  - libarchive
+  - node-state-manager
+- name: node-health-monitor
+  repo: upstream:genivi/node-health-monitor
+  ref: 2af264563ef1b60ba2636cbf5e8cd6a7ed07b0c0
+  unpetrify-ref: baserock/1.3.3
+  build-depends:
+  - node-state-manager
+  - persistence-client-library
+  - DLT-daemon

@@ -10,4 +10,3 @@ chunks:
   repo: upstream:qt5/qtmultimedia
   ref: b3c2dca466042cf362ffb8d803bf05c9b8a0f95f
   unpetrify-ref: v5.3.2
-  build-depends: []

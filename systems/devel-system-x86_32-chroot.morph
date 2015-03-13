@@ -15,6 +15,10 @@ strata:
   morph: strata/foundation.morph
 - name: tools
   morph: strata/tools.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
+- name: python-wsgi
+  morph: strata/python-wsgi.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: openstack-clients
@@ -33,8 +37,12 @@ strata:
   morph: strata/python-core.morph
 - name: python-tools
   morph: strata/python-tools.morph
+- name: python-common
+  morph: strata/python-common.morph
 - name: devtools
   morph: strata/devtools.morph
+- name: ansible
+  morph: strata/ansible.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

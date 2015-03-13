@@ -12,18 +12,28 @@ strata:
   morph: strata/core.morph
 - name: foundation
   morph: strata/foundation.morph
+- name: python-core
+  morph: strata/python-core.morph
 - name: bsp-armv8l64-generic
   morph: strata/bsp-armv8l64-generic.morph
 - name: tools
   morph: strata/tools.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
+- name: python-wsgi
+  morph: strata/python-wsgi.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: nfs
   morph: strata/nfs.morph
+- name: python-common
+  morph: strata/python-common.morph
 - name: ansible
   morph: strata/ansible.morph
 - name: cloudinit-support
   morph: strata/cloudinit-support.morph
+- name: openstack-common
+  morph: strata/openstack-common.morph
 - name: openstack-clients
   morph: strata/openstack-clients.morph
 - name: devtools
@@ -37,3 +47,4 @@ configuration-extensions:
 - fstab
 - mason
 - cloud-init
+- moonshot-kernel

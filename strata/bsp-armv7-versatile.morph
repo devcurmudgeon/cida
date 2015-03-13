@@ -10,4 +10,3 @@ chunks:
   repo: upstream:linux
   ref: bfa76d49576599a4b9f9b7a71f23d73d6dcff735
   unpetrify-ref: v3.19
-  build-depends: []

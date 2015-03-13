@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# This is a "morph deploy" configuration extension to convert a plain
+# kernel Image to uImage, for an HP Moonshot m400 cartridge
+
+set -eu
+
+case "$MOONSHOT_KERNEL" in
+     True|yes)
+         echo "Converting kernel image for Moonshot"
+         mkimage -A arm -O linux -C none -T kernel -a 0x00080000 \
+             -e 0x00080000 -n Linux -d "$1/boot/vmlinux" "$1/boot/uImage"
+         ;;
+     *)
+     echo Unrecognised option "$MOONSHOT_KERNEL" to MOONSHOT_KERNEL
+         exit 1
+         ;;
+esac

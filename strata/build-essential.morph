@@ -46,7 +46,6 @@ chunks:
   repo: upstream:binutils-redhat
   ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
   unpetrify-ref: baserock/build-essential
-  build-depends: []
   build-mode: bootstrap
   prefix: /tools
 
@@ -136,8 +135,8 @@ chunks:
 - name: stage2-busybox
   morph: strata/build-essential/stage2-busybox.morph
   repo: upstream:busybox
-  ref: 8a801e0f024f1385d8e989b80b90443546bceae7
-  unpetrify-ref: baserock/build-essential
+  ref: 1ecfe811fe2f70380170ef7d820e8150054e88ca
+  unpetrify-ref: 1_23_1
   build-depends:
   - stage1-binutils
   - stage1-gcc
@@ -150,7 +149,6 @@ chunks:
   repo: upstream:bash
   ref: 3590145af6f1c9fa321dff231f69ae696e7e740b
   unpetrify-ref: baserock/bash-4.3-patch-27
-  build-depends: []
   build-mode: bootstrap
   prefix: /tools
 
@@ -159,7 +157,6 @@ chunks:
   repo: baserock:baserock/fhs-dirs
   ref: 41bbb474cd4647ee715bc94c21c161d12a20deb4
   unpetrify-ref: master
-  build-depends: []
   build-mode: bootstrap
   prefix: /tools
 
@@ -294,8 +291,8 @@ chunks:
 - name: busybox
   morph: strata/build-essential/busybox.morph
   repo: upstream:busybox
-  ref: 772a98fec669cf881d7c1ea17631bc8560bccf5c
-  unpetrify-ref: baserock/build-essential
+  ref: 1ecfe811fe2f70380170ef7d820e8150054e88ca
+  unpetrify-ref: 1_23_1
   build-depends:
   - stage2-binutils
   - stage2-busybox
