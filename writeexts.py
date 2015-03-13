@@ -177,7 +177,7 @@ class WriteExtension(cliapp.Application):
                 self.create_btrfs_system_layout(
                     temp_root, mp, version_label='factory',
                     disk_uuid=self.get_uuid(raw_disk))
-            except BaseException, e:
+            except BaseException as e:
                 sys.stderr.write('Error creating Btrfs system layout')
                 raise
 
@@ -279,7 +279,7 @@ class WriteExtension(cliapp.Application):
                 cliapp.runcmd(['mount', location, mount_point])
             else:
                 cliapp.runcmd(['mount', '-o', 'loop', location, mount_point])
-        except BaseException, e:
+        except BaseException as e:
             sys.stderr.write('Error mounting filesystem')
             os.rmdir(mount_point)
             raise
