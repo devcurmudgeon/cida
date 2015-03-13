@@ -6,3 +6,11 @@ global:Registered-Users                 	Registered Users
 
 # This file is filled in with the other group IDs by the
 # gerrit-access-config.yml Ansible playbook.
+b660c33b68509db9dbd9578ae00035da90c0d5eb	Administrators
+8e467a11f116bb716a65ac85e28bf09ebfeb0d63	Non-Interactive Users
+898d9c4232b8fcac6a3b128f7264c5d4c8b1eead	Developers
+b8fc45c681b94669fe3fa965c48d5221a515a3a6	Mergers
+8c788c828285c3dd0a8c1cc152de6735085def9f	Mirroring Tools
+a7a9cc6639bd943e47da0d20b39267a08b43cd91	Release Team
+d643abb0ad6e9d5ac33093af5cd3a3d4e484d95d	Reviewers
+cea6c19a08e11b74e63a567e050bec2c6eeb14dc	Testers
