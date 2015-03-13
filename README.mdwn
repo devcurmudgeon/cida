@@ -197,6 +197,12 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 To deploy to production:
 
+    nova volume-create \
+        --display-name gerrit-volume \
+        --display-description 'Gerrit volume' \
+        --volume-type Ceph \
+        100
+
     morph build baserock_gerrit/gerrit-system-x86_64.morph
     morph deploy baserock_gerrit/baserock_gerrit.morph
 
@@ -205,25 +211,31 @@ To deploy to production:
         --flavor 'dc1.2x4.40' \
         --image baserock_gerrit \
         --nic net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5,v4-fixed-ip=192.168.222.69 \
+        --security-groups default,gerrit,git-server,web-server
         --user-data baserock-ops-team.cloud-config
 
-    nova volume-create \
-        --display-name gerrit-volume \
-        --display-description 'Gerrit volume' \
-        --volume-type Ceph \
-        100
     nova volume-attach gerrit.baserock.org <volume-id> /dev/vdb
 
-    # Download the JRE -- this implies that you accept the 'Oracle Binary Code
-    # License Agreement for Java SE'. Visit Make sure you use the latest
-    # version of Java, don't copy-paste this commandline directly ;)
-    # 
-    # See: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+Accept the license and download the latest Java Runtime Environment from
+http://www.oracle.com/technetwork/java/javase/downloads/server-jre8-downloads-2133154.html
+
+Accept the license and download the latest Java Cryptography Extensions from
+http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+
+Save these two files in the baserock_gerrit/ folder. The instance-config.yml
+Ansible playbook will upload them to the new system.
+
+    # Don't copy-paste this! Use the Oracle website instead!
     wget --no-cookies --no-check-certificate \
-        --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
-        "http://download.oracle.com/otn-pub/java/jdk/8u31-b13/server-jre-8u31-linux-x64.tar.gz" 
+         --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+         "http://download.oracle.com/otn-pub/java/jdk/8u40-b25/server-jre-8u40-linux-x64.tar.gz" 
+    wget --no-cookies --no-check-certificate \
+          --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+          "http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip"
 
     ansible-playbook -i hosts baserock_gerrit/instance-config.yml
+
+#### Access control
 
 Now, log into the new Gerrit instance with your OpenID. Make sure you're the
 first one to have registered, and you will automatically have been added to the
@@ -232,7 +244,100 @@ Administrators group.
 You can add more users into the Administrators group later on using the [gerrit
 set-members] command, or the web interface.
 
+Go to the settings page, 'HTTP Password' and generate a HTTP password for
+yourself. You'll need it in the next step. The password can take a long time to
+appear for some reason, or it might not work at all. Click off the page and
+come back to it and it might suddenly have appeared. I've not investigated why
+this happens.
+
+Generate the SSH keys you need, if you don't have them.
+
+    mkdir -p keys
+    ssh-keygen -t rsa -b 4096 -C 'lorry@gerrit.baserock.org' -N '' -f keys/lorry-gerrit.key
+
+Now set up the Gerrit access configuration. You'll need to have cloned 
+<https://github.com/ssssam/ansible-gerrit> alongside infrastructure.git, and ran
+`make` in that directory. You'll also need 'pygerrit' installed somewhere
+Python can find it.
+
+    export GERRIT_URL=http://gerrit.baserock.org
+    export GERRIT_ADMIN_USERNAME=your username
+    export GERRIT_ADMIN_PASSWORD=your generated HTTP password
+
+    ANSIBLE_LIBRARY=../ansible-gerrit \
+    ansible-playbook baserock_gerrit/gerrit-access-config.yml
+
+As well as creating all the groups and initial users in the new Gerrit
+instance, Ansible should update the file baserock_gerrit/All-Projects/groups,
+which will be needed in the next step.
+
+    git clone ssh://$GERRIT_ADMIN_USERNAME@gerrit.baserock.org:29418/All-Projects.git /tmp/All-Projects
+    cp -a baserock_gerrit/All-Projects/*  /tmp/All-Projects
+    cd /tmp/All-Projects
+    git checkout -b config
+    git commit -a -m "Set up initial access controls."
+    git push origin config:refs/meta/config
+    cd -
+
 [gerrit set-members]: https://gerrit-documentation.storage.googleapis.com/Documentation/2.9.4/cmd-set-members.html
+
+#### Mirroring
+
+Run:
+
+    ansible-playbook -i hosts baserock_gerrit/instance-mirroring-config.yml
+
+Now clone the lorry-controller configuration repository, commit the
+configuration file to it, and push.
+
+    git clone ssh://$GERRIT_ADMIN_USERNAME@gerrit.baserock.org:29418/local-config/lorries.git /tmp/lorries
+    cp baserock_gerrit/lorry-controller.conf /tmp/lorries
+    cd /tmp/lorries
+    git checkout -b master
+    git add .
+    git commit -m "Add initial Lorry Controller mirroring configuration"
+    git push origin master
+    cd -
+
+Now SSH in as 'root' to gerrit.baserock.org, tunnelling the lorry-controller
+webapp's port to your local machine:
+
+    ssh -L 12765:localhost:12765 root@gerrit.baserock.org
+
+Visit <http://localhost/1.0/status-html>. You should see the lorry-controller
+status page. Click 'Re-read configuration', if there are any errors in the
+configuration it'll tell you. If not, it should start mirroring stuff from
+your Trove.
+
+Create a Gitano account on the Trove you want to push changes to for the Gerrit
+user. The `instance-config.yml` Ansible playbook will have generated an SSH
+key. Do this on the Gerrit instance.
+
+    ssh git@git.baserock.org user add gerrit "gerrit.baserock.org" gerrit@baserock.org
+    ssh git@git.baserock.org as gerrit sshkey add main < ~gerrit/.ssh/id_rsa.pub
+
+Add the user to the necessary -writers groups, so they can push updates to the
+repos. The 'replication.config' file controls what the gerrit-replication plugin
+tries to push. By default force-push is disabled and only 'master' and tags are
+pushed.
+
+    ssh git@git.baserock.org group adduser baserock-writers gerrit
+
+Add the host key of the remote trove.
+
+    sudo -u gerrit sh -c 'ssh-keyscan git.baserock.org >> ~gerrit/.ssh/known_hosts'
+
+Check the account is working.
+
+    sudo -u gerrit ssh git@git.baserock.org whoami
+
+Now enable the gerrit-replication plugin, check that it's now in the list of
+plugins, and manually start a replication cycle. You should see log output from
+the final SSH command showing any errors.
+
+    ssh $GERRIT_ADMIN_USERNAME@gerrit.baserock.org -p 29418 gerrit plugin enable replication
+    ssh $GERRIT_ADMIN_USERNAME@gerrit.baserock.org -p 29418 gerrit plugin ls
+    ssh $GERRIT_ADMIN_USERNAME@gerrit.baserock.org -p 29418 replication start --all --wait
 
 ### Storyboard
 

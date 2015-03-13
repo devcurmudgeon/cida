@@ -1,0 +1,151 @@
+# Baserock Gerrit access controls, and predefined users, groups and projects.
+#
+# This Ansible playbook requires the ansible-gerrit modules:
+#
+#   https://www.github.com/ssssam/ansible-gerrit
+#
+# These modules depend on pygerrit:
+#
+#   https://www.github.com/sonyxperiadev/pygerrit/
+
+#   -
+- hosts: localhost
+  tasks:
+    # System groups:
+    #   - Anonymous Users
+    #   - Change Owner
+    #   - Project Owners
+    #   - Registered Users
+
+    # Prefined groups:
+    #   - Administrators
+    #   - Non-Interactive Users
+
+    - gerrit_group:
+        name: Administrators
+      register: administrators_group
+
+    - gerrit_group:
+        name: Non-Interactive Users
+      register: non_interactive_users_group
+
+    # The 'owner' of a group defines who can modify that group. Users
+    # who are in the 'owner' group for a group 'Groupies' can add and remove
+    # people (and other groups) from 'Groupies' and can change the name,
+    # description and owner of 'Groupies.' Since we don't want the
+    # names, descriptions or owners of these predefined groups being
+    # changed, they are all left owned by the Administrators group.
+
+    - gerrit_group:
+        name: Developers
+        description: Registered users who choose to submit changes for consideration.
+        owner: Administrators
+        included_groups:
+            - Registered Users
+      register: developers_group
+
+    # Right now all Mergers are in the Release Team by default.
+    - gerrit_group:
+        name: Release Team
+        description: Developers who can tag releases
+        owner: Administrators
+        included_groups:
+            - Mergers
+      register: release_team_group
+
+    - gerrit_group:
+        name: Mergers
+        description: Developers who can trigger the actual merging of a change.
+        owner: Administrators
+      register: mergers_group
+
+    - gerrit_group:
+        name: Mirroring Tools
+        description: Programs that pull changes from external repositories into Gerrit's Git server
+        owner: Administrators
+      register: mirroring_tools_group
+
+    - gerrit_group:
+        name: Reviewers
+        description: Registered users who choose to give +1 / -1 reviews to proposed changes.
+        owner: Administrators
+        included_groups:
+            - Registered Users
+      register: reviewers_group
+
+    - gerrit_group:
+        name: Testers
+        description: Testers that can give +1 / -1 Verified to proposed changes.
+        owner: Administrators
+      register: testers_group
+
+    # Non-interactive accounts.
+
+    - gerrit_account:
+        username: firehose
+        fullname: Firehose integration bot
+        email: firehose@baserock.org
+        groups:
+            - Non-Interactive Users
+            - Developers
+        #ssh_key: xx
+
+    - gerrit_account:
+        username: lorry
+        fullname: Lorry mirroring service
+        email: lorry@baserock.org
+        groups:
+            - Mirroring Tools
+            - Non-Interactive Users
+        # FIXME: ansible-gerrit module should be able to handle a filename
+        # here, instead of needing this hack to read the contents.
+        ssh_key: "{{ lookup('file', '../keys/lorry-gerrit.key.pub') }}"
+
+    - gerrit_account:
+        username: mason
+        fullname: Mason automated tester
+        email: mason@baserock.org
+        groups:
+            - Non-Interactive Users
+            - Testers
+        #ssh_key: xx
+
+    # It'd make more sense to do this in the mirroring-config.yml file, but
+    # then the admin would need to supply their Gerrit credentials to that
+    # playbook too (which is more tricky, because it doesn't run on
+    # 'localhost').
+    - name: repo to hold Lorry Controller mirroring configuration
+      gerrit_project:
+        name: local-config/lorries
+        description: Configuration for Lorry for mirroring from Trove
+
+    - name: create 'groups' mapping required by Gerrit
+      lineinfile:
+        create: yes
+        dest: All-Projects/groups
+        line: "{{ item.group_info.id }}\t{{ item.group_info.name }}"
+      with_items:
+          - "{{ administrators_group }}"
+          - "{{ non_interactive_users_group }}"
+          - "{{ developers_group }}"
+          - "{{ mergers_group }}"
+          - "{{ mirroring_tools_group }}"
+          - "{{ release_team_group }}"
+          - "{{ reviewers_group }}"
+          - "{{ testers_group }}"
+
+# it'd be nice if this module existed... but it doesn't right now. You'll have
+# to commit the files manually.
+#
+#    - name: push access configuration for all repos
+#      git_commit_in_branch:
+#        repo: ssh://{{ env.GERRIT_ADMIN_USERNAME }}@{{ env.GERRIT_URL}}:29418/All-Projects
+#        ref: refs/meta/config
+#        source: All-Projects
+#        committer_name: Baserock Gerrit configuration scripts
+#        committer_email: admin@baserock.org
+#        commit_message: >
+#            Update global configuration.
+#
+#            This commit was made by an Ansible playbook living in
+#            git://git.baserock.org/baserock/baserock/infrastructure.
