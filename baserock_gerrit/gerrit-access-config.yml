@@ -49,14 +49,14 @@
         name: Release Team
         description: Developers who can tag releases
         owner: Administrators
+        included_groups:
+            - Mergers
       register: release_team_group
 
     - gerrit_group:
         name: Mergers
         description: Developers who can trigger the actual merging of a change.
         owner: Administrators
-        included_groups:
-            - Release Team
       register: mergers_group
 
     - gerrit_group:
