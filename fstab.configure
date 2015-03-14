@@ -1,5 +1,6 @@
-#!/usr/bin/python
-# Copyright (C) 2013,2015  Codethink Limited
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Copyright © 2013-2015  Codethink Limited
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,21 +20,9 @@
 import os
 import sys
 
+import morphlib
 
-def asciibetical(strings):
+envvars = {k: v for (k, v) in os.environ.iteritems() if k.startswith('FSTAB_')}
 
-    def key(s):
-        return [ord(c) for c in s]
-
-    return sorted(strings, key=key)
-
-
-fstab_filename = os.path.join(sys.argv[1], 'etc', 'fstab')
-
-fstab_vars = asciibetical(x for x in os.environ if x.startswith('FSTAB_'))
-with open(fstab_filename, 'a') as f:
-     for var in fstab_vars:
-         f.write('%s\n' % os.environ[var])
-
-os.chown(fstab_filename, 0, 0)
-os.chmod(fstab_filename, 0644)
+conf_file = os.path.join(sys.argv[1], 'etc/fstab')
+morphlib.util.write_from_dict(conf_file, envvars)
