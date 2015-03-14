@@ -3,7 +3,7 @@ kind: stratum
 description: "A stratum for non-essential python tools:
 useful python tools that we don't want to include in core."
 build-depends:
-- morph: strata/core.morph
+- morph: strata/python-core.morph
 chunks:
 - name: virtualenv
   repo: upstream:python-packages/virtualenv
