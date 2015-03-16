@@ -1,6 +1,0 @@
-name: gitlab-ci
-kind: chunk
-install-commands:
-- mkdir -p "$DESTDIR/$PREFIX/share/gitlab-ci"
-- cp -R * "$DESTDIR/$PREFIX/share/gitlab-ci"
-- chmod -R a+rX,g+w "$DESTDIR/$PREFIX/share/gitlab-ci"
