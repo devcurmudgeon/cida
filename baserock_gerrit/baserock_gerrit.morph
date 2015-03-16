@@ -1,7 +1,7 @@
 name: baserock_gerrit
 kind: cluster
 systems:
-  - morph: baserock_gerrit/gerrit-system-x86_64.morph
+  - morph: systems/gerrit-system-x86_64.morph
     deploy:
       gerrit.baserock.org:
         type: openstack

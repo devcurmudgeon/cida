@@ -51,7 +51,7 @@ strata:
   morph: strata/lorry-controller.morph
 
 - name: gerrit-tools
-  morph: baserock_gerrit/gerrit-tools.morph
+  morph: strata/gerrit-tools.morph
 
 # FIXME: 'tools' is needed mainly because rsync lives there and we need
 # rsync for upgrades using system-version-manager.
