@@ -13,13 +13,15 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-'''A Morph deployment configuration extension to handle /etc/network/interfaces
+'''A Morph deployment configuration extension to handle network configutation
 
-This extension prepares /etc/network/interfaces with the interfaces specified
-during deployment.
+This extension prepares /etc/network/interfaces and networkd .network files
+in /etc/systemd/network/ with the interfaces specified during deployment.
 
 If no network configuration is provided, eth0 will be configured for DHCP
-with the hostname of the system.
+with the hostname of the system in the case of /etc/network/interfaces.
+In the case of networkd, any interface starting by e* will be configured
+for DHCP
 '''
 
 
@@ -36,20 +38,70 @@ class SimpleNetworkError(morphlib.Error):
 
 
 class SimpleNetworkConfigurationExtension(cliapp.Application):
-    '''Configure /etc/network/interfaces
+    '''Configure /etc/network/interfaces and generate networkd .network files
 
-    Reading NETWORK_CONFIG, this extension sets up /etc/network/interfaces.
+    Reading NETWORK_CONFIG, this extension sets up /etc/network/interfaces
+    and .network files in /etc/systemd/network/.
     '''
 
     def process_args(self, args):
-        network_config = os.environ.get(
-            "NETWORK_CONFIG", "lo:loopback;eth0:dhcp,hostname=$(hostname)")
+        network_config = os.environ.get("NETWORK_CONFIG")
 
-        self.status(msg="Processing NETWORK_CONFIG=%(nc)s", nc=network_config)
+        self.rename_networkd_chunk_file(args)
 
-        stanzas = self.parse_network_stanzas(network_config)
+        if network_config is None:
+            self.generate_default_network_config(args)
+        else:
+            self.status(msg="Processing NETWORK_CONFIG=%(nc)s", nc=network_config)
+
+            stanzas = self.parse_network_stanzas(network_config)
+
+            self.generate_interfaces_file(args, stanzas)
+            self.generate_networkd_files(args, stanzas)
+
+    def rename_networkd_chunk_file(self, args):
+        """Rename the 10-dchp.network file generated in the systemd chunk
+
+        The systemd chunk will place something in 10-dhcp.network, which will
+        have higher precedence than anything added in this extension (we
+        start at 50-*).
+
+        We should check for that file and rename it instead remove it in
+        case the file is being used by the user.
+
+        Until both the following happen, we should continue to rename that
+        default config file:
+
+        1.  simple-network.configure is always run when systemd is included
+        2.  We've been building systems without systemd including that default
+            networkd config for long enough that nobody should be including
+            that config file.
+        """
+        file_path = os.path.join(args[0], "etc", "systemd", "network",
+                                 "10-dhcp.network")
+        try:
+            os.rename(file_path, file_path + ".morph")
+            self.status(msg="Renaming networkd file from systemd chunk: %(f)s \
+                        to %(f)s.morph", f=file_path)
+        except OSError:
+            pass
+
+    def generate_default_network_config(self, args):
+        """Generate default network configuration: DHCP in all the interfaces"""
+
+        default_network_config_interfaces = "lo:loopback;eth0:dhcp,hostname=$(hostname)"
+        default_network_config_networkd = "e*:dhcp"
+
+        stanzas_interfaces = self.parse_network_stanzas(default_network_config_interfaces)
+        stanzas_networkd = self.parse_network_stanzas(default_network_config_networkd)
+
+        self.generate_interfaces_file(args, stanzas_interfaces)
+        self.generate_networkd_files(args, stanzas_networkd)
+
+    def generate_interfaces_file(self, args, stanzas):
+        """Generate /etc/network/interfaces file"""
+
         iface_file = self.generate_iface_file(stanzas)
-
         with open(os.path.join(args[0], "etc/network/interfaces"), "w") as f:
             f.write(iface_file)
 
@@ -82,6 +134,74 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         lines += [""]
         return "\n".join(lines)
 
+    def generate_networkd_files(self, args, stanzas):
+        """Generate .network files"""
+
+        for i, stanza in enumerate(stanzas, 50):
+            iface_file = self.generate_networkd_file(stanza)
+
+            if iface_file is None:
+                continue
+
+            path = os.path.join(args[0], "etc", "systemd", "network",
+                                "%s-%s.network" % (i, stanza['name']))
+
+            with open(path, "w") as f:
+                f.write(iface_file)
+
+    def generate_networkd_file(self, stanza):
+        """Generate an .network file from the provided data."""
+
+        name = stanza['name']
+        itype = stanza['type']
+        pairs = stanza['args'].items()
+
+        if itype == "loopback":
+            return
+
+        lines = ["[Match]"]
+        lines += ["Name=%s\n" % name]
+        lines += ["[Network]"]
+        if itype == "dhcp":
+            lines += ["DHCP=yes"]
+        else:
+            lines += self.generate_networkd_entries(pairs)
+
+        return "\n".join(lines)
+
+    def generate_networkd_entries(self, pairs):
+        """Generate networkd configuration entries with the other parameters"""
+
+        address = None
+        netmask = None
+        gateway = None
+        lines = []
+        for pair in pairs:
+            if pair[0] == 'address':
+                address = pair[1]
+            elif pair[0] == 'netmask':
+                netmask = pair[1]
+            elif pair[0] == 'gateway':
+                gateway = pair[1]
+
+        if address and netmask:
+            network_suffix = self.convert_net_mask_to_cidr_suffix (netmask);
+            address_line = address + '/' + str(network_suffix)
+            lines += ["Address=%s" % address_line]
+        elif address or netmask:
+            raise Exception('address and netmask must be specified together')
+
+        if gateway is not None:
+            lines += ["Gateway=%s" % gateway]
+
+        return lines
+
+    def convert_net_mask_to_cidr_suffix(self, mask):
+        """Convert dotted decimal form of a subnet mask to CIDR suffix notation
+
+        For example: 255.255.255.0 -> 24
+        """
+        return sum(bin(int(x)).count('1') for x in mask.split('.'))
 
     def parse_network_stanzas(self, config):
         """Parse a network config environment variable into stanzas.
