@@ -1,4 +1,4 @@
-name: baserock-gerrit-system-x86_64
+name: gerrit-system-x86_64
 kind: system
 description: |
   System for running Gerrit on Baserock.
