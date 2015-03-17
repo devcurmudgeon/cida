@@ -1,3 +1,16 @@
+# This Ansible playbook configures mirroring in and out of Gerrit.
+#
+# To run it, use:
+#   ansible-playbook -i hosts baserock_gerrit/instance-mirroring-config.yml
+#
+# It expects the SSH key for the 'lorry' user to exist at
+# ../keys/lorry-gerrit.key.
+#
+# This script currently doesn't handle the lorry-controller.conf file that
+# controls what lorry-controller mirrors into Gerrit. To set up or modify
+# lorry-controller configuration you need to commit your changes to the
+# 'local-config/lorries' project on the Gerrit.
+---
 - hosts: gerrit
   gather_facts: no
   sudo: yes
