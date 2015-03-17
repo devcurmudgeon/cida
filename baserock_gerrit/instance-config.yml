@@ -91,4 +91,4 @@
       template: src=gerrit.service dest=/etc/systemd/system/gerrit.service
 
     - name: start Gerrit service
-      service: name=gerrit enabled=yes state=started
+      service: name=gerrit enabled=yes state=restarted
