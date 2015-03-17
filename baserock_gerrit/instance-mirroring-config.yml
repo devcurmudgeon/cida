@@ -44,7 +44,7 @@
         - webapp.conf
 
     - name: enable and restart core lorry controller services.
-      service: name={{ item }} enabled=yes state=started
+      service: name={{ item }} enabled=yes state=restarted
       with_items:
         - lighttpd-lorry-controller-webapp.service
         - lorry-controller-minion@1.service
@@ -60,3 +60,9 @@
 
     - name: gerrit-replication configuration
       copy: src=replication.config dest=/srv/gerrit/etc
+      notify:
+        - restart gerrit
+
+handlers:
+  - name: restart gerrit
+    service: name=gerrit state=restarted
