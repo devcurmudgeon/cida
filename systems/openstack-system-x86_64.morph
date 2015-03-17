@@ -69,3 +69,6 @@ configuration-extensions:
 - openstack-nova
 - openstack-network
 - openstack-neutron
+- fstab
+- swift-storage
+- openstack-swift-controller

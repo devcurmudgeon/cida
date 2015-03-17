@@ -1,0 +1,49 @@
+#!/bin/bash
+#
+# Copyright © 2015 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+set -e
+
+export ROOT="$1"
+
+MANDATORY_OPTIONS="SWIFT_ADMIN_PASSWORD KEYSTONE_TEMPORARY_ADMIN_TOKEN"
+
+for option in $MANDATORY_OPTIONS
+do
+    if ! [[ -v $option ]]
+    then
+        missing_option=True
+        echo "Required option $option isn't set!" >&2
+    fi
+done
+
+if [[ $missing_option = True ]]; then exit 1; fi
+
+mkdir -p "$ROOT/usr/lib/systemd/system/multi-user.target.wants"	# ensure this exists before we make symlinks
+
+ln -s "/usr/lib/systemd/system/swift-controller-setup.service" \
+    "$ROOT/usr/lib/systemd/system/multi-user.target.wants/swift-controller-setup.service"
+ln -s "/usr/lib/systemd/system/memcached.service" \
+    "$ROOT/usr/lib/systemd/system/multi-user.target.wants/memcached.service"
+ln -s "/usr/lib/systemd/system/openstack-swift-proxy.service" \
+    "$ROOT/usr/lib/systemd/system/multi-user.target.wants/swift-proxy.service"
+
+cat << EOF > "$ROOT"/usr/share/openstack/swift-controller-vars.yml
+---
+SWIFT_ADMIN_PASSWORD: $SWIFT_ADMIN_PASSWORD
+MANAGEMENT_INTERFACE_IP_ADDRESS: $MANAGEMENT_INTERFACE_IP_ADDRESS
+KEYSTONE_TEMPORARY_ADMIN_TOKEN: $KEYSTONE_TEMPORARY_ADMIN_TOKEN
+EOF
