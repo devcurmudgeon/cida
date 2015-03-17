@@ -52,7 +52,8 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         if network_config is None:
             self.generate_default_network_config(args)
         else:
-            self.status(msg="Processing NETWORK_CONFIG=%(nc)s", nc=network_config)
+            self.status(msg="Processing NETWORK_CONFIG=%(nc)s",
+                        nc=network_config)
 
             stanzas = self.parse_network_stanzas(network_config)
 
@@ -87,13 +88,16 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
             pass
 
     def generate_default_network_config(self, args):
-        """Generate default network configuration: DHCP in all the interfaces"""
+        """Generate default network config: DHCP in all the interfaces"""
 
-        default_network_config_interfaces = "lo:loopback;eth0:dhcp,hostname=$(hostname)"
+        default_network_config_interfaces = "lo:loopback;" \
+                                            "eth0:dhcp,hostname=$(hostname)"
         default_network_config_networkd = "e*:dhcp"
 
-        stanzas_interfaces = self.parse_network_stanzas(default_network_config_interfaces)
-        stanzas_networkd = self.parse_network_stanzas(default_network_config_networkd)
+        stanzas_interfaces = self.parse_network_stanzas(
+            default_network_config_interfaces)
+        stanzas_networkd = self.parse_network_stanzas(
+            default_network_config_networkd)
 
         self.generate_interfaces_file(args, stanzas_interfaces)
         self.generate_networkd_files(args, stanzas_networkd)
