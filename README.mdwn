@@ -195,7 +195,8 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 ### Gerrit
 
-To deploy to production:
+To deploy to production, run these commands in a Baserock 'devel'
+or 'build' system.
 
     nova volume-create \
         --display-name gerrit-volume \
@@ -203,7 +204,10 @@ To deploy to production:
         --volume-type Ceph \
         100
 
-    morph build baserock_gerrit/gerrit-system-x86_64.morph
+    morph init ws; cd ws; morph checkout baserock:baserock/infrastructure master;
+    cd master/baserock/baserock/infrastructure
+
+    morph build systems/gerrit-system-x86_64.morph
     morph deploy baserock_gerrit/baserock_gerrit.morph
 
     nova boot gerrit.baserock.org \
@@ -237,9 +241,10 @@ Ansible playbook will upload them to the new system.
 
 #### Access control
 
-Now, log into the new Gerrit instance with your OpenID. Make sure you're the
-first one to have registered, and you will automatically have been added to the
-Administrators group.
+Gerrit should now be up and running and accessible through the web interface.
+By default this is on port 8080. Log into the new Gerrit instance with your
+credentials. Make sure you're the first one to have registered, and you will
+automatically have been added to the Administrators group.
 
 You can add more users into the Administrators group later on using the [gerrit
 set-members] command, or the web interface.
@@ -255,17 +260,18 @@ Generate the SSH keys you need, if you don't have them.
     mkdir -p keys
     ssh-keygen -t rsa -b 4096 -C 'lorry@gerrit.baserock.org' -N '' -f keys/lorry-gerrit.key
 
-Now set up the Gerrit access configuration. You'll need to have cloned 
-<https://github.com/ssssam/ansible-gerrit> alongside infrastructure.git, and ran
-`make` in that directory. You'll also need 'pygerrit' installed somewhere
-Python can find it.
+Now set up the Gerrit access configuration. This Ansible playbook requires a
+couple of non-standard packages.
 
-    export GERRIT_URL=http://gerrit.baserock.org
+    git clone git://git.baserock.org/delta/python-packages/pygerrit.git
+    git clone git://github.com/ssssam/ansible-gerrit
+
+    export GERRIT_URL=gerrit web URL
     export GERRIT_ADMIN_USERNAME=your username
     export GERRIT_ADMIN_PASSWORD=your generated HTTP password
 
-    ANSIBLE_LIBRARY=../ansible-gerrit \
-    ansible-playbook baserock_gerrit/gerrit-access-config.yml
+    ANSIBLE_LIBRARY=./ansible-gerrit PYTHONPATH=./pygerrit \
+    ansible-playbook a2378_gerrit/gerrit-access-config.yml
 
 As well as creating all the groups and initial users in the new Gerrit
 instance, Ansible should update the file baserock_gerrit/All-Projects/groups,
@@ -287,7 +293,7 @@ Run:
 
     ansible-playbook -i hosts baserock_gerrit/instance-mirroring-config.yml
 
-Now clone the lorry-controller configuration repository, commit the
+Now clone the Gerrit's lorry-controller configuration repository, commit the
 configuration file to it, and push.
 
     git clone ssh://$GERRIT_ADMIN_USERNAME@gerrit.baserock.org:29418/local-config/lorries.git /tmp/lorries
@@ -311,23 +317,22 @@ your Trove.
 
 Create a Gitano account on the Trove you want to push changes to for the Gerrit
 user. The `instance-config.yml` Ansible playbook will have generated an SSH
-key. Do this on the Gerrit instance.
+key. Run these commands on the Gerrit instance:
 
     ssh git@git.baserock.org user add gerrit "gerrit.baserock.org" gerrit@baserock.org
     ssh git@git.baserock.org as gerrit sshkey add main < ~gerrit/.ssh/id_rsa.pub
 
-Add the user to the necessary -writers groups, so they can push updates to the
-repos. The 'replication.config' file controls what the gerrit-replication plugin
-tries to push. By default force-push is disabled and only 'master' and tags are
-pushed.
+Add the 'gerrit' user to the necessary -writers groups on the Trove, to allow
+the gerrit-replication plugin to push merged changes to 'master' in the Trove.
 
     ssh git@git.baserock.org group adduser baserock-writers gerrit
+    ssh git@git.baserock.org group adduser local-config-writers gerrit
 
-Add the host key of the remote trove.
+Add the host key of the remote trove, to the Gerrit system:
 
     sudo -u gerrit sh -c 'ssh-keyscan git.baserock.org >> ~gerrit/.ssh/known_hosts'
 
-Check the account is working.
+Check the 'gerrit' user's Trove account is working.
 
     sudo -u gerrit ssh git@git.baserock.org whoami
 
