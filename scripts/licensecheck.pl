@@ -17,7 +17,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License along
-# with this program. If not, see <http://www.gnu.org/licenses/>.
+# with this program. If not, see <https://www.gnu.org/licenses/>.
 
 =head1 NAME
 
@@ -152,7 +152,7 @@ my $default_ignore_regex = '
 # File-names that should be ignored (never directories)
 (?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory|\.bzrignore|\.gitignore)$|
 # File or directory names that should be ignored
-(?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|\.hg|_darcs|\.git|
+(?:^|/)(?:CVS|RCS|\.pc|\.deps|\{arch\}|\.arch-ids|\.svn|\.hg|_darcs|\.git|
 \.shelf|_MTN|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
 
@@ -160,7 +160,7 @@ my $default_ignore_regex = '
 $default_ignore_regex =~ s/^#.*$//mg;
 $default_ignore_regex =~ s/\n//sg;
 
-my $default_check_regex = '\.(c(c|pp|xx)?|h(h|pp|xx)?|f(77|90)?|go|p(l|m)|xs|sh|php|py(|x)|rb|java|vala|el|sc(i|e)|cs|pas|inc|dtd|xsl|mod|m|tex|mli?)$';
+my $default_check_regex = '\.(c(c|pp|xx)?|h(h|pp|xx)?|f(77|90)?|go|p(l|m)|xs|sh|php|py(|x)|rb|java|js|vala|el|sc(i|e)|cs|pas|inc|dtd|xsl|mod|m|tex|mli?|(c|l)?hs)$';
 
 my $modified_conf_msg;
 
@@ -295,7 +295,7 @@ while (@files) {
     }
     close($F);
 
-    $copyright = join(" / ", values %copyrights);
+    $copyright = join(" / ", reverse sort values %copyrights);
 
     print qq(----- $file header -----\n$content----- end header -----\n\n)
 	if $OPT{'verbose'};
@@ -329,9 +329,16 @@ sub parse_copyright {
 	)';
     my $copyright_disindicator_regex = '
 	\b(?:info(?:rmation)?	# Discussing copyright information
-	|notice			# Discussing the notice
-	|and|or                 # Part of a sentence
+	|(notice|statement|claim|string)s?	# Discussing the notice
+	|and|or|is|in|to        # Part of a sentence
+	|(holder|owner)s?       # Part of a sentence
+	|ownership              # Part of a sentence
 	)\b';
+    my $copyright_predisindicator_regex = '(
+    ^[#]define\s+.*\(c\)    # #define foo(c) -- not copyright
+	)';
+
+    if ( ! m%$copyright_predisindicator_regex%ix) {
 
     if (m%$copyright_indicator_regex(?::\s*|\s+)(\S.*)$%ix) {
 	$match = $1;
@@ -347,6 +354,7 @@ sub parse_copyright {
 	    $copyright = $match;
 	}
     }
+    }
 
     return $copyright;
 }
@@ -359,8 +367,7 @@ sub clean_comments {
     # if no such pattern found.
     my @matches = m/^\s*([^a-zA-Z0-9\s]{1,3})\s\w/mg;
     if (@matches >= 4) {
-	my $comment_length = length($matches[0]);
-	my $comment_re = qr/\s*[\Q$matches[0]\E]{${comment_length}}\s*/;
+	my $comment_re = qr/\s*[\Q$matches[0]\E]{1,3}\s*/;
 	s/^$comment_re//mg;
     }
 
@@ -433,6 +440,8 @@ sub parselicense {
 	$gplver = " (v$1)";
     } elsif ($licensetext =~ /either version ([^ ]+)(?: of the License)?, or \(at your option\) any later version/) {
 	$gplver = " (v$1 or later)";
+    } elsif ($licensetext =~ /either version ([^ ]+)(?: of the License)?, or \(at your option\) version (\d(?:[\.-]\d+)*)/) {
+	$gplver = " (v$1 or v$2)";
     }
 
     if ($licensetext =~ /(?:675 Mass Ave|59 Temple Place|51 Franklin Steet|02139|02111-1307)/i) {
@@ -489,7 +498,7 @@ sub parselicense {
     if ($licensetext =~ /THIS SOFTWARE IS PROVIDED .*AS IS AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY/) {
 	if ($licensetext =~ /All advertising materials mentioning features or use of this software must display the following acknowledge?ment.*This product includes software developed by/i) {
 	    $license = "BSD (4 clause) $license";
-	} elsif ($licensetext =~ /(The name .*? may not|Neither the names? .*? nor the names of (its|their|other) contributors may) be used to endorse or promote products derived from this software/i) {
+	} elsif ($licensetext =~ /(The name(?:\(s\))? .*? may not|Neither the (names? .*?|authors?) nor the names of( (its|their|other|any))? contributors may) be used to endorse or promote products derived from this software/i) {
 	    $license = "BSD (3 clause) $license";
 	} elsif ($licensetext =~ /Redistributions of source code must retain the above copyright notice/i) {
 	    $license = "BSD (2 clause) $license";
@@ -593,4 +602,3 @@ sub fatal {
     $msg =~ s/\n\n$/\n/;
     die $msg;
 }
-
