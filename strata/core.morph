@@ -273,3 +273,12 @@ chunks:
   unpetrify-ref: baserock/v2.7.1
   build-depends:
   - shadow
+- name: libxslt
+  repo: upstream:libxslt
+  ref: 73e08bf7c36a9145d38f51d37e66529b873c011a
+  unpetrify-ref: master
+  build-depends:
+  - autoconf-tarball
+  - libtool-tarball
+  - automake
+  - libxml2

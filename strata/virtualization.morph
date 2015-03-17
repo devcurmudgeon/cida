@@ -6,6 +6,7 @@ description: |
     kernel history to check which config are needed for openvswitch, libvirt,
     or ebtables, for example.
 build-depends:
+- morph: strata/python-core.morph
 - morph: strata/connman-common.morph
 - morph: strata/lvm.morph
 chunks:
@@ -66,23 +67,12 @@ chunks:
   unpetrify-ref: master
   build-depends:
   - pycurl
-- name: cython
-  repo: upstream:cython
-  ref: 005d38d5921a603d5f4d413aae72f98a6d33192f
-  unpetrify-ref: master
-- name: python-lxml
-  repo: upstream:python-lxml
-  ref: 8fc99f8ef3e2f12e74fb407ae62c5db50cfe7b92
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - cython
 - name: libvirt-python
   repo: upstream:libvirt-python
   ref: 8e09c79a07b097a6ba9af83be4916fb9c9538500
   unpetrify-ref: v1.2.10
   build-depends:
   - libvirt
-  - python-lxml
   - urlgrabber
 - name: gnome-common
   repo: upstream:gnome-common

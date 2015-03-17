@@ -135,10 +135,6 @@ chunks:
   build-depends:
   - glib
   - systemd
-- name: libxslt
-  repo: upstream:libxslt
-  ref: 8785a2ffd0d146df0395ab71ce4734d0a8ba0f7e
-  unpetrify-ref: baserock/morph
 - name: openssh
   morph: strata/foundation/openssh.morph
   repo: upstream:openssh-git
