@@ -6,7 +6,7 @@
 # Download it from here:
 # <http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html>
 #
-- hosts: gerrit.baserock.org
+- hosts: gerrit
   gather_facts: False
   vars:
     GERRIT_VERSION: 2.9.4

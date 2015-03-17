@@ -8,26 +8,25 @@
 
 [baserock]
 baserock-mason-x86-64 ansible_ssh_host=192.168.222.48
-cache.baserock.org ansible_ssh_host=192.168.222.14
+cache ansible_ssh_host=192.168.222.14
 devel-system-64b ansible_ssh_host=192.168.222.41
 firehose ansible_ssh_host=192.168.222.45
-gerrit.baserock.org ansible_ssh_host=192.168.222.69
-git.baserock.org ansible_ssh_host=192.168.222.58
-gerrit.baserock.org ansible_ssh_host=192.168.222.69
-irclogs.baserock.org ansible_ssh_host=192.168.222.74
-#mason-armv7lhf.baserock.org ansible_ssh_host=192.168.222.15
-mason-x86-32.baserock.org ansible_ssh_host=192.168.222.81
-mason-x86-64.baserock.org ansible_ssh_host=192.168.222.80
+gerrit ansible_ssh_host=192.168.222.69
+git ansible_ssh_host=192.168.222.58
+irclogs ansible_ssh_host=192.168.222.74
+#mason-armv7lhf ansible_ssh_host=192.168.222.15
+mason-x86-32 ansible_ssh_host=192.168.222.81
+mason-x86-64 ansible_ssh_host=192.168.222.80
 
 [fedora]
 frontend-haproxy ansible_ssh_host=185.43.218.170
 database-mariadb ansible_ssh_host=192.168.222.30
-openid.baserock.org ansible_ssh_host=192.168.222.67
-storyboard.baserock.org ansible_ssh_host=192.168.222.40
+openid ansible_ssh_host=192.168.222.67
+storyboard ansible_ssh_host=192.168.222.40
 
 [ubuntu]
-paste.baserock.org ansible_ssh_host=192.168.222.6
-#testgerrit.baserock.org ansible_ssh_host=192.168.222.46
+paste ansible_ssh_host=192.168.222.6
+#testgerrit ansible_ssh_host=192.168.222.46
 
 
 [baserock:vars]

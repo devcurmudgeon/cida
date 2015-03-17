@@ -1,4 +1,4 @@
-- hosts: gerrit.baserock.org
+- hosts: gerrit
   gather_facts: no
   sudo: yes
   tasks:
