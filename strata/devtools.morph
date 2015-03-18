@@ -6,7 +6,8 @@ description: |
   stratum should not have any dependants (please don't build-depend on this
   stratum)
 build-depends:
-- morph: strata/foundation.morph
+- morph: strata/core.morph
+- morph: strata/python-core.morph
 chunks:
 - name: vim
   morph: strata/devtools/vim.morph
@@ -26,3 +27,7 @@ chunks:
   repo: upstream:less
   ref: 09a405d8f652b56944c93ebf5c673cdfe5319b04
   unpetrify-ref: baserock/morph
+- name: git-review
+  repo: upstream:git-review
+  ref: 79262a52301c146a6b60d09a828661a83a5f5ba7
+  unpetrify-ref: master
