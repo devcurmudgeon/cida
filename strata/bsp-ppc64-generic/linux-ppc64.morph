@@ -36,6 +36,7 @@ configure-commands:
 - scripts/config -e BLK_DEV_LOOP
 - scripts/config -d BLK_DEV_CRYPTOLOOP
 - scripts/config --set-val BLK_DEV_LOOP_MIN_COUNT 8
+- scripts/config -e DM_SNAPSHOT
 - scripts/config -e IKCONFIG
 - scripts/config -e IKCONFIG_PROC
 - scripts/config -e SECCOMP
