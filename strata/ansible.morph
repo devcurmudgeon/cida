@@ -8,5 +8,5 @@ chunks:
 - name: ansible
   morph: strata/ansible/ansible.morph
   repo: upstream:ansible
-  ref: ebc8d48d34296fe010096f044e2b7591df37a622
+  ref: 0a7124541247cc613352054f4bc0c3e116e0b657
   unpetrify-ref: baserock/v1.8.4
