@@ -12,8 +12,8 @@ chunks:
 - name: cmake
   morph: strata/core/cmake.morph
   repo: upstream:cmake
-  ref: 0b3781e4c497566acaa504d4106d11c02a642501
-  unpetrify-ref: v2.8.12.2
+  ref: 732d8a467ab8a295b1bbf580f865980f8a1a9b29
+  unpetrify-ref: v3.2.1
 - name: gdbm
   morph: strata/core/gdbm.morph
   repo: upstream:gdbm-tarball
