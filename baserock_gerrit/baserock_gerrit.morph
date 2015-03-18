@@ -1,11 +1,25 @@
 name: baserock_gerrit
 kind: cluster
+
+description: |
+  Deployment .morph for baserock.org Gerrit system.
+
+  Configuration of the system is handled separately, with a series of
+  Ansible playbooks that should be run after an instance of the system
+  is up and running. See the README for instructions.
+
 systems:
-  - morph: baserock_gerrit/gerrit-system-x86_64.morph
+  - morph: systems/gerrit-system-x86_64.morph
     deploy:
       gerrit.baserock.org:
         type: openstack
         location: https://compute.datacentred.io:5000/v2.0
+
+        # You can use this method to deploy upgrades over SSH, after the
+        # machine is deployed.
+        #type: ssh-rsync
+        #location: root@gerrit.baserock.org
+
         OPENSTACK_IMAGENAME: baserock_gerrit
         CLOUD_INIT: yes
         DISK_SIZE: 3G

@@ -7,8 +7,18 @@
 # These modules depend on pygerrit:
 #
 #   https://www.github.com/sonyxperiadev/pygerrit/
-
-#   -
+#
+# If you want to change the configuration, just edit this script and rerun it,
+# as described in the README.
+#
+# This script currently doesn't handle committing changes to the access control
+# rules for the 'All-Projects' project. To set up or modify the access control
+# rules, you'll need to manually commit project.config (in the All-Projects
+# subdirectory) to the 'refs/meta/config' ref of the All-Projects repo in
+# Gerrit. The 'groups' file will need to list all the groups referenced in
+# project.config. This script will add the UUIDs of all groups listed below
+# to the All-Projects/groups file, so you don't have to create it manually.
+---
 - hosts: localhost
   tasks:
     # System groups:

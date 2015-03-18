@@ -6,7 +6,7 @@
 # Download it from here:
 # <http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html>
 #
-- hosts: gerrit.baserock.org
+- hosts: gerrit
   gather_facts: False
   vars:
     GERRIT_VERSION: 2.9.4
@@ -91,4 +91,4 @@
       template: src=gerrit.service dest=/etc/systemd/system/gerrit.service
 
     - name: start Gerrit service
-      service: name=gerrit enabled=yes state=started
+      service: name=gerrit enabled=yes state=restarted

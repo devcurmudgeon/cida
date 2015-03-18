@@ -3,7 +3,7 @@
 # This playbook should be run after starting an instance of the Baserock
 # OpenID Provider image.
 ---
-- hosts: openid.baserock.org
+- hosts: openid
   gather_facts: False
   sudo: yes
   tasks:
