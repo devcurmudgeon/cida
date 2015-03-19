@@ -35,6 +35,8 @@ strata:
   morph: strata/devtools.morph
 - name: ansible
   morph: strata/ansible.morph
+- name: swift
+  morph: strata/swift.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
