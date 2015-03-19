@@ -7,9 +7,9 @@ build-depends:
 chunks:
 - name: linux-x86-64-generic
   morph: strata/bsp-x86_64-generic/linux-x86-64-generic.morph
-  repo: upstream:linux
-  ref: bfa76d49576599a4b9f9b7a71f23d73d6dcff735
-  unpetrify-ref: v3.19
+  repo: upstream:linux-stable
+  ref: 660613d1a4e94144490850b6c3d350331860fac4
+  unpetrify-ref: v3.19.2
 - name: nasm
   morph: strata/bsp-x86_64-generic/nasm.morph
   repo: upstream:nasm
