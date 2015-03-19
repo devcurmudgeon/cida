@@ -32,6 +32,7 @@ configure-commands:
 - scripts/config -e DEVTMPFS_MOUNT
 - scripts/config -e CONFIG_FHANDLE
 - scripts/config --set-str UEVENT_HELPER_PATH ''
+- scripts/config -e DM_SNAPSHOT
 - scripts/config -e IKCONFIG
 - scripts/config -e IKCONFIG_PROC
 - scripts/config -e TMPFS

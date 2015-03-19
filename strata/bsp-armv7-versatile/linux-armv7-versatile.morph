@@ -12,6 +12,7 @@ configure-commands:
 - scripts/config -e AUTOFS4_FS
 - scripts/config -e BLK_DEV_LOOP
 - scripts/config --set-str UEVENT_HELPER_PATH ''
+- scripts/config -e DM_SNAPSHOT
 - scripts/config -e IKCONFIG
 - scripts/config -e IKCONFIG_PROC
 - scripts/config -e SECCOMP
