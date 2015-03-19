@@ -15,7 +15,7 @@ description: |
 
   To do the initial deployment:
 
-      morph deploy --upgrade clusters/trove-example.morph \
+      morph deploy clusters/trove-example.morph \
           initial \
           initial.location=kvm+ssh://liw@192.168.122.1/test-trove/tmp/test-trove.img
 
