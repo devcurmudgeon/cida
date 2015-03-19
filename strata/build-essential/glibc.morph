@@ -56,7 +56,7 @@ configure-commands:
     $ARCH_FLAGS \
     --prefix="$PREFIX" \
     --disable-profile \
-    --enable-kernel=2.6.25 \
+    --enable-kernel=3.0.0 \
     --without-cvs \
     --without-selinux \
     --enable-obsolete-rpc
