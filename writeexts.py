@@ -604,11 +604,15 @@ class WriteExtension(cliapp.Application):
 
     def check_ssh_connectivity(self, ssh_host):
         try:
-            cliapp.ssh_runcmd(ssh_host, ['true'])
+            output = cliapp.ssh_runcmd(ssh_host, ['echo', 'test'])
         except cliapp.AppException as e:
             logging.error("Error checking SSH connectivity: %s", str(e))
             raise cliapp.AppException(
                 'Unable to SSH to %s: %s' % (ssh_host, e))
+
+        if output.strip() != 'test':
+            raise cliapp.AppException(
+                'Unexpected output from remote machine: %s' % output.strip())
 
     def is_device(self, location):
         try:
