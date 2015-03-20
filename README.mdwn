@@ -53,27 +53,19 @@ To run an ad-hoc command (upgrading, for example):
 Backups
 -------
 
-The database server doesn't yet have automated backups running. You can
-manually take a backup like this:
+Backups of git.baserock.org's data volume are run by and stored on on a
+Codethink-managed machine named 'access'. They will need to migrate off this
+system before long.  The backups are taken without pausing services or
+snapshotting the data, so they will not be 100% clean. The current
+git.baserock.org data volume does not use LVM and cannot be easily snapshotted.
 
-    sudo systemctl stop mariadb.service
-    sudo lvcreate \
-        --name database-backup-20150126 \
-        --snapshot /dev/vg0/database \
-        --extents 100%ORIGIN \
-        --permission=r
-    sudo systemctl start mariadb.service
-    sudo mount /dev/vg0/database-backup-20150126 /mnt
-    # use your preferred backup tool (`rsync` is recommended) to extract the
-    # contents of /mnt somewhere safe.
-    sudo umount /dev/vg0/database-backup-20150126
-    sudo lvremove /dev/vg0/database-backup-20150126
+Backups of 'gerrit' and 'database' are handled by the
+'baserock_backup/backup.py' script. This currently runs on an instance in
+Codethink's internal OpenStack cloud.
 
-The Gerrit instance stores the Gerrit site path on an LVM volume and can be
-manually backed up in exactly the same way.
-
-git.baserock.org has automated backups of /home and /etc, which are run by
-Codethink to an internal Codethink server.
+Instances themselves are not backed up. In the event of a crisis we will
+redeploy them from the infrastructure.git repository. There should be nothing
+valuable stored outside of the data volumes that are backed up.
 
 
 Deployment with Packer

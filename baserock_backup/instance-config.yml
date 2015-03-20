@@ -1,0 +1,29 @@
+# Configuration for a machine that runs data backups of baserock.org.
+#
+# The current backup machine is not a reproducible deployment, but this
+# playbook should be easily adaptable to produce a properly reproducible
+# one.
+---
+- hosts: baserock-backup1
+  gather_facts: false
+  tasks:
+    - name: user for running backups
+      user: name=backup
+
+    # You'll need to copy in the SSH key manually for this user.
+
+    - name: SSH config for backup user
+      copy: src=ssh_config dest=/home/backup/.ssh/config
+
+    - name: backup script
+      copy: src=backup.sh dest=/home/backup/backup.sh mode=755
+
+    # You will need https://github.com/ansible/ansible-modules-core/pull/986
+    # for this to work.
+    - name: backup cron job, runs every day at midnight
+      cron:
+        hour: 00
+        minute: 00
+        job: /home/backup/backup.sh
+        name: baserock.org data backup
+        user: backup

@@ -1,0 +1,4 @@
+# SSH configuration to route all requests to baserock.org systems
+# via the frontend system, 185.43.218.170.
+Host 192.168.222.*
+  ProxyCommand ssh backup@185.43.218.170 -W %h:%p
