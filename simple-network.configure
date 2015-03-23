@@ -27,6 +27,7 @@ for DHCP
 
 import os
 import sys
+import errno
 import cliapp
 
 import morphlib
@@ -255,6 +256,16 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
             output_stanza["args"][argpair[0]] = argpair[1]
 
         return output_stanza
+
+    def make_sure_path_exists(self, path):
+        try:
+            os.makedirs(path)
+        except OSError as e:
+            if e.errno == errno.EEXIST and os.path.isdir(path):
+                pass
+            else:
+                raise SimpleNetworkError("Unable to create directory '%s'"
+                                         % path)
 
     def status(self, **kwargs):
         '''Provide status output.
