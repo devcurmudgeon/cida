@@ -163,8 +163,8 @@ chunks:
 - name: stage2-gawk
   morph: strata/build-essential/stage2-gawk.morph
   repo: upstream:gawk
-  ref: dc5af665700d9b04fdf9c18930526d28eef5d5d9
-  unpetrify-ref: gawk-4.1.1
+  ref: 925f9363c4b0a5bb9375298afcdcf404efb32587
+  unpetrify-ref: gawk-4.1-stable
   build-depends:
   - stage1-binutils
   - stage1-gcc
