@@ -109,6 +109,7 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         iface_file = self.generate_iface_file(stanzas)
 
         directory_path = os.path.join(args[0], "etc", "network")
+        self.make_sure_path_exists(directory_path)
         file_path = os.path.join(directory_path, "interfaces")
         with open(file_path, "w") as f:
             f.write(iface_file)
@@ -152,6 +153,7 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
                 continue
 
             directory_path = os.path.join(args[0], "etc", "systemd", "network")
+            self.make_sure_path_exists(directory_path)
             file_path = os.path.join(directory_path,
                                      "%s-%s.network" % (i, stanza['name']))
 
