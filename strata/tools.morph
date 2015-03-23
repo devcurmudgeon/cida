@@ -38,8 +38,8 @@ chunks:
   unpetrify-ref: baserock/bootstrap
 - name: vala
   repo: upstream:vala
-  ref: 682eba5880fbd76402dec10118883da913a7b255
-  unpetrify-ref: 0.26.2
+  ref: 5f6ebe007050be12bdc4aa7c902ae4059f28874a
+  unpetrify-ref: 0.28.0
   build-depends:
   - vala-bootstrap
 - name: u-boot
