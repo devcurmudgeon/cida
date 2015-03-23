@@ -43,7 +43,8 @@ chunks:
   unpetrify-ref: baserock/morph
 - name: glib
   repo: upstream:glib
-  ref: 4125415e7f4d1213fc7122beac0d91af08e37b28
+  ref: 966ffb16f6bd54cb3d928a55d00d0eda73592094
+  unpetrify-ref: 2.44.0
   build-depends:
   - libffi
 - name: gobject-introspection
