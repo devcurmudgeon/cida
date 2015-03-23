@@ -1,10 +1,17 @@
 name: tar
 kind: chunk
-configure-commands:
+build-system: autotools
+pre-configure-commands:
 - bash bootstrap --skip-po
-- FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr --bindir=/bin --libexecdir=/usr/sbin
-  --disable-nls --disable-gcc-warnings
-build-commands:
-- make
-install-commands:
-- make DESTDIR="$DESTDIR" install
+configure-commands:
+# Configure flag notes:
+# 1. Needed to run configure as root
+# 2. Disable some warning that cause the build to fail
+# 3. To use GNU tar instead the busybox one.
+#    This will dissappear when we merge /usr/bin and /bin
+
+- |
+  `# [1]` env FORCE_UNSAFE_CONFIGURE=1          \
+          ./configure --prefix="$PREFIX"        \
+  `# [2]` --disable-gcc-warnings                \
+  `# [3]` --bindir=/bin
