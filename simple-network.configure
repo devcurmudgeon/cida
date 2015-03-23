@@ -106,7 +106,10 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         """Generate /etc/network/interfaces file"""
 
         iface_file = self.generate_iface_file(stanzas)
-        with open(os.path.join(args[0], "etc/network/interfaces"), "w") as f:
+
+        directory_path = os.path.join(args[0], "etc", "network")
+        file_path = os.path.join(directory_path, "interfaces")
+        with open(file_path, "w") as f:
             f.write(iface_file)
 
     def generate_iface_file(self, stanzas):
@@ -147,10 +150,11 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
             if iface_file is None:
                 continue
 
-            path = os.path.join(args[0], "etc", "systemd", "network",
-                                "%s-%s.network" % (i, stanza['name']))
+            directory_path = os.path.join(args[0], "etc", "systemd", "network")
+            file_path = os.path.join(directory_path,
+                                     "%s-%s.network" % (i, stanza['name']))
 
-            with open(path, "w") as f:
+            with open(file_path, "w") as f:
                 f.write(iface_file)
 
     def generate_networkd_file(self, stanza):
