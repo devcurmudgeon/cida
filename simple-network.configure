@@ -81,12 +81,14 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         """
         file_path = os.path.join(args[0], "etc", "systemd", "network",
                                  "10-dhcp.network")
-        try:
-            os.rename(file_path, file_path + ".morph")
-            self.status(msg="Renaming networkd file from systemd chunk: %(f)s \
-                        to %(f)s.morph", f=file_path)
-        except OSError:
-            pass
+
+        if os.path.isfile(file_path):
+            try:
+                os.rename(file_path, file_path + ".morph")
+                self.status(msg="Renaming networkd file from systemd chunk: \
+                            %(f)s to %(f)s.morph", f=file_path)
+            except OSError:
+                pass
 
     def generate_default_network_config(self, args):
         """Generate default network config: DHCP in all the interfaces"""
