@@ -15,10 +15,6 @@ chunks:
   repo: upstream:shared-mime-info
   ref: c136fc2578aa8f7c0e098008da18d324033eb991
   unpetrify-ref: Release-1-4
-- name: gnome-common
-  repo: upstream:gnome-common
-  ref: d213283fcb5228d05eb2c796579f18240e8467e8
-  unpetrify-ref: 3.12.0
 - name: gdk-pixbuf
   morph: strata/gtk-deps/gdk-pixbuf.morph
   repo: upstream:gdk-pixbuf
