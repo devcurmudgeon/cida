@@ -26,10 +26,8 @@ chunks:
   unpetrify-ref: 2.30.8
 - name: atk
   repo: upstream:atk
-  ref: 2fb9411c3f32adb7ee421b59e36d2e0aa2f30253
-  unpetrify-ref: ATK_2_15_4
-  build-depends:
-  - gnome-common
+  ref: 3f9e43b94364053fd16eb53391667d161d0dae12
+  unpetrify-ref: ATK_2_16_0
 - name: at-spi2-core
   repo: upstream:at-spi2-core
   ref: 96c2842088008670e72739ea7921d654487a57fb
