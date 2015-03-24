@@ -1,7 +1,7 @@
 name: lsof
 kind: chunk
 configure-commands:
-- tar xf lsof_*_src.tar
+- tar xf lsof_*_src.tar --no-same-owner
 - cd lsof_*_src/ && ./Configure -n linux
 build-commands:
 - cd lsof_*_src/ && make
