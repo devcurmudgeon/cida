@@ -31,7 +31,7 @@ systems:
       DISK_SIZE: 6G
 - morph: systems/build-system-armv7lhf-jetson.morph
   deploy:
-    devel-system-armv7lhf-jetson:
+    build-system-armv7lhf-jetson:
       type: rawdisk
       location: build-system-armv7lhf-jetson.img
       DISK_SIZE: 2G
