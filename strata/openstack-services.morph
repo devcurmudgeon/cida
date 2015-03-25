@@ -840,3 +840,18 @@ chunks:
   repo: upstream:tftp-hpa
   ref: 4faf178a509d8091b7ba1e1fa3d13bc68c5ff55f
   unpetrify-ref: tftp-hpa-5.2
+- name: singledispatch
+  morph: strata/openstack-services/singledispatch.morph
+  repo: upstream:python-packages/singledispatch
+  ref: 92175ba65602a03086d2b1f770f45d88af93fc3e
+  unpetrify-ref: 3.4.0.3
+- name: pysinglefile
+  morph: strata/openstack-services/pysendfile.morph
+  repo: upstream:python-packages/pysendfile
+  ref: 6775b2938ef74255239c8e08458369921297b311
+  unpetrify-ref: release-2.0.0
+- name: ironic
+  morph: strata/openstack-services/ironic.morph
+  repo: upstream:openstack/ironic
+  ref: 0f4d454bf2093d3d62460f88aa9288bee3286b38
+  unpetrify-ref: stable/juno

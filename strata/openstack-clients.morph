@@ -96,3 +96,8 @@ chunks:
   unpetrify-ref: 0.7.6
   build-depends:
   - python-keystoneclient
+- name: python-ironicclient
+  morph: strata/openstack-clients/python-ironicclient.morph
+  repo: upstream:openstack/python-ironicclient
+  ref: 4390a21663de3123fac306e9860624ba7deda0e6
+  unpetrify-ref: 0.4.1
