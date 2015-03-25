@@ -90,6 +90,7 @@ chunks:
   build-depends:
   - stage1-binutils
   - stage1-gcc
+  - stage2-linux-api-headers
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
@@ -102,6 +103,7 @@ chunks:
   build-depends:
   - stage1-binutils
   - stage1-gcc
+  - stage2-linux-api-headers
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
@@ -114,6 +116,7 @@ chunks:
   build-depends:
   - stage1-binutils
   - stage1-gcc
+  - stage2-linux-api-headers
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
@@ -126,6 +129,7 @@ chunks:
   build-depends:
   - stage1-binutils
   - stage1-gcc
+  - stage2-linux-api-headers
   - stage2-glibc
   - stage2-gcc-fixed-headers
   - stage2-libstdc++
@@ -140,6 +144,7 @@ chunks:
   build-depends:
   - stage1-binutils
   - stage1-gcc
+  - stage2-linux-api-headers
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
@@ -168,6 +173,7 @@ chunks:
   build-depends:
   - stage1-binutils
   - stage1-gcc
+  - stage2-linux-api-headers
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
@@ -180,6 +186,7 @@ chunks:
   build-depends:
   - stage1-binutils
   - stage1-gcc
+  - stage2-linux-api-headers
   - stage2-glibc
   build-mode: bootstrap
   prefix: /tools
@@ -332,7 +339,9 @@ chunks:
   - stage2-busybox
   - stage2-glibc
   - stage2-fhs-dirs
+  - stage2-gawk
   - stage2-gcc
+  - stage2-linux-api-headers
   - stage2-make
   - stage2-reset-specs
   - glibc
