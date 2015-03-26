@@ -198,6 +198,26 @@
             protocol: tcp
             remote_ip_prefix: 0.0.0.0/0
 
+    - name: internal mail relay security group
+      neutron_sec_group:
+        name: internal-mail-relay
+        description: Allow receiving internal-only connections on port 25 for SMTP
+        state: present
+
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+
+        rules:
+          # 25: SMTP, for sending emails.
+          - direction: ingress
+            port_range_min: 25
+            port_range_max: 25
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 192.168.222.0/24
+
     - name: Mason x86 security group
       neutron_sec_group:
         name: mason-x86

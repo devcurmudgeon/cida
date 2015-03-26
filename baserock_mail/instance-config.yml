@@ -1,0 +1,75 @@
+# Configuration for Baserock mail relay
+#
+# This Ansible playbook expects to be run on a Fedora 21 Cloud image.
+---
+- hosts: mail
+  gather_facts: false
+  sudo: yes
+  vars:
+    LOCAL_IP: 192.168.222.111
+    PUBLIC_IP: 185.43.218.171
+  tasks:
+  - name: exim4 installation
+    yum: name=exim state=installed
+
+  # Fedora provides a default /etc/exim/exim.conf. Rather than copy it and
+  # overwrite it, since we only need to make a few changes, I've used the
+  # lineinfile module to do search-and-replace. It's a bit ugly though. It
+  # may be better to just embed exim.conf.
+
+  # Several restrictions here are also enforced by the internal-mail-relay
+  # security group in firewall.yml, which only opens port 25, and only for
+  # traffic from the local network.
+
+  # This machine is only for sending mail.
+  - name: do not accept any incoming mail
+    lineinfile:
+      regexp: '^domainlist\s+local_domains.*$'
+      line: 'domainlist local_domains = '
+      dest: /etc/exim/exim.conf
+
+  - name: only accept mail from local network
+    lineinfile:
+      regexp: '^hostlist\s+relay_from_hosts.*$'
+      line: 'hostlist relay_from_hosts = 192.168.222.0/24'
+      dest: /etc/exim/exim.conf
+
+  - name: only listen on internal interface
+    lineinfile:
+      regexp: '^#?local_interfaces.*$'
+      line: 'local_interfaces = <; ::1 ; 127.0.0.1 ; {{ LOCAL_IP }}'
+      insertbefore: BOF
+      dest: /etc/exim/exim.conf
+
+  # The automation email addresses like gerrit@baserock.org do have aliases,
+  # but these are currently configured at Pepperfish, where our MX (mail)
+  # records for baserock.org point. So Exim thinks they are not routable
+  # and refuses to send mail from them, unless we disable this. Note that
+  # the address does have to be routable by something, or the receiving mail
+  # server may reject the mail anyway.
+  - name: do not verify that sender is routable within this Exim instance
+    lineinfile:
+      regexp: '^#?\s*require\s+verify\s+=\s+sender.*$'
+      line: '# require verify = sender'
+      dest: /etc/exim/exim.conf
+
+  # We don't have DNS in the internal baserock.org cloud right now, so this
+  # would be pointless.
+  - name: do not try to resolve hosts making SMTP requests
+    lineinfile:
+      regexp: '^#?\s+host_lookup = .*$'
+      line: '# host_lookup = *'
+      dest: /etc/exim/exim.conf
+
+  # The hostname of the machine will be 'mail', which isn't a fully-qualified
+  # domain name so will be rejected by SMTP servers. Ideally we would have
+  # mail.baserock.org set up and pointing to the floating IP of this machine.
+  # For now, we just have the IP.
+  - name: set primary hostname to public IP
+    lineinfile:
+      regexp: '^#?primary_hostname = .*$'
+      line: 'primary_hostname = {{ PUBLIC_IP }}'
+      dest: /etc/exim/exim.conf
+
+  - name: exim4 service
+    service: name=exim state=started enabled=yes
