@@ -371,6 +371,7 @@ chunks:
   - glibc
   - zlib
   - m4-tarball
+  - linux-api-headers
   artifacts:
     gcc-libs: build-essential-minimal
 
