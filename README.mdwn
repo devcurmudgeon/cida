@@ -162,6 +162,16 @@ be altered and rerun whenever you need to add more users or databases.
 
 [MariaDB]: https://www.mariadb.org
 
+### Mail relay
+
+The mail relay is currently a Fedora Cloud 21 image running Exim. You should be
+able to take a Fedora Cloud 21 base image, instantiate it in the
+'internal-mail-relay' security group, and then run
+'baserock_mail/instance-config.yml' to configure it and start the service.
+
+It is configured to only listen on its internal IP. It's not intended to
+receive mail, or relay mail sent by systems outside the baserock.org cloud.
+
 ### OpenID provider
 
 To deploy a development instance:
