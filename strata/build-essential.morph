@@ -34,6 +34,13 @@ description: |
 
   PLEASE KEEP THE REFS IN 'armv7lhf-cross-toolchain' STRATUM UP TO DATE WITH
   THIS ONE!
+
+  Please note that the chunk 'build-depends' field is treated differently in
+  this stratum to how other strata in definitions.git use it. Other strata
+  rely on the fact that dependencies of a dependency (called 'transitive
+  dependencies') are implicitly included in the staging area. Within
+  build-essential, some chunks list transitive dependencies explicitly to
+  make clearer what is going on.
 products:
 - artifact: build-essential-minimal
   include:
