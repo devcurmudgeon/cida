@@ -9,6 +9,11 @@ build-depends:
 - morph: strata/core.morph
 - morph: strata/python-core.morph
 chunks:
+- name: nano
+  morph: strata/devtools/nano.morph
+  repo: upstream:nano-tarball
+  ref: fb040ea36cb8e2158ccd9100600652f94ae90af1
+  unpetrify-ref: baserock/morph
 - name: vim
   morph: strata/devtools/vim.morph
   repo: upstream:vim

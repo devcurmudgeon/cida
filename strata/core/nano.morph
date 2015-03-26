@@ -1,4 +1,0 @@
-name: nano
-kind: chunk
-pre-configure-commands:
-- autoreconf -ivf

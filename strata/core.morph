@@ -240,15 +240,6 @@ chunks:
   - git
   - libtool-tarball
   - pkg-config
-- name: nano
-  morph: strata/core/nano.morph
-  repo: upstream:nano-tarball
-  ref: 8b74abeb02c01ddc768c465a826360cf33cec063
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - ncurses
-  - automake
-  - gettext-tarball
 - name: bc
   repo: upstream:bc-tarball
   ref: 0956d119432ff6a2e85bae1fa336df799cad70b0

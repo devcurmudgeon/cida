@@ -1,0 +1,16 @@
+name: nano
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./configure --prefix="$PREFIX" --sysconfdir=/etc
+post-install-commands:
+- |
+  cat <<EOF >> nanorc
+  set smooth
+  include /usr/share/nano/c.nanorc
+  include /usr/share/nano/patch.nanorc
+  include /usr/share/nano/python.nanorc
+  include /usr/share/nano/sh.nanorc
+  EOF
+- mkdir -p "$DESTDIR"/etc
+- install -m 644 nanorc "$DESTDIR"/etc/nanorc
