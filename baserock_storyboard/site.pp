@@ -28,7 +28,7 @@ node default {
   # need class storyboard::rabbitmq too
 
   class { 'storyboard::application':
-    openid_url => 'http://openid.baserock.org/',
+    openid_url => 'https://openid.baserock.org/',
 
     mysql_host => '192.168.222.30',
     mysql_database => 'storyboard',

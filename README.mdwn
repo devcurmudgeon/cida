@@ -110,6 +110,8 @@ To deploy this system:
 
     packer build -only=production frontend/packer_template.json
 
+    ansible-playbook -i hosts frontend/instance-config.yml
+
 Full HAProxy 1.5 documentation: <https://cbonte.github.io/haproxy-dconv/configuration-1.5.html>.
 
 When setting up a new instance with the frontend already deployed, do the
@@ -195,6 +197,14 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
     ansible-playbook -i hosts baserock_openid_provider/instance-config.yml
 
+To change Cherokee configuration, it's usually easiest to use the
+cherokee-admin tool in a running instance. SSH in as normal but forward port
+9090 to localhost (pass `-L9090:localhost:9090` to SSH). Backup the old
+/etc/cherokee/cherokee.conf file, then run `cherokee-admin`, and log in using
+the creditials it gives you. After changing the configuration, please update
+the cherokee.conf in infrastructure.git to match the changes `cherokee-admin`
+made.
+
 ### Gerrit
 
 To deploy to production, run these commands in a Baserock 'devel'
@@ -240,6 +250,10 @@ Ansible playbook will upload them to the new system.
           "http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip"
 
     ansible-playbook -i hosts baserock_gerrit/instance-config.yml
+
+For baserock.org Gerrit you will also need to run:
+
+    ansible-playbook -i hosts baserock_gerrit/instance-ca-certificate-config.yml
 
 #### Access control
 

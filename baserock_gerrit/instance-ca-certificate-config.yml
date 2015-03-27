@@ -1,0 +1,28 @@
+# The CA chain needed for the baserock.org certificate we use is present in
+# the system, but it's not present in the set of trusted root certificates
+# bundled with Java.
+#
+# We need Gerrit to trust the baserock.org certificate so that it will trust
+# https://openid.baserock.org/.
+#
+# This playbook is a hack at present: the second time you run it, the command
+# will fail because the certificate is already present. There is a proposed
+# Ansible module that can do this in a nicer way:
+# <https://github.com/ansible/ansible-modules-extras/pull/286/commits>.
+---
+- hosts: gerrit
+  gather_facts: False
+  vars:
+    JRE_DIR: /opt/jdk1.8.0_40
+  tasks:
+    - name: baserock.org SSL certificate with chain of trust
+      copy: src=../certs/baserock.org-ssl-certificate-temporary-dsilverstone.full.cert dest=/home/gerrit
+
+    - name: install SSL certificate into Java certificate keystore
+      shell: >
+        {{ JRE_DIR }}/jre/bin/keytool \
+            -file /home/gerrit/baserock.org-ssl-certificate-temporary-dsilverstone.full.cert \
+            -importcert \
+            -keystore {{ JRE_DIR }}/jre/lib/security/cacerts \
+            -storepass changeit \
+            -noprompt

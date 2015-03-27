@@ -32,6 +32,14 @@ ALLOWED_HOSTS = [
     'openid.baserock.org',
 ]
 
+# All connections for openid.baserock.org are forced through HTTPS by HAProxy.
+# This line is necessary so that the Django code generates https:// rather than
+# http:// URLs for internal redirects.
+#
+# You MUST remove this line if this application is not running behind a proxy
+# that forces all traffic through HTTPS.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Application definition
 

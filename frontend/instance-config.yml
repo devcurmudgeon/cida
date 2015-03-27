@@ -1,0 +1,18 @@
+# Instance configuration for Baserock HAProxy instance.
+#
+# This playbook should be run after starting an instance of the Baserock
+# frontend image.
+---
+- hosts: frontend-haproxy
+  gather_facts: false
+  sudo: yes
+  tasks:
+  - name: ensure system up to date
+    yum: name=* state=latest
+
+  # To create the .pem file, simply concatenate
+  # certs/baserock.org-ssl-certificate-temporary-dsilverstone.full.cert with
+  # the private key for that certificate (which is not committed to Git, of
+  # course).
+  - name: install SSL certificate
+    copy: src=../private/baserock.org-ssl-certificate-temporary-dsilverstone.pem owner=haproxy mode=400
