@@ -9,8 +9,8 @@ chunks:
 - name: qtwebkit
   morph: strata/qt5-tools/qtwebkit.morph
   repo: upstream:qt5/qtwebkit
-  ref: 5d43584babfb43b99159f702160d010778d2190a
-  unpetrify-ref: v5.4.0
+  ref: f9966f351678351ee6b971d7b6b25a4987407e46
+  unpetrify-ref: "5.4"
 - name: qtwebkit-examples
   morph: strata/qt5-tools/qtwebkit-examples.morph
   repo: upstream:qt5/qtwebkit-examples
