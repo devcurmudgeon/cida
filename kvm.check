@@ -129,13 +129,21 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
 
         def name(nic_entry):
             if ',' in nic_entry:
-                # NETWORK_NAME,mac=12:34,model=e1000...
-                return nic_entry[:nic_entry.find(',')]
+                # network=NETWORK_NAME,mac=12:34,model=e1000...
+                return nic_entry[:nic_entry.find(',')].lstrip('network=')
             else:
-                return nic_entry    # NETWORK_NAME
+                return nic_entry.lstrip('network=')    # NETWORK_NAME
 
         if 'NIC_CONFIG' in os.environ:
             nics = os.environ['NIC_CONFIG'].split()
+
+            for n in nics:
+                if not (n.startswith('network=')
+                        or n.startswith('bridge=')
+                        or n == 'user'):
+                    raise cliapp.AppException('malformed NIC_CONFIG: %s\n'
+                              " (expected 'bridge=BRIDGE' 'network=NAME'"
+                              " or 'user')" % n)
 
             # --network bridge= is used to specify a bridge
             # --network user is used to specify a form of NAT
