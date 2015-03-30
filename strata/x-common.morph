@@ -119,6 +119,32 @@ chunks:
   build-depends:
   - xcb-proto
   - xorg-lib-libXau
+- name: xcb-util
+  repo: upstream:xcb-util
+  ref: 4de010f122da40e17b52866d07d1d501a66bf007
+  unpetrify-ref: baserock/0.4.0
+  build-depends:
+  - xcb-libxcb
+- name: util-wm
+  repo: upstream:util-wm
+  ref: fb7afc3f291c8cc072d327cd8d97ab1db3283c21
+  unpetrify-ref: baserock/0.4.1
+  build-depends:
+  - xcb-libxcb
+- name: util-keysyms
+  morph: strata/x-common/util-keysyms.morph
+  repo: upstream:util-keysyms
+  ref: edb763a8837d3932690b9d6d77cb7e20a9ab8013
+  unpetrify-ref: baserock/0.4.0
+  build-depends:
+  - xcb-libxcb
+- name: util-image
+  repo: upstream:util-image
+  ref: f20f25a1c017c58d5d7dfffc6e9adc8d31879152
+  unpetrify-ref: baserock/0.4.0
+  build-depends:
+  - xcb-libxcb
+  - xcb-util
 - name: xorg-lib-libxtrans
   repo: upstream:xorg-lib-libxtrans
   ref: 7cbad9fe2e61cd9d5caeaf361826a6f4bd320f03
