@@ -7,5 +7,5 @@ chunks:
 - name: installer-scripts
   morph: strata/installer-utils/installer-scripts.morph
   repo: baserock:baserock/installer-scripts
-  ref: master
+  ref: a1629ded9eb499b55b547cd8caa0ade8233b32f4
   unpetrify-ref: master
