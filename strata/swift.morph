@@ -8,12 +8,10 @@ chunks:
   repo: upstream:python-packages/dnspython
   ref: e1369c62d14f82b80ef11197a490ace5d43bb3f3
   unpetrify-ref: v1.12.0
-  build-depends: []
 - name: greenlet
   ref: 42b65a7b67dfabd180625155cd4fcd8e51917fe2
   unpetrify-ref: 0.4.5
   repo: upstream:python-packages/greenlet
-  build-depends: []
 - name: eventlet
   ref: 8d2474197de4827a7bca9c33e71a82573b6fc721
   unpetrify-ref: v0.15.2
@@ -24,18 +22,15 @@ chunks:
   repo: upstream:python-packages/netifaces
   ref: 885b200ba717df87f6e8044ec8c66c677c949bcb
   unpetrify-ref: release_0_10_4
-  build-depends: []
 - name: pastedeploy
   repo: upstream:python-packages/pastedeploy
   ref: 5ad87be617c2cc1dd31625688172e964db2756dc
   unpetrify-ref: 1.5.2
-  build-depends: []
 - name: xattr
   morph: strata/swift/xattr.morph
   repo: upstream:python-packages/xattr
   ref: dd10d44e3eb9a1d2303c1f7d5126c099d56e97fc
   unpetrify-ref: v0.7.6
-  build-depends: []
 - name: swift
   repo: upstream:openstack/swift
   ref: 2e8261a4dc0d0af0c4a46478b81e167bcf02220b
