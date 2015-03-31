@@ -10,10 +10,10 @@ install-commands:
 - make install
 - install -D -m 755 src/init-ceph.in "$DESTDIR"/etc/init.d/ceph-SysV
 - install -D -m 755 systemd/ceph "$DESTDIR"/etc/systemd/system/ceph
-- install -D -m 755 systemd/ceph-mon@.service "$DESTDIR"/etc/systemd/system/ceph-mon@.service
-- install -D -m 755 systemd/ceph-osd@.service "$DESTDIR"/etc/systemd/system/ceph-osd@.service
-- install -D -m 755 systemd/ceph-mds@.service "$DESTDIR"/etc/systemd/system/ceph-mds@.service
-- install -D -m 755 systemd/ceph.target "$DESTDIR"/etc/systemd/system/ceph.target
+- install -D -m 644 systemd/ceph-mon@.service "$DESTDIR"/etc/systemd/system/ceph-mon@.service
+- install -D -m 644 systemd/ceph-osd@.service "$DESTDIR"/etc/systemd/system/ceph-osd@.service
+- install -D -m 644 systemd/ceph-mds@.service "$DESTDIR"/etc/systemd/system/ceph-mds@.service
+- install -D -m 644 systemd/ceph.target "$DESTDIR"/etc/systemd/system/ceph.target
 - install -d "$DESTDIR"/etc/ceph
 - install -D -d "$DESTDIR"/var/lib/ceph
 - install -d "$DESTDIR"/var/lib/ceph/mon

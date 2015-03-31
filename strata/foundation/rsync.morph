@@ -6,4 +6,4 @@ build-commands:
 - make
 install-commands:
 - make install
-- install -D -m 755 packaging/systemd/rsync.service "$DESTDIR$PREFIX"/lib/systemd/system/rsync.service
+- install -D -m 644 packaging/systemd/rsync.service "$DESTDIR$PREFIX"/lib/systemd/system/rsync.service
