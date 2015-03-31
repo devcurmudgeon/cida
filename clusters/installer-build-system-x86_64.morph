@@ -31,7 +31,13 @@ systems:
       HOSTNAME: installer-x86_64
       INSTALLER_TARGET_STORAGE_DEVICE: /dev/sda
       INSTALLER_ROOTFS_TO_INSTALL: /rootfs
+      INITRAMFS_PATH: boot/initramfs.gz
   subsystems:
+  - morph: systems/initramfs-x86_64.morph
+    deploy:
+      installer-initramfs:
+        type: initramfs
+        location: boot/initramfs.gz
   - morph: systems/build-system-x86_64.morph
     deploy:
       to-install:
@@ -41,6 +47,6 @@ systems:
     subsystems:
     - morph: systems/initramfs-x86_64.morph
       deploy:
-        initramfs:
+        to-install-initramfs:
           type: initramfs
           location: boot/initramfs.gz
