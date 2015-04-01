@@ -54,3 +54,4 @@ configuration-extensions:
 - nfsboot
 - install-files
 - vagrant
+- fstab

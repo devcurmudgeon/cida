@@ -52,3 +52,4 @@ configuration-extensions:
 - add-config-files
 - nfsboot
 - install-files
+- fstab

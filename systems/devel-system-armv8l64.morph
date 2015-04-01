@@ -56,3 +56,4 @@ configuration-extensions:
 - install-files
 - cloud-init
 - moonshot-kernel
+- fstab
