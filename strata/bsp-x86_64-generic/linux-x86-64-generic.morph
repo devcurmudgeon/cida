@@ -65,6 +65,9 @@ configure-commands:
 - scripts/config -e R8169
 - scripts/config -e 8139TOO
 - scripts/config -e 8139CP
+- scripts/config -e ATL1
+- scripts/config -e ATL1C
+- scripts/config -e ATL1E
 - scripts/config -e IKCONFIG
 - scripts/config -e IKCONFIG_PROC
 - scripts/config -e SECCOMP
