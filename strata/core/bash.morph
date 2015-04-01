@@ -1,8 +1,37 @@
 name: bash
 kind: chunk
+build-system: autotools
 configure-commands:
-- ./configure --prefix=/usr --bindir=/bin --without-bash-malloc --with-installed-readline
-build-commands:
-- make
-install-commands:
-- make  DESTDIR="$DESTDIR" install
+- |
+  export CFLAGS="${CFLAGS}  -DSYS_BASHRC='\"/etc/bash.bashrc\"'";
+  ./configure --prefix="$PREFIX" \
+              --bindir=/bin \
+              --without-bash-malloc \
+              --with-installed-readline \
+              --enable-readline
+post-install-commands:
+- |
+  cat <<'EOF' >> bash.bashrc
+  #
+  # /etc/bash.bashrc
+  #
+
+  # If not running interactively, don't do anything
+  [[ $- != *i* ]] && return
+
+  # Configure prompt for different terminals
+  case ${TERM} in
+    xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
+      PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
+
+      ;;
+    screen)
+      PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }'printf "\033_%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
+      ;;
+  esac
+
+  # Enable bash completion if present
+  [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
+  EOF
+- mkdir -p "$DESTDIR"/etc
+- install -m 644 bash.bashrc "$DESTDIR"/etc/bash.bashrc
