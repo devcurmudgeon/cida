@@ -1,0 +1,105 @@
+#!/bin/bash
+#
+# Copyright © 2015 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+set -e
+
+# The ansible script needs to know where the rootfs is, so we export it here
+export ROOT="$1"
+
+validate_number() {
+    local name="$1"
+    local value="$2"
+
+    local pattern='^[0-9]+$'
+    if ! [[ $value =~ $pattern ]]
+    then
+        echo "'$name' must be a number" >&2
+        exit 1
+    fi
+}
+
+validate_non_empty() {
+    local name="$1"
+    local value="$2"
+
+    if [[ $value = None ]]
+    then
+        echo "'$name' cannot be empty" >&2
+        exit 1
+    fi
+}
+
+MANDATORY_OPTIONS="SWIFT_HASH_PATH_PREFIX \
+                   SWIFT_HASH_PATH_SUFFIX \
+                   SWIFT_REBALANCE_SEED \
+                   SWIFT_PART_POWER \
+                   SWIFT_REPLICAS \
+                   SWIFT_MIN_PART_HOURS \
+                   SWIFT_STORAGE_DEVICES \
+                   MANAGEMENT_INTERFACE_IP_ADDRESS"
+
+for option in $MANDATORY_OPTIONS
+do
+    if ! [[ -v $option ]]
+    then
+        missing_option=True
+        echo "Required option $option isn't set!" >&2
+    fi
+done
+
+if [[ $missing_option = True ]]; then exit 1; fi
+
+./swift-storage-devices-validate.py "$SWIFT_STORAGE_DEVICES"
+
+# Validate SWIFT_PART_POWER, SWIFT_REPLICAS, SWIFT_MIN_PART_HOURS
+# just make sure they're numbers
+
+validate_number "SWIFT_PART_POWER" "$SWIFT_PART_POWER"
+validate_number "SWIFT_REPLICAS" "$SWIFT_REPLICAS"
+validate_number "SWIFT_MIN_PART_HOURS" "$SWIFT_MIN_PART_HOURS"
+
+# Make sure these aren't empty
+validate_non_empty "SWIFT_HASH_PATH_PREFIX" "$SWIFT_HASH_PATH_PREFIX"
+validate_non_empty "SWIFT_HASH_PATH_SUFFIX" "$SWIFT_HASH_PATH_SUFFIX"
+validate_non_empty "SWIFT_REBALANCE_SEED" "$SWIFT_REBALANCE_SEED"
+validate_non_empty "MANAGEMENT_INTERFACE_IP_ADDRESS" "$MANAGEMENT_INTERFACE_IP_ADDRESS"
+
+mkdir -p "$ROOT/usr/lib/systemd/system/multi-user.target.wants" # ensure this exists before we make symlinks
+
+# A swift controller needs the storage setup service
+# but does not want any of the other storage services enabled
+ln -s "/usr/lib/systemd/system/swift-storage-setup.service" \
+    "$ROOT/usr/lib/systemd/system/multi-user.target.wants/swift-storage-setup.service"
+
+SWIFT_CONTROLLER=${SWIFT_CONTROLLER:-False}
+
+if [[ $SWIFT_CONTROLLER = False ]]
+then
+    ln -s "/usr/lib/systemd/system/rsync.service" \
+        "$ROOT/usr/lib/systemd/system/multi-user.target.wants/rsync.service"
+    ln -s "/usr/lib/systemd/system/swift-storage.service" \
+        "$ROOT/usr/lib/systemd/system/multi-user.target.wants/swift-storage.service"
+fi
+
+# Build swift data structures (the rings)
+/usr/bin/ansible-playbook -i hosts swift-build-rings.yml
+
+cat << EOF > "$ROOT"/usr/share/swift/swift-storage-vars.yml
+---
+MANAGEMENT_INTERFACE_IP_ADDRESS: $MANAGEMENT_INTERFACE_IP_ADDRESS
+SWIFT_HASH_PATH_PREFIX: $SWIFT_HASH_PATH_PREFIX
+SWIFT_HASH_PATH_SUFFIX: $SWIFT_HASH_PATH_SUFFIX
+EOF
