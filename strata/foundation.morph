@@ -4,6 +4,10 @@ description: Basic userland runtime system
 build-depends:
 - morph: strata/coreutils-common.morph
 chunks:
+- name: bash-completion
+  repo: upstream:bash-completion
+  ref: 3085c7e12179817a02a611016606391295c69942
+  unpetrify-ref: 2.1
 - name: attr
   morph: strata/foundation/attr.morph
   repo: upstream:attr
