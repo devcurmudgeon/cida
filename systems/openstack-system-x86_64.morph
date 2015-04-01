@@ -72,3 +72,4 @@ configuration-extensions:
 - fstab
 - swift-storage
 - openstack-swift-controller
+- openstack-ironic

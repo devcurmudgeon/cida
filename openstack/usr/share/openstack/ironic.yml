@@ -1,0 +1,104 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/ironic.conf"
+  tasks:
+  - name: Create the ironic user
+    user:
+        name: ironic
+        comment: Openstack Ironic Daemons
+        shell: /sbin/nologin
+        home: /var/lib/ironic
+
+  - name: Create the /var folders for Ironic
+    file:
+        path: "{{ item }}"
+        state: directory
+        owner: ironic
+        group: ironic
+    with_items:
+    - /var/run/ironic
+    - /var/lock/ironic
+    - /var/log/ironic
+    - /var/lib/ironic
+
+  - file: path=/etc/ironic state=directory
+  - name: Add the configuration needed for ironic in /etc/ironic using templates
+    template:
+        src: /usr/share/openstack/ironic/{{ item }}
+        dest: /etc/ironic/{{ item }}
+    with_lines:
+    - cd /usr/share/openstack/ironic && find -type f
+
+  - name: Create Ironic service user in service tenant
+    keystone_user:
+        user: "{{ IRONIC_SERVICE_USER }}"
+        password: "{{ IRONIC_SERVICE_PASSWORD }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Assign admin role to Ironic service user in the service tenant
+    keystone_user:
+        role: admin
+        user: "{{ IRONIC_SERVICE_USER }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Add Ironic endpoint
+    keystone_service:
+        name: ironic
+        type: baremetal
+        description: Openstack Ironic Service
+        publicurl: 'http://{{ CONTROLLER_HOST_ADDRESS }}:6385'
+        internalurl: 'http://{{ CONTROLLER_HOST_ADDRESS }}:6385'
+        adminurl: 'http://{{ CONTROLLER_HOST_ADDRESS }}:6385'
+        region: 'regionOne'
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Create postgresql user for Ironic
+    postgresql_user:
+        name: "{{ IRONIC_DB_USER }}"
+        login_host: "{{ CONTROLLER_HOST_ADDRESS }}"
+        password: "{{ IRONIC_DB_PASSWORD }}"
+    sudo: yes
+    sudo_user: ironic
+
+  - name: Create database for Ironic services
+    postgresql_db:
+        name: ironic
+        owner: "{{ IRONIC_DB_USER }}"
+        login_host: "{{ CONTROLLER_HOST_ADDRESS }}"
+    sudo: yes
+    sudo_user: ironic
+
+  - name: Initiate Ironic database
+    # Use 'upgrade' instead of 'create_schema' to make the operation
+    # idempotent
+    shell: |
+           ironic-dbsync \
+               --config-file /etc/ironic/ironic.conf upgrade
+    sudo: yes
+    sudo_user: ironic
+
+  - name: Enable and start openstack-ironic services
+    service:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+    with_items:
+    - openstack-ironic-conductor.service
+    - openstack-ironic-api.service
+
+  - name: Set owner and group for the tftp root directory
+    file:
+        path: "/srv/tftp_root/"
+        state: directory
+        owner: ironic
+        group: ironic
+        recurse: yes
+
+  - name: Enable and start tftp-hpa
+    service:
+        name: tftp-hpa.socket
+        enabled: yes
+        state: started
