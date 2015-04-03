@@ -47,6 +47,7 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
         self.check_no_existing_libvirt_vm(ssh_host, vm_name)
         self.check_extra_disks_exist(ssh_host, self.parse_attach_disks())
         self.check_virtual_networks_are_started(ssh_host)
+        self.check_host_has_virtinstall(ssh_host)
 
     def check_and_parse_location(self, location):
         '''Check and parse the location argument to get relevant data.'''
@@ -155,6 +156,14 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
 
         for network in networks:
             check_virtual_network_is_started(network)
+
+    def check_host_has_virtinstall(self, ssh_host):
+        try:
+            cliapp.ssh_runcmd(ssh_host, ['which', 'virt-install'])
+        except cliapp.AppException:
+            raise cliapp.AppException(
+                'virt-install does not seem to be installed on host %s'
+                % ssh_host)
 
 
 KvmPlusSshCheckExtension().run()
