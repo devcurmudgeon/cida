@@ -8,4 +8,5 @@ chunks:
 - name: gtk+
   morph: strata/gtk2/gtk+.morph
   repo: upstream:gtk+
-  ref: fbf38d16bcc26630f0f721d266509f5bc292f606
+  ref: e6333a1a374591fef456f7fe73942226b5b8b388
+  unpetrify-ref: 2.24.27
