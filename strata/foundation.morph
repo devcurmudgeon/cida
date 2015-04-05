@@ -56,8 +56,8 @@ chunks:
 - name: dbus-pre
   morph: strata/foundation/dbus-pre.morph
   repo: upstream:dbus
-  ref: ff01faa12daa3481d6a3d2936929c5a2a1fe6fb5
-  unpetrify-ref: baserock/genivi/dbus-1.8.8
+  ref: af6e170d8e040759c83b48075b9ae74cc83dd5ed
+  unpetrify-ref: dbus-1.8.16
   build-depends:
   - glib
 - name: libgpg-error
@@ -132,8 +132,8 @@ chunks:
 - name: dbus
   morph: strata/foundation/dbus.morph
   repo: upstream:dbus
-  ref: ff01faa12daa3481d6a3d2936929c5a2a1fe6fb5
-  unpetrify-ref: baserock/genivi/dbus-1.8.8
+  ref: af6e170d8e040759c83b48075b9ae74cc83dd5ed
+  unpetrify-ref: dbus-1.8.16
   build-depends:
   - glib
   - systemd
