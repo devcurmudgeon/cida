@@ -49,7 +49,8 @@ chunks:
   - libffi
 - name: gobject-introspection
   repo: upstream:gobject-introspection
-  ref: a543d8563f8e9ca059afb7218c63496f577cd0fc
+  ref: c0243e116c5e261c262dded9f4d7726a770c5a19
+  unpetrify-ref: GOBJECT_INTROSPECTION_1_44_0
   build-depends:
   - glib
 - name: dbus-pre
