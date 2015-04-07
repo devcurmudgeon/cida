@@ -108,6 +108,12 @@ chunks:
   - sqlite3
   - ncurses
   - readline
+- name: cython
+  repo: upstream:cython
+  ref: 4dd8e762fa51d01775506fbbc102c45dbcea065d
+  unpetrify-ref: 0.22
+  build-depends:
+  - cpython
 - name: libtool-tarball
   morph: strata/core/libtool-tarball.morph
   repo: upstream:libtool-tarball
