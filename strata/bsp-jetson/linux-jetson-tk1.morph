@@ -198,6 +198,23 @@ configure-commands:
 - scripts/config -e NETFILTER_XT_MATCH_U32
 - scripts/config -e IP_VS
 - scripts/config -e BRIDGE_NETFILTER
+- scripts/config -e CRYPTO_CRC32C
+- scripts/config -e CONFIGFS_FS
+- scripts/config -e EXPERT
+- scripts/config -e TARGET_CORE
+- scripts/config -e ISCSI_TARGET
+- scripts/config -e TCM_IBLOCK
+- scripts/config -e TCM_FILEIO
+- scripts/config -e TCM_PSCSI
+- scripts/config -e TCM_USER
+- scripts/config -e CONFIG_UIO
+- scripts/config -e LOOPBACK_TARGET
+- scripts/config -e TCM_FC
+- scripts/config -e LIBFC
+- scripts/config -e SCSI_FC_ATTRS
+- scripts/config -e SCSI_ISCSI_ATTRS
+- scripts/config -e ISCSI_TCP
+- scripts/config -e SCSI_LOWLEVEL
 - yes '' | make ARCH=arm oldconfig
 build-commands:
 - make $MAKEFLAGS ARCH=arm LOADADDR=0x80200000 zImage dtbs
