@@ -7,10 +7,6 @@ build-depends:
 - morph: strata/python-common.morph
 - morph: strata/foundation.morph
 chunks:
-- name: configobj
-  repo: upstream:configobj
-  ref: 935a78736e4eb43b9fafae87f5e9902328673f63
-  unpetrify-ref: baserock/morph
 - name: python-cheetah
   repo: upstream:python-cheetah
   ref: 831aa6b99d9b4fb012ee644d8e80e0bc0eb6d6ed
@@ -26,5 +22,4 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - boto
-  - configobj
   - python-cheetah
