@@ -45,6 +45,6 @@ chunks:
   ref: 7a48f1e84049577370cf28632a75d2fd01e4142d
   unpetrify-ref: master
 - name: configobj
-  repo: upstream:configobj
-  ref: 935a78736e4eb43b9fafae87f5e9902328673f63
-  unpetrify-ref: baserock/morph
+  repo: upstream:configobj-git
+  ref: 9d2aab01c77dce600b296ba9da1163cc0bbc14e0
+  unpetrify-ref: v5.0.6
