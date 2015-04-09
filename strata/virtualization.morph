@@ -45,6 +45,11 @@ chunks:
   repo: upstream:dmidecode
   ref: 47a0aa5d6696a83922ee70279b7253a4e55947d5
   unpetrify-ref: master
+- name: ebtables
+  morph: strata/virtualization/ebtables.morph
+  repo: upstream:ebtables
+  ref: f4bdc80ae8c1a79b4ab5dcb8431ad85aea618d66
+  unpetrify-ref: master
 - name: libvirt
   morph: strata/virtualization/libvirt.morph
   repo: upstream:libvirt
@@ -57,6 +62,7 @@ chunks:
   - xml-catalog
   - yajl
   - dmidecode
+  - ebtables
 - name: pycurl
   repo: upstream:pycurl
   ref: 5ca370827d88817eeca3c56cbb37e4ddccc16c6e
@@ -107,11 +113,6 @@ chunks:
   build-depends:
   - libvirt-python
   - libosinfo
-- name: ebtables
-  morph: strata/virtualization/ebtables.morph
-  repo: upstream:ebtables
-  ref: f4bdc80ae8c1a79b4ab5dcb8431ad85aea618d66
-  unpetrify-ref: master
 - name: openvswitch
   morph: strata/virtualization/openvswitch.morph
   repo: upstream:openvswitch
