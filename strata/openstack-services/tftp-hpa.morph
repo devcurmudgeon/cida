@@ -1,0 +1,5 @@
+name: tftp-hpa
+build-system: autotools
+kind: chunk
+install-commands:
+- make INSTALLROOT="$DESTDIR" install

@@ -835,3 +835,8 @@ chunks:
   repo: upstream:openstack/tempest.git
   ref: acba5510785258949679304f3e1a55e53b851962
   unpetrify-ref: "2"
+- name: tftp-hpa
+  morph: strata/openstack-services/tftp-hpa.morph
+  repo: upstream:tftp-hpa
+  ref: 4faf178a509d8091b7ba1e1fa3d13bc68c5ff55f
+  unpetrify-ref: tftp-hpa-5.2
