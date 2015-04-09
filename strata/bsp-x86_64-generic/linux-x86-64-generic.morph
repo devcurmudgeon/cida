@@ -68,6 +68,9 @@ configure-commands:
 - scripts/config -e ATL1
 - scripts/config -e ATL1C
 - scripts/config -e ATL1E
+- scripts/config -e E100
+- scripts/config -e E1000
+- scripts/config -e E1000E
 - scripts/config -e IKCONFIG
 - scripts/config -e IKCONFIG_PROC
 - scripts/config -e SECCOMP
