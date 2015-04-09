@@ -85,3 +85,8 @@ chunks:
   unpetrify-ref: tcpdump-4.7
   build-depends:
   - libpcap
+- name: parted
+  morph: strata/tools/parted.morph
+  repo: upstream:parted
+  ref: 0477d5ac971681b36cb2d2a97d1de8afd2a696d3
+  unpetrify-ref: baserock/v3.2
