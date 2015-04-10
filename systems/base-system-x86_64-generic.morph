@@ -12,11 +12,8 @@ strata:
   morph: strata/foundation.morph
 - name: bsp-x86_64-generic
   morph: strata/bsp-x86_64-generic.morph
-- name: cloudinit-support
-  morph: strata/cloudinit-support.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
 - nfsboot
 - install-files
-- cloud-init
