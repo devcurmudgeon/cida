@@ -71,6 +71,23 @@ valuable stored outside of the data volumes that are backed up.
 Deployment with Packer
 ----------------------
 
+> **NOTE**: I no longer think that Packer is the right tool for our needs. This
+> is partly because of critical bugs that have not been fixed since I started
+> using it (e.g. <https://github.com/mitchellh/packer/issues/1462>), and partly
+> because I realised that I was just using it to wrap `nova` and
+> `ansible-playbook`, and it is simple enough to use those commands directly.
+>
+> I had hoped that we could make use of Packer's multiple backends in order to
+> test systems locally in Docker before deploying them to OpenStack. It turns
+> out Docker is sufficiently different to OpenStack that this doesn't make life
+> any easier during development. Networking setup is different, systemd doesn't
+> work inside Docker by default, base images are different in other ways, etc.
+>
+> So I recommend not using Packer for future systems, and I will try to
+> migrate the definitions for the existing ones to just use Ansible.
+>
+> Sam Thursfield 10/04/15
+
 Some of the systems are built with [Packer]. I chose Packer because it provides
 similar functionality to the `morph deploy` command, although its
 implementation makes different tradeoffs. The documentation below shows the
