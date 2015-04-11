@@ -49,6 +49,7 @@ MANDATORY_OPTIONS="SWIFT_HASH_PATH_PREFIX \
                    SWIFT_REPLICAS \
                    SWIFT_MIN_PART_HOURS \
                    SWIFT_STORAGE_DEVICES \
+                   CONTROLLER_HOST_ADDRESS \
                    MANAGEMENT_INTERFACE_IP_ADDRESS"
 
 for option in $MANDATORY_OPTIONS
@@ -75,6 +76,7 @@ validate_number "SWIFT_MIN_PART_HOURS" "$SWIFT_MIN_PART_HOURS"
 validate_non_empty "SWIFT_HASH_PATH_PREFIX" "$SWIFT_HASH_PATH_PREFIX"
 validate_non_empty "SWIFT_HASH_PATH_SUFFIX" "$SWIFT_HASH_PATH_SUFFIX"
 validate_non_empty "SWIFT_REBALANCE_SEED" "$SWIFT_REBALANCE_SEED"
+validate_non_empty "CONTROLLER_HOST_ADDRESS" "$CONTROLLER_HOST_ADDRESS"
 validate_non_empty "MANAGEMENT_INTERFACE_IP_ADDRESS" "$MANAGEMENT_INTERFACE_IP_ADDRESS"
 
 mkdir -p "$ROOT/usr/lib/systemd/system/multi-user.target.wants" # ensure this exists before we make symlinks
