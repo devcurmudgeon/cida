@@ -30,6 +30,12 @@ import shlex
 import shutil
 import stat
 
+try:
+    import jinja2
+    jinja_available = True
+except ImportError:
+    jinja_available = False
+
 class InstallFilesConfigureExtension(cliapp.Application):
 
     def process_args(self, args):
@@ -48,18 +54,20 @@ class InstallFilesConfigureExtension(cliapp.Application):
                 self.install_entry(entry, manifest_dir, target_root)
 
     def install_entry(self, entry, manifest_root, target_root):
-        m = re.match('(overwrite )?([0-7]+) ([0-9]+) ([0-9]+) (\S+)', entry)
+        m = re.match('(template )?(overwrite )?'
+                     '([0-7]+) ([0-9]+) ([0-9]+) (\S+)', entry)
 
         if m:
-            overwrite = m.group(1)
-            mode = int(m.group(2), 8)   # mode is octal
-            uid = int(m.group(3))
-            gid = int(m.group(4))
-            path = m.group(5)
+            template = m.group(1)
+            overwrite = m.group(2)
+            mode = int(m.group(3), 8)   # mode is octal
+            uid = int(m.group(4))
+            gid = int(m.group(5))
+            path = m.group(6)
         else:
             raise cliapp.AppException('Invalid manifest entry, '
-                'format: [overwrite] <octal mode> <uid decimal> <gid decimal> '
-                '<filename>')
+                'format: [template] [overwrite] '
+                '<octal mode> <uid decimal> <gid decimal> <filename>')
 
         dest_path = os.path.join(target_root, './' + path)
         if stat.S_ISDIR(mode):
@@ -91,8 +99,22 @@ class InstallFilesConfigureExtension(cliapp.Application):
                 raise cliapp.AppException('File already exists at %s'
                                            % dest_path)
             else:
-                shutil.copyfile(os.path.join(manifest_root, './' + path),
-                                dest_path)
+                if template:
+                    if not jinja_available:
+                        raise cliapp.AppException(
+                            "Failed to install template file `%s': "
+                            'install-files templates require jinja2'
+                            % path)
+
+                    loader = jinja2.FileSystemLoader(manifest_root)
+                    env = jinja2.Environment(loader=loader,
+                                             keep_trailing_newline=True)
+
+                    env.get_template(path).stream(os.environ).dump(dest_path)
+                else:
+                    shutil.copyfile(os.path.join(manifest_root, './' + path),
+                                    dest_path)
+
                 os.chown(dest_path, uid, gid)
                 os.chmod(dest_path, mode)
 
