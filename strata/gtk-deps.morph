@@ -7,6 +7,7 @@ build-depends:
 - morph: strata/x-common.morph
 chunks:
 - name: pango
+  morph: strata/gtk-deps/pango.morph
   repo: upstream:pango
   ref: e0a21abf52a0b7588b1aa3357818948816ed9103
   unpetrify-ref: 1.36.8
