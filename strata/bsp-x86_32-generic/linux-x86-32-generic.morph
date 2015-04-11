@@ -71,6 +71,10 @@ configure-commands:
 - scripts/config -e E100
 - scripts/config -e E1000
 - scripts/config -e E1000E
+- scripts/config -e USB_USBNET
+- scripts/config -e USB_NET_AX8817X
+- scripts/config -e USB_NET_AX88179_178A
+- scripts/config -e USB_NET_DM9601
 - scripts/config -e IKCONFIG
 - scripts/config -e IKCONFIG_PROC
 - scripts/config -e SECCOMP
