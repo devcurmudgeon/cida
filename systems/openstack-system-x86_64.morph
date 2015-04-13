@@ -63,3 +63,4 @@ configuration-extensions:
 - install-files
 - cloud-init
 - hosts
+- openstack-keystone

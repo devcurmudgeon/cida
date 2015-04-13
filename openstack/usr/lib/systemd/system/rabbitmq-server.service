@@ -1,0 +1,16 @@
+[Unit]
+Description=RabbitMQ broker
+After=syslog.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=rabbitmq
+Group=rabbitmq
+Environment=HOME=/var/lib/rabbitmq
+WorkingDirectory=/var/lib/rabbitmq
+ExecStart=/usr/sbin/rabbitmq-server
+ExecStop=/usr/sbin/rabbitmqctl stop
+
+[Install]
+WantedBy=multi-user.target
