@@ -1,0 +1,10 @@
+name: ntpd
+kind: chunk
+build-system: autotools
+configure-commands:
+  - ./configure --prefix="$PREFIX" --enable-linuxcaps
+system-integration:
+  ntpd-misc:
+    00-add-ntpd-user:
+    - groupadd -r ntp
+    - useradd -g ntp -d /home/ntp -s /bin/false -r ntp
