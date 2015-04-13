@@ -1,0 +1,146 @@
+name: openstack-installer
+kind: cluster
+description: |
+
+    This cluster creates disk images that may be `dd`'d onto install media to
+    produce an OpenStack cluster when instanciated.
+
+    Alternatively it may be used to install directly onto a physical disk by
+    running:
+
+        morph deploy clusters/openstack-installer.morph \
+            network-installer network-installer.location=/dev/vdb
+
+    Substituting network-installer for either compute-installer or
+    controller-installer will produce different configurations, and it is possible
+    to substitue /dev/vdb for a different path to a disk image to install to a
+    different disk image.
+
+    Substitute the values of HOSTNAME, NETWORK_CONFIG, EXTERNAL_INTERFACE,
+    MANAGEMENT_IP_ADDRESS, CONTROLLER_HOST_ADDRESS, RABBITMQ_HOST and HOSTS_* to
+    match your hardware ane networking configuration.
+
+systems:
+- morph: systems/installer-system-x86_64.morph
+  deploy:
+    network-installer: &installer
+      type: rawdisk
+      location: installer-openstack-network-x86_64.img
+      KERNEL_ARGS: init=/usr/lib/baserock-installer/installer
+      DISK_SIZE: 6G
+      HOSTNAME: installer-x86_64
+      INSTALLER_TARGET_STORAGE_DEVICE: /dev/sda
+      INSTALLER_ROOTFS_TO_INSTALL: /rootfs
+      INSTALLER_POST_INSTALL_COMMAND: 'sync; poweroff -f'
+      INITRAMFS_PATH: boot/initramfs.gz
+  subsystems:
+  - morph: systems/initramfs-x86_64.morph
+    deploy:
+      network-initramfs: &initramfs
+        type: initramfs
+        location: boot/initramfs.gz
+  - morph: systems/openstack-system-x86_64.morph
+    deploy:
+      network-to-install: &stack-node
+        type: sysroot
+        location: rootfs
+        INSTALL_FILES: openstack/manifest
+        HOSTNAME: threenode-network
+        RABBITMQ_HOST: threenode-controller.os-mgmt
+        RABBITMQ_PORT: 5672
+        RABBITMQ_USER: rabbitmq
+        RABBITMQ_PASSWORD: veryinsecure
+        KEYSTONE_TEMPORARY_ADMIN_TOKEN: 22f3aa1cf538e3f6d5e8
+        KEYSTONE_ADMIN_PASSWORD: veryinsecure
+        KEYSTONE_DB_USER: keystoneDB
+        KEYSTONE_DB_PASSWORD: veryinsecure
+        CONTROLLER_HOST_ADDRESS: threenode-controller.os-mgmt
+        MANAGEMENT_INTERFACE_IP_ADDRESS: 10.0.0.1
+        GLANCE_SERVICE_USER: glance
+        GLANCE_SERVICE_PASSWORD: veryinsecure
+        GLANCE_DB_USER: glanceDB
+        GLANCE_DB_PASSWORD: veryinsecure
+        NOVA_SERVICE_USER: nova
+        NOVA_SERVICE_PASSWORD: veryinsecure
+        NOVA_DB_USER: novaDB
+        NOVA_DB_PASSWORD: veryinsecure
+        NOVA_VIRT_TYPE: kvm
+        CINDER_SERVICE_USER: cinder
+        CINDER_SERVICE_PASSWORD: veryinsecure
+        CINDER_DB_USER: cinderDB
+        CINDER_DB_PASSWORD: veryinsecure
+        CINDER_DEVICE: /dev/sdb
+        NEUTRON_SERVICE_USER: neutron
+        NEUTRON_SERVICE_PASSWORD: veryinsecure
+        NEUTRON_DB_USER: neutronDB
+        NEUTRON_DB_PASSWORD: veryinsecure
+        METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
+        HOSTS_SELF: 10.24.1.83 threenode-network
+        HOSTS_NETWORK: 10.0.0.1 threenode-network.os-mgmt
+        HOSTS_CONTROL: 10.0.0.2 threenode-controller.os-mgmt
+        HOSTS_COMPUTE: 10.0.0.3 threenode-compute.os-mgmt
+        EXTERNAL_INTERFACE: enp3s0
+        NETWORK_CONFIG: enp3s0:dhcp;enp2s0:static,address=10.0.0.1,netmask=255.255.255.0
+        INITRAMFS_PATH: boot/initramfs.gz
+    subsystems:
+    - morph: systems/initramfs-x86_64.morph
+      deploy:
+        network-to-install-initramfs: *initramfs
+- morph: systems/installer-system-x86_64.morph
+  deploy:
+    controller-installer:
+      <<: *installer
+      location: installer-openstack-controller-x86_64.img
+  subsystems:
+  - morph: systems/initramfs-x86_64.morph
+    deploy:
+      controller-initramfs: *initramfs
+  - morph: systems/openstack-system-x86_64.morph
+    deploy:
+      controller-to-install:
+        <<: *stack-node
+        HOSTNAME: threenode-controller
+        MANAGEMENT_INTERFACE_IP_ADDRESS: 10.0.0.2
+        NOVA_VIRT_TYPE: kvm
+        CINDER_SERVICE_USER: cinder
+        CINDER_SERVICE_PASSWORD: veryinsecure
+        CINDER_DB_USER: cinderDB
+        CINDER_DB_PASSWORD: veryinsecure
+        CINDER_DEVICE: /dev/sdb
+        METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
+        HOSTS_SELF: 10.0.0.2 threenode-controller
+        EXTERNAL_INTERFACE: enp2s0
+        NETWORK_CONFIG: enp2s0:dhcp;enp0s26u1u2:static,address=10.0.0.2,netmask=255.255.255.0
+    subsystems:
+    - morph: systems/initramfs-x86_64.morph
+      deploy:
+        controller-to-install-initramfs: *initramfs
+- morph: systems/installer-system-x86_64.morph
+  deploy:
+    compute-installer:
+      <<: *installer
+      location: installer-openstack-compute-x86_64.img
+  subsystems:
+  - morph: systems/initramfs-x86_64.morph
+    deploy:
+      compute-initramfs: *initramfs
+  - morph: systems/openstack-system-x86_64.morph
+    deploy:
+      compute-to-install:
+        <<: *stack-node
+        HOSTNAME: threenode-compute
+        MANAGEMENT_INTERFACE_IP_ADDRESS: 10.0.0.3
+        NOVA_VIRT_TYPE: kvm
+        CINDER_SERVICE_USER: cinder
+        CINDER_SERVICE_PASSWORD: veryinsecure
+        CINDER_DB_USER: cinderDB
+        CINDER_DB_PASSWORD: veryinsecure
+        CINDER_DEVICE: /dev/sdb
+        METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
+        HOSTS_SELF: 10.0.0.3 threenode-compute
+        EXTERNAL_INTERFACE: eno1
+        NETWORK_CONFIG: eno1:dhcp;enp0s29u1u3:static,address=10.0.0.3,netmask=255.255.255.0
+    subsystems:
+    - morph: systems/initramfs-x86_64.morph
+      deploy:
+        compute-to-install-initramfs: *initramfs
