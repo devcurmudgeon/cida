@@ -1,0 +1,11 @@
+name: tempest
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+- mkdir -p "$DESTDIR"/etc/tempest
+
+# Tempest is not supposed to be installed, just cloned and used from the clone,
+# that's why we copy all the contents of the repository here, given that we
+# don't know yet what things we can avoid copying.
+- cp -R * "$DESTDIR"/etc/tempest
+- cp .testr.conf "$DESTDIR"/etc/tempest
