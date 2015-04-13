@@ -64,3 +64,4 @@ configuration-extensions:
 - cloud-init
 - hosts
 - openstack-keystone
+- openstack-glance
