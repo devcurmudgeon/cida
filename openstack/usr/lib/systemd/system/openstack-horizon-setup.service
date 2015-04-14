@@ -1,0 +1,10 @@
+[Unit]
+Description=Run horizon-setup Ansible scripts
+After=local-fs.target
+Before=apache-httpd.service
+
+[Service]
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/horizon.yml
+
+[Install]
+WantedBy=multi-user.target
