@@ -3,6 +3,8 @@ kind: chunk
 install-commands:
 - |
   case "$MORPH_ARCH" in
+      armv5l)
+          ARCH="arm" ;;
       armv7b|armv7l|armv7lhf)
           ARCH="arm" ;;
       armv8l64|armv8b64)
