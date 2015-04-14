@@ -1,9 +1,11 @@
 name: example-swift-storage-cluster
 kind: cluster
 systems:
-- morph: systems/devel-system-x86_64-generic.morph
+- morph: systems/swift-system-x86_64.morph
   deploy-defaults:
     INSTALL_FILES: swift/manifest
+
+    CONTROLLER_HOST_ADDRESS: <controller host address>
 
     SWIFT_PART_POWER: 10
     SWIFT_REPLICAS: 3
