@@ -65,3 +65,4 @@ configuration-extensions:
 - hosts
 - openstack-keystone
 - openstack-glance
+- openstack-cinder
