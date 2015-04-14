@@ -92,9 +92,3 @@ install-commands:
   include /etc/ld.so.conf.d/*.conf
   EOF
 - install -m 644 -o root -g root ld.so.conf "$DESTDIR/etc/ld.so.conf"
-# Compatibility symlink to work around the ABI break GLIBC introduced for
-# ARMv7 hard-float platforms in commit d3b36017d43.
-- case "$MORPH_ARCH" in
-      armv7*hf*)
-          ln -s ld-2.20.so "$DESTDIR/lib/ld-linux.so.3" ;;
-  esac
