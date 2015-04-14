@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenStack Nova NoVNC proxy
+After=syslog.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=nova
+ExecStart=/usr/bin/nova-novncproxy --config-file /etc/nova/nova.conf --web /usr/share/novnc
+
+[Install]
+WantedBy=multi-user.target
