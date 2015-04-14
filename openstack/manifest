@@ -37,7 +37,8 @@ template 0100644 0 0 /etc/tempest/tempest.conf
 0100644 0 0 /usr/share/openstack/keystone/keystone-paste.ini
 0100644 0 0 /usr/share/openstack/network.yml
 0040755 0 0 /usr/share/openstack/neutron
-0100644 0 0 /usr/share/openstack/neutron.yml
+0100644 0 0 /usr/share/openstack/neutron-config.yml
+0100644 0 0 /usr/share/openstack/neutron-db.yml
 0100644 0 0 /usr/share/openstack/neutron/neutron.conf
 0100644 0 0 /usr/share/openstack/neutron/api-paste.ini
 0100644 0 0 /usr/share/openstack/neutron/policy.json
@@ -130,7 +131,8 @@ template 0100644 0 0 /etc/tempest/tempest.conf
 0100644 0 0 /usr/lib/systemd/system/openstack-ironic-api.service
 0100644 0 0 /usr/lib/systemd/system/openstack-ironic-conductor.service
 0100644 0 0 /usr/lib/systemd/system/openstack-network-setup.service
-0100644 0 0 /usr/lib/systemd/system/openstack-neutron-setup.service
+0100644 0 0 /usr/lib/systemd/system/openstack-neutron-config-setup.service
+0100644 0 0 /usr/lib/systemd/system/openstack-neutron-db-setup.service
 0100644 0 0 /usr/lib/systemd/system/openstack-neutron-server.service
 0100644 0 0 /usr/lib/systemd/system/openstack-neutron-metadata-agent.service
 0100644 0 0 /usr/lib/systemd/system/openstack-neutron-plugin-openvswitch-agent.service

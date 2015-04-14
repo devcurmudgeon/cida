@@ -1,0 +1,51 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/neutron.conf"
+  tasks:
+  - name: Create neutron service user in service tenatnt
+    keystone_user:
+        user: "{{ NEUTRON_SERVICE_USER }}"
+        password: "{{ NEUTRON_SERVICE_PASSWORD }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Add admin role to neutron service user in service tenant
+    keystone_user:
+        role: admin
+        user: "{{ NEUTRON_SERVICE_USER }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - keystone_service:
+        name: neutron
+        type: network
+        description: Openstack Compute Networking
+        publicurl: http://{{ CONTROLLER_HOST_ADDRESS }}:9696
+        internalurl: http://{{ CONTROLLER_HOST_ADDRESS }}:9696
+        adminurl: http://{{ CONTROLLER_HOST_ADDRESS }}:9696
+        region: regionOne
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Create postgresql user for neutron
+    postgresql_user:
+        name: "{{ NEUTRON_DB_USER }}"
+        password: "{{ NEUTRON_DB_PASSWORD }}"
+    sudo: yes
+    sudo_user: neutron
+
+  - name: Create database for neutron services
+    postgresql_db:
+        name: neutron
+        owner: "{{ NEUTRON_DB_USER }}"
+    sudo: yes
+    sudo_user: neutron
+
+  - name: Initiate neutron database
+    shell: |
+           neutron-db-manage \
+               --config-file /etc/neutron/neutron.conf \
+               --config-file /etc/neutron/plugins/ml2/ml2_conf.ini \
+               upgrade juno
+    sudo: yes
+    sudo_user: neutron

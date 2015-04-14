@@ -74,6 +74,9 @@ systems:
         NEUTRON_SERVICE_PASSWORD: veryinsecure
         NEUTRON_DB_USER: neutronDB
         NEUTRON_DB_PASSWORD: veryinsecure
+        NEUTRON_ENABLE_AGENT: False
+        NEUTRON_ENABLE_MANAGER: True
+        NEUTRON_ENABLE_CONTROLLER: False
         METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
         HOSTS_SELF: 10.24.1.83 threenode-network
         HOSTS_NETWORK: 10.0.0.1 threenode-network.os-mgmt
@@ -107,6 +110,9 @@ systems:
         CINDER_DB_USER: cinderDB
         CINDER_DB_PASSWORD: veryinsecure
         CINDER_DEVICE: /dev/sdb
+        NEUTRON_ENABLE_AGENT: False
+        NEUTRON_ENABLE_MANAGER: False
+        NEUTRON_ENABLE_CONTROLLER: True
         METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
         HOSTS_SELF: 10.0.0.2 threenode-controller
         EXTERNAL_INTERFACE: enp2s0
@@ -136,6 +142,9 @@ systems:
         CINDER_DB_USER: cinderDB
         CINDER_DB_PASSWORD: veryinsecure
         CINDER_DEVICE: /dev/sdb
+        NEUTRON_ENABLE_AGENT: True
+        NEUTRON_ENABLE_MANAGER: False
+        NEUTRON_ENABLE_CONTROLLER: False
         METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
         HOSTS_SELF: 10.0.0.3 threenode-compute
         EXTERNAL_INTERFACE: eno1

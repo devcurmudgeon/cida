@@ -1,7 +1,8 @@
 [Unit]
 Description=Neutron Api Server
-Wants=openstack-neutron-network-configuration-one-node.service network-online.target
-After=network-online.target openstack-neutron-setup.service openstack-neutron-network-configuration-one-node.service
+ConditionPathExists=/etc/neutron/neutron.conf
+Wants=openstack-neutron-network-configuration-one-node.service network-online.target openstack-neutron-config-setup.service
+After=openstack-neutron-network-configuration-one-node.service network-online.target openstack-neutron-config-setup.service openstack-neutron-db-setup.service
 
 [Service]
 Type=simple
