@@ -1,0 +1,10 @@
+[Unit]
+Description=Run neutron-setup Ansible scripts
+After=network-online.target openstack-keystone-setup.service postgres-server.service
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/neutron.yml
+
+[Install]
+WantedBy=multi-user.target

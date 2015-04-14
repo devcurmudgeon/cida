@@ -68,3 +68,4 @@ configuration-extensions:
 - openstack-cinder
 - openstack-nova
 - openstack-network
+- openstack-neutron
