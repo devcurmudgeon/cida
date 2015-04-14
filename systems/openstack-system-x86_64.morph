@@ -67,3 +67,4 @@ configuration-extensions:
 - openstack-glance
 - openstack-cinder
 - openstack-nova
+- openstack-network

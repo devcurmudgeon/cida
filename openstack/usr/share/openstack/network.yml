@@ -1,0 +1,67 @@
+---
+- hosts: localhost
+  vars_files:
+  - /etc/openstack/network.conf
+  tasks:
+# Create the bridges to use the External network mapped
+
+# Count number of network interfaces (interfaces starting with 'e')
+  - shell: ls /sys/class/net | grep ^e.* | wc -l
+    register: number_interfaces
+
+# Abort if there number of interfaces != 1
+  - fail:
+        msg: More than one, or none network interfaces found.
+    when: EXTERNAL_INTERFACE is not defined and number_interfaces.stdout != "1"
+
+  - shell: ls /sys/class/net | grep ^e.*
+    register: interface_name
+    when: EXTERNAL_INTERFACE is not defined
+
+  - set_fact:
+        ETH_INTERFACE: "{{ interface_name.stdout }}"
+    when: EXTERNAL_INTERFACE is not defined
+
+  - set_fact:
+        ETH_INTERFACE: "{{ EXTERNAL_INTERFACE }}"
+    when: EXTERNAL_INTERFACE is defined
+
+  - set_fact:
+        ETH_MAC_ADDRESS: "{{ hostvars['localhost']['ansible_' + ETH_INTERFACE]['macaddress'] }}"
+
+  - name: Create the /run/systemd/network
+    file:
+        path: /run/systemd/network
+        state: directory
+
+  - name: Disable dhcp on the bound physical interface
+    template:
+        src: /usr/share/openstack/extras/00-disable-device.network
+        dest: /run/systemd/network/00-disable-{{ item }}-config.network
+    with_items:
+    - "{{ ETH_INTERFACE }}"
+
+  - name: Disable dhcp on all the internal interfaces
+    template:
+        src: /usr/share/openstack/extras/00-disable-device.network
+        dest: /run/systemd/network/00-disable-{{ item }}-config.network
+    with_items:
+    - ovs-system
+
+  - openvswitch_bridge:
+        bridge: br-ex
+        state: present
+
+  - openvswitch_port:
+        bridge: br-ex
+        port: "{{ ETH_INTERFACE }}"
+        state: present
+
+  - shell: ovs-vsctl set bridge br-ex other-config:hwaddr={{ ETH_MAC_ADDRESS }}
+
+  - name: Enable dhcp on the Open vSwitch device that replaces our external interface
+    template:
+        src: /usr/share/openstack/extras/60-device-dhcp.network
+        dest: /run/systemd/network/60-{{ item }}-dhcp.network
+    with_items:
+    - br-ex
