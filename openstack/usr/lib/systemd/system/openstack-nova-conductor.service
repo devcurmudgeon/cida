@@ -1,6 +1,7 @@
 [Unit]
 Description=Database-access support for Compute nodes (nova-conductor)
-After=syslog.target network-online.target libvirtd.service
+ConditionPathExists=/etc/nova/nova.conf
+After=network-online.target libvirtd.service openstack-nova-config-setup.service openstack-nova-db-setup.service
 Wants=network-online.target
 Requires=libvirtd.service
 

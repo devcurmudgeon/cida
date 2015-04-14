@@ -104,7 +104,8 @@ template 0100644 0 0 /etc/tempest/tempest.conf
 0040755 0 0 /usr/share/openstack/neutron/plugins/vmware
 0100644 0 0 /usr/share/openstack/neutron/plugins/vmware/nsx.ini
 0040755 0 0 /usr/share/openstack/nova
-0100644 0 0 /usr/share/openstack/nova.yml
+0100644 0 0 /usr/share/openstack/nova-config.yml
+0100644 0 0 /usr/share/openstack/nova-db.yml
 0100644 0 0 /usr/share/openstack/nova/logging.conf
 0100644 0 0 /usr/share/openstack/nova/nova.conf
 0100644 0 0 /usr/share/openstack/nova/nova-compute.conf
@@ -139,7 +140,8 @@ template 0100644 0 0 /etc/tempest/tempest.conf
 0100644 0 0 /usr/lib/systemd/system/openstack-neutron-ovs-cleanup.service
 0100644 0 0 /usr/lib/systemd/system/openstack-neutron-dhcp-agent.service
 0100644 0 0 /usr/lib/systemd/system/openstack-neutron-l3-agent.service
-0100644 0 0 /usr/lib/systemd/system/openstack-nova-setup.service
+0100644 0 0 /usr/lib/systemd/system/openstack-nova-config-setup.service
+0100644 0 0 /usr/lib/systemd/system/openstack-nova-db-setup.service
 0100644 0 0 /usr/lib/systemd/system/openstack-nova-compute.service
 0100644 0 0 /usr/lib/systemd/system/openstack-nova-conductor.service
 0100644 0 0 /usr/lib/systemd/system/openstack-nova-api.service

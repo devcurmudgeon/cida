@@ -1,6 +1,7 @@
 [Unit]
 Description=Openstack Console Auth (nova-consoleauth)
-After=syslog.target network-online.target
+ConditionPathExists=/etc/nova/nova.conf
+After=network-online.target openstack-nova-config-setup.service openstack-nova-db-setup.service
 Wants=network-online.target
 
 [Service]

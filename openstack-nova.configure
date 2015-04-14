@@ -18,27 +18,10 @@ set -e
 
 ROOT="$1"
 
-##########################################################################
-
-ln -sf "/usr/lib/systemd/system/openstack-nova-setup.service" \
-        "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-nova-setup.service"
-
-##########################################################################
-# Enable libvirtd and libvirt-guests services
-##########################################################################
-
-wants_dir="$ROOT"/usr/lib/systemd/system/multi-user.target.wants
-mkdir -p "$wants_dir"
-mkdir -p "$ROOT"/var/lock/subsys
-ln -sf ../libvirtd.service "$wants_dir/libvirtd.service"
-
-##########################################################################
-# Change iprange for the interal libvirt to avoid clashes
-# with eth0 ip range
-##########################################################################
-
-sed -i "s/192\.168\.122\./192\.168\.1\./g" \
-       "$ROOT"/etc/libvirt/qemu/networks/default.xml
+enable(){
+    ln -sf "/usr/lib/systemd/system/openstack-nova-$1.service" \
+            "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-nova-$1.service"
+}
 
 ##########################################################################
 # Check variables
@@ -85,6 +68,67 @@ if [ -z "$NOVA_SERVICE_USER" -o \
     echo Some options required for Nova were defined, but not all.
     exit 1
 fi
+
+# Check optional variables
+
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
+
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
+
+check_bool NOVA_ENABLE_CONTROLLER
+check_bool NOVA_ENABLE_COMPUTE
+
+###############################################
+# Enable libvirtd and libvirt-guests services #
+###############################################
+
+wants_dir="$ROOT"/usr/lib/systemd/system/multi-user.target.wants
+mkdir -p "$wants_dir"
+mkdir -p "$ROOT"/var/lock/subsys
+ln -sf ../libvirtd.service "$wants_dir/libvirtd.service"
+
+######################################
+# Enable relevant openstack services #
+######################################
+
+if "$NOVA_ENABLE_CONTROLLER" || "$NOVA_ENABLE_COMPUTE"; then
+    enable config-setup
+fi
+if "$NOVA_ENABLE_CONTROLLER" && ! "$NOVA_ENABLE_COMPUTE"; then
+    enable conductor
+fi
+if "$NOVA_ENABLE_COMPUTE"; then
+    enable compute
+fi
+if "$NOVA_ENABLE_CONTROLLER"; then
+    for service in db-setup api cert consoleauth novncproxy scheduler serialproxy; do
+            enable "$service"
+    done
+fi
+
+##########################################################################
+# Change iprange for the interal libvirt to avoid clashes
+# with eth0 ip range
+##########################################################################
+
+sed -i "s/192\.168\.122\./192\.168\.1\./g" \
+       "$ROOT"/etc/libvirt/qemu/networks/default.xml
+
 
 ##########################################################################
 # Generate configuration file

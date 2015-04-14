@@ -1,0 +1,12 @@
+[Unit]
+Description=Run nova-db-setup Ansible scripts
+ConditionPathExists=/etc/openstack/neutron.conf
+After=postgres-server.service openstack-keystone.service openstack-keystone-setup.service
+Wants=postgres-server.service openstack-keystone.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/nova-db.yml
+
+[Install]
+WantedBy=multi-user.target
