@@ -44,7 +44,6 @@ sed -i "s/192\.168\.122\./192\.168\.1\./g" \
 # Check variables
 ##########################################################################
 
-
 if [ -z "$NOVA_SERVICE_USER" -a \
      -z "$NOVA_SERVICE_PASSWORD" -a \
      -z "$NOVA_DB_USER" -a \
@@ -52,6 +51,8 @@ if [ -z "$NOVA_SERVICE_USER" -a \
      -z "$NOVA_VIRT_TYPE" -a \
      -z "$NEUTRON_SERVICE_USER" -a \
      -z "$NEUTRON_SERVICE_PASSWORD" -a \
+     -z "$IRONIC_SERVICE_USER" -a \
+     -z "$IRONIC_SERVICE_PASSWORD" -a \
      -z "$METADATA_PROXY_SHARED_SECRET" -a \
      -z "$RABBITMQ_HOST" -a \
      -z "$RABBITMQ_USER" -a \
@@ -71,6 +72,8 @@ if [ -z "$NOVA_SERVICE_USER" -o \
      -z "$NOVA_VIRT_TYPE" -o \
      -z "$NEUTRON_SERVICE_USER" -o \
      -z "$NEUTRON_SERVICE_PASSWORD" -o \
+     -z "$IRONIC_SERVICE_USER" -a \
+     -z "$IRONIC_SERVICE_PASSWORD" -a \
      -z "$METADATA_PROXY_SHARED_SECRET" -o \
      -z "$RABBITMQ_HOST" -o \
      -z "$RABBITMQ_USER" -o \
@@ -87,6 +90,23 @@ fi
 # Generate configuration file
 ##########################################################################
 
+case "$NOVA_BAREMETAL_SCHEDULING" in
+    True|true|yes)
+        export COMPUTE_MANAGER=ironic.nova.compute.manager.ClusteredComputeManager
+        export RESERVED_HOST_MEMORY_MB=0
+        export SCHEDULER_HOST_MANAGER=nova.scheduler.ironic_host_manager.IronicHostManager
+        export RAM_ALLOCATION_RATIO=1.0
+        export COMPUTE_DRIVER=nova.virt.ironic.IronicDriver
+        ;;
+    *)
+        export COMPUTE_MANAGER=nova.compute.manager.ComputeManager
+        export RESERVED_HOST_MEMORY_MB=512
+        export SCHEDULER_HOST_MANAGER=nova.scheduler.host_manager.HostManager
+        export RAM_ALLOCATION_RATIO=1.5
+        export COMPUTE_DRIVER=libvirt.LibvirtDriver
+        ;;
+esac
+
 OPENSTACK_DATA="$ROOT/etc/openstack"
 mkdir -p "$OPENSTACK_DATA"
 
@@ -99,8 +119,15 @@ nova_configuration={
     'NOVA_DB_USER': os.environ['NOVA_DB_USER'],
     'NOVA_DB_PASSWORD': os.environ['NOVA_DB_PASSWORD'],
     'NOVA_VIRT_TYPE': os.environ['NOVA_VIRT_TYPE'],
+    'COMPUTE_MANAGER': os.environ['COMPUTE_MANAGER'],
+    'RESERVED_HOST_MEMORY_MB': os.environ['RESERVED_HOST_MEMORY_MB'],
+    'SCHEDULER_HOST_MANAGER': os.environ['SCHEDULER_HOST_MANAGER'],
+    'RAM_ALLOCATION_RATIO': os.environ['RAM_ALLOCATION_RATIO'],
+    'COMPUTE_DRIVER': os.environ['COMPUTE_DRIVER'],
     'NEUTRON_SERVICE_USER': os.environ['NEUTRON_SERVICE_USER'],
     'NEUTRON_SERVICE_PASSWORD': os.environ['NEUTRON_SERVICE_PASSWORD'],
+    'IRONIC_SERVICE_USER': os.environ['IRONIC_SERVICE_USER'],
+    'IRONIC_SERVICE_PASSWORD': os.environ['IRONIC_SERVICE_PASSWORD'],
     'METADATA_PROXY_SHARED_SECRET': os.environ['METADATA_PROXY_SHARED_SECRET'],
     'RABBITMQ_HOST': os.environ['RABBITMQ_HOST'],
     'RABBITMQ_USER': os.environ['RABBITMQ_USER'],

@@ -31,6 +31,9 @@ description: |
     system is being deployed to.
   - We recommend changing all the PASSWORDs variables, also the
     KEYSTONE_TEMPORARY_ADMIN_TOKEN and METADATA_PROXY_SHARED_SECRET.
+  - Setting NOVA_BAREMETAL_SCHEDULING with an YAML truth value will configure
+    Nova to schedule baremetal machines through the Ironic driver, instead of
+    sheduling virtual machines.
 
 systems:
 - morph: systems/openstack-system-x86_64.morph
@@ -67,6 +70,7 @@ systems:
       NOVA_DB_USER: novaDB
       NOVA_DB_PASSWORD: veryinsecure
       NOVA_VIRT_TYPE: qemu
+      NOVA_BAREMETAL_SCHEDULING: yes
 
       CINDER_SERVICE_USER: cinder
       CINDER_SERVICE_PASSWORD: veryinsecure
