@@ -117,6 +117,8 @@ template 0100644 0 0 /etc/tempest/tempest.conf
 0040755 0 0 /usr/share/openstack/rabbitmq
 0100644 0 0 /usr/share/openstack/rabbitmq/rabbitmq-env.conf
 0100644 0 0 /usr/share/openstack/rabbitmq/rabbitmq.config
+0040755 0 0 /usr/lib/sysctl.d
+0100644 0 0 /usr/lib/sysctl.d/neutron.conf
 0100644 0 0 /usr/lib/systemd/system/apache-httpd.service
 0100644 0 0 /usr/lib/systemd/system/openstack-keystone.service
 0100644 0 0 /usr/lib/systemd/system/openstack-keystone-setup.service
