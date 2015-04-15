@@ -1,6 +1,7 @@
 [Unit]
 Description=OpenStack Cinder volume server
-After=syslog.target network-online.target
+ConditionPathExists=/etc/cinder/cinder.conf
+After=network-online.target openstack-cinder-lv-setup.service openstack-cinder-config-setup.service openstack-cinder-db-setup.service lvm2-lvmetad.service iscsid.service target.service
 Wants=network-online.target
 
 [Service]

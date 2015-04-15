@@ -1,0 +1,12 @@
+[Unit]
+Description=Run cinder-iscsi-setup Ansible scripts
+Before=iscsid.service target.service
+Wants= iscsid.service target.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/cinder-iscsi.yml
+
+[Install]
+WantedBy=multi-user.target

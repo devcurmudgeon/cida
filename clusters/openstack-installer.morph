@@ -65,6 +65,9 @@ systems:
         NOVA_DB_USER: novaDB
         NOVA_DB_PASSWORD: veryinsecure
         NOVA_VIRT_TYPE: kvm
+        CINDER_ENABLE_CONTROLLER: False
+        CINDER_ENABLE_COMPUTE: False
+        CINDER_ENABLE_STORAGE: False
         CINDER_SERVICE_USER: cinder
         CINDER_SERVICE_PASSWORD: veryinsecure
         CINDER_DB_USER: cinderDB
@@ -107,6 +110,9 @@ systems:
         HOSTNAME: threenode-controller
         MANAGEMENT_INTERFACE_IP_ADDRESS: 10.0.0.2
         NOVA_VIRT_TYPE: kvm
+        CINDER_ENABLE_CONTROLLER: True
+        CINDER_ENABLE_COMPUTE: False
+        CINDER_ENABLE_STORAGE: False
         CINDER_SERVICE_USER: cinder
         CINDER_SERVICE_PASSWORD: veryinsecure
         CINDER_DB_USER: cinderDB
@@ -140,6 +146,9 @@ systems:
         HOSTNAME: threenode-compute
         MANAGEMENT_INTERFACE_IP_ADDRESS: 10.0.0.3
         NOVA_VIRT_TYPE: kvm
+        CINDER_ENABLE_CONTROLLER: False
+        CINDER_ENABLE_COMPUTE: True
+        CINDER_ENABLE_STORAGE: True
         CINDER_SERVICE_USER: cinder
         CINDER_SERVICE_PASSWORD: veryinsecure
         CINDER_DB_USER: cinderDB

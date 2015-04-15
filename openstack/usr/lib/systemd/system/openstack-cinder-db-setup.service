@@ -1,0 +1,13 @@
+[Unit]
+Description=Run cinder-db-setup Ansible scripts
+ConditionPathExists=/etc/cinder/cinder.conf
+After=postgres-server.service openstack-cinder-config-setup.service openstack-keystone.service openstack-keystone-setup.service
+Wants=postgres-server.service openstack-cinder-config-setup.service openstack-keystone.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/cinder-db.yml
+
+[Install]
+WantedBy=multi-user.target

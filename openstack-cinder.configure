@@ -18,10 +18,10 @@ set -e
 
 ROOT="$1"
 
-##########################################################################
-
-ln -sf "/usr/lib/systemd/system/openstack-cinder-setup.service" \
-    "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-cinder-setup.service"
+enable(){
+    ln -sf "/usr/lib/systemd/system/$1.service" \
+            "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
+}
 
 ##########################################################################
 # Check variables
@@ -57,6 +57,55 @@ if [ -z "$RABBITMQ_HOST" -o \
      -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" ]; then
     echo Some options required for Cinder were defined, but not all.
     exit 1
+fi
+
+# Check optional variables
+
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
+
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
+
+check_bool CINDER_ENABLE_CONTROLLER
+check_bool CINDER_ENABLE_COMPUTE
+check_bool CINDER_ENABLE_STORAGE
+
+######################################
+# Enable relevant openstack services #
+######################################
+
+if "$CINDER_ENABLE_COMPUTE" || "$CINDER_ENABLE_STORAGE"; then
+    enable openstack-cinder-iscsi-setup
+    enable target #target.service!
+    enable iscsid
+fi
+if "$CINDER_ENABLE_COMPUTE" || "$CINDER_ENABLE_CONTROLLER"; then
+    enable openstack-cinder-config-setup
+fi
+if "$CINDER_ENABLE_STORAGE"; then
+    enable openstack-cinder-lv-setup
+    enable lvm2-lvmetad
+    enable openstack-cinder-volume
+    enable openstack-cinder-backup
+    enable openstack-cinder-scheduler
+fi
+if "$CINDER_ENABLE_CONTROLLER"; then
+    enable openstack-cinder-db-setup
+    enable openstack-cinder-api
 fi
 
 ##########################################################################
