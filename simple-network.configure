@@ -188,7 +188,9 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         address = None
         netmask = None
         gateway = None
+        dns = None
         lines = []
+
         for pair in pairs:
             if pair[0] == 'address':
                 address = pair[1]
@@ -196,6 +198,8 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
                 netmask = pair[1]
             elif pair[0] == 'gateway':
                 gateway = pair[1]
+            elif pair[0] == 'dns':
+                dns = pair[1]
 
         if address and netmask:
             network_suffix = self.convert_net_mask_to_cidr_suffix (netmask);
@@ -204,8 +208,11 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
         elif address or netmask:
             raise Exception('address and netmask must be specified together')
 
-        if gateway is not None:
+        if gateway:
             lines += ["Gateway=%s" % gateway]
+
+        if dns:
+            lines += ["DNS=%s" % dns]
 
         return lines
 
