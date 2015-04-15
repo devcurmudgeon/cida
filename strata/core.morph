@@ -280,3 +280,10 @@ chunks:
   - libtool-tarball
   - automake
   - libxml2
+- name: gnome-common
+  repo: upstream:gnome-common
+  ref: 5d61b55e8bea32fe2b52e21682ee4b3719b290c5
+  unpetrify-ref: 3.14.0
+  build-depends:
+  - autoconf-tarball
+  - automake

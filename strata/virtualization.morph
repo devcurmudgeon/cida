@@ -80,24 +80,16 @@ chunks:
   build-depends:
   - libvirt
   - urlgrabber
-- name: gnome-common
-  repo: upstream:gnome-common
-  ref: d213283fcb5228d05eb2c796579f18240e8467e8
-  unpetrify-ref: 3.12.0
 - name: pygobject
   morph: strata/virtualization/pygobject.morph
   repo: upstream:pygobject
   ref: 276341d7ddab180020c31e6837bd28fd25784de0
   unpetrify-ref: baserock/morph
-  build-depends:
-  - gnome-common
 - name: libsoup
   morph: strata/virtualization/libsoup.morph
   repo: upstream:libsoup
   ref: ce764489e358bad6b49418f5c8bc7b25a4b1815e
   unpetrify-ref: baserock/morph
-  build-depends:
-  - gnome-common
 - name: libosinfo
   morph: strata/virtualization/libosinfo.morph
   repo: upstream:libosinfo
