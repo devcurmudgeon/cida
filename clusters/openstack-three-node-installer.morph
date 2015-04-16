@@ -1,4 +1,4 @@
-name: openstack-installer
+name: openstack-three-node-installer
 kind: cluster
 description: |
 
