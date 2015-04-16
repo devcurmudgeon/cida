@@ -1,0 +1,124 @@
+name: openstack-one-node-swift
+kind: cluster
+description: |
+  This is a cluster morphology for deploying a x86_64 OpenStack system
+  all-in-one-node.
+
+  Requirements to be able to run and test the system:
+
+  - DISK_SIZE should be bigger than 5G
+  - The system has to have available at least 4G of RAM, but once
+    you start instantiating VMs you will need more.
+  - The IP of the system can't change, and you need to know it beforehand,
+    that is, the system needs a static IP address.
+
+  This cluster is configurable, but with the following constraints:
+
+  - The hostname in RABBITMQ_HOST has to match CONTROLLER_HOST_ADDRESS,
+    and HOST_CONTROLLER.
+  - HOSTS_CONTROLLER is only needed if the hostname (see previous point)
+    is not a FQDN.
+  - The IP listed in MANAGEMENT_INTERFACE_IP_ADDRESS has to match the one
+    used in HOSTS_CONTROLLER.
+  - CINDER_DEVICE should be a path to a storage device ready to be
+    used/formated for cinder data.
+  - EXTERNAL_INTERFACE is required when the system has more than one network
+    interface.
+
+  You can also have a look at the following suggestions:
+
+  - NOVA_VIRT_TYPE can be either 'kvm' or 'qemu', depending on where the
+    system is being deployed to.
+  - We recommend changing all the PASSWORDs variables, also the
+    KEYSTONE_TEMPORARY_ADMIN_TOKEN and METADATA_PROXY_SHARED_SECRET.
+
+systems:
+- morph: systems/openstack-system-x86_64.morph
+  deploy:
+    release:
+      type: rawdisk
+      location: baserock-openstack-system-x86_64.img
+      DISK_SIZE: 10G
+      INSTALL_FILES: openstack/manifest swift/manifest
+
+      HOSTNAME: onenode
+
+      #########################################################################
+      ## Swift config options
+      #########################################################################
+
+      SWIFT_CONTROLLER: True
+
+      SWIFT_ADMIN_PASSWORD: insecure
+
+      SWIFT_PART_POWER: 10
+      SWIFT_REPLICAS: 3
+      SWIFT_MIN_PART_HOURS: 1
+
+      SWIFT_STORAGE_DEVICES: [{ ip: <storage node 0 management ip>, device: sdb, weight: 100 },
+                              { ip: <storage node 0 management ip>, device: sdc, weight: 100 },
+                              { ip: <storage node 0 management ip>, device: sdd, weight: 100 },
+
+                              { ip: <storage node 1 management ip>, device: sdb, weight: 100 },
+                              { ip: <storage node 1 management ip>, device: sdc, weight: 100 },
+                              { ip: <storage node 1 management ip>, device: sdd, weight: 100 }]
+
+      # This value can be any random string or number
+      # but each node in your swift cluster must have the same values
+      SWIFT_REBALANCE_SEED: 3828
+
+      # NOTE: Replace SWIFT_HASH_PATH_PREFIX and SWIFT_HASH_PATH_SUFFIX
+      # with your own unique values,
+      #
+      # `openssl rand -hex 10' can be used to generate unique values
+      #
+      # These values should be kept secret, do not lose them.
+      #
+      SWIFT_HASH_PATH_PREFIX: 041fc210e4e1d333ce1d
+      SWIFT_HASH_PATH_SUFFIX: 4d6f5362a356dda7fb7d
+
+      #########################################################################
+
+      RABBITMQ_HOST: onenode
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: rabbitmq
+      RABBITMQ_PASSWORD: veryinsecure
+
+      CONTROLLER_HOST_ADDRESS: onenode
+      MANAGEMENT_INTERFACE_IP_ADDRESS: <management ip>
+
+
+      KEYSTONE_TEMPORARY_ADMIN_TOKEN: 22f3aa1cf538e3f6d5e8
+      KEYSTONE_ADMIN_PASSWORD: veryinsecure
+      KEYSTONE_DB_USER: keystoneDB
+      KEYSTONE_DB_PASSWORD: veryinsecure
+
+      GLANCE_SERVICE_USER: glance
+      GLANCE_SERVICE_PASSWORD: veryinsecure
+      GLANCE_DB_USER: glanceDB
+      GLANCE_DB_PASSWORD: veryinsecure
+
+      NOVA_SERVICE_USER: nova
+      NOVA_SERVICE_PASSWORD: veryinsecure
+      NOVA_DB_USER: novaDB
+      NOVA_DB_PASSWORD: veryinsecure
+      NOVA_VIRT_TYPE: qemu
+
+      CINDER_SERVICE_USER: cinder
+      CINDER_SERVICE_PASSWORD: veryinsecure
+      CINDER_DB_USER: cinderDB
+      CINDER_DB_PASSWORD: veryinsecure
+      # Storage device to be used by Cinder
+      CINDER_DEVICE: /dev/sdb
+
+      NEUTRON_SERVICE_USER: neutron
+      NEUTRON_SERVICE_PASSWORD: veryinsecure
+      NEUTRON_DB_USER: neutronDB
+      NEUTRON_DB_PASSWORD: veryinsecure
+      METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
+
+      HOSTS_CONTROLLER: <management ip> onenode
+
+      # Network interface to be used, only needed if there are more
+      # than one available.
+      # EXTERNAL_INTERFACE: eno1
