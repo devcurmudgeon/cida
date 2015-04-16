@@ -1,0 +1,14 @@
+name: python-pygobject
+kind: stratum
+description: |
+  Python GObject bindings
+build-depends:
+- morph: strata/python-core.morph
+# Depends on 'foundation' for GLib
+- morph: strata/foundation.morph
+chunks:
+- name: pygobject
+  morph: strata/python-pygobject/pygobject.morph
+  repo: upstream:pygobject
+  ref: 276341d7ddab180020c31e6837bd28fd25784de0
+  unpetrify-ref: baserock/morph

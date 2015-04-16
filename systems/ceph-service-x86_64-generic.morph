@@ -24,6 +24,8 @@ strata:
   morph: strata/ntpd.morph
 - name: python-cliapp
   morph: strata/python-cliapp.morph
+- name: python-pygobject
+  morph: strata/python-pygobject.morph
 - name: python-wsgi
   morph: strata/python-wsgi.morph
 - name: morph-utils

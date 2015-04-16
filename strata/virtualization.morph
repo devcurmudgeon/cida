@@ -7,6 +7,7 @@ description: |
     or ebtables, for example.
 build-depends:
 - morph: strata/python-core.morph
+- morph: strata/python-pygobject.morph
 - morph: strata/connman-common.morph
 - morph: strata/lvm.morph
 - morph: strata/xorg-util-macros-common.morph
@@ -75,11 +76,6 @@ chunks:
   build-depends:
   - libvirt
   - urlgrabber
-- name: pygobject
-  morph: strata/virtualization/pygobject.morph
-  repo: upstream:pygobject
-  ref: 276341d7ddab180020c31e6837bd28fd25784de0
-  unpetrify-ref: baserock/morph
 - name: libsoup
   morph: strata/virtualization/libsoup.morph
   repo: upstream:libsoup
@@ -92,7 +88,6 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - libsoup
-  - pygobject
 - name: virt-manager
   repo: upstream:virt-manager
   ref: 8b7ebd4538ffbd2d246fdeee4f1bb1c452585575
