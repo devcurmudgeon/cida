@@ -6,6 +6,7 @@ description: |
     kernel history to check which config are needed for openvswitch, libvirt,
     or ebtables, for example.
 build-depends:
+- morph: strata/libsoup-common.morph
 - morph: strata/python-core.morph
 - morph: strata/python-pygobject.morph
 - morph: strata/connman-common.morph
@@ -76,18 +77,11 @@ chunks:
   build-depends:
   - libvirt
   - urlgrabber
-- name: libsoup
-  morph: strata/virtualization/libsoup.morph
-  repo: upstream:libsoup
-  ref: ce764489e358bad6b49418f5c8bc7b25a4b1815e
-  unpetrify-ref: baserock/morph
 - name: libosinfo
   morph: strata/virtualization/libosinfo.morph
   repo: upstream:libosinfo
   ref: a86c74c4d3f62bb0e315ab7fc78ec9f7746bdd12
   unpetrify-ref: baserock/morph
-  build-depends:
-  - libsoup
 - name: virt-manager
   repo: upstream:virt-manager
   ref: 8b7ebd4538ffbd2d246fdeee4f1bb1c452585575

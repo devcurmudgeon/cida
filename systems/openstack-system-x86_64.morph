@@ -57,6 +57,8 @@ strata:
   morph: strata/ansible.morph
 - name: ntpd
   morph: strata/ntpd.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
