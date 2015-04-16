@@ -6,7 +6,7 @@ description: |
     OpenStack system spread across three nodes.
 
     This cluster creates disk images that may be `dd`'d onto install media to
-    produce an OpenStack cluster when instanciated.
+    produce an OpenStack cluster when instantiated.
 
     Alternatively it may be used to install directly onto a physical disk by
     running:
@@ -23,15 +23,15 @@ description: |
     match your hardware and networking configuration.
 
     Requirements to be able to run and test the system:
-  
+
     - DISK_SIZE should be bigger than 5G
     - The system has to have available at least 4G of RAM, but once
       you start instantiating VMs you will need more.
     - The IP of the system can't change, and you need to know it beforehand,
       that is, the system needs a static IP address.
-  
+
     This cluster is configurable, but with the following constraints:
-  
+
     - The hostname in RABBITMQ_HOST has to match CONTROLLER_HOST_ADDRESS,
       and HOST_CONTROLLER.
     - HOSTS_CONTROLLER is only needed if the hostname (see previous point)
@@ -42,9 +42,9 @@ description: |
       used/formated for cinder data.
     - EXTERNAL_INTERFACE is required when the system has more than one network
       interface.
-  
+
     You can also have a look at the following suggestions:
-  
+
     - NOVA_VIRT_TYPE can be either 'kvm' or 'qemu', depending on where the
       system is being deployed to.
     - We recommend changing all the PASSWORDs variables, also the
@@ -116,13 +116,13 @@ systems:
         # Storage device to be used by Cinder
         CINDER_DEVICE: /dev/sdb
 
+        NEUTRON_ENABLE_AGENT: False
+        NEUTRON_ENABLE_MANAGER: True
+        NEUTRON_ENABLE_CONTROLLER: True
         NEUTRON_SERVICE_USER: neutron
         NEUTRON_SERVICE_PASSWORD: veryinsecure
         NEUTRON_DB_USER: neutronDB
         NEUTRON_DB_PASSWORD: veryinsecure
-        NEUTRON_ENABLE_AGENT: False
-        NEUTRON_ENABLE_MANAGER: True
-        NEUTRON_ENABLE_CONTROLLER: True
         METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
 
         IRONIC_SERVICE_USER: ironic
