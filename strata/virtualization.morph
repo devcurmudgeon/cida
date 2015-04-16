@@ -9,6 +9,7 @@ build-depends:
 - morph: strata/python-core.morph
 - morph: strata/connman-common.morph
 - morph: strata/lvm.morph
+- morph: strata/xorg-util-macros-common.morph
 chunks:
 - name: yajl
   morph: strata/virtualization/yajl.morph
@@ -30,16 +31,10 @@ chunks:
   repo: upstream:qemu
   ref: c5691f7ecb32cbe7a95b491314ce070e211fd97d
   unpetrify-ref: baserock/v2.2.0
-- name: xorg-util-macros
-  repo: upstream:xorg-util-macros
-  ref: c98b41de5596c675c603ef43ae9570133f1a9921
-  unpetrify-ref: baserock/morph
 - name: libpciaccess
   repo: upstream:libpciaccess
   ref: b9c068896914b4132a24839c9ef7f9fcd6282d88
   unpetrify-ref: master
-  build-depends:
-  - xorg-util-macros
 - name: dmidecode
   morph: strata/virtualization/dmidecode.morph
   repo: upstream:dmidecode
