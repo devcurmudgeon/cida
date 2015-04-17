@@ -70,7 +70,7 @@ systems:
       NOVA_DB_USER: novaDB
       NOVA_DB_PASSWORD: veryinsecure
       NOVA_VIRT_TYPE: qemu
-      NOVA_BAREMETAL_SCHEDULING: yes
+      #NOVA_BAREMETAL_SCHEDULING: no
 
       CINDER_SERVICE_USER: cinder
       CINDER_SERVICE_PASSWORD: veryinsecure
