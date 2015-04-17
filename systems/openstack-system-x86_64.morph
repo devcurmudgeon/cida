@@ -70,6 +70,4 @@ configuration-extensions:
 - openstack-network
 - openstack-neutron
 - fstab
-- swift-storage
-- openstack-swift-controller
 - openstack-ironic
