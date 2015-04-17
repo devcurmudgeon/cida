@@ -75,6 +75,10 @@ configure-commands:
 - scripts/config -e BRIDGE_VLAN_FILTERING
 - scripts/config -e IPV6
 - scripts/config -e BLK_DEV_NBD
+- scripts/config -e BRIDGE_NF_EBTABLES
+- scripts/config -e NETFILTER
+- scripts/config -e NETFILTER_ADVANCED
+- scripts/config -e NETFILTER_XT_MATCH_ADDRTYPE
 # Required for M400
 - scripts/config -e SATA_AHCI_PLATFORM
 - scripts/config -e AHCI_XGENE
