@@ -31,4 +31,3 @@ configuration-extensions:
 - install-files
 - fstab
 - swift-storage
-- ntpd
