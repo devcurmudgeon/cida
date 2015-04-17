@@ -1,0 +1,23 @@
+name: ceilometer
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+# Install the configuration files required to
+- mkdir -p "$DESTDIR"/etc/ceilometer
+- install -D -m 644 etc/ceilometer/*.json "$DESTDIR"/etc/ceilometer
+- install -D -m 644 etc/ceilometer/*.yaml "$DESTDIR"/etc/ceilometer
+- install -D -m 644 etc/ceilometer/api_paste.ini "DESTDIR"/etc/ceilometer
+# Install rootwrap.conf
+- install -D -m 640 etc/ceilometer/rootwrap.conf "$DESTDIR"/etc/ceilometer/rootwrap.conf
+# Move rootwrap files to a proper location
+- mkdir -p "$DESTDIR"/etc/ceilometer/rootwrap.d
+- install -D -m 644 etc/ceilometer/rootwrap.d/* "$DESTDIR"/etc/ceilometer/rootwrap.d/
+# Add ceilometer to sudoers controlling which commands will run as a root
+# using the openstack rootwrap.
+- mkdir -p "$DESTDIR"/etc/sudoers.d
+- |
+  install -D -m 0440 /proc/self/fd/0 <<'EOF' "$DESTDIR"/etc/sudoers.d/ceilometer-rootwrap
+  Defaults:ceilometer !requiretty
+
+  ceilometer ALL=(root) NOPASSWD: /usr/bin/ceilometer-rootwrap /etc/ceilometer/rootwrap.conf *
+  EOF
