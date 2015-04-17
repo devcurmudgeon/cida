@@ -69,5 +69,6 @@ configuration-extensions:
 - openstack-nova
 - openstack-network
 - openstack-neutron
+- openstack-ceilometer
 - fstab
 - openstack-ironic

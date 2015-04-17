@@ -90,6 +90,12 @@ systems:
       IRONIC_DB_USER: ironicDB
       IRONIC_DB_PASSWORD: veryinsecure
 
+      CEILOMETER_SERVICE_USER: ceilometer
+      CEILOMETER_SERVICE_PASSWORD: veryinsecure
+      CEILOMETER_DB_USER: ceilometerDB
+      CEILOMETER_DB_PASSWORD: veryinsecure
+      METERING_SECRET: insecureceilometersecret
+
       HOSTS_CONTROLLER: <management ip> onenode
 
       # Network interface to be used, only needed if there are more

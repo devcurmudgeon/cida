@@ -1,0 +1,10 @@
+[Unit]
+Description=Run ceilometer-setup Ansible scripts
+After=local-fs.target openstack-keystone-setup.service postgres-server.service openstack-cinder-setup.service openstack-nova-setup.service openstack-neutron-setup.service openstack-glance-setup.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/ceilometer.yml
+
+[Install]
+WantedBy=multi-user.target
