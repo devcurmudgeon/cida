@@ -237,16 +237,11 @@ chunks:
   repo: upstream:python-packages/tempita
   ref: b2b67795a009e9f825cbd855d766b78a00273f10
   unpetrify-ref: 0.5
-- name: cython
-  repo: upstream:cython
-  ref: f66e01ff743b6d010245a08b144a94e474f29967
-  unpetrify-ref: 0.21.1
 - name: numpy
   repo: upstream:python-packages/numpy.git
   ref: ac07f6d3e45090b224a7da81708e60a762a65f76
   unpetrify-ref: baserock/v1.9.0
   build-depends:
-  - cython
   - sphinx
 - name: websockify
   repo: upstream:python-packages/websockify
