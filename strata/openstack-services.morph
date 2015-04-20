@@ -600,24 +600,6 @@ chunks:
   - netifaces
   - pastedeploy
   - python-xattr
-- name: trove
-  repo: upstream:openstack/trove
-  ref: a4c38cc6ddbfba2301766eced939229cccc31953
-  unpetrify-ref: 2014.2
-  build-depends:
-  - sqlalchemy
-  - eventlet
-  - keystonemiddleware
-  - kombu
-  - routes
-  - webob
-  - pastedeploy
-  - paste
-  - sqlalchemy-migrate
-  - netifaces
-  - httplib2
-  - passlib
-  - pexpect
 - name: wsgiref
   repo: upstream:python-packages/wsgiref.git
   ref: e8360785eef259394e13b2062407edc3c2cbc1e0
@@ -765,25 +747,6 @@ chunks:
   - tooz
   - webob
   - wsme
-- name: heat
-  repo: upstream:openstack/heat
-  ref: c06772571a81383aa37336a78d72d455067b75e8
-  unpetrify-ref: 2014.2
-  build-depends:
-  - eventlet
-  - greenlet
-  - httplib2
-  - keystonemiddleware
-  - kombu
-  - oslo-db
-  - oslo-messaging
-  - pastedeploy
-  - posix-ipc-tarball
-  - qpid-python
-  - routes
-  - sqlalchemy
-  - sqlalchemy-migrate
-  - webob
 - name: django-openstack-auth
   repo: upstream:openstack/django_openstack_auth
   ref: e676c88a329af57d6c4f13df54f6e1e06c1f8360
