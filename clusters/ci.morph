@@ -47,3 +47,50 @@ systems:
       BOOTLOADER_CONFIG_FORMAT: "extlinux"
       BOOTLOADER_INSTALL: "none"
       KERNEL_ARGS: cma=256M console=tty0 console=ttyS0,115200n8 no_console_suspend=1 nouveau.pstate=1
+- morph: systems/openstack-system-x86_64.morph
+  deploy:
+    openstack-system-x86_64:
+      type: rawdisk
+      location: baserock-openstack-system-x86_64.img
+      DISK_SIZE: 5G
+      INSTALL_FILES: openstack/manifest
+      HOSTNAME: onenode
+      RABBITMQ_HOST: onenode
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: rabbitmq
+      RABBITMQ_PASSWORD: veryinsecure
+      CONTROLLER_HOST_ADDRESS: onenode
+      MANAGEMENT_INTERFACE_IP_ADDRESS: 127.0.0.1
+      KEYSTONE_TEMPORARY_ADMIN_TOKEN: 22f3aa1cf538e3f6d5e8
+      KEYSTONE_ADMIN_PASSWORD: veryinsecure
+      KEYSTONE_DB_USER: keystoneDB
+      KEYSTONE_DB_PASSWORD: veryinsecure
+      GLANCE_SERVICE_USER: glance
+      GLANCE_SERVICE_PASSWORD: veryinsecure
+      GLANCE_DB_USER: glanceDB
+      GLANCE_DB_PASSWORD: veryinsecure
+      NOVA_SERVICE_USER: nova
+      NOVA_SERVICE_PASSWORD: veryinsecure
+      NOVA_DB_USER: novaDB
+      NOVA_DB_PASSWORD: veryinsecure
+      NOVA_VIRT_TYPE: qemu
+      CINDER_SERVICE_USER: cinder
+      CINDER_SERVICE_PASSWORD: veryinsecure
+      CINDER_DB_USER: cinderDB
+      CINDER_DB_PASSWORD: veryinsecure
+      CINDER_DEVICE: /dev/sdb
+      NEUTRON_SERVICE_USER: neutron
+      NEUTRON_SERVICE_PASSWORD: veryinsecure
+      NEUTRON_DB_USER: neutronDB
+      NEUTRON_DB_PASSWORD: veryinsecure
+      METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
+      IRONIC_SERVICE_USER: ironic
+      IRONIC_SERVICE_PASSWORD: veryinsecure
+      IRONIC_DB_USER: ironicDB
+      IRONIC_DB_PASSWORD: veryinsecure
+      CEILOMETER_SERVICE_USER: ceilometer
+      CEILOMETER_SERVICE_PASSWORD: veryinsecure
+      CEILOMETER_DB_USER: ceilometerDB
+      CEILOMETER_DB_PASSWORD: veryinsecure
+      METERING_SECRET: insecureceilometersecret
+      HOSTS_CONTROLLER: 127.0.0.1 onenode
