@@ -1,6 +1,7 @@
 [Unit]
 Description=Run ceilometer-setup Ansible scripts
-After=local-fs.target openstack-keystone-setup.service postgres-server.service openstack-cinder-setup.service openstack-nova-setup.service openstack-neutron-setup.service openstack-glance-setup.service
+After=postgres-server.service openstack-keystone.service openstack-keystone-setup.service
+Wants=postgres-server.service openstack-keystone.service
 
 [Service]
 Type=oneshot
