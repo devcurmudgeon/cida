@@ -48,6 +48,8 @@ configure-commands:
 build-commands:
 - |
   case "$MORPH_ARCH" in
+      armv5*)   sed -i "s/--host=none/--host=armv5/" o/Makefile
+                sed -i "s/--target=none/--target=armv5/" o/Makefile ;;
       armv7*)   sed -i "s/--host=none/--host=armv7a/" o/Makefile
                 sed -i "s/--target=none/--target=armv7a/" o/Makefile ;;
   esac
