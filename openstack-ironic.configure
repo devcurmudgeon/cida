@@ -19,28 +19,38 @@ set -e
 
 ROOT="$1"
 
-##########################################################################
+enable(){
+    ln -sf "/usr/lib/systemd/system/$1.service" \
+        "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
+}
 
-ln -sf "/usr/lib/systemd/system/openstack-ironic-setup.service" \
-    "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-ironic-setup.service"
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
+
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
 
 ##########################################################################
 # Check variables
 ##########################################################################
 
-if [ -z "$IRONIC_SERVICE_USER" -a \
-     -z "$IRONIC_SERVICE_PASSWORD" -a \
-     -z "$IRONIC_DB_USER" -a \
-     -z "$IRONIC_DB_PASSWORD" -a \
-     -z "$RABBITMQ_HOST" -a \
-     -z "$RABBITMQ_USER" -a \
-     -z "$RABBITMQ_PASSWORD" -a \
-     -z "$RABBITMQ_PORT" -a \
-     -z "$CONTROLLER_HOST_ADDRESS" -a \
-     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" -a \
-     -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" ]; then
-     # No Ironic options defined, do nothing.
-     exit 0
+check_bool IRONIC_ENABLE_SERVICE
+
+if ! "$IRONIC_ENABLE_SERVICE"; then
+    exit 0
 fi
 
 if [ -z "$IRONIC_SERVICE_USER" -o \
@@ -57,6 +67,12 @@ if [ -z "$IRONIC_SERVICE_USER" -o \
     echo Some options required for Ironic were defined, but not all.
     exit 1
 fi
+
+######################################
+# Enable relevant openstack services #
+######################################
+
+enable openstack-ironic-setup
 
 ##########################################################################
 # Generate configuration file

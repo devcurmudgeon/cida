@@ -126,6 +126,7 @@ systems:
         NEUTRON_DB_PASSWORD: veryinsecure
         METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
 
+        IRONIC_ENABLE_SERVICE: False
         IRONIC_SERVICE_USER: ironic
         IRONIC_SERVICE_PASSWORD: veryinsecure
         IRONIC_DB_USER: ironicDB
@@ -138,6 +139,7 @@ systems:
         HOSTS_NETWORK: 10.0.0.1 threenode-network.os-mgmt
         HOSTS_CONTROL: 10.0.0.2 threenode-controller.os-mgmt
         HOSTS_COMPUTE: 10.0.0.3 threenode-compute.os-mgmt
+
         EXTERNAL_INTERFACE: enp3s0
         NETWORK_CONFIG: enp3s0:dhcp;enp2s0:static,address=10.0.0.1,netmask=255.255.255.0
     subsystems:
@@ -165,6 +167,8 @@ systems:
         NEUTRON_ENABLE_MANAGER: False
         NEUTRON_ENABLE_CONTROLLER: True
         METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
+
+        IRONIC_ENABLE_SERVICE: True
 
         MANAGEMENT_INTERFACE_IP_ADDRESS: 10.0.0.2
         HOSTS_SELF: 10.0.0.2 threenode-controller
