@@ -721,9 +721,9 @@ chunks:
   - retrying
 - name: ceilometer
   repo: upstream:openstack/ceilometer
-  ref: 94579bfc81b820380d03703e4e2311b3bd25c022
-  unpetrify-ref: 2014.2
   morph: strata/openstack-services/ceilometer.morph
+  ref: 1129b7013359bf242a2ea53be9d4faeccfbfac5a
+  unpetrify-ref: 2014.2.1
   build-depends:
   - alembic
   - anyjson
