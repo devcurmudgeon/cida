@@ -73,6 +73,9 @@ fi
 ######################################
 
 enable openstack-ironic-setup
+enable iscsi-setup
+enable target #target.service!
+enable iscsid
 
 ##########################################################################
 # Generate configuration file

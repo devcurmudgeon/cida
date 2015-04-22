@@ -89,7 +89,7 @@ check_bool CINDER_ENABLE_STORAGE
 ######################################
 
 if "$CINDER_ENABLE_COMPUTE" || "$CINDER_ENABLE_STORAGE"; then
-    enable openstack-cinder-iscsi-setup
+    enable iscsi-setup
     enable target #target.service!
     enable iscsid
 fi
