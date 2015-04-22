@@ -80,8 +80,8 @@ chunks:
 - name: systemd
   morph: strata/foundation/systemd.morph
   repo: upstream:systemd
-  ref: d736e4f3e76daca4ab1b1fc444737e5ee20a27cd
-  unpetrify-ref: baserock/v219-314-gd736e4f-network_fixes
+  ref: 163ab2961268232e1cb49e990a8ccefe24b7649f
+  unpetrify-ref: baserock/v219-729-g163ab29-jetson_btrfs_fixes
   build-depends:
   - dbus-pre
   - gobject-introspection
