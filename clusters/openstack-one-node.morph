@@ -30,7 +30,8 @@ description: |
   - NOVA_VIRT_TYPE can be either 'kvm' or 'qemu', depending on where the
     system is being deployed to.
   - We recommend changing all the PASSWORDs variables, also the
-    KEYSTONE_TEMPORARY_ADMIN_TOKEN and METADATA_PROXY_SHARED_SECRET.
+    KEYSTONE_TEMPORARY_ADMIN_TOKEN, METADATA_PROXY_SHARED_SECRET and
+    METERING_SECRET
   - Setting NOVA_BAREMETAL_SCHEDULING with an YAML truth value will configure
     Nova to schedule baremetal machines through the Ironic driver, instead of
     sheduling virtual machines.

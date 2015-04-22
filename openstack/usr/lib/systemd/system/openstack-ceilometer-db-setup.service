@@ -1,0 +1,12 @@
+[Unit]
+Description=Run ceilometer-db-setup Ansible scripts
+ConditionPathExists=/etc/openstack/ceilometer.conf
+After=postgres-server.service openstack-keystone.service openstack-keystone-setup.service openstack-ceilometer-config-setup.service
+Wants=postgres-server.service openstack-keystone.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/ceilometer-db.yml
+
+[Install]
+WantedBy=multi-user.target

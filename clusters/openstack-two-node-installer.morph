@@ -48,8 +48,9 @@ description: |
     - NOVA_VIRT_TYPE can be either 'kvm' or 'qemu', depending on where the
       system is being deployed to.
     - We recommend changing all the PASSWORDs variables, also the
-      KEYSTONE_TEMPORARY_ADMIN_TOKEN and METADATA_PROXY_SHARED_SECRET.
-    - Setting NOVA_BAREMETAL_SCHEDULING with an YAML truth value will configure
+      KEYSTONE_TEMPORARY_ADMIN_TOKEN, METADATA_PROXY_SHARED_SECRET and
+      METERING_SECRET.
+    - Setting NOVA_BAREMETAL_SCHEDULING with a YAML truth value will configure
       Nova to schedule baremetal machines through the Ironic driver, instead of
       sheduling virtual machines.
 
@@ -131,6 +132,14 @@ systems:
         IRONIC_DB_USER: ironicDB
         IRONIC_DB_PASSWORD: veryinsecure
 
+        CEILOMETER_SERVICE_USER: ceilometer
+        CEILOMETER_SERVICE_PASSWORD: veryinsecure
+        CEILOMETER_DB_USER: ceilometerDB
+        CEILOMETER_DB_PASSWORD: veryinsecure
+        CEILOMETER_ENABLE_CONTROLLER: True
+        CEILOMETER_ENABLE_COMPUTE: False
+        METERING_SECRET: insecureceilometersecret
+
         CONTROLLER_HOST_ADDRESS: twonode-controller.os-mgmt
         MANAGEMENT_INTERFACE_IP_ADDRESS: 10.0.0.1
 
@@ -177,6 +186,9 @@ systems:
         METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
 
         IRONIC_ENABLE_SERVICE: False
+
+        CEILOMETER_ENABLE_CONTROLLER: False
+        CEILOMETER_ENABLE_COMPUTE: True
 
         MANAGEMENT_INTERFACE_IP_ADDRESS: 10.0.0.3
         HOSTS_SELF: 10.0.0.3 twonode-compute

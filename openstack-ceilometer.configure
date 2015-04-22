@@ -21,8 +21,10 @@ ROOT="$1"
 
 ##########################################################################
 
-ln -s "/usr/lib/systemd/system/openstack-ceilometer-setup.service" \
-        "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-ceilometer-setup.service"
+enable(){
+    ln -sf "/usr/lib/systemd/system/$1.service" \
+            "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
+}
 
 ##########################################################################
 # Check variables
@@ -51,6 +53,50 @@ if [ -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -o \
      -z "$CONTROLLER_HOST_ADDRESS" ]; then
     echo Some options required for Ceilometer were defined, but not all.
     exit 1
+fi
+
+# Check optional variables
+
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
+
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
+
+check_bool CEILOMETER_ENABLE_CONTROLLER
+check_bool CEILOMETER_ENABLE_COMPUTE
+
+######################################
+# Enable relevant openstack services #
+######################################
+
+if "$CEILOMETER_ENABLE_COMPUTE" || "$CEILOMETER_ENABLE_CONTROLLER"; then
+    enable openstack-ceilometer-config-setup
+fi
+if "$CEILOMETER_ENABLE_COMPUTE"; then
+    enable openstack-ceilometer-compute
+fi
+if "$CEILOMETER_ENABLE_CONTROLLER"; then
+    enable openstack-ceilometer-db-setup
+    enable openstack-ceilometer-api
+    enable openstack-ceilometer-collector
+    enable openstack-ceilometer-notification
+    enable openstack-ceilometer-central
+    enable openstack-ceilometer-alarm-evaluator
+    enable openstack-ceilometer-alarm-notifier
 fi
 
 ##########################################################################

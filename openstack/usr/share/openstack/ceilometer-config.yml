@@ -1,0 +1,36 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/ceilometer.conf"
+  tasks:
+# Configure ceilometer
+  - name: Create the ceilometer user.
+    user:
+        name: ceilometer
+        comment: Openstack Ceilometer Daemons
+        shell: /sbin/nologin
+        home: /var/lib/ceilometer
+
+  - name: Create the /var folders for ceilometer
+    file:
+        path: "{{ item }}"
+        state: directory
+        owner: ceilometer
+        group: ceilometer
+    with_items:
+    - /var/run/ceilometer
+    - /var/lock/ceilometer
+    - /var/log/ceilometer
+    - /var/lib/ceilometer
+
+  - name: Create /etc/ceilometer directory
+    file:
+        path: /etc/ceilometer
+        state: directory
+
+  - name: Add the configuration needed for ceilometer in /etc/ceilometer using templates
+    template:
+        src: /usr/share/openstack/ceilometer/{{ item }}
+        dest: /etc/ceilometer/{{ item }}
+    with_lines:
+    - cd /usr/share/openstack/ceilometer && find -type f

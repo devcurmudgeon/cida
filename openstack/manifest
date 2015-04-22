@@ -6,7 +6,8 @@ template 0100644 0 0 /etc/tempest/tempest.conf
 0040755 0 0 /usr/share/openstack
 0100644 0 0 /usr/share/openstack/hosts
 0040755 0 0 /usr/share/openstack/ceilometer
-0100644 0 0 /usr/share/openstack/ceilometer.yml
+0100644 0 0 /usr/share/openstack/ceilometer-config.yml
+0100644 0 0 /usr/share/openstack/ceilometer-db.yml
 0100644 0 0 /usr/share/openstack/ceilometer/ceilometer.conf
 0040755 0 0 /usr/share/openstack/cinder
 0100644 0 0 /usr/share/openstack/cinder-config.yml
@@ -166,7 +167,8 @@ template 0100644 0 0 /etc/tempest/tempest.conf
 0100644 0 0 /usr/lib/systemd/system/openstack-cinder-scheduler.service
 0100644 0 0 /usr/lib/systemd/system/openstack-cinder-volume.service
 0100644 0 0 /usr/lib/systemd/system/openstack-cinder-backup.service
-0100644 0 0 /usr/lib/systemd/system/openstack-ceilometer-setup.service
+0100644 0 0 /usr/lib/systemd/system/openstack-ceilometer-config-setup.service
+0100644 0 0 /usr/lib/systemd/system/openstack-ceilometer-db-setup.service
 0100644 0 0 /usr/lib/systemd/system/openstack-ceilometer-alarm-evaluator.service
 0100644 0 0 /usr/lib/systemd/system/openstack-ceilometer-alarm-notifier.service
 0100644 0 0 /usr/lib/systemd/system/openstack-ceilometer-api.service

@@ -1,6 +1,6 @@
 [Unit]
 Description=OpenStack ceilometer compute agent
-After=syslog.target network-online.target openstack-ceilometer-collector.service
+After=syslog.target network-online.target openstack-ceilometer-config-setup.service
 Wants=network-online.target
 
 [Service]

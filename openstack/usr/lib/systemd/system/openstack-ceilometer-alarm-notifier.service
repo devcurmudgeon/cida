@@ -1,6 +1,6 @@
 [Unit]
 Description=OpenStack ceilometer alarm notification service
-After=syslog.target network-online.target
+After=syslog.target network-online.target openstack-ceilometer-config-setup.service
 Wants=network-online.target
 
 [Service]
