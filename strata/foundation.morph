@@ -8,11 +8,6 @@ chunks:
   repo: upstream:bash-completion
   ref: 3085c7e12179817a02a611016606391295c69942
   unpetrify-ref: 2.1
-- name: attr
-  morph: strata/foundation/attr.morph
-  repo: upstream:attr
-  ref: 4b005410f865895d4dcd56e2c135278a7a315877
-  unpetrify-ref: baserock/morph
 - name: groff
   morph: strata/foundation/groff.morph
   repo: upstream:groff-git
@@ -28,13 +23,6 @@ chunks:
   repo: upstream:tz
   ref: a0782484f101ac55c916568bc1c490d7761fc904
   unpetrify-ref: 2015a
-- name: libcap2
-  morph: strata/foundation/libcap2.morph
-  repo: upstream:libcap2
-  ref: 4f7cca1bc9c2a274edb39d351b65747010d3ba7b
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - attr
 - name: pciutils
   morph: strata/foundation/pciutils.morph
   repo: upstream:pciutils
@@ -53,11 +41,6 @@ chunks:
   ref: 412eed473b557ed2172d81d76fa1e1f53c973a67
   build-depends:
   - libgpg-error
-- name: linux-pam
-  morph: strata/foundation/linux-pam.morph
-  repo: upstream:linux-pam
-  ref: b1521c97e73b10469f7b34c0571d51c647eca83c
-  unpetrify-ref: Linux-PAM-1.1.8
 - name: systemd
   morph: strata/foundation/systemd.morph
   repo: upstream:systemd
@@ -66,9 +49,7 @@ chunks:
   build-depends:
   - dbus-pre
   - kmod
-  - libcap2
   - libgcrypt
-  - linux-pam
 - name: libusb
   repo: upstream:libusb
   ref: e11525c66c7dd2db466c8f5785ff0b37d6a99ec9
@@ -91,13 +72,6 @@ chunks:
   repo: upstream:fuse
   ref: d69e627e79862e2df4ff9ff1ddb0363c4520d8a8
   unpetrify-ref: baserock/morph
-- name: acl
-  morph: strata/foundation/acl.morph
-  repo: upstream:acl
-  ref: f13e09bd54fd4a501c4952f002ed2752bdd9f93b
-  unpetrify-ref: v2.2.52
-  build-depends:
-  - attr
 - name: e2fsprogs
   morph: strata/foundation/e2fsprogs.morph
   repo: upstream:e2fsprogs
@@ -109,8 +83,6 @@ chunks:
   ref: 563ff3b07d85517e3589a1f2e6f45a8265e3f071
   unpetrify-ref: v3.18.2
   build-depends:
-  - attr
-  - acl
   - lzo
   - e2fsprogs
 - name: dbus
@@ -132,8 +104,6 @@ chunks:
   repo: baserock:baserock/tbdiff
   ref: 47fb728f2432929868666afc915dbc5a64836c08
   unpetrify-ref: master
-  build-depends:
-  - attr
 - name: dbus-glib
   repo: upstream:dbus-glib
   ref: 397e8297d433547c9bf4150ddd2b9e0b4c39628c

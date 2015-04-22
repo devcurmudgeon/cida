@@ -2,7 +2,8 @@ name: tar
 kind: chunk
 build-system: autotools
 pre-configure-commands:
-- bash bootstrap --skip-po
+- rm .gitmodules
+- bash bootstrap --skip-po --gnulib-srcdir="$(pwd)/gnulib" --paxutils-srcdir="$(pwd)/paxutils"
 configure-commands:
 # Configure flag notes:
 # 1. Needed to run configure as root

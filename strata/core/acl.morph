@@ -3,4 +3,4 @@ kind: chunk
 build-commands:
 - make
 install-commands:
-- make DESTDIR="$DESTDIR" install-dev
+- make DESTDIR="$DESTDIR" install-lib install-dev

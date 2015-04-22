@@ -2,4 +2,38 @@ name: shadow
 kind: chunk
 build-system: autotools
 configure-commands:
-- ./autogen.sh --with-selinux=no --sysconfdir=/etc
+# Installing to /bin so that they overwrite busybox login.
+- |
+  ./autogen.sh --with-selinux=no \
+               --sysconfdir=/etc \
+               --with-pam=yes \
+               --prefix="$PREFIX" \
+               --bindir=/bin
+post-install-commands:
+# Disable things handled by pam instead
+- rm "$DESTDIR/etc/limits"
+- rm "$DESTDIR/etc/login.access"
+- |
+  for OPTION in FAIL_DELAY \
+                FAILLOG_ENAB \
+                LASTLOG_ENAB \
+                MAIL_CHECK_ENAB \
+                OBSCURE_CHECKS_ENAB \
+                PORTTIME_CHECKS_ENAB \
+                QUOTAS_ENAB \
+                CONSOLE MOTD_FILE \
+                FTMP_FILE \
+                NOLOGINS_FILE \
+                ENV_HZ \
+                PASS_MIN_LEN \
+                SU_WHEEL_ONLY \
+                CRACKLIB_DICTPATH \
+                PASS_CHANGE_TRIES \
+                PASS_ALWAYS_WARN \
+                CHFN_AUTH \
+                ENCRYPT_METHOD \
+                ENVIRON_FILE
+  do
+    sed -i "s/^${OPTION}.*/# & #This option is handled by PAM instead./" \
+        "$DESTDIR/etc/login.defs"
+  done

@@ -234,6 +234,70 @@ chunks:
   - autoconf-tarball
   - automake
   - libtool-tarball
+- name: attr
+  morph: strata/core/attr.morph
+  repo: upstream:attr
+  ref: 4b005410f865895d4dcd56e2c135278a7a315877
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - autoconf-tarball
+  - automake
+  - gettext-tarball
+  - libtool-tarball
+- name: acl
+  morph: strata/core/acl.morph
+  repo: upstream:acl
+  ref: f13e09bd54fd4a501c4952f002ed2752bdd9f93b
+  unpetrify-ref: v2.2.52
+  build-depends:
+  - autoconf-tarball
+  - automake
+  - gettext-tarball
+  - libtool-tarball
+  - attr
+- name: linux-pam
+  morph: strata/core/linux-pam.morph
+  repo: upstream:linux-pam
+  ref: b1521c97e73b10469f7b34c0571d51c647eca83c
+  unpetrify-ref: Linux-PAM-1.1.8
+  build-depends:
+  - autoconf-tarball
+  - automake
+  - gettext-tarball
+  - libtool-tarball
+  - pkg-config
+  - flex
+  - attr
+  - acl
+- name: libcap2
+  morph: strata/core/libcap2.morph
+  repo: upstream:libcap2
+  ref: 4f7cca1bc9c2a274edb39d351b65747010d3ba7b
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - autoconf-tarball
+  - automake
+  - gettext-tarball
+  - libtool-tarball
+  - pkg-config
+  - attr
+  - acl
+  - linux-pam
+- name: shadow
+  morph: strata/core/shadow.morph
+  repo: upstream:shadow
+  ref: 4f5000a45963c2cc2a403ad23e459f20296b29c2
+  unpetrify-ref: baserock/4.2
+  build-depends:
+  - autoconf-tarball
+  - automake
+  - gettext-tarball
+  - libtool-tarball
+  - bison
+  - attr
+  - acl
+  - linux-pam
+  - libcap2
 - name: util-linux
   morph: strata/core/util-linux.morph
   repo: upstream:util-linux
@@ -246,6 +310,8 @@ chunks:
   - git
   - libtool-tarball
   - pkg-config
+  - linux-pam
+  - shadow
 - name: bc
   repo: upstream:bc-tarball
   ref: 0956d119432ff6a2e85bae1fa336df799cad70b0
@@ -253,17 +319,6 @@ chunks:
   build-depends:
   - flex
   - texinfo-tarball
-- name: shadow
-  morph: strata/core/shadow.morph
-  repo: upstream:shadow
-  ref: 4f5000a45963c2cc2a403ad23e459f20296b29c2
-  unpetrify-ref: baserock/4.2
-  build-depends:
-  - autoconf-tarball
-  - automake
-  - gettext-tarball
-  - libtool-tarball
-  - bison
 - name: patch
   morph: strata/core/patch.morph
   repo: upstream:patch
