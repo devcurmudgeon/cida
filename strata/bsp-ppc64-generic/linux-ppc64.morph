@@ -31,6 +31,8 @@ configure-commands:
 - scripts/config -e EXT4_FS_POSIX_ACL
 - scripts/config -e EXT4_FS_SECURITY
 - scripts/config -d EXT4_DEBUG
+- scripts/config -e FUSE_FS
+- scripts/config -e OVERLAY_FS
 - scripts/config -e XFS_FS
 - scripts/config -e LIBCRC32C
 - scripts/config -d JBD_DEBUG

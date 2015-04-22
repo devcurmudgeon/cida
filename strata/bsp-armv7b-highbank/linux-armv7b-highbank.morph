@@ -21,6 +21,8 @@ configure-commands:
 - scripts/config -e BLK_DEV_LOOP
 - scripts/config -e BTRFS_FS
 - scripts/config -e TMPFS
+- scripts/config -e FUSE_FS
+#- scripts/config -e OVERLAY_FS # Activate when we build Linux >= 3.18
 - scripts/config -e IKCONFIG
 - scripts/config -e IKCONFIG_PROC
 - scripts/config -e CGROUPS

@@ -8,6 +8,8 @@ configure-commands:
 - scripts/config -e CONFIG_POSIX_MQUEUE
 - scripts/config -e CPU_IDLE
 - scripts/config -e EXT4_FS
+- scripts/config -e FUSE_FS
+#- scripts/config -e OVERLAY_FS # Activate when we build Linux >= 3.18
 - scripts/config -e EXT4_USE_FOR_EXT23
 - scripts/config -e PACKET
 - scripts/config -e UNIX
