@@ -134,7 +134,7 @@ systems:
         CONTROLLER_HOST_ADDRESS: threenode-controller.os-mgmt
         MANAGEMENT_INTERFACE_IP_ADDRESS: 10.0.0.1
 
-        HOSTS_SELF: 10.24.1.83 threenode-network
+        HOSTS_SELF: 10.0.0.1 threenode-network
         HOSTS_NETWORK: 10.0.0.1 threenode-network.os-mgmt
         HOSTS_CONTROL: 10.0.0.2 threenode-controller.os-mgmt
         HOSTS_COMPUTE: 10.0.0.3 threenode-compute.os-mgmt
