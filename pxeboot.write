@@ -313,6 +313,14 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
             self.status(msg='Removing %(dst)s', dst=dst)
             os.unlink(dst)
 
+    @contextlib.contextmanager
+    def _local_symlink(self, src, dst):
+        os.symlink(src, dst)
+        try:
+            yield
+        finally:
+            os.unlink(dst)
+
     def local_pxelinux(self, tftproot):
         return self._local_copy('/usr/share/syslinux/pxelinux.0',
                                 os.path.join(tftproot, 'pxelinux.0'))
@@ -431,8 +439,14 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
             self._write_pxe_config(fh=f, kernel_tftp_url=kernel_tftp_url,
                                    rootfs_nfs_url=rootfs_nfs_url,
                                    extra_args=os.environ.get('KERNEL_ARGS',''))
+
         try:
-            yield
+            with self._local_symlink(
+                    src=pxe_cfg_filename,
+                    dst=os.path.join(tftproot,
+                                     'pxelinux.cfg',
+                                     '01-' + pxe_cfg_filename)):
+                yield
         finally:
             os.unlink(pxe_cfg_path)
 
