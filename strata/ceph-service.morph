@@ -48,8 +48,8 @@ chunks:
 - name: ceph
   morph: strata/ceph-service/ceph.morph
   repo: upstream:ceph
-  ref: d3f2ec34d26264ec4deb0b54678ee7bbb2ebc76f
-  unpetrify-ref: master
+  ref: e61c4f093f88e44961d157f65091733580cea79a
+  unpetrify-ref: v0.94
   build-depends:
   - libaio
   - gperftools
