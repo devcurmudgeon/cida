@@ -23,7 +23,7 @@ chunks:
 - name: nfs-utils
   morph: strata/nfs/nfs-utils.morph
   repo: upstream:nfs-utils
-  ref: 08baf3bc2f66a1ca6401191e19380028d2fc2c6d
+  ref: 0da9f20a22bb32b2da6b587b4e85dafde087c0f7
   unpetrify-ref: baserock/master
   build-depends:
   - libevent
