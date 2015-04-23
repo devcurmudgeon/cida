@@ -12,7 +12,7 @@ strata:
 - name: python-cliapp
   morph: strata/python-cliapp.morph
 - name: python-core
-  morph: strata/python-cliapp.morph
+  morph: strata/python-core.morph
 - name: python-pygobject
   morph: strata/python-pygobject.morph
 - name: libsoup-common
