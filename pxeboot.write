@@ -414,14 +414,20 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
                                os.path.basename(rootfs))
 
     @staticmethod
-    def _write_pxe_config(fh, kernel_tftp_url, rootfs_nfs_url,
+    def _write_pxe_config(fh, kernel_tftp_url, rootfs_nfs_url, device=None,
                           fdt_subpath=None, extra_args=''):
+
+        if device is None:
+            ip_cfg = "ip=dhcp"
+        else:
+            ip_cfg = "ip=:::::{device}:dhcp::".format(device=device)
+
         fh.write(textwrap.dedent('''\
             DEFAULT default
             LABEL default
             LINUX {kernel_url}
-            APPEND root=/dev/nfs ip=dhcp nfsroot={rootfs_nfs_url} {extra_args}
-            ''').format(kernel_url=kernel_tftp_url,
+            APPEND root=/dev/nfs {ip_cfg} nfsroot={rootfs_nfs_url} {extra_args}
+            ''').format(kernel_url=kernel_tftp_url, ip_cfg=ip_cfg,
                         rootfs_nfs_url=rootfs_nfs_url, extra_args=extra_args))
         if fdt_subpath is not None:
             fh.write("FDT {}\n".format(fdt_subpath))
@@ -429,7 +435,7 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
 
     @contextlib.contextmanager
     def local_pxeboot_config(self, tftproot, macaddr, ip, tftp_port,
-                             nfsroot_dir):
+                             nfsroot_dir, device=None):
         kernel_tftp_url = 'tftp://{}:{}/kernel'.format(ip, tftp_port)
         rootfs_nfs_url = '{}:{}'.format(ip, nfsroot_dir)
         pxe_cfg_filename = _normalise_macaddr(macaddr)
@@ -438,6 +444,7 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
         with open(pxe_cfg_path, 'w') as f:
             self._write_pxe_config(fh=f, kernel_tftp_url=kernel_tftp_url,
                                    rootfs_nfs_url=rootfs_nfs_url,
+                                   device=device,
                                    extra_args=os.environ.get('KERNEL_ARGS',''))
 
         try:
@@ -637,6 +644,7 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
 
     def process_args(self, (temp_root, macaddr)):
         interface = os.environ.get('PXEBOOT_DEPLOYER_INTERFACE', None)
+        target_interface = os.environ.get('PXEBOOT_TARGET_INTERFACE', None)
         vlan = os.environ.get('PXEBOOT_VLAN')
         if vlan is not None: vlan = int(vlan)
         mode = os.environ.get('PXEBOOT_MODE')
@@ -662,6 +670,7 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
                  self.local_kernel(rootfs=temp_root, tftproot=tftproot), \
                  self.local_nfsroot(rootfs=temp_root, target_ip=target_ip), \
                  self.local_pxeboot_config(tftproot=tftproot, macaddr=macaddr,
+                                           device=target_interface,
                                            ip=host_ip, tftp_port=tftp_port,
                                            nfsroot_dir=temp_root), \
                  self.dhcp_server(interface=interface, host_ip=host_ip,
@@ -682,6 +691,7 @@ class PXEBoot(morphlib.writeexts.WriteExtension):
                  self.local_kernel(rootfs=temp_root, tftproot=tftproot), \
                  self.local_nfsroot(rootfs=temp_root, target_ip=target_ip), \
                  self.local_pxeboot_config(tftproot=tftproot, macaddr=macaddr,
+                                           device=target_interface,
                                            ip=host_ip, tftp_port=tftp_port,
                                            nfsroot_dir=temp_root), \
                  self.dhcp_server(interface=interface, host_ip=host_ip,

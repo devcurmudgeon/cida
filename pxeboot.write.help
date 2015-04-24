@@ -152,3 +152,15 @@ help: >
     device tree blob if specified, will not be removed after the
     deployment finishes.  This variable is only meanful on the
     `existing-server` mode.
+
+
+    ## PXEBOOT_TARGET_INTERFACE
+
+    Name of the interface of the target to pxeboot from. Some targets
+    with more than one interface try to get the rootfs from a different
+    interface than the interface from where the pxeboot server is
+    reachable. Using this variable, the kernel arguments will be filled
+    to include the device.
+
+    Note that the name of this interface is the kernel's default name,
+    usually called ethX, and is non-determinisic.
