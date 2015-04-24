@@ -93,7 +93,7 @@ if "$CINDER_ENABLE_COMPUTE" || "$CINDER_ENABLE_STORAGE"; then
     enable target #target.service!
     enable iscsid
 fi
-if "$CINDER_ENABLE_COMPUTE" || "$CINDER_ENABLE_CONTROLLER"; then
+if "$CINDER_ENABLE_COMPUTE" || "$CINDER_ENABLE_CONTROLLER" || "$CINDER_ENABLE_STORAGE"; then
     enable openstack-cinder-config-setup
 fi
 if "$CINDER_ENABLE_STORAGE"; then
