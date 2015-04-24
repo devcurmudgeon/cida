@@ -5,7 +5,8 @@ systems:
   deploy-defaults:
     TROVE_HOST: TROVE_HOST
     TROVE_ID: TROVE_ID
-    ROOT_DEVICE: "/dev/mmcblk0p1"
+    BOOT_DEVICE: "/dev/mmcblk0p1"
+    ROOT_DEVICE: "/dev/mmcblk0p2"
     DTB_PATH: "boot/tegra124-jetson-tk1.dtb"
     BOOTLOADER_CONFIG_FORMAT: "extlinux"
     BOOTLOADER_INSTALL: "none"

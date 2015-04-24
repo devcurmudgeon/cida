@@ -24,7 +24,8 @@ systems:
       type: rawdisk
       location: build-system-armv7lhf-jetson.img
       DISK_SIZE: 2G
-      ROOT_DEVICE: "/dev/mmcblk0p1"
+      BOOT_DEVICE: "/dev/mmcblk0p1"
+      ROOT_DEVICE: "/dev/mmcblk0p2"
       DTB_PATH: "boot/tegra124-jetson-tk1.dtb"
       BOOTLOADER_CONFIG_FORMAT: "extlinux"
       BOOTLOADER_INSTALL: "none"
@@ -42,7 +43,8 @@ systems:
       type: rawdisk
       location: weston-system-armv7lhf-jetson.img
       DISK_SIZE: 4G
-      ROOT_DEVICE: "/dev/mmcblk0p1"
+      BOOT_DEVICE: "/dev/mmcblk0p1"
+      ROOT_DEVICE: "/dev/mmcblk0p2"
       DTB_PATH: "boot/tegra124-jetson-tk1.dtb"
       BOOTLOADER_CONFIG_FORMAT: "extlinux"
       BOOTLOADER_INSTALL: "none"
