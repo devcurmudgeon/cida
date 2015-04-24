@@ -1,0 +1,48 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/keystone.conf"
+  tasks:
+
+  - name: Create postgres user
+    user:
+        name: postgres
+        comment: PostgreSQL Server
+        shell: /sbin/nologin
+        home: /var/lib/pgsql
+
+  - name: Create the postgres directories
+    file:
+        path: "{{ item }}"
+        state: directory
+        owner: postgres
+        group: postgres
+    with_items:
+    - /var/run/postgresql
+    - /var/lib/pgsql/data
+
+  - name: Initialise postgres database
+    command: pg_ctl -D  /var/lib/pgsql/data initdb
+    args:
+        creates: /var/lib/pgsql/data/base
+    sudo: yes
+    sudo_user: postgres
+
+  - name: Add the configuration needed for postgres for Openstack
+    template:
+        src: /usr/share/openstack/postgres/{{ item }}
+        dest: /var/lib/pgsql/data/{{ item }}
+        owner: postgres
+        group: postgres
+        mode: 0600
+    with_items:
+    - postgresql.conf
+    - pg_hba.conf
+
+  - name: Enable and start postgres services
+    service:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+    with_items:
+    - postgres-server

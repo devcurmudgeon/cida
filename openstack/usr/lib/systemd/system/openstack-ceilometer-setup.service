@@ -1,7 +1,7 @@
 [Unit]
 Description=Run ceilometer-setup Ansible scripts
-After=postgres-server.service openstack-keystone.service openstack-keystone-setup.service
-Wants=postgres-server.service openstack-keystone.service
+After=postgres-server-setup.service openstack-keystone.service openstack-keystone-setup.service
+Wants=postgres-server-setup.service openstack-keystone.service
 
 [Service]
 Type=oneshot

@@ -120,6 +120,7 @@ template 0100644 0 0 /etc/tempest/tempest.conf
 0100644 0 0 /usr/share/openstack/nova/api-paste.ini
 0100644 0 0 /usr/share/openstack/openvswitch.yml
 0040755 0 0 /usr/share/openstack/postgres
+0100644 0 0 /usr/share/openstack/postgres.yml
 0100644 0 0 /usr/share/openstack/postgres/pg_hba.conf
 0100644 0 0 /usr/share/openstack/postgres/postgresql.conf
 0040755 0 0 /usr/share/openstack/rabbitmq
@@ -177,6 +178,7 @@ template 0100644 0 0 /etc/tempest/tempest.conf
 0100644 0 0 /usr/lib/systemd/system/openvswitch-db-server.service
 0100644 0 0 /usr/lib/systemd/system/openvswitch.service
 0100644 0 0 /usr/lib/systemd/system/postgres-server.service
+0100644 0 0 /usr/lib/systemd/system/postgres-server-setup.service
 0100644 0 0 /usr/share/openstack/swift-controller.yml
 0100644 0 0 /usr/lib/systemd/system/swift-controller-setup.service
 0100644 0 0 /usr/lib/systemd/system/swift-proxy.service

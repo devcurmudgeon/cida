@@ -1,8 +1,8 @@
 [Unit]
 Description=Run neutron-db-setup Ansible scripts
 ConditionPathExists=/etc/openstack/neutron.conf
-After=network-online.target openstack-keystone.service postgres-server.service openstack-keystone-setup.service openstack-neutron-config-setup.service
-Wants=network-online.target openstack-keystone.service postgres-server.service
+After=network-online.target openstack-keystone.service postgres-server-setup.service openstack-keystone-setup.service openstack-neutron-config-setup.service
+Wants=network-online.target openstack-keystone.service postgres-server-setup.service
 
 [Service]
 Type=oneshot

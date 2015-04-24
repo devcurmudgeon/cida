@@ -1,6 +1,6 @@
 [Unit]
 Description=Run openstack-swift-storage-setup (once)
-After=local-fs.target postgres-server.service
+After=local-fs.target postgres-server-setup.service
 
 [Service]
 Type=oneshot

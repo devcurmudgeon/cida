@@ -26,6 +26,9 @@ ln -s "/usr/lib/systemd/system/openstack-keystone-setup.service" \
 ln -s "/usr/lib/systemd/system/openstack-horizon-setup.service" \
     "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-horizon-setup.service"
 
+ln -s "/usr/lib/systemd/system/postgres-server-setup.service" \
+    "$ROOT/etc/systemd/system/multi-user.target.wants/postgres-server-setup.service"
+
 ##########################################################################
 # Check variables
 ##########################################################################

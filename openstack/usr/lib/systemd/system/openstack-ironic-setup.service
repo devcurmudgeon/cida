@@ -1,6 +1,6 @@
 [Unit]
 Description=Run ironic-setup Ansible scripts
-After=local-fs.target openstack-keystone-setup.service postgres-server.service
+After=local-fs.target openstack-keystone-setup.service postgres-server-setup.service
 
 [Service]
 ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/ironic.yml

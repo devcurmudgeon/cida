@@ -1,6 +1,6 @@
 [Unit]
 Description=Run swift-controller-setup (once)
-After=local-fs.target postgres-server.service openstack-keystone-setup.service openstack-keystone.service
+After=local-fs.target postgres-server-setup.service openstack-keystone-setup.service openstack-keystone.service
 
 [Service]
 Type=oneshot
