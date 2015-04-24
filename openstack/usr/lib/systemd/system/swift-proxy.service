@@ -1,6 +1,6 @@
 [Unit]
 Description=OpenStack Swift Proxy Server
-After=syslog.target network.target memcached.service openstack-keystone.service swift-controller-setup.service
+After=syslog.target network.target memcached.service openstack-keystone-setup.service swift-controller-setup.service
 
 [Service]
 Type=forking

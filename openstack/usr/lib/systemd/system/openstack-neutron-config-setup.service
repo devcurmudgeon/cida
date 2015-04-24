@@ -1,8 +1,8 @@
 [Unit]
 Description=Run neutron-config-setup Ansible scripts
 ConditionPathExists=/etc/openstack/neutron.conf
-After=openstack-keystone.service openstack-keystone-setup.service
-Wants=openstack-keystone.service
+After=openstack-keystone-setup.service
+Wants=openstack-keystone-setup.service
 
 [Service]
 Type=oneshot
