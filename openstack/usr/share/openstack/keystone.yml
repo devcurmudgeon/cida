@@ -112,7 +112,7 @@
         path: /etc/keystone
         state: directory
 
-  - name: Add the configuration needed for lorry in /etc using templates
+  - name: Add the configuration needed for keystone in /etc using templates
     template:
         src: /usr/share/openstack/keystone/{{ item }}
         dest: /etc/keystone/{{ item }}
@@ -175,7 +175,7 @@
         token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
         endpoint: http://{{ CONTROLLER_HOST_ADDRESS }}:35357/v2.0
 
-  - name: Add kestone endpoint
+  - name: Add keystone endpoint
     keystone_service:
         name: keystone
         type: identity
