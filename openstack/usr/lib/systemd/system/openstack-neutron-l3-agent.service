@@ -7,11 +7,12 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=neutron
+StandardOutput=null
+StandardError=null
 ExecStart=/usr/bin/neutron-l3-agent \
   --config-file=/etc/neutron/neutron.conf \
   --config-file=/etc/neutron/l3_agent.ini \
-  --config-file=/etc/neutron/fwaas_driver.ini \
-  --log-file=/var/log/neutron/l3-agent.log
+  --config-file=/etc/neutron/fwaas_driver.ini
 
 [Install]
 WantedBy=multi-user.target

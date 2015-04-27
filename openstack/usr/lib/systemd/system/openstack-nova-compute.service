@@ -8,6 +8,8 @@ Requires=libvirtd.service
 [Service]
 Type=simple
 User=nova
+StandardOutput=null
+StandardError=null
 ExecStart=/usr/bin/nova-compute --config-file /etc/nova/nova.conf --config-file /etc/nova/nova-compute.conf
 
 [Install]

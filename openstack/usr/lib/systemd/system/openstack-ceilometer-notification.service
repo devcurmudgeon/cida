@@ -7,7 +7,9 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=ceilometer
-ExecStart=/usr/bin/ceilometer-agent-notification --config-file /etc/ceilometer/ceilometer.conf --logfile /var/log/ceilometer/agent-notification.log
+StandardOutput=null
+StandardError=null
+ExecStart=/usr/bin/ceilometer-agent-notification --config-file /etc/ceilometer/ceilometer.conf
 
 [Install]
 WantedBy=multi-user.target

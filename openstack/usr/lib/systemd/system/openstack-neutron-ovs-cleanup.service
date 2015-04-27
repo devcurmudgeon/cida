@@ -9,10 +9,10 @@ ConditionFileIsExecutable=/usr/bin/neutron-ovs-cleanup
 [Service]
 Type=oneshot
 RemainAfterExit=yes
+StandardOutput=null
+StandardError=null
 User=neutron
-ExecStart=/usr/bin/neutron-ovs-cleanup \
-  --log-file /var/log/neutron/ovs-cleanup.log \
-  --config-file /etc/neutron/neutron.conf --verbose
+ExecStart=/usr/bin/neutron-ovs-cleanup --config-file /etc/neutron/neutron.conf
 
 [Install]
 WantedBy=multi-user.target

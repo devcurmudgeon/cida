@@ -7,7 +7,9 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=cinder
-ExecStart=/usr/bin/cinder-scheduler --config-file /etc/cinder/cinder.conf --log-file=/var/log/cinder/cinder-scheduler.log
+StandardOutput=null
+StandardError=null
+ExecStart=/usr/bin/cinder-scheduler --config-file /etc/cinder/cinder.conf
 
 [Install]
 WantedBy=multi-user.target

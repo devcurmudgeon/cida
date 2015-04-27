@@ -8,6 +8,8 @@ Wants=network-online.target
 Type=notify
 Restart=always
 User=keystone
+StandardOutput=null
+StandardError=null
 ExecStart=/usr/bin/keystone-all --config-file /etc/keystone/keystone.conf
 
 [Install]

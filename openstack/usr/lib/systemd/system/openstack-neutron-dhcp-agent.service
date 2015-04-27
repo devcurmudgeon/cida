@@ -7,10 +7,11 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=neutron
+StandardOutput=null
+StandardError=null
 ExecStart=/usr/bin/neutron-dhcp-agent \
   --config-file=/etc/neutron/neutron.conf \
-  --config-file=/etc/neutron/dhcp_agent.ini \
-  --log-file=/var/log/neutron/dhcp-agent.log
+  --config-file=/etc/neutron/dhcp_agent.ini
 
 [Install]
 WantedBy=multi-user.target

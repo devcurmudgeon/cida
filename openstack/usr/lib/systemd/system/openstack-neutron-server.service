@@ -7,10 +7,11 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=neutron
+StandardOutput=null
+StandardError=null
 ExecStart=/usr/bin/neutron-server \
   --config-file=/etc/neutron/neutron.conf \
-  --config-file=/etc/neutron/plugins/ml2/ml2_conf.ini \
-  --log-file=/var/log/neutron/neutron-server.log
+  --config-file=/etc/neutron/plugins/ml2/ml2_conf.ini
 
 [Install]
 WantedBy=multi-user.target
