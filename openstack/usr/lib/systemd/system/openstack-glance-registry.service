@@ -1,5 +1,6 @@
 [Unit]
 Description=OpenStack Image Service (code-named Glance) Registry server
+ConditionPathExists=/etc/glance/glance-registry.conf
 After=syslog.target network-online.target
 Wants=network-online.target
 

@@ -1,5 +1,6 @@
 [Unit]
 Description=OpenStack ceilometer central agent
+ConditionPathExists=/etc/ceilometer/ceilometer.conf
 After=syslog.target network-online.target openstack-ceilometer-collector.service
 Wants=network-online.target
 

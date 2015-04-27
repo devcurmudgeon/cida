@@ -111,3 +111,13 @@ keystone_configuration={
 
 yaml.dump(keystone_configuration, sys.stdout, default_flow_style=False)
 EOF
+
+python << 'EOF' > "$OPENSTACK_DATA/postgres.conf"
+import os, sys, yaml
+
+postgres_configuration={
+    'MANAGEMENT_INTERFACE_IP_ADDRESS': os.environ['MANAGEMENT_INTERFACE_IP_ADDRESS'],
+}
+
+yaml.dump(postgres_configuration, sys.stdout, default_flow_style=False)
+EOF

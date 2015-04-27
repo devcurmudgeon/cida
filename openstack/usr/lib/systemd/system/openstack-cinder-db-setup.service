@@ -1,6 +1,6 @@
 [Unit]
 Description=Run cinder-db-setup Ansible scripts
-ConditionPathExists=/etc/cinder/cinder.conf
+ConditionPathExists=/etc/openstack/cinder.conf
 After=postgres-server-setup.service openstack-cinder-config-setup.service openstack-keystone-setup.service
 
 [Service]

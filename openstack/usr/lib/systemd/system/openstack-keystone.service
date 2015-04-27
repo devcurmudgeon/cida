@@ -1,6 +1,7 @@
 [Unit]
 Description=OpenStack Identity Service (code-named Keystone)
 After=syslog.target network-online.target
+ConditionPathExists=/etc/keystone/keystone.conf
 Wants=network-online.target
 
 [Service]

@@ -1,5 +1,6 @@
 [Unit]
 Description=Run postgres-setup Ansible scripts
+ConditionPathExists=/etc/openstack/postgres.conf
 After=local-fs.target
 
 [Service]

@@ -1,5 +1,6 @@
 [Unit]
 Description=Run ironic-setup Ansible scripts
+ConditionPathExists=/etc/openstack/ironic.conf
 After=local-fs.target openstack-keystone-setup.service postgres-server-setup.service
 
 [Service]

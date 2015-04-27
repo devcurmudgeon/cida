@@ -1,6 +1,6 @@
 [Unit]
 Description=Run nova-db-setup Ansible scripts
-ConditionPathExists=/etc/openstack/neutron.conf
+ConditionPathExists=/etc/openstack/nova.conf
 After=postgres-server-setup.service openstack-keystone-setup.service openstack-nova-config-setup.service
 
 [Service]

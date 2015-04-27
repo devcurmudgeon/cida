@@ -1,5 +1,6 @@
 [Unit]
 Description=Run glance-setup Ansible scripts
+ConditionPathExists=/etc/openstack/glance.conf
 After=local-fs.target openstack-keystone-setup.service postgres-server-setup.service
 
 [Service]

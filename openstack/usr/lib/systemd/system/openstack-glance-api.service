@@ -1,5 +1,6 @@
 [Unit]
 Description=OpenStack Image Service (code-named Glance) API server
+ConditionPathExists=/etc/glance/glance-api.conf
 After=syslog.target network-online.target
 Wants=network-online.target
 
