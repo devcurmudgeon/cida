@@ -34,8 +34,9 @@ chunks:
   ref: 3c055572ced8f63eb9756caa4b1a19225f22e6ff
   unpetrify-ref: baserock/dbus-1.8.16-1-g3c05557/genivi/J-1.0
 - name: libgpg-error
+  morph: strata/foundation/libgpg-error.morph
   repo: upstream:libgpg-error
-  ref: a498812d767c59ae2b75b0c985f5280b139e7dc4
+  ref: libgpg-error-1.19
 - name: libgcrypt
   repo: upstream:libgcrypt
   ref: 412eed473b557ed2172d81d76fa1e1f53c973a67
