@@ -2,7 +2,7 @@
 Description=OpenStack Volume Service (code-named Cinder) API server
 ConditionPathExists=/etc/cinder/cinder.conf
 After=postgres-server-setup.service network-online.target openstack-cinder-db-setup.service openstack-cinder-config-setup.service
-Wants=postgres-server-setup.service network-online.target
+Wants=network-online.target
 
 [Service]
 Type=simple

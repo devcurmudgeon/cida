@@ -2,7 +2,6 @@
 Description=Run ceilometer-db-setup Ansible scripts
 ConditionPathExists=/etc/openstack/ceilometer.conf
 After=postgres-server.service openstack-keystone.service openstack-keystone-setup.service openstack-ceilometer-config-setup.service
-Wants=postgres-server.service openstack-keystone.service
 
 [Service]
 Type=oneshot

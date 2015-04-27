@@ -2,7 +2,7 @@
 Description=Neutron DHCP Agent
 ConditionPathExists=/etc/neutron/neutron.conf
 After=network-online.target openstack-neutron-config-setup.service openstack-neutron-db-setup.service openstack-neutron-ovs-cleanup.service
-Wants=network-online.target openstack-neutron-config-setup.service
+Wants=network-online.target
 
 [Service]
 Type=simple

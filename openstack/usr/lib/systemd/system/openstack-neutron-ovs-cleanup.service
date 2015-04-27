@@ -2,8 +2,8 @@
 Description=Neutron OVS cleanup
 ConditionPathExists=/etc/neutron/neutron.conf
 After=network-online.target openstack-neutron-config-setup.service openstack-neutron-db-setup.service openvswitch.service
-Wants=network-online.target openstack-neutron-config-setup.service
 Before=openstack-neutron-plugin-openvswitch-agent.service
+Wants=network-online.target
 ConditionFileIsExecutable=/usr/bin/neutron-ovs-cleanup
 
 [Service]
