@@ -23,33 +23,37 @@ enable(){
             "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-neutron-$1.service"
 }
 
-unrecognised_value(){
-    eval echo Unrecognised value \$$1 for $1 >&2
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
     exit 1
 }
 
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
 
 ##########################################################################
 # Check variables
 ##########################################################################
 
+check_bool NEUTRON_ENABLE_CONTROLLER
+check_bool NEUTRON_ENABLE_MANAGER
+check_bool NEUTRON_ENABLE_AGENT
 
-if [ -z "$NEUTRON_SERVICE_USER" -a \
-     -z "$NEUTRON_SERVICE_PASSWORD" -a \
-     -z "$NEUTRON_DB_USER" -a \
-     -z "$NEUTRON_DB_PASSWORD" -a \
-     -z "$METADATA_PROXY_SHARED_SECRET" -a \
-     -z "$NOVA_SERVICE_USER" -a \
-     -z "$NOVA_SERVICE_PASSWORD" -a \
-     -z "$RABBITMQ_HOST" -a \
-     -z "$RABBITMQ_USER" -a \
-     -z "$RABBITMQ_PASSWORD" -a \
-     -z "$RABBITMQ_PORT" -a \
-     -z "$CONTROLLER_HOST_ADDRESS" -a \
-     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" -a \
-     -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" ]; then
-     # No Neutron options defined, do nothing.
-     exit 0
+if ! "$NEUTRON_ENABLE_CONTROLLER" && \
+   ! "$NEUTRON_ENABLE_MANAGER" && \
+   ! "$NEUTRON_ENABLE_AGENT"; then
+    exit 0
 fi
 
 if [ -z "$NEUTRON_SERVICE_USER" -o \
@@ -83,52 +87,25 @@ fi
 # Enable services #
 ###################
 
-if [ x"${NEUTRON_ENABLE_CONTROLLER=True}" = xTrue -o \
-     x"${NEUTRON_ENABLE_MANAGER=True}" = xTrue -o \
-     x"${NEUTRON_ENABLE_AGENT=True}" = xTrue ]; then
-    enable config-setup
-fi
-
-case "${NEUTRON_ENABLE_CONTROLLER}" in
-True|yes|y)
+if "$NEUTRON_ENABLE_CONTROLLER"; then
     enable config-setup
     enable db-setup
     enable server
-    ;;
-False|no|n|'')
-    ;;
-*)
-    unrecognised_value NEUTRON_ENABLE_CONTROLLER
-    ;;
-esac
+fi
 
-case "${NEUTRON_ENABLE_MANAGER}" in
-True|yes|y)
+if "$NEUTRON_ENABLE_MANAGER"; then
     enable config-setup
     enable ovs-cleanup
     enable dhcp-agent
     enable l3-agent
     enable plugin-openvswitch-agent
     enable metadata-agent
-    ;;
-False|no|n|'')
-    ;;
-*)
-    unrecognised_value NEUTRON_ENABLE_MANAGER
-    ;;
-esac
+fi
 
-case "${NEUTRON_ENABLE_AGENT}" in
-True|yes|y)
+if "$NEUTRON_ENABLE_AGENT"; then
     enable config-setup
     enable plugin-openvswitch-agent
-    ;;
-False|no|n|'')
-    ;;
-*)
-    unrecognised_value NEUTRON_ENABLE_AGENT
-    ;;
-esac
+fi
 
 ##########################################################################
 # Generate config variable shell snippet
