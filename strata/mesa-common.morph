@@ -4,9 +4,10 @@ build-depends:
 - morph: strata/llvm-common.morph
 - morph: strata/libdrm-common.morph
 - morph: strata/wayland-generic.morph
+- morph: strata/python-core.morph
 chunks:
 - name: mesa
   morph: strata/mesa-common/mesa.morph
   repo: upstream:mesa
-  ref: f7d157a4f011fd5ace94f55c8674be4b12d86f95
-  unpetrify-ref: baserock/mesa-10.3.7-2-gf7d157a/fstat_fix
+  ref: d4407a29d0c64134999fed83dbbd8707ca449ce7
+  unpetrify-ref: baserock/mesa-10.5.4-jetson
