@@ -33,8 +33,8 @@ strata:
   morph: strata/input-common.morph
 - name: llvm-common
   morph: strata/llvm-common.morph
-- name: mesa-common
-  morph: strata/mesa-common.morph
+- name: mesa-common-vm
+  morph: strata/mesa-common-vm.morph
 - name: x-common
   morph: strata/x-common.morph
 - name: weston-genivi

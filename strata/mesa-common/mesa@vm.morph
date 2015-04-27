@@ -1,0 +1,12 @@
+name: mesa@vm
+kind: chunk
+build-system: autotools
+configure-commands:
+- |
+  ./autogen.sh --prefix="$PREFIX" \
+      --enable-gles2 \
+      --disable-glx \
+      --with-egl-platforms=drm,wayland \
+      --with-gallium-drivers="yes" \
+      --with-dri-drivers="yes" \
+      --enable-gallium-egl

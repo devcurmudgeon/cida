@@ -1,0 +1,12 @@
+name: mesa-common-vm
+kind: stratum
+build-depends:
+- morph: strata/llvm-common.morph
+- morph: strata/libdrm-common.morph
+- morph: strata/wayland-generic.morph
+chunks:
+- name: mesa@vm
+  morph: strata/mesa-common/mesa@vm.morph
+  repo: upstream:mesa
+  ref: f7d157a4f011fd5ace94f55c8674be4b12d86f95
+  unpetrify-ref: baserock/mesa-10.3.7-2-gf7d157a/fstat_fix
