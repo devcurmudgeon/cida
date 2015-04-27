@@ -132,7 +132,6 @@ chunks:
   build-depends:
   - xcb-libxcb
 - name: util-keysyms
-  morph: strata/x-common/util-keysyms.morph
   repo: upstream:util-keysyms
   ref: edb763a8837d3932690b9d6d77cb7e20a9ab8013
   unpetrify-ref: baserock/0.4.0
