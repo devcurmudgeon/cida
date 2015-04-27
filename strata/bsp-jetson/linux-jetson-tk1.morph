@@ -217,6 +217,11 @@ configure-commands:
 - scripts/config -e SCSI_ISCSI_ATTRS
 - scripts/config -e ISCSI_TCP
 - scripts/config -e SCSI_LOWLEVEL
+- scripts/config -m DRM_NOUVEAU
+- scripts/config -e NOUVEAU_PLATFORM_DRIVER
+- scripts/config -e DRM_TEGRA_STAGING
+- scripts/config --set-val NOUVEAU_DEBUG 5
+- scripts/config --set-val NOUVEAU_DEBUG_DEFAULT 3
 - yes '' | make ARCH=arm oldconfig
 build-commands:
 - make $MAKEFLAGS ARCH=arm LOADADDR=0x80200000 zImage dtbs

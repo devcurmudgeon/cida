@@ -27,22 +27,17 @@ chunks:
 - name: linux-jetson-tk1
   morph: strata/bsp-jetson/linux-jetson-tk1.morph
   repo: upstream:linux
-  ref: 682c943b0159b1a4105f31020605bf8a0f155ffd
-  unpetrify-ref: baserock/v3.18-with-cpufreq
-- name: bsp-support
-  morph: strata/bsp-jetson/bsp-support.morph
-  repo: baserock:baserock/bsp-support
-  ref: 19bc31ce3198a3c19cdd96d392bde34cb34ed525
-  unpetrify-ref: baserock/arm/tegra-3.10
+  ref: a6df05fd37874251833bd6f18404cd2efaa62603
+  unpetrify-ref: baserock/tegra/4.0-with-cpufreq-gpu
 - name: nouveau-drm
   morph: strata/bsp-jetson/nouveau-drm.morph
   repo: upstream:nouveau
-  ref: 4d0929aa231a0c2d2b66fa1f8ea1c8fa4d872501
-  unpetrify-ref: baserock/jetson/gk20a
+  ref: 73de0a7758eb447d6157d2ed79c84d1a4e6ca09b
+  unpetrify-ref: baserock/tegra/4.0
   build-depends:
   - linux-jetson-tk1
 - name: linux-firmware-jetson
   morph: strata/bsp-jetson/linux-firmware-jetson.morph
   repo: upstream:linux-firmware
-  ref: 9322ef5b14c78ec28163baa41bff240a0e098810
-  unpetrify-ref: baserock/jetson
+  ref: ff2afc9d9649cab2a1f79b8d4eeb0cc0100a2f85
+  unpetrify-ref: baserock/tegra/4.0
