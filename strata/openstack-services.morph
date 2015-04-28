@@ -72,17 +72,12 @@ chunks:
   repo: upstream:python-packages/sqlalchemy
   ref: ff34c480dfd2b8b7c72339d196f5477980a5124c
   unpetrify-ref: rel_0_9_8
-- name: mako
-  repo: upstream:python-packages/mako.git
-  ref: 285bc818a50ccc0f9549630f7c4f4c250585c3e7
-  unpetrify-ref: rel_1_0_0
 - name: alembic
   repo: upstream:python-packages/alembic
   ref: 5f952f25caa688d89204d134ee867de7dbad917c
   unpetrify-ref: rel_0_7_1
   build-depends:
   - sqlalchemy
-  - mako
 - name: lockfile
   repo: upstream:python-packages/lockfile
   ref: 777758cdf4520271370b3338b86b5c66f9b104f0
@@ -368,7 +363,6 @@ chunks:
   unpetrify-ref: 0.8.0
   build-depends:
   - webob
-  - mako
   - webtest
   - logutils
 - name: croniter
