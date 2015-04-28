@@ -1,7 +1,6 @@
 [Unit]
 Description=Run nova-config-setup Ansible scripts
 ConditionPathExists=/etc/openstack/nova.conf
-After=openstack-keystone-setup.service
 
 [Service]
 Type=oneshot
