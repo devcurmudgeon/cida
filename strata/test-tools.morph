@@ -1,0 +1,113 @@
+name: test-tools
+kind: stratum
+description: Tools and frameworks used for testing
+build-depends:
+- morph: strata/python-common.morph
+chunks:
+- name: python-test-extras
+  repo: upstream:python-packages/python-test-extras.git
+  ref: cdeb596f01241e9c779332e86f6edcd0c2e8e9f0
+  unpetrify-ref: master
+- name: check
+  repo: upstream:check
+  ref: 8c872aca6675e95fa47e7514e28fbdf25fce6170
+  unpetrify-ref: 0.9.8
+- name: cppunit
+  repo: upstream:cppunit
+  ref: 8133cf2b977f013216f0a41b6fcb740410d83926
+  unpetrify-ref: 1.13.2
+- name: testtools
+  repo: upstream:python-packages/testtools
+  ref: ee9946228ce5a03a84cf146027de0a8a9a46c4fe
+  unpetrify-ref: testools-1.1.0
+  build-depends:
+  - python-test-extras
+- name: subunit
+  morph: strata/test-tools/subunit.morph
+  repo: upstream:python-packages/subunit
+  ref: e18ffe65a3229d5c1d91be988405d40219db0887
+  unpetrify-ref: 0.0.21
+  build-depends:
+  - python-test-extras
+  - testtools
+  - check
+  - cppunit
+- name: fixtures
+  repo: upstream:python-packages/fixtures
+  ref: 9f9d89ce718463b24cd3910b9a99efb60b3c9e1b
+  unpetrify-ref: 0.3.16
+  build-depends:
+  - testtools
+- name: testrepository
+  repo: upstream:python-packages/testrepository
+  ref: 6419a3dcaabaf09eaf438c6d8d85c90eba7a2b91
+  unpetrify-ref: 0.0.19
+  build-depends:
+  - fixtures
+  - subunit
+  - testtools
+- name: testscenarios
+  repo: upstream:python-packages/testscenarios
+  ref: 475857af19a8190c9c0c7f8241b9907b942e19fd
+  unpetrify-ref: trunk
+- name: mox
+  repo: upstream:python-packages/mox
+  ref: 160491d0384285698d726b1af21277f336107f51
+  unpetrify-ref: master
+- name: mock
+  repo: upstream:python-packages/mock
+  ref: 35b35f7ad239005a950f870af57b44dbdc99d66b
+  unpetrify-ref: master
+- name: oslotest
+  repo: upstream:openstack/oslotest
+  ref: cfdb562a6e07728570ca624a8c4faf3f5b61423b
+  unpetrify-ref: 1.2.0
+  build-depends:
+  - fixtures
+  - subunit
+  - testrepository
+  - testscenarios
+  - testtools
+  - mock
+  - mox
+- name: mox3
+  repo: upstream:python-packages/pymox
+  ref: 444fa40f4edb529efbffa2da8dbd97e9b8564b5c
+  unpetrify-ref: master
+- name: mocker
+  repo: upstream:python-packages/mocker
+  ref: f7f87e4ac1c52342162cf2035f5fe3d273f8b07f
+  unpetrify-ref: master
+- name: zake
+  repo: upstream:python-packages/zake.git
+  ref: 13b92d9db4ad37d9550ef5c5abd323a2530a1e72
+  unpetrify-ref: master
+  build-depends:
+  - testtools
+- name: nose
+  repo: upstream:python-packages/nose
+  ref: 08d134270b035dac3310cd877bb0fe9ab678303a
+  unpetrify-ref: release_1.3.4
+- name: beautifulsoup4
+  repo: upstream:python-packages/beautifulsoup4.git
+  ref: bcd7af0e9159d97aa511fb2d879424d1c1c5aadf
+- name: waitress
+  repo: upstream:python-packages/waitress.git
+  ref: b795d573a5a9e6e39b46a6e82da367a6a5db8dbd
+  unpetrify-ref: 0.8.9
+- name: webtest
+  repo: upstream:python-packages/webtest.git
+  ref: 6a24fba456d1c4ac2609b90f1fdc377c595608a4
+  unpetrify-ref: 2.0.16
+  build-depends:
+  - waitress
+  - beautifulsoup4
+- name: testresources
+  repo: upstream:python-packages/testresources
+  ref: ef938bcce0e436f9e9ffef932a898dc248a1d6ea
+  unpetrify-ref: 0.2.7
+  build-depends:
+  - testtools
+  - fixtures
+  - check
+  - cppunit

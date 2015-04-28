@@ -17,6 +17,8 @@ strata:
   morph: strata/zookeeper.morph
 - name: zookeeper-client
   morph: strata/zookeeper-client.morph
+- name: test-tools
+  morph: strata/test-tools
 configuration-extensions:
 - set-hostname
 - add-config-files

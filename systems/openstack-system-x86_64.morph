@@ -59,6 +59,8 @@ strata:
   morph: strata/ntpd.morph
 - name: libsoup-common
   morph: strata/libsoup-common.morph
+- name: test-tools
+  morph: strata/test-tools.morph
 configuration-extensions:
 - set-hostname
 - add-config-files

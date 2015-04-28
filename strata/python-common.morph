@@ -48,3 +48,15 @@ chunks:
   repo: upstream:configobj-git
   ref: 9d2aab01c77dce600b296ba9da1163cc0bbc14e0
   unpetrify-ref: v5.0.6
+- name: python-mimeparse
+  repo: upstream:python-packages/python-mimeparse.git
+  ref: 2d600d3fc4a386af69d20fba433843b4df2b3c92
+  unpetrify-ref: master
+- name: kazoo
+  repo: upstream:python-packages/kazoo.git
+  ref: 93a718ea4c20df797766742c3d74de281613c651
+  unpretrify-ref: 2.0
+- name: webob
+  repo: upstream:python-packages/webob
+  ref: ae0ac90f22f9e1ff351e445f92330efd89195f51
+  unpetrify-ref: 1.4

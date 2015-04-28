@@ -6,6 +6,7 @@ build-depends:
 - morph: strata/django.morph
 - morph: strata/xstatic.morph
 - morph: strata/openstack-clients.morph
+- morph: strata/test-tools.morph
 chunks:
 - name: rabbitmq-codegen
   morph: strata/openstack-services/rabbitmq-codegen.morph
@@ -23,18 +24,6 @@ chunks:
   repo: upstream:openstack/oslo-rootwrap
   ref: 62d732277de5cf663172eafe6d3a6c149a9cf814
   unpetrify-ref: master
-- name: check
-  repo: upstream:check
-  ref: 8c872aca6675e95fa47e7514e28fbdf25fce6170
-  unpetrify-ref: 0.9.8
-- name: cppunit
-  repo: upstream:cppunit
-  ref: 8133cf2b977f013216f0a41b6fcb740410d83926
-  unpetrify-ref: 1.13.2
-- name: webob
-  repo: upstream:python-packages/webob
-  ref: ae0ac90f22f9e1ff351e445f92330efd89195f51
-  unpetrify-ref: 1.4
 - name: greenlet
   ref: 42b65a7b67dfabd180625155cd4fcd8e51917fe2
   unpetrify-ref: 0.4.5
@@ -100,14 +89,6 @@ chunks:
   repo: upstream:python-packages/creole
   ref: 6390231688adb5d8678a71cd33204e9bca555d4a
   unpetrify-ref: v1.2.1
-- name: mock
-  repo: upstream:python-packages/mock
-  ref: 35b35f7ad239005a950f870af57b44dbdc99d66b
-  unpetrify-ref: master
-- name: nose
-  repo: upstream:python-packages/nose
-  ref: 08d134270b035dac3310cd877bb0fe9ab678303a
-  unpetrify-ref: release_1.3.4
 - name: pygments
   repo: upstream:python-packages/pygments
   ref: f41e8c594e76855611b3b3dfca300894bd29f1c4
@@ -244,61 +225,14 @@ chunks:
   unpetrify-ref: baserock/v0.6.0
   build-depends:
   - numpy
-- name: python-mimeparse
-  repo: upstream:python-packages/python-mimeparse.git
-  ref: 2d600d3fc4a386af69d20fba433843b4df2b3c92
-  unpetrify-ref: master
 - name: httplib2
   ref: 058a1f9448d5c27c23772796f83a596caf9188e6
   unpetrify-ref: v0.9
   repo: upstream:python-packages/httplib2
-- name: extras
-  repo: upstream:python-packages/python-test-extras.git
-  ref: cdeb596f01241e9c779332e86f6edcd0c2e8e9f0
-  unpetrify-ref: master
-- name: testtools
-  repo: upstream:python-packages/testtools
-  ref: ee9946228ce5a03a84cf146027de0a8a9a46c4fe
-  unpetrify-ref: testools-1.1.0
-  build-depends:
-  - extras
-  - python-mimeparse
-- name: fixtures
-  repo: upstream:python-packages/fixtures
-  ref: 9f9d89ce718463b24cd3910b9a99efb60b3c9e1b
-  unpetrify-ref: 0.3.16
-  build-depends:
-  - testtools
-- name: subunit
-  morph: strata/openstack-services/subunit.morph
-  repo: upstream:python-packages/subunit
-  ref: e18ffe65a3229d5c1d91be988405d40219db0887
-  unpetrify-ref: 0.0.21
-  build-depends:
-  - extras
-  - testtools
-  - check
-  - cppunit
-- name: testrepository
-  repo: upstream:python-packages/testrepository
-  ref: 6419a3dcaabaf09eaf438c6d8d85c90eba7a2b91
-  unpetrify-ref: 0.0.19
-  build-depends:
-  - fixtures
-  - subunit
-  - testtools
 - name: suds
   repo: upstream:python-packages/suds
   ref: badd30a87f676d632d7386b05401e6029a5df83c
   unpetrify-ref: release-0.3.2
-- name: testscenarios
-  repo: upstream:python-packages/testscenarios
-  ref: 475857af19a8190c9c0c7f8241b9907b942e19fd
-  unpetrify-ref: trunk
-- name: mox
-  repo: upstream:python-packages/mox
-  ref: 160491d0384285698d726b1af21277f336107f51
-  unpetrify-ref: master
 - name: jsonrpclib
   repo: upstream:python-packages/jsonrpclib
   ref: 53c8ffcfe4dd1718086cc551dce8ac459e8abc67
@@ -337,22 +271,6 @@ chunks:
   build-depends:
   - ply
   - python-decorator
-- name: waitress
-  repo: upstream:python-packages/waitress.git
-  ref: b795d573a5a9e6e39b46a6e82da367a6a5db8dbd
-  unpetrify-ref: 0.8.9
-- name: beautifulsoup4
-  repo: upstream:python-packages/beautifulsoup4.git
-  ref: bcd7af0e9159d97aa511fb2d879424d1c1c5aadf
-  unpetrify-ref: trunk
-- name: webtest
-  repo: upstream:python-packages/webtest.git
-  ref: 6a24fba456d1c4ac2609b90f1fdc377c595608a4
-  unpetrify-ref: 2.0.16
-  build-depends:
-  - webob
-  - waitress
-  - beautifulsoup4
 - name: logutils
   repo: upstream:python-packages/logutils.git
   ref: 095f14efbaaf838b7772bffd36a466abb9668efe
@@ -362,8 +280,6 @@ chunks:
   ref: c7f241fd6bb8a0b10e02b8b43aaf1810c312cfbf
   unpetrify-ref: 0.8.0
   build-depends:
-  - webob
-  - webtest
   - logutils
 - name: croniter
   repo: upstream:python-packages/croniter
@@ -396,7 +312,6 @@ chunks:
   build-depends:
   - ipaddr-py
   - simplegeneric-tarball
-  - webob
 - name: pysnmp
   repo: upstream:python-packages/pysnmp
   ref: 1b377afeaf9ee96ab1d48aeebb2b7a6d65a4ac9d
@@ -450,8 +365,6 @@ chunks:
   - docutils
   - creole
   - pycco
-  - mock
-  - nose
   - sphinx
   - pyjwt
 - name: happybase
@@ -464,20 +377,6 @@ chunks:
   repo: upstream:python-packages/osprofiler
   ref: bbe39b517263017c9db56ae1d904d08846eacff7
   unpetrify-ref: 0.3.0
-  build-depends:
-  - webob
-- name: oslotest
-  repo: upstream:openstack/oslotest
-  ref: cfdb562a6e07728570ca624a8c4faf3f5b61423b
-  unpetrify-ref: 1.2.0
-  build-depends:
-  - fixtures
-  - subunit
-  - testrepository
-  - testscenarios
-  - testtools
-  - mock
-  - mox
 - name: pycadf
   repo: upstream:python-packages/pycadf
   ref: 52727bcea3a98e72331e748ce5f9e3a111a64cd1
@@ -485,7 +384,6 @@ chunks:
   build-depends:
   - oslo-messaging
   - posix-ipc-tarball
-  - webob
 - name: python-xattr
   morph: strata/openstack-services/python-xattr.morph
   repo: upstream:python-packages/xattr
@@ -495,8 +393,6 @@ chunks:
   repo: upstream:openstack/keystonemiddleware
   ref: a7beb50b38be5c3dd4c44d68ad79d1bb206dab6b
   unpetrify-ref: 1.2.0
-  build-depends:
-  - webob
 - name: oslo-db
   repo: upstream:openstack/oslo-db
   ref: 0bb1e236daae53a3f5b4b88761d7b19f7961ed6c
@@ -522,7 +418,6 @@ chunks:
   - eventlet
   - pastedeploy
   - routes
-  - webob
   - boto
   - sqlalchemy-migrate
   - httplib2
@@ -545,7 +440,6 @@ chunks:
   ref: 615f79bb97883eee76923527cea13c2f72baa7ff
   unpetrify-ref: 2014.2.1
   build-depends:
-  - webob
   - eventlet
   - greenlet
   - pastedeploy
@@ -578,7 +472,6 @@ chunks:
   - jsonrpclib
   - keystonemiddleware
   - sqlalchemy
-  - webob
   - alembic
   - oslo-db
   - oslo-messaging
@@ -640,7 +533,6 @@ chunks:
   - keystonemiddleware
   - kombu
   - routes
-  - webob
   - greenlet
   - pastedeploy
   - paste
@@ -679,25 +571,11 @@ chunks:
   - sqlalchemy
   - sqlalchemy-migrate
   - suds
-  - webob
   - wsgiref
-- name: kazoo
-  repo: upstream:python-packages/kazoo.git
-  ref: 93a718ea4c20df797766742c3d74de281613c651
-  unpretrify-ref: 2.0
 - name: pymemcache
   repo: upstream:python-packages/pymemcache.git
   ref: 3824d3b0bcdea3e8d0c08598bedfce10fd3c79e0
   unpetrify-ref: master
-  build-depends:
-  - nose
-- name: zake
-  repo: upstream:python-packages/zake.git
-  ref: 13b92d9db4ad37d9550ef5c5abd323a2530a1e72
-  unpetrify-ref: master
-  build-depends:
-  - kazoo
-  - testtools
 - name: sysv_ipc-tarball
   repo: upstream:python-packages/sysv-ipc-tarball.git
   ref: a77e3a63f004e6ee789fa05e4a5bbc333b1529f1
@@ -707,9 +585,7 @@ chunks:
   ref: a90940a506b7c1bf52ef7d2f2ff52204fdcc6221
   unpetrify-ref: 0.7
   build-depends:
-  - kazoo
   - pymemcache
-  - zake
   - sysv_ipc-tarball
   - msgpack-python
   - retrying
@@ -739,7 +615,6 @@ chunks:
   - sqlalchemy
   - sqlalchemy-migrate
   - tooz
-  - webob
   - wsme
 - name: django-openstack-auth
   repo: upstream:openstack/django_openstack_auth
@@ -766,23 +641,6 @@ chunks:
   repo: upstream:python-packages/pyserial
   ref: bcfc1ec2fdb9a8c9c867481d7673e85fe512e667
   unpetrify-ref: release2_7
-- name: testresources
-  repo: upstream:python-packages/testresources
-  ref: ef938bcce0e436f9e9ffef932a898dc248a1d6ea
-  unpetrify-ref: 0.2.7
-  build-depends:
-  - testtools
-  - fixtures
-  - check
-  - cppunit
-- name: mox3
-  repo: upstream:python-packages/pymox
-  ref: 444fa40f4edb529efbffa2da8dbd97e9b8564b5c
-  unpetrify-ref: master
-- name: mocker
-  repo: upstream:python-packages/mocker
-  ref: f7f87e4ac1c52342162cf2035f5fe3d273f8b07f
-  unpetrify-ref: master
 - name: tempest
   morph: strata/openstack-services/tempest.morph
   repo: upstream:openstack/tempest.git

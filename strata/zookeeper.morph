@@ -4,10 +4,8 @@ description: |
   This stratum installs zookeeper and its dependencies.
 build-depends:
 - morph: strata/core.morph
+- morph: strata/test-tools.morph
 chunks:
-- name: cppunit
-  repo: upstream:cppunit
-  ref: 77bb121d73c4593d6e3addacacb1bfbd21f53dcf
 - name: java-binary
   morph: strata/zookeeper/java-binary.morph
   repo: github:franred/gerrit-installation-binaries
@@ -18,7 +16,6 @@ chunks:
   repo: upstream:java/ant
   ref: master
   build-depends:
-  - cppunit
   - java-binary
 - name: zookeeper
   morph: strata/zookeeper/zookeeper.morph
