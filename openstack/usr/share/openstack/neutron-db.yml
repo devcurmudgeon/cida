@@ -3,7 +3,7 @@
   vars_files:
   - "/etc/openstack/neutron.conf"
   tasks:
-  - name: Create neutron service user in service tenatnt
+  - name: Create neutron service user in service tenant
     keystone_user:
         user: "{{ NEUTRON_SERVICE_USER }}"
         password: "{{ NEUTRON_SERVICE_PASSWORD }}"
