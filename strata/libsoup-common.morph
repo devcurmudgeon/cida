@@ -1,8 +1,7 @@
 name: libsoup-common
 kind: stratum
 build-depends:
-# libsoup depends on foundation for 'glib', and maybe other things.
-- morph: strata/foundation.morph
+- morph: strata/core.morph
 chunks:
 - name: libsoup
   morph: strata/libsoup-common/libsoup.morph
