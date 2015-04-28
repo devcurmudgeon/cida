@@ -23,44 +23,6 @@ enable(){
             "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
 }
 
-##########################################################################
-# Check variables
-##########################################################################
-
-if [ -z "$RABBITMQ_HOST" -a \
-     -z "$RABBITMQ_PORT" -a \
-     -z "$RABBITMQ_USER" -a \
-     -z "$RABBITMQ_PASSWORD" -a \
-     -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -a \
-     -z "$CINDER_DB_USER" -a \
-     -z "$CINDER_DB_PASSWORD" -a \
-     -z "$CONTROLLER_HOST_ADDRESS" -a \
-     -z "$CINDER_SERVICE_USER" -a \
-     -z "$CINDER_SERVICE_PASSWORD" -a \
-     -z "$CINDER_DEVICE" -a \
-     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" ]; then
-     # No Cinder options defined, do nothing.
-     exit 0
-fi
-
-if [ -z "$RABBITMQ_HOST" -o \
-     -z "$RABBITMQ_PORT" -o \
-     -z "$RABBITMQ_USER" -o \
-     -z "$RABBITMQ_PASSWORD" -o \
-     -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -o \
-     -z "$CINDER_DB_USER" -o \
-     -z "$CINDER_DB_PASSWORD" -o \
-     -z "$CONTROLLER_HOST_ADDRESS" -o \
-     -z "$CINDER_SERVICE_USER" -o \
-     -z "$CINDER_SERVICE_PASSWORD" -o \
-     -z "$CINDER_DEVICE" -o \
-     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" ]; then
-    echo Some options required for Cinder were defined, but not all.
-    exit 1
-fi
-
-# Check optional variables
-
 unnaceptable(){
     eval echo Unexpected value \$$1 for $1 >&2
     exit 1
@@ -80,9 +42,35 @@ check_bool(){
     esac
 }
 
+##########################################################################
+# Check variables
+##########################################################################
+
 check_bool CINDER_ENABLE_CONTROLLER
 check_bool CINDER_ENABLE_COMPUTE
 check_bool CINDER_ENABLE_STORAGE
+
+if ! "$CINDER_ENABLE_CONTROLLER" && \
+   ! "$CINDER_ENABLE_COMPUTE" && \
+   ! "$CINDER_ENABLE_STORAGE"; then
+    exit 0
+fi
+
+if [ -z "$RABBITMQ_HOST" -o \
+     -z "$RABBITMQ_PORT" -o \
+     -z "$RABBITMQ_USER" -o \
+     -z "$RABBITMQ_PASSWORD" -o \
+     -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -o \
+     -z "$CINDER_DB_USER" -o \
+     -z "$CINDER_DB_PASSWORD" -o \
+     -z "$CONTROLLER_HOST_ADDRESS" -o \
+     -z "$CINDER_SERVICE_USER" -o \
+     -z "$CINDER_SERVICE_PASSWORD" -o \
+     -z "$CINDER_DEVICE" -o \
+     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" ]; then
+    echo Some options required for Cinder were defined, but not all.
+    exit 1
+fi
 
 ######################################
 # Enable relevant openstack services #
