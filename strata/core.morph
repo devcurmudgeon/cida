@@ -287,3 +287,35 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
+- name: libffi
+  morph: strata/foundation/libffi.morph
+  repo: upstream:libffi
+  ref: 77d4586cc47e8f4c02278afbc220145bba0d442b
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - autoconf-tarball
+  - automake
+- name: glib
+  repo: upstream:glib
+  ref: 966ffb16f6bd54cb3d928a55d00d0eda73592094
+  unpetrify-ref: 2.44.0
+  build-depends:
+  - autoconf-tarball
+  - automake
+  - cpython
+  - gettext-tarball
+  - libffi
+  - pkg-config
+- name: gobject-introspection
+  repo: upstream:gobject-introspection
+  ref: c0243e116c5e261c262dded9f4d7726a770c5a19
+  unpetrify-ref: GOBJECT_INTROSPECTION_1_44_0
+  build-depends:
+  - autoconf-tarball
+  - automake
+  - bison
+  - cpython
+  - flex
+  - glib
+  - libffi
+  - pkg-config

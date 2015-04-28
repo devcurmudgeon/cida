@@ -35,35 +35,16 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - attr
-- name: libffi
-  morph: strata/foundation/libffi.morph
-  repo: upstream:libffi
-  ref: 77d4586cc47e8f4c02278afbc220145bba0d442b
-  unpetrify-ref: baserock/morph
 - name: pciutils
   morph: strata/foundation/pciutils.morph
   repo: upstream:pciutils
   ref: bae04bd0473c68a2f21b7712a627abb08fd84b29
   unpetrify-ref: baserock/morph
-- name: glib
-  repo: upstream:glib
-  ref: 966ffb16f6bd54cb3d928a55d00d0eda73592094
-  unpetrify-ref: 2.44.0
-  build-depends:
-  - libffi
-- name: gobject-introspection
-  repo: upstream:gobject-introspection
-  ref: c0243e116c5e261c262dded9f4d7726a770c5a19
-  unpetrify-ref: GOBJECT_INTROSPECTION_1_44_0
-  build-depends:
-  - glib
 - name: dbus-pre
   morph: strata/foundation/dbus-pre.morph
   repo: upstream:dbus
   ref: 3c055572ced8f63eb9756caa4b1a19225f22e6ff
   unpetrify-ref: baserock/dbus-1.8.16-1-g3c05557/genivi/J-1.0
-  build-depends:
-  - glib
 - name: libgpg-error
   repo: upstream:libgpg-error
   ref: a498812d767c59ae2b75b0c985f5280b139e7dc4
@@ -84,7 +65,6 @@ chunks:
   unpetrify-ref: baserock/v219-729-g163ab29-jetson_btrfs_fixes
   build-depends:
   - dbus-pre
-  - gobject-introspection
   - kmod
   - libcap2
   - libgcrypt
@@ -139,7 +119,6 @@ chunks:
   ref: 3c055572ced8f63eb9756caa4b1a19225f22e6ff
   unpetrify-ref: baserock/dbus-1.8.16-1-g3c05557/genivi/J-1.0
   build-depends:
-  - glib
   - systemd
 - name: openssh
   morph: strata/foundation/openssh.morph
@@ -161,7 +140,6 @@ chunks:
   unpetrify-ref: dbus-glib_0.102
   build-depends:
   - dbus
-  - glib
 - name: rsync
   morph: strata/foundation/rsync.morph
   repo: upstream:rsync
