@@ -23,29 +23,35 @@ enable(){
             "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-nova-$1.service"
 }
 
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
+
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
+
 ##########################################################################
 # Check variables
 ##########################################################################
 
-if [ -z "$NOVA_SERVICE_USER" -a \
-     -z "$NOVA_SERVICE_PASSWORD" -a \
-     -z "$NOVA_DB_USER" -a \
-     -z "$NOVA_DB_PASSWORD" -a \
-     -z "$NOVA_VIRT_TYPE" -a \
-     -z "$NEUTRON_SERVICE_USER" -a \
-     -z "$NEUTRON_SERVICE_PASSWORD" -a \
-     -z "$IRONIC_SERVICE_USER" -a \
-     -z "$IRONIC_SERVICE_PASSWORD" -a \
-     -z "$METADATA_PROXY_SHARED_SECRET" -a \
-     -z "$RABBITMQ_HOST" -a \
-     -z "$RABBITMQ_USER" -a \
-     -z "$RABBITMQ_PASSWORD" -a \
-     -z "$RABBITMQ_PORT" -a \
-     -z "$CONTROLLER_HOST_ADDRESS" -a \
-     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" -a \
-     -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" ]; then
-     # No NOVA options defined, do nothing.
-     exit 0
+check_bool NOVA_ENABLE_CONTROLLER
+check_bool NOVA_ENABLE_COMPUTE
+
+if ! "$NOVA_ENABLE_CONTROLLER" && \
+   ! "$NOVA_ENABLE_COMPUTE"; then
+    exit 0
 fi
 
 if [ -z "$NOVA_SERVICE_USER" -o \
@@ -68,30 +74,6 @@ if [ -z "$NOVA_SERVICE_USER" -o \
     echo Some options required for Nova were defined, but not all.
     exit 1
 fi
-
-# Check optional variables
-
-unnaceptable(){
-    eval echo Unexpected value \$$1 for $1 >&2
-    exit 1
-}
-
-check_bool(){
-    case "$(eval echo \"\$$1\")" in
-    True|'')
-        eval "$1=true"
-        ;;
-    False)
-        eval "$1=false"
-        ;;
-    *)
-        unnaceptable "$1"
-        ;;
-    esac
-}
-
-check_bool NOVA_ENABLE_CONTROLLER
-check_bool NOVA_ENABLE_COMPUTE
 
 ###############################################
 # Enable libvirtd and libvirt-guests services #
