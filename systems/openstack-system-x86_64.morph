@@ -76,3 +76,4 @@ configuration-extensions:
 - openstack-ceilometer
 - fstab
 - openstack-ironic
+- install-essential-files

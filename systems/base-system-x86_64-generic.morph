@@ -17,3 +17,4 @@ configuration-extensions:
 - add-config-files
 - nfsboot
 - install-files
+- install-essential-files

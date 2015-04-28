@@ -63,3 +63,4 @@ configuration-extensions:
 - cloud-init
 - moonshot-kernel
 - fstab
+- install-essential-files

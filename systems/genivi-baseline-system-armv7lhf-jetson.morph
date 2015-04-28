@@ -44,3 +44,4 @@ configuration-extensions:
 - install-files
 - strip-gplv3
 - fstab
+- install-essential-files

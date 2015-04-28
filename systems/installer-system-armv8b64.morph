@@ -33,3 +33,4 @@ configuration-extensions:
 - fstab
 - installer
 - moonshot-kernel
+- install-essential-files

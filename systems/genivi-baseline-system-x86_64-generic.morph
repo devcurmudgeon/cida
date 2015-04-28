@@ -45,3 +45,4 @@ configuration-extensions:
 - nfsboot
 - install-files
 - strip-gplv3
+- install-essential-files

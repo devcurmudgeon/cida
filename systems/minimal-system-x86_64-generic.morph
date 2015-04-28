@@ -18,3 +18,4 @@ configuration-extensions:
 - nfsboot
 - install-files
 - busybox-init
+- install-essential-files

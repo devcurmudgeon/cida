@@ -64,3 +64,4 @@ configuration-extensions:
 - install-files
 - cloud-init
 - fstab
+- install-essential-files

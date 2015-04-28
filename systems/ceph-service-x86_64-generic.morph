@@ -61,3 +61,4 @@ configuration-extensions:
 - install-files
 - ceph
 - cloud-init
+- install-essential-files

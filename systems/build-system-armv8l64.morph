@@ -54,3 +54,4 @@ configuration-extensions:
 - mason
 - cloud-init
 - moonshot-kernel
+- install-essential-files

@@ -55,3 +55,4 @@ configuration-extensions:
 - nfsboot
 - install-files
 - fstab
+- install-essential-files

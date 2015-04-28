@@ -62,3 +62,4 @@ configuration-extensions:
 - install-files
 - cloud-init
 - moonshot-kernel
+- install-essential-files
