@@ -18,13 +18,26 @@ set -e
 
 ROOT="$1"
 
-ln -sf "/usr/lib/systemd/system/openvswitch-setup.service" \
-  "$ROOT/etc/systemd/system/multi-user.target.wants/openvswitch-setup.service"
+enable(){
+    ln -sf "/usr/lib/systemd/system/$1.service" \
+            "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
+}
 
-ln -sf "/usr/lib/systemd/system/openstack-network-setup.service" \
-  "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-network-setup.service"
+###################
+# Enable services #
+###################
 
-python <<'EOF' >"$ROOT/etc/openstack/network.conf"
+enable openvswitch-setup
+enable openstack-network-setup
+
+##########################################################################
+# Generate config variable shell snippet
+##########################################################################
+
+OPENSTACK_DATA="$ROOT/etc/openstack"
+mkdir -p "$OPENSTACK_DATA"
+
+python <<'EOF' >"$OPENSTACK_DATA/network.conf"
 import os, sys, yaml
 
 network_configuration = {}
