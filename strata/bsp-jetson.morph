@@ -15,13 +15,13 @@ chunks:
 - name: device-tree-compiler
   morph: strata/bsp-jetson/device-tree-compiler.morph
   repo: upstream:device-tree-compiler
-  ref: c92f284c3cf76d471eb27a271de3a51cb45ed058
-  unpetrify-ref: baserock/morph
+  ref: 302fca9f4c283e1994cf0a5a9ce1cf43ca15e6d2
+  unpetrify-ref: v1.4.1
 - name: u-boot@jetson
   morph: strata/bsp-jetson/u-boot@jetson.morph
   repo: upstream:u-boot
-  ref: c77921345b943cdf5f2f28bbe88c6d8970620d2e
-  unpetrify-ref: baserock/jetson/u-boot-tegra-next
+  ref: f33cdaa4c3da4a8fd35aa2f9a3172f31cc887b35
+  unpetrify-ref: v2015.04
   build-depends:
   - device-tree-compiler
 - name: linux-jetson-tk1
