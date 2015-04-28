@@ -11,7 +11,7 @@ description: |
     Alternatively it may be used to install directly onto a physical disk by
     running:
 
-        morph deploy clusters/openstack-installer.morph \
+        morph deploy clusters/openstack-three-node-installer.morph \
             network-installer network-installer.location=/dev/vdb
 
     Substituting network-installer for either compute-installer or
