@@ -19,43 +19,10 @@ set -e
 
 ROOT="$1"
 
-##########################################################################
-
 enable(){
     ln -sf "/usr/lib/systemd/system/$1.service" \
             "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
 }
-
-##########################################################################
-# Check variables
-##########################################################################
-
-if [ -z "$CEILOMETER_SERVICE_USER" -a \
-     -z "$CEILOMETER_SERVICE_PASSWORD" -a \
-     -z "$CEILOMETER_DB_USER" -a \
-     -z "$CEILOMETER_DB_PASSWORD" -a \
-     -z "$METERING_SECRET" ]; then
-     # No Ceilometer options defined, do nothing.
-     exit 0
-fi
-
-if [ -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -o \
-     -z "$CEILOMETER_SERVICE_USER" -o \
-     -z "$CEILOMETER_SERVICE_PASSWORD" -o \
-     -z "$CEILOMETER_DB_USER" -o \
-     -z "$CEILOMETER_DB_PASSWORD" -o \
-     -z "$METERING_SECRET" -o \
-     -z "$RABBITMQ_HOST" -o \
-     -z "$RABBITMQ_PORT" -o \
-     -z "$RABBITMQ_USER" -o \
-     -z "$RABBITMQ_PASSWORD" -o \
-     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" -o \
-     -z "$CONTROLLER_HOST_ADDRESS" ]; then
-    echo Some options required for Ceilometer were defined, but not all.
-    exit 1
-fi
-
-# Check optional variables
 
 unnaceptable(){
     eval echo Unexpected value \$$1 for $1 >&2
@@ -76,8 +43,33 @@ check_bool(){
     esac
 }
 
+##########################################################################
+# Check variables
+##########################################################################
+
 check_bool CEILOMETER_ENABLE_CONTROLLER
 check_bool CEILOMETER_ENABLE_COMPUTE
+
+if ! "$CEILOMETER_ENABLE_CONTROLLER" && \
+   ! "$CEILOMETER_ENABLE_COMPUTE"; then
+    exit 0
+fi
+
+if [ -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -o \
+     -z "$CEILOMETER_SERVICE_USER" -o \
+     -z "$CEILOMETER_SERVICE_PASSWORD" -o \
+     -z "$CEILOMETER_DB_USER" -o \
+     -z "$CEILOMETER_DB_PASSWORD" -o \
+     -z "$METERING_SECRET" -o \
+     -z "$RABBITMQ_HOST" -o \
+     -z "$RABBITMQ_PORT" -o \
+     -z "$RABBITMQ_USER" -o \
+     -z "$RABBITMQ_PASSWORD" -o \
+     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" -o \
+     -z "$CONTROLLER_HOST_ADDRESS" ]; then
+    echo Some options required for Ceilometer were defined, but not all.
+    exit 1
+fi
 
 ######################################
 # Enable relevant openstack services #
