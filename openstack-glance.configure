@@ -18,28 +18,38 @@ set -e
 
 ROOT="$1"
 
-##########################################################################
+enable(){
+    ln -sf "/usr/lib/systemd/system/$1.service" \
+            "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
+}
 
-ln -s "/usr/lib/systemd/system/openstack-glance-setup.service" \
-        "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-glance-setup.service"
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
+
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
 
 ##########################################################################
 # Check variables
 ##########################################################################
 
-if [ -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -a \
-     -z "$GLANCE_SERVICE_USER" -a \
-     -z "$GLANCE_SERVICE_PASSWORD" -a \
-     -z "$GLANCE_DB_USER" -a \
-     -z "$GLANCE_DB_PASSWORD" -a \
-     -z "$RABBITMQ_HOST" -a \
-     -z "$RABBITMQ_PORT" -a \
-     -z "$RABBITMQ_USER" -a \
-     -z "$RABBITMQ_PASSWORD" -a \
-     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" -a \
-     -z "$CONTROLLER_HOST_ADDRESS" ]; then
-     # No Glance options defined, do nothing.
-     exit 0
+check_bool GLANCE_ENABLE_SERVICE
+
+if ! "$GLANCE_ENABLE_SERVICE"; then
+    exit 0
 fi
 
 if [ -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -o \
@@ -56,6 +66,12 @@ if [ -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -o \
     echo Some options required for Glance were defined, but not all.
     exit 1
 fi
+
+######################################
+# Enable relevant openstack services #
+######################################
+
+enable openstack-glance-setup
 
 ##########################################################################
 # Generate configuration file

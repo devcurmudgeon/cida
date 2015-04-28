@@ -96,6 +96,7 @@ systems:
         KEYSTONE_DB_USER: keystoneDB
         KEYSTONE_DB_PASSWORD: veryinsecure
 
+        GLANCE_ENABLE_SERVICE: False
         GLANCE_SERVICE_USER: glance
         GLANCE_SERVICE_PASSWORD: veryinsecure
         GLANCE_DB_USER: glanceDB
@@ -173,6 +174,8 @@ systems:
         HOSTNAME: threenode-controller
 
         KEYSTONE_ENABLE_SERVICE: True
+
+        GLANCE_ENABLE_SERVICE: True
 
         NOVA_ENABLE_CONTROLLER: True
 

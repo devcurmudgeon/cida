@@ -95,6 +95,7 @@ systems:
         KEYSTONE_DB_USER: keystoneDB
         KEYSTONE_DB_PASSWORD: veryinsecure
 
+        GLANCE_ENABLE_SERVICE: True
         GLANCE_SERVICE_USER: glance
         GLANCE_SERVICE_PASSWORD: veryinsecure
         GLANCE_DB_USER: glanceDB
@@ -170,6 +171,8 @@ systems:
         HOSTNAME: twonode-compute
 
         KEYSTONE_ENABLE_SERVICE: False
+
+        GLANCE_ENABLE_SERVICE: False
 
         NOVA_ENABLE_COMPUTE: True
         NOVA_ENABLE_CONTROLLER: False
