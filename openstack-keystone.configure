@@ -18,32 +18,37 @@ set -e
 
 ROOT="$1"
 
-##########################################################################
+enable(){
+    ln -sf "/usr/lib/systemd/system/$1.service" \
+            "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
+}
 
-ln -s "/usr/lib/systemd/system/openstack-keystone-setup.service" \
-    "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-keystone-setup.service"
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
 
-ln -s "/usr/lib/systemd/system/openstack-horizon-setup.service" \
-    "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-horizon-setup.service"
-
-ln -s "/usr/lib/systemd/system/postgres-server-setup.service" \
-    "$ROOT/etc/systemd/system/multi-user.target.wants/postgres-server-setup.service"
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
 
 ##########################################################################
 # Check variables
 ##########################################################################
 
-if [ -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -a \
-     -z "$KEYSTONE_ADMIN_PASSWORD" -a \
-     -z "$KEYSTONE_DB_USER" -a \
-     -z "$KEYSTONE_DB_PASSWORD" -a \
-     -z "$RABBITMQ_HOST" -a \
-     -z "$RABBITMQ_PORT" -a \
-     -z "$RABBITMQ_USER" -a \
-     -z "$RABBITMQ_PASSWORD" -a \
-     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" -a \
-     -z "$CONTROLLER_HOST_ADDRESS" ]; then
-     # No Keystone options defined, do nothing.
+check_bool KEYSTONE_ENABLE_SERVICE
+
+if ! "$KEYSTONE_ENABLE_SERVICE"; then
     exit 0
 fi
 
@@ -61,7 +66,6 @@ if [ -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -o \
     exit 1
 fi
 
-
 python <<'EOF'
 import socket
 import sys
@@ -74,6 +78,13 @@ except:
     sys.exit(1)
 EOF
 
+######################################
+# Enable relevant openstack services #
+######################################
+
+enable openstack-keystone-setup
+enable openstack-horizon-setup
+enable postgres-server-setup
 
 ##########################################################################
 # Generate configuration file

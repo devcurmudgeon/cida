@@ -89,6 +89,7 @@ systems:
         RABBITMQ_PASSWORD: veryinsecure
 
         # This token needs to be unique and secret
+        KEYSTONE_ENABLE_SERVICE: True
         KEYSTONE_TEMPORARY_ADMIN_TOKEN: 22f3aa1cf538e3f6d5e8
         KEYSTONE_ADMIN_PASSWORD: veryinsecure
         KEYSTONE_DB_USER: keystoneDB
@@ -167,6 +168,8 @@ systems:
       compute-to-install:
         <<: *stack-node
         HOSTNAME: twonode-compute
+
+        KEYSTONE_ENABLE_SERVICE: False
 
         NOVA_ENABLE_COMPUTE: True
         NOVA_ENABLE_CONTROLLER: False
