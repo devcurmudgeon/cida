@@ -5,6 +5,7 @@ After=postgres-server.service openstack-keystone.service openstack-keystone-setu
 
 [Service]
 Type=oneshot
+RemainAfterExit=yes
 ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/ceilometer-db.yml
 
 [Install]
