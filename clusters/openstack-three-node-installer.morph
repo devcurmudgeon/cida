@@ -209,23 +209,15 @@ systems:
         <<: *stack-node
         HOSTNAME: threenode-compute
 
-        NOVA_VIRT_TYPE: kvm
-
         CINDER_ENABLE_CONTROLLER: False
         CINDER_ENABLE_COMPUTE: True
         CINDER_ENABLE_STORAGE: True
-        CINDER_SERVICE_USER: cinder
-        CINDER_SERVICE_PASSWORD: veryinsecure
-        CINDER_DB_USER: cinderDB
-        CINDER_DB_PASSWORD: veryinsecure
-        CINDER_DEVICE: /dev/sdb
 
         NOVA_ENABLE_COMPUTE: True
 
         NEUTRON_ENABLE_AGENT: True
         NEUTRON_ENABLE_MANAGER: False
         NEUTRON_ENABLE_CONTROLLER: False
-        METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
 
         CEILOMETER_ENABLE_CONTROLLER: False
         CEILOMETER_ENABLE_COMPUTE: True
