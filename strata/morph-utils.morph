@@ -41,7 +41,7 @@ chunks:
   unpetrify-ref: master
 - name: morph
   repo: baserock:baserock/morph
-  ref: e62366ed8a32a44dbe034e8d43450338b1b66e12
+  ref: 2594f6d52878ef78d9809c52c7aebbe52434dba9
   unpetrify-ref: master
   build-depends:
   - cmdtest
