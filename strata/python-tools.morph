@@ -10,7 +10,7 @@ chunks:
   ref: 9205ff46a67130e8835f14bb4f802fd59e7dcf2c
   unpetrify-ref: 12.0.5
 
-## Pylint
+## Pylint - required in openstack-services.morph
 - name: astroid
   repo: upstream:python-packages/astroid
   ref: 194dc114a33b80b4bfbbeb73f36712848f696025

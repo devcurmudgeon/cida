@@ -63,6 +63,8 @@ strata:
   morph: strata/test-tools.morph
 - name: swift
   morph: strata/swift.morph
+- name: python-tools
+  morph: strata/python-tools.morph
 configuration-extensions:
 - set-hostname
 - add-config-files
