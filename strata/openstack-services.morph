@@ -143,10 +143,6 @@ chunks:
   - pygments
   - pystache
   - smartypants
-- name: python-decorator
-  repo: upstream:python-packages/python-decorator
-  ref: b02f7a254c3679dfac57a824e08dd02ced850636
-  unpetrify-ref: decorator-3.4.0
 - name: dateutil
   repo: upstream:python-packages/dateutil
   ref: 8c6026ba09716a4e164f5420120bfe2ebb2d9d82
@@ -206,12 +202,6 @@ chunks:
   ref: 8ffb4739d596fb1aac5d62d173d1e6f80270af9d
   unpetrify-ref: v2.1.fb52
   morph: strata/openstack-services/rtslib-fb.morph
-- name: networkx
-  repo: upstream:python-packages/networkx
-  ref: 8ac796aba866ade1a56b83e30f25ed392ca3512c
-  unpetrify-ref: v1.9.1
-  build-depends:
-  - python-decorator
 - name: pexpect
   repo: upstream:python-packages/pexpect
   ref: 671417beb41c21f772687c565196fdde444b053b
@@ -226,7 +216,6 @@ chunks:
   unpetrify-ref: 1.2.3
   build-depends:
   - ply
-  - python-decorator
 - name: logutils
   repo: upstream:python-packages/logutils.git
   ref: 095f14efbaaf838b7772bffd36a466abb9668efe
@@ -301,15 +290,12 @@ chunks:
   repo: upstream:openstack/taskflow
   ref: 1caaecc5d6b2aa4cde4a50e31d1d993fce7a66c4
   unpetrify-ref: 0.5.0
-  build-depends:
-  - networkx
 - name: sqlalchemy-migrate
   repo: upstream:python-packages/sqlalchemy-migrate
   ref: 089663761cc15f8b3cdb874b6a76270ccdd0a412
   unpetrify-ref: 0.9.1
   build-depends:
   - sqlalchemy
-  - python-decorator
   - tempita
 - name: oauthlib
   repo: upstream:python-packages/oauthlib
@@ -455,7 +441,6 @@ chunks:
   - sqlalchemy
   - anyjson
   - boto
-  - python-decorator
   - keystonemiddleware
   - kombu
   - routes
