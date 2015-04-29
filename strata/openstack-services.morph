@@ -202,7 +202,7 @@ chunks:
   ref: 8ffb4739d596fb1aac5d62d173d1e6f80270af9d
   unpetrify-ref: v2.1.fb52
   morph: strata/openstack-services/rtslib-fb.morph
-- name: pexpect
+- name: python-pexpect
   repo: upstream:python-packages/pexpect
   ref: 671417beb41c21f772687c565196fdde444b053b
   unpetrify-ref: 3.3
