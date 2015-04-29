@@ -106,6 +106,7 @@ systems:
         NOVA_DB_USER: novaDB
         NOVA_DB_PASSWORD: veryinsecure
         NOVA_VIRT_TYPE: kvm
+        NOVA_BAREMETAL_SCHEDULING: no
 
         CINDER_ENABLE_CONTROLLER: True
         CINDER_ENABLE_COMPUTE: False

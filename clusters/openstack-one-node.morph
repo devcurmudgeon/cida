@@ -55,7 +55,6 @@ systems:
       CONTROLLER_HOST_ADDRESS: onenode
       MANAGEMENT_INTERFACE_IP_ADDRESS: <management ip>
 
-
       KEYSTONE_TEMPORARY_ADMIN_TOKEN: 22f3aa1cf538e3f6d5e8
       KEYSTONE_ADMIN_PASSWORD: veryinsecure
       KEYSTONE_DB_USER: keystoneDB
@@ -71,7 +70,7 @@ systems:
       NOVA_DB_USER: novaDB
       NOVA_DB_PASSWORD: veryinsecure
       NOVA_VIRT_TYPE: qemu
-      #NOVA_BAREMETAL_SCHEDULING: no
+      NOVA_BAREMETAL_SCHEDULING: no
 
       CINDER_SERVICE_USER: cinder
       CINDER_SERVICE_PASSWORD: veryinsecure
