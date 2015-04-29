@@ -1,5 +1,1 @@
-NAME="Baserock"
-ID=baserock
-HOME_URL="http://wiki.baserock.org"
-SUPPORT_URL="http://wiki.baserock.org/mailinglist"
-BUG_REPORT_URL="http://wiki.baserock.org/mailinglist"
+../usr/lib/os-release
