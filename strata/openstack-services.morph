@@ -270,10 +270,6 @@ chunks:
   repo: upstream:python-packages/retrying
   ref: cab083eb5791615fadbc0c98ad77a70d64b77d0d
   unpetrify-ref: v1.3.1
-- name: boto
-  repo: upstream:boto
-  ref: 2517f660f8ef9012708d46da3a36ab967993d2f6
-  unpetrify-ref: 2.33.0
 - name: oslo-messaging
   repo: upstream:openstack/oslo-messaging
   ref: 6ea3b12492e86f9e8d109fc3490cc4d3a0edd8b6
@@ -348,7 +344,6 @@ chunks:
   - sqlalchemy
   - anyjson
   - routes
-  - boto
   - sqlalchemy-migrate
   - httplib2
   - kombu
@@ -440,7 +435,6 @@ chunks:
   build-depends:
   - sqlalchemy
   - anyjson
-  - boto
   - keystonemiddleware
   - kombu
   - routes
