@@ -19,8 +19,4 @@ set -eu
 
 mkdir -p "$2"
 
-# Move the contents of our source directory to our target
-# Previously we would (cd "$1" && find -print0 | cpio -0pumd "$absolute_path")
-# to do this, but the source directory is disposable anyway, so we can move
-# its contents to save time
-find "$1" -maxdepth 1 -mindepth 1 -exec mv {} "$2/." +
+cp -a "$1/*" "$2"

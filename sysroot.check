@@ -17,12 +17,6 @@
 
 set -eu
 
-location="$1"
-if [ -d "$location" ]; then
-    echo >&2 "ERROR: Deployment directory already exists: $location"
-    exit 1
-fi
-
 if [ "$UPGRADE" == "yes" ]; then
     echo >&2 "ERROR: Cannot upgrade a sysroot deployment"
     exit 1
