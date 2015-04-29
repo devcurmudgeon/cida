@@ -96,3 +96,17 @@ chunks:
   repo: upstream:simplejson
   ref: 54d5ff15d508c51366986cc4f77f2f287f036582
   unpetrify-ref: v3.6.4
+- name: greenlet
+  ref: 42b65a7b67dfabd180625155cd4fcd8e51917fe2
+  unpetrify-ref: 0.4.5
+  repo: upstream:python-packages/greenlet
+- name: eventlet
+  ref: 8d2474197de4827a7bca9c33e71a82573b6fc721
+  unpetrify-ref: v0.15.2
+  repo: upstream:python-packages/eventlet
+  build-depends:
+  - greenlet
+- name: pastedeploy
+  repo: upstream:python-packages/pastedeploy
+  ref: 5ad87be617c2cc1dd31625688172e964db2756dc
+  unpetrify-ref: 1.5.2

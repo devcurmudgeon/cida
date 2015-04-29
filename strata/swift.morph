@@ -2,30 +2,18 @@ name: swift
 kind: stratum
 description: Distributed object storage
 build-depends:
-- morph: strata/openstack-common.morph    # for simplejson, cffi
+# openstack-common is required for simplejson, cffi, greenlet,
+# eventlet, pastedeploy
+- morph: strata/openstack-common.morph
 chunks:
 - name: dnspython
   repo: upstream:python-packages/dnspython
   ref: e1369c62d14f82b80ef11197a490ace5d43bb3f3
   unpetrify-ref: v1.12.0
-- name: greenlet
-  ref: 42b65a7b67dfabd180625155cd4fcd8e51917fe2
-  unpetrify-ref: 0.4.5
-  repo: upstream:python-packages/greenlet
-- name: eventlet
-  ref: 8d2474197de4827a7bca9c33e71a82573b6fc721
-  unpetrify-ref: v0.15.2
-  repo: upstream:python-packages/eventlet
-  build-depends:
-  - greenlet
 - name: netifaces
   repo: upstream:python-packages/netifaces
   ref: 885b200ba717df87f6e8044ec8c66c677c949bcb
   unpetrify-ref: release_0_10_4
-- name: pastedeploy
-  repo: upstream:python-packages/pastedeploy
-  ref: 5ad87be617c2cc1dd31625688172e964db2756dc
-  unpetrify-ref: 1.5.2
 - name: xattr
   morph: strata/swift/xattr.morph
   repo: upstream:python-packages/xattr
@@ -37,8 +25,5 @@ chunks:
   unpetrify-ref: 2.2.0
   build-depends:
   - dnspython
-  - eventlet
-  - greenlet
   - netifaces
-  - pastedeploy
   - xattr
