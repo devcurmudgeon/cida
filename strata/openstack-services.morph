@@ -338,8 +338,8 @@ chunks:
   unpetrify-ref: 0.1.8
 - name: glance
   repo: upstream:openstack/glance
-  ref: 055adff1d95dca72074da898b541cb4a6b62406d
-  unpetrify-ref: 2014.2.1
+  ref: 1db07bd8c07bbcde4bd267985c4e3961c22b990e
+  unpetrify-ref: 2014.2.3
   build-depends:
   - sqlalchemy
   - anyjson
@@ -362,8 +362,8 @@ chunks:
   unpetrify-ref: 0.1.13
 - name: keystone
   repo: upstream:openstack/keystone
-  ref: 615f79bb97883eee76923527cea13c2f72baa7ff
-  unpetrify-ref: 2014.2.1
+  ref: 91a33875385ca296d24f67d4ef9629a2b33bed99
+  unpetrify-ref: 2014.2.3
   build-depends:
   - paste
   - routes
@@ -381,8 +381,8 @@ chunks:
 - name: neutron
   morph: strata/openstack-services/neutron.morph
   repo: upstream:openstack/neutron
-  ref: dfa4b4b9b6b19a627cfb5eb5c6ab9db4961a06ea
-  unpetrify-ref: 2014.2.1
+  ref: 96b5962646510ee67b322aa82242e02e3edfaa83
+  unpetrify-ref: 2014.2.3
   build-depends:
   - paste
   - routes
@@ -430,8 +430,8 @@ chunks:
 - name: nova
   morph: strata/openstack-services/nova.morph
   repo: upstream:openstack/nova
-  ref: ba25e9ea6d0d42dd3b78cc6440710fd9362ae1b5
-  unpetrify-ref: 2014.2.1
+  ref: e6452b995023e89bf6f1a1fb14f39216f83c760b
+  unpetrify-ref: 2014.2.3
   build-depends:
   - sqlalchemy
   - anyjson
@@ -454,8 +454,8 @@ chunks:
 - name: cinder
   morph: strata/openstack-services/cinder.morph
   repo: upstream:openstack/cinder
-  ref: b48aee211ad9b2571c8554dd162b37b8a8d80a42
-  unpetrify-ref: 2014.2.1
+  ref: 48c792513fd342a5f82122b12e4ed2afd0de2ae7
+  unpetrify-ref: 2014.2.3
   build-depends:
   - anyjson
   - keystonemiddleware
@@ -492,8 +492,8 @@ chunks:
 - name: ceilometer
   repo: upstream:openstack/ceilometer
   morph: strata/openstack-services/ceilometer.morph
-  ref: 1129b7013359bf242a2ea53be9d4faeccfbfac5a
-  unpetrify-ref: 2014.2.1
+  ref: 720c2b4915caf5decd3da91ea2d6e6291316b940 
+  unpetrify-ref: 2014.2.3
   build-depends:
   - alembic
   - anyjson
@@ -521,8 +521,8 @@ chunks:
 - name: horizon
   morph: strata/openstack-services/horizon.morph
   repo: upstream:openstack/horizon
-  ref: 3d9a31e2a05288e9a48a51eb4fe693c42e92aac7
-  unpetrify-ref: 2014.2.1
+  ref: b37c1f3565e89a7fe3fef5ce76e9c26b22e3e7c4
+  unpetrify-ref: 2014.2.3
   build-depends:
   - django-openstack-auth
   - lockfile
