@@ -1,7 +1,8 @@
 [Unit]
 Description=Run keystone-setup Ansible scripts
-After=local-fs.target postgres-server-setup.service
 ConditionPathExists=/etc/openstack/keystone.conf
+After=local-fs.target network-online.target postgres-server-setup.service
+Wants=network-online.target
 
 [Service]
 # Oneshot, since others setup have to wait until this service finishes
