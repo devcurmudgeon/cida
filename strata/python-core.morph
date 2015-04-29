@@ -46,3 +46,7 @@ chunks:
   repo: upstream:python-lxml
   ref: 14505bc62f5f1fc9fb0ff007955f3e67ab4562bb
   unpetrify-ref: lxml-3.4.0
+- name: python-markdown
+  repo: upstream:python-markdown
+  ref: f0c5b71acbc02af60a33d67c59558bb513b25e74
+  unpetrify-ref: 2.5.1-final

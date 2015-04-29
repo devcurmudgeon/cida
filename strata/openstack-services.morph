@@ -100,10 +100,6 @@ chunks:
   - pygments
   - docutils
   - snowballstemmer
-- name: python-markdown
-  repo: upstream:python-markdown
-  ref: f0c5b71acbc02af60a33d67c59558bb513b25e74
-  unpetrify-ref: 2.5.1-final
 - name: pystache
   repo: upstream:python-packages/pystache.git
   ref: 0c5e61a4ccc05bde7f6c6132b4fb6c49a3c093fd
@@ -144,7 +140,6 @@ chunks:
   ref: 22e157e525760e843dba391ca85fbe9bd35fdc5b
   unpetrify-ref: master
   build-depends:
-  - python-markdown
   - pygments
   - pystache
   - smartypants
