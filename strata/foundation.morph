@@ -36,7 +36,8 @@ chunks:
 - name: libgpg-error
   morph: strata/foundation/libgpg-error.morph
   repo: upstream:libgpg-error
-  ref: libgpg-error-1.19
+  ref: d77c33ae608d67086ea057cca5ddee99a7202f8b
+  unpetrify-ref: libgpg-error-1.19
 - name: libgcrypt
   repo: upstream:libgcrypt
   ref: 412eed473b557ed2172d81d76fa1e1f53c973a67
