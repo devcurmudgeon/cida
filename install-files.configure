@@ -24,6 +24,7 @@ to install into the target system.
 
 import cliapp
 import os
+import errno
 import re
 import sys
 import shlex
@@ -52,6 +53,14 @@ class InstallFilesConfigureExtension(cliapp.Application):
             entries = f.readlines()
             for entry in entries:
                 self.install_entry(entry, manifest_dir, target_root)
+
+    def force_symlink(self, source, link_name):
+        try:
+            os.symlink(source, link_name)
+        except OSError as e:
+            if e.errno == errno.EEXIST:
+                os.remove(link_name)
+                os.symlink(source, link_name)
 
     def install_entry(self, entry, manifest_root, target_root):
         m = re.match('(template )?(overwrite )?'
@@ -91,7 +100,7 @@ class InstallFilesConfigureExtension(cliapp.Application):
             else:
                 linkdest = os.readlink(os.path.join(manifest_root,
                                                     './' + path))
-                os.symlink(linkdest, dest_path)
+                self.force_symlink(linkdest, dest_path)
                 os.lchown(dest_path, uid, gid)
 
         elif stat.S_ISREG(mode):
