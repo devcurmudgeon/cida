@@ -1,6 +1,6 @@
 [Unit]
 Description=OpenStack Swift Proxy Server
-After=syslog.target network-online.target network.target memcached.service openstack-keystone-setup.service swift-controller-setup.service
+After=network-online.target swift-controller-setup.service memcached.service
 Wants=network-online.target
 
 [Service]

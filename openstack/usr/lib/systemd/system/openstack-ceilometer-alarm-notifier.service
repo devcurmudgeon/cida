@@ -1,7 +1,7 @@
 [Unit]
 Description=OpenStack ceilometer alarm notification service
 ConditionPathExists=/etc/ceilometer/ceilometer.conf
-After=syslog.target network-online.target openstack-ceilometer-config-setup.service
+After=network-online.target openstack-ceilometer-config-setup.service openstack-ceilometer-db-setup.service
 Wants=network-online.target
 
 [Service]

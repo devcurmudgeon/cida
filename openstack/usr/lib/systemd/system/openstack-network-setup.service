@@ -1,6 +1,6 @@
 [Unit]
 Description=Run Ansible scripts to configure internal network for OpenStack
-After=openvswitch.service openvswitch-setup.service
+After=openvswitch-setup.service openvswitch.service
 Before=systemd-networkd.service
 
 [Service]

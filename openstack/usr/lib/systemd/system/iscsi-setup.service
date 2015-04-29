@@ -1,7 +1,7 @@
 [Unit]
 Description=Run iscsi-setup Ansible scripts
 Before=iscsid.service target.service
-Wants= iscsid.service target.service
+Wants=iscsid.service target.service
 
 [Service]
 Type=oneshot

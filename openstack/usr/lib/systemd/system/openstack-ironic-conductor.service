@@ -1,7 +1,7 @@
 [Unit]
 Description=OpenStack Bare Metal Provisioning Service (code-named Ironic) Conductor server
 ConditionPathExists=/etc/ironic/ironic.conf
-After=syslog.target network-online.target
+After=network-online.target
 Wants=network-online.target
 
 [Service]

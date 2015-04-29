@@ -1,7 +1,7 @@
 [Unit]
 Description=OpenStack ceilometer notification agent
 ConditionPathExists=/etc/ceilometer/ceilometer.conf
-After=syslog.target network-online.target openstack-ceilometer-collector.service
+After=network-online.target openstack-ceilometer-config-setup.service openstack-ceilometer-db-setup.service openstack-ceilometer-collector.service
 Wants=network-online.target
 
 [Service]

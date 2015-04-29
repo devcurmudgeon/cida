@@ -1,7 +1,7 @@
 [Unit]
 Description=Run cinder-db-setup Ansible scripts
 ConditionPathExists=/etc/openstack/cinder.conf
-After=network-online.target postgres-server-setup.service openstack-cinder-config-setup.service openstack-keystone-setup.service
+After=network-online.target postgres-server-setup.service openstack-keystone-setup.service openstack-cinder-config-setup.service
 Wants=network-online.target
 
 [Service]

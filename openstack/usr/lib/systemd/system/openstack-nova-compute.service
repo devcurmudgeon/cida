@@ -1,7 +1,7 @@
 [Unit]
 Description=OpenStack Compute Service (code-named Nova) compute server
 ConditionPathExists=/etc/nova/nova.conf
-After=network-online.target libvirtd.service openstack-nova-config-setup.service openstack-nova-db-setup.service
+After=network-online.target openstack-nova-config-setup.service openstack-nova-db-setup.service libvirtd.service
 Wants=network-online.target
 Requires=libvirtd.service
 
