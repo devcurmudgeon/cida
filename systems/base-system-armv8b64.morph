@@ -1,6 +1,7 @@
 name: base-system-armv8b64
 kind: system
-description: The set of strata required to have a minimal
+description: |
+  The set of strata required to have a minimal
   system for big endian 64-bit ARMv8 computers.
 arch: armv8b64
 strata:
