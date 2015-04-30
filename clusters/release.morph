@@ -29,6 +29,13 @@ systems:
       type: rawdisk
       location: build-system-x86_64.img
       DISK_SIZE: 6G
+      INITRAMFS_PATH: boot/initramfs.gz
+  subsystems:
+  - morph: systems/initramfs-x86_64.morph
+    deploy:
+      initramfs:
+        type: initramfs
+        location: boot/initramfs.gz
 - morph: systems/build-system-armv7lhf-jetson.morph
   deploy:
     build-system-armv7lhf-jetson:
@@ -48,6 +55,13 @@ systems:
       location: genivi-baseline-system-x86_64-generic.img
       DISK_SIZE: 4G
       KERNEL_ARGS: vga=788
+      INITRAMFS_PATH: boot/initramfs.gz
+  subsystems:
+  - morph: systems/initramfs-x86_64.morph
+    deploy:
+      initramfs:
+        type: initramfs
+        location: boot/initramfs.gz
 - morph: systems/genivi-baseline-system-armv7lhf-jetson.morph
   deploy:
     genivi-baseline-system-armv7lhf-jetson:
