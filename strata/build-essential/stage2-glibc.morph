@@ -33,6 +33,7 @@ build-commands:
 install-commands:
 - cd o && make install_root="$DESTDIR" localtime=UTC install
 - mkdir -p "$DESTDIR/etc"
+- mkdir -p "$DESTDIR/etc/ld.so.conf.d"
 - |
   cat <<EOF > ld.so.conf
   /lib

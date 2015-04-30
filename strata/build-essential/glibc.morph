@@ -20,7 +20,10 @@ products:
   - (usr/)?lib/libSegFault\.so(\.\d+)*$
 - artifact: glibc-libs
   include:
+  # This is processed after bins, so bins can take libSegFault.so
   - (usr/)?lib(32|64)?/lib[^/]*\.so(\.\d+)*$
+  - etc/ld.so.conf
+  - etc/ld.so.conf.d
 - artifact: glibc-devel
   include:
   - (usr/)?include/.*
@@ -67,6 +70,7 @@ build-commands:
 install-commands:
 - cd o && make install_root="$DESTDIR" localtime=UTC install
 - mkdir -p "$DESTDIR/etc"
+- mkdir -p "$DESTDIR/etc/ld.so.conf.d"
 - |
   cat <<EOF > nsswitch.conf
   passwd: compat
