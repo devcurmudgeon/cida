@@ -64,6 +64,16 @@
            fi
            creates=/etc/ssh/ssh_known_hosts
 
+  # This is a kludge. We can add the host key for the TROVE_HOST that was
+  # specified, but users may access the Trove by other names, e.g. IP address
+  # or domain name. Distbuild is currently not safe to run except on a private
+  # network where host key checking is not important, so we disable it by
+  # default to avoid errors when users don't stick to using the exact same
+  # TROVE_HOST in repo URLs.
+  - name: Disable strict SSH host key checking
+    lineinfile:
+      dest: /etc/ssh/ssh_config
+      line: StrictHostKeyChecking no
 
   - name: Enable the morph-cache-server service
     service: name=morph-cache-server.service enabled=yes
