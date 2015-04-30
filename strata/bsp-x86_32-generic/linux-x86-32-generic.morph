@@ -260,6 +260,9 @@ configure-commands:
 - scripts/config -e SCSI_ISCSI_ATTRS
 - scripts/config -e ISCSI_TCP
 - scripts/config -e SCSI_LOWLEVEL
+- scripts/config -e SCSI_VIRTIO
+- scripts/config -e HYPERVISOR_GUEST
+- scripts/config -e PARAVIRT
 - yes '' | make oldconfig
 build-commands:
 - make $MAKEFLAGS
