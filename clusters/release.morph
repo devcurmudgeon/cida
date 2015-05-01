@@ -33,7 +33,7 @@ systems:
   subsystems:
   - morph: systems/initramfs-x86_64.morph
     deploy:
-      initramfs:
+      initramfs-build-system-x86_64:
         type: initramfs
         location: boot/initramfs.gz
 - morph: systems/build-system-armv7lhf-jetson.morph
@@ -59,7 +59,7 @@ systems:
   subsystems:
   - morph: systems/initramfs-x86_64.morph
     deploy:
-      initramfs:
+      initramfs-genivi-baseline-system-x86_64-generic:
         type: initramfs
         location: boot/initramfs.gz
 - morph: systems/genivi-baseline-system-armv7lhf-jetson.morph
