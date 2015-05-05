@@ -39,3 +39,8 @@ post-install-commands:
   EOF
 # Use the pam config systemd provides
 - cp -a "$DESTDIR/$PREFIX"/share/factory/etc/pam.d/* "$DESTDIR/etc/pam.d"
+
+# Add pam_deny.so to the default systemd-auth pam.d config file. Without
+# it, if shadow is configured to use PAM, it would be possible to login
+# to a system with the wrong password.
+- echo 'auth     requisite  pam_deny.so' >> "$DESTDIR"/etc/pam.d/system-auth
