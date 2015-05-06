@@ -21,7 +21,7 @@ chunks:
 - name: gperftools
   repo: upstream:gperftools
   ref: 846b775dfadb77901202ae7ddbac30ad1de7df01
-  unpetrify-ref: gperftools-2.2 
+  unpetrify-ref: gperftools-2.2
   build-depends:
   - libunwind
 - name: snappy
@@ -43,13 +43,13 @@ chunks:
 - name: boost
   morph: strata/ceph-service/boost.morph
   repo: upstream:boost-tarball
-  ref: 1c3648bf5b7d17fcd4fe9bc95802b16fd9eee304
-  unpetrify-ref: boost_1_56_0
+  ref: ed232fdd34968697a68783b3195b1da4226915b5
+  unpetrify-ref: boost_1_57_0
 - name: ceph
   morph: strata/ceph-service/ceph.morph
   repo: upstream:ceph
-  ref: e61c4f093f88e44961d157f65091733580cea79a
-  unpetrify-ref: v0.94
+  ref: f4f12a634b0a92938d54d77910134dbbcdf864e6
+  unpetrify-ref: v0.94.1.1
   build-depends:
   - libaio
   - gperftools
