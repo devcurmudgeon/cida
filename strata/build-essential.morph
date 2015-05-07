@@ -167,7 +167,7 @@ chunks:
 - name: stage2-fhs-dirs
   morph: strata/build-essential/stage2-fhs-dirs.morph
   repo: baserock:baserock/fhs-dirs
-  ref: 41bbb474cd4647ee715bc94c21c161d12a20deb4
+  ref: 1218cbd38a4f4e9da75af6f7fae946ca92666afb
   unpetrify-ref: master
   build-mode: bootstrap
   prefix: /tools
@@ -214,7 +214,7 @@ chunks:
 - name: fhs-dirs
   morph: strata/build-essential/fhs-dirs.morph
   repo: baserock:baserock/fhs-dirs
-  ref: 41bbb474cd4647ee715bc94c21c161d12a20deb4
+  ref: 1218cbd38a4f4e9da75af6f7fae946ca92666afb
   unpetrify-ref: master
   build-depends:
   - stage2-binutils
