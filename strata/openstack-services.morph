@@ -161,8 +161,8 @@ chunks:
   unpetrify-ref: 0.6
 - name: routes
   repo: upstream:python-packages/routes
-  ref: 8b165a52ab568f6fcaaa11cbbc7402e0360f60a3
-  unpetrify-ref: v2.0
+  ref: 745a9207d9e48e309e292172543bc21075e65e09
+  unpetrify-ref: v2.1
   build-depends:
   - repoze-lru
 - name: passlib
