@@ -246,6 +246,17 @@
             protocol: tcp
             remote_ip_prefix: 0.0.0.0/0
 
+          # 7878: morph distbuild controller port. This rule allows a devel
+          # system inside the Baserock cloud to use the Mason instances for
+          # distbuilding, which is useful when building a Baserock release
+          # among other things.
+          - direction: ingress
+            port_range_min: 7878
+            port_range_max: 7878
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 192.168.222.0/24
+
           # 8080: morph-cache-server server port. The x86 Masons use
           # cache.baserock.org as the cache server for their distbuild
           # networks. So cache.baserock.org needs to be able to connect to
