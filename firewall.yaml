@@ -63,6 +63,56 @@
             protocol: tcp
             remote_ip_prefix: 0.0.0.0/0
 
+    # This group is an alternative to 'default' for machines that should be
+    # prevented from connecting to the outside world.
+    - name: internal-only security group
+      neutron_sec_group:
+        name: internal-only
+        description: Allow outgoing connections only to local network, and incoming ICMP and SSH
+        state: present
+        auth_url: "{{ ansible_env.OS_AUTH_URL }}"
+        login_username: "{{ ansible_env.OS_USERNAME }}"
+        login_password: "{{ ansible_env.OS_PASSWORD }}"
+        login_tenant_name: "{{ ansible_env.OS_TENANT_NAME }}"
+
+        rules:
+          - direction: egress
+            port_range_min: 0
+            port_range_max: 255
+            ethertype: IPv4
+            protocol: icmp
+            remote_ip_prefix: 192.168.222.0/24
+
+          - direction: egress
+            port_range_min: 1
+            port_range_max: 65535
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 192.168.222.0/24
+
+          - direction: egress
+            port_range_min: 1
+            port_range_max: 65535
+            ethertype: IPv4
+            protocol: udp
+            remote_ip_prefix: 192.168.222.0/24
+
+          # ICMP: allow ping!
+          - direction: ingress
+            port_range_min: 0
+            port_range_max: 255
+            ethertype: IPv4
+            protocol: icmp
+            remote_ip_prefix: 0.0.0.0/0
+
+          # 22: Allow SSH access to all instances.
+          - direction: ingress
+            port_range_min: 22
+            port_range_max: 22
+            ethertype: IPv4
+            protocol: tcp
+            remote_ip_prefix: 0.0.0.0/0
+
     - name: open security group
       neutron_sec_group:
         name: open
