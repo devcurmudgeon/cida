@@ -451,3 +451,36 @@ To deploy the production version:
 
 Storyboard deployment does not yet work fully (you can manually kludge it into
 working after deploying it, though).
+
+### Masons
+
+Mason is the name we use for an automated build and test system used in the
+Baserock project. The V2 Mason that runs as <https://mason-x86-32.baserock.org/>
+and <https://mason-x86-64.baserock.org/> lives in definitions.git, and is thus
+available in infrastructure.git too by default.
+
+To build mason-x86-64:
+
+    morph init ws; cd ws; morph checkout baserock:baserock/infrastructure master;
+    cd master/baserock/baserock/infrastructure
+
+    morph build systems/build-system-x86_64.morph
+    morph deploy baserock_mason_x86_64/mason-x86-64.morph
+
+    nova boot mason-x86-64.baserock.org \
+        --key-name $keyname \
+        --flavor 'dc1.2x2' \
+        --image baserock_mason_x86_64 \
+        --nic "net-id=$network_id,v4-fixed-ip=192.168.222.80" \
+        --security-groups internal-only,mason-x86
+        --user-data baserock-ops-team.cloud-config
+
+The mason-x86-32 system is the same, just subsitute '64' for '32' in the above
+commands.
+
+Note that the Masons are NOT in the 'default' security group, they are in
+'internal-only'. This is a way of enforcing the [policy] that the Baserock
+reference system definitions can only use source code hosted on
+git.baserock.org, by making it impossible to fetch code from anywhere else.
+
+[policy]: http://wiki.baserock.org/policies/
