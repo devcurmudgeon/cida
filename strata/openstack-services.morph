@@ -28,8 +28,8 @@ chunks:
   - rabbitmq-codegen
 - name: oslo-rootwrap
   repo: upstream:openstack/oslo-rootwrap
-  ref: 62d732277de5cf663172eafe6d3a6c149a9cf814
-  unpetrify-ref: master
+  ref: f485b93f475b119e3b8fa6c9cf740207e2d2d7ac
+  unpetrify-ref: 1.6.0
 - name: py-amqp
   repo: upstream:python-packages/py-amqp
   ref: 875b10d1715def640042c7ff2f42c00a6c07eed1
@@ -47,8 +47,8 @@ chunks:
   unpetrify-ref: 0.3.3
 - name: kombu
   repo: upstream:python-packages/kombu
-  ref: 6e68e54b3a846faa6f8b7e14a4a7ca51d1967bc2
-  unpetrify-ref: v3.0.23
+  ref: 0287b11ab0698d9c52ef1b1683ced23123d43ba4
+  unpetrify-ref: v3.0.26
   build-depends:
   - anyjson
   - py-amqp
@@ -59,8 +59,8 @@ chunks:
   unpetrify-ref: rel_0_9_8
 - name: alembic
   repo: upstream:python-packages/alembic
-  ref: 5f952f25caa688d89204d134ee867de7dbad917c
-  unpetrify-ref: rel_0_7_1
+  ref: 6ae4196acc0170ebef29f617b49376b371a8923c
+  unpetrify-ref: rel_0_7_6
   build-depends:
   - sqlalchemy
 - name: lockfile
@@ -191,13 +191,13 @@ chunks:
   build-depends:
   - numpy
 - name: httplib2
-  ref: 058a1f9448d5c27c23772796f83a596caf9188e6
-  unpetrify-ref: v0.9
   repo: upstream:python-packages/httplib2
+  ref: f9f797223d075874b0031aea832152688ec23fef
+  unpetrify-ref: v0.9.1
 - name: suds
   repo: upstream:python-packages/suds
-  ref: badd30a87f676d632d7386b05401e6029a5df83c
-  unpetrify-ref: release-0.3.2
+  ref: e7a317f1a20a4d3c86ac85785bb32d24c3d1078f
+  unpetrify-ref: baserock/release-0.4
 - name: jsonrpclib
   repo: upstream:python-packages/jsonrpclib
   ref: 53c8ffcfe4dd1718086cc551dce8ac459e8abc67
@@ -275,33 +275,73 @@ chunks:
   repo: upstream:python-packages/retrying
   ref: cab083eb5791615fadbc0c98ad77a70d64b77d0d
   unpetrify-ref: v1.3.1
+- name: oslo-context
+  repo: upstream:openstack/oslo-context
+  ref: 1c4757a9fb41e47867bd9b8d390057ad7636b76f
+  unpetrify-ref: 0.2.0
+- name: oslo-middleware
+  repo: upstream:openstack/oslo-middleware
+  ref: bff184a2b5b1a0d3d22508a7544075378aca9e13
+  unpetrify-ref: 1.2.0
+  build-depends:
+  - oslo-context
 - name: oslo-messaging
   repo: upstream:openstack/oslo-messaging
-  ref: 6ea3b12492e86f9e8d109fc3490cc4d3a0edd8b6
-  unpetrify-ref: 1.4.0.0a5
+  ref: 562c41bb78f578ff9c27633c04ac6dd914c55f5a
+  unpetrify-ref: 1.8.2
   build-depends:
   - kombu
+- name: ordereddict
+  repo: upstream:python-packages/ordereddict-tarball
+  ref: 332cd0213829089dd827a32e7c5e64c41ce79cbc
+  unpetrify-ref: ordereddict-1.1
+- name: trollius
+  repo: upstream:python-packages/trollius
+  ref: fe6f8d61b1257bc01cdf4f789aaf4a8ec3d6f8ec
+  unpetrify-ref: trollius-1.0.4
+  build-depends:
+  - ordereddict
+- name: aioeventlet
+  repo: upstream:python-packages/aioeventlet
+  ref: 3cac0d7740592a380a7dadb2ddcdda000cae2bda
+  unpetrify-ref: 0.4
+  build-depends:
+  - trollius
+- name: urllib3
+  repo: upstream:python-packages/urllib3
+  ref: 8434c77d845255c4002b505c6c2d79c3b35def0d
+  unpetrify-ref: 1.10.4
+- name: oslo-concurrency
+  repo: upstream:openstack/oslo-concurrency
+  ref: a2473ed0a59e4553766ffcb1ee8f06cb98b14a48
+  unpetrify-ref: 1.8.0
+  build-depends:
+  - posix-ipc-tarball
+  - retrying
 - name: oslo-vmware
   repo: upstream:openstack/oslo-vmware
-  ref: 047d62c4bbd01a951f77a1a4a75fb2b3d8ce23ee
-  unpetrify-ref: 0.6.0
+  ref: 5de2c31e9d24f40fc7d33ddb1ce407ffdc6f366c
+  unpetrify-ref: 0.11.1
   build-depends:
+  - oslo-concurrency
   - suds
+  - urllib3
+  - httplib2
 - name: taskflow
   repo: upstream:openstack/taskflow
-  ref: 1caaecc5d6b2aa4cde4a50e31d1d993fce7a66c4
-  unpetrify-ref: 0.5.0
+  ref: 28bece7c7c97199b8d941b16865c3670c323589a
+  unpetrify-ref: 0.7.1
 - name: sqlalchemy-migrate
   repo: upstream:python-packages/sqlalchemy-migrate
-  ref: 089663761cc15f8b3cdb874b6a76270ccdd0a412
-  unpetrify-ref: 0.9.1
+  ref: e57ee4c3a4247c634980cbeba74d04a01253967d
+  unpetrify-ref: 0.9.6
   build-depends:
   - sqlalchemy
   - tempita
 - name: oauthlib
   repo: upstream:python-packages/oauthlib
-  ref: de773eefcb3c1afe54a0c12d5bf9bd214ceaf404
-  unpetrify-ref: 0.6.3
+  ref: fd239fca84644896b1971cf24bc6213d065adb86
+  unpetrify-ref: 0.7.2
   build-depends:
   - docutils
   - creole
@@ -320,31 +360,53 @@ chunks:
   unpetrify-ref: 0.3.0
 - name: pycadf
   repo: upstream:python-packages/pycadf
-  ref: 52727bcea3a98e72331e748ce5f9e3a111a64cd1
-  unpetrify-ref: 0.6.0
+  ref: 9501f4f74c5d800ae43edbe52680e285cf98c710
+  unpetrify-ref: 0.9.0
+  build-depends:
+  - oslo-context
   build-depends:
   - oslo-messaging
   - posix-ipc-tarball
 - name: keystonemiddleware
   repo: upstream:openstack/keystonemiddleware
-  ref: a7beb50b38be5c3dd4c44d68ad79d1bb206dab6b
-  unpetrify-ref: 1.2.0
+  ref: 0e63b0e13d0a7919fddd7576c99bc15a45d31a9f
+  unpetrify-ref: 1.5.1
+  build-depends:
+  - pycadf
+  - oslo-context
 - name: oslo-db
   repo: upstream:openstack/oslo-db
-  ref: 0bb1e236daae53a3f5b4b88761d7b19f7961ed6c
-  unpetrify-ref: 1.0.2
+  ref: 3e6a30c396aa42ef0eccb5b3625af728d8d3f437
+  unpetrify-ref: 1.7.1
   build-depends:
   - alembic
   - sqlalchemy
   - sqlalchemy-migrate
 - name: glance_store
   repo: upstream:openstack/glance_store.git
-  ref: 54f673d4133c1244e2555e7ceb3344c104a74154
-  unpetrify-ref: 0.1.8
+  ref: ea88e503b617a7ac9a0ae7e537d6517e9992a104
+  unpetrify-ref: 0.4.0
+  build-depends:
+  - ordereddict
+  - oslo-concurrency
+- name: oslo-log
+  repo: upstream:openstack/oslo-log
+  ref: 54e3d0e705accfaa4c73a01fc2ea1480fcc0024e
+  unpetrify-ref: 1.0.0
+  build-depends:
+  - oslo-context
+- name: oslo-policy
+  repo: upstream:openstack/oslo-policy
+  ref: 4c8f38cd1d088c46be314b47f6774e721813c6d9
+  unpetrify-ref: 0.3.2
+- name: semantic-version
+  repo: upstream:python-packages/semantic-version
+  ref: 2174bdcae6e46f5f68f5b8ea984a695db9f41bcf
+  unpetrify-ref: v2.4.1
 - name: glance
   repo: upstream:openstack/glance
-  ref: 1db07bd8c07bbcde4bd267985c4e3961c22b990e
-  unpetrify-ref: 2014.2.3
+  ref: 93b0d5fce3a41e4a3a549f98f78b6681cbc3ea95
+  unpetrify-ref: 2015.1.0
   build-depends:
   - sqlalchemy
   - anyjson
@@ -355,20 +417,32 @@ chunks:
   - keystonemiddleware
   - wsme
   - oslo-vmware
+  - oslo-concurrency
+  - oslo-context
+  - oslo-log
+  - oslo-policy
   - paste
   - oslo-db
   - oslo-messaging
   - retrying
   - osprofiler
+  - ordereddict
   - glance_store
+  - semantic-version
+  - taskflow
+  - posix-ipc-tarball
 - name: sqlparse
   repo: upstream:python-packages/sqlparse
   ref: 991e7348075accae6d08025212251af21e92e664
   unpetrify-ref: 0.1.13
+- name: pysaml2
+  repo: upstream:python-packages/pysaml2.git
+  ref: 13ff5e8899300c9b359fa1bdfdb3d412be0d7356
+  unpetrify-ref: 2.4.0
 - name: keystone
   repo: upstream:openstack/keystone
-  ref: 91a33875385ca296d24f67d4ef9629a2b33bed99
-  unpetrify-ref: 2014.2.3
+  ref: 5d3b31f9c3d34599ff8a83eeb7530fc6e0b1b67b
+  unpetrify-ref: 2015.1.0
   build-depends:
   - paste
   - routes
@@ -376,30 +450,38 @@ chunks:
   - sqlalchemy-migrate
   - passlib
   - keystonemiddleware
+  - oslo-concurrency
   - oslo-messaging
   - oslo-db
+  - oslo-log
+  - oslo-middleware
+  - oslo-policy
   - oauthlib
   - dogpile-cache
   - pycadf
   - posix-ipc-tarball
-  - sqlparse
+  - pysaml2
 - name: neutron
   morph: strata/openstack-services/neutron.morph
   repo: upstream:openstack/neutron
-  ref: 96b5962646510ee67b322aa82242e02e3edfaa83
-  unpetrify-ref: 2014.2.3
+  ref: 7260e0e3fc2ea479e80e0962624aca7fd38a1f60
+  unpetrify-ref: 2015.1.0
   build-depends:
   - paste
   - routes
-  - anyjson
   - httplib2
   - jsonrpclib
   - keystonemiddleware
   - sqlalchemy
   - alembic
+  - retrying
   - oslo-db
   - oslo-messaging
   - oslo-rootwrap
+  - oslo-concurrency
+  - oslo-context
+  - oslo-log
+  - oslo-middleware
 - name: wsgiref
   repo: upstream:python-packages/wsgiref.git
   ref: e8360785eef259394e13b2062407edc3c2cbc1e0
@@ -435,120 +517,144 @@ chunks:
 - name: nova
   morph: strata/openstack-services/nova.morph
   repo: upstream:openstack/nova
-  ref: e6452b995023e89bf6f1a1fb14f39216f83c760b
-  unpetrify-ref: 2014.2.3
+  ref: 8397b6464af520903f546ce4c6d51a2eb5b4c8a8
+  unpetrify-ref: 2015.1.0
   build-depends:
   - sqlalchemy
-  - anyjson
   - keystonemiddleware
-  - kombu
   - routes
   - paste
   - sqlalchemy-migrate
-  - suds
-  - posix-ipc-tarball
   - websockify
-  - wsgiref
   - oslo-db
   - oslo-rootwrap
-  - pycadf
   - oslo-messaging
-  - lockfile
   - rfc3986
-  - oslo-vmware
+  - oslo-concurrency
+  - oslo-context
+  - oslo-log
+  - oslo-messaging
 - name: cinder
   morph: strata/openstack-services/cinder.morph
   repo: upstream:openstack/cinder
-  ref: 48c792513fd342a5f82122b12e4ed2afd0de2ae7
-  unpetrify-ref: 2014.2.3
+  ref: 5987bb2290f629e59b0bcced2f8fe22cdeb9cc6d
+  unpetrify-ref: 2015.1.0
   build-depends:
   - anyjson
   - keystonemiddleware
   - kombu
+  - oslo-concurrency
+  - oslo-context
   - oslo-db
+  - oslo-log
   - oslo-messaging
+  - oslo-middleware
   - oslo-rootwrap
   - osprofiler
   - paste
+  - retrying
   - routes
   - taskflow
   - rtslib-fb
   - sqlalchemy
   - sqlalchemy-migrate
   - suds
-  - wsgiref
+  - oslo-vmware
 - name: pymemcache
-  repo: upstream:python-packages/pymemcache.git
-  ref: 3824d3b0bcdea3e8d0c08598bedfce10fd3c79e0
-  unpetrify-ref: master
+  repo: upstream:python-packages/pymemcache
+  ref: 0646937c2bfebdb557ec2c01f0e42a9af79ad49d
+  unpetrify-ref: v1.2.9
 - name: sysv_ipc-tarball
   repo: upstream:python-packages/sysv-ipc-tarball.git
   ref: a77e3a63f004e6ee789fa05e4a5bbc333b1529f1
   unpetrify-ref: sysv_ipc-0.6.8
+- name: redis-py
+  repo: upstream:python-packages/redis-py
+  ref: 4d0b0afe9c9a431ed50c3e9fb95a0aa88b1f1038
+  unpetrify-ref: 2.10.3
 - name: tooz
-  repo: upstream:python-packages/tooz.git
-  ref: a90940a506b7c1bf52ef7d2f2ff52204fdcc6221
-  unpetrify-ref: 0.7
+  repo: upstream:python-packages/tooz
+  ref: 8086661f404e61c22f0dd1d07b57a864862a0869
+  unpetrify-ref: 0.13.2
   build-depends:
   - pymemcache
-  - sysv_ipc-tarball
   - msgpack-python
   - retrying
+  - redis-py
+- name: kafka-python
+  repo: upstream:python-packages/kafka-python
+  ref: 8675c3e3e620df5ba9fd7e570c554b773429bd78
+  unpetrify-ref: v0.9.3
+- name: werkzeug
+  repo: upstream:python-packages/werkzeug
+  ref: 96e49709d627a7766077cff4c98ebf3cad868ceb
+  unpetrify-ref: v0.10.4
 - name: ceilometer
   repo: upstream:openstack/ceilometer
   morph: strata/openstack-services/ceilometer.morph
-  ref: 720c2b4915caf5decd3da91ea2d6e6291316b940 
-  unpetrify-ref: 2014.2.3
+  ref: b0447ed8e7bee371bf7095c86e47d717abe89edc
+  unpetrify-ref: 2014.1.0
   build-depends:
+  - retrying
   - alembic
-  - anyjson
   - croniter
-  - happybase
   - jsonpath-rw
+  - kafka-python
   - keystonemiddleware
-  - lockfile
   - msgpack-python
+  - oslo-context
   - oslo-db
+  - oslo-concurrency
+  - oslo-policy
   - oslo-rootwrap
-  - oslo-vmware
   - pecan
   - posix-ipc-tarball
   - oslo-messaging
+  - oslo-middleware
   - pysnmp
   - sqlalchemy
   - sqlalchemy-migrate
   - tooz
+  - werkzeug
   - wsme
 - name: django-openstack-auth
   repo: upstream:openstack/django_openstack_auth
-  ref: e676c88a329af57d6c4f13df54f6e1e06c1f8360
-  unpetrify-ref: 1.1.8
+  ref: 0e1f7b78277850634992a594132921efb83256e0
+  unpetrify-ref: 1.2.0
+- name: pint
+  repo: upstream:python-packages/pint
+  ref: e7e7de5ca2e1c19963be8a918369fb19186f9a73
+  unpetrify-ref: 0.6
 - name: horizon
   morph: strata/openstack-services/horizon.morph
   repo: upstream:openstack/horizon
-  ref: b37c1f3565e89a7fe3fef5ce76e9c26b22e3e7c4
-  unpetrify-ref: 2014.2.3
+  ref: b99cf48ff346494198fb9740495eacc14fa406bf
+  unpetrify-ref: 2015.1.0
   build-depends:
+  - pint
   - django-openstack-auth
-  - lockfile
+  - kombu
+  - oslo-concurrency
 - name: novnc
   morph: strata/openstack-services/novnc.morph
   repo: upstream:novnc
   ref: 97be997f62d59c028fc45323b00e3b93fafe4eb4
   unpetrify-ref: baserock/v0.5.1
-- name: oauth
-  repo: upstream:python-packages/oauthlib
-  ref: fd239fca84644896b1971cf24bc6213d065adb86
-  unpetrify-ref: 0.072
 - name: pyserial
   repo: upstream:python-packages/pyserial
   ref: bcfc1ec2fdb9a8c9c867481d7673e85fe512e667
   unpetrify-ref: release2_7
+- name: tempest-lib
+  repo: upstream:openstack/tempest-lib
+  ref: c307ffc525d896e2071319c8067aec805804f92b
+  unpetrify-ref: 0.5.0
 - name: tempest
   morph: strata/openstack-services/tempest.morph
-  repo: upstream:openstack/tempest.git
-  ref: acba5510785258949679304f3e1a55e53b851962
-  unpetrify-ref: "2"
+  repo: upstream:openstack/tempest
+  ref: 26149b612d01ad605e4d0f41a2d67280c8088cda
+  unpetrify-ref: "4"
+  build-depends:
+  - tempest-lib
 - name: tftp-hpa
   morph: strata/openstack-services/tftp-hpa.morph
   repo: upstream:tftp-hpa
@@ -559,7 +665,7 @@ chunks:
   repo: upstream:python-packages/singledispatch
   ref: 92175ba65602a03086d2b1f770f45d88af93fc3e
   unpetrify-ref: 3.4.0.3
-- name: pysinglefile
+- name: pysendfile
   morph: strata/openstack-services/pysendfile.morph
   repo: upstream:python-packages/pysendfile
   ref: 6775b2938ef74255239c8e08458369921297b311
@@ -567,5 +673,22 @@ chunks:
 - name: ironic
   morph: strata/openstack-services/ironic.morph
   repo: upstream:openstack/ironic
-  ref: 0f4d454bf2093d3d62460f88aa9288bee3286b38
-  unpetrify-ref: stable/juno
+  ref: dee609cb7976e9b3cc07c3d342a271c4a347f69f
+  unpetrify-ref: 2015.1.0
+  build-depends:
+  - sqlalchemy
+  - alembic
+  - sqlalchemy-migrate
+  - pysendfile
+  - websockify
+  - oslo-concurrency
+  - oslo-context
+  - oslo-db
+  - oslo-rootwrap
+  - oslo-policy
+  - pecan
+  - wsme
+  - keystonemiddleware
+  - oslo-messaging
+  - retrying
+  - posix-ipc-tarball

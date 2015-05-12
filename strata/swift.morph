@@ -3,27 +3,45 @@ kind: stratum
 description: Distributed object storage
 build-depends:
 # openstack-common is required for simplejson, cffi, greenlet,
-# eventlet, pastedeploy
+# eventlet, pastedeploy, netifaces
 - morph: strata/openstack-common.morph
 chunks:
 - name: dnspython
   repo: upstream:python-packages/dnspython
   ref: e1369c62d14f82b80ef11197a490ace5d43bb3f3
   unpetrify-ref: v1.12.0
-- name: netifaces
-  repo: upstream:python-packages/netifaces
-  ref: 885b200ba717df87f6e8044ec8c66c677c949bcb
-  unpetrify-ref: release_0_10_4
 - name: xattr
   morph: strata/swift/xattr.morph
   repo: upstream:python-packages/xattr
   ref: dd10d44e3eb9a1d2303c1f7d5126c099d56e97fc
   unpetrify-ref: v0.7.6
+- name: liberasurecode
+  repo: upstream:liberasurecode
+  ref: a380246762c16ea8eb7dbfccd50d296c3743b39e
+  unpetrify-ref: v1.0.7
+- name: gf-complete
+  repo: upstream:gf-complete
+  ref: 715443661c00558fe32f004a4be5f93f341b6e59
+  unpetrify-ref: v2
+- name: jerasure
+  repo: upstream:jerasure
+  ref: ff7032153ea230fb59596f1f8a0e9ad8653addfb
+  unpetrify-ref: v2
+  build-depends:
+  - gf-complete
+- name: pyeclib
+  repo: upstream:python-packages/pyeclib
+  ref: aa58aa887c2327e1394d6f28b3b6b7ab8f190b2b
+  unpetrify-ref: v1.0.7
+  build-depends:
+  - liberasurecode
+  - gf-complete
+  - jerasure
 - name: swift
   repo: upstream:openstack/swift
-  ref: 2e8261a4dc0d0af0c4a46478b81e167bcf02220b
-  unpetrify-ref: 2.2.0
+  ref: f8dee761bd36f857aa1288c27e095907032fad68
+  unpetrify-ref: 2.3.0
   build-depends:
   - dnspython
-  - netifaces
   - xattr
+  - pyeclib

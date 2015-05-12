@@ -26,8 +26,12 @@ chunks:
   unpetrify-ref: master
 - name: xstatic-angular-bootstrap
   repo: upstream:xstatic-packages/xstatic-angular-bootstrap
-  ref: 2a8c157b8b0733afbfdaf7eea29cf012a8b7f483
-  unpetrify-ref: master
+  ref: b581edb6975175a564fd02766aef2f9043702c80
+  unpetrify-ref: 0.11.0.3
+- name: xstatic-angular-lrdragndrop
+  repo: upstream:xstatic-packages/xstatic-angular-lrdragndrop
+  ref: 55c7494492e6da2a6664aa00941864dd64589396
+  unpetrify-ref: 1.0.2.3
 - name: xstatic-angular-cookies
   repo: upstream:xstatic-packages/xstatic-angular-cookies
   ref: 66141a33ae7ad84b82ba9384a8101ae15ccd6da5
@@ -54,8 +58,8 @@ chunks:
   unpetrify-ref: master
 - name: xstatic-bootstrap-scss
   repo: upstream:xstatic-packages/xstatic-bootstrap-scss
-  ref: e8ca8e38e464691268faec8cd6ae59777ee7ee9e
-  unpetrify-ref: master
+  ref: d81b7b71c6c088406e90d1bdba0e10f0a304bbdc
+  unpetrify-ref: 3.1.1.1
 - name: xstatic-d3
   repo: upstream:xstatic-packages/xstatic-d3
   ref: 1e754e73c801fb9315995ffeb95ae51233c4fcaf
@@ -96,6 +100,10 @@ chunks:
   repo: upstream:xstatic-packages/xstatic-jquery-ui
   ref: b494369430dafd8ac4ddbe90efb9f8ad20a6e6d1
   unpetrify-ref: 1.11.0.1
+- name: xstatic-magic-search
+  repo: upstream:xstatic-packages/xstatic-magic-search
+  ref: 60d6954a36e54afa1f925324e7b527d235bdb484
+  unpetrify-ref: 0.2.0.1
 - name: xstatic-jsencrypt
   repo: upstream:xstatic-packages/xstatic-jsencrypt
   ref: 5c0f088310ecd602e3aaf5e683385b0d27258409
@@ -111,4 +119,8 @@ chunks:
 - name: xstatic-spin
   repo: upstream:xstatic-packages/xstatic-spin
   ref: 74b4c0d0ff12db1f84787246857d5e925ff6883f
+  unpetrify-ref: master
+- name: xstatic-termjs
+  repo: upstream:xstatic-packages/xstatic-termjs
+  ref: a4ac0b809ab0d84c636a760215839bb6d68d0113
   unpetrify-ref: master

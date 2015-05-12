@@ -48,8 +48,10 @@ chunks:
   - testtools
 - name: testscenarios
   repo: upstream:python-packages/testscenarios
-  ref: 475857af19a8190c9c0c7f8241b9907b942e19fd
+  ref: bccfaa71a2def5590161b6d1a247cf23c45a8b4d
   unpetrify-ref: trunk
+  build-depends:
+  - testtools
 - name: mox
   repo: upstream:python-packages/mox
   ref: 160491d0384285698d726b1af21277f336107f51
@@ -79,9 +81,9 @@ chunks:
   ref: f7f87e4ac1c52342162cf2035f5fe3d273f8b07f
   unpetrify-ref: master
 - name: zake
-  repo: upstream:python-packages/zake.git
-  ref: 13b92d9db4ad37d9550ef5c5abd323a2530a1e72
-  unpetrify-ref: master
+  repo: upstream:python-packages/zake
+  ref: 436bab3306aeec420f1281f34bd5d26d7f81038c
+  unpetrify-ref: 0.2.1
   build-depends:
   - testtools
 - name: nose
