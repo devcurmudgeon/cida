@@ -19,5 +19,4 @@ configure-commands:
       --disable-glx \
       --with-egl-platforms=drm,wayland \
       --with-gallium-drivers="$GALLIUMDRIVERS" \
-      --with-dri-drivers="$DRIDRIVERS" \
-      --enable-gallium-egl
+      --with-dri-drivers="$DRIDRIVERS"
