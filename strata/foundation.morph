@@ -82,8 +82,8 @@ chunks:
 - name: btrfs-progs
   morph: strata/foundation/btrfs-progs.morph
   repo: upstream:btrfs-progs
-  ref: 563ff3b07d85517e3589a1f2e6f45a8265e3f071
-  unpetrify-ref: v3.18.2
+  ref: 19a806f575cd010734fa5793c4b3bfb49926dc62
+  unpetrify-ref: v4.0
   build-depends:
   - lzo
   - e2fsprogs

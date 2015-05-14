@@ -1,6 +1,7 @@
 name: btrfs-progs
 kind: chunk
-build-commands:
-- make DISABLE_DOCUMENTATION=1
-install-commands:
-- make DESTDIR="$DESTDIR" prefix="$PREFIX" DISABLE_DOCUMENTATION=1 install
+build-system: autotools
+pre-configure-commands:
+- ./autogen.sh
+configure-commands:
+- ./configure --prefix="$PREFIX" --disable-documentation
