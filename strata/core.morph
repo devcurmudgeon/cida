@@ -200,6 +200,9 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
+# Note: bison's version number must be set in bison's chunk morph,
+# so if you update bison be sure to also update the version number
+# in strata/core/bison.morph
 - name: bison
   morph: strata/core/bison.morph
   repo: upstream:bison
@@ -208,10 +211,8 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
-  - bash
   - flex
   - gettext-tarball
-  - git
   - help2man
   - mini-utils
 - name: gperf
