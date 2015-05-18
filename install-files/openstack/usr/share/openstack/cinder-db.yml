@@ -54,7 +54,6 @@
     sudo_user: cinder
 
   - name: Initiate cinder database
-    cinder_manage:
-        action: dbsync
+    command: cinder-manage db sync
     sudo: yes
     sudo_user: cinder

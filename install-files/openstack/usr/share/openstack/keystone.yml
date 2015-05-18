@@ -88,9 +88,8 @@
     sudo: yes
     sudo_user: keystone
 
-  - name: Initiatie keystone database
-    keystone_manage:
-        action: dbsync
+  - name: Initiate keystone database
+    command: keystone-manage db_sync
     sudo: yes
     sudo_user: keystone
 

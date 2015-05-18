@@ -78,8 +78,7 @@
     sudo_user: glance
 
   - name: Initiate glance database
-    glance_manage:
-        action: dbsync
+    command: glance-manage db_sync
     sudo: yes
     sudo_user: glance
 

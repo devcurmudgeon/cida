@@ -45,7 +45,6 @@
     sudo_user: nova
 
   - name: Initiate nova database
-    nova_manage:
-        action: dbsync
+    command: nova-manage db sync
     sudo: yes
     sudo_user: nova
