@@ -88,5 +88,5 @@ chunks:
 - name: parted
   morph: strata/tools/parted.morph
   repo: upstream:parted
-  ref: 0477d5ac971681b36cb2d2a97d1de8afd2a696d3
+  ref: 387e96e6eac59d84e9a688422b4b321ae9beaa20
   unpetrify-ref: baserock/v3.2
