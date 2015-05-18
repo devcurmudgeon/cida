@@ -2,11 +2,17 @@ name: nova
 kind: chunk
 build-system: python-distutils
 post-install-commands:
+# Install some default configuration files
+- mkdir -p "$DESTDIR"/etc/nova
+- install -m 644 etc/nova/api-paste.ini "$DESTDIR"/etc/nova/
+- install -m 644 etc/nova/cells.json "$DESTDIR"/etc/nova/
+- install -m 644 etc/nova/logging_sample.conf "$DESTDIR"/etc/nova/logging.conf
+- install -m 644 etc/nova/policy.json "$DESTDIR"/etc/nova/
 # Install rootwrap.conf
-- install -D -m 640 etc/nova/rootwrap.conf "$DESTDIR"/etc/nova/rootwrap.conf
+- install -m 640 etc/nova/rootwrap.conf "$DESTDIR"/etc/nova/rootwrap.conf
 # Move rootwrap files to a proper location
 - mkdir -p "$DESTDIR"/etc/nova/rootwrap.d
-- install -D -m 644 etc/nova/rootwrap.d/* "$DESTDIR"/etc/nova/rootwrap.d/
+- install -m 644 etc/nova/rootwrap.d/* "$DESTDIR"/etc/nova/rootwrap.d/
 # Add nova to sudoers controlling which commands will run as a root
 # using the openstack rootwrap.
 - mkdir -p "$DESTDIR"/etc/sudoers.d

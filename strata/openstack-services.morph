@@ -404,6 +404,7 @@ chunks:
   ref: 2174bdcae6e46f5f68f5b8ea984a695db9f41bcf
   unpetrify-ref: v2.4.1
 - name: glance
+  morph: strata/openstack-services/glance.morph
   repo: upstream:openstack/glance
   ref: 93b0d5fce3a41e4a3a549f98f78b6681cbc3ea95
   unpetrify-ref: 2015.1.0
@@ -440,6 +441,7 @@ chunks:
   ref: 13ff5e8899300c9b359fa1bdfdb3d412be0d7356
   unpetrify-ref: 2.4.0
 - name: keystone
+  morph: strata/openstack-services/keystone.morph
   repo: upstream:openstack/keystone
   ref: 5d3b31f9c3d34599ff8a83eeb7530fc6e0b1b67b
   unpetrify-ref: 2015.1.0

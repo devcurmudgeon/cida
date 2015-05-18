@@ -2,14 +2,15 @@ name: ironic
 kind: chunk
 build-system: python-distutils
 post-install-commands:
-# Install rootwrap.conf
-- install -D -m 640 etc/ironic/rootwrap.conf "$DESTDIR"/etc/ironic/rootwrap.conf
-# Move rootwrap files to a proper location
-- mkdir -p "$DESTDIR"/etc/ironic/rootwrap.d
-- install -m 644 etc/ironic/rootwrap.d/* "$DESTDIR"/etc/ironic/rootwrap.d/
-# Add ironic to sudoers controlling which commands will run as a root
-# using the openstack rootwrap.
 - |
+  mkdir -p "$DESTDIR"/etc/ironic
+  install -m 644 etc/ironic/policy.json "$DESTDIR"/etc/ironic
+  install -m 644 etc/ironic/rootwrap.conf "$DESTDIR"/etc/ironic
+  mkdir -p "$DESTDIR"/etc/ironic/rootwrap.d
+  install -m 644 etc/ironic/rootwrap.d/* "$DESTDIR"/etc/ironic/rootwrap.d/
+
+  # Add ironic to sudoers controlling which commands will run as a root
+  # using the openstack rootwrap.
   install -D -m 0440 /proc/self/fd/0 <<'EOF' "$DESTDIR"/etc/sudoers.d/ironic-rootwrap
   Defaults:ironic !requiretty
 
