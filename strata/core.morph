@@ -176,7 +176,6 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - libexpat
-  - libxml2
   - perl
 - name: git
   morph: strata/core/git.morph
