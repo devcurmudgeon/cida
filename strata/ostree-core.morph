@@ -1,7 +1,6 @@
 name: ostree-core
 kind: stratum
 build-depends:
-- morph: strata/foundation.morph
 - morph: strata/core.morph
 - morph: strata/libsoup-common.morph
 chunks:
