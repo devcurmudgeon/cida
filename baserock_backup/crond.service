@@ -1,0 +1,18 @@
+# Busybox Cron is used to run the 'baserock-backup' script.
+#
+# It'd be better to run that script using a systemd timer unit, but the
+# script didn't work when run by systemd, when I last tested it. Seems like
+# it does something clever to stdin/stdout which breaks the clever thing
+# baserock-backup does with rsync.
+
+[Unit]
+Description=Busybox Cron daemon
+Requires=local-fs.target
+After=local-fs.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/crond -f
+
+[Install]
+WantedBy=multi-user.target

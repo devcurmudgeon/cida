@@ -27,3 +27,12 @@
         job: /home/backup/backup.sh
         name: baserock.org data backup
         user: backup
+
+    # As the .service file says, running the backup script via 'cron' is
+    # a workaround for what may be a bug in systemd. I don't have the energy
+    # to investigate the problem right now.
+    - name: .service file for Busybox 'cron' daemon
+      copy: src=crond.service dest=/etc/systemd/system mode=644
+
+    - name: service for Busybox 'cron' daemon
+      service: name=crond enabled=yes state=started
