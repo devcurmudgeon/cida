@@ -14,6 +14,10 @@
   description: Baserock reference system definitions
   use-storyboard: true
 
+- project: baserock/firehose
+  description: Firehose automated integration tool
+  use-storyboard: true
+
 - project: baserock/import
   description: Baserock Import Tool
   use-storyboard: true
