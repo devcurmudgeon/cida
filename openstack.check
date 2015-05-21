@@ -18,11 +18,13 @@
 import cliapp
 import os
 import urlparse
+import keystoneclient
 
 import morphlib.writeexts
 
 
 class OpenStackCheckExtension(morphlib.writeexts.WriteExtension):
+
     def process_args(self, args):
         if len(args) != 1:
             raise cliapp.AppException('Wrong number of command line args')
@@ -38,23 +40,30 @@ class OpenStackCheckExtension(morphlib.writeexts.WriteExtension):
         location = args[0]
         self.check_location(location)
 
-        os_params = self.get_openstack_parameters()
+        self.check_imagename()
+        self.check_openstack_parameters(self._get_auth_parameters(location))
 
-        self.check_openstack_parameters(location, os_params)
-
-    def get_openstack_parameters(self):
+    def _get_auth_parameters(self, location):
         '''Check the environment variables needed and returns all.
 
         The environment variables are described in the class documentation.
         '''
 
-        keys = ('OPENSTACK_USER', 'OPENSTACK_TENANT',
-                'OPENSTACK_IMAGENAME', 'OPENSTACK_PASSWORD')
-        for key in keys:
-            if key not in os.environ:
-                raise cliapp.AppException(key + ' was not given')
-        return (os.environ[key] for key in keys)
+        auth_keys = {'OPENSTACK_USER': 'username',
+                     'OPENSTACK_TENANT': 'tenant_name',
+                     'OPENSTACK_PASSWORD': 'password'}
 
+        for key in auth_keys:
+            if os.environ.get(key, '') == '':
+                raise cliapp.AppException(key + ' was not given')
+
+        auth_params = {auth_keys[key]: os.environ[key] for key in auth_keys}
+        auth_params['auth_url'] = location
+        return auth_params
+
+    def check_imagename(self):
+        if os.environ.get('OPENSTACK_IMAGENAME', '') == '':
+            raise cliapp.AppException('OPENSTACK_IMAGENAME was not given')
 
     def check_location(self, location):
         x = urlparse.urlparse(location)
@@ -65,27 +74,17 @@ class OpenStackCheckExtension(morphlib.writeexts.WriteExtension):
             raise cliapp.AppException('API version must be v2.0 in %s'\
                                       % location)
 
-    def check_openstack_parameters(self, auth_url, os_params):
-        '''Check OpenStack credentials using glance image-list'''
+    def check_openstack_parameters(self, auth_params):
+        ''' Check that we can connect to and authenticate with openstack '''
+
         self.status(msg='Checking OpenStack credentials...')
 
-        username, tenant_name, image_name, password = os_params
-        cmdline = ['glance',
-                   '--os-username', username,
-                   '--os-tenant-name', tenant_name,
-                   '--os-password', password,
-                   '--os-auth-url', auth_url,
-                   'image-list']
+        try:
+            keystoneclient.v2_0.Client(**auth_params)
+        except keystoneclient.exceptions.Unauthorized:
+            errmsg = ('Failed to authenticate with OpenStack '
+                      '(are your credentials correct?)')
+            raise cliapp.AppException(errmsg)
 
-        exit, out, err = cliapp.runcmd_unchecked(cmdline)
-
-        if exit != 0:
-            if err.startswith('The request you have made requires '
-                              'authentication. (HTTP 401)'):
-                raise cliapp.AppException('Invalid OpenStack credentials.')
-            else:
-                raise cliapp.AppException(
-                    'Failed to connect to OpenStack instance at %s: %s' %
-                    (auth_url, err))
 
 OpenStackCheckExtension().run()
