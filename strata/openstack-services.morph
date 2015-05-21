@@ -102,7 +102,7 @@ chunks:
   - snowballstemmer
 - name: pystache
   repo: upstream:python-packages/pystache.git
-  ref: 0c5e61a4ccc05bde7f6c6132b4fb6c49a3c093fd
+  ref: cce3ebd658f28aeb7dd54561554dedf5259303dc
   unpetrify-ref: baserock/v0.5.4
 - name: pies
   repo: upstream:python-packages/pies.git
