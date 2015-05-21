@@ -181,8 +181,8 @@ chunks:
   - sphinx
 - name: websockify
   repo: upstream:python-packages/websockify
-  ref: e0863aa0c2103069961bc24e618615a0f2bb1487
-  unpetrify-ref: baserock/v0.6.0
+  ref: 2f025741f86419d4ad5702dabf5903db3dbfe77c
+  unpetrify-ref: baserock/v0.6.1-1-g2f02574
   build-depends:
   - numpy
 - name: httplib2
