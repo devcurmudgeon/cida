@@ -175,7 +175,7 @@ chunks:
   unpetrify-ref: 0.5
 - name: numpy
   repo: upstream:python-packages/numpy.git
-  ref: ac07f6d3e45090b224a7da81708e60a762a65f76
+  ref: 65293874fb101907e1648e6b4fafd30d0aa1172a
   unpetrify-ref: baserock/v1.9.0
   build-depends:
   - sphinx
