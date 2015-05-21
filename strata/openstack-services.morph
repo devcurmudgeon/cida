@@ -32,7 +32,7 @@ chunks:
 - name: librabbitmq
   morph: strata/openstack-services/librabbitmq.morph
   repo: upstream:python-packages/librabbitmq
-  ref: 0087f3c6fa81d4ec4c573319ee2149a5db7018e6
+  ref: ecccbd2c7d92f6e189e362b26def8d980fa50e3b
   unpetrify-ref: baserock/v1.6.1
   build-depends:
   - py-amqp
