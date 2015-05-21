@@ -529,8 +529,8 @@ chunks:
 - name: novnc
   morph: strata/openstack-services/novnc.morph
   repo: upstream:novnc
-  ref: fc00821eba469641c6c94706726c3d78e46460a2
-  unpetrify-ref: v0.5.1
+  ref: 97be997f62d59c028fc45323b00e3b93fafe4eb4
+  unpetrify-ref: baserock/v0.5.1
 - name: oauth
   repo: upstream:python-packages/oauthlib
   ref: fd239fca84644896b1971cf24bc6213d065adb86
