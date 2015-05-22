@@ -30,7 +30,11 @@ description: |
   - NOVA_VIRT_TYPE can be either 'kvm' or 'qemu', depending on where the
     system is being deployed to.
   - We recommend changing all the PASSWORDs variables, also the
-    KEYSTONE_TEMPORARY_ADMIN_TOKEN and METADATA_PROXY_SHARED_SECRET.
+    KEYSTONE_TEMPORARY_ADMIN_TOKEN, METADATA_PROXY_SHARED_SECRET and
+    METERING_SECRET
+  - Setting NOVA_BAREMETAL_SCHEDULING with an YAML truth value will configure
+    Nova to schedule baremetal machines through the Ironic driver, instead of
+    sheduling virtual machines.
 
 systems:
 - morph: systems/openstack-system-x86_64.morph
@@ -87,12 +91,13 @@ systems:
       CONTROLLER_HOST_ADDRESS: onenode
       MANAGEMENT_INTERFACE_IP_ADDRESS: <management ip>
 
-
+      KEYSTONE_ENABLE_SERVICE: True
       KEYSTONE_TEMPORARY_ADMIN_TOKEN: 22f3aa1cf538e3f6d5e8
       KEYSTONE_ADMIN_PASSWORD: veryinsecure
       KEYSTONE_DB_USER: keystoneDB
       KEYSTONE_DB_PASSWORD: veryinsecure
 
+      GLANCE_ENABLE_SERVICE: True
       GLANCE_SERVICE_USER: glance
       GLANCE_SERVICE_PASSWORD: veryinsecure
       GLANCE_DB_USER: glanceDB
@@ -103,6 +108,7 @@ systems:
       NOVA_DB_USER: novaDB
       NOVA_DB_PASSWORD: veryinsecure
       NOVA_VIRT_TYPE: qemu
+      NOVA_BAREMETAL_SCHEDULING: no
 
       CINDER_SERVICE_USER: cinder
       CINDER_SERVICE_PASSWORD: veryinsecure
@@ -116,6 +122,18 @@ systems:
       NEUTRON_DB_USER: neutronDB
       NEUTRON_DB_PASSWORD: veryinsecure
       METADATA_PROXY_SHARED_SECRET: novaneutronmetasecret
+
+      IRONIC_ENABLE_SERVICE: True
+      IRONIC_SERVICE_USER: ironic
+      IRONIC_SERVICE_PASSWORD: veryinsecure
+      IRONIC_DB_USER: ironicDB
+      IRONIC_DB_PASSWORD: veryinsecure
+
+      CEILOMETER_SERVICE_USER: ceilometer
+      CEILOMETER_SERVICE_PASSWORD: veryinsecure
+      CEILOMETER_DB_USER: ceilometerDB
+      CEILOMETER_DB_PASSWORD: veryinsecure
+      METERING_SECRET: insecureceilometersecret
 
       HOSTS_CONTROLLER: <management ip> onenode
 
