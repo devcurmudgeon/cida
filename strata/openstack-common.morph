@@ -22,9 +22,13 @@ chunks:
   ref: c414cb801776e11c769fb36c0d37b8d7a7c8712c
   unpetrify-ref: pytz-2014.10
 - name: babel
+  morph: strata/openstack-common/babel.morph
   repo: upstream:babel
-  ref: 246996b0ee51e49ebcd504e234d3bcdcb178996c
-  unpetrify-ref: master
+# Babel requires core-23.1.zip to be present when compiles
+# from source, the following branch and commit add this file
+# to the repository.
+  ref: 603e77ae0e43b6ecdb3f3a8ea7988f7e7c83e867
+  unpetrify-ref: baserock/1.3-50-g246996b
   build-depends:
   - pytz
 - name: enum34
