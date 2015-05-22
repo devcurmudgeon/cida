@@ -33,3 +33,8 @@ chunks:
   unpetrify-ref: baserock/release_1_28
   build-depends:
   - coreutils
+- name: findutils
+  morph: strata/coreutils-common/findutils.morph
+  repo: upstream:findutils
+  ref: ee6b25541336f9d74624ca814538ddc8c67f0732
+  unpetrify-ref: baserock/v4.5.14
