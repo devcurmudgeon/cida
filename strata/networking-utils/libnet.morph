@@ -1,0 +1,15 @@
+name: libnet
+kind: chunk
+build-system: manual
+pre-configure-commands:
+# Avoid building the docs as they require doxygen
+- sed -i 's@doc @@' libnet/Makefile.am
+- sed -i 's@doc/.*Makefile@@' libnet/configure.ac
+
+- cd libnet && ./autogen.sh
+configure-commands:
+- cd libnet && ./configure --prefix="$PREFIX" --disable-samples --enable-shared=yes --with-pic
+build-commands:
+- cd libnet && make
+install-commands:
+- cd libnet && make DESTDIR="$DESTDIR" install

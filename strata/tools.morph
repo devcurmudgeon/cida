@@ -73,18 +73,6 @@ chunks:
   unpetrify-ref: IPMITOOL_1_8_14
   build-depends:
   - file
-- name: libpcap
-  morph: strata/tools/libpcap.morph
-  repo: upstream:libpcap
-  ref: 098a643f817e8a9929c70dfba157e4d399398375
-  unpetrify-ref: libpcap-1.7
-- name: tcpdump
-  morph: strata/tools/tcpdump.morph
-  repo: upstream:tcpdump
-  ref: 8aa5edea1b8846740514dee4158b6c707d38fc13
-  unpetrify-ref: tcpdump-4.7
-  build-depends:
-  - libpcap
 - name: parted
   morph: strata/tools/parted.morph
   repo: upstream:parted

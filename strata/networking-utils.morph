@@ -25,3 +25,28 @@ chunks:
   unpetrify-ref: v6.24
   build-depends:
   - libmnl
+- name: libpcap
+  morph: strata/networking-utils/libpcap.morph
+  repo: upstream:libpcap
+  ref: 098a643f817e8a9929c70dfba157e4d399398375
+  unpetrify-ref: libpcap-1.7
+- name: tcpdump
+  morph: strata/networking-utils/tcpdump.morph
+  repo: upstream:tcpdump
+  ref: 8aa5edea1b8846740514dee4158b6c707d38fc13
+  unpetrify-ref: tcpdump-4.7
+  build-depends:
+  - libpcap
+- name: libnet
+  morph: strata/networking-utils/libnet.morph
+  repo: upstream:libnet
+  ref: 05df365769597e1d64d02af931d6127762ff2658
+  unpetrify-ref: libnet-1.2
+- name: arping
+  morph: strata/networking-utils/arping.morph
+  repo: upstream:arping
+  ref: a416764b03f4d5960b61372e27d84606899bfe2c
+  unpetrify-ref: arping-2.15
+  build-depends:
+  - libpcap
+  - libnet
