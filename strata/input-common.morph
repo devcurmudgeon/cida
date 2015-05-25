@@ -11,16 +11,16 @@ chunks:
 - name: xkeyboard-config
   morph: strata/input-common/xkeyboard-config.morph
   repo: upstream:xkeyboard-config
-  ref: 73aa90ce32967747c84a1b5fe32cee329bc3bbcf
-  unpetrify-ref: xkeyboard-config-2.13
+  ref: 26f344c93f8c6141e9233eb68088ba4fd56bc9ef
+  unpetrify-ref: xkeyboard-config-2.14
 - name: libevdev
   repo: upstream:libevdev
-  ref: 7ac00d7e920c56bb8617403699030a5300bfae1c
-  unpetrify-ref: libevdev-1.3.2
+  ref: 6f03fd49fb949e46ebccb5dfb54489584896c791
+  unpetrify-ref: libevdev-1.4.2
 - name: libinput
   repo: upstream:libinput
-  ref: ca4e03fb11429b6a3704206124fbff2f57d121f9
-  unpetrify-ref: 0.10.0
+  ref: 12df380698531472d495534ed356722478563707
+  unpetrify-ref: 0.15.0
   build-depends:
   - mtdev
   - libevdev
