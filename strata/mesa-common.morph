@@ -9,5 +9,5 @@ chunks:
 - name: mesa
   morph: strata/mesa-common/mesa.morph
   repo: upstream:mesa
-  ref: d623ac7304feff9ddf3fea07e738bc52d42e7605
-  unpetrify-ref: baserock/mesa-10.5.5-jetson
+  ref: 635ad274470a064100ff6aa38ede83d748ae07cf
+  unpetrify-ref: baserock/mesa-10.6.0-rc1-jetson
