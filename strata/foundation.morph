@@ -46,8 +46,8 @@ chunks:
 - name: systemd
   morph: strata/foundation/systemd.morph
   repo: upstream:systemd
-  ref: 163ab2961268232e1cb49e990a8ccefe24b7649f
-  unpetrify-ref: baserock/v219-729-g163ab29-jetson_btrfs_fixes
+  ref: dde8bb32b12c855509777ce52ff59a835155ac78
+  unpetrify-ref: v220
   build-depends:
   - dbus-pre
   - kmod
