@@ -19,11 +19,18 @@ chunks:
   repo: upstream:gdbm-tarball
   ref: e5faeaaf75ecfb705a9b643b3e4cb881ebb69f48
   unpetrify-ref: gdbm-1.11
+- name: libexpat
+  morph: strata/core/libexpat.morph
+  repo: upstream:libexpat
+  ref: 7cfc09db3e258129ab05811f2f9e351746ddab9f
+  unpetrify-ref: R_2_1_0
 - name: gettext-tarball
   morph: strata/core/gettext-tarball.morph
   repo: upstream:gettext-tarball
   ref: 482840e61f86ca321838a91e902c41d40c098bbb
   unpetrify-ref: gettext-0.19.4
+  build-depends:
+  - libexpat
 - name: mini-utils
   morph: strata/core/mini-utils.morph
   repo: baserock:baserock/mini-utils
@@ -163,13 +170,6 @@ chunks:
   - libtool-tarball
   - openssl-new
   - ca-certificates
-- name: libexpat
-  morph: strata/core/libexpat.morph
-  repo: upstream:libexpat
-  ref: 7cfc09db3e258129ab05811f2f9e351746ddab9f
-  unpetrify-ref: R_2_1_0
-  build-depends:
-  - cmake
 - name: XML-Parser
   repo: upstream:XML-Parser
   ref: e1a3ec157140a699e3020836475a0df622f70f1b

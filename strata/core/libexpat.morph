@@ -1,8 +1,6 @@
 name: libexpat
 kind: chunk
-configure-commands:
-- mkdir o && cd o && cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-build-commands:
-- cd o && make
-install-commands:
-- cd o && make DESTDIR="$DESTDIR" install
+build-system: autotools
+pre-configure-commands:
+- ./buildconf.sh
+- automake --add-missing --copy || true
