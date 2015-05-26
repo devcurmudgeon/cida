@@ -19,18 +19,6 @@ chunks:
   repo: upstream:gdbm-tarball
   ref: e5faeaaf75ecfb705a9b643b3e4cb881ebb69f48
   unpetrify-ref: gdbm-1.11
-- name: libexpat
-  morph: strata/core/libexpat.morph
-  repo: upstream:libexpat
-  ref: 7cfc09db3e258129ab05811f2f9e351746ddab9f
-  unpetrify-ref: R_2_1_0
-- name: gettext-tarball
-  morph: strata/core/gettext-tarball.morph
-  repo: upstream:gettext-tarball
-  ref: 482840e61f86ca321838a91e902c41d40c098bbb
-  unpetrify-ref: gettext-0.19.4
-  build-depends:
-  - libexpat
 - name: mini-utils
   morph: strata/core/mini-utils.morph
   repo: baserock:baserock/mini-utils
@@ -72,6 +60,27 @@ chunks:
   - autoconf-tarball
   - perl
   - texinfo-tarball
+- name: libtool-tarball
+  morph: strata/core/libtool-tarball.morph
+  repo: upstream:libtool-tarball
+  ref: c026ca36e37d2643623a75d0d3e9e451023139f3
+  unpetrify-ref: libtool-2.4.6
+- name: libexpat
+  morph: strata/core/libexpat.morph
+  repo: upstream:libexpat
+  ref: 7cfc09db3e258129ab05811f2f9e351746ddab9f
+  unpetrify-ref: R_2_1_0
+  build-depends:
+  - autoconf-tarball
+  - automake
+  - libtool-tarball
+- name: gettext-tarball
+  morph: strata/core/gettext-tarball.morph
+  repo: upstream:gettext-tarball
+  ref: 482840e61f86ca321838a91e902c41d40c098bbb
+  unpetrify-ref: gettext-0.19.4
+  build-depends:
+  - libexpat
 - name: bash
   morph: strata/core/bash.morph
   repo: upstream:bash
@@ -121,11 +130,6 @@ chunks:
   unpetrify-ref: 0.22
   build-depends:
   - cpython
-- name: libtool-tarball
-  morph: strata/core/libtool-tarball.morph
-  repo: upstream:libtool-tarball
-  ref: c026ca36e37d2643623a75d0d3e9e451023139f3
-  unpetrify-ref: libtool-2.4.6
 - name: gtk-doc-stub
   repo: upstream:gtk-doc-stub
   ref: 58ec0d8593541ef7ae522ce42ebec6f98536c4e0
