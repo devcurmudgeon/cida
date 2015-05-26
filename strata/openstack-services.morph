@@ -589,6 +589,10 @@ chunks:
   repo: upstream:python-packages/werkzeug
   ref: 96e49709d627a7766077cff4c98ebf3cad868ceb
   unpetrify-ref: v0.10.4
+- name: requests-aws
+  repo: upstream:python-packages/python-requests-aws
+  ref: 48fe401c78eb1b1048cd20e2d26015585a7986cb
+  unpetrify-ref: master
 - name: ceilometer
   repo: upstream:openstack/ceilometer
   morph: strata/openstack-services/ceilometer.morph
@@ -617,6 +621,7 @@ chunks:
   - tooz
   - werkzeug
   - wsme
+  - requests-aws
 - name: django-openstack-auth
   repo: upstream:openstack/django_openstack_auth
   ref: 0e1f7b78277850634992a594132921efb83256e0
