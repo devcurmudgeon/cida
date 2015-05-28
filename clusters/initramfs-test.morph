@@ -15,3 +15,8 @@ systems:
       initramfs:
         type: extensions/initramfs
         location: boot/initramfs.gz
+  - morph: systems/initramfs-x86_64.morph
+    deploy:
+      shutdownramfs:
+        type: sysroot
+        location: usr/lib/shutdownramfs
