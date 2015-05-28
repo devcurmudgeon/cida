@@ -232,3 +232,24 @@ chunks:
   - xorg-proto-fixesproto
   - xorg-lib-libXau
   - xorg-lib-libX11
+- name: xorg-lib-libICE
+  repo: upstream:xorg-lib-libICE
+  ref: b0cc7794c89d64fc54d0c75b2bba79fd7a1c7e0a
+  unpetrify-ref: libICE-1.0.9
+  build-depends:
+  - xorg-proto-x11proto
+  - xorg-lib-libxtrans
+- name: xorg-lib-libSM
+  repo: upstream:xorg-lib-libSM
+  ref: d0659dcd3aa23598b38826ac78f85071772c436f
+  unpetrify-ref: libSM-1.2.2
+  build-depends:
+  - xorg-lib-libICE
+- name: xorg-lib-libXt
+  repo: upstream:xorg-lib-libXt
+  ref: e7411e7e5299116604ff1f01d9415802607f1051
+  unpetrify-ref: libXt-1.1.5
+  build-depends:
+  - xorg-proto-kbproto
+  - xorg-lib-libX11
+  - xorg-lib-libSM
