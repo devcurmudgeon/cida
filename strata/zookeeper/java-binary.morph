@@ -6,6 +6,6 @@ build-commands:
 install-commands:
 - mkdir -p "$DESTDIR$PREFIX"/bin
 - mkdir -p "$DESTDIR$PREFIX"/lib
-- tar zxf jdk-8u20-linux-x64.tar.gz -C "$DESTDIR$PREFIX"/lib
+- tar zxf jdk-8u20-linux-x64.tar.gz -C "$DESTDIR$PREFIX"/lib --no-same-owner
 - unzip jce_policy-8.zip -d "$DESTDIR$PREFIX"/lib/jdk1.8.0_20/jre/lib/security
 - ln -sfn "$PREFIX"/lib/jdk1.8.0_20/jre/bin/java "$DESTDIR$PREFIX"/bin/
