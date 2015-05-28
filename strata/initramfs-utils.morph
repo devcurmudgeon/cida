@@ -7,5 +7,5 @@ chunks:
 - name: initramfs-scripts
   morph: strata/initramfs-utils/initramfs-scripts.morph
   repo: baserock:baserock/initramfs-scripts
-  ref: 062c5d3aece2e308aa7fc03acab1b3b6dd4270b2
+  ref: e5c71f0ca075bd29ffd55ec0c25804585bc21046
   unpetrify-ref: master
