@@ -98,7 +98,7 @@ chunks:
 - name: tbdiff
   morph: strata/foundation/tbdiff.morph
   repo: baserock:baserock/tbdiff
-  ref: 47fb728f2432929868666afc915dbc5a64836c08
+  ref: 235e95c3479f96b04d33edecc684f985bda50e53
   unpetrify-ref: master
 - name: dbus-glib
   repo: upstream:dbus-glib
