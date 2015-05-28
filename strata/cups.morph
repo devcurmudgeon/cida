@@ -1,0 +1,11 @@
+name: cups
+kind: stratum
+description: Cups printer driver
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: cups
+  morph: strata/cups/cups.morph
+  repo: upstream:cups
+  ref: f28bae1aeae3964fba4f0728263657405f63c417
+  unpetrify-ref: release-1.7.0
