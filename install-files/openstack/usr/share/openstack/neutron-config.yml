@@ -22,17 +22,6 @@
     - /var/lock/neutron
     - /var/log/neutron
 
-  - name: Get service tenant id needed in neutron.conf
-    shell: |
-           keystone \
-               --os-endpoint http://{{ CONTROLLER_HOST_ADDRESS|quote }}:35357/v2.0 \
-               --os-token {{ KEYSTONE_TEMPORARY_ADMIN_TOKEN|quote }} \
-               tenant-get service | grep id | tr -d " " | cut -d"|" -f3
-    register: tenant_service_id
-
-  - set_fact:
-        SERVICE_TENANT_ID: "{{ tenant_service_id.stdout }}"
-
   - name: Create the directories needed for Neutron configuration files.
     file:
         path: /etc/{{ item }}

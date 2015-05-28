@@ -23,14 +23,13 @@
         shell: /sbin/nologin
         home: /var/lib/horizon
 
-  - name: Create the /var folders for horizon
+  - name: Fix permissions in /var/lib/horizon
     file:
-        path: "{{ item }}"
+        path: /var/lib/horizon
         state: directory
         owner: horizon
         group: horizon
-    with_items:
-    - /var/lib/horizon
+        recurse: yes
 
   - name: Link horizon apache configuration
     file:

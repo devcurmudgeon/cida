@@ -66,6 +66,7 @@ if [ -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" -o \
      -z "$RABBITMQ_USER" -o \
      -z "$RABBITMQ_PASSWORD" -o \
      -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" -o \
+     -z "$NOVA_VIRT_TYPE" -o \
      -z "$CONTROLLER_HOST_ADDRESS" ]; then
     echo Some options required for Ceilometer were defined, but not all.
     exit 1
@@ -114,6 +115,7 @@ ceilometer_configuration={
     'RABBITMQ_PASSWORD': os.environ['RABBITMQ_PASSWORD'],
     'MANAGEMENT_INTERFACE_IP_ADDRESS': os.environ['MANAGEMENT_INTERFACE_IP_ADDRESS'],
     'CONTROLLER_HOST_ADDRESS': os.environ['CONTROLLER_HOST_ADDRESS'],
+    'NOVA_VIRT_TYPE': os.environ['NOVA_VIRT_TYPE'],
 }
 
 yaml.dump(ceilometer_configuration, sys.stdout, default_flow_style=False)
