@@ -1,0 +1,16 @@
+name: java-binary
+description: |
+  This is a temporary solution to the OpenJDK build problem. In the future
+  we expect to be able to build fully from scratch using IcedTea, but for now
+  we need an existing OpenJDK binary to build OpenJDK.
+kind: chunk
+configure-commands: []
+build-commands:
+- cat j2sdk-image-jdk8build.tar.gz_* > jdk-8u20-linux-x64.tar.gz
+install-commands:
+- mkdir -p "$DESTDIR$PREFIX"/bin
+- mkdir -p "$DESTDIR$PREFIX"/lib
+- tar zxf jdk-8u20-linux-x64.tar.gz -C "$DESTDIR$PREFIX"/lib --no-same-owner
+- ln -sfn "$PREFIX"/lib/j2sdk-image "$DESTDIR$PREFIX"/lib/java-8-openjdk
+- ln -sfn "$PREFIX"/lib/j2sdk-image/jre/bin/java "$DESTDIR$PREFIX"/bin/
+- ln -sfn "$PREFIX"/lib/j2sdk-image/jre/bin/javac "$DESTDIR$PREFIX"/bin/
