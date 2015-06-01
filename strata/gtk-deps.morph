@@ -2,7 +2,7 @@ name: gtk-deps
 kind: stratum
 description: the GTK+ dependencies stratum
 build-depends:
-- morph: strata/foundation.morph
+- morph: strata/core.morph
 - morph: strata/graphics-common.morph
 - morph: strata/x-common.morph
 chunks:

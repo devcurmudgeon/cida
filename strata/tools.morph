@@ -2,7 +2,7 @@ name: tools
 kind: stratum
 description: Various tools
 build-depends:
-- morph: strata/foundation.morph
+- morph: strata/core.morph
 chunks:
 - name: distcc
   morph: strata/tools/distcc.morph
