@@ -346,7 +346,7 @@ chunks:
   - autoconf-tarball
   - automake
 - name: libffi
-  morph: strata/foundation/libffi.morph
+  morph: strata/core/libffi.morph
   repo: upstream:libffi
   ref: 77d4586cc47e8f4c02278afbc220145bba0d442b
   unpetrify-ref: baserock/morph
