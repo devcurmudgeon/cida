@@ -10,23 +10,23 @@ systems:
 - morph: systems/build-system-x86_32-chroot.morph
   deploy:
     build-system-x86_32-chroot:
-      type: tar
+      type: extensions/tar
       location: build-system-x86_32-chroot.tar
 - morph: systems/build-system-x86_32.morph
   deploy:
     build-system-x86_32:
-      type: rawdisk
+      type: extensions/rawdisk
       location: build-system-x86_32.img
       DISK_SIZE: 6G
 - morph: systems/build-system-x86_64-chroot.morph
   deploy:
     build-system-x86_64-chroot:
-      type: tar
+      type: extensions/tar
       location: build-system-x86_64-chroot.tar
 - morph: systems/build-system-x86_64.morph
   deploy:
     build-system-x86_64:
-      type: rawdisk
+      type: extensions/rawdisk
       location: build-system-x86_64.img
       DISK_SIZE: 6G
       INITRAMFS_PATH: boot/initramfs.gz
@@ -34,12 +34,12 @@ systems:
   - morph: systems/initramfs-x86_64.morph
     deploy:
       initramfs-build-system-x86_64:
-        type: initramfs
+        type: extensions/initramfs
         location: boot/initramfs.gz
 - morph: systems/build-system-armv7lhf-jetson.morph
   deploy:
     build-system-armv7lhf-jetson:
-      type: rawdisk
+      type: extensions/rawdisk
       location: build-system-armv7lhf-jetson.img
       DISK_SIZE: 2G
       BOOT_DEVICE: "/dev/mmcblk0p1"
@@ -51,7 +51,7 @@ systems:
 - morph: systems/genivi-baseline-system-x86_64-generic.morph
   deploy:
     genivi-baseline-system-x86_64-generic:
-      type: rawdisk
+      type: extensions/rawdisk
       location: genivi-baseline-system-x86_64-generic.img
       DISK_SIZE: 4G
       KERNEL_ARGS: vga=788
@@ -60,12 +60,12 @@ systems:
   - morph: systems/initramfs-x86_64.morph
     deploy:
       initramfs-genivi-baseline-system-x86_64-generic:
-        type: initramfs
+        type: extensions/initramfs
         location: boot/initramfs.gz
 - morph: systems/genivi-baseline-system-armv7lhf-jetson.morph
   deploy:
     genivi-baseline-system-armv7lhf-jetson:
-      type: rawdisk
+      type: extensions/rawdisk
       location: genivi-baseline-system-armv7lhf-jetson.img
       DISK_SIZE: 4G
       BOOT_DEVICE: "/dev/mmcblk0p1"

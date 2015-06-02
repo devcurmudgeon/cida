@@ -40,7 +40,7 @@ systems:
 - morph: systems/openstack-system-x86_64.morph
   deploy:
     release:
-      type: rawdisk
+      type: extensions/rawdisk
       location: baserock-openstack-system-x86_64.img
       DISK_SIZE: 10G
       INSTALL_FILES: openstack/manifest

@@ -28,8 +28,8 @@ strata:
 - name: installer-utils
   morph: strata/installer-utils.morph
 configuration-extensions:
-- set-hostname
-- install-files
-- fstab
-- installer
-- install-essential-files
+- extensions/set-hostname
+- extensions/install-files
+- extensions/fstab
+- extensions/installer
+- extensions/install-essential-files

@@ -9,7 +9,7 @@ systems:
 - morph: systems/devel-system-armv8l64.morph
   deploy:
     netboot:
-      type: pxeboot
+      type: extensions/pxeboot
       location: 14:58:d0:57:7f:42
       PXEBOOT_MODE: existing-server
       PXEBOOT_CONFIG_TFTP_ADDRESS: sftp://192.168.0.1/srv/nfsboot/tftp/

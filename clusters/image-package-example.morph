@@ -6,7 +6,7 @@ systems:
 - morph: systems/base-system-x86_32-generic.morph
   deploy:
     imgpkg:
-      type: image-package
+      type: extensions/image-package
       location: image-package-example.tar
       BOOTLOADER_BLOBS: /usr/share/syslinux/mbr.bin
-      INCLUDE_SCRIPTS: image-package-example/make-disk-image.sh.in:image-package-example/disk-install.sh.in:image-package-example/common.sh.in
+      INCLUDE_SCRIPTS: extensions/image-package-example/make-disk-image.sh.in:extensions/image-package-example/disk-install.sh.in:extensions/image-package-example/common.sh.in

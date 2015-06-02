@@ -44,12 +44,12 @@ strata:
 - name: ostree-core
   morph: strata/ostree-core.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- nfsboot
-- install-files
-- distbuild
-- fstab
-- mason
-- cloud-init
-- install-essential-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/distbuild
+- extensions/fstab
+- extensions/mason
+- extensions/cloud-init
+- extensions/install-essential-files

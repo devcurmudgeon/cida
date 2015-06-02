@@ -14,5 +14,5 @@ systems:
     FSTAB_SRC: LABEL=src /src auto defaults,rw,noatime,nofail 0 2
   deploy:
     self:
-        type: ssh-rsync
+        type: extensions/ssh-rsync
         location: root@127.0.0.1

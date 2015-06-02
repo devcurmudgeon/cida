@@ -12,8 +12,8 @@ strata:
 - name: bsp-armv7b-vexpress-tc2
   morph: strata/bsp-armv7b-vexpress-tc2.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- nfsboot
-- install-files
-- install-essential-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/install-essential-files

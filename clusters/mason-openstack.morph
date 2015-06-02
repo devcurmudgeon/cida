@@ -18,7 +18,7 @@ systems:
     WORKER_SSH_KEY: ssh-keys/worker.key
   deploy:
     mason-openstack:
-      type: openstack
+      type: extensions/openstack
       location: openstack-auth-url (eg example.com:5000/v2.0)
       DISK_SIZE: 6G
       DISTBUILD_CONTROLLER: true

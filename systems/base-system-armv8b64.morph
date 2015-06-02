@@ -14,9 +14,9 @@ strata:
 - name: bsp-armv8b64-generic
   morph: strata/bsp-armv8b64-generic.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- nfsboot
-- install-files
-- moonshot-kernel
-- install-essential-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/moonshot-kernel
+- extensions/install-essential-files

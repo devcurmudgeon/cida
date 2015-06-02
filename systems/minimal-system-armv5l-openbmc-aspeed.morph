@@ -12,9 +12,9 @@ strata:
   artifacts:
   - bsp-armv5l-openbmc-aspeed-runtime
 configuration-extensions:
-- set-hostname
-- simple-network
-- nfsboot
-- install-files
-- busybox-init
-- install-essential-files
+- extensions/set-hostname
+- extensions/simple-network
+- extensions/nfsboot
+- extensions/install-files
+- extensions/busybox-init
+- extensions/install-essential-files

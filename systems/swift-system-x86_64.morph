@@ -24,11 +24,11 @@ strata:
 - name: openstack-common
   morph: strata/openstack-common.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- simple-network
-- nfsboot
-- install-files
-- fstab
-- swift-storage
-- install-essential-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/simple-network
+- extensions/nfsboot
+- extensions/install-files
+- extensions/fstab
+- extensions/swift-storage
+- extensions/install-essential-files

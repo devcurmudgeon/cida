@@ -34,7 +34,7 @@ systems:
 - morph: systems/armv7lhf-cross-toolchain-system-x86_64.morph
   deploy:
     sdk:
-      type: sdk
+      type: extensions/sdk
       location: armv7lhf-cross-toolchain-system-x86_64.sh
       PREFIX: /usr
       TARGET: armv7lhf-baserock-linux-gnueabi
@@ -42,5 +42,5 @@ systems:
   - morph: systems/devel-system-armv7lhf-highbank.morph
     deploy:
       sysroot:
-        type: sysroot
+        type: extensions/sysroot
         location: usr/armv7lhf-baserock-linux-gnueabi/sys-root

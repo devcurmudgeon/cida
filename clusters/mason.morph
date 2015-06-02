@@ -11,7 +11,7 @@ systems:
 - morph: systems/trove-system-x86_64.morph
   deploy:
     red-box-v1-trove:
-      type: kvm
+      type: extensions/kvm
       location: kvm+ssh://vm-user@vm-host/red-box-v1-trove/vm-path/red-box-v1-trove.img
       AUTOSTART: true
       DISK_SIZE: 20G
@@ -44,7 +44,7 @@ systems:
     WORKER_SSH_KEY: ssh_keys/worker.key
   deploy:
     red-box-v1-controller:
-      type: kvm
+      type: extensions/kvm
       location: kvm+ssh://vm-user@vm-host/red-box-v1-controller/vm-path/red-box-v1-controller.img
       DISK_SIZE: 60G
       DISTBUILD_CONTROLLER: true

@@ -39,19 +39,19 @@ set -e
 ROOT="$1"
 
 mkdir -p "$ROOT"/usr/lib/mason
-cp mason/mason.sh "$ROOT"/usr/lib/mason/mason.sh
-cp mason/mason-report.sh "$ROOT"/usr/lib/mason/mason-report.sh
-cp mason/os-init-script "$ROOT"/usr/lib/mason/os-init-script
+cp extensions/mason/mason.sh "$ROOT"/usr/lib/mason/mason.sh
+cp extensions/mason/mason-report.sh "$ROOT"/usr/lib/mason/mason-report.sh
+cp extensions/mason/os-init-script "$ROOT"/usr/lib/mason/os-init-script
 
-cp mason/mason.timer "$ROOT"/etc/systemd/system/mason.timer
+cp extensions/mason/mason.timer "$ROOT"/etc/systemd/system/mason.timer
 
-cp mason/mason.service "$ROOT"/etc/systemd/system/mason.service
+cp extensions/mason/mason.service "$ROOT"/etc/systemd/system/mason.service
 
 ##########################################################################
 # Set up httpd web server
 ##########################################################################
 
-cp mason/httpd.service "$ROOT"/etc/systemd/system/httpd.service
+cp extensions/mason/httpd.service "$ROOT"/etc/systemd/system/httpd.service
 
 mkdir -p "$ROOT"/srv/mason
 
@@ -68,9 +68,9 @@ mkdir -p "$ROOT"/var/mason
 mkdir -p "$ROOT/usr/share/mason-setup"
 mkdir -p "$ROOT/usr/lib/mason-setup"
 
-cp mason/share/* "$ROOT/usr/share/mason-setup"
-cp -r mason/ansible "$ROOT/usr/lib/mason-setup/"
-cp mason/mason-setup.service "$ROOT"/etc/systemd/system/mason-setup.service
+cp extensions/mason/share/* "$ROOT/usr/share/mason-setup"
+cp -r extensions/mason/ansible "$ROOT/usr/lib/mason-setup/"
+cp extensions/mason/mason-setup.service "$ROOT"/etc/systemd/system/mason-setup.service
 
 ln -s ../mason-setup.service "$ROOT"/etc/systemd/system/multi-user.target.wants/mason-setup.service
 

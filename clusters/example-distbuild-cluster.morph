@@ -22,16 +22,16 @@ systems:
     WORKER_SSH_KEY: ssh-keys/worker.key
   deploy:
     build-controller:
-      type: nfsboot
+      type: extensions/nfsboot
       location: $MY_TROVE
       DISTBUILD_CONTROLLER: true
       HOSTNAME: build-controller
       WORKERS: build-node-1, build-node-2
     build-node-1:
-      type: nfsboot
+      type: extensions/nfsboot
       location: $MY_TROVE
       HOSTNAME: build-node-1
     build-node-2:
-      type: nfsboot
+      type: extensions/nfsboot
       location: $MY_TROVE
       HOSTNAME: build-node-2

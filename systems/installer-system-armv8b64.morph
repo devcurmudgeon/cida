@@ -28,9 +28,9 @@ strata:
 - name: installer-utils
   morph: strata/installer-utils.morph
 configuration-extensions:
-- set-hostname
-- install-files
-- fstab
-- installer
-- moonshot-kernel
-- install-essential-files
+- extensions/set-hostname
+- extensions/install-files
+- extensions/fstab
+- extensions/installer
+- extensions/moonshot-kernel
+- extensions/install-essential-files

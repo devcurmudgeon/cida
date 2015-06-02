@@ -59,7 +59,7 @@ systems:
 - morph: systems/installer-system-x86_64.morph
   deploy:
     network-installer: &installer
-      type: rawdisk
+      type: extensions/rawdisk
       location: installer-openstack-network-x86_64.img
       KERNEL_ARGS: init=/usr/lib/baserock-installer/installer
       DISK_SIZE: 6G
@@ -72,12 +72,12 @@ systems:
   - morph: systems/initramfs-x86_64.morph
     deploy:
       network-initramfs: &initramfs
-        type: initramfs
+        type: extensions/initramfs
         location: boot/initramfs.gz
   - morph: systems/openstack-system-x86_64.morph
     deploy:
       network-to-install: &stack-node
-        type: sysroot
+        type: extensions/sysroot
         location: rootfs
         INSTALL_FILES: openstack/manifest
         INITRAMFS_PATH: boot/initramfs.gz

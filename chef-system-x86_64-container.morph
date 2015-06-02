@@ -3,12 +3,12 @@ kind: system
 arch: x86_64
 description: Minimal chef system suitable for running in a container
 configuration-extensions:
-- set-hostname
-- simple-network
-- nfsboot
-- install-files
-- busybox-init
-- remove-gcc
+- extensions/set-hostname
+- extensions/simple-network
+- extensions/nfsboot
+- extensions/install-files
+- extensions/busybox-init
+- extensions/remove-gcc
 strata:
 - name: build-essential
   morph: strata/build-essential.morph
