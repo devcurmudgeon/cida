@@ -8,7 +8,7 @@ systems:
 - morph: systems/installer-system-x86_64.morph
   deploy:
     installer:
-      type: pxeboot
+      type: extensions/pxeboot
       location: AB:CD:EF:12:34:56:78   #MAC address.
       PXEBOOT_MODE: spawn-novlan
       PXEBOOT_DEPLOYER_INTERFACE: ens6
@@ -23,7 +23,7 @@ systems:
   - morph: systems/build-system-x86_64.morph
     deploy:
       to-install:
-        type: sysroot
+        type: extensions/sysroot
         location: /rootfs
         INITRAMFS_PATH: boot/initramfs.gz
         KERNEL_ARGS: console=ttyS1,9600 console=tty0
@@ -31,5 +31,5 @@ systems:
     - morph: systems/initramfs-x86_64.morph
       deploy:
         initramfs:
-          type: initramfs
+          type: extensions/initramfs
           location: boot/initramfs.gz

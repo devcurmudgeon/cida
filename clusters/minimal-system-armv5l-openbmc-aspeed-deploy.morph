@@ -4,7 +4,7 @@ systems:
 - morph: systems/minimal-system-armv5l-openbmc-aspeed.morph
   deploy:
     minimal-system-armv5l-openbmc-aspeed:
-      type: jffs2
+      type: extensions/jffs2
       location: minimal-system-armv5l-openbmc-aspeed.img
       ROOT_DEVICE: "/dev/mtdblock"
       BOOTLOADER_CONFIG_FORMAT: "extlinux"

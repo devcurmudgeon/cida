@@ -1,0 +1,292 @@
+#!/usr/bin/python
+# Copyright (C) 2013,2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+'''A Morph deployment configuration extension to handle network configutation
+
+This extension prepares /etc/network/interfaces and networkd .network files
+in /etc/systemd/network/ with the interfaces specified during deployment.
+
+If no network configuration is provided, eth0 will be configured for DHCP
+with the hostname of the system in the case of /etc/network/interfaces.
+In the case of networkd, any interface starting by e* will be configured
+for DHCP
+'''
+
+
+import os
+import sys
+import errno
+import cliapp
+
+import morphlib
+
+
+class SimpleNetworkError(morphlib.Error):
+    '''Errors associated with simple network setup'''
+    pass
+
+
+class SimpleNetworkConfigurationExtension(cliapp.Application):
+    '''Configure /etc/network/interfaces and generate networkd .network files
+
+    Reading NETWORK_CONFIG, this extension sets up /etc/network/interfaces
+    and .network files in /etc/systemd/network/.
+    '''
+
+    def process_args(self, args):
+        network_config = os.environ.get("NETWORK_CONFIG")
+
+        self.rename_networkd_chunk_file(args)
+
+        if network_config is None:
+            self.generate_default_network_config(args)
+        else:
+            self.status(msg="Processing NETWORK_CONFIG=%(nc)s",
+                        nc=network_config)
+
+            stanzas = self.parse_network_stanzas(network_config)
+
+            self.generate_interfaces_file(args, stanzas)
+            self.generate_networkd_files(args, stanzas)
+
+    def rename_networkd_chunk_file(self, args):
+        """Rename the 10-dchp.network file generated in the systemd chunk
+
+        The systemd chunk will place something in 10-dhcp.network, which will
+        have higher precedence than anything added in this extension (we
+        start at 50-*).
+
+        We should check for that file and rename it instead remove it in
+        case the file is being used by the user.
+
+        Until both the following happen, we should continue to rename that
+        default config file:
+
+        1.  simple-network.configure is always run when systemd is included
+        2.  We've been building systems without systemd including that default
+            networkd config for long enough that nobody should be including
+            that config file.
+        """
+        file_path = os.path.join(args[0], "etc", "systemd", "network",
+                                 "10-dhcp.network")
+
+        if os.path.isfile(file_path):
+            try:
+                os.rename(file_path, file_path + ".morph")
+                self.status(msg="Renaming networkd file from systemd chunk: \
+                            %(f)s to %(f)s.morph", f=file_path)
+            except OSError:
+                pass
+
+    def generate_default_network_config(self, args):
+        """Generate default network config: DHCP in all the interfaces"""
+
+        default_network_config_interfaces = "lo:loopback;" \
+                                            "eth0:dhcp,hostname=$(hostname)"
+        default_network_config_networkd = "e*:dhcp"
+
+        stanzas_interfaces = self.parse_network_stanzas(
+            default_network_config_interfaces)
+        stanzas_networkd = self.parse_network_stanzas(
+            default_network_config_networkd)
+
+        self.generate_interfaces_file(args, stanzas_interfaces)
+        self.generate_networkd_files(args, stanzas_networkd)
+
+    def generate_interfaces_file(self, args, stanzas):
+        """Generate /etc/network/interfaces file"""
+
+        iface_file = self.generate_iface_file(stanzas)
+
+        directory_path = os.path.join(args[0], "etc", "network")
+        self.make_sure_path_exists(directory_path)
+        file_path = os.path.join(directory_path, "interfaces")
+        with open(file_path, "w") as f:
+            f.write(iface_file)
+
+    def generate_iface_file(self, stanzas):
+        """Generate an interfaces file from the provided stanzas.
+
+        The interfaces will be sorted by name, with loopback sorted first.
+        """
+
+        def cmp_iface_names(a, b):
+            a = a['name']
+            b = b['name']
+            if a == "lo":
+                return -1
+            elif b == "lo":
+                return 1
+            else:
+                return cmp(a,b)
+
+        return "\n".join(self.generate_iface_stanza(stanza)
+                         for stanza in sorted(stanzas, cmp=cmp_iface_names))
+
+    def generate_iface_stanza(self, stanza):
+        """Generate an interfaces stanza from the provided data."""
+
+        name = stanza['name']
+        itype = stanza['type']
+        lines  = ["auto %s" % name, "iface %s inet %s" % (name, itype)]
+        lines += ["    %s %s" % elem for elem in stanza['args'].items()]
+        lines += [""]
+        return "\n".join(lines)
+
+    def generate_networkd_files(self, args, stanzas):
+        """Generate .network files"""
+
+        for i, stanza in enumerate(stanzas, 50):
+            iface_file = self.generate_networkd_file(stanza)
+
+            if iface_file is None:
+                continue
+
+            directory_path = os.path.join(args[0], "etc", "systemd", "network")
+            self.make_sure_path_exists(directory_path)
+            file_path = os.path.join(directory_path,
+                                     "%s-%s.network" % (i, stanza['name']))
+
+            with open(file_path, "w") as f:
+                f.write(iface_file)
+
+    def generate_networkd_file(self, stanza):
+        """Generate an .network file from the provided data."""
+
+        name = stanza['name']
+        itype = stanza['type']
+        pairs = stanza['args'].items()
+
+        if itype == "loopback":
+            return
+
+        lines = ["[Match]"]
+        lines += ["Name=%s\n" % name]
+        lines += ["[Network]"]
+        if itype == "dhcp":
+            lines += ["DHCP=yes"]
+        else:
+            lines += self.generate_networkd_entries(pairs)
+
+        return "\n".join(lines)
+
+    def generate_networkd_entries(self, pairs):
+        """Generate networkd configuration entries with the other parameters"""
+
+        address = None
+        netmask = None
+        gateway = None
+        dns = None
+        lines = []
+
+        for pair in pairs:
+            if pair[0] == 'address':
+                address = pair[1]
+            elif pair[0] == 'netmask':
+                netmask = pair[1]
+            elif pair[0] == 'gateway':
+                gateway = pair[1]
+            elif pair[0] == 'dns':
+                dns = pair[1]
+
+        if address and netmask:
+            network_suffix = self.convert_net_mask_to_cidr_suffix (netmask);
+            address_line = address + '/' + str(network_suffix)
+            lines += ["Address=%s" % address_line]
+        elif address or netmask:
+            raise Exception('address and netmask must be specified together')
+
+        if gateway:
+            lines += ["Gateway=%s" % gateway]
+
+        if dns:
+            lines += ["DNS=%s" % dns]
+
+        return lines
+
+    def convert_net_mask_to_cidr_suffix(self, mask):
+        """Convert dotted decimal form of a subnet mask to CIDR suffix notation
+
+        For example: 255.255.255.0 -> 24
+        """
+        return sum(bin(int(x)).count('1') for x in mask.split('.'))
+
+    def parse_network_stanzas(self, config):
+        """Parse a network config environment variable into stanzas.
+
+        Network config stanzas are semi-colon separated.
+        """
+
+        return [self.parse_network_stanza(s) for s in config.split(";")]
+
+    def parse_network_stanza(self, stanza):
+        """Parse a network config stanza into name, type and arguments.
+
+        Each stanza is of the form name:type[,arg=value]...
+
+        For example:
+                   lo:loopback
+                   eth0:dhcp
+                   eth1:static,address=10.0.0.1,netmask=255.255.0.0
+        """
+        elements = stanza.split(",")
+        lead = elements.pop(0).split(":")
+        if len(lead) != 2:
+            raise SimpleNetworkError("Stanza '%s' is missing its type" %
+                                     stanza)
+        iface = lead[0]
+        iface_type = lead[1]
+
+        if iface_type not in ['loopback', 'static', 'dhcp']:
+            raise SimpleNetworkError("Stanza '%s' has unknown interface type"
+                                     " '%s'" % (stanza, iface_type))
+
+        argpairs = [element.split("=", 1) for element in elements]
+        output_stanza = { "name": iface,
+                          "type": iface_type,
+                          "args": {} }
+        for argpair in argpairs:
+            if len(argpair) != 2:
+                raise SimpleNetworkError("Stanza '%s' has bad argument '%r'"
+                                         % (stanza, argpair.pop(0)))
+            if argpair[0] in output_stanza["args"]:
+                raise SimpleNetworkError("Stanza '%s' has repeated argument"
+                                         " %s" % (stanza, argpair[0]))
+            output_stanza["args"][argpair[0]] = argpair[1]
+
+        return output_stanza
+
+    def make_sure_path_exists(self, path):
+        try:
+            os.makedirs(path)
+        except OSError as e:
+            if e.errno == errno.EEXIST and os.path.isdir(path):
+                pass
+            else:
+                raise SimpleNetworkError("Unable to create directory '%s'"
+                                         % path)
+
+    def status(self, **kwargs):
+        '''Provide status output.
+
+        The ``msg`` keyword argument is the actual message,
+        the rest are values for fields in the message as interpolated
+        by %.
+
+        '''
+
+        self.output.write('%s\n' % (kwargs['msg'] % kwargs))
+
+SimpleNetworkConfigurationExtension().run()

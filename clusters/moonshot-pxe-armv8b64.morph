@@ -9,7 +9,7 @@ systems:
 - morph: systems/devel-system-armv8b64.morph
   deploy:
     netboot:
-      type: pxeboot
+      type: extensions/pxeboot
       location: 14:58:d0:57:7f:42
       PXEBOOT_MODE: existing-server
       PXEBOOT_CONFIG_TFTP_ADDRESS: sftp://192.168.0.1/srv/nfsboot/tftp/
@@ -26,5 +26,5 @@ systems:
       HOSTNAME: baserock-c31n1
       DTB_PATH: boot/m400-1003.dtb
       KERNEL_ARGS: console=ttyS0,9600n8r rw
-      INSTALL_FILES: moonshot/manifest
+      INSTALL_FILES: install-files/moonshot/manifest
       MOONSHOT_KERNEL: yes

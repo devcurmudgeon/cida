@@ -57,12 +57,12 @@ strata:
 - name: coreutils-common
   morph: strata/coreutils-common.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- simple-network
-- nfsboot
-- install-files
-- cloud-init
-- moonshot-kernel
-- fstab
-- install-essential-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/simple-network
+- extensions/nfsboot
+- extensions/install-files
+- extensions/cloud-init
+- extensions/moonshot-kernel
+- extensions/fstab
+- extensions/install-essential-files

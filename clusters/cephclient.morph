@@ -4,7 +4,7 @@ systems:
 - morph: systems/ceph-service-x86_64-generic.morph
   deploy:
       ceph-node-virtualbox-image:
-          type: virtualbox-ssh
+          type: extensions/virtualbox-ssh
           SYSTEM: systems/ceph-service-x86_64-generic.morph
           location: vbox+ssh://user@machine/ChefNode4/home/user/chefnode4.vdi
           # HOST_IPADDR and NETMASK should be set to the IP address and netmask of the virtualbox host on the host-only interface.
@@ -17,4 +17,4 @@ systems:
           HOSTNAME: CephNode4
 
           # You must install authorized_keys in chef/root/.ssh/ before this will work.
-          INSTALL_FILES: chef/manifest
+          INSTALL_FILES: install-files/chef/manifest

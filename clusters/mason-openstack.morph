@@ -10,7 +10,7 @@ systems:
     CONTROLLERHOST: controller-hostname
     DISTBUILD_CONTROLLER: true
     DISTBUILD_WORKER: true
-    INSTALL_FILES: distbuild/manifest
+    INSTALL_FILES: install-files/distbuild/manifest
     RAM_SIZE: 8G
     TROVE_HOST: your-upstream-trove
     TROVE_ID: your-upstream-trove-prefix
@@ -18,7 +18,7 @@ systems:
     WORKER_SSH_KEY: ssh-keys/worker.key
   deploy:
     mason-openstack:
-      type: openstack
+      type: extensions/openstack
       location: openstack-auth-url (eg example.com:5000/v2.0)
       DISK_SIZE: 6G
       DISTBUILD_CONTROLLER: true

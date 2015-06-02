@@ -48,10 +48,10 @@ strata:
 - name: devtools
   morph: strata/devtools.morph
 configuration-extensions:
-- set-hostname
-- trove
-- nfsboot-server
-- fstab
-- install-files
-- cloud-init
-- install-essential-files
+- extensions/set-hostname
+- extensions/trove
+- extensions/nfsboot-server
+- extensions/fstab
+- extensions/install-files
+- extensions/cloud-init
+- extensions/install-essential-files

@@ -13,7 +13,7 @@ systems:
 - morph: systems/trove-system-x86_64.morph
   deploy:
     gbo:
-      type: ssh-rsync
+      type: extensions/ssh-rsync
       location: root@git.baserock.org
       FSTAB_HOME: LABEL=homes /home auto defaults,noatime,rw 0 2
       HOSTNAME: firehose1

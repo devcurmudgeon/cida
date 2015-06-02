@@ -3,7 +3,7 @@ kind: cluster
 systems:
 - morph: systems/swift-system-x86_64.morph
   deploy-defaults:
-    INSTALL_FILES: swift/manifest
+    INSTALL_FILES: install-files/swift/manifest
 
     CONTROLLER_HOST_ADDRESS: <controller host address>
 
@@ -39,7 +39,7 @@ systems:
 
   deploy:
     node0:
-      type: kvm
+      type: extensions/kvm
       location: kvm+ssh://user@host/swift-storage-0/home/user/swift-storage-0.img
       DISK_SIZE: 10G
       RAM_SIZE: 1G
@@ -50,7 +50,7 @@ systems:
       MANAGEMENT_INTERFACE_IP_ADDRESS: <node0 management ip>
       ATTACH_DISKS: /dev/node0_sdb:/dev/node0_sdc:/dev/node0_sdd
     node1:
-      type: kvm
+      type: extensions/kvm
       location: kvm+ssh://user@host/swift-storage-1/home/user/swift-storage-1.img
       DISK_SIZE: 10G
       RAM_SIZE: 1G

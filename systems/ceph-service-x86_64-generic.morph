@@ -55,10 +55,10 @@ strata:
 - name: chef
   morph: strata/chef.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- nfsboot
-- install-files
-- ceph
-- cloud-init
-- install-essential-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/ceph
+- extensions/cloud-init
+- extensions/install-essential-files

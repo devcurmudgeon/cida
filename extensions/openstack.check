@@ -1,0 +1,90 @@
+#!/usr/bin/python
+# Copyright (C) 2014-2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+'''Preparatory checks for Morph 'openstack' write extension'''
+
+import cliapp
+import os
+import urlparse
+import keystoneclient
+
+import morphlib.writeexts
+
+
+class OpenStackCheckExtension(morphlib.writeexts.WriteExtension):
+
+    def process_args(self, args):
+        if len(args) != 1:
+            raise cliapp.AppException('Wrong number of command line args')
+
+        self.require_btrfs_in_deployment_host_kernel()
+
+        upgrade = self.get_environment_boolean('UPGRADE')
+        if upgrade:
+            raise cliapp.AppException(
+                'Use the `ssh-rsync` write extension to deploy upgrades to an '
+                'existing remote system.')
+
+        location = args[0]
+        self.check_location(location)
+
+        self.check_imagename()
+        self.check_openstack_parameters(self._get_auth_parameters(location))
+
+    def _get_auth_parameters(self, location):
+        '''Check the environment variables needed and returns all.
+
+        The environment variables are described in the class documentation.
+        '''
+
+        auth_keys = {'OPENSTACK_USER': 'username',
+                     'OPENSTACK_TENANT': 'tenant_name',
+                     'OPENSTACK_PASSWORD': 'password'}
+
+        for key in auth_keys:
+            if os.environ.get(key, '') == '':
+                raise cliapp.AppException(key + ' was not given')
+
+        auth_params = {auth_keys[key]: os.environ[key] for key in auth_keys}
+        auth_params['auth_url'] = location
+        return auth_params
+
+    def check_imagename(self):
+        if os.environ.get('OPENSTACK_IMAGENAME', '') == '':
+            raise cliapp.AppException('OPENSTACK_IMAGENAME was not given')
+
+    def check_location(self, location):
+        x = urlparse.urlparse(location)
+        if x.scheme not in ['http', 'https']:
+            raise cliapp.AppException('URL schema must be http or https in %s'\
+                                      % location)
+        if (x.path != '/v2.0' and x.path != '/v2.0/'):
+            raise cliapp.AppException('API version must be v2.0 in %s'\
+                                      % location)
+
+    def check_openstack_parameters(self, auth_params):
+        ''' Check that we can connect to and authenticate with openstack '''
+
+        self.status(msg='Checking OpenStack credentials...')
+
+        try:
+            keystoneclient.v2_0.Client(**auth_params)
+        except keystoneclient.exceptions.Unauthorized:
+            errmsg = ('Failed to authenticate with OpenStack '
+                      '(are your credentials correct?)')
+            raise cliapp.AppException(errmsg)
+
+
+OpenStackCheckExtension().run()

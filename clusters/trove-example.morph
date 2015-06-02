@@ -50,9 +50,9 @@ systems:
     UPSTREAM_TROVE: ''
   deploy:
     initial:
-      type: kvm
+      type: extensions/kvm
       location: kvm+ssh://vm-user@vm-host/test-trove/vm-path/test-trove.img
       VERSION_LABEL: 1
     upgrade:
-      type: ssh-rsync
+      type: extensions/ssh-rsync
       location: test-trove

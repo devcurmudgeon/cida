@@ -20,9 +20,9 @@ strata:
 - name: test-tools
   morph: strata/test-tools.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- simple-network
-- nfsboot
-- install-files
-- install-essential-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/simple-network
+- extensions/nfsboot
+- extensions/install-files
+- extensions/install-essential-files

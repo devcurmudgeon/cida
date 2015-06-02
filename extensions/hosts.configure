@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Copyright © 2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# =*= License: GPL-2 =*=
+
+
+import os
+import sys
+import socket
+
+import morphlib
+
+def validate(var, line):
+    xs = line.split()
+    if len(xs) == 0:
+        raise morphlib.Error("`%s: %s': line is empty" % (var, line))
+
+    ip = xs[0]
+    hostnames = xs[1:]
+
+    if len(hostnames) == 0:
+        raise morphlib.Error("`%s: %s': missing hostname" % (var, line))
+
+    family = socket.AF_INET6 if ':' in ip else socket.AF_INET
+
+    try:
+        socket.inet_pton(family, ip)
+    except socket.error:
+        raise morphlib.Error("`%s: %s' invalid ip" % (var, ip))
+
+envvars = {k: v for (k, v) in os.environ.iteritems() if k.startswith('HOSTS_')}
+
+conf_file = os.path.join(sys.argv[1], 'etc/hosts')
+morphlib.util.write_from_dict(conf_file, envvars, validate)

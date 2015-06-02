@@ -13,8 +13,8 @@ strata:
 - name: bsp-x86_64-generic
   morph: strata/bsp-x86_64-generic.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- nfsboot
-- install-files
-- install-essential-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/install-essential-files

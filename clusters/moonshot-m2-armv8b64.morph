@@ -8,7 +8,7 @@ systems:
 - morph: systems/installer-system-armv8b64.morph
   deploy:
     installer:
-      type: pxeboot
+      type: extensions/pxeboot
       location: 14:58:d0:57:7f:42
       PXEBOOT_MODE: existing-server
       PXEBOOT_CONFIG_TFTP_ADDRESS: sftp://192.168.0.1/srv/nfsboot/tftp/
@@ -38,17 +38,17 @@ systems:
       HOSTNAME: installer-system-c31n1
       DTB_PATH: boot/m400-1003.dtb
       KERNEL_ARGS: console=ttyS0,9600n8r init=/usr/lib/baserock-installer/installer
-      INSTALL_FILES: moonshot/manifest
+      INSTALL_FILES: install-files/moonshot/manifest
       MOONSHOT_KERNEL: yes
   subsystems:
   - morph: systems/devel-system-armv8b64.morph
     deploy:
       to-install:
-        type: sysroot
+        type: extensions/sysroot
         location: /rootfs
         HOSTNAME: baserock-c31n1
         DTB_PATH: boot/m400-1003.dtb
-        INSTALL_FILES: moonshot/manifest
+        INSTALL_FILES: install-files/moonshot/manifest
         MOONSHOT_KERNEL: yes
         BOOT_DEVICE: /dev/sda1
         ROOT_DEVICE: /dev/sda2

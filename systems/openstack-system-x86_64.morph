@@ -66,20 +66,20 @@ strata:
 - name: python-tools
   morph: strata/python-tools.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- simple-network
-- nfsboot
-- install-files
-- cloud-init
-- hosts
-- openstack-keystone
-- openstack-glance
-- openstack-cinder
-- openstack-nova
-- openstack-network
-- openstack-neutron
-- openstack-ceilometer
-- fstab
-- openstack-ironic
-- install-essential-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/simple-network
+- extensions/nfsboot
+- extensions/install-files
+- extensions/cloud-init
+- extensions/hosts
+- extensions/openstack-keystone
+- extensions/openstack-glance
+- extensions/openstack-cinder
+- extensions/openstack-nova
+- extensions/openstack-network
+- extensions/openstack-neutron
+- extensions/openstack-ceilometer
+- extensions/fstab
+- extensions/openstack-ironic
+- extensions/install-essential-files
