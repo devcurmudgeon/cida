@@ -6,9 +6,9 @@ build-depends:
 chunks:
 - name: armv7lhf-cross-binutils
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-binutils.morph
-  repo: upstream:binutils-redhat
-  ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
-  unpetrify-ref: baserock/build-essential
+  repo: upstream:binutils-tarball
+  ref: 5500a97a2ad1735db5b35bc51cfb825c1f4c38df
+  unpetrify-ref: binutils-2.25
 
 - name: armv7lhf-cross-linux-api-headers
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-linux-api-headers.morph
