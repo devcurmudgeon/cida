@@ -1,9 +1,10 @@
 name: sed
 kind: chunk
 build-system: autotools
-configure-commands:
+pre-configure-commands:
 - sed -i -e '/^buildreq="/,/^"/{/rsync/d}' bootstrap.conf
-- ./bootstrap --skip-po
+- ./bootstrap --skip-po --no-git --gnulib-srcdir=gnulib
+configure-commands:
 - ./configure --prefix="$PREFIX" --disable-gcc-warnings
 post-install-commands:
 # This hack is to use GNU sed instead the busybox one.
