@@ -36,7 +36,7 @@ systems:
     CONTROLLERHOST: red-box-v1-controller.example.com
     DISTBUILD_CONTROLLER: false
     DISTBUILD_WORKER: true
-    INSTALL_FILES: distbuild/manifest
+    INSTALL_FILES: install-files/distbuild/manifest
     RAM_SIZE: 8G
     TROVE_HOST: upstream-trove
     TROVE_ID: upstream-trove

@@ -17,4 +17,4 @@ systems:
           HOSTNAME: CephNode4
 
           # You must install authorized_keys in chef/root/.ssh/ before this will work.
-          INSTALL_FILES: chef/manifest
+          INSTALL_FILES: install-files/chef/manifest

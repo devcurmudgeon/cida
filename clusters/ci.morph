@@ -74,7 +74,7 @@ systems:
       type: extensions/rawdisk
       location: baserock-openstack-system-x86_64.img
       DISK_SIZE: 5G
-      INSTALL_FILES: openstack/manifest
+      INSTALL_FILES: install-files/openstack/manifest
       HOSTNAME: onenode
       RABBITMQ_HOST: onenode
       RABBITMQ_PORT: 5672

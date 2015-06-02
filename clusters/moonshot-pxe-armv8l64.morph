@@ -18,5 +18,5 @@ systems:
       DTB_PATH: boot/m400-1003.dtb
       HOSTNAME: baserock-m400-node31
       MOONSHOT_KERNEL: yes
-      INSTALL_FILES: moonshot/manifest
+      INSTALL_FILES: install-files/moonshot/manifest
       PXE_INSTALLER: no

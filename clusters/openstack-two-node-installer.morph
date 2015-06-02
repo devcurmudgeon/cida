@@ -78,7 +78,7 @@ systems:
       controller-to-install: &stack-node
         type: extensions/sysroot
         location: rootfs
-        INSTALL_FILES: openstack/manifest
+        INSTALL_FILES: install-files/openstack/manifest
         INITRAMFS_PATH: boot/initramfs.gz
 
         HOSTNAME: twonode-controller

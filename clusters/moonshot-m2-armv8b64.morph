@@ -38,7 +38,7 @@ systems:
       HOSTNAME: installer-system-c31n1
       DTB_PATH: boot/m400-1003.dtb
       KERNEL_ARGS: console=ttyS0,9600n8r init=/usr/lib/baserock-installer/installer
-      INSTALL_FILES: moonshot/manifest
+      INSTALL_FILES: install-files/moonshot/manifest
       MOONSHOT_KERNEL: yes
   subsystems:
   - morph: systems/devel-system-armv8b64.morph
@@ -48,7 +48,7 @@ systems:
         location: /rootfs
         HOSTNAME: baserock-c31n1
         DTB_PATH: boot/m400-1003.dtb
-        INSTALL_FILES: moonshot/manifest
+        INSTALL_FILES: install-files/moonshot/manifest
         MOONSHOT_KERNEL: yes
         BOOT_DEVICE: /dev/sda1
         ROOT_DEVICE: /dev/sda2

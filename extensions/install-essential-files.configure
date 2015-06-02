@@ -31,7 +31,7 @@ class InstallEssentialFilesConfigureExtension(cliapp.Application):
 
     def process_args(self, args):
         target_root = args[0]
-        os.environ["INSTALL_FILES"] = "essential-files/manifest"
+        os.environ["INSTALL_FILES"] = "install-files/essential-files/manifest"
         self.install_essential_files(target_root)
 
     def install_essential_files(self, target_root):

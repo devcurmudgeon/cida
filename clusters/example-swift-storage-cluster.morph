@@ -3,7 +3,7 @@ kind: cluster
 systems:
 - morph: systems/swift-system-x86_64.morph
   deploy-defaults:
-    INSTALL_FILES: swift/manifest
+    INSTALL_FILES: install-files/swift/manifest
 
     CONTROLLER_HOST_ADDRESS: <controller host address>
 

@@ -16,7 +16,7 @@ systems:
     DISTBUILD_CONTROLLER: false
     DISTBUILD_WORKER: true
     FSTAB_SRC: LABEL=src /srv/distbuild auto defaults,rw,noatime 0 2
-    INSTALL_FILES: distbuild/manifest
+    INSTALL_FILES: install-files/distbuild/manifest
     NFSBOOT_CONFIGURE: true
     TROVE_ID: $MY_TROVE
     WORKER_SSH_KEY: ssh-keys/worker.key

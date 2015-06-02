@@ -43,7 +43,7 @@ systems:
       type: extensions/rawdisk
       location: baserock-openstack-system-x86_64.img
       DISK_SIZE: 10G
-      INSTALL_FILES: openstack/manifest swift/manifest
+      INSTALL_FILES: install-files/openstack/manifest install-files/swift/manifest
 
       HOSTNAME: onenode
 
