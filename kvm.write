@@ -1,0 +1,120 @@
+#!/usr/bin/python
+# Copyright (C) 2012-2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+'''A Morph deployment write extension for deploying to KVM+libvirt.
+
+See file kvm.write.help for documentation
+
+'''
+
+
+import cliapp
+import os
+import re
+import sys
+import tempfile
+import urlparse
+
+import morphlib.writeexts
+
+
+class KvmPlusSshWriteExtension(morphlib.writeexts.WriteExtension):
+
+    location_pattern = '^/(?P<guest>[^/]+)(?P<path>/.+)$'
+
+    def process_args(self, args):
+        if len(args) != 2:
+            raise cliapp.AppException('Wrong number of command line args')
+
+        temp_root, location = args
+        ssh_host, vm_name, vm_path = self.parse_location(location)
+        autostart = self.get_environment_boolean('AUTOSTART')
+
+        fd, raw_disk = tempfile.mkstemp()
+        os.close(fd)
+        self.create_local_system(temp_root, raw_disk)
+
+        try:
+            self.transfer(raw_disk, ssh_host, vm_path)
+            self.create_libvirt_guest(ssh_host, vm_name, vm_path, autostart)
+        except BaseException:
+            sys.stderr.write('Error deploying to libvirt')
+            os.remove(raw_disk)
+            cliapp.ssh_runcmd(ssh_host, ['rm', '-f', vm_path])
+            raise
+        else:
+            os.remove(raw_disk)
+
+        self.status(
+            msg='Virtual machine %(vm_name)s has been created',
+            vm_name=vm_name)
+
+    def parse_location(self, location):
+        '''Parse the location argument to get relevant data.'''
+
+        x = urlparse.urlparse(location)
+        m = re.match('^/(?P<guest>[^/]+)(?P<path>/.+)$', x.path)
+        return x.netloc, m.group('guest'), m.group('path')
+
+    def transfer(self, raw_disk, ssh_host, vm_path):
+        '''Transfer raw disk image to libvirt host.'''
+
+        self.status(msg='Transferring disk image')
+
+        xfer_hole_path = morphlib.util.get_data_path('xfer-hole')
+        recv_hole = morphlib.util.get_data('recv-hole')
+
+        ssh_remote_cmd = [
+            'sh', '-c', recv_hole, 'dummy-argv0', 'file', vm_path
+            ]
+
+        cliapp.runcmd(
+            ['python', xfer_hole_path, raw_disk],
+            ['ssh', ssh_host] + map(cliapp.shell_quote, ssh_remote_cmd),
+            stdout=None, stderr=None)
+
+    def create_libvirt_guest(self, ssh_host, vm_name, vm_path, autostart):
+        '''Create the libvirt virtual machine.'''
+
+        self.status(msg='Creating libvirt/kvm virtual machine')
+
+        attach_disks = self.parse_attach_disks()
+        attach_opts = []
+        for disk in attach_disks:
+            attach_opts.extend(['--disk', 'path=%s' % disk])
+
+        if 'NIC_CONFIG' in os.environ:
+            nics = os.environ['NIC_CONFIG'].split()
+            for nic in nics:
+                attach_opts.extend(['--network', nic])
+
+        ram_mebibytes = str(self.get_ram_size() / (1024**2))
+
+        vcpu_count = str(self.get_vcpu_count())
+
+        cmdline = ['virt-install', '--connect', 'qemu:///system',
+                   '--import', '--name', vm_name, '--vnc',
+                   '--ram', ram_mebibytes, '--vcpus', vcpu_count,
+                   '--disk', 'path=%s,bus=ide' % vm_path] + attach_opts
+        if not autostart:
+            cmdline += ['--noreboot']
+        cliapp.ssh_runcmd(ssh_host, cmdline)
+
+        if autostart:
+            cliapp.ssh_runcmd(ssh_host,
+                ['virsh', '--connect', 'qemu:///system', 'autostart', vm_name])
+
+KvmPlusSshWriteExtension().run()

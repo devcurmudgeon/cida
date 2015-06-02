@@ -1,0 +1,33 @@
+# Copyright (C) 2014, 2015 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, see <http://www.gnu.org/licenses/>.
+
+help: |
+    *** DO NOT USE ***
+    - This was written before 'proper' deployment mechanisms were in place.
+    It is unlikely to work at all, and will not work correctly.
+
+    Use the pxeboot write extension instead
+
+    ***
+    Deploy a system image and kernel to an nfsboot server.
+
+    An nfsboot server is defined as a baserock system that has
+    tftp and nfs servers running, the tftp server is exporting
+    the contents of /srv/nfsboot/tftp/ and the user has sufficient
+    permissions to create nfs roots in /srv/nfsboot/nfs/.
+
+    The `location` argument is the hostname of the nfsboot server.
+
+    The extension will connect to root@HOST via ssh to copy the
+    kernel and rootfs, and configure the nfs server.

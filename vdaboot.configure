@@ -1,0 +1,33 @@
+#!/bin/sh
+# Copyright (C) 2013,2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+# Change the "/" mount point to /dev/vda to use virtio disks.
+
+set -e
+
+if [ "$OPENSTACK_USER" ]
+then
+    # Modifying fstab 
+    if [ -f "$1/etc/fstab" ]
+    then
+        mv "$1/etc/fstab" "$1/etc/fstab.old"
+        awk 'BEGIN {print "/dev/vda / btrfs defaults,rw,noatime 0 1"};
+             $2 != "/" {print $0 };' "$1/etc/fstab.old" > "$1/etc/fstab"
+        rm "$1/etc/fstab.old"
+    else
+        echo "/dev/vda / btrfs defaults,rw,noatime 0 1"> "$1/etc/fstab"
+    fi
+fi
