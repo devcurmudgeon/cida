@@ -103,14 +103,6 @@ if "$NOVA_ENABLE_CONTROLLER"; then
     done
 fi
 
-##########################################################################
-# Change iprange for the interal libvirt to avoid clashes
-# with eth0 ip range
-##########################################################################
-
-sed -i "s/192\.168\.122\./192\.168\.1\./g" \
-       "$ROOT"/etc/libvirt/qemu/networks/default.xml
-
 
 ##########################################################################
 # Generate configuration file
