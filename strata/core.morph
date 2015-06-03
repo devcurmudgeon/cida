@@ -372,6 +372,7 @@ chunks:
   build-depends:
   - autoconf-tarball
   - automake
+  - bash
   - bison
   - cpython
   - flex
