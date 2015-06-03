@@ -35,8 +35,7 @@ class InstallEssentialFilesConfigureExtension(cliapp.Application):
         self.install_essential_files(target_root)
 
     def install_essential_files(self, target_root):
-        command = os.path.join(os.path.dirname(__file__),
-                               "install-files.configure")
+        command = os.path.join("extensions/install-files.configure")
         subprocess.check_call([command, target_root])
 
 InstallEssentialFilesConfigureExtension().run()
