@@ -13,27 +13,119 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import cliapp
+import contextlib
+import errno
+import fcntl
 import logging
 import os
 import re
+import select
 import shutil
+import stat
+import subprocess
 import sys
 import time
 import tempfile
-import errno
-import stat
-import contextlib
 
 
-@contextlib.contextmanager
-def hide_password_environment_variables(env):  # pragma: no cover
-    password_env = { k:v for k,v in env.iteritems() if 'PASSWORD' in k }
-    for k in password_env:
-        env[k] = '(value hidden)'
-    yield
-    for k, v in password_env.iteritems():
-        env[k] = v
+if sys.version_info >= (3, 3, 0):
+    import shlex
+    shell_quote = shlex.quote
+else:
+    import pipes
+    shell_quote = pipes.quote
+
+
+def get_data_path(relative_path):
+    extensions_dir = os.path.dirname(__file__)
+    return os.path.join(extensions_dir, relative_path)
+
+
+def get_data(relative_path):
+    with open(get_data_path(relative_path)) as f:
+        return f.read()
+
+
+def ssh_runcmd(host, args, **kwargs):
+    '''Run command over ssh'''
+    command = ['ssh', host, '--'] + [shell_quote(arg) for arg in args]
+
+    feed_stdin = kwargs.get('feed_stdin')
+    stdin = kwargs.get('stdin', subprocess.PIPE)
+    stdout = kwargs.get('stdout', subprocess.PIPE)
+    stderr = kwargs.get('stderr', subprocess.PIPE)
+
+    p = subprocess.Popen(command, stdin=stdin, stdout=stdout, stderr=stderr)
+    out, err = p.communicate(input=feed_stdin)
+    if p.returncode != 0:
+        raise ExtensionError('ssh command `%s` failed' % ' '.join(command))
+    return out
+
+
+def write_from_dict(filepath, d, validate=lambda x, y: True):
+    """Takes a dictionary and appends the contents to a file
+
+    An optional validation callback can be passed to perform validation on
+    each value in the dictionary.
+
+    e.g.
+
+        def validation_callback(dictionary_key, dictionary_value):
+            if not dictionary_value.isdigit():
+                raise Exception('value contains non-digit character(s)')
+
+    Any callback supplied to this function should raise an exception
+    if validation fails.
+
+    """
+    # Sort items asciibetically
+    # the output of the deployment should not depend
+    # on the locale of the machine running the deployment
+    items = sorted(d.iteritems(), key=lambda (k, v): [ord(c) for c in v])
+
+    for (k, v) in items:
+        validate(k, v)
+
+    with open(filepath, 'a') as f:
+        for (_, v) in items:
+            f.write('%s\n' % v)
+
+        os.fchown(f.fileno(), 0, 0)
+        os.fchmod(f.fileno(), 0644)
+
+
+def parse_environment_pairs(env, pairs):
+    '''Add key=value pairs to the environment dict.
+
+    Given a dict and a list of strings of the form key=value,
+    set dict[key] = value, unless key is already set in the
+    environment, at which point raise an exception.
+
+    This does not modify the passed in dict.
+
+    Returns the extended dict.
+
+    '''
+    extra_env = dict(p.split('=', 1) for p in pairs)
+    conflicting = [k for k in extra_env if k in env]
+    if conflicting:
+        raise ExtensionError('Environment already set: %s'
+                             % ', '.join(conflicting))
+
+    # Return a dict that is the union of the two
+    # This is not the most performant, since it creates
+    # 3 unnecessary lists, but I felt this was the most
+    # easy to read. Using itertools.chain may be more efficicent
+    return dict(env.items() + extra_env.items())
+
+
+class ExtensionError(Exception):
+
+    def __init__(self, msg):
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
 
 
 class Fstab(object):
@@ -89,9 +181,9 @@ class Fstab(object):
         shutil.move(os.path.abspath(tmp), os.path.abspath(self.filepath))
 
 
-class WriteExtension(cliapp.Application):
+class Extension(object):
 
-    '''A base class for deployment write extensions.
+    '''A base class for deployment extensions.
 
     A subclass should subclass this class, and add a
     ``process_args`` method.
@@ -108,8 +200,6 @@ class WriteExtension(cliapp.Application):
         This file descriptor is read by Morph and written into its own log
         file.
 
-        This overrides cliapp's usual configurable logging setup.
-
         '''
         log_write_fd = int(os.environ.get('MORPH_LOG_FD', 0))
 
@@ -125,12 +215,18 @@ class WriteExtension(cliapp.Application):
         logger.addHandler(handler)
         logger.setLevel(logging.DEBUG)
 
-    def log_config(self):
-        with hide_password_environment_variables(os.environ):
-            cliapp.Application.log_config(self)
-
     def process_args(self, args):
         raise NotImplementedError()
+
+    def run(self, args=None):
+        if args is None:
+            args = sys.argv[1:]
+        try:
+            self.setup_logging()
+            self.process_args(args)
+        except ExtensionError as e:
+            sys.stdout.write('ERROR: %s\n' % e)
+            sys.exit(1)
 
     def status(self, **kwargs):
         '''Provide status output.
@@ -140,9 +236,22 @@ class WriteExtension(cliapp.Application):
         by %.
 
         '''
+        sys.stdout.write('%s\n' % (kwargs['msg'] % kwargs))
+        sys.stdout.flush()
 
-        self.output.write('%s\n' % (kwargs['msg'] % kwargs))
-        self.output.flush()
+
+class WriteExtension(Extension):
+
+    '''A base class for deployment write extensions.
+
+    A subclass should subclass this class, and add a
+    ``process_args`` method.
+
+    Note that it is not necessary to subclass this class for write
+    extensions. This class is here just to collect common code for
+    write extensions.
+
+    '''
 
     def check_for_btrfs_in_deployment_host_kernel(self):
         with open('/proc/filesystems') as f:
@@ -151,7 +260,7 @@ class WriteExtension(cliapp.Application):
 
     def require_btrfs_in_deployment_host_kernel(self):
         if not self.check_for_btrfs_in_deployment_host_kernel():
-            raise cliapp.AppException(
+            raise ExtensionError(
                 'Error: Btrfs is required for this deployment, but was not '
                 'detected in the kernel of the machine that is running Morph.')
 
@@ -166,7 +275,7 @@ class WriteExtension(cliapp.Application):
     def created_disk_image(self, location):
         size = self.get_disk_size()
         if not size:
-            raise cliapp.AppException('DISK_SIZE is not defined')
+            raise ExtensionError('DISK_SIZE is not defined')
         self.create_raw_disk_image(location, size)
         try:
             yield
@@ -220,8 +329,8 @@ class WriteExtension(cliapp.Application):
             return None
         bytes = self._parse_size(size)
         if bytes is None:
-            raise cliapp.AppException('Cannot parse %s value %s'
-                                      % (env_var, size))
+            raise ExtensionError('Cannot parse %s value %s'
+                                 % (env_var, size))
         return bytes
 
     def get_disk_size(self):
@@ -254,15 +363,15 @@ class WriteExtension(cliapp.Application):
             # need to do this because at the time of writing, SYSLINUX has not
             # been updated to understand these new features and will fail to
             # boot if the kernel is on a filesystem where they are enabled.
-            cliapp.runcmd(
+            subprocess.check_output(
                 ['mkfs.btrfs','-f', '-L', 'baserock',
                 '--features', '^extref',
                 '--features', '^skinny-metadata',
                 '--features', '^mixed-bg',
                 '--nodesize', '4096',
                 location])
-        except cliapp.AppException as e:
-            if 'unrecognized option \'--features\'' in e.msg:
+        except subprocess.CalledProcessError as e:
+            if 'unrecognized option \'--features\'' in e.output:
                 # Old versions of mkfs.btrfs (including v0.20, present in many
                 # Baserock releases) don't support the --features option, but
                 # also don't enable the new features by default. So we can
@@ -270,7 +379,8 @@ class WriteExtension(cliapp.Application):
                 logging.debug(
                     'Assuming mkfs.btrfs failure was because the tool is too '
                     'old to have --features flag.')
-                cliapp.runcmd(['mkfs.btrfs','-f', '-L', 'baserock', location])
+                subprocess.check_call(['mkfs.btrfs','-f',
+                                       '-L', 'baserock', location])
             else:
                 raise
 
@@ -278,8 +388,8 @@ class WriteExtension(cliapp.Application):
         '''Get the UUID of a block device's file system.'''
         # Requires util-linux blkid; busybox one ignores options and
         # lies by exiting successfully.
-        return cliapp.runcmd(['blkid', '-s', 'UUID', '-o', 'value',
-                              location]).strip()
+        return subprocess.check_output(['blkid', '-s', 'UUID', '-o', 'value',
+                                        location]).strip()
 
     @contextlib.contextmanager
     def mount(self, location):
@@ -287,9 +397,10 @@ class WriteExtension(cliapp.Application):
         try:
             mount_point = tempfile.mkdtemp()
             if self.is_device(location):
-                cliapp.runcmd(['mount', location, mount_point])
+                subprocess.check_call(['mount', location, mount_point])
             else:
-                cliapp.runcmd(['mount', '-o', 'loop', location, mount_point])
+                subprocess.check_call(['mount', '-o', 'loop',
+                                       location, mount_point])
         except BaseException as e:
             sys.stderr.write('Error mounting filesystem')
             os.rmdir(mount_point)
@@ -298,7 +409,7 @@ class WriteExtension(cliapp.Application):
             yield mount_point
         finally:
             self.status(msg='Unmounting filesystem')
-            cliapp.runcmd(['umount', mount_point])
+            subprocess.check_call(['umount', mount_point])
             os.rmdir(mount_point)
 
     def create_btrfs_system_layout(self, temp_root, mountpoint, version_label,
@@ -345,9 +456,9 @@ class WriteExtension(cliapp.Application):
         orig = os.path.join(version_root, 'orig')
 
         self.status(msg='Creating orig subvolume')
-        cliapp.runcmd(['btrfs', 'subvolume', 'create', orig])
+        subprocess.check_call(['btrfs', 'subvolume', 'create', orig])
         self.status(msg='Copying files to orig subvolume')
-        cliapp.runcmd(['cp', '-a', temp_root + '/.', orig + '/.'])
+        subprocess.check_call(['cp', '-a', temp_root + '/.', orig + '/.'])
 
     def create_run(self, version_root):
         '''Create the 'run' snapshot.'''
@@ -355,7 +466,7 @@ class WriteExtension(cliapp.Application):
         self.status(msg='Creating run subvolume')
         orig = os.path.join(version_root, 'orig')
         run = os.path.join(version_root, 'run')
-        cliapp.runcmd(
+        subprocess.check_call(
             ['btrfs', 'subvolume', 'snapshot', orig, run])
 
     def create_state_subvolume(self, system_dir, mountpoint, state_subdir):
@@ -369,7 +480,7 @@ class WriteExtension(cliapp.Application):
         '''
         self.status(msg='Creating %s subvolume' % state_subdir)
         subvolume = os.path.join(mountpoint, 'state', state_subdir)
-        cliapp.runcmd(['btrfs', 'subvolume', 'create', subvolume])
+        subprocess.check_call(['btrfs', 'subvolume', 'create', subvolume])
         os.chmod(subvolume, 0o755)
 
         existing_state_dir = os.path.join(system_dir, state_subdir)
@@ -380,7 +491,7 @@ class WriteExtension(cliapp.Application):
             self.status(msg='Moving existing data to %s subvolume' % subvolume)
         for filename in files:
             filepath = os.path.join(existing_state_dir, filename)
-            cliapp.runcmd(['mv', filepath, subvolume])
+            subprocess.check_call(['mv', filepath, subvolume])
 
     def complete_fstab_for_btrfs_layout(self, system_dir, rootfs_uuid=None):
         '''Fill in /etc/fstab entries for the default Btrfs disk layout.
@@ -430,8 +541,8 @@ class WriteExtension(cliapp.Application):
         if 'INITRAMFS_PATH' in os.environ:
             initramfs = os.path.join(temp_root, os.environ['INITRAMFS_PATH'])
             if not os.path.exists(initramfs):
-                raise cliapp.AppException('INITRAMFS_PATH specified, '
-                                          'but file does not exist')
+                raise ExtensionError('INITRAMFS_PATH specified, '
+                                     'but file does not exist')
             return initramfs
         return None
 
@@ -443,7 +554,7 @@ class WriteExtension(cliapp.Application):
         '''
         self.status(msg='Installing initramfs')
         initramfs_dest = os.path.join(version_root, 'initramfs')
-        cliapp.runcmd(['cp', '-a', initramfs_path, initramfs_dest])
+        subprocess.check_call(['cp', '-a', initramfs_path, initramfs_dest])
 
     def install_kernel(self, version_root, temp_root):
         '''Install the kernel outside of 'orig' or 'run' subvolumes'''
@@ -454,7 +565,7 @@ class WriteExtension(cliapp.Application):
         for name in image_names:
             try_path = os.path.join(temp_root, 'boot', name)
             if os.path.exists(try_path):
-                cliapp.runcmd(['cp', '-a', try_path, kernel_dest])
+                subprocess.check_call(['cp', '-a', try_path, kernel_dest])
                 break
 
     def install_dtb(self, version_root, temp_root):
@@ -465,10 +576,10 @@ class WriteExtension(cliapp.Application):
         dtb_dest = os.path.join(version_root, 'dtb')
         try_path = os.path.join(temp_root, device_tree_path)
         if os.path.exists(try_path):
-            cliapp.runcmd(['cp', '-a', try_path, dtb_dest])
+            subprocess.check_call(['cp', '-a', try_path, dtb_dest])
         else:
             logging.error("Failed to find device tree %s", device_tree_path)
-            raise cliapp.AppException(
+            raise ExtensionError(
                 'Failed to find device tree %s' % device_tree_path)
 
     def get_dtb_path(self):
@@ -500,7 +611,7 @@ class WriteExtension(cliapp.Application):
         if config_type in config_function_dict:
             config_function_dict[config_type](real_root, disk_uuid)
         else:
-            raise cliapp.AppException(
+            raise ExtensionError(
                 'Invalid BOOTLOADER_CONFIG_FORMAT %s' % config_type)
 
     def generate_extlinux_config(self, real_root, disk_uuid=None):
@@ -544,15 +655,15 @@ class WriteExtension(cliapp.Application):
         if install_type in install_function_dict:
             install_function_dict[install_type](real_root)
         elif install_type != 'none':
-            raise cliapp.AppException(
+            raise ExtensionError(
                 'Invalid BOOTLOADER_INSTALL %s' % install_type)
 
     def install_bootloader_extlinux(self, real_root):
         self.status(msg='Installing extlinux')
-        cliapp.runcmd(['extlinux', '--install', real_root])
+        subprocess.check_call(['extlinux', '--install', real_root])
 
         # FIXME this hack seems to be necessary to let extlinux finish
-        cliapp.runcmd(['sync'])
+        subprocess.check_call(['sync'])
         time.sleep(2)
 
     def install_syslinux_menu(self, real_root, version_root):
@@ -610,19 +721,19 @@ class WriteExtension(cliapp.Application):
         elif value in ['yes', '1', 'true']:
             return True
         else:
-            raise cliapp.AppException('Unexpected value for %s: %s' %
-                                      (variable, value))
+            raise ExtensionError('Unexpected value for %s: %s' %
+                                 (variable, value))
 
     def check_ssh_connectivity(self, ssh_host):
         try:
-            output = cliapp.ssh_runcmd(ssh_host, ['echo', 'test'])
-        except cliapp.AppException as e:
+            output = ssh_runcmd(ssh_host, ['echo', 'test'])
+        except ExtensionError as e:
             logging.error("Error checking SSH connectivity: %s", str(e))
-            raise cliapp.AppException(
+            raise ExtensionError(
                 'Unable to SSH to %s: %s' % (ssh_host, e))
 
         if output.strip() != 'test':
-            raise cliapp.AppException(
+            raise ExtensionError(
                 'Unexpected output from remote machine: %s' % output.strip())
 
     def is_device(self, location):

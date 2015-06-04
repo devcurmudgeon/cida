@@ -18,23 +18,23 @@
 
 
 import contextlib
-import cliapp
 import os
+import subprocess
 import sys
-import time
 import tempfile
+import time
 
-import morphlib.writeexts
+import writeexts
 
 
 def ssh_runcmd_ignore_failure(location, command, **kwargs):
     try:
-        return cliapp.ssh_runcmd(location, command, **kwargs)
-    except cliapp.AppException:
+        return writeexts.ssh_runcmd(location, command, **kwargs)
+    except writeexts.ExtensionError:
         pass
 
 
-class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
+class SshRsyncWriteExtension(writeexts.WriteExtension):
 
     '''See ssh-rsync.write.help for documentation'''
     
@@ -43,7 +43,8 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         '''Read /proc/mounts on location to find which device contains "/"'''
 
         self.status(msg='Finding device that contains "/"')
-        contents = cliapp.ssh_runcmd(location, ['cat', '/proc/mounts'])
+        contents = writeexts.ssh_runcmd(location,
+                                        ['cat', '/proc/mounts'])
         for line in contents.splitlines():
             line_words = line.split()
             if (line_words[1] == '/' and line_words[0] != 'rootfs'):
@@ -52,28 +53,29 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
     @contextlib.contextmanager
     def _remote_mount_point(self, location):
         self.status(msg='Creating remote mount point')
-        remote_mnt = cliapp.ssh_runcmd(location, ['mktemp', '-d']).strip()
+        remote_mnt = writeexts.ssh_runcmd(location,
+                                          ['mktemp', '-d']).strip()
         try:
             yield remote_mnt
         finally:
             self.status(msg='Removing remote mount point')
-            cliapp.ssh_runcmd(location, ['rmdir', remote_mnt])
+            writeexts.ssh_runcmd(location, ['rmdir', remote_mnt])
 
     @contextlib.contextmanager
     def _remote_mount(self, location, root_disk, mountpoint):
         self.status(msg='Mounting root disk')
-        cliapp.ssh_runcmd(location, ['mount', root_disk, mountpoint])
+        writeexts.ssh_runcmd(location, ['mount', root_disk, mountpoint])
         try:
             yield
         finally:
             self.status(msg='Unmounting root disk')
-            cliapp.ssh_runcmd(location, ['umount', mountpoint])
+            writeexts.ssh_runcmd(location, ['umount', mountpoint])
 
     @contextlib.contextmanager
     def _created_version_root(self, location, remote_mnt, version_label):
         version_root = os.path.join(remote_mnt, 'systems', version_label)
         self.status(msg='Creating %(root)s', root=version_root)
-        cliapp.ssh_runcmd(location, ['mkdir', version_root])
+        writeexts.ssh_runcmd(location, ['mkdir', version_root])
         try:
             yield version_root
         except BaseException as e:
@@ -93,8 +95,8 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         self.status(msg='Creating "orig" subvolume')
         old_orig = self.get_old_orig(location, remote_mnt)
         new_orig = os.path.join(version_root, 'orig')
-        cliapp.ssh_runcmd(location, ['btrfs', 'subvolume', 'snapshot',
-                                     old_orig, new_orig])
+        writeexts.ssh_runcmd(location, ['btrfs', 'subvolume', 'snapshot',
+                                        old_orig, new_orig])
         try:
             yield new_orig
         except BaseException as e:
@@ -106,30 +108,30 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
         '''Populate the subvolume version_root/orig on location'''
 
         self.status(msg='Populating "orig" subvolume')
-        cliapp.runcmd(['rsync', '-as', '--checksum', '--numeric-ids',
-                       '--delete', temp_root + os.path.sep,
-                       '%s:%s' % (location, new_orig)])
+        subprocess.check_call(['rsync', '-as', '--checksum', '--numeric-ids',
+                               '--delete', temp_root + os.path.sep,
+                               '%s:%s' % (location, new_orig)])
 
     @contextlib.contextmanager
     def _deployed_version(self, location, version_label,
                           system_config_sync, system_version_manager):
         self.status(msg='Calling system-version-manager to deploy upgrade')
         deployment = os.path.join('/systems', version_label, 'orig')
-        cliapp.ssh_runcmd(location,
+        writeexts.ssh_runcmd(location,
                 ['env', 'BASEROCK_SYSTEM_CONFIG_SYNC='+system_config_sync,
                  system_version_manager, 'deploy', deployment])
         try:
             yield deployment
         except BaseException as e:
             self.status(msg='Cleaning up failed version installation')
-            cliapp.ssh_runcmd(location,
+            writeexts.ssh_runcmd(location,
                     [system_version_manager, 'remove', version_label])
             raise
 
     def upgrade_remote_system(self, location, temp_root):
         root_disk = self.find_root_disk(location)
-        uuid = cliapp.ssh_runcmd(location, ['blkid', '-s', 'UUID', '-o',
-                                 'value', root_disk]).strip()
+        uuid = writeexts.ssh_runcmd(location,
+            ['blkid', '-s', 'UUID', '-o', 'value', root_disk]).strip()
 
         self.complete_fstab_for_btrfs_layout(temp_root, uuid)
 
@@ -153,8 +155,8 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
                                             config_sync, version_manager):
                     self.status(msg='Setting %(v)s as the new default system',
                                 v=version_label)
-                    cliapp.ssh_runcmd(location, [version_manager,
-                                                 'set-default', version_label])
+                    writeexts.ssh_runcmd(location,
+                        [version_manager, 'set-default', version_label])
 
         if autostart:
             self.status(msg="Rebooting into new system ...")
@@ -162,7 +164,8 @@ class SshRsyncWriteExtension(morphlib.writeexts.WriteExtension):
 
     def process_args(self, args):
         if len(args) != 2:
-            raise cliapp.AppException('Wrong number of command line args')
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
 
         temp_root, location = args
 

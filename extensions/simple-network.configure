@@ -25,27 +25,26 @@ for DHCP
 '''
 
 
+import errno
 import os
 import sys
-import errno
-import cliapp
 
-import morphlib
+import writeexts
 
 
-class SimpleNetworkError(morphlib.Error):
+class SimpleNetworkError(writeexts.ExtensionError):
     '''Errors associated with simple network setup'''
     pass
 
 
-class SimpleNetworkConfigurationExtension(cliapp.Application):
+class SimpleNetworkConfigurationExtension(object):
     '''Configure /etc/network/interfaces and generate networkd .network files
 
     Reading NETWORK_CONFIG, this extension sets up /etc/network/interfaces
     and .network files in /etc/systemd/network/.
     '''
 
-    def process_args(self, args):
+    def run(self, args):
         network_config = os.environ.get("NETWORK_CONFIG")
 
         self.rename_networkd_chunk_file(args)
@@ -206,7 +205,8 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
             address_line = address + '/' + str(network_suffix)
             lines += ["Address=%s" % address_line]
         elif address or netmask:
-            raise Exception('address and netmask must be specified together')
+            raise SimpleNetworkError(
+                'address and netmask must be specified together')
 
         if gateway:
             lines += ["Gateway=%s" % gateway]
@@ -287,6 +287,10 @@ class SimpleNetworkConfigurationExtension(cliapp.Application):
 
         '''
 
-        self.output.write('%s\n' % (kwargs['msg'] % kwargs))
+        sys.stdout.write('%s\n' % (kwargs['msg'] % kwargs))
 
-SimpleNetworkConfigurationExtension().run()
+try:
+    SimpleNetworkConfigurationExtension().run(sys.argv[1:])
+except SimpleNetworkError as e:
+    sys.stdout.write('ERROR: %s\n' % e)
+    sys.exit(1)

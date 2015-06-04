@@ -22,9 +22,8 @@ to install into the target system.
 
 '''
 
-import cliapp
-import os
 import errno
+import os
 import re
 import sys
 import shlex
@@ -37,7 +36,9 @@ try:
 except ImportError:
     jinja_available = False
 
-class InstallFilesConfigureExtension(cliapp.Application):
+import writeexts
+
+class InstallFilesConfigureExtension(writeexts.Extension):
 
     def process_args(self, args):
         if not 'INSTALL_FILES' in os.environ:
@@ -74,7 +75,8 @@ class InstallFilesConfigureExtension(cliapp.Application):
             gid = int(m.group(5))
             path = m.group(6)
         else:
-            raise cliapp.AppException('Invalid manifest entry, '
+            raise writeexts.ExtensionError(
+                'Invalid manifest entry, '
                 'format: [template] [overwrite] '
                 '<octal mode> <uid decimal> <gid decimal> <filename>')
 
@@ -85,9 +87,9 @@ class InstallFilesConfigureExtension(cliapp.Application):
                 if (mode != dest_stat.st_mode
                     or uid != dest_stat.st_uid
                     or gid != dest_stat.st_gid):
-                        raise cliapp.AppException('"%s" exists and is not '
-                                                  'identical to directory '
-                                                  '"%s"' % (dest_path, entry))
+                        raise writeexts.ExtensionError(
+                            '"%s" exists and is not identical to directory '
+                            '"%s"' % (dest_path, entry))
             else:
                 os.mkdir(dest_path, mode)
                 os.chown(dest_path, uid, gid)
@@ -95,8 +97,8 @@ class InstallFilesConfigureExtension(cliapp.Application):
 
         elif stat.S_ISLNK(mode):
             if os.path.lexists(dest_path) and not overwrite:
-                raise cliapp.AppException('Symlink already exists at %s'
-                                          % dest_path)
+                raise writeexts.ExtensionError('Symlink already exists at %s'
+                                               % dest_path)
             else:
                 linkdest = os.readlink(os.path.join(manifest_root,
                                                     './' + path))
@@ -105,12 +107,12 @@ class InstallFilesConfigureExtension(cliapp.Application):
 
         elif stat.S_ISREG(mode):
             if os.path.lexists(dest_path) and not overwrite:
-                raise cliapp.AppException('File already exists at %s'
-                                           % dest_path)
+                raise writeexts.ExtensionError('File already exists at %s'
+                                               % dest_path)
             else:
                 if template:
                     if not jinja_available:
-                        raise cliapp.AppException(
+                        raise writeexts.ExtensionError(
                             "Failed to install template file `%s': "
                             'install-files templates require jinja2'
                             % path)
@@ -128,7 +130,7 @@ class InstallFilesConfigureExtension(cliapp.Application):
                 os.chmod(dest_path, mode)
 
         else:
-            raise cliapp.AppException('Mode given in "%s" is not a file,'
-                                      ' symlink or directory' % entry)
+            raise writeexts.ExtensionError('Mode given in "%s" is not a file,'
+                                           ' symlink or directory' % entry)
 
 InstallFilesConfigureExtension().run()

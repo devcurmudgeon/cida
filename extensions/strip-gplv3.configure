@@ -21,12 +21,14 @@ to find the files created by that chunk, then remove them.
 
 '''
 
-import cliapp
-import re
-import os
 import json
+import os
+import re
+import sys
 
-class StripGPLv3ConfigureExtension(cliapp.Application):
+import writeexts
+
+class StripGPLv3ConfigureExtension(writeexts.Extension):
     gplv3_chunks = [
         ['autoconf', ''],
         ['automake', ''],
@@ -57,7 +59,8 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
 
         for chunk in self.gplv3_chunks:
             regex = os.path.join(meta_dir, "%s-[^-]\+\.meta" % chunk[0])
-            artifacts = self.runcmd(['find', meta_dir,  '-regex', regex])
+            artifacts = subprocess.check_output(['find', meta_dir,
+                                                 '-regex', regex])
 
             for artifact in artifacts.split():
                 self.remove_chunk(target_root, artifact, chunk[1])
@@ -72,8 +75,8 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
             chunk_meta_data = json.load(f)
 
         if not 'contents' in chunk_meta_data:
-            raise cliapp.AppError('Chunk %s does not have a "contents" list'
-                                  % chunk)
+            raise writeexts.ExtensionError(
+                'Chunk %s does not have a "contents" list' % chunk)
         updated_contents = []
         for content_entry in reversed(chunk_meta_data['contents']):
             pat = re.compile(pattern)
@@ -85,8 +88,8 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
     def remove_content_entry(self, target_root, content_entry):
         entry_path = os.path.join(target_root, './' + content_entry)
         if not entry_path.startswith(target_root):
-            raise cliapp.AppException('%s is not in %s'
-                                      % (entry_path, target_root))
+            raise writeexts.ExtensionError(
+                '%s is not in %s' % (entry_path, target_root))
         if os.path.exists(entry_path):
             if os.path.islink(entry_path):
                 os.unlink(entry_path)
@@ -96,6 +99,7 @@ class StripGPLv3ConfigureExtension(cliapp.Application):
                 if not os.listdir(entry_path):
                     os.rmdir(entry_path)
             else:
-                raise cliapp.AppException('%s is not a link, file or directory'
-                                          % entry_path)
-StripGPLv3ConfigureExtension().run()
+                raise writeexts.ExtensionError(
+                    '%s is not a link, file or directory' % entry_path)
+
+StripGPLv3ConfigureExtension().run(sys.argv[1:])

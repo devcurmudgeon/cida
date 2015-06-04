@@ -17,21 +17,22 @@
 '''A Morph deployment write extension for deploying to OpenStack.'''
 
 
-import cliapp
 import os
+import subprocess
 import tempfile
 import urlparse
 
-import morphlib.writeexts
+import writeexts
 
 
-class OpenStackWriteExtension(morphlib.writeexts.WriteExtension):
+class OpenStackWriteExtension(writeexts.WriteExtension):
 
     '''See openstack.write.help for documentation'''
 
     def process_args(self, args):
         if len(args) != 2:
-            raise cliapp.AppException('Wrong number of command line args')
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
 
         temp_root, location = args
 
@@ -86,7 +87,7 @@ class OpenStackWriteExtension(morphlib.writeexts.WriteExtension):
                    '--disk-format=raw',
                    '--container-format', 'bare',
                    '--file', raw_disk]
-        cliapp.runcmd(cmdline)
+        subprocess.check_call(cmdline)
 
         self.status(msg='Image configured.')
 

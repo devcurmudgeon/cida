@@ -14,13 +14,14 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import cliapp
-import sys
 import os
-import subprocess
 import shutil
-import re
 import stat
+import subprocess
+import sys
+import re
+
+import writeexts
 
 systemd_monitor_template = """
 [Unit]
@@ -75,7 +76,7 @@ executable_file_permissions = stat.S_IRUSR | stat.S_IXUSR | stat.S_IWUSR | \
                                              stat.S_IXGRP | stat.S_IRGRP | \
                                              stat.S_IXOTH | stat.S_IROTH
 
-class CephConfigurationExtension(cliapp.Application):
+class CephConfigurationExtension(writeexts.Extension):
     """
     Set up ceph server daemons.
 
