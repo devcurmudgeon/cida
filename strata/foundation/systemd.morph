@@ -15,6 +15,7 @@ configure-commands:
 # all systems
 - |
   KILL=/bin/kill ./configure --prefix="$PREFIX" --enable-xz --disable-manpages \
+      --disable-gudev \
       --disable-tests --sysconfdir=/etc --localstatedir=/var \
       --libdir="$PREFIX/lib" --libexecdir="$PREFIX/libexec" \
       --with-rootprefix= --with-rootlibdir=/lib
