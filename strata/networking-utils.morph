@@ -43,10 +43,10 @@ chunks:
   ref: 05df365769597e1d64d02af931d6127762ff2658
   unpetrify-ref: libnet-1.2
 - name: arping
-  morph: strata/networking-utils/arping.morph
-  repo: upstream:arping
-  ref: a416764b03f4d5960b61372e27d84606899bfe2c
-  unpetrify-ref: arping-2.15
+  morph: strata/networking-utils/iputils.morph
+  repo: upstream:iputils
+  ref: d25e54e25107bc7c5d14737ed65f5f52b54f1472
+  unpetrify-ref: s20140519
   build-depends:
   - libpcap
   - libnet

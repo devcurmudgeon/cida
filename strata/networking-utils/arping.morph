@@ -1,3 +1,0 @@
-name: arping
-kind: chunk
-build-system: autotools
