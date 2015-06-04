@@ -1,6 +1,7 @@
 0040755 0 0 /etc/horizon
 0100644 0 0 /etc/horizon/apache-horizon.conf
 template 0100644 0 0 /etc/tempest/tempest.conf
+0100755 0 0 /etc/tempest/set_openstack_to_run_tempest.sh
 0040755 0 0 /usr/share/openstack
 0100644 0 0 /usr/share/openstack/hosts
 0040755 0 0 /usr/share/openstack/ceilometer
