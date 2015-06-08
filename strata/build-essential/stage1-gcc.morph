@@ -3,7 +3,10 @@ kind: chunk
 
 configure-commands:
 # Workaround from LFS due GCC not detecting stack protection correctly
-- sed -i '/k prot/agcc_cv_libc_provides_ssp=yes' gcc/configure
+- |
+  sed -i -e '/k prot/a \
+  gcc_cv_libc_provides_ssp=yes
+  ' gcc/configure
 
 - mkdir o
 
