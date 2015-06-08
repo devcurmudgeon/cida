@@ -2,6 +2,7 @@
 Description=OpenStack Cinder volume server
 ConditionPathExists=/etc/cinder/cinder.conf
 After=network-online.target openstack-cinder-config-setup.service openstack-cinder-db-setup.service openstack-cinder-lv-setup.service lvm2-lvmetad.service iscsid.service target.service
+Requisite=openstack-cinder-lv-setup.service
 Wants=network-online.target
 
 [Service]
