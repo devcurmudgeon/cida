@@ -315,6 +315,9 @@ chunks:
   - acl
   - linux-pam
   - libcap2
+# Note: util-linux's version number must be set in util-linux's chunk morph,
+# so if you update util-linux be sure to also update the version number
+# in strata/core/util-linux.morph
 - name: util-linux
   morph: strata/core/util-linux.morph
   repo: upstream:util-linux
@@ -324,7 +327,6 @@ chunks:
   - autoconf
   - automake
   - gettext-tarball
-  - git
   - libtool-tarball
   - pkg-config
   - linux-pam
