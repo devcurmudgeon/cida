@@ -3,6 +3,8 @@ overwrite 0100644 0 0 /etc/os-release
 overwrite 0100644 0 0 /etc/profile
 overwrite 0100644 0 0 /etc/inputrc
 0040755 0 0 /usr
+0040755 0 0 /usr/bin
+0100755 0 0 /usr/bin/brpaste
 0040755 0 0 /usr/lib
 0040755 0 0 /usr/lib/tmpfiles.d
 0100644 0 0 /usr/lib/tmpfiles.d/shutdownramfs.conf
