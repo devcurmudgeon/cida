@@ -331,8 +331,8 @@ chunks:
 - name: shadow
   morph: strata/core/shadow.morph
   repo: upstream:shadow
-  ref: 4f5000a45963c2cc2a403ad23e459f20296b29c2
-  unpetrify-ref: baserock/4.2
+  ref: bfaa59229d61adb7fa0c570f0d94fd324c6e05aa
+  unpetrify-ref: upstream/4.2.1
   build-depends:
   - autoconf
   - automake

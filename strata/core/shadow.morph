@@ -1,10 +1,12 @@
 name: shadow
 kind: chunk
 build-system: autotools
+pre-configure-commands:
+- autoreconf -vfi
 configure-commands:
 # Installing to /bin so that they overwrite busybox login.
 - |
-  ./autogen.sh --with-selinux=no \
+  ./configure  --with-selinux=no \
                --sysconfdir=/etc \
                --with-libpam=yes \
                --prefix="$PREFIX" \
