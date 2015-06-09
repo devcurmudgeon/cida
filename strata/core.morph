@@ -286,7 +286,6 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - autoconf
-  - automake
   - gettext-tarball
   - libtool
 - name: acl

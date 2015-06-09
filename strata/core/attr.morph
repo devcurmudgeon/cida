@@ -1,8 +1,9 @@
 name: attr
 kind: chunk
 build-system: autotools
-configure-commands:
+pre-configure-commands:
 - make configure
+configure-commands:
 - |
   ./configure --prefix="$PREFIX" \
               --exec-prefix="$PREFIX" \
