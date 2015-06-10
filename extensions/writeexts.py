@@ -25,7 +25,15 @@ import errno
 import stat
 import contextlib
 
-import morphlib
+
+@contextlib.contextmanager
+def hide_password_environment_variables(env):  # pragma: no cover
+    password_env = { k:v for k,v in env.iteritems() if 'PASSWORD' in k }
+    for k in password_env:
+        env[k] = '(value hidden)'
+    yield
+    for k, v in password_env.iteritems():
+        env[k] = v
 
 
 class Fstab(object):
@@ -75,8 +83,10 @@ class Fstab(object):
 
     def write(self):
         '''Rewrite the fstab file to include all new entries.'''
-        with morphlib.savefile.SaveFile(self.filepath, 'w') as f:
+        with tempfile.NamedTemporaryFile(delete=False) as f:
             f.write(self.text)
+            tmp = f.name
+        shutil.move(os.path.abspath(tmp), os.path.abspath(self.filepath))
 
 
 class WriteExtension(cliapp.Application):
@@ -116,7 +126,7 @@ class WriteExtension(cliapp.Application):
         logger.setLevel(logging.DEBUG)
 
     def log_config(self):
-        with morphlib.util.hide_password_environment_variables(os.environ):
+        with hide_password_environment_variables(os.environ):
             cliapp.Application.log_config(self)
 
     def process_args(self, args):
@@ -210,7 +220,8 @@ class WriteExtension(cliapp.Application):
             return None
         bytes = self._parse_size(size)
         if bytes is None:
-            raise morphlib.Error('Cannot parse %s value %s' % (env_var, size))
+            raise cliapp.AppException('Cannot parse %s value %s'
+                                      % (env_var, size))
         return bytes
 
     def get_disk_size(self):
@@ -419,8 +430,8 @@ class WriteExtension(cliapp.Application):
         if 'INITRAMFS_PATH' in os.environ:
             initramfs = os.path.join(temp_root, os.environ['INITRAMFS_PATH'])
             if not os.path.exists(initramfs):
-                raise morphlib.Error('INITRAMFS_PATH specified, '
-                                     'but file does not exist')
+                raise cliapp.AppException('INITRAMFS_PATH specified, '
+                                          'but file does not exist')
             return initramfs
         return None
 
