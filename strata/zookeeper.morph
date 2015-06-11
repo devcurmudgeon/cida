@@ -5,22 +5,10 @@ description: |
 build-depends:
 - morph: strata/core.morph
 - morph: strata/test-tools.morph
+- morph: strata/java.morph
 chunks:
-- name: java-binary
-  morph: strata/zookeeper/java-binary.morph
-  repo: github:franred/gerrit-installation-binaries
-  ref: ef262c635890f19eaff8ef6bbd831ee9b0d8693e
-  unpetrify-ref: master
-- name: java-ant
-  morph: strata/zookeeper/java-ant.morph
-  repo: upstream:java/ant
-  ref: master
-  build-depends:
-  - java-binary
 - name: zookeeper
   morph: strata/zookeeper/zookeeper.morph
   repo: upstream:zookeeper
   ref: baserock/mikesmith/zookeeper
   unpetrify-ref: trunk
-  build-depends:
-  - java-ant
