@@ -323,6 +323,9 @@ chunks:
   build-depends:
   - flex
   - texinfo-tarball
+# Note: patch's version number must be set in patch's chunk morph,
+# so if you update patch be sure to also update the version number
+# in strata/core/patch.morph
 - name: patch
   morph: strata/core/patch.morph
   repo: upstream:patch
