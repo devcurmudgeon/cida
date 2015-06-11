@@ -156,6 +156,34 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - bash
+# Note: bison's version number must be set in bison's chunk morph,
+# so if you update bison be sure to also update the version number
+# in strata/core/bison.morph
+- name: bison
+  morph: strata/core/bison.morph
+  repo: upstream:bison
+  ref: 2ab6d1daaccf32fc4314e4b2fe44da977f11a308
+  unpetrify-ref: baserock/v3.0.2
+  build-depends:
+  - autoconf
+  - automake
+  - flex
+  - gettext-tarball
+  - help2man
+  - mini-utils
+# Note: patch's version number must be set in patch's chunk morph,
+# so if you update patch be sure to also update the version number
+# in strata/core/patch.morph
+- name: patch
+  morph: strata/core/patch.morph
+  repo: upstream:patch
+  ref: 3bbb26c928a147cfcf0756f1cc0a1307e5cc663f
+  unpetrify-ref: baserock/v2.7.1
+  build-depends:
+  - autoconf
+  - automake
+  - mini-utils
+  - bison
 - name: xz
   repo: upstream:xz
   ref: a0cd05ee71d330b79ead6eb9222e1b24e1559d3a
@@ -165,6 +193,21 @@ chunks:
   - automake
   - gettext-tarball
   - libtool-tarball
+# Note: libtool's version number must be set in libtool's chunk morph,
+# so if you update libtool be sure to also update the version number
+# in strata/core/libtool.morph
+- name: libtool
+  morph: strata/core/libtool.morph
+  repo: upstream:libtool
+  ref: 5e11a17c39a2a976a09c33a568431a9f7ad00d48
+  unpetrify-ref: baserock/v2.4.6
+  build-depends:
+  - autoconf
+  - automake
+  - help2man
+  - patch
+  - texinfo-tarball
+  - xz
 - name: libxml2
   repo: upstream:libxml2
   ref: ee8f1d4cda8dc1a6f2c515fe234f7bc89cdc9f80
@@ -173,7 +216,7 @@ chunks:
   - autoconf
   - automake
   - cpython
-  - libtool-tarball
+  - libtool
   - xz
 - name: ca-certificates
   morph: strata/core/ca-certificates.morph
@@ -191,7 +234,7 @@ chunks:
   build-depends:
   - autoconf
   - automake
-  - libtool-tarball
+  - libtool
   - openssl-new
   - ca-certificates
 - name: XML-Parser
@@ -213,21 +256,6 @@ chunks:
   - gettext-tarball
   - libexpat
   - openssl-new
-# Note: bison's version number must be set in bison's chunk morph,
-# so if you update bison be sure to also update the version number
-# in strata/core/bison.morph
-- name: bison
-  morph: strata/core/bison.morph
-  repo: upstream:bison
-  ref: 2ab6d1daaccf32fc4314e4b2fe44da977f11a308
-  unpetrify-ref: baserock/v3.0.2
-  build-depends:
-  - autoconf
-  - automake
-  - flex
-  - gettext-tarball
-  - help2man
-  - mini-utils
 - name: gperf
   morph: strata/core/gperf.morph
   repo: upstream:gperf
@@ -250,7 +278,7 @@ chunks:
   build-depends:
   - autoconf
   - automake
-  - libtool-tarball
+  - libtool
 - name: attr
   morph: strata/core/attr.morph
   repo: upstream:attr
@@ -260,7 +288,7 @@ chunks:
   - autoconf
   - automake
   - gettext-tarball
-  - libtool-tarball
+  - libtool
 - name: acl
   morph: strata/core/acl.morph
   repo: upstream:acl
@@ -270,7 +298,7 @@ chunks:
   - autoconf
   - automake
   - gettext-tarball
-  - libtool-tarball
+  - libtool
   - attr
 - name: linux-pam
   morph: strata/core/linux-pam.morph
@@ -281,7 +309,7 @@ chunks:
   - autoconf
   - automake
   - gettext-tarball
-  - libtool-tarball
+  - libtool
   - pkg-config
   - flex
   - attr
@@ -295,7 +323,7 @@ chunks:
   - autoconf
   - automake
   - gettext-tarball
-  - libtool-tarball
+  - libtool
   - pkg-config
   - attr
   - acl
@@ -309,7 +337,7 @@ chunks:
   - autoconf
   - automake
   - gettext-tarball
-  - libtool-tarball
+  - libtool
   - bison
   - attr
   - acl
@@ -327,7 +355,7 @@ chunks:
   - autoconf
   - automake
   - gettext-tarball
-  - libtool-tarball
+  - libtool
   - pkg-config
   - linux-pam
   - shadow
@@ -338,26 +366,13 @@ chunks:
   build-depends:
   - flex
   - texinfo-tarball
-# Note: patch's version number must be set in patch's chunk morph,
-# so if you update patch be sure to also update the version number
-# in strata/core/patch.morph
-- name: patch
-  morph: strata/core/patch.morph
-  repo: upstream:patch
-  ref: 3bbb26c928a147cfcf0756f1cc0a1307e5cc663f
-  unpetrify-ref: baserock/v2.7.1
-  build-depends:
-  - autoconf
-  - automake
-  - mini-utils
-  - bison
 - name: libxslt
   repo: upstream:libxslt
   ref: 73e08bf7c36a9145d38f51d37e66529b873c011a
   unpetrify-ref: master
   build-depends:
   - autoconf
-  - libtool-tarball
+  - libtool
   - automake
   - libxml2
 - name: gnome-common
