@@ -347,7 +347,10 @@ chunks:
   ref: 3bbb26c928a147cfcf0756f1cc0a1307e5cc663f
   unpetrify-ref: baserock/v2.7.1
   build-depends:
-  - shadow
+  - autoconf
+  - automake
+  - mini-utils
+  - bison
 - name: libxslt
   repo: upstream:libxslt
   ref: 73e08bf7c36a9145d38f51d37e66529b873c011a
