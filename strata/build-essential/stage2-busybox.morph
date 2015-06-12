@@ -5,7 +5,7 @@ configure-commands:
 # Explicitly setting HOSTCC is required because we have a 'gcc' earlier in
 # the PATH supplied by the stage2-gcc chunk, which can't execute outside of
 # the stage 3 staging area.
-- make HOSTCC="/usr/bin/gcc" CROSS_COMPILE=$TARGET_STAGE1- defconfig
+- make HOSTCC="/usr/bin/gcc" CROSS_COMPILE=$TARGET_STAGE1- KCONFIG_NOTIMESTAMP=1 defconfig
 
 # Avoid dividing applets between $PREFIX/[s]bin and $PREFIX/usr/[s]bin.
 - '[ "$PREFIX" = /usr ] || sed -e ''s/.*INSTALL_NO_USR.*/CONFIG_INSTALL_NO_USR=y/'' -i .config'
@@ -58,7 +58,7 @@ build-commands:
   export STAGE2_SYSROOT="$(dirname $(pwd))"
   export CPPFLAGS="--sysroot=$STAGE2_SYSROOT"
   export LDFLAGS="--sysroot=$STAGE2_SYSROOT"
-  make HOSTCC="/usr/bin/gcc" CROSS_COMPILE=$TARGET_STAGE1-
+  make HOSTCC="/usr/bin/gcc" CROSS_COMPILE=$TARGET_STAGE1- KCONFIG_NOTIMESTAMP=1
 
 install-commands:
 # We expect to be built with a non-standard prefix in stage 2 (i.e. not
@@ -68,5 +68,7 @@ install-commands:
   export CPPFLAGS="--sysroot=$STAGE2_SYSROOT"
   export LDFLAGS="--sysroot=$STAGE2_SYSROOT"
   make CONFIG_PREFIX="$DESTDIR$PREFIX" \
-       HOSTCC="/usr/bin/gcc" CROSS_COMPILE=$TARGET_STAGE1- install &&
+       HOSTCC="/usr/bin/gcc" \
+       CROSS_COMPILE=$TARGET_STAGE1- \
+       KCONFIG_NOTIMESTAMP=1 install &&
   chmod 6755 "$DESTDIR$PREFIX"/bin/busybox

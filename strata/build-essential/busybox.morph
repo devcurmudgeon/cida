@@ -3,7 +3,7 @@ kind: chunk
 
 configure-commands:
 # Busybox's default config has everything enabled.
-- make defconfig
+- make defconfig KCONFIG_NOTIMESTAMP=1
 
 - sed -e 's|.*UDHCPC_DEFAULT_SCRIPT.*|CONFIG_UDHCPC_DEFAULT_SCRIPT="'"$PREFIX"/share/udhcpc/default.script'"|' -i .config
 - sed -e 's|.*IFUPDOWN_IFSTATE_PATH.*|CONFIG_IFUPDOWN_IFSTATE_PATH="/run/ifstate"|' -i .config
@@ -57,12 +57,12 @@ configure-commands:
 
 
 build-commands:
-- make
+- make KCONFIG_NOTIMESTAMP=1
 
 install-commands:
 - |
   if [ "$PREFIX" = /usr ]; then PREFIX=; fi &&
-    make CONFIG_PREFIX="$DESTDIR$PREFIX" install &&
+    make CONFIG_PREFIX="$DESTDIR$PREFIX" KCONFIG_NOTIMESTAMP=1 install &&
     chmod 6755 "$DESTDIR$PREFIX"/bin/busybox
 
 # Set up man environment variables
