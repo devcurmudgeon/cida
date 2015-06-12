@@ -104,6 +104,7 @@ chunks:
 - name: xorg-lib-libxshmfence
   repo: upstream:xorg-lib-libxshmfence
   ref: 9c4f070e1304a3503cfab08f68573443025fc4c9
+  unpetrify-ref: master
   build-depends:
   - xorg-proto-x11proto
 - name: xorg-lib-libXau
