@@ -14,7 +14,7 @@ chunks:
 - name: cffi
   repo: upstream:python-packages/cffi
   ref: fc53b53095d61a1ec5814c09c3bf2c7e18627fb5
-  unpretrify-ref: master
+  unpetrify-ref: master
   build-depends:
   - pycparser
 - name: pytz
