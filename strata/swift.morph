@@ -20,6 +20,7 @@ chunks:
   ref: a380246762c16ea8eb7dbfccd50d296c3743b39e
   unpetrify-ref: v1.0.7
 - name: gf-complete
+  morph: strata/swift/gf-complete.morph
   repo: upstream:gf-complete
   ref: 715443661c00558fe32f004a4be5f93f341b6e59
   unpetrify-ref: v2
