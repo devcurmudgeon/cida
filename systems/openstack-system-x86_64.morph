@@ -80,6 +80,7 @@ configuration-extensions:
 - extensions/openstack-network
 - extensions/openstack-neutron
 - extensions/openstack-ceilometer
+- extensions/openstack-time
 - extensions/fstab
 - extensions/openstack-ironic
 - extensions/install-essential-files

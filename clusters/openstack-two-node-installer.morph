@@ -151,6 +151,7 @@ systems:
         HOSTS_COMPUTE: 10.0.0.3 twonode-compute.os-mgmt
         EXTERNAL_INTERFACE: enp3s0
         NETWORK_CONFIG: enp3s0:dhcp;enp2s0:static,address=10.0.0.1,netmask=255.255.255.0
+        SYNC_TIME_WITH_CONTROLLER: False
     subsystems:
     - morph: systems/initramfs-x86_64.morph
       deploy:
@@ -194,6 +195,7 @@ systems:
         HOSTS_SELF: 10.0.0.3 twonode-compute
         EXTERNAL_INTERFACE: eno1
         NETWORK_CONFIG: eno1:dhcp;enp0s29u1u3:static,address=10.0.0.3,netmask=255.255.255.0
+        SYNC_TIME_WITH_CONTROLLER: True
     subsystems:
     - morph: systems/initramfs-x86_64.morph
       deploy:
