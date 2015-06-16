@@ -9,6 +9,11 @@ description: |
 build-depends:
 - morph: strata/foundation.morph
 chunks:
+- name: ebtables
+  morph: strata/networking-utils/ebtables.morph
+  repo: upstream:ebtables
+  ref: f4bdc80ae8c1a79b4ab5dcb8431ad85aea618d66
+  unpetrify-ref: master
 - name: iproute2
   morph: strata/networking-utils/iproute2.morph
   repo: upstream:iproute2
