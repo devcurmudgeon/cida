@@ -50,3 +50,50 @@ chunks:
   build-depends:
   - libpcap
   - libnet
+- name: libnfnetlink
+  morph: strata/networking-utils/libnfnetlink.morph
+  repo: upstream:libnfnetlink
+  ref: 1166116e34af868bc814aea338c246e49a7a8748
+  unpetrify-ref: libnfnetlink-1.0.1
+- name: libnetfilter_conntrack
+  morph: strata/networking-utils/libnetfilter_conntrack.morph
+  repo: upstream:libnetfilter_conntrack
+  ref: 5ad6ecff6edffd925022372323e42264f61e850d
+  unpetrify-ref: libnetfilter_conntrack-1.0.4
+  build-depends:
+  - libnfnetlink
+  - libmnl
+- name: libnetfilter_cthelper
+  morph: strata/networking-utils/libnetfilter_cthelper.morph
+  repo: upstream:libnetfilter_cthelper
+  ref: b8df12f352db62d26e5116e960d24774d5c9f3b7
+  unpetrify-ref: libnetfilter_cthelper-1.0.0
+  build-depends:
+  - libmnl
+- name: libnetfilter_cttimeout
+  morph: strata/networking-utils/libnetfilter_cttimeout.morph
+  repo: upstream:libnetfilter_cttimeout
+  ref: 329652bef21c831dae1a9a79084b999d40b4eb5b
+  unpetrify-ref: libnetfilter_cttimeout-1.0.0
+  build-depends:
+  - libmnl
+- name: libnetfilter_queue
+  morph: strata/networking-utils/libnetfilter_queue.morph
+  repo: upstream:libnetfilter_queue
+  ref: f5d092dd3145d427c7c2ed668e3ac899875c9612
+  unpetrify-ref: libnetfilter_queue-1.0.2
+  build-depends:
+  - libnfnetlink
+  - libmnl
+- name: conntrack-tools
+  morph: strata/networking-utils/conntrack-tools.morph
+  repo: upstream:conntrack-tools
+  ref: fbe3181be4f2e33509b1c20b95fd55eb3e7075d7
+  unpetrify-ref: conntrack-tools-1.4.2
+  build-depends:
+  - libnfnetlink
+  - libmnl
+  - libnetfilter_conntrack
+  - libnetfilter_cttimeout
+  - libnetfilter_cthelper
+  - libnetfilter_queue
