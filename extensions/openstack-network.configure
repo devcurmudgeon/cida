@@ -23,6 +23,36 @@ enable(){
             "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
 }
 
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
+
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
+
+##########################################################################
+# Check variables
+##########################################################################
+
+check_bool NEUTRON_ENABLE_MANAGER
+check_bool NEUTRON_ENABLE_AGENT
+
+if ! "$NEUTRON_ENABLE_MANAGER" && ! "$NEUTRON_ENABLE_AGENT"; then
+    exit 0
+fi
+
 ###################
 # Enable services #
 ###################
