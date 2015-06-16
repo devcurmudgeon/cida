@@ -13,7 +13,7 @@ post-install-commands:
 
   [Service]
   Type=forking
-  ExecStart=/usr/bin/ntpd -u ntp:ntp
+  ExecStart=/usr/bin/ntpd -u ntp:ntp -Ng
   PrivateTmp=True
   Restart=on-failure
 
@@ -40,8 +40,8 @@ post-install-commands:
   # matching hosts
   #
   # see ntp.conf(5) for more details
-  restrict -4 default kod notrap nomodify
-  restrict -6 default kod notrap nomodify
+  restrict -4 default limit kod notrap nomodify
+  restrict -6 default limit kod notrap nomodify
   EOF
 - install -D -m 644 ntp.conf "$DESTDIR"/etc/ntp.conf
 system-integration:
