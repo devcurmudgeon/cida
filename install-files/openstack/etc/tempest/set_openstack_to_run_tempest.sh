@@ -95,6 +95,19 @@ create_image_for_user(){
   fi
 }
 
+create_tempest_custom_flavor(){
+  # Set the credential for admin
+  source "${admin_username}_env"
+  # In order to run tests in VMs we need a alternative flavor
+  # smaller than the small and bigger than the tiny flavor.
+  # So we create a flavor with the following features:
+  # name=m1.tempest_tests ID=6 Memory_MB=1024 Disk=1 Ephemeral=0 VCPUS=1
+  echo "Creating custom small flavor for tempest tests and set it as alt_flavor in tempest.conf"
+  nova flavor-create m1.tempest_tests 6 1024 1 1
+  sed -r -i "s/[#]?flavor_ref_alt =.*/flavor_ref_alt = 6/" tempest.conf
+}
+
 # Configure Openstack for running tempest tests.
 create_admin_user_env
 create_image_for_user "$admin_username" "$admin_test_image"
+create_tempest_custom_flavor
