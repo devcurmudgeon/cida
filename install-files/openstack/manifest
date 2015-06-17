@@ -1,3 +1,5 @@
+0040755 0 0 /etc/neutron
+0100644 0 0 /etc/neutron/dnsmasq-neutron.conf
 0040755 0 0 /etc/horizon
 0100644 0 0 /etc/horizon/apache-horizon.conf
 template 0100644 0 0 /etc/tempest/tempest.conf
