@@ -1,0 +1,5 @@
+name: liberasurecode
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- autoreconf -ivf
