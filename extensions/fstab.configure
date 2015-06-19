@@ -20,9 +20,9 @@
 import os
 import sys
 
-import morphlib
+import writeexts
 
 envvars = {k: v for (k, v) in os.environ.iteritems() if k.startswith('FSTAB_')}
 
 conf_file = os.path.join(sys.argv[1], 'etc/fstab')
-morphlib.util.write_from_dict(conf_file, envvars)
+writeexts.write_from_dict(conf_file, envvars)

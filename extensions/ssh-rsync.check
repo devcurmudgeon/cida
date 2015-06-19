@@ -15,26 +15,27 @@
 
 '''Preparatory checks for Morph 'ssh-rsync' write extension'''
 
-import cliapp
 
 import os
 
-import morphlib.writeexts
+import writeexts
 
-class SshRsyncCheckExtension(morphlib.writeexts.WriteExtension):
+
+class SshRsyncCheckExtension(writeexts.WriteExtension):
     def process_args(self, args):
         if len(args) != 1:
-            raise cliapp.AppException('Wrong number of command line args')
+            raise writeexts.ExtensionError(
+                    'Wrong number of command line args')
 
         upgrade = self.get_environment_boolean('UPGRADE')
         if not upgrade:
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 'The ssh-rsync write is for upgrading existing remote '
                 'Baserock machines. It cannot be used for an initial '
                 'deployment.')
 
         if os.environ.get('VERSION_LABEL', '') == '':
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                  'A VERSION_LABEL must be set when deploying an upgrade.')
 
         location = args[0]
@@ -47,17 +48,18 @@ class SshRsyncCheckExtension(morphlib.writeexts.WriteExtension):
         self.check_command_exists(location, 'rsync')
 
     def check_is_baserock_system(self, location):
-        output = cliapp.ssh_runcmd(location, ['sh', '-c',
-                     'test -d /baserock || echo -n dirnotfound'])
+        output = writeexts.ssh_runcmd(
+            location,
+            ['sh', '-c', 'test -d /baserock || echo -n dirnotfound'])
         if output == 'dirnotfound':
-            raise cliapp.AppException('%s is not a baserock system'
-                                      % location)
+            raise writeexts.ExtensionError('%s is not a baserock system'
+                                           % location)
 
     def check_command_exists(self, location, command):
         test = 'type %s > /dev/null 2>&1 || echo -n cmdnotfound' % command
-        output = cliapp.ssh_runcmd(location, ['sh', '-c', test])
+        output = writeexts.ssh_runcmd(location, ['sh', '-c', test])
         if output == 'cmdnotfound':
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 "%s does not have %s" % (location, command))
 
 

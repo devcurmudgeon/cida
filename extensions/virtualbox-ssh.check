@@ -15,21 +15,21 @@
 
 '''Preparatory checks for Morph 'virtualbox-ssh' write extension'''
 
-import cliapp
 
-import morphlib.writeexts
+import writeexts
 
 
-class VirtualBoxPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
+class VirtualBoxPlusSshCheckExtension(writeexts.WriteExtension):
     def process_args(self, args):
         if len(args) != 1:
-            raise cliapp.AppException('Wrong number of command line args')
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
 
         self.require_btrfs_in_deployment_host_kernel()
 
         upgrade = self.get_environment_boolean('UPGRADE')
         if upgrade:
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 'Use the `ssh-rsync` write extension to deploy upgrades to an '
                 'existing remote system.')
 

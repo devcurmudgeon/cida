@@ -5,5 +5,5 @@ These are scripts used to create disk images or install the system onto
 an existing disk.
 
 This is also implemented independently for the rawdisk.write write
-extension; see morphlib.writeexts.WriteExtension.create_local_system()
-for a similar, python implementation.
+extension; see writeexts.WriteExtension.create_local_system() for
+a similar, python implementation.

@@ -34,14 +34,13 @@ in /srv/nfsboot/nfs/
 '''
 
 
-import cliapp
 import os
 import glob
 
-import morphlib.writeexts
+import writeexts
 
 
-class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
+class NFSBootWriteExtension(writeexts.WriteExtension):
 
     '''Create an NFS root and kernel on TFTP during Morph's deployment.
 
@@ -66,7 +65,8 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
 
     def process_args(self, args):
         if len(args) != 2:
-            raise cliapp.AppException('Wrong number of command line args')
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
 
         temp_root, location = args
 
@@ -86,8 +86,8 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
         subdirs = [os.path.join(statedir, 'home'),
                    os.path.join(statedir, 'opt'),
                    os.path.join(statedir, 'srv')]
-        cliapp.ssh_runcmd('root@%s' % location,
-                          ['mkdir', '-p'] + subdirs)
+        writeexts.ssh_runcmd('root@%s' % location,
+                             ['mkdir', '-p'] + subdirs)
 
     def copy_kernel(self, temp_root, location, versioned_root, version,
                     hostname):
@@ -99,14 +99,14 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
                 kernel_src = try_path
                 break
         else:
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 'Could not find a kernel in the system: none of '
                 '%s found' % ', '.join(image_names))
 
         kernel_dest = os.path.join(versioned_root, 'orig', 'kernel')
         rsync_dest = 'root@%s:%s' % (location, kernel_dest)
         self.status(msg='Copying kernel')
-        cliapp.runcmd(
+        subprocess.check_call(
             ['rsync', '-s', kernel_src, rsync_dest])
 
         # Link the kernel to the right place
@@ -115,17 +115,17 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
         versioned_kernel_name = "%s-%s" % (hostname, version)
         kernel_name = hostname
         try:
-            cliapp.ssh_runcmd('root@%s' % location,
+            writeexts.ssh_runcmd('root@%s' % location,
                 ['ln', '-f', kernel_dest,
                     os.path.join(tftp_dir, versioned_kernel_name)])
 
-            cliapp.ssh_runcmd('root@%s' % location,
+            writeexts.ssh_runcmd('root@%s' % location,
                 ['ln', '-sf', versioned_kernel_name,
                     os.path.join(tftp_dir, kernel_name)])
-        except cliapp.AppException:
-            raise cliapp.AppException('Could not create symlinks to the '
-                                      'kernel at %s in %s on %s'
-                                      % (kernel_dest, tftp_dir, location))
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('Could not create symlinks to the '
+                                           'kernel at %s in %s on %s' % 
+                                           (kernel_dest, tftp_dir, location))
 
     def copy_rootfs(self, temp_root, location, versioned_root, hostname):
         rootfs_src = temp_root + '/'
@@ -134,51 +134,54 @@ class NFSBootWriteExtension(morphlib.writeexts.WriteExtension):
 
         self.status(msg='Creating destination directories')
         try:
-            cliapp.ssh_runcmd('root@%s' % location,
-                              ['mkdir', '-p', orig_path, run_path])
-        except cliapp.AppException:
-            raise cliapp.AppException('Could not create dirs %s and %s on %s'
-                                      % (orig_path, run_path, location))
+            writeexts.ssh_runcmd('root@%s' % location,
+                                 ['mkdir', '-p', orig_path, run_path])
+        except writeexts.ExtensionError:
+            raise writexts.ExtensionError(
+                'Could not create dirs %s and %s on %s'
+                % (orig_path, run_path, location))
 
         self.status(msg='Creating \'orig\' rootfs')
-        cliapp.runcmd(
+        subprocess.check_call(
             ['rsync', '-asXSPH', '--delete', rootfs_src,
              'root@%s:%s' % (location, orig_path)])
 
         self.status(msg='Creating \'run\' rootfs')
         try:
-            cliapp.ssh_runcmd('root@%s' % location,
-                              ['rm', '-rf', run_path])
-            cliapp.ssh_runcmd('root@%s' % location,
-                              ['cp', '-al', orig_path, run_path])
-            cliapp.ssh_runcmd('root@%s' % location,
-                              ['rm', '-rf', os.path.join(run_path, 'etc')])
-            cliapp.ssh_runcmd('root@%s' % location,
-                              ['cp', '-a', os.path.join(orig_path, 'etc'),
-                               os.path.join(run_path, 'etc')])
-        except cliapp.AppException:
-            raise cliapp.AppException('Could not create \'run\' rootfs'
-                                      ' from \'orig\'')
+            writeexts.ssh_runcmd('root@%s' % location,
+                                 ['rm', '-rf', run_path])
+            writeexts.ssh_runcmd('root@%s' % location,
+                                 ['cp', '-al', orig_path, run_path])
+            writeexts.ssh_runcmd('root@%s' % location,
+                                 ['rm', '-rf',
+                                  os.path.join(run_path, 'etc')])
+            writeexts.ssh_runcmd('root@%s' % location,
+                                 ['cp', '-a',
+                                  os.path.join(orig_path, 'etc'),
+                                  os.path.join(run_path, 'etc')])
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('Could not create \'run\' rootfs'
+                                           ' from \'orig\'')
 
         self.status(msg='Linking \'default\' to latest system')
         try:
-            cliapp.ssh_runcmd('root@%s' % location,
+            writeexts.ssh_runcmd('root@%s' % location,
                 ['ln', '-sfn', versioned_root,
                     os.path.join(self._nfsboot_root, hostname, 'systems',
                                  'default')])
-        except cliapp.AppException:
-            raise cliapp.AppException('Could not link \'default\' to %s'
-                                      % versioned_root)
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError("Could not link 'default' to %s"
+                                           % versioned_root)
 
     def configure_nfs(self, location, hostname):
         exported_path = os.path.join(self._nfsboot_root, hostname)
         exports_path = '/etc/exports'
         # If that path is not already exported:
         try:
-            cliapp.ssh_runcmd(
+            writeexts.ssh_runcmd(
                 'root@%s' % location, ['grep', '-q', exported_path,
                                        exports_path])
-        except cliapp.AppException:
+        except writeexts.ExtensionError:
             ip_mask = '*'
             options = 'rw,no_subtree_check,no_root_squash,async'
             exports_string = '%s %s(%s)\n' % (exported_path, ip_mask, options)
@@ -190,11 +193,11 @@ cat "$target" > "$temp"
 cat >> "$temp"
 mv "$temp" "$target"
 '''
-            cliapp.ssh_runcmd(
+            writeexts.ssh_runcmd(
                 'root@%s' % location,
                 ['sh', '-c', exports_append_sh, '--', exports_path],
                 feed_stdin=exports_string)
-            cliapp.ssh_runcmd(
+            writeexts.ssh_runcmd(
                 'root@%s' % location, ['systemctl', 'restart',
                                        'nfs-server.service'])
 

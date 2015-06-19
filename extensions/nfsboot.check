@@ -15,33 +15,35 @@
 
 '''Preparatory checks for Morph 'nfsboot' write extension'''
 
-import cliapp
 import os
+import subprocess
 
-import morphlib.writeexts
+import writeexts
 
 
-class NFSBootCheckExtension(morphlib.writeexts.WriteExtension):
+class NFSBootCheckExtension(writeexts.WriteExtension):
 
     _nfsboot_root = '/srv/nfsboot'
 
     def process_args(self, args):
         if len(args) != 1:
-            raise cliapp.AppException('Wrong number of command line args')
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
 
         location = args[0]
 
         upgrade = self.get_environment_boolean('UPGRADE')
         if upgrade:
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 'Upgrading is not currently supported for NFS deployments.')
 
         hostname = os.environ.get('HOSTNAME', None)
         if hostname is None:
-            raise cliapp.AppException('You must specify a HOSTNAME.')
+            raise writeexts.ExtensionError('You must specify a HOSTNAME.')
         if hostname == 'baserock':
-            raise cliapp.AppException('It is forbidden to nfsboot a system '
-                                      'with hostname "%s"' % hostname)
+            raise writeexts.ExtensionError('It is forbidden to nfsboot a '
+                                           'system with hostname "%s"'
+                                           % hostname)
 
         self.test_good_server(location)
 
@@ -49,7 +51,7 @@ class NFSBootCheckExtension(morphlib.writeexts.WriteExtension):
         versioned_root = os.path.join(self._nfsboot_root, hostname, 'systems',
                                       version_label)
         if self.version_exists(versioned_root, location):
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 'Root file system for host %s (version %s) already exists on '
                 'the NFS server %s. Deployment aborted.' % (hostname,
                 version_label, location))
@@ -59,34 +61,34 @@ class NFSBootCheckExtension(morphlib.writeexts.WriteExtension):
 
         # Is an NFS server
         try:
-            cliapp.ssh_runcmd(
+            writeexts.ssh_runcmd(
                 'root@%s' % server, ['test', '-e', '/etc/exports'])
-        except cliapp.AppException:
-            raise cliapp.AppException('server %s is not an nfs server'
-                                      % server)
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s is not an nfs server'
+                                           % server)
         try:
-            cliapp.ssh_runcmd(
+            writeexts.ssh_runcmd(
                 'root@%s' % server, ['systemctl', 'is-enabled',
                                      'nfs-server.service'])
 
-        except cliapp.AppException:
-            raise cliapp.AppException('server %s does not control its '
-                                      'nfs server by systemd' % server)
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s does not control its '
+                                           'nfs server by systemd' % server)
 
         # TFTP server exports /srv/nfsboot/tftp
         tftp_root = os.path.join(self._nfsboot_root, 'tftp')
         try:
-            cliapp.ssh_runcmd(
+            writeexts.ssh_runcmd(
                 'root@%s' % server, ['test' , '-d', tftp_root])
-        except cliapp.AppException:
-            raise cliapp.AppException('server %s does not export %s' %
-                                      (tftp_root, server))
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s does not export %s' %
+                                           (tftp_root, server))
 
     def version_exists(self, versioned_root, location):
         try:
-            cliapp.ssh_runcmd('root@%s' % location,
-                ['test', '-d', versioned_root])
-        except cliapp.AppException:
+            writeexts.ssh_runcmd('root@%s' % location,
+                                 ['test', '-d', versioned_root])
+        except writeexts.ExtensionError:
             return False
 
         return True

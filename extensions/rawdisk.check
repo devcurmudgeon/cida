@@ -15,17 +15,16 @@
 
 '''Preparatory checks for Morph 'rawdisk' write extension'''
 
-import cliapp
-
-import morphlib.writeexts
-
 import os
 
+import writeexts
 
-class RawdiskCheckExtension(morphlib.writeexts.WriteExtension):
+
+class RawdiskCheckExtension(writeexts.WriteExtension):
     def process_args(self, args):
         if len(args) != 1:
-            raise cliapp.AppException('Wrong number of command line args')
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
 
         self.require_btrfs_in_deployment_host_kernel()
 
@@ -34,19 +33,19 @@ class RawdiskCheckExtension(morphlib.writeexts.WriteExtension):
         if upgrade:
             if not self.is_device(location):
                 if not os.path.isfile(location):
-                    raise cliapp.AppException(
+                    raise writeexts.ExtensionError(
                         'Cannot upgrade %s: it is not an existing disk image' %
                         location)
 
             version_label = os.environ.get('VERSION_LABEL')
             if version_label is None:
-                raise cliapp.AppException(
+                raise writeexts.ExtensionError(
                     'VERSION_LABEL was not given. It is required when '
                     'upgrading an existing system.')
         else:
             if not self.is_device(location):
                 if os.path.exists(location):
-                    raise cliapp.AppException(
+                    raise writeexts.ExtensionError(
                         'Target %s already exists. Use `morph upgrade` if you '
                         'want to update an existing image.' % location)
 

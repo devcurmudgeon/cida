@@ -15,27 +15,28 @@
 
 '''Preparatory checks for Morph 'kvm' write extension'''
 
-import cliapp
 import os
 import re
+import subprocess
 import urlparse
 
-import morphlib.writeexts
+import writeexts
 
 
-class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
+class KvmPlusSshCheckExtension(writeexts.WriteExtension):
 
     location_pattern = '^/(?P<guest>[^/]+)(?P<path>/.+)$'
 
     def process_args(self, args):
         if len(args) != 1:
-            raise cliapp.AppException('Wrong number of command line args')
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
 
         self.require_btrfs_in_deployment_host_kernel()
 
         upgrade = self.get_environment_boolean('UPGRADE')
         if upgrade:
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 'Use the `ssh-rsync` write extension to deploy upgrades to an '
                 'existing remote system.')
 
@@ -55,23 +56,24 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
         x = urlparse.urlparse(location)
 
         if x.scheme != 'kvm+ssh':
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 'URL schema must be kvm+ssh in %s' % location)
 
         m = re.match(self.location_pattern, x.path)
         if not m:
-            raise cliapp.AppException('Cannot parse location %s' % location)
+            raise writeexts.ExtensionError(
+                'Cannot parse location %s' % location)
 
         return x.netloc, m.group('guest'), m.group('path')
 
     def check_no_existing_libvirt_vm(self, ssh_host, vm_name):
         try:
-            cliapp.ssh_runcmd(ssh_host,
+            writeexts.ssh_runcmd(ssh_host,
                 ['virsh', '--connect', 'qemu:///system', 'domstate', vm_name])
-        except cliapp.AppException as e:
+        except CalledProcessError as e:
             pass
         else:
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 'Host %s already has a VM named %s. You can use the ssh-rsync '
                 'write extension to deploy upgrades to existing machines.' %
                 (ssh_host, vm_name))
@@ -80,35 +82,35 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
 
         def check_can_write_to_given_path():
             try:
-                cliapp.ssh_runcmd(ssh_host, ['touch', vm_path])
-            except cliapp.AppException as e:
-                raise cliapp.AppException("Can't write to location %s on %s"
-                                          % (vm_path, ssh_host))
+                writeexts.ssh_runcmd(ssh_host, ['touch', vm_path])
+            except writeexts.ExtensionError as e:
+                raise writeexts.ExtensionError(
+                    "Can't write to location %s on %s" % (vm_path, ssh_host))
             else:
-                cliapp.ssh_runcmd(ssh_host, ['rm', vm_path])
+                writeexts.ssh_runcmd(ssh_host, ['rm', vm_path])
 
         try:
-            cliapp.ssh_runcmd(ssh_host, ['test', '-e', vm_path])
-        except cliapp.AppException as e:
+            writeexts.ssh_runcmd(ssh_host, ['test', '-e', vm_path])
+        except writeexts.ExtensionError as e:
             # vm_path doesn't already exist, so let's test we can write
             check_can_write_to_given_path()
         else:
-            raise cliapp.AppException('%s already exists on %s'
-                                      % (vm_path, ssh_host))
+            raise writeexts.ExtensionError('%s already exists on %s'
+                                           % (vm_path, ssh_host))
 
     def check_extra_disks_exist(self, ssh_host, filename_list):
         for filename in filename_list:
             try:
-                cliapp.ssh_runcmd(ssh_host, ['ls', filename])
-            except cliapp.AppException as e:
-                raise cliapp.AppException('Did not find file %s on host %s' %
-                                          (filename, ssh_host))
+                writeexts.ssh_runcmd(ssh_host, ['ls', filename])
+            except writeexts.ExtensionError as e:
+                raise writeexts.ExtensionError(
+                    'Did not find file %s on host %s' % (filename, ssh_host))
 
     def check_virtual_networks_are_started(self, ssh_host):
 
         def check_virtual_network_is_started(network_name):
             cmd = ['virsh', '-c', 'qemu:///system', 'net-info', network_name]
-            net_info = cliapp.ssh_runcmd(ssh_host, cmd).split('\n')
+            net_info = writeexts.ssh_runcmd(ssh_host, cmd).split('\n')
 
             def pretty_concat(lines):
                 return '\n'.join(['\t%s' % line for line in lines])
@@ -118,15 +120,15 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
                 if m:
                     break
             else:
-                raise cliapp.AppException(
+                raise writeexts.ExtensionError(
                         "Got unexpected output parsing output of `%s':\n%s"
                         % (' '.join(cmd), pretty_concat(net_info)))
 
             network_active = m.group(1) == 'yes'
 
             if not network_active:
-                raise cliapp.AppException("Network '%s' is not started"
-                                          % network_name)
+                raise writeexts.ExtensionError("Network '%s' is not started"
+                                               % network_name)
 
         def name(nic_entry):
             if ',' in nic_entry:
@@ -142,9 +144,10 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
                 if not (n.startswith('network=')
                         or n.startswith('bridge=')
                         or n == 'user'):
-                    raise cliapp.AppException('malformed NIC_CONFIG: %s\n'
-                              " (expected 'bridge=BRIDGE' 'network=NAME'"
-                              " or 'user')" % n)
+                    raise writeexts.ExtensionError(
+                        "malformed NIC_CONFIG: %s\n"
+                        " (expected 'bridge=BRIDGE' 'network=NAME'"
+                        " or 'user')" % n)
 
             # --network bridge= is used to specify a bridge
             # --network user is used to specify a form of NAT
@@ -159,9 +162,9 @@ class KvmPlusSshCheckExtension(morphlib.writeexts.WriteExtension):
 
     def check_host_has_virtinstall(self, ssh_host):
         try:
-            cliapp.ssh_runcmd(ssh_host, ['which', 'virt-install'])
-        except cliapp.AppException:
-            raise cliapp.AppException(
+            writeexts.ssh_runcmd(ssh_host, ['which', 'virt-install'])
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError(
                 'virt-install does not seem to be installed on host %s'
                 % ssh_host)
 

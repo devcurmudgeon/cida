@@ -1,0 +1,137 @@
+#!/usr/bin/env python
+#
+# Send a sparse file more space-efficiently.
+# See recv-hole for a description of the protocol.
+#
+# Note that xfer-hole requires a version of Linux with support for
+# SEEK_DATA and SEEK_HOLE.
+#
+#
+# Copyright (C) 2014-2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# =*= License: GPL-2 =*=
+
+
+
+import errno
+import os
+import sys
+
+
+SEEK_DATA = 3
+SEEK_HOLE = 4
+
+
+filename = sys.argv[1]
+fd = os.open(filename, os.O_RDONLY)
+pos = 0
+
+
+DATA = 'data'
+HOLE = 'hole'
+EOF = 'eof'
+
+
+def safe_lseek(fd, pos, whence):
+    try:
+        return os.lseek(fd, pos, whence)
+    except OSError as e:
+        if e.errno == errno.ENXIO:
+            return -1
+        raise
+
+
+def current_data_or_pos(fd, pos):
+    length = safe_lseek(fd, 0, os.SEEK_END)
+    next_data = safe_lseek(fd, pos, SEEK_DATA)
+    next_hole = safe_lseek(fd, pos, SEEK_HOLE)
+
+    if pos == length:
+        return EOF, pos
+    elif pos == next_data:
+        return DATA, pos
+    elif pos == next_hole:
+        return HOLE, pos
+    else:
+        assert False, \
+            ("Do not understand: pos=%d next_data=%d next_hole=%d" %
+             (pos, next_data, next_hole))
+
+
+def next_data_or_hole(fd, pos):
+    length = safe_lseek(fd, 0, os.SEEK_END)
+    next_data = safe_lseek(fd, pos, SEEK_DATA)
+    next_hole = safe_lseek(fd, pos, SEEK_HOLE)
+
+    if pos == length:
+        return EOF, pos
+    elif pos == next_data:
+        # We are at data.
+        if next_hole == -1 or next_hole == length:
+            return EOF, length
+        else:
+            return HOLE, next_hole
+    elif pos == next_hole:
+        # We are at a hole.
+        if next_data == -1 or next_data == length:
+            return EOF, length
+        else:
+            return DATA, next_data
+    else:
+        assert False, \
+            ("Do not understand: pos=%d next_data=%d next_hole=%d" %
+             (pos, next_data, next_hole))
+
+
+def find_data_and_holes(fd):
+    pos = safe_lseek(fd, 0, os.SEEK_CUR)
+
+    kind, pos = current_data_or_pos(fd, pos)
+    while kind != EOF:
+        yield kind, pos
+        kind, pos = next_data_or_hole(fd, pos)
+    yield kind, pos
+
+
+def make_xfer_instructions(fd):
+    prev_kind = None
+    prev_pos = None
+    for kind, pos in find_data_and_holes(fd):
+        if prev_kind == DATA:
+            yield (DATA, prev_pos, pos)
+        elif prev_kind == HOLE:
+            yield (HOLE, prev_pos, pos)
+        prev_kind = kind
+        prev_pos = pos
+
+
+def copy_slice_from_file(to, fd, start, end):
+    safe_lseek(fd, start, os.SEEK_SET)
+    nbytes = end - start
+    max_at_a_time = 1024**2
+    while nbytes > 0:
+        data = os.read(fd, min(nbytes, max_at_a_time))
+        if not data:
+            break
+        to.write(data)
+        nbytes -= len(data)
+    
+
+for kind, start, end in make_xfer_instructions(fd):
+    if kind == HOLE:
+        sys.stdout.write('HOLE\n%d\n' % (end - start))
+    elif kind == DATA:
+        sys.stdout.write('DATA\n%d\n' % (end - start))
+        copy_slice_from_file(sys.stdout, fd, start, end)

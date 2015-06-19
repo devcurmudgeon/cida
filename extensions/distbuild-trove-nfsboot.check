@@ -15,14 +15,15 @@
 
 '''Preparatory checks for Morph 'distbuild-trove-nfsboot' write extension'''
 
-import cliapp
 import logging
 import os
+import subprocess
+import sys
 
-import morphlib.writeexts
+import writeexts
 
 
-class DistbuildTroveNFSBootCheckExtension(morphlib.writeexts.WriteExtension):
+class DistbuildTroveNFSBootCheckExtension(writeexts.WriteExtension):
 
     nfsboot_root = '/srv/nfsboot'
     remote_user = 'root'
@@ -45,7 +46,8 @@ class DistbuildTroveNFSBootCheckExtension(morphlib.writeexts.WriteExtension):
 
     def process_args(self, args):
         if len(args) != 1:
-            raise cliapp.AppException('Wrong number of command line args')
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
 
         nfs_host = args[0]
         nfs_netloc = '%s@%s' % (self.remote_user, nfs_host)
@@ -55,17 +57,19 @@ class DistbuildTroveNFSBootCheckExtension(morphlib.writeexts.WriteExtension):
         missing_vars = [var for var in self.required_vars
                         if not var in os.environ]
         if missing_vars:
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 'Please set: %s' % ', '.join(missing_vars))
 
         controllers = os.getenv('DISTBUILD_CONTROLLER').split()
         workers = os.getenv('DISTBUILD_WORKERS').split()
 
         if len(controllers) != 1:
-            raise cliapp.AppException('Please specify exactly one controller.')
+            raise writeexts.ExtensionError(
+                'Please specify exactly one controller.')
 
         if len(workers) == 0:
-            raise cliapp.AppException('Please specify at least one worker.')
+            raise writeexts.ExtensionError(
+                'Please specify at least one worker.')
 
         upgrade = self.get_environment_boolean('UPGRADE')
 
@@ -80,7 +84,7 @@ class DistbuildTroveNFSBootCheckExtension(morphlib.writeexts.WriteExtension):
 
                 if self.remote_directory_exists(nfs_netloc, system_path):
                     if self.get_environment_boolean('OVERWRITE') == False:
-                        raise cliapp.AppException(
+                        raise writeexts.ExtensionError(
                             'System %s already exists at %s:%s. Try `morph '
                             'upgrade` instead of `morph deploy`.' % (
                             system_name, nfs_netloc, system_path))
@@ -91,27 +95,27 @@ class DistbuildTroveNFSBootCheckExtension(morphlib.writeexts.WriteExtension):
 
         # Is an NFS server
         try:
-            cliapp.ssh_runcmd(
+            writeexts.ssh_runcmd(
                 netloc, ['test', '-e', '/etc/exports'])
-        except cliapp.AppException:
-            raise cliapp.AppException('server %s is not an nfs server'
-                                      % netloc)
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s is not an nfs server'
+                                           % netloc)
         try:
-            cliapp.ssh_runcmd(
+            writeexts.ssh_runcmd(
                 netloc, ['systemctl', 'is-enabled', 'nfs-server.service'])
 
-        except cliapp.AppException:
-            raise cliapp.AppException('server %s does not control its '
-                                      'nfs server by systemd' % netloc)
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s does not control its '
+                                           'nfs server by systemd' % netloc)
 
         # TFTP server exports /srv/nfsboot/tftp
         tftp_root = os.path.join(self.nfsboot_root, 'tftp')
         try:
-            cliapp.ssh_runcmd(
+            writeexts.ssh_runcmd(
                 netloc, ['test' , '-d', tftp_root])
-        except cliapp.AppException:
-            raise cliapp.AppException('server %s does not export %s' %
-                                     (netloc, tftp_root))
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s does not export %s' %
+                                           (netloc, tftp_root))
 
     def check_upgradeable(self, nfs_netloc, system_name, version_label):
         '''Check that there is already a version of the system present.
@@ -124,7 +128,7 @@ class DistbuildTroveNFSBootCheckExtension(morphlib.writeexts.WriteExtension):
         system_version_path = self.system_path(system_name, version_label)
 
         if not self.remote_directory_exists(nfs_netloc, system_path):
-            raise cliapp.AppException(
+            raise writeexts.ExtensionError(
                 'System %s not found at %s:%s, cannot deploy an upgrade.' % (
                 system_name, nfs_netloc, system_path))
 
@@ -132,15 +136,15 @@ class DistbuildTroveNFSBootCheckExtension(morphlib.writeexts.WriteExtension):
             if self.get_environment_boolean('OVERWRITE'):
                 pass
             else:
-                raise cliapp.AppException(
+                raise writeexts.ExtensionError(
                     'System %s version %s already exists at %s:%s.' % (
                     system_name, version_label, nfs_netloc,
                     system_version_path))
 
     def remote_directory_exists(self, nfs_netloc, path):
         try:
-            cliapp.ssh_runcmd(nfs_netloc, ['test', '-d', path])
-        except cliapp.AppException as e:
+            writeexts.ssh_runcmd(nfs_netloc, ['test', '-d', path])
+        except writeexts.ExtensionError as e:
             logging.debug('SSH exception: %s', e)
             return False
 
