@@ -107,7 +107,16 @@ create_tempest_custom_flavor(){
   sed -r -i "s/[#]?flavor_ref_alt =.*/flavor_ref_alt = 6/" tempest.conf
 }
 
+prepare_scenario_tests(){
+    local imgdir=/opt/openstack/images/
+    mkdir -p "$imgdir"
+    wget -c http://download.cirros-cloud.net/0.3.1/cirros-0.3.1-x86_64-uec.tar.gz \
+        -O "$imgdir"/cirros-0.3.1-x86_64-uec.tar.gz
+    cd "$imgdir" && tar xvf cirros-0.3.1-x86_64-uec.tar.gz
+}
+
 # Configure Openstack for running tempest tests.
 create_admin_user_env
 create_image_for_user "$admin_username" "$admin_test_image"
 create_tempest_custom_flavor
+prepare_scenario_tests
