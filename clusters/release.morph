@@ -12,17 +12,20 @@ systems:
     build-system-x86_32-chroot:
       type: extensions/tar
       location: build-system-x86_32-chroot.tar
+      HOSTNAME: build-system-x86-32-chroot
 - morph: systems/build-system-x86_32.morph
   deploy:
     build-system-x86_32:
       type: extensions/rawdisk
       location: build-system-x86_32.img
       DISK_SIZE: 6G
+      HOSTNAME: build-system-x86-32
 - morph: systems/build-system-x86_64-chroot.morph
   deploy:
     build-system-x86_64-chroot:
       type: extensions/tar
       location: build-system-x86_64-chroot.tar
+      HOSTNAME: build-system-x86-64-chroot
 - morph: systems/build-system-x86_64.morph
   deploy:
     build-system-x86_64:
@@ -30,6 +33,7 @@ systems:
       location: build-system-x86_64.img
       DISK_SIZE: 6G
       INITRAMFS_PATH: boot/initramfs.gz
+      HOSTNAME: build-system-x86-64
   subsystems:
   - morph: systems/initramfs-x86_64.morph
     deploy:
@@ -48,6 +52,7 @@ systems:
       BOOTLOADER_CONFIG_FORMAT: "extlinux"
       BOOTLOADER_INSTALL: "none"
       KERNEL_ARGS: cma=256M console=tty0 console=ttyS0,115200n8 no_console_suspend=1 nouveau.pstate=1
+      HOSTNAME: build-system-armv7lhf-jetson
 - morph: systems/genivi-baseline-system-x86_64-generic.morph
   deploy:
     genivi-baseline-system-x86_64-generic:
@@ -56,6 +61,7 @@ systems:
       DISK_SIZE: 4G
       KERNEL_ARGS: vga=788
       INITRAMFS_PATH: boot/initramfs.gz
+      HOSTNAME: genivi-baseline-system-x86-64-generic
   subsystems:
   - morph: systems/initramfs-x86_64.morph
     deploy:
@@ -74,3 +80,4 @@ systems:
       BOOTLOADER_CONFIG_FORMAT: "extlinux"
       BOOTLOADER_INSTALL: "none"
       KERNEL_ARGS: cma=256M console=tty0 console=ttyS0,115200n8 no_console_suspend=1 nouveau.pstate=1
+      HOSTNAME: genivi-baseline-system-armv7lhf-jetson
