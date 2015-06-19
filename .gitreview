@@ -1,5 +1,5 @@
 [gerrit]
 host=gerrit.baserock.org
 port=29418
-project=baserock/baserock/definitions
+project=baserock/baserock/infrastructure
 defaultbranch=master
