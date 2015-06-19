@@ -57,6 +57,16 @@ chunks:
   build-depends:
   - cmd2
   - pyparsing
+- name: tablib
+  morph: strata/openstack-clients/tablib.morph
+  repo: upstream:python-packages/tablib
+  ref: 1cc051f3e881289a8b51133c0c1ee73683b2d6fc
+  unpetrify-ref: v0.10.0
+- name: cliff-tablib
+  morph: strata/openstack-clients/cliff-tablib.morph
+  repo: upstream:python-packages/cliff-tablib
+  ref: a83bf47d7dfbb690dd53e189c532f0859898db04
+  unpetrify-ref: 1.1
 - name: python-neutronclient
   repo: upstream:openstack/python-neutronclient
   ref: aa1215a5ad063b299d32ef319eb63d5210249a9b
@@ -101,3 +111,29 @@ chunks:
   repo: upstream:openstack/python-ironicclient
   ref: 4390a21663de3123fac306e9860624ba7deda0e6
   unpetrify-ref: 0.4.1
+# Despite argparse being part of the Python 2.7's standard library, the
+# pkg_resources module used by python-openstackclient doesn't look into
+# the standard library, resulting in a 'DistributionNotFound: argparse'
+# error.  Hence, install argparse separately.
+- name: argparse
+  morph: strata/openstack-clients/argparse.morph
+  repo: upstream:argparse
+  ref: ec94cd429c56487e89425f226284009f78a596c6
+  unpetrify-ref: r130
+# The latest release of python-openstackclient is not being used as it
+# requires newer versions of glance, neutron, keystone and nova.
+- name: python-openstackclient
+  morph: strata/openstack-clients/python-openstackclient.morph
+  repo: upstream:openstack/python-openstackclient
+  ref: 28f65e665045c1c6d0697f856f06020c7c8e656a
+  unpetrify-ref: 1.2.0
+- name: os-client-config
+  morph: strata/openstack-clients/os-client-config.morph
+  repo: upstream:openstack/os-client-config
+  ref: a0df67704ace186b18fd1ecdc220a7e56409bc6f
+  unpetrify-ref: 1.3.0
+- name: appdirs
+  morph: strata/openstack-clients/appdirs.morph
+  repo: upstream:python-packages/appdirs
+  ref: 57f2bc44a8bca99bac6c57496c8b3fdea26f94d5
+  unpetrify-ref: 1.4.0

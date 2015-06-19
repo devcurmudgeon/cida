@@ -1,0 +1,3 @@
+name: argparse
+kind: chunk
+build-system: python-distutils
