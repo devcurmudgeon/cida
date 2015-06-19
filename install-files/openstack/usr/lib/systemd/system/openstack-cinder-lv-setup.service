@@ -1,0 +1,12 @@
+[Unit]
+Description=Run cinder-lvs-setup Ansible scripts
+ConditionPathExists=/etc/openstack/cinder.conf
+Wants=lvm2-lvmetad.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/cinder-lvs.yml
+
+[Install]
+WantedBy=multi-user.target

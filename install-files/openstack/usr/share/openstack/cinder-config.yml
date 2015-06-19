@@ -1,0 +1,37 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/cinder.conf"
+  tasks:
+# Configure cinder
+  - name: Create the cinder user.
+    user:
+        name: cinder
+        comment: Openstack Cinder Daemons
+        shell: /sbin/nologin
+        home: /var/lib/cinder
+
+  - name: Create the /var folders for cinder
+    file:
+        path: "{{ item }}"
+        state: directory
+        owner: cinder
+        group: cinder
+    with_items:
+    - /var/run/cinder
+    - /var/lock/cinder
+    - /var/log/cinder
+    - /var/lib/cinder
+    - /var/lib/cinder/volumes
+
+  - name: Create /etc/cinder directory
+    file:
+        path: /etc/cinder
+        state: directory
+
+  - name: Add the configuration needed for cinder in /etc/cinder using templates
+    template:
+        src: /usr/share/openstack/cinder/{{ item }}
+        dest: /etc/cinder/{{ item }}
+    with_lines:
+    - cd /usr/share/openstack/cinder && find -type f

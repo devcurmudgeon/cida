@@ -1,0 +1,13 @@
+[Unit]
+Description=Run neutron-config-setup Ansible scripts
+ConditionPathExists=/etc/openstack/neutron.conf
+After=network-online.target openstack-keystone-setup.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/neutron-config.yml
+
+[Install]
+WantedBy=multi-user.target

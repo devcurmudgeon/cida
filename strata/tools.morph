@@ -2,7 +2,7 @@ name: tools
 kind: stratum
 description: Various tools
 build-depends:
-- morph: strata/foundation.morph
+- morph: strata/core.morph
 chunks:
 - name: distcc
   morph: strata/tools/distcc.morph
@@ -38,8 +38,8 @@ chunks:
   unpetrify-ref: baserock/bootstrap
 - name: vala
   repo: upstream:vala
-  ref: 682eba5880fbd76402dec10118883da913a7b255
-  unpetrify-ref: 0.26.2
+  ref: 5f6ebe007050be12bdc4aa7c902ae4059f28874a
+  unpetrify-ref: 0.28.0
   build-depends:
   - vala-bootstrap
 - name: u-boot
@@ -62,10 +62,10 @@ chunks:
   ref: a4769dc7999b53260325fb89945bef85714fb338
   unpetrify-ref: baserock/morph
 - name: procps-ng
+  morph: strata/tools/procps-ng.morph
   repo: upstream:procps-ng
   ref: 85fff468fa263cdd2ff1c0144579527c32333695
   unpetrify-ref: v3.3.9
-  prefix: /
 - name: ipmitool
   morph: strata/tools/ipmitool.morph
   repo: upstream:ipmitool
@@ -73,3 +73,13 @@ chunks:
   unpetrify-ref: IPMITOOL_1_8_14
   build-depends:
   - file
+- name: parted
+  morph: strata/tools/parted.morph
+  repo: upstream:parted
+  ref: 387e96e6eac59d84e9a688422b4b321ae9beaa20
+  unpetrify-ref: baserock/v3.2
+- name: zip
+  morph: strata/tools/zip.morph
+  repo: upstream:zip
+  ref: e52e9d6a339aad5fcff464cf207da51c02996e39
+  unpetrify-ref: zip30

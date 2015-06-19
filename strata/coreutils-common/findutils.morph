@@ -1,0 +1,5 @@
+name: findutils
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- ./import-gnulib.sh -d gnulib

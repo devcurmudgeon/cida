@@ -1,0 +1,22 @@
+name: openbmc
+kind: stratum
+description: OpenBMC components
+build-depends:
+- morph: strata/build-essential.morph
+- morph: strata/core.morph
+chunks:
+- name: i2c-tools
+  morph: strata/openbmc/i2c-tools.morph
+  repo: upstream:i2c-tools
+  ref: 187dd637f7789c4cb12dfe2ba13f6e01d2a3c698
+  unpetrify-ref: V3-1-1
+- name: lm_sensors
+  morph: strata/openbmc/lm_sensors.morph
+  repo: upstream:lm-sensors
+  ref: d9983967a89382f64c65db67026f85f073ef9b74
+  unpetrify-ref: master
+- name: isc-dhcp
+  repo: upstream:isc-dhcp-tarball
+  morph: strata/openbmc/isc-dhcp.morph
+  ref: f800382616186a5d30e28d8b2c51e97a9a8360f2
+  unpetrify-ref: master

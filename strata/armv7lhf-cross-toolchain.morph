@@ -6,9 +6,9 @@ build-depends:
 chunks:
 - name: armv7lhf-cross-binutils
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-binutils.morph
-  repo: upstream:binutils-redhat
-  ref: b1d3b01332ae49a60ff5d6bf53d3a5b1805769c8
-  unpetrify-ref: baserock/build-essential
+  repo: upstream:binutils-tarball
+  ref: 5500a97a2ad1735db5b35bc51cfb825c1f4c38df
+  unpetrify-ref: binutils-2.25
 
 - name: armv7lhf-cross-linux-api-headers
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-linux-api-headers.morph
@@ -27,8 +27,8 @@ chunks:
 - name: armv7lhf-cross-glibc
   morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-glibc.morph
   repo: upstream:glibc
-  ref: 52cf9a0153c14df4f6ae3bd0e1e6cc5d171e586c
-  unpetrify-ref: baserock/glibc-2.20
+  ref: 4e42b5b8f89f0e288e68be7ad70f9525aebc2cff
+  unpetrify-ref: baserock/glibc-2.21
   build-depends:
   - armv7lhf-cross-binutils
   - armv7lhf-cross-gcc-nolibc

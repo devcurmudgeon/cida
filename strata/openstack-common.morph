@@ -14,7 +14,7 @@ chunks:
 - name: cffi
   repo: upstream:python-packages/cffi
   ref: fc53b53095d61a1ec5814c09c3bf2c7e18627fb5
-  unpretrify-ref: master
+  unpetrify-ref: master
   build-depends:
   - pycparser
 - name: pytz
@@ -22,9 +22,13 @@ chunks:
   ref: c414cb801776e11c769fb36c0d37b8d7a7c8712c
   unpetrify-ref: pytz-2014.10
 - name: babel
+  morph: strata/openstack-common/babel.morph
   repo: upstream:babel
-  ref: 246996b0ee51e49ebcd504e234d3bcdcb178996c
-  unpetrify-ref: master
+# Babel requires core-23.1.zip to be present when compiles
+# from source, the following branch and commit add this file
+# to the repository.
+  ref: 603e77ae0e43b6ecdb3f3a8ea7988f7e7c83e867
+  unpetrify-ref: baserock/1.3-50-g246996b
   build-depends:
   - pytz
 - name: enum34
@@ -52,13 +56,13 @@ chunks:
   ref: bbb31ed50a5338a7d1c0011fc4429d09954f9f0b
   unpetrify-ref: release-0.7.12
 - name: stevedore
-  ref: 860bd8f8ecba38fdfda5b41a3a1dbe854d6528e2
-  unpetrify-ref: 1.0.0.0a2
   repo: upstream:openstack/stevedore
+  ref: 218e95d5f09563bd14c50ee0441855f3389af7e7
+  unpetrify-ref: 1.3.0
 - name: oslo-config
   repo: upstream:openstack/oslo-config
-  ref: 059579ac2189b94bc9e9555b2e9acfb31a83ef53
-  unpetrify-ref: 1.4.0.0a5
+  ref: 3c51838cdffe7a5057ff4823a8ab523bfacc3164
+  unpetrify-ref: 1.9.3
   build-depends:
   - netaddr
   - stevedore
@@ -68,26 +72,32 @@ chunks:
   unpetrify-ref: 0.14
 - name: oslo-i18n
   repo: upstream:openstack/oslo-i18n
-  ref: 040f1d6afa733527385d2309e485bf37e9843b0e
-  unpetrify-ref: 0.4.0
+  ref: b0faab7b3d3ea3b14053ab92dd6086956f643e15
+  unpetrify-ref: 1.5.0
   build-depends:
   - babel
+- name: netifaces
+  repo: upstream:python-packages/netifaces
+  ref: 885b200ba717df87f6e8044ec8c66c677c949bcb
+  unpetrify-ref: release_0_10_4
 - name: oslo-utils
   repo: upstream:openstack/oslo-utils
-  ref: 6a123fce93895e92004ce9d5bd8dee3c3642cf41
-  unpetrify-ref: 0.3.0
+  ref: 91dc782c2f11fb76425effd7a331d63111adf1ce
+  unpetrify-ref: 1.4.0
   build-depends:
   - babel
   - pyiso8601
   - oslo-i18n
+  - netifaces
+  - netaddr
 - name: futures
   repo: upstream:python-packages/futures
   ref: 4f7ceedb8a7742e52b0436a4160c7c44665a2597
   unpetrify-ref: 2.2.0
 - name: oslo-serialization
   repo: upstream:openstack/oslo-serialization.git
-  ref: 80fec894a54253d9b4c80dd8a563957966ca0b88
-  unpetrify-ref: 0.3.0
+  ref: 7bfd5dece0f22dbdea1c3e524dbc0eca1f70f1b7
+  unpetrify-ref: 1.4.0
 - name: jsonschema
   repo: upstream:jsonschema
   ref: 35b60f390098d3306c03eee27ceec8cf8a493579
@@ -96,3 +106,17 @@ chunks:
   repo: upstream:simplejson
   ref: 54d5ff15d508c51366986cc4f77f2f287f036582
   unpetrify-ref: v3.6.4
+- name: greenlet
+  ref: 42b65a7b67dfabd180625155cd4fcd8e51917fe2
+  unpetrify-ref: 0.4.5
+  repo: upstream:python-packages/greenlet
+- name: eventlet
+  ref: bc0a59f8efdb6d436dd41bcf1b2194b8967bfe7f
+  unpetrify-ref: v0.17.3
+  repo: upstream:python-packages/eventlet
+  build-depends:
+  - greenlet
+- name: pastedeploy
+  repo: upstream:python-packages/pastedeploy
+  ref: 5ad87be617c2cc1dd31625688172e964db2756dc
+  unpetrify-ref: 1.5.2

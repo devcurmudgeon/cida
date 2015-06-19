@@ -35,5 +35,5 @@ systems:
 - morph: systems/devel-system-x86_64-generic.morph
   deploy:
     self:
-      type: ssh-rsync
+      type: extensions/ssh-rsync
       location: root@127.0.0.1

@@ -11,8 +11,8 @@ chunks:
   unpetrify-ref: baserock/morph
 - name: linux-armv7-wandboard
   morph: strata/bsp-wandboard/linux-armv7-wandboard.morph
-  repo: upstream:linux
-  ref: bfa76d49576599a4b9f9b7a71f23d73d6dcff735
-  unpetrify-ref: v3.19
+  repo: upstream:linux-stable
+  ref: 660613d1a4e94144490850b6c3d350331860fac4
+  unpetrify-ref: v3.19.2
   build-depends:
   - u-boot@wandboard

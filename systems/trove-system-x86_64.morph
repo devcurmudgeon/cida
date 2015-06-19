@@ -17,8 +17,14 @@ strata:
   morph: strata/tools.morph
 - name: python-cliapp
   morph: strata/python-cliapp.morph
+- name: python-pygobject
+  morph: strata/python-pygobject.morph
 - name: python-wsgi
   morph: strata/python-wsgi.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
+- name: ostree-core
+  morph: strata/ostree-core.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: pcre-utils
@@ -42,9 +48,10 @@ strata:
 - name: devtools
   morph: strata/devtools.morph
 configuration-extensions:
-- set-hostname
-- trove
-- nfsboot-server
-- fstab
-- install-files
-- cloud-init
+- extensions/set-hostname
+- extensions/trove
+- extensions/nfsboot-server
+- extensions/fstab
+- extensions/install-files
+- extensions/cloud-init
+- extensions/install-essential-files

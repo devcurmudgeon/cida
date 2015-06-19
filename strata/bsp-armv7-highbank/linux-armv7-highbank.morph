@@ -8,6 +8,8 @@ configure-commands:
 - scripts/config -e CONFIG_POSIX_MQUEUE
 - scripts/config -e CPU_IDLE
 - scripts/config -e EXT4_FS
+- scripts/config -e FUSE_FS
+#- scripts/config -e OVERLAY_FS # Activate when we build Linux >= 3.18
 - scripts/config -e EXT4_USE_FOR_EXT23
 - scripts/config -e PACKET
 - scripts/config -e UNIX
@@ -31,7 +33,9 @@ configure-commands:
 - scripts/config -e DEVTMPFS
 - scripts/config -e DEVTMPFS_MOUNT
 - scripts/config -e CONFIG_FHANDLE
+- scripts/config -e DEVPTS_MULTIPLE_INSTANCES
 - scripts/config --set-str UEVENT_HELPER_PATH ''
+- scripts/config -e DM_SNAPSHOT
 - scripts/config -e IKCONFIG
 - scripts/config -e IKCONFIG_PROC
 - scripts/config -e TMPFS
@@ -39,6 +43,7 @@ configure-commands:
 - scripts/config -e VFAT_FS
 - scripts/config -e VLAN_8021Q
 - scripts/config -e BRIDGE_VLAN_FILTERING
+- scripts/config -e VETH
 - yes '' | make oldconfig
 build-commands:
 - make zImage $MAKEFLAGS

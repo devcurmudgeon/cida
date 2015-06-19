@@ -4,11 +4,10 @@ description: Basic userland runtime system
 build-depends:
 - morph: strata/coreutils-common.morph
 chunks:
-- name: attr
-  morph: strata/foundation/attr.morph
-  repo: upstream:attr
-  ref: 4b005410f865895d4dcd56e2c135278a7a315877
-  unpetrify-ref: baserock/morph
+- name: bash-completion
+  repo: upstream:bash-completion
+  ref: 3085c7e12179817a02a611016606391295c69942
+  unpetrify-ref: 2.1
 - name: groff
   morph: strata/foundation/groff.morph
   repo: upstream:groff-git
@@ -24,65 +23,35 @@ chunks:
   repo: upstream:tz
   ref: a0782484f101ac55c916568bc1c490d7761fc904
   unpetrify-ref: 2015a
-- name: libcap2
-  morph: strata/foundation/libcap2.morph
-  repo: upstream:libcap2
-  ref: 4f7cca1bc9c2a274edb39d351b65747010d3ba7b
-  unpetrify-ref: baserock/morph
-  build-depends:
-  - attr
-- name: libffi
-  morph: strata/foundation/libffi.morph
-  repo: upstream:libffi
-  ref: 77d4586cc47e8f4c02278afbc220145bba0d442b
-  unpetrify-ref: baserock/morph
 - name: pciutils
   morph: strata/foundation/pciutils.morph
   repo: upstream:pciutils
   ref: bae04bd0473c68a2f21b7712a627abb08fd84b29
   unpetrify-ref: baserock/morph
-- name: glib
-  repo: upstream:glib
-  ref: 4125415e7f4d1213fc7122beac0d91af08e37b28
-  build-depends:
-  - libffi
-- name: gobject-introspection
-  repo: upstream:gobject-introspection
-  ref: a543d8563f8e9ca059afb7218c63496f577cd0fc
-  build-depends:
-  - glib
 - name: dbus-pre
   morph: strata/foundation/dbus-pre.morph
   repo: upstream:dbus
-  ref: ff01faa12daa3481d6a3d2936929c5a2a1fe6fb5
-  unpetrify-ref: baserock/genivi/dbus-1.8.8
-  build-depends:
-  - glib
+  ref: 92a2d95a6c4457783dbd663bab27260c328f2248
+  unpetrify-ref: baserock/genivi/dbus-1.9.16-1-g92a2d95
 - name: libgpg-error
+  morph: strata/foundation/libgpg-error.morph
   repo: upstream:libgpg-error
-  ref: a498812d767c59ae2b75b0c985f5280b139e7dc4
+  ref: d77c33ae608d67086ea057cca5ddee99a7202f8b
+  unpetrify-ref: libgpg-error-1.19
 - name: libgcrypt
   repo: upstream:libgcrypt
   ref: 412eed473b557ed2172d81d76fa1e1f53c973a67
   build-depends:
   - libgpg-error
-- name: linux-pam
-  morph: strata/foundation/linux-pam.morph
-  repo: upstream:linux-pam
-  ref: b1521c97e73b10469f7b34c0571d51c647eca83c
-  unpetrify-ref: Linux-PAM-1.1.8
 - name: systemd
   morph: strata/foundation/systemd.morph
   repo: upstream:systemd
-  ref: a88abde72169ddc2df77df3fa5bed30725022253
-  unpetrify-ref: v219
+  ref: dde8bb32b12c855509777ce52ff59a835155ac78
+  unpetrify-ref: v220
   build-depends:
   - dbus-pre
-  - gobject-introspection
   - kmod
-  - libcap2
   - libgcrypt
-  - linux-pam
 - name: libusb
   repo: upstream:libusb
   ref: e11525c66c7dd2db466c8f5785ff0b37d6a99ec9
@@ -105,40 +74,20 @@ chunks:
   repo: upstream:fuse
   ref: d69e627e79862e2df4ff9ff1ddb0363c4520d8a8
   unpetrify-ref: baserock/morph
-- name: acl
-  morph: strata/foundation/acl.morph
-  repo: upstream:acl
-  ref: f13e09bd54fd4a501c4952f002ed2752bdd9f93b
-  unpetrify-ref: v2.2.52
-  build-depends:
-  - attr
-- name: e2fsprogs
-  morph: strata/foundation/e2fsprogs.morph
-  repo: upstream:e2fsprogs
-  ref: 6a3741ad293031447b95b88431eafa77401a8987
-  unpetrify-ref: v1.42.12
 - name: btrfs-progs
   morph: strata/foundation/btrfs-progs.morph
   repo: upstream:btrfs-progs
-  ref: 563ff3b07d85517e3589a1f2e6f45a8265e3f071
-  unpetrify-ref: v3.18.2
+  ref: 19a806f575cd010734fa5793c4b3bfb49926dc62
+  unpetrify-ref: v4.0
   build-depends:
-  - attr
-  - acl
   - lzo
-  - e2fsprogs
 - name: dbus
   morph: strata/foundation/dbus.morph
   repo: upstream:dbus
-  ref: ff01faa12daa3481d6a3d2936929c5a2a1fe6fb5
-  unpetrify-ref: baserock/genivi/dbus-1.8.8
+  ref: 92a2d95a6c4457783dbd663bab27260c328f2248
+  unpetrify-ref: baserock/genivi/dbus-1.9.16-1-g92a2d95
   build-depends:
-  - glib
   - systemd
-- name: libxslt
-  repo: upstream:libxslt
-  ref: 8785a2ffd0d146df0395ab71ce4734d0a8ba0f7e
-  unpetrify-ref: baserock/morph
 - name: openssh
   morph: strata/foundation/openssh.morph
   repo: upstream:openssh-git
@@ -149,17 +98,14 @@ chunks:
 - name: tbdiff
   morph: strata/foundation/tbdiff.morph
   repo: baserock:baserock/tbdiff
-  ref: 47fb728f2432929868666afc915dbc5a64836c08
+  ref: 235e95c3479f96b04d33edecc684f985bda50e53
   unpetrify-ref: master
-  build-depends:
-  - attr
 - name: dbus-glib
   repo: upstream:dbus-glib
   ref: 397e8297d433547c9bf4150ddd2b9e0b4c39628c
   unpetrify-ref: dbus-glib_0.102
   build-depends:
   - dbus
-  - glib
 - name: rsync
   morph: strata/foundation/rsync.morph
   repo: upstream:rsync

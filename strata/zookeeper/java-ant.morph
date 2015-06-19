@@ -1,8 +1,0 @@
-name: ant
-kind: chunk
-build-commands:
-- |
-  export JAVA_HOME=/usr/lib/jdk1.8.0_20
-  sh build.sh -Ddist.dir="$DESTDIR/usr/lib/ant" dist
-- mkdir -p "${DESTDIR}${PREFIX}/bin"
-- ln -sf "${PREFIX}/lib/ant/bin/ant" "${DESTDIR}${PREFIX}/bin/ant"

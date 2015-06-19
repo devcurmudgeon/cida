@@ -1,0 +1,16 @@
+name: bsp-armv8b64-generic
+kind: stratum
+description:
+- |
+  The set of platform specific components required for booting generic ARMv8
+  systems in big-endian mode, such as the 64-bit APM XGene ARM based m400
+  Moonshot cartridge.
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: linux-armv8b64-generic
+  morph: strata/bsp-armv8b64-generic/linux-armv8b64-generic.morph
+  repo: upstream:linux
+  ref: cd1397b1f6e429b82e94565b0af93c6bd44e4271
+  unpetrify-ref: baserock/bjdooks/m400-be3
+  build-depends: []

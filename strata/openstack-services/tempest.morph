@@ -1,0 +1,12 @@
+name: tempest
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+# Install files and folders required to run tempest
+- mkdir -p "$DESTDIR"/etc/tempest
+- cp -r tempest "$DESTDIR"/etc/tempest/
+- cp -r tools "$DESTDIR"/etc/tempest/
+- cp setup.py tox.ini "$DESTDIR"/etc/tempest/
+- cp run_tests.sh run_tempest.sh "$DESTDIR"/etc/tempest/
+- cp .testr.conf "$DESTDIR"/etc/tempest/
+- cp etc/logging.conf.sample "$DESTDIR"/etc/tempest/logging.conf

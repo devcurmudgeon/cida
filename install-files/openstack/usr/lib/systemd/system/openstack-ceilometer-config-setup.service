@@ -1,0 +1,11 @@
+[Unit]
+Description=Run ceilometer-config-setup Ansible scripts
+ConditionPathExists=/etc/openstack/ceilometer.conf
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/ceilometer-config.yml
+
+[Install]
+WantedBy=multi-user.target

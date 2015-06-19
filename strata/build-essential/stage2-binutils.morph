@@ -5,7 +5,7 @@ build-system: autotools
 configure-commands:
 - |
   export STAGE2_SYSROOT="$(dirname $(pwd))"
-  export CXX=false
+  export CXX="$TARGET_STAGE1-g++ --sysroot=$STAGE2_SYSROOT"
   # binutils has its own embedded libtool, which is old and strips out
   # `--sysroot`.  Work around by modifying the compiler command to
   # include the sysroot flag

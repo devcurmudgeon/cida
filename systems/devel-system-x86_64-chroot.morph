@@ -17,6 +17,8 @@ strata:
   morph: strata/tools.morph
 - name: python-cliapp
   morph: strata/python-cliapp.morph
+- name: python-pygobject
+  morph: strata/python-pygobject.morph
 - name: python-wsgi
   morph: strata/python-wsgi.morph
 - name: morph-utils
@@ -45,8 +47,18 @@ strata:
   morph: strata/devtools.morph
 - name: ansible
   morph: strata/ansible.morph
+- name: swift
+  morph: strata/swift.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
+- name: ostree-core
+  morph: strata/ostree-core.morph
+- name: coreutils-common
+  morph: strata/coreutils-common.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- nfsboot
-- install-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/fstab
+- extensions/install-essential-files

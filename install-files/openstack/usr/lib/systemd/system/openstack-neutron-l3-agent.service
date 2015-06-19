@@ -1,0 +1,17 @@
+[Unit]
+Description=Neutron Layer 3 Agent
+ConditionPathExists=/etc/neutron/neutron.conf
+After=network-online.target openstack-neutron-config-setup.service openstack-neutron-db-setup.service openstack-neutron-ovs-cleanup.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=neutron
+StandardOutput=null
+StandardError=null
+ExecStart=/usr/bin/neutron-l3-agent \
+  --config-file=/etc/neutron/neutron.conf \
+  --config-file=/etc/neutron/l3_agent.ini
+
+[Install]
+WantedBy=multi-user.target

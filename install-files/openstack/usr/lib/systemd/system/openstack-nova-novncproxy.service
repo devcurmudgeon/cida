@@ -1,0 +1,15 @@
+[Unit]
+Description=OpenStack Nova NoVNC proxy
+ConditionPathExists=/etc/nova/nova.conf
+After=network-online.target openstack-nova-config-setup.service openstack-nova-db-setup.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=nova
+StandardOutput=null
+StandardError=null
+ExecStart=/usr/bin/nova-novncproxy --config-file /etc/nova/nova.conf --web /usr/share/novnc
+
+[Install]
+WantedBy=multi-user.target

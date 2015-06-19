@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  vars:
+    - rings:
+        - { name: account, port: 6002 }
+        - { name: container, port: 6001 }
+        - { name: object, port: 6000 }
+  remote_user: root
+  tasks:
+    - file: path={{ ansible_env.ROOT }}/etc/swift owner=root group=root state=directory
+
+    - name: Create ring
+      shell: swift-ring-builder {{ item.name }}.builder create {{ ansible_env.SWIFT_PART_POWER }}
+        {{ ansible_env.SWIFT_REPLICAS }} {{ ansible_env.SWIFT_MIN_PART_HOURS }}
+      with_items: rings
+
+    - name: Add each storage node to the ring
+      shell: swift-ring-builder {{ item[0].name }}.builder
+        add r1z1-{{ item[1].ip }}:{{ item[0].port }}/{{ item[1].device }} {{ item[1].weight }}
+      with_nested:
+        - rings
+        - ansible_env.SWIFT_STORAGE_DEVICES
+
+    - name: Rebalance the ring
+      shell: swift-ring-builder {{ item.name }}.builder rebalance {{ ansible_env.SWIFT_REBALANCE_SEED }}
+      with_items: rings
+
+    - name: Copy ring configuration files into place
+      copy: src={{ item.name }}.ring.gz dest={{ ansible_env.ROOT }}/etc/swift
+      with_items: rings
+
+    - name: Copy ring builder files into place
+      copy: src={{ item.name }}.builder dest={{ ansible_env.ROOT }}/etc/swift
+      with_items: rings

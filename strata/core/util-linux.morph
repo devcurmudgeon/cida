@@ -3,4 +3,8 @@ kind: chunk
 build-system: autotools
 configure-commands:
 - ./autogen.sh
-- ./configure --prefix="$PREFIX" --disable-use-tty-group
+# Installing to /bin so that they overwrite busybox login.
+- |
+  ./configure --prefix="$PREFIX" \
+              --disable-use-tty-group \
+              --bindir=/bin

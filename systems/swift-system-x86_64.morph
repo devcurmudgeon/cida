@@ -1,0 +1,34 @@
+name: swift-system-x86_64
+kind: system
+description: A base system for deploying swift nodes
+arch: x86_64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-x86_64-generic
+  morph: strata/bsp-x86_64-generic.morph
+- name: swift
+  morph: strata/swift.morph
+- name: ntpd
+  morph: strata/ntpd.morph
+- name: python-core
+  morph: strata/python-core.morph
+- name: python-common
+  morph: strata/python-common.morph
+- name: ansible
+  morph: strata/ansible.morph
+- name: openstack-common
+  morph: strata/openstack-common.morph
+configuration-extensions:
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/simple-network
+- extensions/nfsboot
+- extensions/install-files
+- extensions/fstab
+- extensions/swift-storage
+- extensions/install-essential-files

@@ -13,8 +13,9 @@ strata:
   artifacts:
   - bsp-x86_64-generic-runtime
 configuration-extensions:
-- set-hostname
-- simple-network
-- nfsboot
-- install-files
-- busybox-init
+- extensions/set-hostname
+- extensions/simple-network
+- extensions/nfsboot
+- extensions/install-files
+- extensions/busybox-init
+- extensions/install-essential-files

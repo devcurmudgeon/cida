@@ -15,14 +15,21 @@ strata:
   morph: strata/bsp-x86_64-generic.morph
 - name: python-cliapp
   morph: strata/python-cliapp.morph
+- name: python-pygobject
+  morph: strata/python-pygobject.morph
 - name: python-wsgi
   morph: strata/python-wsgi.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
+- name: ostree-core
+  morph: strata/ostree-core.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: installer-utils
   morph: strata/installer-utils.morph
 configuration-extensions:
-- set-hostname
-- install-files
-- fstab
-- installer
+- extensions/set-hostname
+- extensions/install-files
+- extensions/fstab
+- extensions/installer
+- extensions/install-essential-files

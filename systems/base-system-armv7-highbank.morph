@@ -13,7 +13,8 @@ strata:
 - name: bsp-armv7-highbank
   morph: strata/bsp-armv7-highbank.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- nfsboot
-- install-files
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/install-essential-files

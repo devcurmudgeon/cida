@@ -1,9 +1,10 @@
 name: ntpd
 kind: stratum
 build-depends:
-- morph: strata/core.morph
+- morph: strata/foundation.morph
 chunks:
 - name: ntpd
+  morph: strata/ntpd/ntpd.morph
   repo: upstream:ntp
-  ref: d4b7cd9723cce9561fa15f74b90b85a3a61b5ef8
-  unpetrify-ref: ntp-dev-4.2.7p482
+  ref: b2ccf8dd31d1457ae9f0ae270054117179220370
+  unpetrify-ref: ntp-4.2.8p2

@@ -9,26 +9,26 @@ chunks:
 - name: qtwebkit
   morph: strata/qt5-tools/qtwebkit.morph
   repo: upstream:qt5/qtwebkit
-  ref: 13f80d34ae84c3231118c8013beee55badab8929
-  unpetrify-ref: v5.3.2
+  ref: 586bdc38324dfaeec65389bf7646c82cb35db017
+  unpetrify-ref: "5.4.2"
 - name: qtwebkit-examples
   morph: strata/qt5-tools/qtwebkit-examples.morph
   repo: upstream:qt5/qtwebkit-examples
-  ref: bce5056b9e16a943357e362455a46685d3f22093
-  unpetrify-ref: v5.3.2
+  ref: 70bd4d5253f134bf48a30544030bb832f1eba8b3
+  unpetrify-ref: v5.4.0
   build-depends:
   - qtwebkit
 - name: qttools
   morph: strata/qt5-tools/qttools.morph
   repo: upstream:qt5/qttools
-  ref: 8c79a098b8b7da4832ebca1884ee833a2c2078a7
-  unpetrify-ref: v5.3.2
-  build-depends:                   
+  ref: 5060a0ec7dcb26826b19eefbd6063efcbde6101f
+  unpetrify-ref: v5.4.0
+  build-depends:
   - qtwebkit
 - name: qttranslations
   morph: strata/qt5-tools/qttranslations.morph
   repo: upstream:qt5/qttranslations
-  ref: cf4d6f7e73bb410ed0aa3d64dffb2b6b242cdfe0
-  unpetrify-ref: v5.3.2
-  build-depends:    
+  ref: 3aad4ab4718d4bf952275a07e406e93eb6a22eed
+  unpetrify-ref: v5.4.0
+  build-depends:
   - qttools

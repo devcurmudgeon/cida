@@ -104,6 +104,7 @@ chunks:
 - name: xorg-lib-libxshmfence
   repo: upstream:xorg-lib-libxshmfence
   ref: 9c4f070e1304a3503cfab08f68573443025fc4c9
+  unpetrify-ref: master
   build-depends:
   - xorg-proto-x11proto
 - name: xorg-lib-libXau
@@ -119,6 +120,31 @@ chunks:
   build-depends:
   - xcb-proto
   - xorg-lib-libXau
+- name: xcb-util
+  repo: upstream:xcb-util
+  ref: 4de010f122da40e17b52866d07d1d501a66bf007
+  unpetrify-ref: baserock/0.4.0
+  build-depends:
+  - xcb-libxcb
+- name: util-wm
+  repo: upstream:util-wm
+  ref: fb7afc3f291c8cc072d327cd8d97ab1db3283c21
+  unpetrify-ref: baserock/0.4.1
+  build-depends:
+  - xcb-libxcb
+- name: util-keysyms
+  repo: upstream:util-keysyms
+  ref: edb763a8837d3932690b9d6d77cb7e20a9ab8013
+  unpetrify-ref: baserock/0.4.0
+  build-depends:
+  - xcb-libxcb
+- name: util-image
+  repo: upstream:util-image
+  ref: f20f25a1c017c58d5d7dfffc6e9adc8d31879152
+  unpetrify-ref: baserock/0.4.0
+  build-depends:
+  - xcb-libxcb
+  - xcb-util
 - name: xorg-lib-libxtrans
   repo: upstream:xorg-lib-libxtrans
   ref: 7cbad9fe2e61cd9d5caeaf361826a6f4bd320f03
@@ -207,3 +233,24 @@ chunks:
   - xorg-proto-fixesproto
   - xorg-lib-libXau
   - xorg-lib-libX11
+- name: xorg-lib-libICE
+  repo: upstream:xorg-lib-libICE
+  ref: b0cc7794c89d64fc54d0c75b2bba79fd7a1c7e0a
+  unpetrify-ref: libICE-1.0.9
+  build-depends:
+  - xorg-proto-x11proto
+  - xorg-lib-libxtrans
+- name: xorg-lib-libSM
+  repo: upstream:xorg-lib-libSM
+  ref: d0659dcd3aa23598b38826ac78f85071772c436f
+  unpetrify-ref: libSM-1.2.2
+  build-depends:
+  - xorg-lib-libICE
+- name: xorg-lib-libXt
+  repo: upstream:xorg-lib-libXt
+  ref: e7411e7e5299116604ff1f01d9415802607f1051
+  unpetrify-ref: libXt-1.1.5
+  build-depends:
+  - xorg-proto-kbproto
+  - xorg-lib-libX11
+  - xorg-lib-libSM

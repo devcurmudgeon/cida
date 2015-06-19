@@ -1,0 +1,6 @@
+name: thrift
+kind: chunk
+build-system: autotools
+max-jobs: 1
+pre-configure-commands:
+- ./bootstrap.sh

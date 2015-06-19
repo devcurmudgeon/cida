@@ -21,6 +21,9 @@ configure-commands:
   --without-storage-disk --with-storage-rbd --without-storage-sheepdog \
   --without-storage-gluster --without-wireshark-dissector --disable-werror \
   --prefix="$PREFIX"
+post-install-commands:
+# Don't autostart the default network created by libvirt
+- rm -f "$DESTDIR"/etc/libvirt/qemu/networks/autostart/default.xml
 system-integration:
   libvirt-misc:
     01-addgroup:

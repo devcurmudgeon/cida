@@ -9,6 +9,12 @@ strata:
   morph: strata/core.morph
 - name: python-cliapp
   morph: strata/python-cliapp.morph
+- name: python-pygobject
+  morph: strata/python-pygobject.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
+- name: ostree-core
+  morph: strata/ostree-core.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: cross-bootstrap

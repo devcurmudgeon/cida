@@ -1,11 +1,11 @@
 name: openvswitch
 kind: chunk
-build-system: manual
+build-system: autotools
 pre-configure-commands:
 - ./boot.sh
 configure-commands:
-- ./configure --enable-ssl
-build-commands:
-- make
-install-commands:
-- make install DESTDIR="$DESTDIR" prefix="$PREFIX"
+- |
+  ./configure --prefix="$PREFIX" \
+              --localstatedir=/var \
+              --sysconfdir=/etc \
+              --enable-ssl

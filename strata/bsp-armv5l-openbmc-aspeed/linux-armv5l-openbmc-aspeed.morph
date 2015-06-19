@@ -1,0 +1,9 @@
+name: linux-armv5l-openbmc-aspeed
+kind: chunk
+configure-commands:
+- make ast2400_defconfig
+build-commands:
+- make $MAKEFLAGS
+install-commands:
+- mkdir -p "$DESTDIR"/boot
+- cp arch/arm/boot/Image "$DESTDIR/boot/vmlinux"

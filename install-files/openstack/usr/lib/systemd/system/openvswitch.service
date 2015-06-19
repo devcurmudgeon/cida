@@ -1,0 +1,12 @@
+[Unit]
+Description=Open vSwitch Daemon
+Before=network-pre.target
+Wants=network-pre.target
+
+[Service]
+Type=forking
+ExecStartPre=-/usr/bin/mkdir -p /var/run/openvswitch
+ExecStart=/usr/sbin/ovs-vswitchd --pidfile --detach
+
+[Install]
+WantedBy=multi-user.target

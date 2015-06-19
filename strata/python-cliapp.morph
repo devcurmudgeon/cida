@@ -6,7 +6,7 @@ build-depends:
 - morph: strata/python-core.morph
 chunks:
 - name: python-coveragepy
-  morph: strata/morph-utils/python-coveragepy.morph
+  morph: strata/python-cliapp/python-coveragepy.morph
   repo: upstream:python-coveragepy
   ref: 77d2e3bfd8fb325092aaed37ba1378054d182d19
   unpetrify-ref: baserock/morph

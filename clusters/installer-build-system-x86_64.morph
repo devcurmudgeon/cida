@@ -24,23 +24,29 @@ systems:
 - morph: systems/installer-system-x86_64.morph
   deploy:
     installer:
-      type: rawdisk
+      type: extensions/rawdisk
       location: installer-build-system-x86_64.img
       KERNEL_ARGS: init=/usr/lib/baserock-installer/installer
       DISK_SIZE: 6G
       HOSTNAME: installer-x86_64
       INSTALLER_TARGET_STORAGE_DEVICE: /dev/sda
       INSTALLER_ROOTFS_TO_INSTALL: /rootfs
+      INITRAMFS_PATH: boot/initramfs.gz
   subsystems:
+  - morph: systems/initramfs-x86_64.morph
+    deploy:
+      installer-initramfs:
+        type: extensions/initramfs
+        location: boot/initramfs.gz
   - morph: systems/build-system-x86_64.morph
     deploy:
       to-install:
-        type: sysroot
+        type: extensions/sysroot
         location: /rootfs
         INITRAMFS_PATH: boot/initramfs.gz
     subsystems:
     - morph: systems/initramfs-x86_64.morph
       deploy:
-        initramfs:
-          type: initramfs
+        to-install-initramfs:
+          type: extensions/initramfs
           location: boot/initramfs.gz

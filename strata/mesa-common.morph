@@ -1,12 +1,14 @@
 name: mesa-common
 kind: stratum
 build-depends:
+- morph: strata/foundation.morph
 - morph: strata/llvm-common.morph
 - morph: strata/libdrm-common.morph
 - morph: strata/wayland-generic.morph
+- morph: strata/python-core.morph
 chunks:
 - name: mesa
   morph: strata/mesa-common/mesa.morph
   repo: upstream:mesa
-  ref: 1a9cc5f50db5d27530a3449743b43aac389d781f
-  unpetrify-ref: mesa-10.3.3
+  ref: 635ad274470a064100ff6aa38ede83d748ae07cf
+  unpetrify-ref: baserock/mesa-10.6.0-rc1-jetson

@@ -68,11 +68,6 @@ install-commands:
 # Set up man environment variables
 - mkdir -p "$DESTDIR"/etc
 - |
-  cat << EOF > "$DESTDIR/etc/profile"
-  # Set default pager to less
-  export MANPAGER='less -R'
-  EOF
-- |
   cat << EOF > "$DESTDIR/etc/man.conf"
   # This file is used by man to provide a manpath for those without one by
   # examining their PATH environment variable.

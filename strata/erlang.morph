@@ -2,7 +2,7 @@ name: erlang
 kind: stratum
 description: stratum for erlang/otp and stuff
 build-depends:
-- morph: strata/tools.morph
+- morph: strata/core.morph
 chunks:
 - name: erlang
   morph: strata/erlang/erlang.morph
@@ -16,11 +16,3 @@ chunks:
   unpretrify-ref: master
   build-depends:
   - erlang
-- name: erlang-sd_notify
-  morph: strata/erlang/erlang-sd_notify.morph
-  repo: upstream:erlang-modules/erlang-sd_notify
-  ref: 99f4689c2c18570680329f822591f95f9341ca10
-  unpretrify-ref: master
-  build-depends:
-  - erlang
-  - rebar

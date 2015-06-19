@@ -10,19 +10,19 @@ chunks:
   unpetrify-ref: 1.1.0
 - name: python-keystoneclient
   repo: upstream:openstack/python-keystoneclient
-  ref: 79d1eec35aad874a7c08ff22c39260884a5524ba
-  unpetrify-ref: 0.11.1
+  ref: 8fa6b6f0b5e95493342ce71489d04f73db2418b8
+  unpetrify-ref: 1.3.1
 - name: python-glanceclient
   repo: upstream:openstack/python-glanceclient
-  ref: 8a877b2752162d6a2db43d7d61d6311c4f42285b
-  unpetrify-ref: 0.14.1
+  ref: b176c28bbdae3eb5b3280c1981ad2b3b255e234e
+  unpetrify-ref: 0.17.1
   build-depends:
   - python-keystoneclient
   - warlock
 - name: python-novaclient
   repo: upstream:openstack/python-novaclient
-  ref: 5ecfdac6b34769e200ff5c4c7429c20518c5b24f
-  unpetrify-ref: 2.20.0
+  ref: e0f5072907a00d48a183dd8fc91a6cf6038ca279
+  unpetrify-ref: 2.23.0
   build-depends:
   - python-keystoneclient
 - name: python-swiftclient
@@ -45,35 +45,35 @@ chunks:
   ref: 8062c76ab3958a570052124f17e71f3dd3ec2257
   unpetrify-ref: pyparsing_2.0.3
 - name: cmd2
-  repo: upstream:python-packages/cmd2.git
-  ref: 07b4dc3d6991cbdc420c246e807371c97a467d1a
-  unpetrify-ref: master
+  repo: upstream:python-packages/cmd2-hg
+  ref: c0d606bdeb88717ad92ba198bc9232615b83c4cd
+  unpetrify-ref: 0.6.7
   build-depends:
   - pyparsing
 - name: cliff
   repo: upstream:openstack/cliff
-  ref: 42675b2d7ad93f4bba9c4216874c68b8e5834147
-  unpetrify-ref: 1.7.0
+  ref: b703ad32743026d253f872caa1ff2cd727803d14
+  unpetrify-ref: 1.10.1
   build-depends:
   - cmd2
   - pyparsing
 - name: python-neutronclient
   repo: upstream:openstack/python-neutronclient
-  ref: fa5642f1550bc8f818c1686c40edbaf3672d356a
-  unpetrify-ref: 2.3.9
+  ref: aa1215a5ad063b299d32ef319eb63d5210249a9b
+  unpetrify-ref: 2.4.0
   build-depends:
   - cliff
   - python-keystoneclient
 - name: python-ceilometerclient
   repo: upstream:openstack/python-ceilometerclient
-  ref: 7316dd16b8850270db27c1298dcf5a2223f2f1e1
-  unpetrify-ref: 1.0.12
+  ref: 127aadfd2b2daf9884ad7003e23440048e2efbd8
+  unpetrify-ref: 1.0.14
   build-depends:
   - python-keystoneclient
 - name: python-heatclient
   repo: upstream:openstack/python-heatclient
-  ref: 6089d31e302d80910cc15132f99a1bf358bbb64f
-  unpetrify-ref: 0.2.12
+  ref: 6d528f005742263837d05250662bf6214a703da8
+  unpetrify-ref: 0.4.0
   build-depends:
   - python-keystoneclient
 - name: python-designateclient
@@ -84,15 +84,20 @@ chunks:
   - cliff
   - python-keystoneclient
 - name: python-barbicanclient
-  repo: upstream:openstack/python-barbicanclient.git
-  ref: ac30643631b6bc1c40116061f8eb280a7881e422
-  unpetrify-ref: 2.2.1
+  repo: upstream:openstack/python-barbicanclient
+  ref: 2919366867af335d59913764a55ca8e95569947d
+  unpetrify-ref: 3.0.3
   build-depends:
   - python-keystoneclient
   - cliff
 - name: python-saharaclient
   repo: upstream:openstack/python-saharaclient
-  ref: eadb40ccb62566f02cb93ec03aa232e48835dec3
-  unpetrify-ref: 0.7.6
+  ref: 319ceb6acf55382218dcd971367613aecb3e4afc
+  unpetrify-ref: 0.8.0
   build-depends:
   - python-keystoneclient
+- name: python-ironicclient
+  morph: strata/openstack-clients/python-ironicclient.morph
+  repo: upstream:openstack/python-ironicclient
+  ref: 4390a21663de3123fac306e9860624ba7deda0e6
+  unpetrify-ref: 0.4.1

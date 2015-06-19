@@ -1,0 +1,15 @@
+[Unit]
+Description=OpenStack Cinder scheduler server
+ConditionPathExists=/etc/cinder/cinder.conf
+After=network-online.target openstack-cinder-config-setup.service openstack-cinder-db-setup.service openstack-cinder-volume.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=cinder
+StandardOutput=null
+StandardError=null
+ExecStart=/usr/bin/cinder-scheduler --config-file /etc/cinder/cinder.conf
+
+[Install]
+WantedBy=multi-user.target

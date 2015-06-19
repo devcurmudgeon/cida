@@ -1,0 +1,14 @@
+[Unit]
+Description=Run keystone-setup Ansible scripts
+ConditionPathExists=/etc/openstack/keystone.conf
+After=local-fs.target network-online.target postgres-server-setup.service
+Wants=network-online.target
+
+[Service]
+# Oneshot, since others setup have to wait until this service finishes
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/keystone.yml
+
+[Install]
+WantedBy=multi-user.target

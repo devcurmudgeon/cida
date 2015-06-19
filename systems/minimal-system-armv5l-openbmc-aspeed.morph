@@ -1,0 +1,20 @@
+name: minimal-system-armv5l-openbmc-aspeed
+kind: system
+description: The set of strata required to have a minimal system for armv5l
+arch: armv5l
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+  artifacts:
+  - build-essential-minimal
+- name: bsp-armv5l-openbmc-aspeed
+  morph: strata/bsp-armv5l-openbmc-aspeed.morph
+  artifacts:
+  - bsp-armv5l-openbmc-aspeed-runtime
+configuration-extensions:
+- extensions/set-hostname
+- extensions/simple-network
+- extensions/nfsboot
+- extensions/install-files
+- extensions/busybox-init
+- extensions/install-essential-files

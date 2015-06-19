@@ -1,0 +1,14 @@
+[Unit]
+Description=OpenStack Swift Proxy Server
+After=network-online.target swift-controller-setup.service memcached.service
+Wants=network-online.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/swift/proxy-server.pid
+Restart=on-failure
+ExecStart=/usr/bin/swift-init proxy-server start
+ExecStop=/usr/bin/swift-init proxy-server stop
+
+[Install]
+WantedBy=multi-user.target

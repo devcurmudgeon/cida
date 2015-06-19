@@ -1,0 +1,37 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/neutron.conf"
+  tasks:
+
+  - name: Create the neutron user.
+    user:
+        name: neutron
+        comment: Openstack Neutron Daemons
+        shell: /sbin/nologin
+        home: /var/lib/neutron
+
+  - name: Create the /var folders for neutron
+    file:
+        path: "{{ item }}"
+        state: directory
+        owner: neutron
+        group: neutron
+    with_items:
+    - /var/run/neutron
+    - /var/lock/neutron
+    - /var/log/neutron
+
+  - name: Create the directories needed for Neutron configuration files.
+    file:
+        path: /etc/{{ item }}
+        state: directory
+    with_lines:
+    - cd /usr/share/openstack &&  find neutron -type d
+
+  - name: Add configuration needed for neutron using templates
+    template:
+        src: /usr/share/openstack/{{ item }}
+        dest: /etc/{{ item }}
+    with_lines:
+    - cd /usr/share/openstack && find neutron -type f

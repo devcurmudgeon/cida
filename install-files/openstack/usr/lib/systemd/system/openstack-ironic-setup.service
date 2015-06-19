@@ -1,0 +1,12 @@
+[Unit]
+Description=Run ironic-setup Ansible scripts
+ConditionPathExists=/etc/openstack/ironic.conf
+After=local-fs.target network-online.target postgres-server-setup.service openstack-keystone-setup.service
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/ironic.yml
+
+[Install]
+WantedBy=multi-user.target
+

@@ -36,9 +36,10 @@ strata:
 - name: weston-genivi
   morph: strata/weston-genivi.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- nfsboot
-- install-files
-- strip-gplv3
-- fstab
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/strip-gplv3
+- extensions/fstab
+- extensions/install-essential-files

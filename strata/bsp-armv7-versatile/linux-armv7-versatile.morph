@@ -7,11 +7,15 @@ configure-commands:
 - scripts/config -d BTRFS_FS_CHECK_INTEGRITY
 - scripts/config -e DEVTMPFS
 - scripts/config -e DEVTMPFS_MOUNT
+- scripts/config -e FUSE_FS
+- scripts/config -e OVERLAY_FS
 - scripts/config -e CONFIG_FHANDLE
+- scripts/config -e DEVPTS_MULTIPLE_INSTANCES
 - scripts/config -e CGROUPS
 - scripts/config -e AUTOFS4_FS
 - scripts/config -e BLK_DEV_LOOP
 - scripts/config --set-str UEVENT_HELPER_PATH ''
+- scripts/config -e DM_SNAPSHOT
 - scripts/config -e IKCONFIG
 - scripts/config -e IKCONFIG_PROC
 - scripts/config -e SECCOMP

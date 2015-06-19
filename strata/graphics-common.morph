@@ -26,8 +26,8 @@ chunks:
   unpetrify-ref: baserock/morph
 - name: libpng
   repo: upstream:libpng
-  ref: 259fb7761d747655c607efcec7a12ff1f3c24561
-  unpetrify-ref: libpng-1.6.13-signed
+  ref: 88dd30b232362b65cca374dda39096888163dd6b
+  unpetrify-ref: libpng-1.6.16-signed
 - name: libjpeg
   repo: upstream:libjpeg
   ref: f57ac58ac664ede6bc6e8cd9d88e0edaa366e21a

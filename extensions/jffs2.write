@@ -1,0 +1,64 @@
+#!/usr/bin/python
+#-*- coding: utf-8 -*-
+# Copyright © 2015  Codethink Limited
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+'''A Morph deployment write extension for creating images with jffs2
+   as the root filesystem.'''
+
+
+import cliapp
+import os
+
+import morphlib.writeexts
+
+
+class Jffs2WriteExtension(morphlib.writeexts.WriteExtension):
+
+    '''See jffs2.write.help for documentation.'''
+
+    def process_args(self, args):
+        if len(args) != 2:
+            raise cliapp.AppException('Wrong number of command line args')
+
+        temp_root, location = args
+
+        try:
+            self.create_jffs2_system(temp_root, location)
+            self.status(msg='Disk image has been created at %(location)s',
+                        location = location)
+        except Exception:
+            self.status(msg='Failure to deploy system to %(location)s',
+                        location = location)
+            raise
+
+    def create_jffs2_system(self, temp_root, location):
+        erase_block = self.get_erase_block_size()
+        cliapp.runcmd(
+            ['mkfs.jffs2', '--pad', '--no-cleanmarkers',
+             '--eraseblock='+erase_block, '-d', temp_root, '-o', location])
+
+    def get_erase_block_size(self):
+        erase_block = os.environ.get('ERASE_BLOCK', '')
+
+        if erase_block == '':
+            raise cliapp.AppException('ERASE_BLOCK was not given')
+
+        if not erase_block.isdigit():
+            raise cliapp.AppException('ERASE_BLOCK must be a whole number')
+
+        return erase_block
+
+Jffs2WriteExtension().run()

@@ -1,0 +1,7 @@
+name: lm_sensors
+kind: chunk
+build-commands:
+- make user PROG_EXTRA="sensors"
+install-commands:
+- make DESTDIR="$DESTDIR" PREFIX="$PREFIX" install
+# TODO: If we need sensord too, we'll need rrdtool as a dependency and install instructions for sensord components

@@ -3,20 +3,12 @@ kind: stratum
 description: Tools for importing software into Baserock definitions.
 build-depends:
 - morph: strata/python-common.morph
-- morph: strata/python-cliapp.morph
+- morph: strata/morph-utils.morph
 chunks:
 - name: ansicolor
   repo: upstream:python-packages/ansicolor
   ref: 9d3adbaff35bb6cde1d63414a8cc72f572c4d0ef
   unpetrify-ref: 0.2.4
-- name: python-decorator
-  repo: upstream:python-packages/python-decorator
-  ref: b02f7a254c3679dfac57a824e08dd02ced850636
-  unpetrify-ref: decorator-3.4.0
-- name: networkx
-  repo: upstream:python-packages/networkx
-  ref: 8ac796aba866ade1a56b83e30f25ed392ca3512c
-  unpetrify-ref: networkx-1.9.1
 - name: requests-cache
   repo: upstream:python-packages/requests-cache
   ref: a1b5e65ccd715f1e8434f18f27913715340d6aaf
@@ -27,5 +19,3 @@ chunks:
   unpetrify-ref: master
   build-depends:
   - ansicolor
-  - networkx
-  - python-decorator

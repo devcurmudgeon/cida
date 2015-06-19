@@ -19,6 +19,8 @@ strata:
   morph: strata/python-cliapp.morph
 - name: python-wsgi
   morph: strata/python-wsgi.morph
+- name: python-pygobject
+  morph: strata/python-pygobject.morph
 - name: morph-utils
   morph: strata/morph-utils.morph
 - name: nfs
@@ -35,12 +37,19 @@ strata:
   morph: strata/openstack-clients.morph
 - name: devtools
   morph: strata/devtools.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
+- name: ostree-core
+  morph: strata/ostree-core.morph
+- name: unionfs-fuse-group
+  morph: strata/unionfs-fuse-group.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- nfsboot
-- install-files
-- distbuild
-- fstab
-- mason
-- cloud-init
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/distbuild
+- extensions/fstab
+- extensions/mason
+- extensions/cloud-init
+- extensions/install-essential-files

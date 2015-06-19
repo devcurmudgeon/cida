@@ -16,8 +16,9 @@ strata:
 - name: cxmanage
   morph: strata/cxmanage.morph
 configuration-extensions:
-- set-hostname
-- add-config-files
-- nfsboot
-- install-files
-- fstab
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/fstab
+- extensions/install-essential-files

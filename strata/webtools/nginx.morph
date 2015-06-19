@@ -6,7 +6,8 @@ configure-commands:
     --conf-path=/etc/nginx/nginx.conf \
     --pid-path=/etc/nginx/nginx.pid \
     --error-log-path=/var/log/nginx/error.log \
-    --http-log-path=/var/log/nginx/access.log
+    --http-log-path=/var/log/nginx/access.log \
+    --with-http_ssl_module
 build-commands:
 - make
 install-commands:

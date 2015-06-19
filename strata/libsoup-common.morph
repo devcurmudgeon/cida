@@ -1,0 +1,10 @@
+name: libsoup-common
+kind: stratum
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: libsoup
+  morph: strata/libsoup-common/libsoup.morph
+  repo: upstream:libsoup
+  ref: ce764489e358bad6b49418f5c8bc7b25a4b1815e
+  unpetrify-ref: baserock/morph

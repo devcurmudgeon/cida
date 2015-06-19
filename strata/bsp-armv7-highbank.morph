@@ -6,6 +6,12 @@ build-depends:
 chunks:
 - name: linux-armv7-highbank
   morph: strata/bsp-armv7-highbank/linux-armv7-highbank.morph
-  repo: upstream:linux
-  ref: bfa76d49576599a4b9f9b7a71f23d73d6dcff735
-  unpetrify-ref: v3.19
+  repo: upstream:linux-stable
+
+  # Linux 3.16 and later do not boot on Calxeda. They fail just before
+  # starting 'init' with this sort of message:
+  #
+  #   Unhandled fault: imprecise external abort (0xc06) at 0xb6fea878
+
+  ref: f35b5e46feabab668a44df5b33f3558629f94dfc
+  unpetrify-ref: v3.15.10

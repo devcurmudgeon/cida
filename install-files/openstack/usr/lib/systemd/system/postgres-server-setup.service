@@ -1,0 +1,12 @@
+[Unit]
+Description=Run postgres-setup Ansible scripts
+ConditionPathExists=/etc/openstack/postgres.conf
+After=local-fs.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ansible-playbook -v -i /usr/share/openstack/hosts /usr/share/openstack/postgres.yml
+
+[Install]
+WantedBy=multi-user.target

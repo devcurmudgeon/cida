@@ -2,17 +2,16 @@ name: morph-utils
 kind: stratum
 build-depends:
 - morph: strata/core.morph
+- morph: strata/ostree-core.morph
 - morph: strata/python-cliapp.morph
+- morph: strata/python-core.morph
+- morph: strata/python-pygobject.morph
 - morph: strata/python-wsgi.morph
 chunks:
 - name: python-ttystatus
   morph: strata/morph-utils/python-ttystatus.morph
   repo: upstream:python-ttystatus
   ref: 47d871216cea6ce3b9d6efd70e9a0f38ab8604f0
-  unpetrify-ref: baserock/morph
-- name: python-markdown
-  repo: upstream:python-markdown
-  ref: a9ca97325e9039de90eae29fb3d8879bc9f367f6
   unpetrify-ref: baserock/morph
 - name: git-fat
   morph: strata/tools/git-fat.morph
@@ -31,14 +30,13 @@ chunks:
   unpetrify-ref: baserock/morph
   build-depends:
   - python-ttystatus
-  - python-markdown
 - name: pylru
   repo: upstream:python-packages/pylru
   ref: 221dd259f5c34562c835611d1cf62384b9019da4
   unpetrify-ref: master
 - name: morph
   repo: baserock:baserock/morph
-  ref: 68395a12c79c22e266b4a06095533e38da6e29d0
+  ref: 2579391b05758940652a8ac5207d0137720affd1
   unpetrify-ref: master
   build-depends:
   - cmdtest
