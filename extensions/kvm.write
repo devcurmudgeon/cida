@@ -23,6 +23,7 @@ See file kvm.write.help for documentation
 
 import os
 import re
+import subprocess
 import sys
 import tempfile
 import urlparse
@@ -81,10 +82,14 @@ class KvmPlusSshWriteExtension(writeexts.WriteExtension):
             'sh', '-c', recv_hole, 'dummy-argv0', 'file', vm_path
             ]
 
-        subprocess.check_call(
+        xfer_hole_proc = subprocess.Popen(
             ['python', xfer_hole_path, raw_disk],
+            stdout=subprocess.PIPE)
+        recv_hole_proc = subprocess.Popen(
             ['ssh', ssh_host] + map(writeexts.shell_quote, ssh_remote_cmd),
-            stdout=None, stderr=None)
+            stdin=xfer_hole_proc.stdout)
+        xfer_hole_proc.stdout.close()
+        recv_hole_proc.communicate()
 
     def create_libvirt_guest(self, ssh_host, vm_name, vm_path, autostart):
         '''Create the libvirt virtual machine.'''
