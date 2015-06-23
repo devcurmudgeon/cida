@@ -16,7 +16,6 @@
 '''Preparatory checks for Morph 'nfsboot' write extension'''
 
 import os
-import subprocess
 
 import writeexts
 

@@ -34,8 +34,9 @@ in /srv/nfsboot/nfs/
 '''
 
 
-import os
 import glob
+import os
+import subprocess
 
 import writeexts
 

@@ -24,6 +24,7 @@ to find the files created by that chunk, then remove them.
 import json
 import os
 import re
+import subprocess
 import sys
 
 import writeexts

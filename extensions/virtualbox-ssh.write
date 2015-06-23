@@ -96,10 +96,14 @@ class VirtualBoxPlusSshWriteExtension(writeexts.WriteExtension):
             'dummy-argv0', 'vbox', vdi_path, str(st.st_size),
         ]
 
-        subprocess.check_call(
+        xfer_hole_proc = subprocess.Popen(
             ['python', xfer_hole_path, raw_disk],
+            stdout=subprocess.PIPE)
+        recv_hole_proc = subprocess.Popen(
             ['ssh', ssh_host] + map(writeexts.shell_quote, ssh_remote_cmd),
-            stdout=None, stderr=None)
+            stdin=xfer_hole_proc.stdout)
+        xfer_hole_proc.stdout.close()
+        recv_hole_proc.communicate()
 
     def virtualbox_version(self, ssh_host):
         'Get the version number of the VirtualBox running on the remote host.'
