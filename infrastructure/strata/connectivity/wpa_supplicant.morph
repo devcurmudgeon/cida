@@ -1,0 +1,8 @@
+name: wpa_supplicant
+kind: chunk
+configure-commands:
+- sed -i 's/^CONFIG_READLINE=y$//' wpa_supplicant/.config
+build-commands:
+- make -C wpa_supplicant
+install-commands:
+- make -C wpa_supplicant DESTDIR="$DESTDIR" install

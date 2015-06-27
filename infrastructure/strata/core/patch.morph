@@ -1,0 +1,5 @@
+name: patch
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- ./bootstrap --skip-po

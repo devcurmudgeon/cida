@@ -1,0 +1,10 @@
+name: gerrit-tools
+kind: stratum
+description: Tools for use with Gerrit
+build-depends:
+- morph: strata/python-common.morph
+chunks:
+- name: pygerrit
+  repo: github:sonyxperiadev/pygerrit
+  ref: daad8e23d9bbcd8a2bc565497be50a3cc29dae6b
+  unpetrify-ref: master

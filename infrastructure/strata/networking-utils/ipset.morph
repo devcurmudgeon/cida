@@ -1,0 +1,6 @@
+name: ipset
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./autogen.sh
+- ./configure --prefix="$PREFIX" --enable-static=no --with-kmod=no

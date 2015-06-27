@@ -1,0 +1,22 @@
+name: e2fsprogs
+kind: chunk
+build-system: autotools
+configure-commands:
+# Configure with the usual paths for binaries and config
+# but also disable whatever we can that is already provided by util-linux
+# Disabling e2fsprofs' libblkid does not work, but we don't have to
+# install it.
+- |
+  ./configure --prefix="$PREFIX" --sysconfdir=/etc \
+    --disable-libuuid --disable-uuidd --disable-libblkid
+install-commands:
+# e2fsprogs also includes tools that are provided by util-linux, so we
+# need to selectively exclude them.  Removing them directly from DESTDIR
+# causes problems, so we need to remove them beforehand.
+- |
+  td="$(mktemp -d)"
+  make DESTDIR="$td" install
+  make DESTDIR="$td" install-libs
+  find "$td" \( -name blkid -o -name findfs -o \) -delete
+  find "$td" \( -name blkid.8 -o -name findfs.8 \) -delete
+  mv "$td"/* "$DESTDIR"

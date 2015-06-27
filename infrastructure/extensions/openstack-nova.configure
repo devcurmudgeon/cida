@@ -1,0 +1,160 @@
+#!/bin/sh
+
+# Copyright (C) 2014-2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+set -e
+
+ROOT="$1"
+
+enable(){
+    ln -sf "/usr/lib/systemd/system/openstack-nova-$1.service" \
+            "$ROOT/etc/systemd/system/multi-user.target.wants/openstack-nova-$1.service"
+}
+
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
+
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
+
+##########################################################################
+# Check variables
+##########################################################################
+
+check_bool NOVA_ENABLE_CONTROLLER
+check_bool NOVA_ENABLE_COMPUTE
+
+if ! "$NOVA_ENABLE_CONTROLLER" && \
+   ! "$NOVA_ENABLE_COMPUTE"; then
+    exit 0
+fi
+
+if [ -z "$NOVA_SERVICE_USER" -o \
+     -z "$NOVA_SERVICE_PASSWORD" -o \
+     -z "$NOVA_DB_USER" -o \
+     -z "$NOVA_DB_PASSWORD" -o \
+     -z "$NOVA_VIRT_TYPE" -o \
+     -z "$NEUTRON_SERVICE_USER" -o \
+     -z "$NEUTRON_SERVICE_PASSWORD" -o \
+     -z "$IRONIC_SERVICE_USER" -a \
+     -z "$IRONIC_SERVICE_PASSWORD" -a \
+     -z "$METADATA_PROXY_SHARED_SECRET" -o \
+     -z "$RABBITMQ_HOST" -o \
+     -z "$RABBITMQ_USER" -o \
+     -z "$RABBITMQ_PASSWORD" -o \
+     -z "$RABBITMQ_PORT" -o \
+     -z "$CONTROLLER_HOST_ADDRESS" -o \
+     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" -o \
+     -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" ]; then
+    echo Some options required for Nova were defined, but not all.
+    exit 1
+fi
+
+###############################################
+# Enable libvirtd and libvirt-guests services #
+###############################################
+
+wants_dir="$ROOT"/usr/lib/systemd/system/multi-user.target.wants
+mkdir -p "$wants_dir"
+mkdir -p "$ROOT"/var/lock/subsys
+ln -sf ../libvirtd.service "$wants_dir/libvirtd.service"
+
+######################################
+# Enable relevant openstack services #
+######################################
+
+if "$NOVA_ENABLE_CONTROLLER" || "$NOVA_ENABLE_COMPUTE"; then
+    enable config-setup
+fi
+if "$NOVA_ENABLE_CONTROLLER" && ! "$NOVA_ENABLE_COMPUTE"; then
+    enable conductor
+fi
+if "$NOVA_ENABLE_COMPUTE"; then
+    enable compute
+fi
+if "$NOVA_ENABLE_CONTROLLER"; then
+    for service in db-setup api cert consoleauth novncproxy scheduler serialproxy; do
+            enable "$service"
+    done
+fi
+
+
+##########################################################################
+# Generate configuration file
+##########################################################################
+
+case "$NOVA_BAREMETAL_SCHEDULING" in
+    True|true|yes)
+        export COMPUTE_MANAGER=ironic.nova.compute.manager.ClusteredComputeManager
+        export RESERVED_HOST_MEMORY_MB=0
+        export SCHEDULER_HOST_MANAGER=nova.scheduler.ironic_host_manager.IronicHostManager
+        export RAM_ALLOCATION_RATIO=1.0
+        export COMPUTE_DRIVER=nova.virt.ironic.IronicDriver
+        ;;
+    *)
+        export COMPUTE_MANAGER=nova.compute.manager.ComputeManager
+        export RESERVED_HOST_MEMORY_MB=512
+        export SCHEDULER_HOST_MANAGER=nova.scheduler.host_manager.HostManager
+        export RAM_ALLOCATION_RATIO=1.5
+        export COMPUTE_DRIVER=libvirt.LibvirtDriver
+        ;;
+esac
+
+OPENSTACK_DATA="$ROOT/etc/openstack"
+mkdir -p "$OPENSTACK_DATA"
+
+python <<'EOF' >"$OPENSTACK_DATA/nova.conf"
+import os, sys, yaml
+
+nova_configuration={
+    'NOVA_SERVICE_USER': os.environ['NOVA_SERVICE_USER'],
+    'NOVA_SERVICE_PASSWORD': os.environ['NOVA_SERVICE_PASSWORD'],
+    'NOVA_DB_USER': os.environ['NOVA_DB_USER'],
+    'NOVA_DB_PASSWORD': os.environ['NOVA_DB_PASSWORD'],
+    'NOVA_VIRT_TYPE': os.environ['NOVA_VIRT_TYPE'],
+    'COMPUTE_MANAGER': os.environ['COMPUTE_MANAGER'],
+    'RESERVED_HOST_MEMORY_MB': os.environ['RESERVED_HOST_MEMORY_MB'],
+    'SCHEDULER_HOST_MANAGER': os.environ['SCHEDULER_HOST_MANAGER'],
+    'RAM_ALLOCATION_RATIO': os.environ['RAM_ALLOCATION_RATIO'],
+    'COMPUTE_DRIVER': os.environ['COMPUTE_DRIVER'],
+    'NEUTRON_SERVICE_USER': os.environ['NEUTRON_SERVICE_USER'],
+    'NEUTRON_SERVICE_PASSWORD': os.environ['NEUTRON_SERVICE_PASSWORD'],
+    'IRONIC_SERVICE_USER': os.environ['IRONIC_SERVICE_USER'],
+    'IRONIC_SERVICE_PASSWORD': os.environ['IRONIC_SERVICE_PASSWORD'],
+    'METADATA_PROXY_SHARED_SECRET': os.environ['METADATA_PROXY_SHARED_SECRET'],
+    'RABBITMQ_HOST': os.environ['RABBITMQ_HOST'],
+    'RABBITMQ_USER': os.environ['RABBITMQ_USER'],
+    'RABBITMQ_PASSWORD': os.environ['RABBITMQ_PASSWORD'],
+    'RABBITMQ_PORT': os.environ['RABBITMQ_PORT'],
+    'CONTROLLER_HOST_ADDRESS': os.environ['CONTROLLER_HOST_ADDRESS'],
+    'MANAGEMENT_INTERFACE_IP_ADDRESS': os.environ['MANAGEMENT_INTERFACE_IP_ADDRESS'],
+    'KEYSTONE_TEMPORARY_ADMIN_TOKEN': os.environ['KEYSTONE_TEMPORARY_ADMIN_TOKEN'],
+}
+
+yaml.dump(nova_configuration, sys.stdout, default_flow_style=False)
+EOF

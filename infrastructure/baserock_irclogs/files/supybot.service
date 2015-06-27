@@ -1,0 +1,15 @@
+[Unit]
+Description=Run supybot daemon
+Requires=network-online.target
+After=network-online.target
+# If there's a shared /home or /var subvolume, it must be
+# mounted before this unit runs.
+Requires=local-fs.target
+After=local-fs.target
+
+ConditionPathExists=/home/supybot/supybot-baserock.conf
+
+[Service]
+ExecStart=/usr/bin/supybot /home/supybot/supybot-baserock.conf
+User=supybot
+Restart=always

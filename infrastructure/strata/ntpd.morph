@@ -1,0 +1,10 @@
+name: ntpd
+kind: stratum
+build-depends:
+- morph: strata/foundation.morph
+chunks:
+- name: ntpd
+  morph: strata/ntpd/ntpd.morph
+  repo: upstream:ntp
+  ref: b2ccf8dd31d1457ae9f0ae270054117179220370
+  unpetrify-ref: ntp-4.2.8p2

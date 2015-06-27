@@ -1,0 +1,64 @@
+name: gcc
+kind: chunk
+
+products:
+- artifact: gcc-libs
+  include:
+  - (usr/)lib/lib.*\.so(\.\d+)*$
+- artifact: gcc-doc
+  include:
+  - (usr/)?share/doc/.*
+  - (usr/)?share/man/.*
+  - (usr/)?share/info/.*
+- artifact: gcc-devel
+  # devel includes everything which isn't documentation or libs, since
+  # everything else gcc produces is required for compiling
+  # this is the -devel artifact instead of -misc, since it goes in -devel
+  # stratum artifacts by default
+  include: [ .* ]
+
+configure-commands:
+- mkdir o
+
+# Configure flag notes:    
+#   1. An attempt to stop anything going in $PREFIX/lib64 (which doesn't
+#      fully work; we will need to hobble the multilib configuration in
+#      config/i386/t-linux64 if we really want to kill /lib64).
+#   2. Avoid having more than one copy of ZLib in use on the system
+#   3. Multilib does not make sense in Baserock.
+- |
+  case "$MORPH_ARCH" in
+      armv7lhf) ARCH_FLAGS="--with-arch=armv7-a \
+                            --with-cpu=cortex-a9 \
+                            --with-tune=cortex-a9 \
+                            --with-fpu=vfpv3-d16 \
+                            --with-float=hard" ;;
+      armv7*)   ARCH_FLAGS="--with-arch=armv7-a" ;;
+  esac
+
+  cd o && ../configure                                        \
+            $ARCH_FLAGS                                       \
+            --prefix="$PREFIX"                                \
+    `# [1]` --libdir=$PREFIX/lib                              \
+            --disable-bootstrap                               \
+    `# [2]` --with-system-zlib                                \
+    `# [3]` --disable-multilib                                \
+            --enable-languages=c,c++,fortran
+
+build-commands:
+- |
+  case "$MORPH_ARCH" in
+      armv5*)   sed -i "s/--host=none/--host=armv5/" o/Makefile
+                sed -i "s/--target=none/--target=armv5/" o/Makefile ;;
+      armv7*)   sed -i "s/--host=none/--host=armv7a/" o/Makefile
+                sed -i "s/--target=none/--target=armv7a/" o/Makefile ;;
+  esac
+  cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install
+- ln -s gcc "$DESTDIR/$PREFIX/bin/cc"
+- >
+  for fortran_alias in f77 f90 f95; do
+      ln -s gfortran "$DESTDIR/$PREFIX/bin/$fortran_alias"
+  done

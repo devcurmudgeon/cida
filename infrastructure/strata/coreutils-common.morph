@@ -1,0 +1,40 @@
+name: coreutils-common
+kind: stratum
+description: |
+  We need to split this so we can build stuff using coreutils but we can not
+  having it in the final systems (for example in genivi ones that do not
+  accept GPLv3 code)
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: coreutils
+  morph: strata/coreutils-common/coreutils.morph
+  repo: upstream:coreutils
+  ref: 9df9643842e4b4d8ece710fe6105f32fa38a0d22
+  unpetrify-ref: baserock/8.23
+- name: sed
+  morph: strata/coreutils-common/sed.morph
+  repo: upstream:sed
+  ref: ed4b1d7c04f92b330b940d4f0d02cd51d2473ce9
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - coreutils
+- name: diff
+  morph: strata/coreutils-common/diff.morph
+  repo: upstream:diffutils
+  ref: bd86eb1a1e87ab85a7c8dbb658fa829ce69c252e
+  unpetrify-ref: baserock/v3.3
+  build-depends:
+  - coreutils
+- name: tar
+  morph: strata/coreutils-common/tar.morph
+  repo: upstream:tar
+  ref: 9a58d148c26c220cb1b163c71e7a51a2e41f6b37
+  unpetrify-ref: baserock/release_1_28
+  build-depends:
+  - coreutils
+- name: findutils
+  morph: strata/coreutils-common/findutils.morph
+  repo: upstream:findutils
+  ref: ee6b25541336f9d74624ca814538ddc8c67f0732
+  unpetrify-ref: baserock/v4.5.14

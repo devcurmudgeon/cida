@@ -1,0 +1,8 @@
+name: binutils
+kind: chunk
+build-system: autotools
+
+configure-commands:
+- |
+  ./configure --prefix="$PREFIX" --disable-nls --disable-werror \
+    --with-system-zlib

@@ -1,0 +1,11 @@
+name: openvswitch
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- ./boot.sh
+configure-commands:
+- |
+  ./configure --prefix="$PREFIX" \
+              --localstatedir=/var \
+              --sysconfdir=/etc \
+              --enable-ssl

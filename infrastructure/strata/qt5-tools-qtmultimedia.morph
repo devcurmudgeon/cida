@@ -1,0 +1,12 @@
+name: qt5-tools-qtmultimedia
+kind: stratum
+description: Qt5 QtMultimedia Development Libraries and Tools
+build-depends:
+- morph: strata/qt5-tools.morph
+- morph: strata/multimedia-gstreamer.morph
+chunks:
+- name: qtmultimedia
+  morph: strata/qt5-tools/qtmultimedia.morph
+  repo: upstream:qt5/qtmultimedia
+  ref: a42a5ae6191ecbe317a00d8261bc53e842967052
+  unpetrify-ref: baserock/qt5.4-wip-gstreamer-1.0

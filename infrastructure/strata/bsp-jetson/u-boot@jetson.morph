@@ -1,0 +1,20 @@
+name: u-boot@jetson
+kind: chunk
+configure-commands:
+- make ARCH=arm jetson-tk1_config
+build-commands:
+- make ARCH=arm CROSS_COMPILE=/usr/bin/
+- make ARCH=arm CROSS_COMPILE=/usr/bin/ tools
+install-commands:
+- mkdir -p "$DESTDIR$PREFIX/bin"
+- mkdir -p "$DESTDIR/boot"
+- mkdir -p "$DESTDIR/boot/u-boot/"
+- install -m 755 u-boot-dtb-tegra.bin "$DESTDIR/boot/u-boot.bin"
+- install -m 755 u-boot-nodtb-tegra.bin "$DESTDIR/boot/u-boot/u-boot-nodtb-tegra.bin"
+- install -m 755 u-boot.dtb "$DESTDIR/boot/u-boot/u-boot.dtb"
+- size -A u-boot | grep -w .bss | tr -s ' ' | cut -d ' ' -f 2 > "$DESTDIR/boot/u-boot/u-boot-bss-size"
+- install -m 755 tools/img2brec.sh "$DESTDIR$PREFIX/bin/."
+- install -m 755 tools/jtagconsole "$DESTDIR$PREFIX/bin/."
+- install -m 755 tools/netconsole "$DESTDIR$PREFIX/bin/."
+- install -m 755 tools/mkenvimage "$DESTDIR$PREFIX/bin/."
+- install -m 755 tools/mkimage "$DESTDIR$PREFIX/bin/."

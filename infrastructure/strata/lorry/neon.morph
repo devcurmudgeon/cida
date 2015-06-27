@@ -1,0 +1,8 @@
+name: neon
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./autogen.sh
+- ./configure --prefix="$PREFIX" --with-ssl
+install-commands:
+- make install-lib install-headers install-config DESTDIR="$DESTDIR"

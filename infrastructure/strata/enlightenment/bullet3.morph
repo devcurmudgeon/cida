@@ -1,0 +1,8 @@
+name: bullet
+kind: chunk
+configure-commands:
+- cmake -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" install

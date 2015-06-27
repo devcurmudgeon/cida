@@ -1,0 +1,132 @@
+#!/bin/sh
+# Copyright (C) 2013-2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# This is a "morph deploy" configure extension to configure a Baserock
+# build node, as part of a distributed building cluster. It uses the
+# following variables from the environment:
+#
+#    * DISTBUILD_CONTROLLER: if 'yes', machine is set up as the controller.
+#    * DISTBUILD_WORKER: if 'yes', machine is set up as a worker.
+#    * TROVE_ID: hostname and Trove prefix of the server to pull source
+#          from and push built artifacts to.
+#    * TROVE_HOST: FQDN of the same server as in TROVE_ID
+#
+# The following variable is optional:
+#
+#    * ARTIFACT_CACHE_SERVER: by default artifacts are pushed to the same
+#          Trove that served the source, but you can use a different one.
+#
+# The following variable is required for worker nodes only:
+#
+#    * CONTROLLERHOST: hostname or IP address of distbuild controller machine.
+#    * WORKER_SSH_KEY: identity used to authenticate with Trove
+#
+# The following variable is required for the controller node only:
+#
+#    * WORKERS: hostnames or IP address of worker nodes, comma-separated.
+
+set -e
+
+if [ -n "$DISTBUILD_GENERIC" ]; then
+    echo "Not configuring the distbuild node, it will be generic"
+    exit 0
+fi
+
+# Set default values for these two options if they are unset, so that if the
+# user specifies no distbuild config at all the configure extension exits
+# without doing anything but does not raise an error.
+DISTBUILD_CONTROLLER=${DISTBUILD_CONTROLLER-False}
+DISTBUILD_WORKER=${DISTBUILD_WORKER-False}
+
+if [ "$DISTBUILD_CONTROLLER" = False -a "$DISTBUILD_WORKER" = False ]; then
+    exit 0
+fi
+
+set -u
+
+# Check that all the variables needed are present:
+
+error_vars=false
+
+if [ "x$TROVE_HOST" = "x" ]; then
+    echo "ERROR: TROVE_HOST needs to be defined."
+    error_vars=true
+fi
+
+if [ "x$TROVE_ID" = "x" ]; then
+    echo "ERROR: TROVE_ID needs to be defined."
+    error_vars=true
+fi
+
+if [ "$DISTBUILD_WORKER" = True ]; then
+    if ! ssh-keygen -lf "$WORKER_SSH_KEY" > /dev/null 2>&1; then
+        echo "ERROR: WORKER_SSH_KEY is not a vaild ssh key."
+        error_vars=true
+    fi
+
+    if [ "x$CONTROLLERHOST" = "x" ]; then
+        echo "ERROR: CONTROLLERHOST needs to be defined."
+        error_vars=true
+    fi
+fi
+
+if [ "$DISTBUILD_CONTROLLER" = True ]; then
+    if [ "x$WORKERS" = "x" ]; then
+        echo "ERROR: WORKERS needs to be defined."
+        error_vars=true
+    fi
+fi
+
+if "$error_vars"; then
+    exit 1
+fi
+
+
+ROOT="$1"
+
+DISTBUILD_DATA="$ROOT/etc/distbuild"
+mkdir -p "$DISTBUILD_DATA"
+
+# If it's a worker, install the worker ssh key.
+if [ "$DISTBUILD_WORKER" = True ]
+then
+    install -m 0644 "$WORKER_SSH_KEY" "$DISTBUILD_DATA/worker.key"
+fi
+
+
+
+# Create the configuration file
+python <<'EOF' >"$DISTBUILD_DATA/distbuild.conf"
+import os, sys, yaml
+
+distbuild_configuration={
+    'TROVE_ID': os.environ['TROVE_ID'],
+    'TROVE_HOST': os.environ['TROVE_HOST'],
+    'DISTBUILD_WORKER': os.environ['DISTBUILD_WORKER'],
+    'DISTBUILD_CONTROLLER': os.environ['DISTBUILD_CONTROLLER'],
+    'WORKER_SSH_KEY': '/etc/distbuild/worker.key',
+}
+
+
+optional_keys = ('ARTIFACT_CACHE_SERVER', 'CONTROLLERHOST', 'WORKERS',
+                 'TROVE_BACKUP_KEYS')
+
+for key in optional_keys:
+    if key in os.environ:
+        distbuild_configuration[key] = os.environ[key]
+
+yaml.dump(distbuild_configuration, sys.stdout, default_flow_style=False)
+EOF

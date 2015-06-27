@@ -1,0 +1,16 @@
+name: irclogs
+kind: stratum
+description: Tools to create irclogs of a IRC channel
+build-depends:
+- morph: strata/python-core.morph
+chunks:
+- name: supybot
+  repo: http://gitorious.org/supybot/supybot.git
+  ref: 27a4ef0ed338a38f34180012cee7ec55a5ae11d9
+  unpetrify-ref: v0.83.4.1
+  build-depends: []
+- name: irclog2html
+  repo: git://github.com/mgedmin/irclog2html
+  ref: 2e399c2bdbe2442794d0ac7aa3a3941f826c74dc
+  unpetrify-ref: 2.14.0
+  build-depends: []

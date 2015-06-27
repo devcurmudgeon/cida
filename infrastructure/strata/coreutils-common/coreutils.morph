@@ -1,0 +1,16 @@
+name: coreutils
+kind: chunk
+build-system: autotools
+configure-commands:
+- sed -i -e '/^buildreq="/,/^"/{/rsync/d}' bootstrap.conf
+- bash bootstrap --skip-po --no-git --gnulib-srcdir=gnulib
+- FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix="$PREFIX" --disable-nls
+build-commands:
+- make WERROR_CFLAGS=
+install-commands:
+- make INSTALL_PROGRAM=install DESTDIR="$DESTDIR" install
+# This hack is for supporting "fdatasync" argument in "dd" command
+# which busybox "dd" does not support.
+# This hack should dissappear when we merge /usr/bin and /bin.
+- mkdir -p "$DESTDIR"/bin/
+- ln -sf ../usr/bin/dd "$DESTDIR"/bin/

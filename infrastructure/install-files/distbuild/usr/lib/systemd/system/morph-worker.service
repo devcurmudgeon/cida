@@ -1,0 +1,13 @@
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=Morph distributed build worker
+Requires=local-fs.target network.target
+Wants=srv-distbuild-ccache.mount
+After=local-fs.target network.target srv-distbuild-ccache.mount
+ConditionPathExists=/etc/morph-worker.conf
+
+[Service]
+ExecStart=/usr/bin/morph worker-daemon --config /etc/morph-worker.conf
+Restart=always

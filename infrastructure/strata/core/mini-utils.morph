@@ -1,0 +1,7 @@
+name: mini-utils
+kind: chunk
+build-system: manual
+build-commands:
+- make
+install-commands:
+- make PREFIX="$PREFIX" DESTDIR="$DESTDIR" install

@@ -1,0 +1,23 @@
+# Instance backup configuration for the baserock.org frontend system.
+#
+# We don't need to back anything up from this system, but the backup
+# SSH key needs access to it in order to SSH to the other systems on the
+# internal network.
+---
+- hosts: frontend-haproxy
+  gather_facts: false
+  sudo: yes
+  vars:
+    # The 'backup' key cannot be used to SSH into the 'frontend' machine except
+    # from this IP.
+    PERMITTED_BACKUP_HOSTS: 82.70.136.246/32
+  tasks:
+    - name: backup user
+      user:
+        name: backup
+
+    - name: authorize backup public key
+      authorized_key:
+        user: backup
+        key: "{{ lookup('file', '../keys/backup.key.pub') }}"
+        key_options: 'from="{{ PERMITTED_BACKUP_HOSTS }}",no-agent-forwarding,no-X11-forwarding'

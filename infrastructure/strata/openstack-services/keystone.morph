@@ -1,0 +1,9 @@
+name: keystone
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+# Install some default configuration files
+- mkdir -p "$DESTDIR"/etc/keystone
+- install -m 644 etc/keystone-paste.ini "$DESTDIR"/etc/keystone/
+- install -m 644 etc/policy.json "$DESTDIR"/etc/keystone/
+- install -m 644 etc/logging.conf.sample "$DESTDIR"/etc/keystone/logging.conf

@@ -1,0 +1,7 @@
+name: dmidecode
+kind: chunk
+build-system: manual
+build-commands:
+- make
+install-commands:
+- make install DESTDIR="$DESTDIR" prefix="$PREFIX"

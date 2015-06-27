@@ -1,0 +1,6 @@
+name: libpopt
+kind: chunk
+build-system: autotools
+configure-commands:
+- autoreconf -if
+- ./configure

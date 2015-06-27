@@ -1,0 +1,97 @@
+# Instance-specific configuration for the baserock.org Gerrit system.
+#
+# You must have the Java SE Runtime Environment binary available in the
+# baserock_gerrit directory when you run this script.
+#
+# Download it from here:
+# <http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html>
+#
+- hosts: gerrit
+  gather_facts: False
+  vars:
+    GERRIT_VERSION: 2.9.4
+
+    # Download from http://www.oracle.com/technetwork/java/javase/downloads/server-jre8-downloads-2133154.html
+    JRE_FILE: server-jre-8u40-linux-x64.tar.gz
+    # This path should correspond to where the JRE ends up if you extract the
+    # downloaded tarball in /opt.
+    JRE_DIR: /opt/jdk1.8.0_40
+
+    # Download from http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+    JCE_FILE: jce_policy-8.zip
+
+    run_gerrit: "{{ JRE_DIR }}/bin/java -jar /opt/gerrit/gerrit-{{ GERRIT_VERSION }}.war"
+  vars_files:
+    - ../database/baserock_gerrit.database_password.yml
+  tasks:
+    - name: add gerrit user
+      user:
+        name: gerrit
+        shell: /bin/false
+        generate_ssh_key: yes
+        ssh_key_comment: gerrit@baserock.org
+
+    - name: unpack the Java Runtime Environment
+      unarchive: src={{ JRE_FILE }} dest=/opt owner=root group=root creates={{ JRE_DIR }}
+
+    # The Java Cryptography Extensions are needed in order to enable all SSH
+    # ciphers, due to US export restrictions.
+    - name: unpack the Java Cryptography Extensions
+      unarchive: src={{ JCE_FILE }} dest=/opt owner=root group=root creates=/opt/UnlimitedJCEPolicyJDK8/
+
+    - name: install the Java Cryptography Extensions
+      file: src=/opt/UnlimitedJCEPolicyJDK8/{{ item }} dest={{ JRE_DIR }}/jre/lib/security/{{ item }} state=link force=yes
+      with_items:
+        - local_policy.jar
+        - US_export_policy.jar
+
+    - name: create /opt/gerrit
+      file: path=/opt/gerrit state=directory
+
+    - name: download Gerrit
+      get_url:
+        url: https://gerrit-releases.storage.googleapis.com/gerrit-{{ GERRIT_VERSION }}.war
+        dest: /opt/gerrit/gerrit-{{ GERRIT_VERSION }}.war
+
+    - include: ../tasks/create-data-volume.yml lv_name=gerrit lv_size=25g mountpoint=/srv/gerrit
+
+    - name: ensure 'gerrit' user owns /srv/gerrit
+      file: path=/srv/gerrit owner=gerrit group=gerrit state=directory
+
+    - name: initialise Gerrit application directory
+      command: "{{ run_gerrit }} init -d /srv/gerrit creates=/srv/gerrit/etc/gerrit.config"
+
+    - name: extract and install some plugins for gerrit
+      shell: unzip /opt/gerrit/gerrit-{{ GERRIT_VERSION}}.war WEB-INF/plugins/{{ item }}.jar -p > /srv/gerrit/plugins/{{ item }}.jar
+      args:
+        creates: /srv/gerrit/plugins/{{ item }}.jar
+      with_items:
+        - replication
+        - download-commands
+
+    - name: download extra Java libraries
+      get_url:
+        url: "{{ item }}"
+        dest: /srv/gerrit/lib
+      with_items:
+        # MySQL Java Connector
+        - http://repo2.maven.org/maven2/mysql/mysql-connector-java/5.1.21/mysql-connector-java-5.1.21.jar
+
+        # Bouncy Castle Crypto APIs for Java. The interactive `gerrit init`
+        # command recommends installing these libraries, and who am I to argue?
+        - http://www.bouncycastle.org/download/bcpkix-jdk15on-149.jar
+        - http://www.bouncycastle.org/download/bcprov-jdk15on-149.jar
+
+    - name: install gerrit.config
+      template: src=gerrit.config dest=/srv/gerrit/etc/gerrit.config
+
+    - name: set database password
+      command: git config -f /srv/gerrit/etc/secure.config database.password "{{ baserock_gerrit_password }}"
+      sudo: yes
+      sudo_user: gerrit
+
+    - name: install gerrit.service
+      template: src=gerrit.service dest=/etc/systemd/system/gerrit.service
+
+    - name: start Gerrit service
+      service: name=gerrit enabled=yes state=restarted

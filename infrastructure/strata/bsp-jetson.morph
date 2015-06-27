@@ -1,0 +1,43 @@
+name: bsp-jetson
+kind: stratum
+description: |
+  Platform-specific chunks for NVIDIA Jetson TK1
+
+  Support for the Tegra platform is still being developed. A very recent
+  kernel with some patches is currently required to get a fully
+  accelerated graphics stack on this platform. Note that the SATA and
+  networking will not work unless you have flashed the bootloader on
+  your board to the version of U-Boot built in this stratum. Also, the
+  CPUs on the Jetson run at a slow speed with this version of Linux.
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: device-tree-compiler
+  morph: strata/bsp-jetson/device-tree-compiler.morph
+  repo: upstream:device-tree-compiler
+  ref: 302fca9f4c283e1994cf0a5a9ce1cf43ca15e6d2
+  unpetrify-ref: v1.4.1
+- name: u-boot@jetson
+  morph: strata/bsp-jetson/u-boot@jetson.morph
+  repo: upstream:u-boot
+  ref: f33cdaa4c3da4a8fd35aa2f9a3172f31cc887b35
+  unpetrify-ref: v2015.04
+  build-depends:
+  - device-tree-compiler
+- name: linux-jetson-tk1
+  morph: strata/bsp-jetson/linux-jetson-tk1.morph
+  repo: upstream:linux
+  ref: a6df05fd37874251833bd6f18404cd2efaa62603
+  unpetrify-ref: baserock/tegra/4.0-with-cpufreq-gpu
+- name: nouveau-drm
+  morph: strata/bsp-jetson/nouveau-drm.morph
+  repo: upstream:nouveau
+  ref: 73de0a7758eb447d6157d2ed79c84d1a4e6ca09b
+  unpetrify-ref: baserock/tegra/4.0
+  build-depends:
+  - linux-jetson-tk1
+- name: linux-firmware-jetson
+  morph: strata/bsp-jetson/linux-firmware-jetson.morph
+  repo: upstream:linux-firmware
+  ref: ff2afc9d9649cab2a1f79b8d4eeb0cc0100a2f85
+  unpetrify-ref: baserock/tegra/4.0

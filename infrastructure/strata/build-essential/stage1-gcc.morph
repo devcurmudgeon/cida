@@ -1,0 +1,80 @@
+name: stage1-gcc
+kind: chunk
+
+configure-commands:
+# Workaround from LFS due GCC not detecting stack protection correctly
+- sed -i '/k prot/agcc_cv_libc_provides_ssp=yes' gcc/configure
+
+- mkdir o
+
+# Configure flag notes:
+#  1. See gcc.morph.
+#  2. Although we will be setting a sysroot at runtime, giving a
+#     temporary one at configuration time seems necessary so that
+#     `--with-native-system-header-dir` produces effect and
+#     /tools/include is in the include path for the newly built GCC. We
+#     set it by default to a non-existent directory to avoid GCC looking
+#     at the host dirs, in case we forget to give it at runtime.
+#  3. Disable searching /usr/local/include for headers
+#  4. The pass 1 compiler needs to find the libraries we build in pass
+#     2.  Include path must be set explicility, because it defaults to
+#     $SYSROOT/usr/include rather than $SYSROOT/include.
+#  5. Disable stuff that doesn't work when building a cross compiler
+#     without an existing libc, and generally try to keep this build as
+#     simple as possible.
+- |
+  case "$MORPH_ARCH" in
+      armv7lhf) ARCH_FLAGS="--with-arch=armv7-a \
+                            --with-cpu=cortex-a9 \
+                            --with-tune=cortex-a9 \
+                            --with-fpu=vfpv3-d16 \
+                            --with-float=hard" ;;
+      armv7*)   ARCH_FLAGS="--with-arch=armv7-a" ;;
+  esac
+
+  cd o && ../configure                                        \
+            $ARCH_FLAGS                                       \
+            --build=$(sh ../config.guess)                     \
+            --host=$(sh ../config.guess)                      \
+            --target=$TARGET_STAGE1                           \
+            --prefix="$PREFIX"                                \
+    `# [1]` --libdir="$PREFIX/lib"                            \
+    `# [2]` --with-sysroot=/nonexistentdir                    \
+            --with-newlib                                     \
+    `# [3]` --with-local-prefix="$PREFIX"                     \
+    `# [4]` --with-native-system-header-dir="$PREFIX/include" \
+            --without-headers                                 \
+            --disable-nls                                     \
+            --disable-shared                                  \
+            --disable-multilib                                \
+    `# [5]` --disable-decimal-float                           \
+    `# [5]` --disable-threads                                 \
+    `# [5]` --disable-libatomic                               \
+    `# [5]` --disable-libgomp                                 \
+    `# [5]` --disable-libitm                                  \
+    `# [5]` --disable-libquadmath                             \
+    `# [5]` --disable-libsanitizer                            \
+    `# [5]` --disable-libssp                                  \
+    `# [5]` --disable-libvtv                                  \
+    `# [5]` --disable-libcilkrts                              \
+    `# [5]` --disable-libstdc++-v3                            \
+            --enable-languages=c,c++
+
+build-commands:
+- |
+  # GCC is not passing the correct host/target flags to GMP's configure
+  # script, which causes it to not use the machine-dependent code for
+  # the platform and use the generic one instead.  However, the generic
+  # code results on an undefined reference to `__gmpn_invert_limb' in
+  # ARMv7.  Fix the invocation of GMP's configure script so that GMP can
+  # use the machine-dependent code.
+  case "$MORPH_ARCH" in
+      armv5*)   sed -i "s/--host=none/--host=armv5/" o/Makefile
+                sed -i "s/--target=none/--target=armv5/" o/Makefile ;;
+      armv7*)   sed -i "s/--host=none/--host=armv7a/" o/Makefile
+                sed -i "s/--target=none/--target=armv7a/" o/Makefile ;;
+  esac
+  cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install

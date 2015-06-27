@@ -1,0 +1,11 @@
+name: lua
+kind: chunk
+configure-commands:
+- sed -e 's/defined(LUA_USE_READLINE)/0/g' src/luaconf.h.orig >src/luaconf.h
+- sed -i -e '/^linux:/{n;s/-lreadline//g;s/-lhistory//g;s/-lncurses//g}' src/Makefile
+build-commands:
+- make debian_linux INSTALL_TOP="$PREFIX" RPATH="$PREFIX/lib"
+install-commands:
+- make INSTALL_TOP="$DESTDIR/$PREFIX" debian_install
+- mkdir -p "$DESTDIR/$PREFIX/lib/pkgconfig"
+- cp lua5.1.pc "$DESTDIR/$PREFIX/lib/pkgconfig/"

@@ -1,0 +1,18 @@
+name: wayland-generic
+kind: stratum
+build-depends:
+- morph: strata/core.morph
+- morph: strata/xorg-util-macros-common.morph
+chunks:
+- name: libxkbcommon
+  morph: strata/wayland-generic/libxkbcommon.morph
+  repo: upstream:xorg-lib-libxkbcommon
+  ref: c43c3c866eb9d52cd8f61e75cbef1c30d07f3a28
+  unpetrify-ref: xkbcommon-0.5.0
+- name: wayland
+  morph: strata/wayland-generic/wayland.morph
+  repo: upstream:wayland
+  ref: 8e9d5a108476b3435a8286613b9a63b69afd92b7
+  unpetrify-ref: 1.7.0
+  build-depends:
+  - libxkbcommon

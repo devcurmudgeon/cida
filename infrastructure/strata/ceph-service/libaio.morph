@@ -1,0 +1,7 @@
+name: libaio
+kind: chunk
+build-commands:
+- make clean
+- make
+install-commands:
+- make prefix="$DESTDIR$PREFIX" install

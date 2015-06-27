@@ -1,0 +1,51 @@
+name: armv7lhf-cross-glibc
+kind: chunk
+
+configure-commands:
+- mkdir o
+
+# Configure flag notes:
+#   1. Location of linux-api-headers, needed since glibc doesn't
+#      support being given a sysroot.
+#   2. Location of binutils, since we build binutils for the final
+#      target triplet, but our gcc of our stage 1 target triplet.
+#   3. Normal flags. See strata/build-essential/glibc.morph.
+#   4. Force configuration values of certain things that can't be detected
+#      in a cross-compile.
+- |
+  export MORPH_ARCH=armv7lhf
+  export TARGET=armv7lhf-baserock-linux-gnueabi
+  export TARGET_STAGE1=armv7lhf-none-linux-gnueabi
+
+  export CFLAGS="-O2 $CFLAGS"
+
+  # glibc looks for $TARGET-gcc, but not $TARGET_STAGE1-gcc even
+  # though --build is specified, so we have to override what gcc to
+  # use here.
+  export CC="$TARGET_STAGE1-gcc"
+
+  case "$MORPH_ARCH" in
+      armv7*)
+          ARCH_FLAGS="--without-fp" ;;
+  esac
+
+  cd o && ../configure \
+    $ARCH_FLAGS \
+    --build=$TARGET_STAGE1 --host=$TARGET \
+    --prefix="$PREFIX" \
+    `# [1]` --with-headers="$PREFIX/$TARGET/sys-root/$PREFIX/include" \
+    `# [2]` --with-binutils="$PREFIX/$TARGET/bin" \
+    `# [3]` --disable-profile  --enable-kernel=2.6.25 \
+    `# [4]` libc_cv_c_cleanup=yes libc_cv_ctors_header=yes \
+            libc_cv_forced_unwind=yes libc_cv_ssp=no
+
+build-commands:
+- cd o && make localtime=UTC
+
+install-commands:
+- |
+  # glibc doesn't help with sysroots, so we need to spell out the
+  # full path ourselves.
+  export TARGET=armv7lhf-baserock-linux-gnueabi
+  cd o && make install_root="$DESTDIR/$PREFIX/$TARGET/sys-root/" \
+               localtime=UTC install

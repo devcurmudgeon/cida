@@ -1,0 +1,16 @@
+name: i2c-tools
+kind: chunk
+build-commands:
+- make -C eepromer && make
+install-commands:
+- mkdir -p "$DESTDIR$PREFIX"/bin
+- |
+  i2ctools="i2cdetect i2cdump i2cget i2cset"
+  for f in ${i2ctools}; do
+    install -m 755 tools/${f} "$DESTDIR$PREFIX"/bin/${f}
+  done
+- |
+  eepromtools="eepromer eeprom eeprog"
+  for f in ${eepromtools}; do
+    install -m 755 eepromer/${f} "$DESTDIR$PREFIX"/bin/${f}
+  done

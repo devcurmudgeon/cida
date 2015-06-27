@@ -1,0 +1,16 @@
+[Unit]
+Description=Gerrit Code Review Server
+After=network.target
+
+[Service]
+User=gerrit
+Group=gerrit
+Type=simple
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=gerrit
+ExecStart={{ run_gerrit }} daemon --site-path /srv/gerrit --console-log
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

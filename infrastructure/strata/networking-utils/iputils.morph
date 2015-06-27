@@ -1,0 +1,24 @@
+name: iputils
+kind: chunk
+build-system: manual
+pre-configure-commands:
+# gnutls is not currently integrated in definitions so, disabling this
+# is required in order to build ping6. If this is not disabled, it will try
+# to find gnutls/openssl.h header failing to compile ping6.
+- sed -i "s/USE_GNUTLS=yes/USE_GNUTLS=no/" Makefile
+build-commands:
+- make
+- make ninfod
+install-commands:
+- install -D -m 755 clockdiff "$DESTDIR$PREFIX"/bin/clockdiff
+- install -D -m 755 rdisc "$DESTDIR$PREFIX"/bin/rdisc
+- install -D -m 755 tracepath "$DESTDIR$PREFIX"/bin/tracepath
+- install -D -m 755 tracepath6 "$DESTDIR$PREFIX"/bin/tracepath6
+- install -D -m 755 ninfod/ninfod "$DESTDIR$PREFIX"/bin/ninfod
+- install -D -m 755 rarpd "$DESTDIR$PREFIX"/bin/rarpd
+# The following binaries are installed to overwrite busybox binaries.
+- install -D -m 755 traceroute6 "$DESTDIR$PREFIX"/bin/traceroute6
+- install -D -m 755 arping "$DESTDIR$PREFIX"/sbin/arping
+- install -D -m 755 tftpd "$DESTDIR$PREFIX"/sbin/tftpd
+- install -D -m 755 ping "$DESTDIR"/bin/ping
+- install -D -m 755 ping6 "$DESTDIR"/bin/ping6

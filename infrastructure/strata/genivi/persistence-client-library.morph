@@ -1,0 +1,6 @@
+name: persistence-client-library
+kind: chunk
+build-system: autotools
+configure-commands:
+- autoreconf -ivf
+- ./configure --prefix="$PREFIX" --disable-werror

@@ -1,0 +1,71 @@
+# MariaDB configuration for Baserock database server.
+#
+# The relevant .database_password.yml files will need to be available already.
+# Create these manually and keep them somewhere safe and secret.
+---
+- hosts: database-mariadb
+  gather_facts: False
+  vars_files:
+    - root.database_password.yml
+    - baserock_gerrit.database_password.yml
+    - baserock_openid_provider.database_password.yml
+    - baserock_storyboard.database_password.yml
+  tasks:
+    - name: creating root database user
+      mysql_user: |
+        name=root
+        password={{ root_password }}
+        login_host=127.0.0.1
+        login_user=root
+        login_password={{ root_password }}
+        check_implicit_admin=yes
+
+    - name: remove the MySQL test database
+      mysql_db:
+        name=test state=absent
+        login_host=127.0.0.1
+        login_user=root
+        login_password={{ root_password }}
+
+    # Note that UTF-8 encoding and collation is *not* the default. Don't remove
+    # those lines or you will end up with a horrible disaster of a database.
+    - name: adding databases
+      mysql_db: |
+        name={{ item }}
+        state=present
+        login_host=127.0.0.1
+        login_user=root
+        login_password={{ root_password }}
+        collation=utf8_unicode_ci
+        encoding=utf8
+      with_items:
+        - gerrit
+        - openid_provider
+        - storyboard
+
+    # We could probably restrict the privileges of these users further...
+    #
+    # I feel like setting 'host="%"' (i.e. not enforcing that the account can
+    # only be used by IPs within the cloud's local network, or even a single
+    # known IP adress) is kind of bad practice, but since the database server
+    # is not exposed to the internet anyway I don't think it's important right
+    # now.
+    - name: adding other database users
+      mysql_user: |
+        name="{{ item.name }}"
+        host="%"
+        password={{ item.password }}
+        priv={{ item.priv }}
+        login_host=127.0.0.1
+        login_user=root
+        login_password={{ root_password }}
+      with_items:
+        - name: gerrit
+          password: "{{ baserock_gerrit_password }}"
+          priv: gerrit.*:ALL
+        - name: openid
+          password: "{{ baserock_openid_provider_password }}"
+          priv: openid_provider.*:ALL
+        - name: storyboard
+          password: "{{ baserock_storyboard_password }}"
+          priv: storyboard.*:ALL

@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  vars_files:
+    - swift-controller-vars.yml
+  vars:
+    - ring_name_port_map:
+        account:
+          port: 6002
+        container:
+          port: 6001
+        object:
+          port: 6000
+  remote_user: root
+  tasks:
+    - user:
+        name: swift
+        comment: Swift user
+
+    - file:
+        path: /etc/swift
+        owner: swift
+        group: swift
+        state: directory
+
+    - template:
+        src: /usr/share/swift/etc/swift/proxy-server.j2
+        dest: /etc/swift/proxy-server.conf
+        mode: 0644
+        owner: swift
+        group: swift
+
+    - keystone_user:
+        user: swift
+        password: "{{ SWIFT_ADMIN_PASSWORD }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+    - keystone_user:
+        role: admin
+        user: swift
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+    - keystone_service:
+        name: swift
+        type: object-store
+        description: OpenStack Object Storage
+        publicurl: http://{{ MANAGEMENT_INTERFACE_IP_ADDRESS }}:8080/v1/AUTH_%(tenant_id)s
+        internalurl: http://{{ MANAGEMENT_INTERFACE_IP_ADDRESS }}:8080/v1/AUTH_%(tenant_id)s
+        adminurl: http://{{ MANAGEMENT_INTERFACE_IP_ADDRESS }}:8080
+        region: regionOne
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"

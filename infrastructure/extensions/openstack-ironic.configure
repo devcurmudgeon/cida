@@ -1,0 +1,155 @@
+#!/bin/sh
+
+# Copyright (C) 2015 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+set -e
+
+ROOT="$1"
+
+enable(){
+    ln -sf "/usr/lib/systemd/system/$1.service" \
+        "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
+}
+
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
+
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True|'')
+        eval "$1=true"
+        ;;
+    False)
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
+
+##########################################################################
+# Check variables
+##########################################################################
+
+check_bool IRONIC_ENABLE_SERVICE
+
+if ! "$IRONIC_ENABLE_SERVICE"; then
+    exit 0
+fi
+
+if [ -z "$IRONIC_SERVICE_USER" -o \
+     -z "$IRONIC_SERVICE_PASSWORD" -o \
+     -z "$IRONIC_DB_USER" -o \
+     -z "$IRONIC_DB_PASSWORD" -o \
+     -z "$RABBITMQ_HOST" -o \
+     -z "$RABBITMQ_USER" -o \
+     -z "$RABBITMQ_PASSWORD" -o \
+     -z "$RABBITMQ_PORT" -o \
+     -z "$CONTROLLER_HOST_ADDRESS" -o \
+     -z "$MANAGEMENT_INTERFACE_IP_ADDRESS" -o \
+     -z "$KEYSTONE_TEMPORARY_ADMIN_TOKEN" ]; then
+    echo Some options required for Ironic were defined, but not all.
+    exit 1
+fi
+
+######################################
+# Enable relevant openstack services #
+######################################
+
+enable openstack-ironic-setup
+enable iscsi-setup
+enable target #target.service!
+enable iscsid
+
+##########################################################################
+# Generate configuration file
+##########################################################################
+
+OPENSTACK_DATA="$ROOT/etc/openstack"
+mkdir -p "$OPENSTACK_DATA"
+
+python <<'EOF' >"$OPENSTACK_DATA/ironic.conf"
+import os, sys, yaml
+
+ironic_configuration={
+    'IRONIC_SERVICE_USER': os.environ['IRONIC_SERVICE_USER'],
+    'IRONIC_SERVICE_PASSWORD': os.environ['IRONIC_SERVICE_PASSWORD'],
+    'IRONIC_DB_USER': os.environ['IRONIC_DB_USER'],
+    'IRONIC_DB_PASSWORD': os.environ['IRONIC_DB_PASSWORD'],
+    'RABBITMQ_HOST':os.environ['RABBITMQ_HOST'],
+    'RABBITMQ_PORT':os.environ['RABBITMQ_PORT'],
+    'RABBITMQ_USER':os.environ['RABBITMQ_USER'],
+    'RABBITMQ_PASSWORD':os.environ['RABBITMQ_PASSWORD'],
+    'CONTROLLER_HOST_ADDRESS': os.environ['CONTROLLER_HOST_ADDRESS'],
+    'MANAGEMENT_INTERFACE_IP_ADDRESS': os.environ['MANAGEMENT_INTERFACE_IP_ADDRESS'],
+    'KEYSTONE_TEMPORARY_ADMIN_TOKEN': os.environ['KEYSTONE_TEMPORARY_ADMIN_TOKEN'],
+
+}
+
+yaml.dump(ironic_configuration, sys.stdout, default_flow_style=False)
+EOF
+
+##########################################################################
+# Configure the TFTP service                                             #
+##########################################################################
+
+tftp_root="/srv/tftp_root/" # trailing slash is essential
+mkdir -p "$ROOT/$tftp_root"
+
+install -D /dev/stdin -m 644 "$ROOT/usr/lib/systemd/system/tftp-hpa.service" << 'EOF'
+[Unit]
+Description=tftp service for booting kernels
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/tftp-hpa.conf
+ExecStart=/usr/sbin/in.tftpd $TFTP_OPTIONS ${TFTP_ROOT}
+StandardInput=socket
+StandardOutput=inherit
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+install -D /dev/stdin -m 644 "$ROOT/usr/lib/systemd/system/tftp-hpa.socket" << EOF
+[Unit]
+Description=Tftp server activation socket
+
+[Socket]
+ListenDatagram=$MANAGEMENT_INTERFACE_IP_ADDRESS:69
+FreeBind=yes
+
+[Install]
+WantedBy=sockets.target
+EOF
+
+install -D -m 644 /dev/stdin "$ROOT"/etc/tftp-hpa.conf << EOF
+TFTP_ROOT=$tftp_root
+TFTP_OPTIONS="-v -v -v -v -v --map-file $tftp_root/map-file"
+EOF
+
+install -D /dev/stdin -m 644 "$ROOT/$tftp_root"/map-file << EOF
+r ^([^/]) $tftp_root\1
+r ^/tftpboot/ $tftp_root\2
+EOF
+
+cp "$ROOT"/usr/share/syslinux/pxelinux.0 "$ROOT/$tftp_root"

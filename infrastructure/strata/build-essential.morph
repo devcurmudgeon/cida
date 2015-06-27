@@ -1,0 +1,410 @@
+name: build-essential
+kind: stratum
+description: |
+  Toolchain stratum
+
+  Stage 1: build a minimal cross compiler with the host's tools.
+
+  Starting with a cross compiler ensures that (a) nothing from the host
+  can leak into the build-essential artifacts, and (b) cross-compiling
+  build-essential is fully tested and supported, since we always use the
+  cross code paths.
+
+  Stage 2: cross-build the whole of build-essential, using the host's tools
+  but the cross-compiler toolchain.
+
+  Stage 2 GCC outputs code for the same 'bootstrap' machine as stage 1 GCC,
+  but because stage 2 GCC is also built to *run* on the bootstrap machine
+  it can only execute inside the stage 3 chroot (due to being built against
+  a libc with a non-standard prefix).
+
+  Stage 3: build the whole of build-essential again, this time using a
+  staging area containing only the output of stage 2. The result of this
+  build is fully reproducible.
+
+  We do a switch-a-roo between stage 2 and 3: stages 2 chunks are all built
+  to run on a host *-bootstrap-* while stage 3 chunks are native-built for
+  a *-baserock-* machine. This works, because the cross build was all for
+  show (and cleanliness) and the binaries actually still run on the host.
+
+  After build-essential is built we do another trick. See
+  stage2-fhs-dirs.morph for details. Basically, /bin is a symlink to
+  /tools/bin during stage 2 but in stage 3 it becomes a real directory
+  again.
+
+  PLEASE KEEP THE REFS IN 'armv7lhf-cross-toolchain' STRATUM UP TO DATE WITH
+  THIS ONE!
+
+  Please note that the chunk 'build-depends' field is treated differently in
+  this stratum to how other strata in definitions.git use it. Other strata
+  rely on the fact that dependencies of a dependency (called 'transitive
+  dependencies') are implicitly included in the staging area. Within
+  build-essential, some chunks list transitive dependencies explicitly to
+  make clearer what is going on.
+products:
+- artifact: build-essential-minimal
+  include:
+  - fhs-dirs-.*
+  - busybox-.*
+  - glibc-nss
+chunks:
+- name: stage1-binutils
+  morph: strata/build-essential/stage1-binutils.morph
+  repo: upstream:binutils-tarball
+  ref: 5500a97a2ad1735db5b35bc51cfb825c1f4c38df
+  unpetrify-ref: binutils-2.25
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage1-gcc
+  morph: strata/build-essential/stage1-gcc.morph
+  repo: upstream:gcc-tarball
+  ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - stage1-binutils
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-linux-api-headers
+  morph: strata/build-essential/stage2-linux-api-headers.morph
+  repo: upstream:linux
+  ref: 39a8804455fb23f09157341d3ba7db6d7ae6ee76
+  unpetrify-ref: v4.0
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-glibc
+  morph: strata/build-essential/stage2-glibc.morph
+  repo: upstream:glibc
+  ref: 4e42b5b8f89f0e288e68be7ad70f9525aebc2cff
+  unpetrify-ref: glibc-2.21
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-linux-api-headers
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-libstdc++
+  morph: strata/build-essential/stage2-libstdc++.morph
+  repo: upstream:gcc-tarball
+  ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-linux-api-headers
+  - stage2-glibc
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-binutils
+  morph: strata/build-essential/stage2-binutils.morph
+  repo: upstream:binutils-tarball
+  ref: 5500a97a2ad1735db5b35bc51cfb825c1f4c38df
+  unpetrify-ref: binutils-2.25
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-linux-api-headers
+  - stage2-glibc
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-gcc-fixed-headers
+  morph: strata/build-essential/stage2-gcc-fixed-headers.morph
+  repo: upstream:gcc-tarball
+  ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-linux-api-headers
+  - stage2-glibc
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-gcc
+  morph: strata/build-essential/stage2-gcc.morph
+  repo: upstream:gcc-tarball
+  ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-linux-api-headers
+  - stage2-glibc
+  - stage2-gcc-fixed-headers
+  - stage2-libstdc++
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-busybox
+  morph: strata/build-essential/stage2-busybox.morph
+  repo: upstream:busybox
+  ref: 1ecfe811fe2f70380170ef7d820e8150054e88ca
+  unpetrify-ref: 1_23_1
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-linux-api-headers
+  - stage2-glibc
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-fake-bash
+  morph: strata/build-essential/stage2-fake-bash.morph
+  repo: upstream:bash
+  ref: 3590145af6f1c9fa321dff231f69ae696e7e740b
+  unpetrify-ref: baserock/bash-4.3-patch-27
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-fhs-dirs
+  morph: strata/build-essential/stage2-fhs-dirs.morph
+  repo: baserock:baserock/fhs-dirs
+  ref: 1218cbd38a4f4e9da75af6f7fae946ca92666afb
+  unpetrify-ref: master
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-gawk
+  morph: strata/build-essential/stage2-gawk.morph
+  repo: upstream:gawk
+  ref: 925f9363c4b0a5bb9375298afcdcf404efb32587
+  unpetrify-ref: gawk-4.1-stable
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-linux-api-headers
+  - stage2-glibc
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-make
+  morph: strata/build-essential/stage2-make.morph
+  repo: upstream:make-tarball
+  ref: 4978d7129e42340ab9efeb0cb9cae4ad0fa052d4
+  unpetrify-ref: baserock/make-4.1-ttyname-segfault-fix
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-linux-api-headers
+  - stage2-glibc
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: stage2-reset-specs
+  morph: strata/build-essential/stage2-reset-specs.morph
+  repo: upstream:glibc
+  ref: 4e42b5b8f89f0e288e68be7ad70f9525aebc2cff
+  unpetrify-ref: glibc-2.21
+  build-depends:
+  - stage1-binutils
+  - stage1-gcc
+  - stage2-linux-api-headers
+  - stage2-glibc
+  build-mode: bootstrap
+  prefix: /tools
+
+- name: fhs-dirs
+  morph: strata/build-essential/fhs-dirs.morph
+  repo: baserock:baserock/fhs-dirs
+  ref: 1218cbd38a4f4e9da75af6f7fae946ca92666afb
+  unpetrify-ref: master
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+
+- name: linux-api-headers
+  morph: strata/build-essential/linux-api-headers.morph
+  repo: upstream:linux
+  ref: 39a8804455fb23f09157341d3ba7db6d7ae6ee76
+  unpetrify-ref: v4.0
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+
+- name: glibc
+  morph: strata/build-essential/glibc.morph
+  repo: upstream:glibc
+  ref: 4e42b5b8f89f0e288e68be7ad70f9525aebc2cff
+  unpetrify-ref: glibc-2.21
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-fake-bash
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - linux-api-headers
+  artifacts:
+    glibc-gconv: build-essential-runtime
+    glibc-libs: build-essential-minimal
+    glibc-nss: build-essential-runtime
+
+- name: zlib
+  repo: upstream:zlib
+  ref: 50893291621658f355bc5b4d450a8d06a563053d
+  unpetrify-ref: v1.2.8
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - glibc
+  artifacts:
+    zlib-libs: build-essential-minimal
+
+- name: binutils
+  morph: strata/build-essential/binutils.morph
+  repo: upstream:binutils-tarball
+  ref: 5500a97a2ad1735db5b35bc51cfb825c1f4c38df
+  unpetrify-ref: binutils-2.25
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - glibc
+  - zlib
+
+- name: busybox
+  morph: strata/build-essential/busybox.morph
+  repo: upstream:busybox
+  ref: 1ecfe811fe2f70380170ef7d820e8150054e88ca
+  unpetrify-ref: 1_23_1
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - glibc
+
+- name: gawk
+  morph: strata/build-essential/gawk.morph
+  repo: upstream:gawk
+  ref: dc5af665700d9b04fdf9c18930526d28eef5d5d9
+  unpetrify-ref: gawk-4.1.1
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - glibc
+
+- name: m4-tarball
+  morph: strata/build-essential/m4-tarball.morph
+  repo: upstream:m4-tarball
+  ref: 23c11479b3ad787adc7a651ee0c4347839e47723
+  unpetrify-ref: m4-1.4.17
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - glibc
+
+- name: gcc
+  morph: strata/build-essential/gcc.morph
+  repo: upstream:gcc-tarball
+  ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - glibc
+  - zlib
+  - m4-tarball
+  - linux-api-headers
+  artifacts:
+    gcc-libs: build-essential-minimal
+
+- name: make
+  morph: strata/build-essential/make.morph
+  repo: upstream:make-tarball
+  ref: 4978d7129e42340ab9efeb0cb9cae4ad0fa052d4
+  unpetrify-ref: baserock/make-4.1-ttyname-segfault-fix
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - glibc
+
+- name: ccache
+  morph: strata/build-essential/ccache.morph
+  repo: upstream:ccache
+  ref: 567631456f0899cdf0c382f898d38aadc8901d32
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - stage2-binutils
+  - stage2-busybox
+  - stage2-glibc
+  - stage2-fhs-dirs
+  - stage2-gawk
+  - stage2-gcc
+  - stage2-linux-api-headers
+  - stage2-make
+  - stage2-reset-specs
+  - glibc
+  - zlib

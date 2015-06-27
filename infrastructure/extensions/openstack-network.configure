@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# Copyright (C) 2014-2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+set -e
+
+ROOT="$1"
+
+enable(){
+    ln -sf "/usr/lib/systemd/system/$1.service" \
+            "$ROOT/etc/systemd/system/multi-user.target.wants/$1.service"
+}
+
+###################
+# Enable services #
+###################
+
+enable openvswitch-setup
+enable openstack-network-setup
+
+##########################################################################
+# Generate config variable shell snippet
+##########################################################################
+
+OPENSTACK_DATA="$ROOT/etc/openstack"
+mkdir -p "$OPENSTACK_DATA"
+
+python <<'EOF' >"$OPENSTACK_DATA/network.conf"
+import os, sys, yaml
+
+network_configuration = {}
+
+optional_keys = ('EXTERNAL_INTERFACE',)
+
+network_configuration.update((k, os.environ[k]) for k in optional_keys  if k in os.environ)
+
+yaml.dump(network_configuration, sys.stdout, default_flow_style=False)
+EOF

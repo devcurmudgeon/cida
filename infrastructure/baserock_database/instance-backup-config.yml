@@ -1,0 +1,26 @@
+# Instance backup configuration for the baserock.org database.
+---
+- hosts: database-mariadb
+  gather_facts: false
+  sudo: yes
+  vars:
+    FRONTEND_IP: 192.168.222.21
+  tasks:
+    - name: backup-snapshot script
+      copy: src=../backup-snapshot dest=/usr/bin/backup-snapshot mode=755
+
+    - name: backup-snapshot config
+      copy: src=backup-snapshot.conf dest=/etc/backup-snapshot.conf
+
+    # We need to give the backup automation 'root' access, because it needs to
+    # manage system services, LVM volumes, and mounts, and because it needs to
+    # be able to read private data. The risk of having the backup key
+    # compromised is mitigated by only allowing it to execute the
+    # 'backup-snapshot' script, and limiting the hosts it can be used from.
+    - name: access for backup SSH key
+      authorized_key:
+        user: root
+        key: "{{ lookup('file', '../keys/backup.key.pub') }}"
+        # Quotes are important in this options, the OpenSSH server will reject
+        # the entry if the 'from' or 'command' values are not quoted.
+        key_options: 'from="{{FRONTEND_IP}}",no-agent-forwarding,no-port-forwarding,no-X11-forwarding,command="/usr/bin/backup-snapshot"'

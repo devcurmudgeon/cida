@@ -1,0 +1,6 @@
+name: cgit
+kind: chunk
+build-commands:
+- make prefix="$PREFIX"
+install-commands:
+- make prefix="$PREFIX" DESTDIR="$DESTDIR" install

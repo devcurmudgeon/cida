@@ -1,0 +1,8 @@
+name: diff
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- sed -i -e '/^buildreq="/,/^"/{/rsync/d}' bootstrap.conf
+- ./bootstrap --skip-po --no-git --gnulib-srcdir=gnulib
+configure-commands:
+- ./configure --prefix="$PREFIX" --disable-gcc-warnings

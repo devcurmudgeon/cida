@@ -1,0 +1,12 @@
+[Unit]
+Description=Mason: Continuous Delivery Service
+After=mason-setup.service
+ConditionPathIsDirectory=/srv/distbuild
+
+[Service]
+User=root
+ExecStart=/usr/lib/mason/mason-report.sh
+WorkingDirectory=/srv/distbuild
+
+[Install]
+WantedBy=multi-user.target

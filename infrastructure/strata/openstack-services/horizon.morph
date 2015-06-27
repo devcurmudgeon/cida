@@ -1,0 +1,63 @@
+name: horizon
+kind: chunk
+configure-commands:
+# Remove unnecessary .mo files they will be generated
+# later during package build.
+- find . -name "django*.mo" -exec rm -f '{}' \;
+build-commands:
+# Compile message strings
+- cd horizon && django-admin.py compilemessages
+- cd openstack_dashboard && django-admin.py compilemessages
+- python setup.py build
+
+# Use the local_settings.py example to compile and compress the css, js, etc files.
+# This is a hack to make SECRET_KEY work.
+- |
+  cp openstack_dashboard/local/local_settings.py.example \
+     openstack_dashboard/local/local_settings.py
+# Collect the static files and compress them.
+- python manage.py collectstatic --noinput
+- python manage.py compress --force
+install-commands:
+# Install horizon in a temporary folder first, and then move things to the
+# right place in $DESTDIR
+- mkdir temproot
+- python setup.py install -O1 --skip-build --prefix "$PREFIX" --root temproot
+# Remove unnecessary .po files
+- find temproot -name django.po -exec rm '{}' \;
+- find temproot -name djangojs.po -exec rm '{}' \;
+
+# Move openstack_dashboard to /var/lib/horizon
+- mkdir -p "$DESTDIR"/var/lib/horizon/
+- |
+  mv temproot/"$PREFIX"/lib/python*/site-packages/openstack_dashboard \
+      "$DESTDIR"/var/lib/horizon/
+- cp manage.py "$DESTDIR"/var/lib/horizon/openstack_dashboard/
+
+# Copy the rest to $DESTDIR
+- cp -a temproot/* "$DESTDIR"
+
+# Copy local_settings to /etc/horizon/openstack_dashboard, so that they
+# can be modified, and link them where openstack_dashboard is installed.
+- mkdir -p "$DESTDIR"/etc/horizon/openstack_dashboard/
+- |
+  cp openstack_dashboard/local/local_settings.py.example \
+      "$DESTDIR"/etc/horizon/openstack_dashboard/local_settings.py
+# Set COMPRESS_OFFLINE=True
+- |
+  echo "COMPRESS_OFFLINE=True" >> \
+    "$DESTDIR"/etc/horizon/openstack_dashboard/local_settings.py
+
+- mkdir -p "$DESTDIR"/var/lib/horizon/openstack_dashboard/local
+- |
+  ln -sf /etc/horizon/openstack_dashboard/local_settings.py \
+         "$DESTDIR"/var/lib/horizon/openstack_dashboard/local/local_settings.py
+
+# Create the static directory (STATIC_ROOT) used in local_settings.py to keep
+# the static objects like css files.
+- mkdir -p "$DESTDIR"/var/lib/horizon/static
+# Copy the compressed static files to horizon.
+- cp -a static/* "$DESTDIR"/var/lib/horizon/static
+
+# Create the horizon document root for apache configuration
+- mkdir -p "$DESTDIR"/var/lib/horizon/.blackhole

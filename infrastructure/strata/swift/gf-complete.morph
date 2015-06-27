@@ -1,0 +1,20 @@
+name: gf-complete
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- ./autogen.sh
+configure-commands:
+- |
+  cpu="$(echo $TARGET | cut -d '-' -f 1)"
+  case "$cpu" in
+  x86_64)
+    SSE=
+    ;;
+  *)
+    # Disable SSE4 for any architecture which are not x86_64 bits
+    # see more information about architecture which support SSE in
+    # https://en.wikipedia.org/wiki/SSE4#Supporting_CPUs.
+    SSE=--disable-sse
+    ;;
+  esac
+  ./configure --prefix="$PREFIX" "$SSE"

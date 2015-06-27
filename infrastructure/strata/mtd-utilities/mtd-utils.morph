@@ -1,0 +1,6 @@
+name: mtd-utils
+kind: chunk
+build-commands:
+- make
+install-commands:
+- make install

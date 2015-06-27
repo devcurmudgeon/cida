@@ -1,0 +1,17 @@
+name: bsp-armv7-highbank
+kind: stratum
+description: The platform dependent components required to boot an ARM highbank board.
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: linux-armv7-highbank
+  morph: strata/bsp-armv7-highbank/linux-armv7-highbank.morph
+  repo: upstream:linux-stable
+
+  # Linux 3.16 and later do not boot on Calxeda. They fail just before
+  # starting 'init' with this sort of message:
+  #
+  #   Unhandled fault: imprecise external abort (0xc06) at 0xb6fea878
+
+  ref: f35b5e46feabab668a44df5b33f3558629f94dfc
+  unpetrify-ref: v3.15.10

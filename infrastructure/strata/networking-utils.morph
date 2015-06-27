@@ -1,0 +1,52 @@
+name: networking-utils
+kind: stratum
+description: |
+    Stratum which contains utils to works with networks: create, enable, filter...
+
+    This stratum requires kernel config flags which are not enabled in the default
+    Baserock kernel found in the BSP strata. See the Openstack BSP stratum to get
+    an idea of what is needed.
+build-depends:
+- morph: strata/foundation.morph
+chunks:
+- name: iproute2
+  morph: strata/networking-utils/iproute2.morph
+  repo: upstream:iproute2
+  ref: 50231ad2a554fcb02462bed6405c970833c1baee
+  unpetrify-ref: v3.17.0
+- name: libmnl
+  repo: upstream:libmnl
+  ref: c9f19b98cd8e108617e825e071091df14f78c53a
+  unpetrify-ref: master
+- name: ipset
+  morph: strata/networking-utils/ipset.morph
+  repo: upstream:ipset
+  ref: cf25c4c50e9996af30499e5b1c3354ab53be7237
+  unpetrify-ref: v6.24
+  build-depends:
+  - libmnl
+- name: libpcap
+  morph: strata/networking-utils/libpcap.morph
+  repo: upstream:libpcap
+  ref: 098a643f817e8a9929c70dfba157e4d399398375
+  unpetrify-ref: libpcap-1.7
+- name: tcpdump
+  morph: strata/networking-utils/tcpdump.morph
+  repo: upstream:tcpdump
+  ref: 8aa5edea1b8846740514dee4158b6c707d38fc13
+  unpetrify-ref: tcpdump-4.7
+  build-depends:
+  - libpcap
+- name: libnet
+  morph: strata/networking-utils/libnet.morph
+  repo: upstream:libnet
+  ref: 05df365769597e1d64d02af931d6127762ff2658
+  unpetrify-ref: libnet-1.2
+- name: arping
+  morph: strata/networking-utils/iputils.morph
+  repo: upstream:iputils
+  ref: d25e54e25107bc7c5d14737ed65f5f52b54f1472
+  unpetrify-ref: s20140519
+  build-depends:
+  - libpcap
+  - libnet

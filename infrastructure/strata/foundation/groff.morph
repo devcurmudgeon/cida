@@ -1,0 +1,13 @@
+name: groff
+kind: chunk
+max-jobs: 1
+configure-commands:
+- PAGE=A4 ./configure --prefix="$PREFIX"
+build-commands:
+# hack to avoid a netpbm dependency
+- touch doc/gnu.eps
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" install
+- ln -s eqn "$DESTDIR$PREFIX/bin/geqn"
+- ln -s tbl "$DESTDIR$PREFIX/bin/gtbl"

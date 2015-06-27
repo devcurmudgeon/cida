@@ -1,0 +1,68 @@
+# This Ansible playbook configures mirroring in and out of Gerrit.
+#
+# To run it, use:
+#   ansible-playbook -i hosts baserock_gerrit/instance-mirroring-config.yml
+#
+# It expects the SSH key for the 'lorry' user to exist at
+# ../keys/lorry-gerrit.key.
+#
+# This script currently doesn't handle the lorry-controller.conf file that
+# controls what lorry-controller mirrors into Gerrit. To set up or modify
+# lorry-controller configuration you need to commit your changes to the
+# 'local-config/lorries' project on the Gerrit.
+---
+- hosts: gerrit
+  gather_facts: no
+  sudo: yes
+  tasks:
+    - name: Lorry user
+      user: name=lorry comment="Lorry mirroring service"
+
+    # Ansible can generate a new SSH key for Lorry when we add the user,
+    # but it seems tricky to then extract this and add it to the 'lorry' Gerrit
+    # user.
+    - name: SSH private key for Lorry user
+      copy: src=../keys/lorry-gerrit.key dest=~/.ssh/id_rsa mode=600
+      sudo_user: lorry
+
+    - name: SSH public key for Lorry user
+      copy: src=../keys/lorry-gerrit.key.pub dest=~/.ssh/id_rsa.pub mode=644
+      sudo_user: lorry
+
+    - name: directory in /etc for Lorry Controller system configuration
+      file: dest=/etc/lorry-controller state=directory
+
+    - name: Lorry tool configuration
+      copy: src=lorry.conf dest=/etc/lorry.conf
+
+    - name: Lorry Controller system configuration
+      copy:
+        src=lorry-controller/{{ item }}
+        dest=/etc/lorry-controller/{{ item }}
+      with_items:
+        - minion.conf
+        - webapp.conf
+
+    - name: enable and restart core lorry controller services.
+      service: name={{ item }} enabled=yes state=restarted
+      with_items:
+        - lighttpd-lorry-controller-webapp.service
+        - lorry-controller-minion@1.service
+
+    - name: enable lorry-controller scheduled activity timers
+      service: name={{ item }} enabled=yes
+      with_items:
+        - lorry-controller-ls-troves.timer
+        - lorry-controller-readconf.timer
+        - lorry-controller-remove-ghost-jobs.timer
+        - lorry-controller-remove-old-jobs.timer
+        - lorry-controller-status.timer
+
+    - name: gerrit-replication configuration
+      copy: src=replication.config dest=/srv/gerrit/etc
+      notify:
+        - restart gerrit
+
+handlers:
+  - name: restart gerrit
+    service: name=gerrit state=restarted

@@ -1,0 +1,10 @@
+name: hg-fast-export
+kind: chunk
+install-commands:
+- install -d "$DESTDIR/$PREFIX/bin"
+- install -m 0755 hg-fast-export.py "$DESTDIR/$PREFIX/bin/"
+- install -m 0755 hg-reset.py "$DESTDIR/$PREFIX/bin/"
+- install -m 0755 hg-fast-export.sh "$DESTDIR/$PREFIX/bin/hg-fast-export"
+- install -m 0755 hg-reset.sh "$DESTDIR/$PREFIX/bin/hg-reset"
+- install -d "$DESTDIR/$PREFIX/lib/python2.7/site-packages"
+- install -m 0644 hg2git.py "$DESTDIR/$PREFIX/lib/python2.7/site-packages/"

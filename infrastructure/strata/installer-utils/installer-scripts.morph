@@ -1,0 +1,4 @@
+name: installer-scripts
+kind: chunk
+install-commands:
+- install -D -m 755 baserock-installer "$DESTDIR/usr/lib/baserock-installer/installer"

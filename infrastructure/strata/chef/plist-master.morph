@@ -1,0 +1,14 @@
+---
+name: plist-master
+kind: chunk
+build-system: manual
+products:
+- artifact: plist-doc
+  include:
+  - usr/lib/ruby/gems/\d[\w.]*/doc/.*
+build-commands:
+- rake gem
+install-commands:
+- mkdir -p "$DESTDIR/$(gem environment home)"
+- gem install --install-dir "$DESTDIR/$(gem environment home)" --bindir "$DESTDIR/$PREFIX/bin"
+  --ignore-dependencies --local ./pkg/plist-3.1.0.gem

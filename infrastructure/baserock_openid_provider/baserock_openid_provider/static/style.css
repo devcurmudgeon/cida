@@ -1,0 +1,268 @@
+// Baserock-ish stylesheet
+// Fetched from http://wiki.baserock.org/local.css/ on 2015-01-23.
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	padding: 0 0 0 1.5em;
+	margin: 0 0 1.2em;
+}
+li > ul, li > ol {
+	margin: 0;
+}
+ul {
+	list-style: disc;
+}
+ol {
+	list-style: decimal;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+i, em {
+	font-style: italic;
+}
+b, strong {
+	font-weight: bold;
+}
+
+/*
+Main elements
+*/
+
+html, body {
+	font-size: 15px;
+	font-family: 'Open Sans', sans-serif;
+	line-height: 1.6em;
+}
+h1 {
+    color: #58595B;
+    font-size: 1.6em;
+    font-weight: bold;
+    margin: 0 0 0.4em;
+    padding: 1em 0 0.3em;
+}
+h2 {
+    border-bottom: 2px solid #E0E0E0;
+    border-top: 2px solid #E0E0E0;
+    background: #fafafa;
+    color: #58595B;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 1.2em 0 0.4em;
+    padding: 0.4em 0;
+}
+h3 {
+    border-bottom: 2px solid #E0E0E0;
+    color: #58595B;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 2em 0 0.3em;
+}
+h4 {
+    color: #58595B;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 1.7em 0 0.3em;
+}
+h5 {
+    color: #58595B;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 1.7em 0 0.3em;
+}
+a {
+	color: #bf2400;
+}
+p {
+	padding: 0;
+	margin: 0 0 1.2em;
+}
+table {
+	margin-bottom: 1.2em;
+}
+th, td {
+	padding: 0.2em 1em;
+}
+th {
+	font-weight: bold;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+pre {
+	border: 1px solid #aaa;
+	border-radius: 0.5em;
+	padding: 1em 2em;
+	margin: 0 0 1.2em 2em;
+	background: #faf8f7;
+	font-size: 80%;
+}
+pre, code {
+	font-family: monospace;
+}
+code {
+	background: #faf8f7;
+	padding: 0.2em 0.4em;
+	border: 1px solid #ddd;
+	border-radius: 0.3em;
+	font-size: 0.9em;
+}
+pre > code {
+	background: none;
+	padding: 0;
+	border: none;
+	font-size: 1em;
+}
+blockquote {
+	border: .4em solid #ffaa55;
+	border-left-width: 3em;
+	padding: 0.3em 1em;
+	margin: 1.2em 3em;
+	border-radius: 2.2em 0 0 2.2em;
+}
+blockquote p {
+	margin: 0;
+}
+/*
+*/
+.max960 {
+	max-width: 960px;
+	margin: 0 auto;
+	position: relative;
+	height: 80px;
+}
+input#searchbox {
+    background: url("wikiicons/search-bg.gif") no-repeat scroll 100% 50% #FFFFFF;
+    color: #000000;
+	padding: 0 16px 0 10px;
+	border: solid 1px #CCC;
+	width: 180px;
+	height: 20px;
+	border-radius: 10px;
+}
+#searchform {
+	right: 0 !important;
+}
+.page {
+	max-width: 960px;
+	padding: 0 10px;
+	margin: 0 auto;
+}
+.pageheader {
+    background-color: #FFF;
+    border-bottom:2px solid #E65837;
+    color: #009099;
+    padding: 10px 10px 0 !important;
+    height: 80px;
+    background: #333;
+}
+.pageheader span a {
+	color: #FFF;
+}
+.pageheader span.title {
+	color: #E65837;
+}
+.pageheader .actions ul li {
+    background: none !important;
+    border-color: #28170B;
+    border-style: solid solid none;
+    border-width: 0;
+    margin: 0;
+    width: auto !important;
+    color: #FFF;
+    padding: 0 !important;
+}
+.pageheader li a:hover {
+    background: #E65837;
+    color: #FFF;
+}
+.header span {
+	display: inline-block;
+	padding: 6px 0;
+}
+.header span span {
+	padding: 0;
+}
+.parentlinks {
+    font: 13px 'Open Sans', sans-serif;
+}
+
+.title {
+    font: 13px 'Open Sans', sans-serif;
+    margin-top: 0.2em;
+    display:inline;
+}
+
+#logo a {
+    height: 40px;
+    width: 282px;
+    display: block;
+    padding-bottom: 10px;
+    background: url(logo.png) no-repeat;
+}
+#logo a span {
+	display: none;
+}
+#logo a:hover {
+    text-decoration: none;
+}
+.pageheader .actions {
+	position: static !important;
+	width: auto !important;
+	padding: 0 !important;
+}
+.pageheader .actions ul {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	height: auto !important;
+	padding: 0 !important;
+}
+.pageheader .actions a {
+	color: #FFF;
+	padding: 5px 0.5em;
+	display: inline-block;
+	background: #666;
+}
+
+div.header {
+    background-repeat: no-repeat;
+    min-width: 282px;
+    padding-top: 0px;
+}
+#pageinfo {
+    border-top: 0;
+}
+
+#content {
+    max-width: 51em;
+}
+#content, #comments, #footer {
+	margin: 1em 2em 1em 0 !important;
+}
+.pagedate {
+	font-size:10px;
+}
+.sidebar {
+	padding: 10px !important;
+	border: solid 1px #CCC !important;
+	background: #F2F2F2 !important;
+	margin: 1em 0 2em 1em !important;
+}
+
+

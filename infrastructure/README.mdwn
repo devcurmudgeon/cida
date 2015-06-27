@@ -1,0 +1,486 @@
+Baserock project public infrastructure
+======================================
+
+This repository contains the definitions for all of the Baserock Project's
+infrastructure. This includes every service used by the project, except for
+the mailing lists (hosted by [Pepperfish]) and the wiki (hosted by
+[Branchable]).
+
+Some of these systems are Baserock systems. Other are Ubuntu or Fedora based.
+Eventually we want to move all of these to being Baserock systems.
+
+The infrastructure is set up in a way that parallels the preferred Baserock
+approach to deployment. All files necessary for (re)deploying the systems
+should be contained in this Git repository, with the exception of certain
+private tokens (which should be simple to inject at deploy time).
+
+[Pepperfish]: http://listmaster.pepperfish.net/cgi-bin/mailman/listinfo
+[Branchable]: http://www.branchable.com/
+
+
+General notes
+-------------
+
+When instantiating a machine that will be public, remember to give shell
+access everyone on the ops team. This can be done using a post-creation
+customisation script that injects all of their SSH keys. The SSH public
+keys of the Baserock Operations team are collected in
+`baserock-ops-team.cloud-config.`.
+
+Ensure SSH password login is disabled in all systems you deploy! See:
+<https://testbit.eu/is-ssh-insecure/> for why. The Ansible playbook
+`admin/sshd_config.yaml` can ensure that all systems have password login
+disabled.
+
+
+Administration
+--------------
+
+You can use [Ansible] to automate tasks on the baserock.org systems.
+
+To run a playbook:
+
+    ansible-playbook -i hosts $PLAYBOOK.yaml
+
+To run an ad-hoc command (upgrading, for example):
+
+    ansible-playbook -i hosts fedora -m command -a 'sudo yum update -y'
+    ansible-playbook -i hosts ubuntu -m command -a 'sudo apt-get update -y'
+
+[Ansible]: http://www.ansible.com
+
+
+Deployment to OpenStack
+-----------------------
+
+The intention is that all of the systems defined here are deployed to an
+OpenStack cloud. The instructions here harcode some details about the specific
+tenancy at [DataCentred](http://www.datacentred.io) that the Baserock project
+uses. It should be easy to adapt them for other OpenStack hosts, though.
+
+### Credentials
+
+The instructions below assume you have the following environment variables set
+according to the OpenStack host you are deploying to:
+
+ - `OS_AUTH_URL`
+ - `OS_TENANT_NAME`
+ - `OS_USERNAME`
+ - `OS_PASSWORD`
+
+When using `morph deploy` to deploy to OpenStack, you will need to set these
+variables, because currently Morph does not honour the standard ones. See:
+<https://storyboard.baserock.org/#!/story/35>.
+
+ - `OPENSTACK_USER=$OS_USERNAME`
+ - `OPENSTACK_PASSWORD=$OS_PASSWORD`
+ - `OPENSTACK_TENANT=$OS_TENANT_NAME`
+
+The `location` field in the deployment .morph file will also need to point to
+the correct `$OS_AUTH_URL`.
+
+### Firewall / Security Groups
+
+The instructions assume the presence of a set of security groups. You can
+create these by running the following Ansible playbook. You'll need the
+OpenStack Ansible modules cloned from
+`https://github.com/openstack-ansible/openstack-ansible-modules/`.
+
+    ANSIBLE_LIBRARY=../openstack-ansible-modules ansible-playbook -i hosts \
+        firewall.yaml
+
+### Placeholders
+
+The commands below use a couple of placeholders like $network_id, you can set
+them in your environment to allow you to copy and paste the commands below
+as-is.
+
+ - `export fedora_image_id=...` (find this with `glance image-list`)
+ - `export network_id=...` (find this with `neutron net-list`)
+ - `export keyname=...` (find this with `nova keypair-list`)
+
+The `$fedora_image_id` should reference a Fedora Cloud image. You can import
+these from <http://www.fedoraproject.org/>. At time of writing, these
+instructions were tested with Fedora Cloud 21 for x86_64.
+
+Backups
+-------
+
+Backups of git.baserock.org's data volume are run by and stored on on a
+Codethink-managed machine named 'access'. They will need to migrate off this
+system before long.  The backups are taken without pausing services or
+snapshotting the data, so they will not be 100% clean. The current
+git.baserock.org data volume does not use LVM and cannot be easily snapshotted.
+
+Backups of 'gerrit' and 'database' are handled by the
+'baserock_backup/backup.py' script. This currently runs on an instance in
+Codethink's internal OpenStack cloud.
+
+Instances themselves are not backed up. In the event of a crisis we will
+redeploy them from the infrastructure.git repository. There should be nothing
+valuable stored outside of the data volumes that are backed up.
+
+
+Deployment with Packer
+----------------------
+
+> **NOTE**: I no longer think that Packer is the right tool for our needs. This
+> is partly because of critical bugs that have not been fixed since I started
+> using it (e.g. <https://github.com/mitchellh/packer/issues/1462>), and partly
+> because I realised that I was just using it to wrap `nova` and
+> `ansible-playbook`, and it is simple enough to use those commands directly.
+>
+> I had hoped that we could make use of Packer's multiple backends in order to
+> test systems locally in Docker before deploying them to OpenStack. It turns
+> out Docker is sufficiently different to OpenStack that this doesn't make life
+> any easier during development. Networking setup is different, systemd doesn't
+> work inside Docker by default, base images are different in other ways, etc.
+>
+> So I recommend not using Packer for future systems, and I will try to
+> migrate the definitions for the existing ones to just use Ansible.
+>
+> Sam Thursfield 10/04/15
+
+Some of the systems are built with [Packer]. I chose Packer because it provides
+similar functionality to the `morph deploy` command, although its
+implementation makes different tradeoffs. The documentation below shows the
+commands you need to run to build systems with Packer. Some of the systems can
+be deployed as Docker images as well as OpenStack images, to enable local
+development and testing.
+
+The following error from Packer means that you didn't set your credentials
+correctly in the `OS_...` environment variables, or they were not accepted.
+
+> Build 'production' errored: Missing or incorrect provider
+
+The the Packer tool requires a floating IP to be available at the time a system
+is being deployed to OpenStack. Currently 185.43.218.169 should be used for
+this.  If you specify a floating IP that is in use by an existing instance, you
+will steal it for your own instance and probably break one of our web services.
+
+[Packer]: http://www.packer.io/
+
+
+Systems
+-------
+
+### Front-end
+
+The front-end provides a reverse proxy, to allow more flexible routing than
+simply pointing each subdomain to a different instance using separate public
+IPs. It also provides a starting point for future load-balancing and failover
+configuration.
+
+If you want to add a new service to the Baserock Project infrastructure via
+the frontend, alter the haproxy.cfg file in the frontend/ directory. Our
+OpenStack instance doesn't provide any kind of internal DNS service, so you
+must put the fixed IP of each instance.
+
+To deploy this system:
+
+    packer build -only=production frontend/packer_template.json
+
+    ansible-playbook -i hosts frontend/instance-config.yml
+
+Full HAProxy 1.5 documentation: <https://cbonte.github.io/haproxy-dconv/configuration-1.5.html>.
+
+When setting up a new instance with the frontend already deployed, do the
+following:
+
+- request a subdomain that points at 85.199.252.162
+- log in to the frontend-haproxy machine
+- edit /etc/haproxy/haproxy.conf, and make the same changes to the copy in this
+  repo.
+- run: `sudo haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -sf
+  $(cat /var/run/haproxy.pid)` to reload the configuration without interrupting
+  the service (this confuses systemd, but I'm not sure how to avoid that)
+
+### Database
+
+Baserock infrastructure uses a shared [MariaDB] database. MariaDB was chosen
+because Storyboard only supports MariaDB.
+
+To deploy this system to production:
+
+    packer build -only=production database/packer_template.json
+    nova boot database-mariadb \
+        --key-name=$keyname \
+        --flavor dc1.1x1 \
+        --image 'database-mariadb' \
+        --nic='net-id=d079fa3e-2558-4bcb-ad5a-279040c202b5,v4-fixed-ip=192.168.222.30' \
+        --security-groups default,database-mariadb
+        --user-data ./baserock-ops-team.cloud-config
+    nova volume-create \
+        --display-name database-volume \
+        --display-description 'Database volume' \
+        --volume-type Ceph \
+        100
+    nova volume-attach database-mariadb <volume ID> /dev/vdb
+
+    ansible-playbook -i hosts database/instance-config.yml
+
+To add the required users and databases, run the following playbook. This can
+be altered and rerun whenever you need to add more users or databases.
+
+    ansible-playbook -i hosts database/instance-mariadb-config.yml
+
+[MariaDB]: https://www.mariadb.org
+
+### Mail relay
+
+The mail relay is currently a Fedora Cloud 21 image running Exim. You should be
+able to take a Fedora Cloud 21 base image, instantiate it in the
+'internal-mail-relay' security group, and then run
+'baserock_mail/instance-config.yml' to configure it and start the service.
+
+It is configured to only listen on its internal IP. It's not intended to
+receive mail, or relay mail sent by systems outside the baserock.org cloud.
+
+### OpenID provider
+
+To deploy a development instance:
+
+    packer build -only=development baserock_openid_provider/packer_template.json
+    baserock_openid_provider/develop.sh
+    # Now you have a root shell inside your container
+    cd /srv/baserock_openid_provider
+    python ./manage.py runserver 0.0.0.0:80
+    # Now you can browse to http://localhost:80/ and see the server.
+
+To deploy this system to production:
+
+    vim baserock_openid_provider/baserock_openid_provider/settings.py
+
+Edit the DATABASES['default']['HOST'] to point to the fixed IP of the
+'database' machine, and check the settings. See:
+https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
+
+    packer build -only=production baserock_openid_provider/packer_template.json
+
+    nova boot openid.baserock.org \
+        --key-name $keyname \
+        --flavor dc1.1x1 \
+        --image 'baserock_openid_provider' \
+        --nic "net-id=$network_id',v4-fixed-ip=192.168.222.67" \
+        --security-groups default,web-server
+        --user-data ./baserock-ops-team.cloud-config
+
+    ansible-playbook -i hosts baserock_openid_provider/instance-config.yml
+
+To change Cherokee configuration, it's usually easiest to use the
+cherokee-admin tool in a running instance. SSH in as normal but forward port
+9090 to localhost (pass `-L9090:localhost:9090` to SSH). Backup the old
+/etc/cherokee/cherokee.conf file, then run `cherokee-admin`, and log in using
+the creditials it gives you. After changing the configuration, please update
+the cherokee.conf in infrastructure.git to match the changes `cherokee-admin`
+made.
+
+### Gerrit
+
+To deploy to production, run these commands in a Baserock 'devel'
+or 'build' system.
+
+    nova volume-create \
+        --display-name gerrit-volume \
+        --display-description 'Gerrit volume' \
+        --volume-type Ceph \
+        100
+
+    morph init ws; cd ws; morph checkout baserock:baserock/infrastructure master;
+    cd master/baserock/baserock/infrastructure
+
+    morph build systems/gerrit-system-x86_64.morph
+    morph deploy baserock_gerrit/baserock_gerrit.morph
+
+    nova boot gerrit.baserock.org \
+        --key-name $keyname \
+        --flavor 'dc1.2x4.40' \
+        --image baserock_gerrit \
+        --nic "net-id=$network_id,v4-fixed-ip=192.168.222.69" \
+        --security-groups default,gerrit,git-server,web-server
+        --user-data baserock-ops-team.cloud-config
+
+    nova volume-attach gerrit.baserock.org <volume-id> /dev/vdb
+
+Accept the license and download the latest Java Runtime Environment from
+http://www.oracle.com/technetwork/java/javase/downloads/server-jre8-downloads-2133154.html
+
+Accept the license and download the latest Java Cryptography Extensions from
+http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+
+Save these two files in the baserock_gerrit/ folder. The instance-config.yml
+Ansible playbook will upload them to the new system.
+
+    # Don't copy-paste this! Use the Oracle website instead!
+    wget --no-cookies --no-check-certificate \
+         --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+         "http://download.oracle.com/otn-pub/java/jdk/8u40-b25/server-jre-8u40-linux-x64.tar.gz" 
+    wget --no-cookies --no-check-certificate \
+          --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+          "http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip"
+
+    ansible-playbook -i hosts baserock_gerrit/instance-config.yml
+
+For baserock.org Gerrit you will also need to run:
+
+    ansible-playbook -i hosts baserock_gerrit/instance-ca-certificate-config.yml
+
+#### Access control
+
+Gerrit should now be up and running and accessible through the web interface.
+By default this is on port 8080. Log into the new Gerrit instance with your
+credentials. Make sure you're the first one to have registered, and you will
+automatically have been added to the Administrators group.
+
+You can add more users into the Administrators group later on using the [gerrit
+set-members] command, or the web interface.
+
+Go to the settings page, 'HTTP Password' and generate a HTTP password for
+yourself. You'll need it in the next step. The password can take a long time to
+appear for some reason, or it might not work at all. Click off the page and
+come back to it and it might suddenly have appeared. I've not investigated why
+this happens.
+
+Generate the SSH keys you need, if you don't have them.
+
+    mkdir -p keys
+    ssh-keygen -t rsa -b 4096 -C 'lorry@gerrit.baserock.org' -N '' -f keys/lorry-gerrit.key
+
+Now set up the Gerrit access configuration. This Ansible playbook requires a
+couple of non-standard packages.
+
+    git clone git://git.baserock.org/delta/python-packages/pygerrit.git
+    git clone git://github.com/ssssam/ansible-gerrit
+
+    export GERRIT_URL=gerrit web URL
+    export GERRIT_ADMIN_USERNAME=your username
+    export GERRIT_ADMIN_PASSWORD=your generated HTTP password
+
+    ANSIBLE_LIBRARY=./ansible-gerrit PYTHONPATH=./pygerrit \
+    ansible-playbook a2378_gerrit/gerrit-access-config.yml
+
+As well as creating all the groups and initial users in the new Gerrit
+instance, Ansible should update the file baserock_gerrit/All-Projects/groups,
+which will be needed in the next step.
+
+    git clone ssh://$GERRIT_ADMIN_USERNAME@gerrit.baserock.org:29418/All-Projects.git /tmp/All-Projects
+    cp -a baserock_gerrit/All-Projects/*  /tmp/All-Projects
+    cd /tmp/All-Projects
+    git checkout -b config
+    git commit -a -m "Set up initial access controls."
+    git push origin config:refs/meta/config
+    cd -
+
+[gerrit set-members]: https://gerrit-documentation.storage.googleapis.com/Documentation/2.9.4/cmd-set-members.html
+
+#### Mirroring
+
+Run:
+
+    ansible-playbook -i hosts baserock_gerrit/instance-mirroring-config.yml
+
+Now clone the Gerrit's lorry-controller configuration repository, commit the
+configuration file to it, and push.
+
+    git clone ssh://$GERRIT_ADMIN_USERNAME@gerrit.baserock.org:29418/local-config/lorries.git /tmp/lorries
+    cp baserock_gerrit/lorry-controller.conf /tmp/lorries
+    cd /tmp/lorries
+    git checkout -b master
+    git add .
+    git commit -m "Add initial Lorry Controller mirroring configuration"
+    git push origin master
+    cd -
+
+Now SSH in as 'root' to gerrit.baserock.org, tunnelling the lorry-controller
+webapp's port to your local machine:
+
+    ssh -L 12765:localhost:12765 root@gerrit.baserock.org
+
+Visit <http://localhost/1.0/status-html>. You should see the lorry-controller
+status page. Click 'Re-read configuration', if there are any errors in the
+configuration it'll tell you. If not, it should start mirroring stuff from
+your Trove.
+
+Create a Gitano account on the Trove you want to push changes to for the Gerrit
+user. The `instance-config.yml` Ansible playbook will have generated an SSH
+key. Run these commands on the Gerrit instance:
+
+    ssh git@git.baserock.org user add gerrit "gerrit.baserock.org" gerrit@baserock.org
+    ssh git@git.baserock.org as gerrit sshkey add main < ~gerrit/.ssh/id_rsa.pub
+
+Add the 'gerrit' user to the necessary -writers groups on the Trove, to allow
+the gerrit-replication plugin to push merged changes to 'master' in the Trove.
+
+    ssh git@git.baserock.org group adduser baserock-writers gerrit
+    ssh git@git.baserock.org group adduser local-config-writers gerrit
+
+Add the host key of the remote trove, to the Gerrit system:
+
+    sudo -u gerrit sh -c 'ssh-keyscan git.baserock.org >> ~gerrit/.ssh/known_hosts'
+
+Check the 'gerrit' user's Trove account is working.
+
+    sudo -u gerrit ssh git@git.baserock.org whoami
+
+Now enable the gerrit-replication plugin, check that it's now in the list of
+plugins, and manually start a replication cycle. You should see log output from
+the final SSH command showing any errors.
+
+    ssh $GERRIT_ADMIN_USERNAME@gerrit.baserock.org -p 29418 gerrit plugin enable replication
+    ssh $GERRIT_ADMIN_USERNAME@gerrit.baserock.org -p 29418 gerrit plugin ls
+    ssh $GERRIT_ADMIN_USERNAME@gerrit.baserock.org -p 29418 replication start --all --wait
+
+### Storyboard
+
+We use a slightly adapted version of
+<https://github.com/openstack-infra/puppet-storyboard> to deploy Storyboard.
+
+There's no development deployment for Storyboard at this time: the Puppet
+script expects to start services using systemd, and that doesn't work by
+default in a Docker container.
+
+To deploy the production version:
+
+    packer build -only=production baserock_storyboard/packer_template.json
+    nova boot openid_provider
+        --flavor dc1.1x1 --image 'baserock_storyboard' \
+        --key-name=$keyname storyboard.baserock.org \
+        --nic="net-id=$network_id"
+        --security-groups default,web-server
+        --user-data baserock-ops-team.cloud-config
+
+Storyboard deployment does not yet work fully (you can manually kludge it into
+working after deploying it, though).
+
+### Masons
+
+Mason is the name we use for an automated build and test system used in the
+Baserock project. The V2 Mason that runs as <https://mason-x86-32.baserock.org/>
+and <https://mason-x86-64.baserock.org/> lives in definitions.git, and is thus
+available in infrastructure.git too by default.
+
+To build mason-x86-64:
+
+    morph init ws; cd ws; morph checkout baserock:baserock/infrastructure master;
+    cd master/baserock/baserock/infrastructure
+
+    morph build systems/build-system-x86_64.morph
+    morph deploy baserock_mason_x86_64/mason-x86-64.morph
+
+    nova boot mason-x86-64.baserock.org \
+        --key-name $keyname \
+        --flavor 'dc1.2x2' \
+        --image baserock_mason_x86_64 \
+        --nic "net-id=$network_id,v4-fixed-ip=192.168.222.80" \
+        --security-groups internal-only,mason-x86
+        --user-data baserock-ops-team.cloud-config
+
+The mason-x86-32 system is the same, just subsitute '64' for '32' in the above
+commands.
+
+Note that the Masons are NOT in the 'default' security group, they are in
+'internal-only'. This is a way of enforcing the [policy] that the Baserock
+reference system definitions can only use source code hosted on
+git.baserock.org, by making it impossible to fetch code from anywhere else.
+
+[policy]: http://wiki.baserock.org/policies/

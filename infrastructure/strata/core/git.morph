@@ -1,0 +1,7 @@
+name: git
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- make configure
+build-commands:
+- make all

@@ -1,0 +1,10 @@
+name: dbus
+kind: chunk
+build-system: autotools
+configure-commands:
+- sh autogen.sh --no-configure
+- ./configure --prefix="$PREFIX" --localstatedir=/var --sysconfdir=/etc --enable-user-session
+build-commands:
+- make XMLTO_OUTPUT=
+install-commands:
+- make XMLTO_OUTPUT= DESTDIR="$DESTDIR" install

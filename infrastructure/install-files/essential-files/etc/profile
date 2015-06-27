@@ -1,0 +1,13 @@
+# /etc/profile
+
+# Set our default path
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH
+
+# Source global bash config
+if test "$PS1" && test "$BASH" && test -r /etc/bash.bashrc; then
+        . /etc/bash.bashrc
+fi
+
+# Set default pager to less
+export MANPAGER='less -R'

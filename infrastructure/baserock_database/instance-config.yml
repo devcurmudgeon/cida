@@ -1,0 +1,25 @@
+# Instance configuration for Baserock database server.
+#
+# This script expects a volume to be available at /dev/vdb.
+---
+- hosts: database-mariadb
+  gather_facts: False
+  sudo: yes
+  tasks:
+    - name: ensure system up to date
+      yum: name=* state=latest
+
+    # FIXME: the create-data-volume.yml role should handle this... the gotcha
+    # is that this won't work in Baserock systems right now. Once there's an
+    # lvm2-lvmetad.service in Baserock we can move this entry to
+    # create-data-volume.yml.
+    - name: ensure LVM metadata service is running
+      service: name=lvm2-lvmetad enabled=yes state=started
+
+    - include: ../tasks/create-data-volume.yml lv_name=database lv_size=25g mountpoint=/var/lib/mysql
+
+    - name: ensure mysql user owns /var/lib/mysql
+      file: path=/var/lib/mysql owner=mysql group=mysql mode=600 state=directory
+
+    - name: restart the MariaDB service
+      service: name=mariadb enabled=true state=restarted

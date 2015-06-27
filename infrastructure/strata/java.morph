@@ -1,0 +1,22 @@
+name: java
+kind: stratum
+description: |
+  This stratum contains everything necessary to compile and run Java applications
+  and build OpenJDK from source.
+build-depends:
+- morph: strata/core.morph
+- morph: strata/x-common.morph
+- morph: strata/graphics-common.morph
+chunks:
+- name: java-binary
+  morph: strata/java/java-binary.morph
+  repo: github:jmacarthur/openjdk-binary
+  ref: 6f53762e2632c4b9f9afdfa6995a2c696bb9fd43
+  unpetrify-ref: master
+- name: java-ant
+  morph: strata/java/java-ant.morph
+  repo: upstream:java/ant
+  ref: b3509fc3250b0f868076c846d29da80cbdc20681
+  unpetrify-ref: ANT_194
+  build-depends:
+  - java-binary

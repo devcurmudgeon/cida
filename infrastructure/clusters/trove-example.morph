@@ -1,0 +1,58 @@
+name: trove-example
+kind: cluster
+description: |
+  This is an example cluster morphology for deploying a Trove,
+  both the initial deployment and an upgrade.
+
+  You need some ssh keys, which you can create like this:
+
+      mkdir ssh_keys
+      ssh-keygen -N '' -f ssh_keys/lorry.key
+      ssh-keygen -N '' -f ssh_keys/worker.key
+      ssh-keygen -N '' -f ssh_keys/trove-admin.key
+
+  You may also put in your own keys instead of creating new ones.
+
+  To do the initial deployment:
+
+      morph deploy clusters/trove-example.morph \
+          initial \
+          initial.location=kvm+ssh://liw@192.168.122.1/test-trove/tmp/test-trove.img
+
+  To do an upgrade:
+
+      morph deploy clusters/trove-example.morph \
+          upgrade upgrade.VERSION_LABEL=123
+
+  where `VERSION_LABEL` gets a new unique value each time.
+
+  Remember to always specify either initial or upgrade as the
+  deployment name to use, otherwise morph will attempt to deploy both.
+
+  You can find documentation for Trove at the following web address:
+  http://wiki.baserock.org/Trove/
+systems:
+- morph: systems/trove-system-x86_64.morph
+  deploy-defaults:
+    HOSTNAME: test-trove
+    VCPUS: 2
+    RAM_SIZE: 2G
+    DISK_SIZE: 8G
+    LORRY_SSH_KEY: ssh_keys/lorry.key
+    WORKER_SSH_PUBKEY: ssh_keys/worker.key.pub
+    TROVE_ADMIN_EMAIL: adminuser@example.com
+    TROVE_ADMIN_NAME: Nobody
+    TROVE_ADMIN_SSH_PUBKEY: ssh_keys/trove-admin.key.pub
+    TROVE_ADMIN_USER: adminuser
+    TROVE_COMPANY: Company name goes here
+    TROVE_HOST: test-trove
+    TROVE_ID: test-trove
+    UPSTREAM_TROVE: ''
+  deploy:
+    initial:
+      type: extensions/kvm
+      location: kvm+ssh://vm-user@vm-host/test-trove/vm-path/test-trove.img
+      VERSION_LABEL: 1
+    upgrade:
+      type: extensions/ssh-rsync
+      location: test-trove

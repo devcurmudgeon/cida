@@ -1,0 +1,16 @@
+name: libdrm-common
+kind: stratum
+build-depends:
+- morph: strata/xorg-util-macros-common.morph
+chunks:
+- name: xorg-lib-libpciaccess
+  repo: upstream:xorg-lib-libpciaccess
+  ref: f99c2e4199ce37f6f94428df504427f67c3ec543
+  unpetrify-ref: libpciaccess-0.13.3
+- name: drm
+  repo: upstream:drm
+  morph: strata/libdrm-common/drm.morph
+  ref: 5f7b6723e1bed755c230817eea0563bab5b2a8a7
+  unpetrify-ref: libdrm-2.4.60
+  build-depends:
+  - xorg-lib-libpciaccess

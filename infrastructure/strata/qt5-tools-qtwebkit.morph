@@ -1,0 +1,34 @@
+name: qt5-tools-qtwebkit
+kind: stratum
+description: Qt5 WebKit Development Libraries and Tools
+build-depends:
+- morph: strata/multimedia-gstreamer.morph
+- morph: strata/qt5-tools.morph
+- morph: strata/ruby.morph
+chunks:
+- name: qtwebkit
+  morph: strata/qt5-tools/qtwebkit.morph
+  repo: upstream:qt5/qtwebkit
+  ref: 586bdc38324dfaeec65389bf7646c82cb35db017
+  unpetrify-ref: "5.4.2"
+- name: qtwebkit-examples
+  morph: strata/qt5-tools/qtwebkit-examples.morph
+  repo: upstream:qt5/qtwebkit-examples
+  ref: 70bd4d5253f134bf48a30544030bb832f1eba8b3
+  unpetrify-ref: v5.4.0
+  build-depends:
+  - qtwebkit
+- name: qttools
+  morph: strata/qt5-tools/qttools.morph
+  repo: upstream:qt5/qttools
+  ref: 5060a0ec7dcb26826b19eefbd6063efcbde6101f
+  unpetrify-ref: v5.4.0
+  build-depends:
+  - qtwebkit
+- name: qttranslations
+  morph: strata/qt5-tools/qttranslations.morph
+  repo: upstream:qt5/qttranslations
+  ref: 3aad4ab4718d4bf952275a07e406e93eb6a22eed
+  unpetrify-ref: v5.4.0
+  build-depends:
+  - qttools

@@ -1,0 +1,249 @@
+#!/usr/bin/python
+#
+# Copyright (C) 2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+'''Create a temporary backup snapshot of a volume.
+
+This program is intended as a wrapper for `rsync`, to allow copying data out
+of the system with a minimum of service downtime. You can't copy data from a
+volume used by a service like MariaDB or Gerrit while that service is running,
+because the contents will change underneath your feet while you copy them. This
+script assumes the data is stored on an LVM volume, so you can stop the
+services, snapshot the volume, start the services again and then copy the data
+out from the snapshot.
+
+To use it, you need to use the 'command' feature of the .ssh/authorized_keys
+file, which causes OpenSSH to run a given command whenever a given SSH key
+connects (instead of allowing the owner of the key to run any command). This
+ensures that even if the backup key is compromised, all the attacker can do is
+make backups, and only then if they are connecting from the IP listed in 'from'
+
+    command=/usr/bin/backup-snapshot <key details>
+
+You'll need to create a YAML configuration file in /etc/backup-snapshot.conf
+that describes how to create the snapshot. Here's an example:
+
+    services:
+      - lorry-controller-minion@1.service
+      - gerrit.service
+
+    volume: /dev/vg0/gerrit
+
+To test this out, run:
+
+    rsync root@192.168.0.1: /srv/backup --rsync-path="/usr/bin/backup-snapshot"
+
+There is a Perl script named 'rrsync' that does something similar:
+
+    http://git.baserock.org/cgi-bin/cgit.cgi/delta/rsync.git/tree/support/rrsync
+
+'''
+
+
+import contextlib
+import logging
+import os
+import signal
+import shlex
+import subprocess
+import sys
+import tempfile
+import time
+import traceback
+import yaml
+
+
+CONFIG_FILE = '/etc/backup-snapshot.conf'
+
+
+def status(msg, *format):
+    # Messages have to go on stderr because rsync communicates on stdout.
+    logging.info(msg, *format)
+    sys.stderr.write(msg % format + '\n')
+
+
+def run_command(argv):
+    '''Run a command, raising an exception on failure.
+
+    Output on stdout is returned.
+    '''
+    logging.debug("Running: %s", argv)
+    output = subprocess.check_output(argv, close_fds=True)
+
+    logging.debug("Output: %s", output)
+    return output
+
+
+@contextlib.contextmanager
+def pause_services(services):
+    '''Stop a set of systemd services for the duration of a 'with' block.'''
+
+    logging.info("Pausing services: %s", services)
+    try:
+        for service in services:
+            run_command(['systemctl', 'stop', service])
+        yield
+    finally:
+        for service in services:
+            run_command(['systemctl', 'start', service])
+        logging.info("Restarted services: %s", services)
+
+
+def snapshot_volume(volume_path, suffix=None):
+    '''Create a snapshot of an LVM volume.'''
+
+    volume_group_path, volume_name = os.path.split(volume_path)
+
+    if suffix is None:
+        suffix = time.strftime('-backup-%Y-%m-%d')
+    snapshot_name = volume_name + suffix
+
+    logging.info("Snapshotting volume %s as %s", volume_path, snapshot_name)
+    run_command(['lvcreate', '--name', snapshot_name, '--snapshot', volume_path, '--extents', '100%ORIGIN', '--permission=r'])
+
+    snapshot_path = os.path.join(volume_group_path, snapshot_name)
+    return snapshot_path
+
+
+def delete_volume(volume_path):
+    '''Delete an LVM volume or snapshot.'''
+
+    # Sadly, --force seems necessary, because activation applies to the whole
+    # volume group rather than to the individual volumes so we can't deactivate
+    # only the snapshot before removing it.
+    logging.info("Deleting volume %s", volume_path)
+    run_command(['lvremove', '--force', volume_path])
+
+
+@contextlib.contextmanager
+def mount(block_device, path=None):
+    '''Mount a block device for the duration of 'with' block.'''
+
+    if path is None:
+        path = tempfile.mkdtemp()
+        tempdir = path
+        logging.debug('Created temporary directory %s', tempdir)
+    else:
+        tempdir = None
+
+    try:
+        run_command(['mount', block_device, path])
+        try:
+            yield path
+        finally:
+            run_command(['umount', path])
+    finally:
+        if tempdir is not None:
+            logging.debug('Removed temporary directory %s', tempdir)
+            os.rmdir(tempdir)
+
+
+def load_config(filename):
+    '''Load configuration from a YAML file.'''
+
+    logging.info("Loading config from %s", filename)
+    with open(filename, 'r') as f:
+        config = yaml.safe_load(f)
+
+    logging.debug("Config: %s", config)
+    return config
+
+
+def get_rsync_sender_flag(rsync_commandline):
+    '''Parse an 'rsync --server' commandline to get the --sender ID.
+
+    This parses a remote commandline, so be careful.
+
+    '''
+    args = shlex.split(rsync_commandline)
+    if args[0] != 'rsync':
+        raise RuntimeError("Not passed an rsync commandline.")
+
+    for i, arg in enumerate(args):
+        if arg == '--sender':
+            sender = args[i + 1]
+            return sender
+    else:
+        raise RuntimeError("Did not find --sender flag.")
+
+
+def run_rsync_server(source_path, sender_flag):
+    # Adding '/' to the source_path tells rsync that we want the /contents/
+    # of that directory, not the directory itself.
+    #
+    # You'll have realised that it doesn't actually matter what remote path the
+    # user passes to their local rsync.
+    rsync_command = ['rsync', '--server', '--sender', sender_flag, '.',
+                     source_path + '/']
+    logging.debug("Running: %s", rsync_command)
+    subprocess.check_call(rsync_command, stdout=sys.stdout)
+
+
+def main():
+    logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S',
+                        filename='/var/log/backup-snapshot.log',
+                        level=logging.DEBUG)
+
+    logging.debug("Running as UID %i GID %i", os.getuid(), os.getgid())
+
+    # Ensure that clean up code (various 'finally' blocks in the functions
+    # above) always runs. This is important to ensure we never leave services
+    # stopped if the process is interrupted somehow.
+
+    signal.signal(signal.SIGHUP, signal.default_int_handler)
+
+    config = load_config(CONFIG_FILE)
+
+    # Check commandline early, so we don't stop services just to then
+    # give an error message.
+    rsync_command = os.environ.get('SSH_ORIGINAL_COMMAND', '')
+    logging.info("Original SSH command: %s", rsync_command)
+
+    if len(rsync_command) == 0:
+        # For testing only -- this can only happen if
+        # ~/.ssh/authorized_keys isn't set up as described above.
+        logging.info("Command line: %s", sys.argv)
+        rsync_command = 'rsync ' + ' '.join(sys.argv[1:])
+
+    # We want to ignore as much as possible of the
+    # SSH_ORIGINAL_COMMAND, because it's a potential attack vector.
+    # If an attacker has somehow got hold of the backup SSH key,
+    # they can pass whatever they want, so we hardcode the 'rsync'
+    # commandline here instead of honouring what the user passed
+    # in. We can anticipate everything except the '--sender' flag.
+    sender_flag = get_rsync_sender_flag(rsync_command)
+
+    with pause_services(config['services']):
+        snapshot_path = snapshot_volume(config['volume'])
+
+    try:
+        with mount(snapshot_path) as mount_path:
+            run_rsync_server(mount_path, sender_flag))
+
+            status("rsync server process exited with success.")
+    finally:
+        delete_volume(snapshot_path)
+
+
+try:
+    status('backup-snapshot started')
+    main()
+except RuntimeError as e:
+    sys.stderr.write('ERROR: %s' % e)
+except Exception as e:
+    logging.debug(traceback.format_exc())
+    raise

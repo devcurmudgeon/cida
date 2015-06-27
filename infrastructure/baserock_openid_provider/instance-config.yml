@@ -1,0 +1,36 @@
+# Instance configuration for Baserock OpenID provider.
+#
+# This playbook should be run after starting an instance of the Baserock
+# OpenID Provider image.
+---
+- hosts: openid
+  gather_facts: False
+  sudo: yes
+  tasks:
+  - name: ensure system up to date
+    yum: name=* state=latest
+
+  - name: install database password
+    copy: src=../database/baserock_openid_provider.database_password.yml dest=/etc owner=cherokee group=cherokee mode=400
+
+  - name: install Django secret key
+    copy: src=baserock_openid_provider.secret_key.yml dest=/etc owner=cherokee group=cherokee mode=400
+
+  # This step could be part of image creation, except that because the secret
+  # key file wouldn't be available at that time, the 'manage.py' script would
+  # fail to run.
+  - name: install static content
+    django_manage: app_path=/srv/baserock_openid_provider command=collectstatic
+    sudo_user: cherokee
+
+  - name: run database migrations
+    django_manage: app_path=/srv/baserock_openid_provider command=migrate
+    sudo_user: cherokee
+
+  # Default configuration of Sendmail in Fedora is to only accept connections from
+  # localhost. This is what we want, so no extra config required.
+  - name: enable and start sendmail service
+    service: name=sendmail enabled=yes state=started
+
+  - name: enable and start Cherokee service
+    service: name=cherokee enabled=yes state=restarted

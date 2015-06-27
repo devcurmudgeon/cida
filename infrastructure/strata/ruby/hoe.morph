@@ -1,0 +1,16 @@
+name: hoe
+kind: chunk
+description: |
+  Hoe is a rake/rubygems helper for project Rakefiles. It helps you
+  manage, maintain, and release your project and includes a dynamic
+  plug-in system allowing for easy extensibility.
+products:
+- artifact: hoe-doc
+  include:
+  - usr/lib/ruby/gems/\d[\w.]*/doc/.*
+build-commands:
+- rake gem
+install-commands:
+- mkdir -p "$DESTDIR/$(gem environment home)"
+- gem install --install-dir "$DESTDIR/$(gem environment home)" --bindir "$DESTDIR/$PREFIX/bin"
+  --ignore-dependencies --local ./pkg/hoe-*.gem

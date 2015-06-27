@@ -1,0 +1,53 @@
+# Image configuration for Baserock OpenID provider.
+#
+# This playbook is run at image-creation time by Packer.
+---
+- hosts: localhost
+  gather_facts: False
+  tasks:
+  - name: enable persistant journal
+    shell: mkdir /var/log/journal
+    args:
+      creates: /var/log/journal
+
+  - name: install Cherokee web server
+    yum: name=cherokee state=latest
+
+  - name: install PIP package manager
+    yum: name=python-pip state=latest
+
+  - name: install Sendmail mail transfer agent
+    yum: name=sendmail state=latest
+
+  - name: install uWSGI application container server and Python plugin
+    yum: name=uwsgi-plugin-python state=latest
+
+  - name: install Django
+    pip: name=django
+
+  # This is a fork of django-registration which supports Django 1.7.
+  # Source: https://github.com/macropin/django-registration
+  # The original django-registration (which seems to be abandoned) lives at:
+  # https://bitbucket.org/ubernostrum/django-registration/
+  - name: install django-registration-redux
+    pip: name=django-registration-redux
+
+  - name: install python-openid
+    pip: name=python-openid
+
+  # Install the MySQL-python package from Yum, because if it's installed from
+  # PyPI you need to have the mariadb-devel package installed to build the C
+  # code and that's an extra 21MB of dependencies or so. Note that this driver
+  # doesn't support Python 3, but there is a fork available which does, see:
+  # https://docs.djangoproject.com/en/dev/ref/databases/#mysql-db-api-drivers
+  - name: install MySQL-python
+    yum: name=MySQL-python state=latest
+
+  - name: install Cherokee configuration
+    file: src=/srv/baserock_openid_provider/cherokee.conf dest=/etc/cherokee/cherokee.conf state=link force=yes
+
+  - name: create log directory for baserock_openid_provider
+    file: path=/var/log/baserock_openid_provider owner=cherokee group=cherokee state=directory
+
+  - name: create directory for static content
+    file: path=/var/www/static owner=cherokee group=cherokee state=directory

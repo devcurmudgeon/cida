@@ -1,0 +1,74 @@
+# Copyright (C) 2014, 2015 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, see <http://www.gnu.org/licenses/>.
+
+help: |
+    Install a set of files onto a system
+
+    To use this extension you create a directory of files you want to install
+    onto the target system.
+
+    In this example we want to copy some ssh keys onto a system
+
+        % mkdir sshkeyfiles
+        % mkdir -p sshkeyfiles/root/.ssh
+        % cp id_rsa sshkeyfiles/root/.ssh
+        % cp id_rsa.pub sshkeyfiles/root/.ssh
+
+    Now we need to create a manifest file to set the file modes
+    and persmissions. The manifest file should be created inside the
+    directory that contains the files we're trying to install.
+
+        cat << EOF > sshkeyfiles/manifest
+        0040755 0 0 /root/.ssh
+        0100600 0 0 /root/.ssh/id_rsa
+        0100644 0 0 /root/.ssh/id_rsa.pub
+        EOF
+
+    Then we add the path to our manifest to our cluster morph,
+    this path should be relative to the system definitions repository.
+
+        INSTALL_FILES: sshkeysfiles/manifest
+
+    More generally entries in the manifest are formatted as:
+        [overwrite] <octal mode> <uid decimal> <gid decimal> <filename>
+
+    NOTE: Directories on the target must be created if they do not exist.
+
+    The extension supports files, symlinks and directories.
+
+    For example,
+
+        0100644 0 0 /etc/issue
+
+    creates a regular file at /etc/issue with 644 permissions,
+    uid 0 and gid 0, if the file doesn't already exist.
+
+        overwrite 0100644 0 0 /etc/issue
+
+    creates a regular file at /etc/issue with 644 permissions,
+    uid 0 and gid 0, if the file already exists it is overwritten.
+
+        0100755 0 0 /usr/bin/foo
+
+    creates an executable file at /usr/bin/foo
+
+        0040755 0 0 /etc/foodir
+
+    creates a directory with 755 permissions
+
+        0120000 0 0 /usr/bin/bar
+
+    creates a symlink at /usr/bin/bar
+
+    NOTE: You will still need to make a symlink in the manifest directory.

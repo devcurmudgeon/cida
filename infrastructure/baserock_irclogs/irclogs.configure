@@ -1,0 +1,45 @@
+#!/bin/sh
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.5
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+set -e
+
+ROOT="$1"
+
+echo 'supybot:x:1010:1010:Supybot User:/home/supybot:/bin/bash' >> "$ROOT/etc/passwd"
+echo 'supybot:x:1010:' >> "$ROOT/etc/group"
+mkdir -p "$ROOT/home/supybot"
+mkdir -p "$ROOT/srv/irclogs"
+chown -R 1010:1010 "$ROOT/home/supybot"
+chown -R 1010:1010 "$ROOT/srv/irclogs"
+
+# Copy supybot configuration
+install -m 644 -g 1010 -o 1010 baserock_irclogs/files/baserock.conf "$ROOT"/home/supybot/supybot-baserock.conf
+
+
+# Enable all the services needed
+services="irclogs-generation.service \
+irclogs-generation.timer \
+lighttpd-irclogs.service \
+supybot.service"
+
+for service in $services; do
+  cp "baserock_irclogs/files/$service" "$ROOT/etc/systemd/system/$service"
+  ln -sf "/etc/systemd/system/$service" \
+      "$ROOT/etc/systemd/system/multi-user.target.wants/$service"
+done
+
+# Copy lighttpd configuration
+cp baserock_irclogs/files/lighttpd-irclogs.conf "$ROOT"/etc/lighttpd-irclogs.conf

@@ -1,0 +1,84 @@
+name: java-build-system-x86_64-generic
+kind: system
+description: |
+  A superset of devel-system which can build OpenJDK.
+
+  There are instruction on using and testing java-build-system at:
+  https://wiki.baserock.org/Java.
+
+  For use on 64-bit Intel x86 computers.
+arch: x86_64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-x86_64-generic
+  morph: strata/bsp-x86_64-generic.morph
+- name: tools
+  morph: strata/tools.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
+- name: python-pygobject
+  morph: strata/python-pygobject.morph
+- name: python-wsgi
+  morph: strata/python-wsgi.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
+- name: openstack-common
+  morph: strata/openstack-common.morph
+- name: openstack-clients
+  morph: strata/openstack-clients.morph
+- name: cloudinit-support
+  morph: strata/cloudinit-support.morph
+- name: nodejs
+  morph: strata/nodejs.morph
+- name: ruby
+  morph: strata/ruby.morph
+- name: lorry
+  morph: strata/lorry.morph
+- name: baserock-import
+  morph: strata/baserock-import.morph
+- name: nfs
+  morph: strata/nfs.morph
+- name: python-core
+  morph: strata/python-core.morph
+- name: python-tools
+  morph: strata/python-tools.morph
+- name: python-common
+  morph: strata/python-common.morph
+- name: devtools
+  morph: strata/devtools.morph
+- name: ansible
+  morph: strata/ansible.morph
+- name: swift
+  morph: strata/swift.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
+- name: ostree-core
+  morph: strata/ostree-core.morph
+- name: coreutils-common
+  morph: strata/coreutils-common.morph
+- name: x-common
+  morph: strata/x-common.morph
+- name: x-generic
+  morph: strata/x-generic.morph
+- name: cups
+  morph: strata/cups.morph
+- name: java
+  morph: strata/java.morph
+- name: graphics-common
+  morph: strata/graphics-common.morph
+- name: audio-bluetooth
+  morph: strata/audio-bluetooth.morph
+configuration-extensions:
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/simple-network
+- extensions/nfsboot
+- extensions/install-files
+- extensions/cloud-init
+- extensions/fstab
+- extensions/install-essential-files

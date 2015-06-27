@@ -1,0 +1,16 @@
+[Unit]
+Description=OpenStack Bare Metal Provisioning Service (code-named Ironic) API server
+ConditionPathExists=/etc/ironic/ironic.conf
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ironic
+StandardOutput=null
+StandardError=null
+ExecStart=/usr/bin/ironic-api --config-file /etc/ironic/ironic.conf
+
+[Install]
+WantedBy=multi-user.target
+

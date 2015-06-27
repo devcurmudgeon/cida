@@ -1,0 +1,4 @@
+name: lua-scrypt
+kind: chunk
+install-commands:
+- make lua-5.1-install DESTDIR="$DESTDIR"

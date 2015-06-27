@@ -1,0 +1,57 @@
+{
+    "builders": [
+        {
+            "name": "development",
+            "type": "docker",
+            "image": "fedora:20",
+            "commit": true,
+            "run_command": ["-d", "-i", "-t", "{{.Image}}", "/bin/sh"]
+        },
+        {
+            "name": "production",
+            "type": "openstack",
+            "image_name": "database-mariadb",
+            "flavor": "f0577618-9125-4948-b450-474e225bbc4c",
+            "source_image": "742e0414-c985-4994-b307-4aafade942b3",
+            "networks": ["d079fa3e-2558-4bcb-ad5a-279040c202b5"],
+            "floating_ip": "85.199.252.164",
+            "use_floating_ip": true,
+            "ssh_username": "fedora"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [ "sudo yum install -y ansible"]
+        },
+        {
+            "type": "ansible-local",
+            "playbook_file": "database/image-config.yml",
+            "command": "sudo ansible-playbook"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo yum install -y libselinux-python",
+                "sudo ansible localhost -m selinux -a state=disabled",
+                "sudo setenforce 0",
+            ],
+            "only": ["production"]
+        },
+        {
+            "type": "shell",
+            "inline": [ "sync; sync; sleep 10; sync" ],
+            "only": ["production"]
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "docker-tag",
+                "repository": "baserock/database",
+                "tag": "latest",
+                "only": ["development"]
+            }
+        ]
+    ]
+}

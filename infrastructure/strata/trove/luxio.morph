@@ -1,0 +1,7 @@
+name: luxio
+kind: chunk
+description: Lua Unix IO (and related stuff).
+build-commands:
+- make lua-5.1
+install-commands:
+- make DESTDIR="$DESTDIR" lua-5.1-install

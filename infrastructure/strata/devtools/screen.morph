@@ -1,0 +1,11 @@
+name: screen
+kind: chunk
+description: A terminal multiplexer and sanity tool for many
+max-jobs: 1
+configure-commands:
+- cd ./src && sh autogen.sh
+- cd ./src && ./configure --prefix="$PREFIX"
+build-commands:
+- cd ./src && make
+install-commands:
+- cd ./src && make DESTDIR="$DESTDIR" install

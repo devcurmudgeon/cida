@@ -1,0 +1,6 @@
+name: gdk-pixbuf
+kind: chunk
+build-system: autotools
+install-commands:
+- make DESTDIR=$DESTDIR install
+- LD_LIBRARY_PATH=$DESTDIR/usr/lib $DESTDIR/usr/bin/gdk-pixbuf-query-loaders > $DESTDIR/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache

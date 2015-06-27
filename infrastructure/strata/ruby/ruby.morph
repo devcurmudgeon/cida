@@ -1,0 +1,9 @@
+name: ruby
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- cp /usr/share/automake*/config.guess tool
+- cp /usr/share/automake*/config.sub tool
+- autoconf
+configure-commands:
+- ./configure --prefix=/usr --enable-shared --with-baseruby=/usr/bin/ruby-1.8

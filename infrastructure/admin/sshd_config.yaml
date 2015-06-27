@@ -1,0 +1,8 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: ensure SSH login with password is disabled
+      lineinfile:
+        dest=/etc/ssh/sshd_config
+        line='PasswordAuthentication no'

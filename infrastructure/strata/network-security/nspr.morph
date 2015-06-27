@@ -1,0 +1,12 @@
+name: nspr
+kind: chunk
+build-system: autotools
+configure-commands:
+- |
+  case "$MORPH_ARCH" in
+      x86_64|ppc64)
+          EXTRA_ARGS="--enable-64bit";;
+      *)
+          EXTRA_ARGS="";;
+  esac
+  ./configure --prefix="$PREFIX" --with-mozilla --with-pthreads $EXTRA_ARGS

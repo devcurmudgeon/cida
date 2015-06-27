@@ -1,0 +1,15 @@
+name: bsp-armv8l64-generic
+kind: stratum
+description:
+- |
+  The set of platform specific components required for booting
+  armv8l64-based systems, like the 64-bit APM XGene ARM based m400
+  Moonshot cartridge.
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: linux-armv8l64-generic
+  morph: strata/bsp-armv8l64-generic/linux-armv8l64-generic.morph
+  repo: upstream:linux
+  ref: 5f06398ae6a04f414932243de38b5cf3d264ff84
+  unpetrify-ref: baserock/apm-xgene-m400-moonshot-cartridge

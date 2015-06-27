@@ -1,0 +1,12 @@
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=Morph cache server
+Requires=local-fs.target network.target
+After=local-fs.target network.target
+ConditionPathExists=/etc/morph-cache-server.conf
+
+[Service]
+ExecStart=/usr/bin/morph-cache-server
+Restart=always
