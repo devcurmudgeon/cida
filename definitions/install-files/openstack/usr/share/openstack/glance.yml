@@ -1,0 +1,92 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/glance.conf"
+  tasks:
+  - name: Create the glance user.
+    user:
+        name: glance
+        comment: Openstack Glance Daemons
+        shell: /sbin/nologin
+        home: /var/lib/glance
+
+  - name: Create the /var folders for glance
+    file:
+        path: "{{ item }}"
+        state: directory
+        owner: glance
+        group: glance
+    with_items:
+    - /var/run/glance
+    - /var/lock/glance
+    - /var/log/glance
+    - /var/lib/glance
+    - /var/lib/glance/images
+    - /var/lib/glance/image-cache
+
+  - name: Create /etc/glance directory
+    file:
+        path: /etc/glance
+        state: directory
+
+  - name: Add the configuration needed for glance in /etc/glance using templates
+    template:
+        src: /usr/share/openstack/glance/{{ item }}
+        dest: /etc/glance/{{ item }}
+    with_lines:
+    - cd /usr/share/openstack/glance && find -type f
+
+  - name: Create glance service user in service tenant
+    keystone_user:
+        user: "{{ GLANCE_SERVICE_USER }}"
+        password: "{{ GLANCE_SERVICE_PASSWORD }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Assign admin role to glances service user in the service tenant
+    keystone_user:
+        role: admin
+        user: "{{ GLANCE_SERVICE_USER }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Add glance endpoint
+    keystone_service:
+        name: glance
+        type: image
+        description: Openstack Image Service
+        publicurl: http://{{ CONTROLLER_HOST_ADDRESS }}:9292
+        internalurl: http://{{ CONTROLLER_HOST_ADDRESS }}:9292
+        adminurl: http://{{ CONTROLLER_HOST_ADDRESS }}:9292
+        region: regionOne
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Create postgresql user for glance
+    postgresql_user:
+        name: "{{ GLANCE_DB_USER }}"
+        login_host: "{{ CONTROLLER_HOST_ADDRESS }}"
+        password: "{{ GLANCE_DB_PASSWORD }}"
+    sudo: yes
+    sudo_user: glance
+
+  - name: Create database for glance services
+    postgresql_db:
+        name: glance
+        owner: "{{ GLANCE_DB_USER }}"
+        login_host: "{{ CONTROLLER_HOST_ADDRESS }}"
+    sudo: yes
+    sudo_user: glance
+
+  - name: Initiate glance database
+    command: glance-manage db_sync
+    sudo: yes
+    sudo_user: glance
+
+  - name: Enable and start openstack-glance services
+    service:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+    with_items:
+    - openstack-glance-api.service
+    - openstack-glance-registry.service

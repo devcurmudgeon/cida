@@ -1,0 +1,91 @@
+name: virtualization
+kind: stratum
+description: |
+    Virtualization for baserock
+    NOTE: this stratum requires kernel support, please see openstack bsp
+    kernel history to check which config are needed for openvswitch or libvirt,
+    for example.
+build-depends:
+- morph: strata/libsoup-common.morph
+- morph: strata/python-core.morph
+- morph: strata/python-pygobject.morph
+- morph: strata/connman-common.morph
+- morph: strata/lvm.morph
+- morph: strata/xorg-util-macros-common.morph
+- morph: strata/networking-utils.morph
+chunks:
+- name: yajl
+  morph: strata/virtualization/yajl.morph
+  repo: upstream:yajl
+  ref: 52fc681857228c65c1cb439782da485554875481
+  unpetrify-ref: baserock/morph
+- name: xml-catalog
+  morph: strata/virtualization/xml-catalog.morph
+  repo: baserock:baserock/xml-catalog
+  ref: 1d4a2abc875c4dda1b5eadc0a097a48a8d2ec82b
+  unpetrify-ref: master
+- name: dnsmasq
+  morph: strata/virtualization/dnsmasq.morph
+  repo: upstream:dnsmasq
+  ref: 8471cd938ca41fbe4fee8ae3f657625c92cfb954
+  unpetrify-ref: baserock/morph
+- name: qemu
+  morph: strata/virtualization/qemu.morph
+  repo: upstream:qemu
+  ref: c5691f7ecb32cbe7a95b491314ce070e211fd97d
+  unpetrify-ref: baserock/v2.2.0
+- name: libpciaccess
+  repo: upstream:libpciaccess
+  ref: b9c068896914b4132a24839c9ef7f9fcd6282d88
+  unpetrify-ref: master
+- name: dmidecode
+  morph: strata/virtualization/dmidecode.morph
+  repo: upstream:dmidecode
+  ref: 47a0aa5d6696a83922ee70279b7253a4e55947d5
+  unpetrify-ref: master
+- name: libvirt
+  morph: strata/virtualization/libvirt.morph
+  repo: upstream:libvirt
+  ref: 7b1ceec1e2f141d36ed9b7ef3a660ff8bb34fc53
+  unpetrify-ref: baserock/v1.2.10
+  build-depends:
+  - libpciaccess
+  - dnsmasq
+  - qemu
+  - xml-catalog
+  - yajl
+  - dmidecode
+- name: pycurl
+  repo: upstream:pycurl
+  ref: 5ca370827d88817eeca3c56cbb37e4ddccc16c6e
+  unpetrify-ref: baserock/morph
+- name: urlgrabber
+  repo: upstream:urlgrabber
+  ref: bf0a0be71373dec515bbb54e0613a3b9b0c00b04
+  unpetrify-ref: master
+  build-depends:
+  - pycurl
+- name: libvirt-python
+  repo: upstream:libvirt-python
+  ref: 8e09c79a07b097a6ba9af83be4916fb9c9538500
+  unpetrify-ref: v1.2.10
+  build-depends:
+  - libvirt
+  - urlgrabber
+- name: libosinfo
+  morph: strata/virtualization/libosinfo.morph
+  repo: upstream:libosinfo
+  ref: a86c74c4d3f62bb0e315ab7fc78ec9f7746bdd12
+  unpetrify-ref: baserock/morph
+- name: virt-manager
+  repo: upstream:virt-manager
+  ref: 8b7ebd4538ffbd2d246fdeee4f1bb1c452585575
+  unpetrify-ref: v1.0.1
+  build-depends:
+  - libvirt-python
+  - libosinfo
+- name: openvswitch
+  morph: strata/virtualization/openvswitch.morph
+  repo: upstream:openvswitch
+  ref: a52b0492a4d0398a24ed2a3566ff55ac53fea31f
+  unpretrify-ref: master

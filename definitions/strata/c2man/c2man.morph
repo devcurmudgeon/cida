@@ -1,0 +1,11 @@
+name: c2man
+kind: chunk
+configure-commands:
+- ./Configure -d -e
+build-commands:
+- make LEX=flex
+install-commands:
+- mkdir -p $DESTDIR$PREFIX/bin
+- mkdir -p $DESTDIR$PREFIX/lib
+- mkdir -p $DESTDIR$PREFIX/man
+- make install bin=$DESTDIR$PREFIX/bin privlib=$DESTDIR$PREFIX/lib/c2man mansrc=$DESTDIR$PREFIX/man

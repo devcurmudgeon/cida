@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# Copyright (C) 2015 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+set -e
+
+ROOT="$1"
+
+unnaceptable(){
+    eval echo Unexpected value \$$1 for $1 >&2
+    exit 1
+}
+
+check_bool(){
+    case "$(eval echo \"\$$1\")" in
+    True)
+        eval "$1=true"
+        ;;
+    False|'')
+        eval "$1=false"
+        ;;
+    *)
+        unnaceptable "$1"
+        ;;
+    esac
+}
+check_bool SYNC_TIME_WITH_CONTROLLER
+
+if "$SYNC_TIME_WITH_CONTROLLER"; then
+
+    cat << EOF > "$ROOT"/etc/ntpd.conf
+# We use iburst here to reduce the potential initial delay to set the clock
+server $CONTROLLER_HOST_ADDRESS iburst
+
+# kod - notify client when packets are denied service,
+# rather than just dropping the packets
+#
+# nomodify - deny queries which attempt to modify the state of the server
+#
+# notrap - decline to provide mode 6 control message trap service to
+# matching hosts
+#
+# see ntp.conf(5) for more details
+restrict -4 default limited limited nomodify
+restrict -6 default limited limited notrap nomodify
+EOF
+
+fi

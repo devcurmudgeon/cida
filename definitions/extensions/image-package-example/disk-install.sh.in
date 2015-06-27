@@ -1,0 +1,51 @@
+#!/bin/sh
+# Script for writing the system to an existing disk.
+# This formats the disk, extracts the rootfs to it, installs the
+# bootloader, and ensures there's appropriate configuration for the
+# bootloader, kernel and userland to agree what the rootfs is.
+
+set -eu
+
+usage(){
+    cat <<EOF
+usage: $0 DISK [TARGET_DISK]
+
+DISK:        Where the disk appears on your development machine
+TARGET_DISK: What the disk will appear as on the target machine
+EOF
+}
+
+. @@SCRIPT_DIR@@/common.sh
+
+if [ "$#" -lt 1 -o "$#" -gt 2 ]; then
+    usage
+    exit 1
+fi
+
+DISK="$1"
+TARGET_DISK="${1-/dev/sda}"
+
+status Formatting "$DISK" as ext4
+format_disk "$DISK"
+(
+    info Mounting "$DISK"
+    MP="$(temp_mount -t ext4 "$DISK")"
+    info Mounted "$DISK" to "$MP"
+    set +e
+    (
+        set -e
+        info Copying rootfs onto disk
+        extract_rootfs "$MP"
+        info Configuring disk paths
+        install_fs_config "$MP" "$TARGET_DISK"
+        info Installing bootloader
+        install_bootloader "$DISK" "$MP"
+    )
+    ret="$?"
+    if [ "$ret" != 0 ]; then
+        warn Filling rootfs failed with "$ret"
+    fi
+    info Unmounting "$DISK" from "$MP" and removing "$MP"
+    untemp_mount "$MP"
+    exit "$ret"
+)

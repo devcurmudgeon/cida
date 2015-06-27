@@ -1,0 +1,5 @@
+name: perl-dbi-tarball
+kind: chunk
+build-system: cpan
+build-commands:
+- make -j1

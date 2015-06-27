@@ -1,0 +1,27 @@
+name: rtslib-fb
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+- mkdir -p "$DESTDIR$PREFIX"/lib/systemd/system
+
+# The following systemd unit is from the fedora package see
+# http://pkgs.fedoraproject.org/cgit/python-rtslib.git/tree/target.service for
+# more information
+
+- |
+  install -D -m 0644 /proc/self/fd/0 <<'EOF' "$DESTDIR$PREFIX"/lib/systemd/system/target.service
+  [Unit]
+  Description=Restore LIO kernel target configuration
+  Requires=sys-kernel-config.mount
+  After=sys-kernel-config.mount network.target local-fs.target
+
+  [Service]
+  Type=oneshot
+  RemainAfterExit=yes
+  ExecStart=/usr/bin/targetctl restore
+  ExecStop=/usr/bin/targetctl clear
+  SyslogIdentifier=target
+
+  [Install]
+  WantedBy=multi-user.target
+  EOF

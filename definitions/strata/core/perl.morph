@@ -1,0 +1,16 @@
+name: perl
+kind: chunk
+max-jobs: 1
+configure-commands:
+- sh Configure -des -Dprefix="$PREFIX" -Darchlib="$PREFIX/lib/perl" -Dprivlib="$PREFIX/share/perl"
+  -Dbin="$PREFIX/bin" -Dscriptdir="$PREFIX/bin" -Dman1dir="$PREFIX/share/man/man1"
+  -Dman3dir="$PREFIX/share/man/man3" -Dsiteprefix="$PREFIX" -Dsitearch="$PREFIX/lib/perl"
+  -Dsitelib="$PREFIX/share/perl" -Dsitebin="$PREFIX/bin" -Dsitescript="$PREFIX/bin"
+  -Dsiteman1dir="$PREFIX/share/man/man1" -Dsiteman3dir="$PREFIX/share/man/man3" -Dvendorprefix="$PREFIX"
+  -Dvendorarch="$PREFIX/lib/perl" -Dvendorlib="$PREFIX/share/perl" -Dvendorbin="$PREFIX/bin"
+  -Dvendorscript="$PREFIX/bin" -Dvendorman1dir="$PREFIX/share/man/man1" -Dvendorman3dir="$PREFIX/share/man/man3"
+  -Dpager="$PREFIX/bin/less -isR" -Duseshrplib
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" install

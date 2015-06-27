@@ -1,0 +1,34 @@
+name: vboxguest
+kind: chunk
+description: |
+  VirtualBox guest additions
+max-jobs: 1
+build-commands:
+- truncate -s0 src/VBox/Additions/common/pam/Makefile.kmk
+- env PATH="${PATH}:$(pwd)/kBuild/bin/linux.amd64/" VBOX_ONLY_ADDITIONS=1 VBOX_ONLY_BUILD=1
+  kmk
+- cd out/linux.amd64/release/bin/additions/src/ && make M="$(pwd)" -C /usr/src/linux
+  modules
+install-commands:
+- cd out/linux.amd64/release/bin/additions/src && make M="$(pwd)" -C /usr/src/linux
+  INSTALL_MOD_PATH="$DESTDIR" modules_install
+- install -m 755 -D -o 0 -g 0 out/linux.amd64/release/bin/additions/mount.vboxsf "$DESTDIR/sbin/mount.vboxsf"
+- install -m 755 -D -o 0 -g 0 out/linux.amd64/release/bin/additions/VBoxService "$DESTDIR/sbin/VBoxService"
+- install -m 755 -D -o 0 -g 0 out/linux.amd64/release/bin/additions/VBoxControl "$DESTDIR/sbin/VBoxControl"
+- |
+  install -m 644 -D -o 0 -g 0 /proc/self/fd/0 "$DESTDIR/lib/systemd/system/virtualbox-guest.service" <<EOS
+  [Unit]
+  Description=VirtualBox Guest Additions
+
+  [Service]
+  ExecStart=/sbin/VBoxService -f
+  Restart=always
+  EOS
+- mkdir -p "$DESTDIR/lib/systemd/system/basic.target.wants"
+- ln -s "/lib/systemd/system/virtualbox-guest.service" "$DESTDIR/lib/systemd/system/basic.target.wants/virtualbox-guest.service"
+- mkdir -p "$DESTDIR/etc/modules-load.d"
+- echo vboxsf > "$DESTDIR/etc/modules-load.d/virtualbox-guest-filesystem.conf"
+system-integration:
+  vboxguest-misc:
+    00-depmod:
+    - depmod -a $(cd /lib/modules; ls | head -n 1)

@@ -1,0 +1,13 @@
+[Unit]
+Description=Run swift-controller-setup (once)
+After=local-fs.target network-online.target postgres-server-setup.service openstack-keystone-setup.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/swift-controller.yml
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

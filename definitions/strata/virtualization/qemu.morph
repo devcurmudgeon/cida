@@ -1,0 +1,5 @@
+name: qemu
+kind: chunk
+build-system: autotools
+configure-commands:
+- ./configure --prefix="$PREFIX" --disable-werror

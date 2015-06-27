@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/cinder.conf"
+  tasks:
+  - name: Check that CINDER_DEVICE exists
+    stat:
+        path: "{{ CINDER_DEVICE }}"
+    register: cinder_device_stats
+    failed_when: cinder_device_stats.stat.exists == false
+
+  - name: Configure LVM group for cinder
+    lvg:
+        vg: cinder-volumes
+        pvs: "{{ CINDER_DEVICE }}"
+
+  - lineinfile:
+        dest: /etc/lvm/lvm.conf
+        regexp: '# filter = \[ \"a\/\.\*/\" \]'
+        line:    '    filter = [ "a|{{ CINDER_DEVICE }}|", "r/.*/" ]'
+        backrefs: yes

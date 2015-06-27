@@ -1,0 +1,12 @@
+[Unit]
+Description=Run Ansible scripts to configure internal network for OpenStack
+After=openvswitch-setup.service openvswitch.service
+Before=systemd-networkd.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/ansible-playbook -v -M /usr/share/ansible/ansible-openstack-modules -i /usr/share/openstack/hosts /usr/share/openstack/network.yml
+
+[Install]
+WantedBy=multi-user.target

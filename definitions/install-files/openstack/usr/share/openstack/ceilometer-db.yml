@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/ceilometer.conf"
+  tasks:
+  - name: Create ceilometer service user in service tenant
+    keystone_user:
+        user: "{{ CEILOMETER_SERVICE_USER }}"
+        password: "{{ CEILOMETER_SERVICE_PASSWORD }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Assign admin role to ceilometers service user in the service tenant
+    keystone_user:
+        role: admin
+        user: "{{ CEILOMETER_SERVICE_USER }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Add ceilometer endpoint
+    keystone_service:
+        name: ceilometer
+        type: metering
+        description: Openstack Metering Service
+        publicurl: http://{{ CONTROLLER_HOST_ADDRESS }}:8777
+        internalurl: http://{{ CONTROLLER_HOST_ADDRESS }}:8777
+        adminurl: http://{{ CONTROLLER_HOST_ADDRESS }}:8777
+        region: regionOne
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Create postgresql user for ceilometer
+    postgresql_user:
+        name: "{{ CEILOMETER_DB_USER }}"
+        login_host: "{{ CONTROLLER_HOST_ADDRESS }}"
+        password: "{{ CEILOMETER_DB_PASSWORD }}"
+    sudo: yes
+    sudo_user: ceilometer
+
+  - name: Create database for ceilometer services
+    postgresql_db:
+        name: ceilometer
+        owner: "{{ CEILOMETER_DB_USER }}"
+        login_host: "{{ CONTROLLER_HOST_ADDRESS }}"
+    sudo: yes
+    sudo_user: ceilometer
+
+  - name: Initiate ceilometer database
+    command: ceilometer-dbsync
+    sudo: yes
+    sudo_user: ceilometer

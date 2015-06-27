@@ -1,0 +1,219 @@
+#!/usr/bin/python
+# Copyright (C) 2012-2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+'''A Morph deployment write extension for deploying to VirtualBox via ssh.
+
+VirtualBox is assumed to be running on a remote machine, which is
+accessed over ssh. The machine gets created, but not started.
+
+See file virtualbox-ssh.write.help for documentation
+
+'''
+
+
+import os
+import re
+import subprocess
+import sys
+import tempfile
+import time
+import urlparse
+
+import writeexts
+
+
+class VirtualBoxPlusSshWriteExtension(writeexts.WriteExtension):
+
+    def process_args(self, args):
+        if len(args) != 2:
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
+
+        temp_root, location = args
+        ssh_host, vm_name, vdi_path = self.parse_location(location)
+        autostart = self.get_environment_boolean('AUTOSTART')
+
+        vagrant = self.get_environment_boolean('VAGRANT')
+
+        fd, raw_disk = tempfile.mkstemp()
+        os.close(fd)
+        self.create_local_system(temp_root, raw_disk)
+
+        try:
+            self.transfer_and_convert_to_vdi(
+                raw_disk, ssh_host, vdi_path)
+            self.create_virtualbox_guest(ssh_host, vm_name, vdi_path,
+                                         autostart, vagrant)
+        except BaseException:
+            sys.stderr.write('Error deploying to VirtualBox')
+            os.remove(raw_disk)
+            writeexts.ssh_runcmd(ssh_host, ['rm', '-f', vdi_path])
+            raise
+        else:
+            os.remove(raw_disk)
+        self.status(
+            msg='Virtual machine %(vm_name)s has been created',
+            vm_name=vm_name)
+
+    def parse_location(self, location):
+        '''Parse the location argument to get relevant data.'''
+
+        x = urlparse.urlparse(location)
+        if x.scheme != 'vbox+ssh':
+            raise writeexts.ExtensionError(
+                'URL schema must be vbox+ssh in %s' % location)
+        m = re.match('^/(?P<guest>[^/]+)(?P<path>/.+)$', x.path)
+        if not m:
+            raise writeexts.ExtensionError(
+                'Cannot parse location %s' % location)
+        return x.netloc, m.group('guest'), m.group('path')
+
+    def transfer_and_convert_to_vdi(self, raw_disk, ssh_host, vdi_path):
+        '''Transfer raw disk image to VirtualBox host, and convert to VDI.'''
+
+        self.status(msg='Transfer disk and convert to VDI')
+
+        st = os.lstat(raw_disk)
+        # TODO: Something!
+        xfer_hole_path = writeexts.get_data_path('xfer-hole')
+        recv_hole = writeexts.get_data('recv-hole')
+
+        ssh_remote_cmd = [
+            'sh', '-c', recv_hole,
+            'dummy-argv0', 'vbox', vdi_path, str(st.st_size),
+        ]
+
+        xfer_hole_proc = subprocess.Popen(
+            ['python', xfer_hole_path, raw_disk],
+            stdout=subprocess.PIPE)
+        recv_hole_proc = subprocess.Popen(
+            ['ssh', ssh_host] + map(writeexts.shell_quote, ssh_remote_cmd),
+            stdin=xfer_hole_proc.stdout)
+        xfer_hole_proc.stdout.close()
+        recv_hole_proc.communicate()
+
+    def virtualbox_version(self, ssh_host):
+        'Get the version number of the VirtualBox running on the remote host.'
+
+        # --version gives a build id, which looks something like
+        # 1.2.3r456789, so we need to strip the suffix off and get a tuple
+        # of the (major, minor, patch) version, since comparing with a
+        # tuple is more reliable than a string and more convenient than
+        # comparing against the major, minor and patch numbers directly
+        self.status(msg='Checking version of remote VirtualBox')
+        build_id = writeexts.ssh_runcmd(ssh_host,
+                                        ['VBoxManage', '--version'])
+        version_string = re.match(r"^([0-9\.]+).*$", build_id.strip()).group(1)
+        return tuple(int(s or '0') for s in version_string.split('.'))
+
+    def create_virtualbox_guest(self, ssh_host, vm_name, vdi_path, autostart,
+                                vagrant):
+        '''Create the VirtualBox virtual machine.'''
+
+        self.status(msg='Create VirtualBox virtual machine')
+
+        ram_mebibytes = str(self.get_ram_size() / (1024**2))
+
+        vcpu_count = str(self.get_vcpu_count())
+
+        if not vagrant:
+            hostonly_iface = self.get_host_interface(ssh_host)
+
+        if self.virtualbox_version(ssh_host) < (4, 3, 0):
+            sataportcount_option = '--sataportcount'
+        else:
+            sataportcount_option = '--portcount'
+
+        commands = [
+            ['createvm', '--name', vm_name, '--ostype', 'Linux26_64',
+             '--register'],
+            ['modifyvm', vm_name, '--ioapic', 'on',
+             '--memory', ram_mebibytes, '--cpus', vcpu_count],
+            ['storagectl', vm_name, '--name', 'SATA Controller',
+             '--add', 'sata',  '--bootable', 'on', sataportcount_option, '2'],
+            ['storageattach', vm_name, '--storagectl', 'SATA Controller',
+             '--port', '0', '--device', '0', '--type', 'hdd', '--medium',
+             vdi_path],
+        ]
+        if vagrant:
+            commands[1].extend(['--nic1', 'nat',
+                '--natnet1', 'default'])
+        else:
+            commands[1].extend(['--nic1', 'hostonly',
+                '--hostonlyadapter1', hostonly_iface,
+                '--nic2', 'nat', '--natnet2', 'default'])
+
+        attach_disks = self.parse_attach_disks()
+        for device_no, disk in enumerate(attach_disks, 1):
+            cmd = ['storageattach', vm_name,
+                   '--storagectl', 'SATA Controller',
+                   '--port', str(device_no),
+                   '--device', '0',
+                   '--type', 'hdd',
+                   '--medium', disk]
+            commands.append(cmd)
+
+        if autostart:
+            commands.append(['startvm', vm_name])
+
+        for command in commands:
+            argv = ['VBoxManage'] + command
+            writeexts.ssh_runcmd(ssh_host, argv)
+
+    def get_host_interface(self, ssh_host):
+        host_ipaddr = os.environ.get('HOST_IPADDR')
+        netmask = os.environ.get('NETMASK')
+
+        if host_ipaddr is None:
+            raise writeexts.ExtensionError('HOST_IPADDR was not given')
+
+        if netmask is None:
+            raise writeexts.ExtensionError('NETMASK was not given')
+
+        # 'VBoxManage list hostonlyifs' retrieves a list with the hostonly
+        # interfaces on the host. For each interface, the following lines
+        # are shown on top:
+        #
+        # Name:            vboxnet0
+        # GUID:            786f6276-656e-4074-8000-0a0027000000
+        # Dhcp:            Disabled
+        # IPAddress:       192.168.100.1
+        #
+        # The following command tries to retrieve the hostonly interface
+        # name (e.g. vboxnet0) associated with the given ip address.
+        iface = None
+        lines = writeexts.ssh_runcmd(ssh_host,
+            ['VBoxManage', 'list', 'hostonlyifs']).splitlines()
+        for i, v in enumerate(lines):
+            if host_ipaddr in v:
+                iface = lines[i-3].split()[1]
+                break
+
+        if iface is None:
+            iface = writeexts.ssh_runcmd(ssh_host,
+                ['VBoxManage', 'hostonlyif', 'create'])
+            # 'VBoxManage hostonlyif create' shows the name of the
+            # created hostonly interface inside single quotes
+            iface = iface[iface.find("'") + 1 : iface.rfind("'")]
+            writeexts.ssh_runcmd(ssh_host,
+                ['VBoxManage', 'hostonlyif',
+                 'ipconfig', iface,
+                 '--ip', host_ipaddr,
+                 '--netmask', netmask])
+
+        return iface
+
+VirtualBoxPlusSshWriteExtension().run()

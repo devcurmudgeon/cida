@@ -1,0 +1,14 @@
+name: zookeeper
+kind: stratum
+description: |
+  This stratum installs zookeeper and its dependencies.
+build-depends:
+- morph: strata/core.morph
+- morph: strata/test-tools.morph
+- morph: strata/java.morph
+chunks:
+- name: zookeeper
+  morph: strata/zookeeper/zookeeper.morph
+  repo: upstream:zookeeper
+  ref: baserock/mikesmith/zookeeper
+  unpetrify-ref: trunk

@@ -1,0 +1,18 @@
+name: gtk3
+kind: stratum
+description: the gtk3 stratum
+build-depends:
+- morph: strata/gtk-deps.morph
+- morph: strata/wayland-generic.morph
+chunks:
+- name: libepoxy
+  repo: upstream:libepoxy
+  ref: 7422de5b4be7b19d789136b3bb5f932de42db27c
+  unpetrify-ref: v1.2
+- name: gtk3
+  morph: strata/gtk3/gtk3.morph
+  repo: upstream:gtk+
+  ref: a816ccd4968f1e221b92bfd1e2b2dc27703d6db5
+  unpetrify-ref: 3.16.0
+  build-depends:
+  - libepoxy

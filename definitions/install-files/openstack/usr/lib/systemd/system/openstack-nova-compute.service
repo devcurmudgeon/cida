@@ -1,0 +1,16 @@
+[Unit]
+Description=OpenStack Compute Service (code-named Nova) compute server
+ConditionPathExists=/etc/nova/nova.conf
+After=network-online.target openstack-nova-config-setup.service openstack-nova-db-setup.service libvirtd.service
+Wants=network-online.target
+Requires=libvirtd.service
+
+[Service]
+Type=simple
+User=nova
+StandardOutput=null
+StandardError=null
+ExecStart=/usr/bin/nova-compute --config-file /etc/nova/nova.conf --config-file /etc/nova/nova-compute.conf
+
+[Install]
+WantedBy=multi-user.target

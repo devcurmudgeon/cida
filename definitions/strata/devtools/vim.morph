@@ -1,0 +1,10 @@
+name: vim
+kind: chunk
+build-system: autotools
+configure-commands:
+- echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >>src/feature.h
+- ./configure --prefix="$PREFIX" --enable-multibyte
+install-commands:
+- make DESTDIR="$DESTDIR" install
+- mkdir -p "$DESTDIR"/etc
+- install -m 644 runtime/vimrc_example.vim "$DESTDIR"/etc/vimrc

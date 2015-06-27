@@ -1,0 +1,28 @@
+#-*- coding: utf-8 -*-
+# Copyright © 2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, see <http://www.gnu.org/licenses/>.
+
+help: |
+
+    Creates a system produced by Morph build with a jffs2 filesystem and then
+    writes to an image. To use this extension, the host system must have access
+    to mkfs.jffs2 which is provided in the mtd-utilities.morph stratum.
+
+    Parameters:
+
+    * location: the pathname of the disk image to be created/upgraded, or the
+      path to the physical device.
+
+    * ERASE_BLOCK: the erase block size of the target system, which can be
+      found in '/sys/class/mtd/mtdx/erasesize'

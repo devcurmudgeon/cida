@@ -1,0 +1,14 @@
+name: minimal-system-deploy
+kind: cluster
+description: |
+  Deploy a minimal system to a system running KVM
+systems:
+- morph: systems/minimal-system-x86_32-generic.morph
+  deploy:
+    vm:
+      type: extensions/kvm
+      location: kvm+ssh://192.168.122.1/tiny-x86_32/srv/VMs/tiny-x86_32.img
+      DISK_SIZE: 512M
+      HOSTNAME: tiny-x86_32
+      INIT_SYSTEM: busybox
+      RAM_SIZE: 512M

@@ -1,0 +1,8 @@
+name: gdbm
+kind: chunk
+configure-commands:
+- ./configure --prefix="$PREFIX" --enable-libgdbm-compat --disable-nls
+build-commands:
+- make MANS= INFO_DEPS=
+install-commands:
+- make MANS= INFO_DEPS= DESTDIR="$DESTDIR" install

@@ -1,0 +1,8 @@
+name: evas_generic_loaders
+kind: chunk
+configure-commands:
+- ./autogen.sh --prefix=/usr
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" install

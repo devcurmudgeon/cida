@@ -1,0 +1,29 @@
+name: glance
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+# Install some default configuration files
+- mkdir -p "$DESTDIR"/etc/glance
+- install -m 644 etc/glance-api-paste.ini "$DESTDIR"/etc/glance/
+- install -m 644 etc/glance-registry-paste.ini "$DESTDIR"/etc/glance/
+- install -m 644 etc/glance-search-paste.ini "$DESTDIR"/etc/glance/
+- install -m 644 etc/policy.json "$DESTDIR"/etc/glance/
+- install -m 644 etc/schema-image.json "$DESTDIR"/etc/glance/
+- install -m 644 etc/search-policy.json "$DESTDIR"/etc/glance/
+# Install predefined namespaces for Glance Metadata Definitions
+# Catalog (see more info in its README)
+- cp -r etc/metadefs "$DESTDIR"/etc/glance/
+# Install conf files which are not modified by
+- install -m 644 etc/glance-scrubber.conf "$DESTDIR"/etc/glance/
+- install -m 644 etc/glance-cache.conf "$DESTDIR"/etc/glance/
+- install -m 644 etc/glance-search.conf "$DESTDIR"/etc/glance/
+- |
+  install -m 644 etc/glance-swift.conf.sample \
+                 "$DESTDIR"/etc/glance/glance-swift.conf
+- install -m 644 etc/glance-manage.conf "$DESTDIR"/etc/glance/
+- |
+  install -m 644 etc/property-protections-policies.conf.sample \
+                 "$DESTDIR"/etc/glance/property-protections-policies.conf
+- |
+  install -m 644 etc/property-protections-roles.conf.sample \
+                 "$DESTDIR"/etc/glance/property-protections-roles.conf

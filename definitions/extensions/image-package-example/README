@@ -1,0 +1,9 @@
+Image package example scripts
+=============================
+
+These are scripts used to create disk images or install the system onto
+an existing disk.
+
+This is also implemented independently for the rawdisk.write write
+extension; see writeexts.WriteExtension.create_local_system() for
+a similar, python implementation.

@@ -1,0 +1,10 @@
+name: lorry-controller
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+- install -d 0755 "$DESTDIR/etc/lighttpd"
+- install -m 0644 -D etc/lighttpd/*.conf "$DESTDIR/etc/lighttpd/."
+- |
+  TGT="$DESTDIR/usr/lib/systemd/system"
+  install -d "$TGT/multi-user.target.wants"
+  install -m 0644 units/*.service units/*.timer "$TGT/."

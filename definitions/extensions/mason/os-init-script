@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# This allows the test runner to know that cloud-init has completed the
+# disc resizing, and there is enough free space to continue.
+touch /root/cloud-init-finished
+

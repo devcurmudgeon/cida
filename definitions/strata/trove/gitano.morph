@@ -1,0 +1,5 @@
+name: gitano
+kind: chunk
+install-commands:
+- make install INST_ROOT="$PREFIX" DESTDIR="$DESTDIR"
+- cp scripts/htpasswd "$DESTDIR/$PREFIX/bin"

@@ -1,0 +1,5 @@
+name: nohands
+kind: chunk
+build-system: autotools
+build-commands:
+- make CXXFLAGS="-fpermissive -lpthread"

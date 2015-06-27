@@ -1,0 +1,74 @@
+name: armv7lhf-cross-gcc-nolibc
+kind: chunk
+
+configure-commands:
+- mkdir o
+
+# Configure flag notes:
+#  1. Standard flags. See gcc.morph.
+#  2. See stage1-gcc.morph.
+#  3. Our binutils is for the final $TARGET, rather than the intermediate
+#     target our GCC is being built for, so we need to set
+#     with-build-time-tools to get it to find our binutils at
+#     build-time and with-as and with-ld so our temporary GCC uses
+#     the appropriate tools when it compiles our libc, rather than
+#     trying to use $TARGET_STAGE1-as when producing binaries.
+#  4. Disable stuff that doesn't work when building a cross compiler
+#     without an existing libc, and generally try to keep this build as
+#     simple as possible.
+- |
+  export MORPH_ARCH=armv7lhf
+  export TARGET=armv7lhf-baserock-linux-gnueabi
+  export TARGET_STAGE1=armv7lhf-none-linux-gnueabi
+
+  case "$MORPH_ARCH" in
+      armv7lhf) ARCH_FLAGS="--with-arch=armv7-a \
+                            --with-cpu=cortex-a9 \
+                            --with-tune=cortex-a9 \
+                            --with-fpu=vfpv3-d16 \
+                            --with-float=hard" ;;
+      armv7*)   ARCH_FLAGS="--with-arch=armv7-a" ;;
+  esac
+
+  cd o && ../configure                                        \
+            $ARCH_FLAGS                                       \
+            --build=$(sh ../config.guess)                     \
+            --host=$(sh ../config.guess)                      \
+            --target="$TARGET_STAGE1"                         \
+            --prefix="$PREFIX"                                \
+    `# [1]` --libdir="$PREFIX/lib"                            \
+    `# [2]` --with-sysroot=/nonexistentdir                    \
+            --with-newlib                                     \
+    `# [2]` --with-local-prefix="$PREFIX"                     \
+    `# [2]` --with-native-system-header-dir="$PREFIX/include" \
+    `# [3]` --with-build-time-tools="$PREFIX/$TARGET/bin"     \
+    `# [3]` --with-as="$PREFIX/$TARGET/bin/as"                \
+    `# [3]` --with-ld="$PREFIX/$TARGET/bin/ld"                \
+            --without-headers                                 \
+            --disable-nls                                     \
+            --disable-shared                                  \
+    `# [4]` --disable-multilib                                \
+    `# [4]` --disable-decimal-float                           \
+    `# [4]` --disable-threads                                 \
+    `# [4]` --disable-libatomic                               \
+    `# [4]` --disable-libgomp                                 \
+    `# [4]` --disable-libitm                                  \
+    `# [4]` --disable-libquadmath                             \
+    `# [4]` --disable-libsanitizer                            \
+    `# [4]` --disable-libssp                                  \
+    `# [4]` --disable-libvtv                                  \
+    `# [4]` --disable-libcilkrts                              \
+    `# [4]` --disable-libstdc++-v3                            \
+            --enable-languages=c,c++
+
+build-commands:
+- |
+  # See stage1-gcc.morph.
+  case "$MORPH_ARCH" in
+      armv7*)   sed -i "s/--host=none/--host=armv7a/" o/Makefile
+                sed -i "s/--target=none/--target=armv7a/" o/Makefile ;;
+  esac
+  cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install

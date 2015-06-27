@@ -1,0 +1,153 @@
+#!/bin/sh
+#
+# Copyright (C) 2014 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# This is a "morph deploy" configuration extension to fully configure
+# a Mason instance at deployment time. It uses the following variables
+# from the environment:
+#
+#   * ARTIFACT_CACHE_SERVER
+#   * MASON_CLUSTER_MORPHOLOGY
+#   * MASON_DEFINITIONS_REF
+#   * MASON_DISTBUILD_ARCH
+#   * MASON_TEST_HOST
+#   * OPENSTACK_NETWORK_ID
+#   * TEST_INFRASTRUCTURE_TYPE
+#   * TROVE_HOST
+#   * TROVE_ID
+#   * CONTROLLERHOST
+
+set -e
+
+##########################################################################
+# Copy Mason files into root filesystem
+##########################################################################
+
+ROOT="$1"
+
+mkdir -p "$ROOT"/usr/lib/mason
+cp extensions/mason/mason.sh "$ROOT"/usr/lib/mason/mason.sh
+cp extensions/mason/mason-report.sh "$ROOT"/usr/lib/mason/mason-report.sh
+cp extensions/mason/os-init-script "$ROOT"/usr/lib/mason/os-init-script
+
+cp extensions/mason/mason.timer "$ROOT"/etc/systemd/system/mason.timer
+
+cp extensions/mason/mason.service "$ROOT"/etc/systemd/system/mason.service
+
+##########################################################################
+# Set up httpd web server
+##########################################################################
+
+cp extensions/mason/httpd.service "$ROOT"/etc/systemd/system/httpd.service
+
+mkdir -p "$ROOT"/srv/mason
+
+cat >>"$ROOT"/etc/httpd.conf <<EOF
+.log:text/plain
+EOF
+
+mkdir -p "$ROOT"/var/mason
+
+##########################################################################
+# Copy files needed for Ansible configuration
+##########################################################################
+
+mkdir -p "$ROOT/usr/share/mason-setup"
+mkdir -p "$ROOT/usr/lib/mason-setup"
+
+cp extensions/mason/share/* "$ROOT/usr/share/mason-setup"
+cp -r extensions/mason/ansible "$ROOT/usr/lib/mason-setup/"
+cp extensions/mason/mason-setup.service "$ROOT"/etc/systemd/system/mason-setup.service
+
+ln -s ../mason-setup.service "$ROOT"/etc/systemd/system/multi-user.target.wants/mason-setup.service
+
+##########################################################################
+# Check variables
+##########################################################################
+
+if [ -n "$MASON_GENERIC" ]; then
+    echo Not configuring Mason, it will be generic
+    exit 0
+fi
+
+if [ -z "$MASON_CLUSTER_MORPHOLOGY" -a \
+     -z "$MASON_DEFINITIONS_REF" -a \
+     -z "$MASON_DISTBUILD_ARCH" -a \
+     -z "$MASON_TEST_HOST" ]; then
+    # No Mason options defined, do nothing.
+    exit 0
+fi
+
+if [ -z "$ARTIFACT_CACHE_SERVER" -o \
+     -z "$CONTROLLERHOST" -o \
+     -z "$MASON_CLUSTER_MORPHOLOGY" -o \
+     -z "$MASON_DEFINITIONS_REF" -o \
+     -z "$MASON_DISTBUILD_ARCH" -o \
+     -z "$MASON_TEST_HOST" -o \
+     -z "$TROVE_HOST" -o \
+     -z "$TROVE_ID" ]; then
+    echo Some options required for Mason were defined, but not all.
+    exit 1
+fi
+
+##########################################################################
+# Generate config variable shell snippet
+##########################################################################
+
+MASON_DATA="$ROOT/etc/mason"
+mkdir -p "$MASON_DATA"
+
+python <<'EOF' >"$MASON_DATA/mason.conf"
+import os, sys, yaml
+
+mason_configuration={
+    'ARTIFACT_CACHE_SERVER': os.environ['ARTIFACT_CACHE_SERVER'],
+    'MASON_CLUSTER_MORPHOLOGY': os.environ['MASON_CLUSTER_MORPHOLOGY'],
+    'MASON_DEFINITIONS_REF': os.environ['MASON_DEFINITIONS_REF'],
+    'MASON_DISTBUILD_ARCH': os.environ['MASON_DISTBUILD_ARCH'],
+    'MASON_TEST_HOST': os.environ['MASON_TEST_HOST'],
+    'OPENSTACK_NETWORK_ID': os.environ['OPENSTACK_NETWORK_ID'],
+    'TEST_INFRASTRUCTURE_TYPE': os.environ['TEST_INFRASTRUCTURE_TYPE'],
+    'TROVE_ID': os.environ['TROVE_ID'],
+    'TROVE_HOST': os.environ['TROVE_HOST'],
+    'CONTROLLERHOST': os.environ['CONTROLLERHOST'],
+}
+
+yaml.dump(mason_configuration, sys.stdout, default_flow_style=False)
+EOF
+
+if [ "$TEST_INFRASTRUCTURE_TYPE" = "openstack" ]; then
+    python <<'EOF' >>"$MASON_DATA/mason.conf"
+import os, sys, yaml
+
+openstack_credentials={
+    'OS_USERNAME': os.environ['OPENSTACK_USER'],
+    'OS_TENANT_NAME': os.environ['OPENSTACK_TENANT'],
+    'OS_TENANT_ID': os.environ['OPENSTACK_TENANT_ID'],
+    'OS_AUTH_URL': os.environ['OPENSTACK_AUTH_URL'],
+    'OS_PASSWORD': os.environ['OPENSTACK_PASSWORD'],
+}
+
+yaml.dump(openstack_credentials, sys.stdout, default_flow_style=False)
+EOF
+fi
+
+##########################################################################
+# Enable services
+##########################################################################
+
+ln -s ../mason.timer "$ROOT"/etc/systemd/system/multi-user.target.wants/mason.timer
+ln -s ../httpd.service "$ROOT"/etc/systemd/system/multi-user.target.wants/httpd.service

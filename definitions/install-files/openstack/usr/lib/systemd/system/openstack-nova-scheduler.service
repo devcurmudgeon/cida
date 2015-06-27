@@ -1,0 +1,15 @@
+[Unit]
+Description=OpenStack Nova Scheduler
+ConditionPathExists=/etc/nova/nova.conf
+After=network-online.target openstack-nova-config-setup.service openstack-nova-db-setup.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=nova
+StandardOutput=null
+StandardError=null
+ExecStart=/usr/bin/nova-scheduler --config-file /etc/nova/nova.conf
+
+[Install]
+WantedBy=multi-user.target

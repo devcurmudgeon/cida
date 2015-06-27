@@ -1,0 +1,16 @@
+[Unit]
+Description=OpenStack Image Service (code-named Glance) Registry server
+ConditionPathExists=/etc/glance/glance-registry.conf
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=glance
+StandardOutput=null
+StandardError=null
+ExecStart=/usr/bin/glance-registry --config-file /etc/glance/glance-registry.conf
+
+[Install]
+WantedBy=multi-user.target
+

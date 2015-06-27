@@ -1,0 +1,21 @@
+name: stage2-reset-specs
+kind: chunk
+
+# Nasty hack to get around being unable to reliably add configuration to gcc,
+# hence the gcc specs are modified, combined with Baserock's rootfs protection
+# preventing specs being modified before builds.
+# The limitation is overcome by installing files as part of a chunk, which
+# overwrites previous files.
+# New specs were added for the bootstrap builds, but after stage2 we start
+# having chrooted builds, so the old specs need to be replaced.
+# Unfortunately we can't just replace the specs with the ones gcc produces,
+# since gcc behaves differently without specs to with specs it produces!
+# So we use a **NASTY HACK** to replace the specs symlink with one that
+# points to a file that doesn't exist.
+install-commands:
+- |
+  STAGE2_SYSROOT="$(dirname "$(pwd)")"
+  specs_dir="$(dirname $($TARGET_STAGE1-gcc -print-libgcc-file-name))"
+  target_specs_dir="$DESTDIR/${specs_dir#$STAGE2_SYSROOT}"
+  mkdir -p "$target_specs_dir"
+  ln -s "temporary specs removed by baserock bootstrap" "$target_specs_dir/specs"

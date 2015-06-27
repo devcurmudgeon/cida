@@ -1,0 +1,5 @@
+name: autoconf
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- echo "2.69" > .tarball-version

@@ -1,0 +1,22 @@
+name: mesa
+kind: chunk
+build-system: autotools
+configure-commands:
+- |
+  cpu=$(echo $TARGET | cut -d '-' -f 1)
+  case "$cpu" in
+  armv7lhf)
+    DRIDRIVERS=no
+    GALLIUMDRIVERS=nouveau,freedreno,svga,swrast,vc4
+    ;;
+  *)
+    DRIDRIVERS=yes
+    GALLIUMDRIVERS=yes
+    ;;
+  esac
+  ./autogen.sh --prefix="$PREFIX" \
+      --enable-gles2 \
+      --disable-glx \
+      --with-egl-platforms=drm,wayland \
+      --with-gallium-drivers="$GALLIUMDRIVERS" \
+      --with-dri-drivers="$DRIDRIVERS"

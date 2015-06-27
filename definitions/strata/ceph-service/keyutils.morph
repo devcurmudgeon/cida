@@ -1,0 +1,7 @@
+name: keyutils
+kind: chunk
+build-commands:
+- make clean
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" LIBDIR="$PREFIX/lib" USRLIBDIR="$PREFIX/lib" install

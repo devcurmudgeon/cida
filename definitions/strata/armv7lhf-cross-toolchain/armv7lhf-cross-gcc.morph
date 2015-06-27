@@ -1,0 +1,48 @@
+name: armv7lhf-cross-gcc
+kind: chunk
+
+configure-commands:
+- mkdir o
+
+# Configure flag notes:
+#  1. Use the default sysroot path to install to and locate headers
+#  2. Avoid having more than one copy of ZLib in use on the system
+#  3. Standard flags. See gcc.morph.
+- |
+  export MORPH_ARCH=armv7lhf
+  export TARGET=armv7lhf-baserock-linux-gnueabi
+
+  case "$MORPH_ARCH" in
+      armv7lhf) ARCH_FLAGS="--with-arch=armv7-a \
+                            --with-cpu=cortex-a9 \
+                            --with-tune=cortex-a9 \
+                            --with-fpu=vfpv3-d16 \
+                            --with-float=hard" ;;
+      armv7*)   ARCH_FLAGS="--with-arch=armv7-a" ;;
+  esac
+
+  cd o && ../configure                                         \
+            $ARCH_FLAGS                                        \
+            --build=$(sh ../config.guess)                      \
+            --host=$(sh ../config.guess)                       \
+            --target="$TARGET"                                 \
+            --prefix="$PREFIX"                                 \
+    `# [1]` --with-sysroot                                     \
+            --disable-bootstrap                                \
+    `# [2]` --with-system-zlib                                 \
+    `# [3]` --libdir="$PREFIX/lib"                             \
+    `# [3]` --disable-multilib                                 \
+    `# [3]` --enable-languages=c,c++,fortran
+
+build-commands:
+- cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install
+- ln -s gcc "$DESTDIR/$PREFIX/bin/cc"
+- |
+  export TARGET=armv7lhf-baserock-linux-gnueabi
+  for fortran_alias in f77 f90 f95; do
+      ln -s "$TARGET-gfortran" \
+          "$DESTDIR/$PREFIX/bin/$TARGET-$fortran_alias"
+  done

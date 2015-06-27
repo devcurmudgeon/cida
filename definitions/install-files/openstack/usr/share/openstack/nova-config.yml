@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/nova.conf"
+  tasks:
+  - name: Create the nova user.
+    user:
+        name: nova
+        comment: Openstack Nova Daemons
+        shell: /sbin/nologin
+        home: /var/lib/nova
+        groups: libvirt
+        append: yes
+
+  - name: Create the /var folders for nova
+    file:
+        path: "{{ item }}"
+        state: directory
+        owner: nova
+        group: nova
+    with_items:
+    - /var/run/nova
+    - /var/lock/nova
+    - /var/log/nova
+    - /var/lib/nova
+    - /var/lib/nova/instances
+
+  - file: path=/etc/nova state=directory
+  - name: Add the configuration needed for nova in /etc/nova using templates
+    template:
+        src: /usr/share/openstack/nova/{{ item }}
+        dest: /etc/nova/{{ item }}
+    with_lines:
+    - cd /usr/share/openstack/nova && find -type f

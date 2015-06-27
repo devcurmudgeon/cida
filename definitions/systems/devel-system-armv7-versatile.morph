@@ -1,0 +1,63 @@
+name: devel-system-armv7-versatile
+kind: system
+description: |
+  A system with useful tools for doing Baserock development.
+
+  For use on generic ARMv7 versatile computers using little-endian word order.
+arch: armv7l
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-armv7-versatile
+  morph: strata/bsp-armv7-versatile.morph
+- name: tools
+  morph: strata/tools.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
+- name: python-pygobject
+  morph: strata/python-pygobject.morph
+- name: python-wsgi
+  morph: strata/python-wsgi.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
+- name: openstack-clients
+  morph: strata/openstack-clients.morph
+- name: nodejs
+  morph: strata/nodejs.morph
+- name: ruby
+  morph: strata/ruby.morph
+- name: lorry
+  morph: strata/lorry.morph
+- name: baserock-import
+  morph: strata/baserock-import.morph
+- name: nfs
+  morph: strata/nfs.morph
+- name: python-core
+  morph: strata/python-core.morph
+- name: python-tools
+  morph: strata/python-tools.morph
+- name: python-common
+  morph: strata/python-common.morph
+- name: devtools
+  morph: strata/devtools.morph
+- name: ansible
+  morph: strata/ansible.morph
+- name: swift
+  morph: strata/swift.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
+- name: ostree-core
+  morph: strata/ostree-core.morph
+- name: coreutils-common
+  morph: strata/coreutils-common.morph
+configuration-extensions:
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/fstab
+- extensions/install-essential-files

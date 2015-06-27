@@ -1,0 +1,153 @@
+#!/usr/bin/python
+# Copyright (C) 2014-2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+'''Preparatory checks for Morph 'distbuild-trove-nfsboot' write extension'''
+
+import logging
+import os
+import sys
+
+import writeexts
+
+
+class DistbuildTroveNFSBootCheckExtension(writeexts.WriteExtension):
+
+    nfsboot_root = '/srv/nfsboot'
+    remote_user = 'root'
+
+    required_vars = [
+        'DISTBUILD_CONTROLLER',
+        'DISTBUILD_GIT_SERVER',
+        'DISTBUILD_SHARED_ARTIFACT_CACHE',
+        'DISTBUILD_TROVE_ID',
+        'DISTBUILD_WORKERS',
+        'DISTBUILD_WORKER_SSH_KEY',
+    ]
+
+    def system_path(self, system_name, version_label=None):
+        if version_label:
+            return os.path.join(self.nfsboot_root, system_name, 'systems',
+                                version_label, 'run')
+        else:
+            return os.path.join(self.nfsboot_root, system_name)
+
+    def process_args(self, args):
+        if len(args) != 1:
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
+
+        nfs_host = args[0]
+        nfs_netloc = '%s@%s' % (self.remote_user, nfs_host)
+
+        version_label = os.getenv('VERSION_LABEL', 'factory')
+
+        missing_vars = [var for var in self.required_vars
+                        if not var in os.environ]
+        if missing_vars:
+            raise writeexts.ExtensionError(
+                'Please set: %s' % ', '.join(missing_vars))
+
+        controllers = os.getenv('DISTBUILD_CONTROLLER').split()
+        workers = os.getenv('DISTBUILD_WORKERS').split()
+
+        if len(controllers) != 1:
+            raise writeexts.ExtensionError(
+                'Please specify exactly one controller.')
+
+        if len(workers) == 0:
+            raise writeexts.ExtensionError(
+                'Please specify at least one worker.')
+
+        upgrade = self.get_environment_boolean('UPGRADE')
+
+        self.check_good_server(nfs_netloc)
+
+        system_names = set(controllers + workers)
+        for system_name in system_names:
+            if upgrade:
+                self.check_upgradeable(nfs_netloc, system_name, version_label)
+            else:
+                system_path = self.system_path(system_name)
+
+                if self.remote_directory_exists(nfs_netloc, system_path):
+                    if self.get_environment_boolean('OVERWRITE') == False:
+                        raise writeexts.ExtensionError(
+                            'System %s already exists at %s:%s. Try `morph '
+                            'upgrade` instead of `morph deploy`.' % (
+                            system_name, nfs_netloc, system_path))
+
+    def check_good_server(self, netloc):
+        # FIXME: assumes root
+        self.check_ssh_connectivity(netloc.split('@')[-1])
+
+        # Is an NFS server
+        try:
+            writeexts.ssh_runcmd(
+                netloc, ['test', '-e', '/etc/exports'])
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s is not an nfs server'
+                                           % netloc)
+        try:
+            writeexts.ssh_runcmd(
+                netloc, ['systemctl', 'is-enabled', 'nfs-server.service'])
+
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s does not control its '
+                                           'nfs server by systemd' % netloc)
+
+        # TFTP server exports /srv/nfsboot/tftp
+        tftp_root = os.path.join(self.nfsboot_root, 'tftp')
+        try:
+            writeexts.ssh_runcmd(
+                netloc, ['test' , '-d', tftp_root])
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s does not export %s' %
+                                           (netloc, tftp_root))
+
+    def check_upgradeable(self, nfs_netloc, system_name, version_label):
+        '''Check that there is already a version of the system present.
+
+        Distbuild nodes are stateless, so an upgrade is actually pretty much
+        the same as an initial deployment. This test is just a sanity check.
+
+        '''
+        system_path = self.system_path(system_name)
+        system_version_path = self.system_path(system_name, version_label)
+
+        if not self.remote_directory_exists(nfs_netloc, system_path):
+            raise writeexts.ExtensionError(
+                'System %s not found at %s:%s, cannot deploy an upgrade.' % (
+                system_name, nfs_netloc, system_path))
+
+        if self.remote_directory_exists(nfs_netloc, system_version_path):
+            if self.get_environment_boolean('OVERWRITE'):
+                pass
+            else:
+                raise writeexts.ExtensionError(
+                    'System %s version %s already exists at %s:%s.' % (
+                    system_name, version_label, nfs_netloc,
+                    system_version_path))
+
+    def remote_directory_exists(self, nfs_netloc, path):
+        try:
+            writeexts.ssh_runcmd(nfs_netloc, ['test', '-d', path])
+        except writeexts.ExtensionError as e:
+            logging.debug('SSH exception: %s', e)
+            return False
+
+        return True
+
+
+DistbuildTroveNFSBootCheckExtension().run()

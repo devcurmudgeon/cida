@@ -1,0 +1,7 @@
+name: ebtables
+kind: chunk
+build-system: manual
+build-commands:
+- make
+install-commands:
+- make install DESTDIR="$DESTDIR" BINDIR="$PREFIX/sbin"

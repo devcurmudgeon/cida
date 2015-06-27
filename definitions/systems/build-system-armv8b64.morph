@@ -1,0 +1,57 @@
+name: build-system-armv8b64
+kind: system
+description:
+- |
+  The system that should be used for building all other Baserock systems
+  for 64-bit ARMv8 computers running in big-endian mode.
+arch: armv8b64
+strata:
+- name: build-essential
+  morph: strata/build-essential.morph
+- name: core
+  morph: strata/core.morph
+- name: foundation
+  morph: strata/foundation.morph
+- name: bsp-armv8b64-generic
+  morph: strata/bsp-armv8b64-generic.morph
+- name: python-core
+  morph: strata/python-core.morph
+- name: tools
+  morph: strata/tools.morph
+- name: python-cliapp
+  morph: strata/python-cliapp.morph
+- name: python-pygobject
+  morph: strata/python-pygobject.morph
+- name: python-wsgi
+  morph: strata/python-wsgi.morph
+- name: libsoup-common
+  morph: strata/libsoup-common.morph
+- name: ostree-core
+  morph: strata/ostree-core.morph
+- name: morph-utils
+  morph: strata/morph-utils.morph
+- name: nfs
+  morph: strata/nfs.morph
+- name: python-common
+  morph: strata/python-common.morph
+- name: ansible
+  morph: strata/ansible.morph
+- name: cloudinit-support
+  morph: strata/cloudinit-support.morph
+- name: openstack-common
+  morph: strata/openstack-common.morph
+- name: openstack-clients
+  morph: strata/openstack-clients.morph
+- name: devtools
+  morph: strata/devtools.morph
+configuration-extensions:
+- extensions/set-hostname
+- extensions/add-config-files
+- extensions/nfsboot
+- extensions/install-files
+- extensions/distbuild
+- extensions/fstab
+- extensions/mason
+- extensions/cloud-init
+- extensions/moonshot-kernel
+- extensions/install-essential-files

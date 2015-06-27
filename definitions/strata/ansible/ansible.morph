@@ -1,0 +1,9 @@
+name: ansible
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+- |
+  install -D -m644 /proc/self/fd/0 "$DESTDIR/etc/ansible/ansible.cfg" <<EOF
+  [defaults]
+  log_path=/var/log/ansible
+  EOF

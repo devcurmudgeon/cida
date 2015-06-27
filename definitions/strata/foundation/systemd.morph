@@ -1,0 +1,47 @@
+name: systemd
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+# systemd prematurely kills the user session. This is a known bug in systemd
+# https://bugs.freedesktop.org/show_bug.cgi?id=70593
+- |
+  cat >> units/user@.service.m4.in <<EOF
+  KillSignal=SIGCONT
+  ExecStop=/bin/kill -TERM \$MAINPID
+  EOF
+configure-commands:
+- sh autogen.sh
+# KILL added because it picks up /usr/bin/kill, which is not installed on
+# all systems
+- |
+  KILL=/bin/kill ./configure --prefix="$PREFIX" --enable-xz --disable-manpages \
+      --disable-gudev \
+      --disable-tests --sysconfdir=/etc --localstatedir=/var \
+      --libdir="$PREFIX/lib" --libexecdir="$PREFIX/libexec" \
+      --with-rootprefix= --with-rootlibdir=/lib
+install-commands:
+- make DESTDIR="$DESTDIR" install
+- mkdir -p "$DESTDIR"/sbin
+- ln -s /lib/systemd/systemd "$DESTDIR"/sbin/init
+- for f in telinit runlevel shutdown poweroff reboot halt; do ln -s /bin/systemctl
+  "$DESTDIR/sbin/$f"; done
+- sed -e 's|@sushell@|/bin/sh|g' units/debug-shell.service.in >"$DESTDIR/etc/systemd/system/debug-shell.service"
+- sed -r -e '/Options=/s/,?strictatime//' "$DESTDIR/lib/systemd/system/tmp.mount"
+  >"$DESTDIR/etc/systemd/system/tmp.mount"
+- touch "$DESTDIR/etc/machine-id"
+post-install-commands:
+- |
+  cat > "$DESTDIR/etc/systemd/network/10-dhcp.network" << "EOF"
+  [Match]
+  Name=e*
+
+  [Network]
+  DHCP=yes
+  EOF
+# Use the pam config systemd provides
+- cp -a "$DESTDIR/$PREFIX"/share/factory/etc/pam.d/* "$DESTDIR/etc/pam.d"
+
+# Add pam_deny.so to the default systemd-auth pam.d config file. Without
+# it, if shadow is configured to use PAM, it would be possible to login
+# to a system with the wrong password.
+- echo 'auth     requisite  pam_deny.so' >> "$DESTDIR"/etc/pam.d/system-auth

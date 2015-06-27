@@ -1,0 +1,96 @@
+#!/usr/bin/python
+# Copyright (C) 2014-2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+'''Preparatory checks for Morph 'nfsboot' write extension'''
+
+import os
+
+import writeexts
+
+
+class NFSBootCheckExtension(writeexts.WriteExtension):
+
+    _nfsboot_root = '/srv/nfsboot'
+
+    def process_args(self, args):
+        if len(args) != 1:
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
+
+        location = args[0]
+
+        upgrade = self.get_environment_boolean('UPGRADE')
+        if upgrade:
+            raise writeexts.ExtensionError(
+                'Upgrading is not currently supported for NFS deployments.')
+
+        hostname = os.environ.get('HOSTNAME', None)
+        if hostname is None:
+            raise writeexts.ExtensionError('You must specify a HOSTNAME.')
+        if hostname == 'baserock':
+            raise writeexts.ExtensionError('It is forbidden to nfsboot a '
+                                           'system with hostname "%s"'
+                                           % hostname)
+
+        self.test_good_server(location)
+
+        version_label = os.getenv('VERSION_LABEL', 'factory')
+        versioned_root = os.path.join(self._nfsboot_root, hostname, 'systems',
+                                      version_label)
+        if self.version_exists(versioned_root, location):
+            raise writeexts.ExtensionError(
+                'Root file system for host %s (version %s) already exists on '
+                'the NFS server %s. Deployment aborted.' % (hostname,
+                version_label, location))
+
+    def test_good_server(self, server):
+        self.check_ssh_connectivity(server)
+
+        # Is an NFS server
+        try:
+            writeexts.ssh_runcmd(
+                'root@%s' % server, ['test', '-e', '/etc/exports'])
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s is not an nfs server'
+                                           % server)
+        try:
+            writeexts.ssh_runcmd(
+                'root@%s' % server, ['systemctl', 'is-enabled',
+                                     'nfs-server.service'])
+
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s does not control its '
+                                           'nfs server by systemd' % server)
+
+        # TFTP server exports /srv/nfsboot/tftp
+        tftp_root = os.path.join(self._nfsboot_root, 'tftp')
+        try:
+            writeexts.ssh_runcmd(
+                'root@%s' % server, ['test' , '-d', tftp_root])
+        except writeexts.ExtensionError:
+            raise writeexts.ExtensionError('server %s does not export %s' %
+                                           (tftp_root, server))
+
+    def version_exists(self, versioned_root, location):
+        try:
+            writeexts.ssh_runcmd('root@%s' % location,
+                                 ['test', '-d', versioned_root])
+        except writeexts.ExtensionError:
+            return False
+
+        return True
+
+
+NFSBootCheckExtension().run()

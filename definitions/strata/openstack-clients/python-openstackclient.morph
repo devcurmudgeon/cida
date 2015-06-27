@@ -1,0 +1,3 @@
+name: python-openstackclient
+kind: chunk
+build-system: python-distutils

@@ -1,0 +1,3 @@
+name: os-client-config
+kind: chunk
+build-system: python-distutils

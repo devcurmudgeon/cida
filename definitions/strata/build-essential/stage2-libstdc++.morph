@@ -1,0 +1,36 @@
+name: stage2-libstdc++
+kind: chunk
+configure-commands:
+- mkdir o
+
+# Configure flag notes:
+#  1. The thread C++ library cannot be built, as the thread C library
+#     was not build in stage1-gcc.
+#  2. Prevents the installation of precompiled include files, which are
+#     not needed at this stage.
+#  3. From LFS: the header location of C++ needs to be explicitly given
+#     as we are running the configure script from the top-level
+#     directory.
+- |
+  export STAGE2_SYSROOT="$(dirname $(pwd))"
+  # -fPIC must be given, otherwise it will not be possible to create
+  # shared libraries linked to libstdc++
+  export CPPFLAGS="--sysroot=$STAGE2_SYSROOT -fPIC"
+  export LDFLAGS="--sysroot=$STAGE2_SYSROOT"
+  cd o && ../libstdc++-v3/configure                           \
+            --build=$(sh ../config.guess)                     \
+            --host="$TARGET_STAGE1"                           \
+            --target="$TARGET_STAGE1"                         \
+            --prefix="$PREFIX"                                \
+            --disable-nls                                     \
+            --disable-shared                                  \
+            --disable-multilib                                \
+    `# [1]` --disable-libstdcxx-threads                       \
+    `# [2]` --disable-libstdcxx-pch                           \
+    `# [3]` --with-gxx-include-dir=/tools/"$TARGET_STAGE1"/include/c++/4.9.2
+
+build-commands:
+- cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install

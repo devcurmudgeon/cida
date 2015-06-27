@@ -1,0 +1,27 @@
+name: neutron
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+- |
+  # Move the configuration files to a proper location
+  mkdir "$DESTDIR"/etc
+  mv "$DESTDIR/$PREFIX"/etc/neutron "$DESTDIR"/etc
+
+  # Remove unused start/stop script
+  rm "$DESTDIR/$PREFIX"/etc/init.d/neutron-server
+
+  # Remove configuration files which will be added by Ansible
+  rm "$DESTDIR"/etc/neutron/neutron.conf
+  rm "$DESTDIR"/etc/neutron/metadata_agent.ini
+  rm "$DESTDIR"/etc/neutron/plugins/ml2/ml2_conf.ini
+  rm "$DESTDIR"/etc/neutron/dhcp_agent.ini
+  rm "$DESTDIR"/etc/neutron/l3_agent.ini
+
+  # Add neutron to sudoers controlling which commands is running as a
+  # root using the openstack rootwrap.
+  mkdir -p "$DESTDIR"/etc/sudoers.d
+  install -D -m 0440 /proc/self/fd/0 <<'EOF' "$DESTDIR"/etc/sudoers.d/neutron-rootwrap
+  Defaults:neutron !requiretty
+
+  neutron ALL=(root) NOPASSWD: /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf *
+  EOF

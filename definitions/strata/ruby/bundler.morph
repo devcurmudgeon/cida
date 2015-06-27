@@ -1,0 +1,6 @@
+name: bundler
+kind: chunk
+build-commands:
+- rake build
+install-commands:
+- gem install ./pkg/*gem --bindir "$DESTDIR/$PREFIX/bin" --install-dir "$DESTDIR/$PREFIX/lib/ruby/gems/2.0.0"

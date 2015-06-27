@@ -1,0 +1,14 @@
+name: flex
+kind: chunk
+pre-configure-commands:
+- autoreconf -ivf
+configure-commands:
+- ./configure --prefix="$PREFIX"
+build-commands:
+- make dist_doc_DATA=
+install-commands:
+- make dist_doc_DATA= DESTDIR="$DESTDIR" install
+- ln -s libfl.a "$DESTDIR$PREFIX/lib/libl.a"
+- echo "#!$PREFIX/bin/sh" >"$DESTDIR$PREFIX/bin/lex"
+- echo 'exec '"$PREFIX"'/bin/flex -l "$@"' >>"$DESTDIR$PREFIX/bin/lex"
+- chmod 755 "$DESTDIR$PREFIX/bin/lex"

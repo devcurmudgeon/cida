@@ -1,0 +1,10 @@
+name: bzip2
+kind: chunk
+configure-commands:
+- sed -i -rf bzip2.morph-makefix.sed Makefile
+build-commands:
+- make -f Makefile-libbz2_so
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" PREFIX="$PREFIX" install
+- install libbz2.so* "$DESTDIR$PREFIX/lib"

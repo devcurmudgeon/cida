@@ -1,0 +1,49 @@
+# Copyright (C) 2014, 2015 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, see <http://www.gnu.org/licenses/>.
+
+help: |
+    Deploy a distbuild network, using a Trove to serve the kernel and rootfs.
+
+    The `location` argument is the hostname of the Trove system.
+
+    The following configuration values must be specified:
+
+      - DISTBUILD_CONTROLLER: hostname of controller system
+      - DISTBUILD_WORKERS: hostnames of each worker system
+      - DISTBUILD_GIT_SERVER: Trove hostname
+      - DISTBUILD_SHARED_ARTIFACT_CACHE: Trove hostname
+      - DISTBUILD_TROVE_ID: Trove ID
+      - DISTBUILD_WORKER_SSH_KEY: SSH key to be used for ssh:// repos
+
+    A note on TROVE_ID: the current distbuild-setup service requires that
+    a single 'Trove ID' is specified. This is used in Morph for expanding
+    keyed URLs. If you set TROVE_ID=foo for example, foo:bar will be expanded
+    to git://$GIT_SERVER/foo, in addition to the standard baserock: and
+    upstream: prefixes that you can use.
+
+    The WORKER_SSH_KEY must be provided, even if you don't need it. The
+    distbuild-setup service could be changed to make it optional.
+
+    The following configuration values are optional:
+
+      - HOST_MAP: a list of key=value pairs mapping hostnames to IP addresses,
+          or fully-qualified domain names. Useful if you
+          cannot rely on hostname resolution working for your deploment.
+
+    The extension will connect to root@location via ssh to copy the kernel and
+    rootfs, and configure the nfs server. It will duplicate the kernel and
+    rootfs once for each node in the distbuild network.
+
+    The deployment mechanism makes assumptions about the bootloader
+    configuration of the target machines.

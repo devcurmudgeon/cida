@@ -1,0 +1,7 @@
+name: libgpg-error
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- autoreconf -fi
+configure-commands:
+- ./configure --prefix="$PREFIX" --disable-doc

@@ -1,0 +1,13 @@
+name: unionfs-fuse
+kind: chunk
+
+description:
+  User-space union file system.
+
+build-system: manual
+
+build-commands:
+- make PREFIX="$PREFIX"
+
+install-commands:
+- make PREFIX="$PREFIX" DESTDIR="$DESTDIR" install

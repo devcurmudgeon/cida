@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Update kernel module dependencies
+    command: depmod -a
+
+  - name: generate InitiatorName for iscsi
+    shell: iscsi-iname
+    register: initiator_name
+
+  - lineinfile:
+        dest: /etc/iscsi/initiatorname.iscsi
+        regexp: '^InitiatorName=$'
+        line:    'InitiatorName={{ initiator_name.stdout }}'
+        backrefs: yes

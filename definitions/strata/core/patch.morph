@@ -1,0 +1,6 @@
+name: patch
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- echo "2.7.1" > .tarball-version
+- ./bootstrap --skip-po

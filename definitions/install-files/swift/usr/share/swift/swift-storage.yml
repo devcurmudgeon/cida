@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  vars_files:
+    - swift-storage-vars.yml
+  vars:
+  remote_user: root
+  tasks:
+    - user: name=swift comment="Swift user"
+    - file: path=/etc/swift owner=swift group=swift state=directory recurse=yes
+
+    - template: src=/usr/share/swift/etc/rsyncd.j2 dest=/etc/rsyncd.conf
+        mode=0644 owner=swift group=swift
+
+    - template: src=/usr/share/swift/etc/swift/{{ item }}.j2
+        dest=/etc/swift/{{ item }}.conf mode=0644 owner=swift group=swift
+      with_items:
+      - account-server
+      - container-server
+      - object-server
+      - swift
+
+    - file: path=/srv/node owner=swift group=swift state=directory recurse=yes
+    - file: path=/var/cache/swift owner=swift group=swift state=directory
+        recurse=yes

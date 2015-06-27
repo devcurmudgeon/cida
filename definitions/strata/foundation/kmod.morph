@@ -1,0 +1,49 @@
+name: kmod
+kind: chunk
+configure-commands:
+- rm -rf libkmod/docs
+- sed -i -e'/SUBDIRS/{s/\S*doc\S*//;s/\S*man\S*//}' Makefile.am
+- sed -i -e'/AC_CONFIG_FILES(\[/,/])/{/docs/d}' configure.ac
+- autoreconf -fiv
+- |
+  ./configure --prefix="$PREFIX" --bindir="$PREFIX"/bin \
+              --libdir="$PREFIX"/lib --sysconfdir=/etc \
+              --without-xz --with-zlib \
+              --disable-manpages --enable-python
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" pkgconfigdir="$PREFIX"/lib/pkgconfig install
+
+# WARNING with the following command:
+# if the staging area when kmod is built is sufficiently different to the
+# staging area that kmod is included in, then these symlinks may not work.
+#
+# i.e. if /sbin isn't a symlink when this is built (fhs-dirs isn't included or
+# doesn't symlink /sbin to /usr/bin) then we get symlinks in /sbin which point
+# to ../usr/bin, but if /sbin is itself a symlink to /usr/bin, then the symlinks
+# would end up in /usr/bin, which would point to ../usr/bin, which would evaluate
+# to /usr/usr/bin.
+#
+# The alternatives to this are:
+#
+# 1. Use hardlinks instead, which has the problem of ssh-rsync upgrades duplicating
+#    the binary
+#
+# 2. Use an absolute path for the symlink, which makes things interesting when
+#    inspecting a chroot
+#
+# 3. Use a wrapper script to invoke kmod with a different name, which isn't
+#    possible in busybox ash without making a temporary directory, which means
+#    you need an extra process to hang around to clean that directory up.
+- |
+  if [ -h /sbin ]; then
+    for app in modprobe lsmod rmmod insmod modinfo depmod; do
+      ln -sf kmod "$DESTDIR$PREFIX/bin/$app"
+    done
+  else
+    install -d "$DESTDIR"/sbin
+    for app in modprobe lsmod rmmod insmod modinfo depmod; do
+      ln -sf ../"$PREFIX"/bin/kmod "$DESTDIR/sbin/$app"
+    done
+  fi

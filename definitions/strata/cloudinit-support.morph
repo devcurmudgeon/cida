@@ -1,0 +1,20 @@
+name: cloudinit-support
+kind: stratum
+description: A stratum with cloudinit to fit a system in the OpenStack cloud.
+build-depends:
+- morph: strata/build-essential.morph
+- morph: strata/python-core.morph
+- morph: strata/python-common.morph
+- morph: strata/foundation.morph
+chunks:
+- name: python-cheetah
+  repo: upstream:python-cheetah
+  ref: 831aa6b99d9b4fb012ee644d8e80e0bc0eb6d6ed
+  unpetrify-ref: baserock/morph
+- name: cloud-init
+  morph: strata/cloudinit-support/cloud-init.morph
+  repo: upstream:cloud-init
+  ref: 130d51acc5b0becd64e7007f9dfe41a6e022eaec
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - python-cheetah

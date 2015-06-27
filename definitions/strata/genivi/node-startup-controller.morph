@@ -1,0 +1,9 @@
+name: node-startup-controller
+kind: chunk
+configure-commands:
+- sh autogen.sh
+- ./configure --prefix="$PREFIX" --sysconfdir=/etc
+build-commands:
+- make
+install-commands:
+- make DESTDIR="$DESTDIR" install

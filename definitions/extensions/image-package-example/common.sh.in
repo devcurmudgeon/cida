@@ -1,0 +1,72 @@
+#!/bin/false
+# Script library to be used by disk-install.sh and make-disk-image.sh
+
+status(){
+    echo "$@"
+}
+
+info(){
+    echo "$@" >&2
+}
+
+warn(){
+    echo "$@" >&2
+}
+
+extract_rootfs(){
+    tar -C "$1" -xf @@ROOTFS_TAR_PATH@@ .
+}
+
+make_disk_image(){
+    truncate --size "$1" "$2"
+}
+
+format_disk(){
+    local disk="$1"
+    mkfs.ext4 -F -L rootfs "$disk"
+}
+
+install_fs_config(){
+    local mountpoint="$1"
+    local rootdisk="${2-/dev/vda}"
+    cat >>"$mountpoint/etc/fstab" <<EOF
+$rootdisk / ext4 rw,errors=remount-ro 0 0
+EOF
+    install -D -m 644 /proc/self/fd/0 "$mountpoint/boot/extlinux.conf" <<EOF
+DEFAULT baserock
+LABEL   baserock
+SAY     Booting Baserock
+LINUX   /boot/vmlinuz
+APPEND  root=$rootdisk
+EOF
+}
+
+install_bootloader(){
+    local disk="$1"
+    local mountpoint="$2"
+    dd if=@@IMAGE_DIR@@/mbr.bin conv=notrunc bs=440 count=1 of="$disk"
+    extlinux --install "$mountpoint/boot"
+}
+
+loop_file(){
+    losetup --show --find "$1"
+}
+unloop_file(){
+    #losetup --detach "$1"
+    # unlooping handled by umount -d, for busybox compatibility
+    true
+}
+
+temp_mount(){
+    local mp="$(mktemp -d)"
+    if ! mount "$@" "$mp"; then
+        rmdir "$mp"
+        return 1
+    fi
+    echo "$mp"
+}
+untemp_mount(){
+    # Unmount and detach in one step for busybox compatibility
+    umount -d "$1"
+    rmdir "$1"
+}

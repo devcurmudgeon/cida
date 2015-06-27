@@ -1,0 +1,9 @@
+name: curl
+kind: chunk
+configure-commands:
+- ./buildconf
+- ./configure --disable-manual --prefix="$PREFIX"
+build-commands:
+- make
+install-commands:
+- make  DESTDIR="$DESTDIR" install

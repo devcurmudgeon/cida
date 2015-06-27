@@ -1,0 +1,38 @@
+name: gtk-deps
+kind: stratum
+description: the GTK+ dependencies stratum
+build-depends:
+- morph: strata/core.morph
+- morph: strata/graphics-common.morph
+- morph: strata/x-common.morph
+chunks:
+- name: pango
+  morph: strata/gtk-deps/pango.morph
+  repo: upstream:pango
+  ref: e0a21abf52a0b7588b1aa3357818948816ed9103
+  unpetrify-ref: 1.36.8
+- name: shared-mime-info
+  morph: strata/gtk-deps/shared-mime-info.morph
+  repo: upstream:shared-mime-info
+  ref: c136fc2578aa8f7c0e098008da18d324033eb991
+  unpetrify-ref: Release-1-4
+- name: gdk-pixbuf
+  morph: strata/gtk-deps/gdk-pixbuf.morph
+  repo: upstream:gdk-pixbuf
+  ref: b86959aa16e9d49ec6e286bc57d36c5249578c59
+  unpetrify-ref: 2.30.8
+- name: atk
+  repo: upstream:atk
+  ref: 3f9e43b94364053fd16eb53391667d161d0dae12
+  unpetrify-ref: ATK_2_16_0
+- name: at-spi2-core
+  repo: upstream:at-spi2-core
+  ref: 96c2842088008670e72739ea7921d654487a57fb
+  unpetrify-ref: AT_SPI2_CORE_2_14_1
+- name: at-spi2-atk
+  repo: upstream:at-spi2-atk
+  ref: 2c220ff6565c4f02428a0c80267616a677e81ac9
+  unpetrify-ref: AT_SPI2_ATK_2_14_1
+  build-depends:
+  - at-spi2-core
+  - atk

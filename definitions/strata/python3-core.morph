@@ -1,0 +1,11 @@
+name: python3-core
+kind: stratum
+description: Core python3 packages
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: python3
+  morph: strata/python3-core/python3.morph
+  repo: upstream:cpython
+  ref: d1414cefaddc7b56caef75eea87226b1fce5ca7c
+  unpetrify-ref: v3.4.2

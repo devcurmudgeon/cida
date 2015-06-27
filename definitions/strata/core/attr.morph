@@ -1,0 +1,19 @@
+name: attr
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- make configure
+configure-commands:
+- |
+  ./configure --prefix="$PREFIX" \
+              --exec-prefix="$PREFIX" \
+              --sbindir="$PREFIX"/sbin \
+              --bindir="$PREFIX"/bin \
+              --libdir="$PREFIX"/lib \
+              --libexecdir="$PREFIX"/lib \
+              --enable-lib64=yes \
+              --includedir="$PREFIX"/include \
+              --mandir="$PREFIX"/share/man \
+              --datadir="$PREFIX"/share
+install-commands:
+- make DESTDIR="$DESTDIR" install-lib install-dev

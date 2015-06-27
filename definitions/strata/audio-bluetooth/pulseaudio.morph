@@ -1,0 +1,12 @@
+name: pulseaudio
+kind: chunk
+description: PulseAudio System
+build-system: autotools
+pre-configure-commands:
+- NOCONFIGURE=1 ./bootstrap.sh
+configure-commands:
+- ./configure --prefix="$PREFIX" --localstatedir=/var --sysconfdir=/etc --with-database=simple --with-systemduserunitdir=/lib/systemd/system
+install-commands:
+- make DESTDIR="$DESTDIR" install
+- mkdir -p "$DESTDIR/etc/systemd/system/multi-user.target.wants"
+- ln -s /lib/systemd/system/pulseaudio.service "$DESTDIR/etc/systemd/system/multi-user.target.wants/pulseaudio.service"

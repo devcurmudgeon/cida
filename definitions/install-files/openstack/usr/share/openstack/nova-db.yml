@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  vars_files:
+  - "/etc/openstack/nova.conf"
+  tasks:
+  - name: Create nova service user in service tenant
+    keystone_user:
+        user: "{{ NOVA_SERVICE_USER }}"
+        password: "{{ NOVA_SERVICE_PASSWORD }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Assign admin role to nova service user in the service tenant
+    keystone_user:
+        role: admin
+        user: "{{ NOVA_SERVICE_USER }}"
+        tenant: service
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Add nova endpoint
+    keystone_service:
+        name: nova
+        type: compute
+        description: Openstack Compute Service
+        publicurl: 'http://{{ CONTROLLER_HOST_ADDRESS }}:8774/v2/%(tenant_id)s'
+        internalurl: 'http://{{ CONTROLLER_HOST_ADDRESS }}:8774/v2/%(tenant_id)s'
+        adminurl: 'http://{{ CONTROLLER_HOST_ADDRESS }}:8774/v2/%(tenant_id)s'
+        region: 'regionOne'
+        token: "{{ KEYSTONE_TEMPORARY_ADMIN_TOKEN }}"
+
+  - name: Create postgresql user for nova
+    postgresql_user:
+        name: "{{ NOVA_DB_USER }}"
+        login_host: "{{ CONTROLLER_HOST_ADDRESS }}"
+        password: "{{ NOVA_DB_PASSWORD }}"
+    sudo: yes
+    sudo_user: nova
+
+  - name: Create database for nova services
+    postgresql_db:
+        name: nova
+        owner: "{{ NOVA_DB_USER }}"
+        login_host: "{{ CONTROLLER_HOST_ADDRESS }}"
+    sudo: yes
+    sudo_user: nova
+
+  - name: Initiate nova database
+    command: nova-manage db sync
+    sudo: yes
+    sudo_user: nova

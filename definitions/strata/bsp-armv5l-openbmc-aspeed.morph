@@ -1,0 +1,19 @@
+name: bsp-armv5l-openbmc-aspeed
+kind: stratum
+description:
+- |
+  The set of platform specific components required for booting
+  armvl5-openbmc-aspeed based systems
+build-depends:
+- morph: strata/core.morph
+chunks:
+- name: linux-armv5l-openbmc-aspeed-wedge
+  morph: strata/bsp-armv5l-openbmc-aspeed/linux-armv5l-openbmc-aspeed.morph
+  repo: upstream:linux-stable
+  ref: 5cbce86c2115075b8054e4dba8cdf328aa6fa5b6
+  unpetrify-ref: baserock/v2.6.28.9/openbmc_aspeed_wedge
+- name: u-boot@aspeed
+  morph: strata/bsp-armv5l-openbmc-aspeed/u-boot@aspeed.morph
+  repo: upstream:u-boot
+  ref: af962087db0b88f4073f8f5a6184cb7f011d224d
+  unpetrify-ref: baserock/v2013.07+aspeed_wedge

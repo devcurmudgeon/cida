@@ -1,0 +1,18 @@
+name: ironic
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+- |
+  mkdir -p "$DESTDIR"/etc/ironic
+  install -m 644 etc/ironic/policy.json "$DESTDIR"/etc/ironic
+  install -m 644 etc/ironic/rootwrap.conf "$DESTDIR"/etc/ironic
+  mkdir -p "$DESTDIR"/etc/ironic/rootwrap.d
+  install -m 644 etc/ironic/rootwrap.d/* "$DESTDIR"/etc/ironic/rootwrap.d/
+
+  # Add ironic to sudoers controlling which commands will run as a root
+  # using the openstack rootwrap.
+  install -D -m 0440 /proc/self/fd/0 <<'EOF' "$DESTDIR"/etc/sudoers.d/ironic-rootwrap
+  Defaults:ironic !requiretty
+
+  ironic ALL=(root) NOPASSWD: /usr/bin/ironic-rootwrap /etc/ironic/rootwrap.conf *
+  EOF

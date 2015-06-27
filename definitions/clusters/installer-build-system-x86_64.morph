@@ -1,0 +1,52 @@
+name: installer-build-system-x86_64
+kind: cluster
+description: |
+  This is a cluster morphology that can be used to deploy
+  installer systems. This is done by adding the files needed
+  using a manifest file (installer/manifest) with the INSTALL_FILES
+  extension, and using the installer.configure extension to generate
+  the configuration needed in the system.
+
+  This manifest, which is installing the installer script in
+  /usr/lib/installer/installer.py, in combination of adding
+  "init=/usr/lib/installer/installer.py" as KERNEL_ARGS in the system
+  makes the system run the installer.py script as init script.
+
+  The installer.py script will read the information needed to
+  install the system (where is the root filesystem to install and
+  where to install it) from /etc/install.conf.
+
+  This cluster also deploys a subsystem (a build-system in this case)
+  which is going to be the system that the installer system/script is
+  going to install.
+
+systems:
+- morph: systems/installer-system-x86_64.morph
+  deploy:
+    installer:
+      type: extensions/rawdisk
+      location: installer-build-system-x86_64.img
+      KERNEL_ARGS: init=/usr/lib/baserock-installer/installer
+      DISK_SIZE: 6G
+      HOSTNAME: installer-x86_64
+      INSTALLER_TARGET_STORAGE_DEVICE: /dev/sda
+      INSTALLER_ROOTFS_TO_INSTALL: /rootfs
+      INITRAMFS_PATH: boot/initramfs.gz
+  subsystems:
+  - morph: systems/initramfs-x86_64.morph
+    deploy:
+      installer-initramfs:
+        type: extensions/initramfs
+        location: boot/initramfs.gz
+  - morph: systems/build-system-x86_64.morph
+    deploy:
+      to-install:
+        type: extensions/sysroot
+        location: /rootfs
+        INITRAMFS_PATH: boot/initramfs.gz
+    subsystems:
+    - morph: systems/initramfs-x86_64.morph
+      deploy:
+        to-install-initramfs:
+          type: extensions/initramfs
+          location: boot/initramfs.gz

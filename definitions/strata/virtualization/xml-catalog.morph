@@ -1,0 +1,6 @@
+name: xml-catalog
+kind: chunk
+install-commands:
+- make DESTDIR="$DESTDIR" install
+post-install-commands:
+- ./post-install.sh

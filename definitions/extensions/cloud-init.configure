@@ -1,0 +1,63 @@
+#!/bin/sh
+#
+# Copyright (C) 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+#
+# This is a "morph deploy" configuration extension to enable the
+# cloud-init services.
+set -e
+
+ROOT="$1"
+
+##########################################################################
+
+set -e
+
+case "$CLOUD_INIT" in
+''|False|no)
+    exit 0
+    ;;
+True|yes)
+    echo "Configuring cloud-init"
+    ;;
+*)
+    echo Unrecognised option "$CLOUD_INIT" to CLOUD_INIT
+    exit 1
+    ;;
+esac
+
+
+cloud_init_services="cloud-config.service
+                     cloud-init-local.service
+                     cloud-init.service
+                     cloud-final.service"
+
+# Iterate over the cloud-init services and enable them creating a link
+# into /etc/systemd/system/multi-user.target.wants.
+# If the services to link are not present, fail.
+
+services_folder="lib/systemd/system"
+for service_name in $cloud_init_services; do
+    if [ ! -f "$ROOT/$services_folder/$service_name" ]; then
+        echo "ERROR: Service $service_name is missing." >&2
+        echo "Failed to configure cloud-init."
+        exit 1
+    else
+        echo Enabling systemd service "$service_name" >"$MORPH_LOG_FD"
+        ln -sf "/$services_folder/$service_name" \
+            "$ROOT/etc/systemd/system/multi-user.target.wants/$service_name"
+    fi
+done

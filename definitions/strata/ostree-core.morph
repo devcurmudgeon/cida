@@ -1,0 +1,16 @@
+name: ostree-core
+kind: stratum
+build-depends:
+- morph: strata/core.morph
+- morph: strata/libsoup-common.morph
+chunks:
+- name: libgsystem
+  repo: upstream:libgsystem
+  ref: 8231b8ad4a4ee35e4b11fae5f6e7cddabf1c51ae
+  unpetrify-ref: master
+- name: ostree
+  repo: upstream:ostree
+  ref: c9704e9802dfeda9b5a138535c59e98df3dd7196
+  unpetrify-ref: baserock/morph
+  build-depends:
+  - libgsystem

@@ -1,0 +1,54 @@
+name: armv7lhf-cross-toolchain
+kind: stratum
+description: Stratum for building an armv7lhf cross compiler for your native system.
+build-depends:
+- morph: strata/build-essential.morph
+chunks:
+- name: armv7lhf-cross-binutils
+  morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-binutils.morph
+  repo: upstream:binutils-tarball
+  ref: 5500a97a2ad1735db5b35bc51cfb825c1f4c38df
+  unpetrify-ref: binutils-2.25
+
+- name: armv7lhf-cross-linux-api-headers
+  morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-linux-api-headers.morph
+  repo: upstream:linux
+  ref: df2e1b9168a7ab5dd8149e38b5ac70cdef86d1fa
+  unpetrify-ref: baserock/v3.8
+
+- name: armv7lhf-cross-gcc-nolibc
+  morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-gcc-nolibc.morph
+  repo: upstream:gcc-tarball
+  ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - armv7lhf-cross-binutils
+
+- name: armv7lhf-cross-glibc
+  morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-glibc.morph
+  repo: upstream:glibc
+  ref: 4e42b5b8f89f0e288e68be7ad70f9525aebc2cff
+  unpetrify-ref: baserock/glibc-2.21
+  build-depends:
+  - armv7lhf-cross-binutils
+  - armv7lhf-cross-gcc-nolibc
+  - armv7lhf-cross-linux-api-headers
+
+- name: armv7lhf-cross-gcc
+  morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-gcc.morph
+  repo: upstream:gcc-tarball
+  ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - armv7lhf-cross-binutils
+  - armv7lhf-cross-glibc
+
+- name: armv7lhf-cross-libstdc++
+  morph: strata/armv7lhf-cross-toolchain/armv7lhf-cross-libstdc++.morph
+  repo: upstream:gcc-tarball
+  ref: b3c9b176c1f10ebeff5700eb3760e9511f23fa06
+  unpetrify-ref: baserock/build-essential
+  build-depends:
+  - armv7lhf-cross-binutils
+  - armv7lhf-cross-gcc
+  - armv7lhf-cross-glibc

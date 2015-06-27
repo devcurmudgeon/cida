@@ -1,0 +1,7 @@
+name: vala-bootstrap
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- autoreconf -ivf
+configure-commands:
+- ./configure --prefix="$PREFIX"

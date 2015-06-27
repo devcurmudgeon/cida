@@ -1,0 +1,17 @@
+name: ansible
+kind: stratum
+description: A stratum with ansible and its dependencies
+build-depends:
+- morph: strata/core.morph
+- morph: strata/python-common.morph
+chunks:
+- name: ansible
+  morph: strata/ansible/ansible.morph
+  repo: upstream:ansible
+  ref: 0a7124541247cc613352054f4bc0c3e116e0b657
+  unpetrify-ref: baserock/v1.8.4
+- name: openstack-ansible-modules
+  morph: strata/ansible/openstack-ansible-modules.morph
+  repo: upstream:openstack/openstack-ansible-modules
+  ref: 451dcdeadfd35615a867d5e59a684e4aa82959ae
+  unpetrify-ref: master

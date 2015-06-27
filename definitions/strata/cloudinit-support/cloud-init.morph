@@ -1,0 +1,6 @@
+name: cloud-init
+kind: chunk
+build-system: python-distutils
+post-install-commands:
+- mkdir -p "$DESTDIR"/lib/systemd/system
+- cp systemd/* "$DESTDIR"/lib/systemd/system/

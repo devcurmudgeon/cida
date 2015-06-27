@@ -1,0 +1,6 @@
+name: libtool
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- echo "2.4.6" > .tarball-version
+- ./bootstrap

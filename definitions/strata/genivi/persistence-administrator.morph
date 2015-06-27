@@ -1,0 +1,5 @@
+name: persistence-administrator
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- chmod +x autogen.sh

@@ -1,0 +1,55 @@
+name: shadow
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- autoreconf -vfi
+configure-commands:
+# Installing to /bin so that they overwrite busybox login.
+- |
+  ./configure  --with-selinux=no \
+               --sysconfdir=/etc \
+               --with-libpam=yes \
+               --prefix="$PREFIX" \
+               --bindir=/bin
+post-install-commands:
+# Disable things handled by pam instead
+- |
+  for OPTION in FAIL_DELAY \
+                FAILLOG_ENAB \
+                LASTLOG_ENAB \
+                MAIL_CHECK_ENAB \
+                OBSCURE_CHECKS_ENAB \
+                PORTTIME_CHECKS_ENAB \
+                QUOTAS_ENAB \
+                CONSOLE MOTD_FILE \
+                FTMP_FILE \
+                NOLOGINS_FILE \
+                ENV_HZ \
+                PASS_MIN_LEN \
+                SU_WHEEL_ONLY \
+                CRACKLIB_DICTPATH \
+                PASS_CHANGE_TRIES \
+                PASS_ALWAYS_WARN \
+                CHFN_AUTH \
+                ENVIRON_FILE
+  do
+    sed -i -e "s/^${OPTION}.*/# & #This option is handled by PAM instead./" \
+        "$DESTDIR/etc/login.defs"
+  done
+# ENCRYPT_METHOD is handled specially with PAM, it will use the default as
+# provided in login.defs, but it may be overridden in the pam.d config.
+# We do not currently override this though, and it's better to guard oursleves
+# against accidentally reducing password security by forgetting to include the
+# algorithm as an argument to the PAM module, so ENCRYPT_METHOD is configured
+# here, rather than in PAM.
+- |
+  if grep -q '[\s#]ENCRYPT_METHOD' "$DESTDIR/etc/login.defs"; then
+      sed -i -e '/^[\s#]*ENCRYPT_METHOD /s/.*/ENCRYPT_METHOD SHA512/g' "$DESTDIR/etc/login.defs"
+  else
+      echo 'ENCRYPT_METHOD SHA512' >>"$DESTDIR/etc/login.defs"
+  fi
+
+# The default pam.d config files have pam_selinux.so as a requirement, even
+# when shadow is configured '--with-selinux=no'. We change this default config
+# to make this requirement optional.
+- sed -i -e 's/\(.*\)required\(.*pam_selinux.so.*\)/\1optional\2/' "$DESTDIR"/etc/pam.d/*

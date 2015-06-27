@@ -1,0 +1,8 @@
+name: ocaml
+kind: chunk
+configure-commands:
+- ./configure --prefix "$PREFIX"
+build-commands:
+- make world.opt
+install-commands:
+- make DESTDIR="$DESTDIR" install

@@ -1,0 +1,283 @@
+#!/usr/bin/python
+# Copyright (C) 2013-2015  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+'''Morph .write extension for a distbuild network booting off a Trove with NFS.
+
+'''
+
+
+import os
+import subprocess
+import sys
+import tempfile
+
+import writeexts
+
+
+class DistbuildTroveNFSBootWriteExtension(writeexts.WriteExtension):
+
+    '''Create an NFS root and kernel on TFTP during Morph's deployment.
+
+    See distbuild-trove-nfsboot.help for documentation.
+
+    '''
+
+    nfsboot_root = '/srv/nfsboot'
+    remote_user = 'root'
+
+    def system_path(self, system_name, version_label=None):
+        if version_label:
+            # The 'run' directory is kind of a historical artifact. Baserock
+            # systems that have Btrfs root disks maintain an orig/ and a run/
+            # subvolume, so that one can find changes that have been made at
+            # runtime. For distbuild systems, this isn't necessary because the
+            # root filesystems of the nodes are effectively stateless. However,
+            # existing systems have bootloaders configured to look for the
+            # 'run' directory, so we need to keep creating it.
+            return os.path.join(self.nfsboot_root, system_name, 'systems',
+                                version_label, 'run')
+        else:
+            return os.path.join(self.nfsboot_root, system_name)
+
+    def process_args(self, args):
+        if len(args) != 2:
+            raise writeexts.ExtensionError('Wrong number of command line args')
+
+        local_system_path, nfs_host = args
+
+        nfs_netloc = '%s@%s' % (self.remote_user, nfs_host)
+
+        version_label = os.getenv('VERSION_LABEL', 'factory')
+
+        controller_name = os.getenv('DISTBUILD_CONTROLLER')
+        worker_names = os.getenv('DISTBUILD_WORKERS').split()
+        system_names = set([controller_name] + worker_names)
+
+        git_server = os.getenv('DISTBUILD_GIT_SERVER')
+        shared_artifact_cache = os.getenv('DISTBUILD_SHARED_ARTIFACT_CACHE')
+        trove_id = os.getenv('DISTBUILD_TROVE_ID')
+        worker_ssh_key_path = os.getenv('DISTBUILD_WORKER_SSH_KEY')
+
+        host_map = self.parse_host_map_string(os.getenv('HOST_MAP', ''))
+
+        kernel_relpath = self.find_kernel(local_system_path)
+
+        copied_rootfs = None
+        for system_name in system_names:
+            remote_system_path = self.system_path(system_name, version_label)
+            if copied_rootfs is None:
+                self.transfer_system(
+                    nfs_netloc, local_system_path, remote_system_path)
+                copied_rootfs = remote_system_path
+            else:
+                self.duplicate_remote_system(
+                    nfs_netloc, copied_rootfs, remote_system_path)
+
+        for system_name in system_names:
+            remote_system_path = self.system_path(system_name, version_label)
+            self.link_kernel_to_tftpboot_path(
+                nfs_netloc, system_name, version_label, kernel_relpath)
+            self.set_hostname(
+                nfs_netloc, system_name, remote_system_path)
+            self.write_distbuild_config(
+                nfs_netloc, system_name, remote_system_path, git_server,
+                shared_artifact_cache, trove_id, worker_ssh_key_path,
+                controller_name, worker_names, host_map=host_map)
+
+        self.configure_nfs_exports(nfs_netloc, system_names)
+
+        for system_name in system_names:
+            self.update_default_version(nfs_netloc, system_name, version_label)
+
+    def parse_host_map_string(self, host_map_string):
+        '''Parse the HOST_MAP variable
+
+        Returns a dict mapping hostname to value (where value is an IP
+        address, a fully-qualified domain name, an alternate hostname, or
+        whatever).
+
+        '''
+        pairs = host_map_string.split(' ')
+        return writeexts.parse_environment_pairs({}, pairs)
+
+    def transfer_system(self, nfs_netloc, local_system_path,
+                        remote_system_path):
+        self.status(msg='Copying rootfs to %(nfs_netloc)s',
+                    nfs_netloc=nfs_netloc)
+        writeexts.ssh_runcmd(
+            nfs_netloc, ['mkdir', '-p', remote_system_path])
+        # The deployed rootfs may have been created by OSTree, so definitely
+        # don't pass --hard-links to `rsync`.
+        subprocess.check_call(
+            ['rsync', '--archive', '--delete', '--info=progress2',
+             '--protect-args', '--partial', '--sparse', '--xattrs',
+             local_system_path + '/',
+             '%s:%s' % (nfs_netloc, remote_system_path)], stdout=sys.stdout)
+
+    def duplicate_remote_system(self, nfs_netloc, source_system_path,
+                                target_system_path):
+        self.status(msg='Duplicating rootfs to %(target_system_path)s',
+                    target_system_path=target_system_path)
+        writeexts.ssh_runcmd(nfs_netloc,
+            ['mkdir', '-p', target_system_path])
+        # We can't pass --info=progress2 here, because it may not be available
+        # in the remote 'rsync'. The --info setting was added in RSync 3.1.0,
+        # old versions of Baserock have RSync 3.0.9. So the user doesn't get
+        # any progress info on stdout for the 'duplicate' stage.
+        writeexts.ssh_runcmd(nfs_netloc,
+            ['rsync', '--archive', '--delete', '--protect-args', '--partial',
+             '--sparse', '--xattrs', source_system_path + '/',
+             target_system_path], stdout=sys.stdout)
+
+    def find_kernel(self, local_system_path):
+        bootdir = os.path.join(local_system_path, 'boot')
+        image_names = ['vmlinuz', 'zImage', 'uImage']
+
+        for name in image_names:
+            try_path = os.path.join(bootdir, name)
+            if os.path.exists(try_path):
+                kernel_path = os.path.relpath(try_path, local_system_path)
+                break
+        else:
+            raise writeexts.ExtensionError(
+                'Could not find a kernel in the system: none of '
+                '%s found' % ', '.join(image_names))
+        return kernel_path
+
+    def link_kernel_to_tftpboot_path(self, nfs_netloc, system_name,
+                                     version_label, kernel_relpath):
+        '''Create links for TFTP server for a system's kernel.'''
+
+        remote_system_path = self.system_path(system_name, version_label)
+        kernel_dest = os.path.join(remote_system_path, kernel_relpath)
+
+        self.status(msg='Creating links to %(name)s kernel in tftp directory',
+                    name=system_name)
+        tftp_dir = os.path.join(self.nfsboot_root , 'tftp')
+
+        versioned_kernel_name = "%s-%s" % (system_name, version_label)
+        kernel_name = system_name
+
+        writeexts.ssh_runcmd(nfs_netloc,
+            ['ln', '-f', kernel_dest,
+                os.path.join(tftp_dir, versioned_kernel_name)])
+
+        writeexts.ssh_runcmd(nfs_netloc,
+            ['ln', '-sf', versioned_kernel_name,
+                os.path.join(tftp_dir, kernel_name)])
+
+    def set_remote_file_contents(self, nfs_netloc, path, text):
+        with tempfile.NamedTemporaryFile() as f:
+            f.write(text)
+            f.flush()
+            subprocess.check_call(
+                ['scp', f.name, '%s:%s' % (nfs_netloc, path)])
+
+    def set_hostname(self, nfs_netloc, system_name, system_path):
+        hostname_path = os.path.join(system_path, 'etc', 'hostname')
+        self.set_remote_file_contents(
+            nfs_netloc, hostname_path, system_name + '\n')
+
+    def write_distbuild_config(self, nfs_netloc, system_name, system_path,
+                               git_server, shared_artifact_cache, trove_id,
+                               worker_ssh_key_path, controller_name,
+                               worker_names, host_map = {}):
+        '''Write /etc/distbuild/distbuild.conf on the node.
+
+        This .write extension takes advantage of the 'generic' mode of
+        distbuild.configure. Each node is not configured until first-boot,
+        when distbuild-setup.service runs and configures the node based on the
+        contents of /etc/distbuild/distbuild.conf.
+
+        '''
+        def host(hostname):
+            return host_map.get(hostname, hostname)
+
+        config = {
+            'ARTIFACT_CACHE_SERVER': host(shared_artifact_cache),
+            'CONTROLLERHOST': host(controller_name),
+            'TROVE_HOST': host(git_server),
+            'TROVE_ID': trove_id,
+            'DISTBUILD_CONTROLLER': system_name == controller_name,
+            'DISTBUILD_WORKER': system_name in worker_names,
+            'WORKERS': ', '.join(map(host, worker_names)),
+            'WORKER_SSH_KEY': '/etc/distbuild/worker.key',
+        }
+
+        config_text = '\n'.join(
+            '%s: %s' % (key, value) for key, value in config.iteritems())
+        config_text = \
+            '# Generated by distbuild-trove-nfsboot.write\n' + \
+            config_text + '\n'
+        path = os.path.join(system_path, 'etc', 'distbuild')
+        writeexts.ssh_runcmd(
+            nfs_netloc, ['mkdir', '-p', path])
+        subprocess.check_call(
+            ['scp', worker_ssh_key_path, '%s:%s' % (nfs_netloc, path)])
+        self.set_remote_file_contents(
+            nfs_netloc, os.path.join(path, 'distbuild.conf'), config_text)
+
+    def configure_nfs_exports(self, nfs_netloc, system_names):
+        '''Ensure the Trove is set up to export the NFS roots we need.
+
+        This doesn't handle setting up the TFTP daemon. We assume that is
+        already running.
+
+        '''
+        for system_name in system_names:
+            exported_path = self.system_path(system_name)
+            exports_path = '/etc/exports'
+
+            # Rather ugly SSH hackery follows to ensure each system path is
+            # listed in /etc/exports.
+            try:
+                writeexts.ssh_runcmd(
+                    nfs_netloc, ['grep', '-q', exported_path, exports_path])
+            except writeexts.ExtensionError:
+                ip_mask = '*'
+                options = 'rw,no_subtree_check,no_root_squash,async'
+                exports_string = '%s %s(%s)\n' % (exported_path, ip_mask,
+                                                  options)
+                exports_append_sh = '''\
+    set -eu
+    target="$1"
+    temp=$(mktemp)
+    cat "$target" > "$temp"
+    cat >> "$temp"
+    mv "$temp" "$target"
+    '''
+                writeexts.ssh_runcmd(
+                    nfs_netloc,
+                    ['sh', '-c', exports_append_sh, '--', exports_path],
+                    feed_stdin=exports_string)
+
+        writeexts.ssh_runcmd(nfs_netloc,
+                          ['systemctl', 'restart', 'nfs-server.service'])
+
+    def update_default_version(self, remote_netloc, system_name,
+                               version_label):
+        self.status(msg='Linking \'default\' to %(version)s for %(system)s',
+                    version=version_label, system=system_name)
+        system_path = self.system_path(system_name)
+        system_version_path = os.path.join(system_path, 'systems',
+                                           version_label)
+        default_path = os.path.join(system_path, 'systems', 'default')
+
+        writeexts.ssh_runcmd(remote_netloc,
+            ['ln', '-sfn', system_version_path, default_path])
+
+
+DistbuildTroveNFSBootWriteExtension().run()

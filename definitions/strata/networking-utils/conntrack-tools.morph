@@ -1,0 +1,4 @@
+name: conntrack-tools
+kind: chunk
+build-system: autotools
+max-jobs: 1

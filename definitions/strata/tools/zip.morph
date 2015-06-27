@@ -1,0 +1,9 @@
+name: zip
+kind: chunk
+configure-commands:
+- cp unix/Makefile .
+build-commands:
+- sed -i -e 's/^prefix = .*$/prefix = $$DESTDIR\/$$PREFIX/' Makefile
+- make generic
+install-commands:
+- make install

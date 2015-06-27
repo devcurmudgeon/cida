@@ -1,0 +1,8 @@
+name: libxfce4ui
+kind: chunk
+configure-commands:
+- ./autogen.sh --prefix=${PREFIX}
+build-commands:
+- make
+install-commands:
+- make install

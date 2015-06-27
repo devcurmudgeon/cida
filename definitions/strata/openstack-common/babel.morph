@@ -1,0 +1,8 @@
+name: babel
+kind: chunk
+build-system: python-distutils
+# NOTE: remember that Babel requires core-23.1.zip to be
+# present when compiles from source see baserock/1.3.50-g246996b
+# branch in babel repository in gbo for more information.
+pre-build-commands:
+- python setup.py import_cldr

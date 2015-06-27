@@ -1,0 +1,51 @@
+# Copyright (C) 2014, 2015 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, see <http://www.gnu.org/licenses/>.
+
+help: |
+
+    Deploy a Baserock system as a *new* OpenStack virtual machine.
+    (Use the `ssh-rsync` write extension to deploy upgrades to an *existing*
+    VM)
+
+    Deploys the system to the OpenStack host using python-glanceclient.
+
+    Parameters:
+
+    * location: the authentication url of the OpenStack server using the
+      following syntax:
+
+        http://HOST:PORT/VERSION
+
+        where
+
+        * HOST is the host running OpenStack
+        * PORT is the port which is using OpenStack for authentications.
+        * VERSION is the authentication version of OpenStack (Only v2.0
+          supported)
+
+    * OPENSTACK_USER=username: the username to use in the `--os-username`
+      argument to `glance`.
+
+    * OPENSTACK_TENANT=tenant: the project name to use in the
+      `--os-tenant-name` argument to `glance`.
+
+    * OPENSTACK_IMAGENAME=imagename: the name of the image to use in the
+      `--name` argument to `glance`.
+
+    * OPENSTACK_PASSWORD=password: the password of the OpenStack user. (We
+      recommend passing this on the command-line, rather than setting an
+      environment variable or storing it in a cluster cluster definition file.)
+
+    (See `morph help deploy` for details of how to pass parameters to write
+    extensions)

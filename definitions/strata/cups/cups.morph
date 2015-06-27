@@ -1,0 +1,12 @@
+name: cups
+kind: chunk
+build-system: manual
+configure-commands:
+- autoconf
+- ./configure --prefix="$PREFIX"
+build-commands:
+- make
+# Note: BUILDROOT is the variable recommended in INSTALL.txt for the
+# destination directory.
+install-commands:
+- make BUILDROOT="$DESTDIR" install

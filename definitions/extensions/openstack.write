@@ -1,0 +1,94 @@
+#!/usr/bin/python
+# Copyright (C) 2013-2015 Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+'''A Morph deployment write extension for deploying to OpenStack.'''
+
+
+import os
+import subprocess
+import tempfile
+import urlparse
+
+import writeexts
+
+
+class OpenStackWriteExtension(writeexts.WriteExtension):
+
+    '''See openstack.write.help for documentation'''
+
+    def process_args(self, args):
+        if len(args) != 2:
+            raise writeexts.ExtensionError(
+                'Wrong number of command line args')
+
+        temp_root, location = args
+
+        os_params = self.get_openstack_parameters()
+
+        fd, raw_disk = tempfile.mkstemp()
+        os.close(fd)
+        self.create_local_system(temp_root, raw_disk)
+        self.status(msg='Temporary disk image has been created at %s'
+                    % raw_disk)
+
+        self.set_extlinux_root_to_virtio(raw_disk)
+
+        self.configure_openstack_image(raw_disk, location, os_params)
+
+    def set_extlinux_root_to_virtio(self, raw_disk):
+        '''Re-configures extlinux to use virtio disks'''
+        self.status(msg='Updating extlinux.conf')
+        with self.mount(raw_disk) as mp:
+            path = os.path.join(mp, 'extlinux.conf')
+
+            with open(path) as f:
+                extlinux_conf = f.read()
+
+            extlinux_conf = extlinux_conf.replace('root=/dev/sda',
+                                                  'root=/dev/vda')
+            with open(path, "w") as f:
+                f.write(extlinux_conf)
+
+    def get_openstack_parameters(self):
+        '''Get the environment variables needed.
+
+        The environment variables are described in the class documentation.
+        '''
+
+        keys = ('OPENSTACK_USER', 'OPENSTACK_TENANT',
+                'OPENSTACK_IMAGENAME', 'OPENSTACK_PASSWORD')
+        return (os.environ[key] for key in keys)
+
+    def configure_openstack_image(self, raw_disk, auth_url, os_params):
+        '''Configure the image in OpenStack using glance-client'''
+        self.status(msg='Configuring OpenStack image...')
+
+        username, tenant_name, image_name, password = os_params
+        cmdline = ['glance',
+                   '--os-username', username,
+                   '--os-tenant-name', tenant_name,
+                   '--os-password', password,
+                   '--os-auth-url', auth_url,
+                   'image-create',
+                   '--name=%s' % image_name,
+                   '--disk-format=raw',
+                   '--container-format', 'bare',
+                   '--file', raw_disk]
+        subprocess.check_call(cmdline)
+
+        self.status(msg='Image configured.')
+
+OpenStackWriteExtension().run()

@@ -1,0 +1,11 @@
+name: parted
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- sed -i -e '/^buildreq="/,/^"/{/rsync/d}' bootstrap.conf
+- ./bootstrap --skip-po --no-git --gnulib-srcdir=gnulib
+configure-commands:
+# Disable device-mapper as it is not installed on Baserock
+- ./configure --prefix="$PREFIX" --disable-device-mapper
+build-commands:
+- make WERROR_CFLAGS=""

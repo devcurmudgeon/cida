@@ -1,0 +1,6 @@
+name: cvsps
+kind: chunk
+build-commands:
+- make
+install-commands:
+- make install prefix="$DESTDIR$PREFIX"

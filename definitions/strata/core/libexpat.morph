@@ -1,0 +1,6 @@
+name: libexpat
+kind: chunk
+build-system: autotools
+pre-configure-commands:
+- ./buildconf.sh
+- automake --add-missing --copy || true

@@ -1,0 +1,3 @@
+name: appdirs
+kind: chunk
+build-system: python-distutils

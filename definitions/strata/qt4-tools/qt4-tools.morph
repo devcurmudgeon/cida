@@ -1,0 +1,18 @@
+name: qt4-tools
+kind: chunk
+max-jobs: 1
+configure-commands:
+- |
+  arch=$(uname -m)
+  if [ "${arch}" != "${arch//arm/}" ] ; then
+      sed 's/g++-unix.conf)/&\nQMAKE_CXXFLAGS += -fno-strict-volatile-bitfields/' \
+          -i mkspecs/linux-g++/qmake.conf
+  else
+      echo Running on x86, not modifying qmake.conf
+  fi
+- ./configure -v -prefix /usr -opensource -confirm-license
+build-commands:
+- make
+- LD_LIBRARY_PATH="$PWD"/lib QT_PLUGIN_PATH="$PWD"/plugins make docs
+install-commands:
+- make install INSTALL_ROOT="$DESTDIR"

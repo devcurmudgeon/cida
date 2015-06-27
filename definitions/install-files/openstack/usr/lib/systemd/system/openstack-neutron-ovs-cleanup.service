@@ -1,0 +1,18 @@
+[Unit]
+Description=Neutron OVS cleanup
+ConditionPathExists=/etc/neutron/neutron.conf
+ConditionFileIsExecutable=/usr/bin/neutron-ovs-cleanup
+After=network-online.target openstack-neutron-config-setup.service openstack-neutron-db-setup.service openvswitch.service
+Before=openstack-neutron-plugin-openvswitch-agent.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+StandardOutput=null
+StandardError=null
+User=neutron
+ExecStart=/usr/bin/neutron-ovs-cleanup --config-file /etc/neutron/neutron.conf
+
+[Install]
+WantedBy=multi-user.target

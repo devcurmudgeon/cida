@@ -1,0 +1,9 @@
+name: rsync
+kind: chunk
+build-system: autotools
+build-commands:
+- make proto
+- make
+install-commands:
+- make install
+- install -D -m 644 packaging/systemd/rsync.service "$DESTDIR$PREFIX"/lib/systemd/system/rsync.service

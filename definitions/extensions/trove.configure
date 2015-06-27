@@ -1,0 +1,148 @@
+#!/bin/sh
+#
+# Copyright (C) 2013 - 2014  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# This is a "morph deploy" configuration extension to fully configure
+# a Trove instance at deployment time. It uses the following variables
+# from the environment (run `morph help trove.configure` to see a description
+# of them):
+#
+#   * TROVE_ID
+#   * TROVE_HOSTNAME (optional, defaults to TROVE_ID)
+#   * TROVE_COMPANY
+#   * LORRY_SSH_KEY
+#   * UPSTREAM_TROVE
+#   * UPSTREAM_TROVE_PROTOCOL
+#   * TROVE_ADMIN_USER
+#   * TROVE_ADMIN_EMAIL
+#   * TROVE_ADMIN_NAME
+#   * TROVE_ADMIN_SSH_PUBKEY
+#   * LORRY_CONTROLLER_MINIONS (optional, defaults to 4)
+#   * TROVE_BACKUP_KEYS - a space-separated list of paths to SSH keys.
+#     (optional)
+#   * TROVE_GENERIC (optional)
+#
+# The configuration of a Trove is slightly tricky: part of it has to
+# be run on the configured system after it has booted. We accomplish
+# this by copying in all the relevant data to the target system
+# (in /var/lib/trove-setup), and creating a systemd unit file that
+# runs on the first boot. The first boot will be detected by the
+# existence of the /var/lib/trove-setup/needed file.
+
+set -e
+
+if [ "$TROVE_GENERIC" ]
+then
+    echo "Not configuring the trove, it will be generic"
+    exit 0
+fi
+
+
+# Check that all the variables needed are present:
+
+error_vars=false
+if test "x$TROVE_ID" = "x"; then
+    echo "ERROR: TROVE_ID needs to be defined."
+    error_vars=true
+fi
+
+if test "x$TROVE_COMPANY" = "x"; then
+    echo "ERROR: TROVE_COMPANY needs to be defined."
+    error_vars=true
+fi
+
+if test "x$TROVE_ADMIN_USER" = "x"; then
+    echo "ERROR: TROVE_ADMIN_USER needs to be defined."
+    error_vars=true
+fi
+
+if test "x$TROVE_ADMIN_NAME" = "x"; then
+    echo "ERROR: TROVE_ADMIN_NAME needs to be defined."
+    error_vars=true
+fi
+
+if test "x$TROVE_ADMIN_EMAIL" = "x"; then
+    echo "ERROR: TROVE_ADMIN_EMAIL needs to be defined."
+    error_vars=true
+fi
+
+if ! ssh-keygen -lf $LORRY_SSH_KEY > /dev/null 2>&1
+then
+    echo "ERROR: LORRY_SSH_KEY is not a vaild ssh key."
+    error_vars=true
+fi
+
+if ! ssh-keygen -lf $WORKER_SSH_PUBKEY > /dev/null 2>&1
+then
+    echo "ERROR: WORKER_SSH_PUBKEY is not a vaild ssh key."
+    error_vars=true
+fi
+
+if ! ssh-keygen -lf $TROVE_ADMIN_SSH_PUBKEY > /dev/null 2>&1
+then
+    echo "ERROR: TROVE_ADMIN_SSH_PUBKEY is not a vaild ssh key."
+    error_vars=true
+fi
+
+if "$error_vars"; then
+    exit 1
+fi
+
+ROOT="$1"
+
+
+TROVE_DATA="$ROOT/etc/trove"
+mkdir -p "$TROVE_DATA"
+
+install -m 0600 "$LORRY_SSH_KEY" "$TROVE_DATA/lorry.key"
+install -m 0644 "${LORRY_SSH_KEY}.pub" "$TROVE_DATA/lorry.key.pub"
+install -m 0644 "$TROVE_ADMIN_SSH_PUBKEY" "$TROVE_DATA/admin.key.pub"
+install -m 0644 "$WORKER_SSH_PUBKEY" "$TROVE_DATA/worker.key.pub"
+
+
+python <<'EOF' >"$TROVE_DATA/trove.conf"
+import os, sys, yaml
+
+trove_configuration={
+    'TROVE_ID': os.environ['TROVE_ID'],
+    'TROVE_COMPANY': os.environ['TROVE_COMPANY'],
+    'TROVE_ADMIN_USER': os.environ['TROVE_ADMIN_USER'],
+    'TROVE_ADMIN_EMAIL': os.environ['TROVE_ADMIN_EMAIL'],
+    'TROVE_ADMIN_NAME': os.environ['TROVE_ADMIN_NAME'],
+    'LORRY_SSH_KEY': '/etc/trove/lorry.key',
+    'LORRY_SSH_PUBKEY': '/etc/trove/lorry.key.pub',
+    'TROVE_ADMIN_SSH_PUBKEY': '/etc/trove/admin.key.pub',
+    'WORKER_SSH_PUBKEY': '/etc/trove/worker.key.pub',
+}
+
+
+
+optional_keys = ('MASON_ID', 'HOSTNAME', 'TROVE_HOSTNAME',
+                 'LORRY_CONTROLLER_MINIONS', 'TROVE_BACKUP_KEYS',
+                 'UPSTREAM_TROVE', 'UPSTREAM_TROVE_PROTOCOL')
+
+for key in optional_keys:
+    if key in os.environ:
+        trove_configuration[key]=os.environ[key]
+
+yaml.dump(trove_configuration, sys.stdout, default_flow_style=False)
+EOF
+
+if [ -n "$TROVE_BACKUP_KEYS" ]; then
+    mkdir -p "$TROVE_DATA/backup-keys"
+    cp -- $TROVE_BACKUP_KEYS "$TROVE_DATA/backup-keys"
+    echo "TROVE_BACKUP_KEYS: /etc/trove/backup-keys/*" >> "$TROVE_DATA/trove.conf"
+fi

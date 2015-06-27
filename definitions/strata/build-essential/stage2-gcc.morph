@@ -1,0 +1,82 @@
+name: stage2-gcc
+kind: chunk
+
+configure-commands:
+- mkdir o
+
+# In other projects we specify the sysroot location using CPPFLAGS.
+# Here, that breaks because GCC compiles stuff for the *build* machine,
+# too ...  and this requires using the host's compiler, which cannot use
+# the same set of CPPFLAGS as the target. If we specify the sysroot
+# using CC instead then we don't interfere, because we are only
+# specifying the *host* C compiler.
+#
+# Configure flag notes:
+#  1. It's vital that this compiler runs in the bootstrap machine, and
+#     targets the same machine (TARGET_STAGE1) so that the stage 1 GCC
+#     is used instead of the compiler of the build machine.
+#  2. See gcc.morph.
+#  3. Disable searching /usr/local/include for headers
+#  4. This flag causes the correct --sysroot flag to be passed when
+#     calling stage 1 GCC.
+- |
+  case "$MORPH_ARCH" in
+      armv7lhf) ARCH_FLAGS="--with-arch=armv7-a \
+                            --with-cpu=cortex-a9 \
+                            --with-tune=cortex-a9 \
+                            --with-fpu=vfpv3-d16 \
+                            --with-float=hard" ;;
+      armv7*)   ARCH_FLAGS="--with-arch=armv7-a" ;;
+  esac
+  export STAGE2_SYSROOT="$(dirname $(pwd))"
+  export CC="$TARGET_STAGE1-gcc --sysroot=$STAGE2_SYSROOT"
+  export CXX="$TARGET_STAGE1-g++ --sysroot=$STAGE2_SYSROOT"
+  export AR="$TARGET_STAGE1-ar"
+  export RANLIB="$TARGET_STAGE1-ranlib"
+  cd o && ../configure                                         \
+            $ARCH_FLAGS                                        \
+            --build=$(sh ../config.guess)                      \
+    `# [1]` --host=$TARGET_STAGE1                              \
+    `# [1]` --target=$TARGET_STAGE1                            \
+            --prefix="$PREFIX"                                 \
+    `# [2]` --libdir=$PREFIX/lib                               \
+    `# [3]` --with-local-prefix=$PREFIX                        \
+    `# [4]` --with-build-sysroot="$STAGE2_SYSROOT"             \
+            --disable-bootstrap                                \
+            --disable-nls                                      \
+            --disable-multilib                                 \
+            --disable-libgomp                                  \
+            --disable-libstdcxx-pch                            \
+            --enable-languages=c,c++
+
+build-commands:
+- |
+  case "$MORPH_ARCH" in
+      armv5*)   sed -i "s/--host=none/--host=armv5/" o/Makefile
+                sed -i "s/--target=none/--target=armv5/" o/Makefile ;;
+      armv7*)   sed -i "s/--host=none/--host=armv7a/" o/Makefile
+                sed -i "s/--target=none/--target=armv7a/" o/Makefile ;;
+  esac
+  export STAGE2_SYSROOT="$(dirname $(pwd))"
+  cd o && make
+
+install-commands:
+- cd o && make DESTDIR="$DESTDIR" install
+
+# Stage 3 builds need to link against this file in the location that
+# it will be in the final system, so we make a temporary link now.
+#
+# On x86_64 GCC resolutely installs its libraries into lib64. To fix this
+# would require hobbling the MULTILIB_OSDIRNAMES field in
+# gcc/config/i386/t-linux64 and this might break things, so for now we
+# tolerate the inconsistency.
+- |
+  if [ "$(echo $TARGET | cut -c -6)" = "x86_64" ]; then
+    libdir=lib64
+  else
+    libdir=lib
+  fi
+
+  install -d "$DESTDIR/lib"
+  ln -s "$PREFIX/$libdir/libgcc_s.so" "$DESTDIR/lib/"
+  ln -s "$PREFIX/$libdir/libgcc_s.so.1" "$DESTDIR/lib/"
