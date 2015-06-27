@@ -1,0 +1,20 @@
+build-depends:
+- morph: foundation
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: dbus-glib
+  ref: baserock/morph
+  repo: upstream:dbus-glib
+- build-depends: []
+  name: fuse
+  ref: baserock/genivi/morph
+  repo: upstream:fuse
+- build-depends: []
+  name: linuxquota
+  ref: baserock/genivi/morph
+  repo: upstream:linuxquota
+description: Basic components needed by the GENIVI baseline.
+kind: stratum
+name: genivi-foundation

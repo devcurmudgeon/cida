@@ -1,0 +1,13 @@
+build-depends:
+- morph: core
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: linux
+  ref: baserock/arm/versatile
+  repo: upstream:linux
+description: The platform dependent components required to boot an ARM versatile development
+  board.
+kind: stratum
+name: bsp-armv7-versatile

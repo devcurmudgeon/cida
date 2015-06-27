@@ -1,0 +1,12 @@
+build-depends:
+- morph: qt4-tools
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: qt-creator
+  ref: baserock/morph/2.7
+  repo: upstream:qt-creator
+description: Qt4 Desktop Environment, IDE and Example Apps
+kind: stratum
+name: qt4-sdk

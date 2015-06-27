@@ -1,0 +1,17 @@
+build-depends:
+- morph: audio-bluetooth
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: orc
+  ref: baserock/morph
+  repo: upstream:orc
+- build-depends:
+  - orc
+  name: gstreamer
+  ref: baserock/genivi/baseline
+  repo: upstream:gstreamer
+description: Codecs
+kind: stratum
+name: multimedia

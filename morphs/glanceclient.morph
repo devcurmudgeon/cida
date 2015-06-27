@@ -1,0 +1,89 @@
+build-depends:
+- morph: tools
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: jsonschema
+  ref: baserock/morph
+  repo: upstream:jsonschema
+- build-depends: []
+  name: python-json-pointer
+  ref: baserock/morph
+  repo: upstream:python-json-pointer
+- build-depends: []
+  name: python-json-patch
+  ref: baserock/morph
+  repo: upstream:python-json-patch
+- build-depends:
+  - jsonschema
+  - python-json-pointer
+  - python-json-patch
+  name: warlock
+  ref: baserock/morph
+  repo: upstream:warlock
+- build-depends: []
+  name: python-prettytable
+  ref: baserock/morph
+  repo: upstream:python-prettytable
+- build-depends: []
+  name: pbr
+  ref: baserock/morph
+  repo: upstream:pbr
+- build-depends: []
+  name: argparse
+  ref: baserock/morph
+  repo: upstream:argparse
+- build-depends: []
+  name: pyopenssl
+  ref: baserock/morph
+  repo: upstream:pyopenssl
+- build-depends: []
+  name: pyiso8601
+  ref: baserock/morph
+  repo: upstream:pyiso8601
+- build-depends: []
+  name: python-requests
+  ref: baserock/morph
+  repo: upstream:python-requests
+- build-depends: []
+  name: simplejson
+  ref: baserock/morph
+  repo: upstream:simplejson
+- build-depends: []
+  name: netaddr
+  ref: baserock/morph
+  repo: upstream:netaddr
+- build-depends: []
+  name: pytz
+  ref: baserock/morph
+  repo: upstream:pytz
+- build-depends:
+  - pytz
+  name: babel
+  ref: baserock/morph
+  repo: upstream:babel
+- build-depends:
+  - pbr
+  - pyiso8601
+  - python-prettytable
+  - python-requests
+  - simplejson
+  - netaddr
+  - babel
+  name: python-keystoneclient
+  ref: baserock/morph
+  repo: upstream:python-keystoneclient
+- build-depends:
+  - python-prettytable
+  - pbr
+  - argparse
+  - pyopenssl
+  - python-keystoneclient
+  - warlock
+  name: python-glanceclient
+  ref: baserock/morph
+  repo: upstream:python-glanceclient
+description: A stratum with glanceclient to let the Openstack deployment.
+kind: stratum
+name: glanceclient

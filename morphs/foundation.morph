@@ -1,0 +1,105 @@
+build-depends:
+- morph: core
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: attr
+  ref: baserock/morph
+  repo: upstream:attr
+- build-depends: []
+  name: groff
+  ref: baserock/morph
+  repo: upstream:groff
+- build-depends: []
+  name: kmod
+  ref: baserock/morph
+  repo: upstream:kmod
+- build-depends:
+  - attr
+  name: libcap2
+  ref: baserock/morph
+  repo: upstream:libcap2
+- build-depends: []
+  name: libffi
+  ref: baserock/morph
+  repo: upstream:libffi
+- build-depends: []
+  name: sqlite3
+  ref: baserock/morph
+  repo: upstream:sqlite3
+- build-depends: []
+  name: libusbx
+  ref: baserock/morph
+  repo: upstream:libusbx
+- build-depends: []
+  name: pciutils
+  ref: baserock/morph
+  repo: upstream:pciutils
+- build-depends:
+  - libusbx
+  name: usbutils
+  ref: baserock/morph
+  repo: upstream:usbutils
+- build-depends:
+  - libffi
+  name: glib
+  ref: baserock/morph
+  repo: upstream:glib
+- build-depends:
+  - glib
+  name: gobject-introspection
+  ref: baserock/morph
+  repo: upstream:gobject-introspection
+- build-depends:
+  - glib
+  name: dbus-pre
+  ref: baserock/build-essential
+  repo: upstream:dbus
+- build-depends:
+  - dbus-pre
+  - gobject-introspection
+  - kmod
+  - libcap2
+  - pciutils
+  - usbutils
+  name: systemd
+  ref: baserock/morph
+  repo: upstream:systemd
+- build-depends: []
+  name: lzo
+  ref: baserock/morph
+  repo: upstream:lzo
+- build-depends:
+  - attr
+  - lzo
+  name: btrfs-progs
+  ref: baserock/morph
+  repo: upstream:btrfs-progs
+- build-depends:
+  - glib
+  - systemd
+  name: dbus
+  ref: baserock/build-essential
+  repo: upstream:dbus
+- build-depends: []
+  name: help2man
+  ref: baserock/morph
+  repo: upstream:help2man
+- build-depends: []
+  name: libxslt
+  ref: baserock/morph
+  repo: upstream:libxslt
+- build-depends:
+  - groff
+  name: openssh
+  ref: baserock/morph
+  repo: upstream:openssh
+- build-depends:
+  - attr
+  name: tbdiff
+  ref: master
+  repo: baserock:baserock/tbdiff
+description: Basic userland runtime system
+kind: stratum
+name: foundation

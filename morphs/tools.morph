@@ -1,0 +1,123 @@
+build-depends:
+- morph: foundation
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: six
+  ref: baserock/morph
+  repo: upstream:six
+- build-depends: []
+  name: patch
+  ref: baserock/morph
+  repo: upstream:patch
+- build-depends: []
+  name: python-ttystatus
+  ref: baserock/morph
+  repo: upstream:python-ttystatus
+- build-depends: []
+  name: python-coveragepy
+  ref: baserock/morph
+  repo: upstream:python-coveragepy
+- build-depends:
+  - python-coveragepy
+  name: python-coverage-test-runner
+  ref: baserock/morph
+  repo: upstream:python-coverage-test-runner
+- build-depends:
+  - python-coverage-test-runner
+  name: cliapp
+  ref: baserock/morph
+  repo: upstream:cliapp
+- build-depends: []
+  name: python-markdown
+  ref: baserock/morph
+  repo: upstream:python-markdown
+- build-depends:
+  - cliapp
+  - python-ttystatus
+  - python-markdown
+  name: cmdtest
+  ref: baserock/morph
+  repo: upstream:cmdtest
+- build-depends:
+  - patch
+  name: coreutils
+  ref: baserock/morph
+  repo: upstream:coreutils
+- build-depends: []
+  name: distcc
+  ref: baserock/morph
+  repo: upstream:distcc
+- build-depends: []
+  name: e2fsprogs
+  ref: baserock/morph
+  repo: upstream:e2fsprogs
+- build-depends: []
+  name: file
+  ref: baserock/morph
+  repo: upstream:file
+- build-depends: []
+  name: gdb
+  ref: baserock/morph
+  repo: upstream:gdb
+- build-depends: []
+  name: less
+  ref: baserock/morph
+  repo: upstream:less
+- build-depends: []
+  name: linux-user-chroot
+  ref: baserock/morph
+  repo: upstream:linux-user-chroot
+- build-depends: []
+  name: lsof
+  ref: baserock/morph
+  repo: upstream:lsof
+- build-depends:
+  - six
+  name: pyfilesystem
+  ref: baserock/morph
+  repo: upstream:pyfilesystem
+- build-depends:
+  - cliapp
+  - cmdtest
+  - python-coverage-test-runner
+  - pyfilesystem
+  name: morph
+  ref: master
+  repo: baserock:baserock/morph
+- build-depends: []
+  name: pv
+  ref: baserock/morph
+  repo: upstream:pv
+- build-depends: []
+  name: rsync
+  ref: baserock/morph
+  repo: upstream:rsync
+- build-depends: []
+  name: strace
+  ref: baserock/morph
+  repo: upstream:strace
+- build-depends: []
+  name: vala
+  ref: baserock/bootstrap
+  repo: upstream:vala
+- build-depends: []
+  name: vim
+  ref: baserock/morph
+  repo: upstream:vim
+- build-depends: []
+  name: screen
+  ref: baserock/morph
+  repo: upstream:screen
+- build-depends: []
+  name: u-boot
+  ref: baserock/morph
+  repo: upstream:u-boot
+- name: kexec-tools
+  repo: upstream:kexec-tools
+  ref: baserock/morph
+  build-depends: []
+description: Extra development tools included in the devel system
+kind: stratum
+name: tools

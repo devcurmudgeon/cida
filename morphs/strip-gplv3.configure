@@ -1,0 +1,98 @@
+#!/usr/bin/python
+# Copyright (C) 2013  Codethink Limited
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+''' A Morph configuration extension for removing gplv3 chunks from a system
+
+Using a hard-coded list of chunks, it will read the system's /baserock metadata
+to find the files created by that chunk, then remove them.
+
+'''
+
+import cliapp
+import re
+import os
+import json
+
+class StripGPLv3ConfigureExtension(cliapp.Application):
+    gplv3_chunks = [
+        ['autoconf', ''],
+        ['automake', ''],
+        ['bash', ''],
+        ['binutils', ''],
+        ['bison', ''],
+        ['ccache', ''],
+        ['cmake', ''],
+        ['flex', ''],
+        ['gawk', ''],
+        ['gcc', r'^.*lib.*\.so(\.\d+)*$'],
+        ['gdbm', ''],
+        ['gettext', ''],
+        ['gperf', ''],
+        ['groff', ''],
+        ['libtool', r'^.*lib.*\.so(\.\d+)*$'],
+        ['m4', ''],
+        ['make', ''],
+        ['nano', ''],
+        ['texinfo-tarball', ''],
+    ]
+
+    def process_args(self, args):
+        target_root = args[0]
+
+        for chunk in self.gplv3_chunks:
+            self.remove_chunk(target_root, chunk[0], chunk[1])
+
+        os.remove(os.path.join(target_root, 'usr', 'bin', 'awk'))
+        os.symlink(os.path.join(os.sep, 'bin', 'busybox'),
+                   os.path.join(target_root, 'usr', 'bin', 'awk'))
+
+    def remove_chunk(self, target_root, chunk, pattern):
+        chunk_meta_path = os.path.join(target_root, 'baserock',
+                                       chunk + '.meta')
+
+        with open(chunk_meta_path, 'r') as f:
+            chunk_meta_data = json.load(f)
+
+        if not 'contents' in chunk_meta_data:
+            raise cliapp.AppError('Chunk %s does not have a "contents" list'
+                                  % chunk)
+        updated_contents = []
+        for content_entry in reversed(chunk_meta_data['contents']):
+            pat = re.compile(pattern)
+            if len(pattern) == 0 or not pat.match(content_entry):
+                self.remove_content_entry(target_root, content_entry)
+            else:
+                updated_contents.append(content_entry)
+        if len(updated_contents) == 0:
+            os.remove(chunk_meta_path)
+
+    def remove_content_entry(self, target_root, content_entry):
+        entry_path = os.path.join(target_root, './' + content_entry)
+        if not entry_path.startswith(target_root):
+            raise cliapp.AppException('%s is not in %s'
+                                      % (entry_path, target_root))
+        if os.path.exists(entry_path):
+            if os.path.islink(entry_path):
+                os.unlink(entry_path)
+            elif os.path.isfile(entry_path):
+                os.remove(entry_path)
+            elif os.path.isdir(entry_path):
+                if not os.listdir(entry_path):
+                    os.rmdir(entry_path)
+            else:
+                raise cliapp.AppException('%s is not a link, file or directory'
+                                          % entry_path)
+StripGPLv3ConfigureExtension().run()

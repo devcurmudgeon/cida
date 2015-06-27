@@ -1,0 +1,32 @@
+arch: x86_64
+configuration-extensions:
+- trove
+- nfsboot-server
+- trove-backup
+- fstab
+- simple-network
+description: Trove server
+kind: system
+name: trove-system-x86_64
+strata:
+- morph: build-essential
+  ref: null
+  repo: null
+- morph: bsp-x86_64-generic
+  ref: null
+  repo: null
+- morph: foundation
+  ref: null
+  repo: null
+- morph: core
+  ref: null
+  repo: null
+- morph: tools
+  ref: null
+  repo: null
+- morph: trove
+  ref: null
+  repo: null
+- morph: nfs
+  ref: null
+  repo: null

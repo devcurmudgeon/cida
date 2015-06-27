@@ -1,0 +1,48 @@
+arch: armv7l
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+- strip-gplv3
+description: A GENIVI baseline system for an ARMv7 system.
+kind: system
+name: genivi-baseline-system-armv7-versatile
+strata:
+- morph: build-essential
+  ref: null
+  repo: null
+- morph: core
+  ref: null
+  repo: null
+- morph: foundation
+  ref: null
+  repo: null
+- morph: genivi-foundation
+  ref: null
+  repo: null
+- morph: bsp-armv7-versatile
+  ref: null
+  repo: null
+- morph: connectivity
+  ref: null
+  repo: null
+- morph: audio-bluetooth
+  ref: null
+  repo: null
+- morph: x-common
+  ref: null
+  repo: null
+- morph: x-armv7-versatile
+  ref: null
+  repo: null
+- morph: multimedia
+  ref: null
+  repo: null
+- morph: genivi
+  ref: null
+  repo: null
+- morph: genivi-x-armv7-versatile
+  ref: null
+  repo: null

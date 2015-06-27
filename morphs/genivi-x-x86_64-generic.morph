@@ -1,0 +1,15 @@
+build-depends:
+- morph: genivi
+  ref: null
+  repo: null
+- morph: x-x86_64-generic
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: layer_management
+  ref: baserock/genivi/baseline
+  repo: upstream:layer_management
+description: Software components designed by genivi, for genivi.
+kind: stratum
+name: genivi-x-x86_64-generic

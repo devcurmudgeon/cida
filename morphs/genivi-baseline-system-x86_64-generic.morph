@@ -1,0 +1,48 @@
+arch: x86_64
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+- strip-gplv3
+description: A GENIVI baseline system for a 64-bit x86 system.
+kind: system
+name: genivi-baseline-system-x86_64-generic
+strata:
+- morph: build-essential
+  ref: null
+  repo: null
+- morph: core
+  ref: null
+  repo: null
+- morph: foundation
+  ref: null
+  repo: null
+- morph: genivi-foundation
+  ref: null
+  repo: null
+- morph: bsp-x86_64-generic
+  ref: null
+  repo: null
+- morph: connectivity
+  ref: null
+  repo: null
+- morph: audio-bluetooth
+  ref: null
+  repo: null
+- morph: x-common
+  ref: null
+  repo: null
+- morph: x-x86_64-generic
+  ref: null
+  repo: null
+- morph: multimedia
+  ref: null
+  repo: null
+- morph: genivi
+  ref: null
+  repo: null
+- morph: genivi-x-x86_64-generic
+  ref: null
+  repo: null

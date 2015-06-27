@@ -1,0 +1,67 @@
+build-depends:
+- morph: tools
+  ref: null
+  repo: null
+- morph: x-x86_64-generic
+  ref: null
+  repo: null
+- morph: lua
+  ref: null
+  repo: null
+- morph: audio-bluetooth
+  ref: null
+  repo: null
+- morph: multimedia-gstreamer-0.10
+  ref: null
+  repo: null
+- morph: connectivity
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: efl
+  ref: baserock/morph
+  repo: upstream:enlightenment/efl
+- build-depends:
+  - efl
+  name: elementary
+  ref: baserock/morph
+  repo: upstream:enlightenment/elementary
+- build-depends:
+  - efl
+  name: evas_generic_loaders
+  ref: baserock/morph
+  repo: upstream:enlightenment/evas_generic_loaders
+- build-depends:
+  - efl
+  - elementary
+  name: enlightenment
+  ref: baserock/morph
+  repo: upstream:enlightenment/enlightenment
+- build-depends:
+  - efl
+  - elementary
+  - enlightenment
+  name: imlib2
+  ref: baserock/morph
+  repo: upstream:enlightenment/imlib2
+- build-depends:
+  - efl
+  - elementary
+  - enlightenment
+  - imlib2
+  name: libast
+  ref: baserock/morph
+  repo: upstream:enlightenment/libast
+- build-depends:
+  - efl
+  - elementary
+  - enlightenment
+  - libast
+  - imlib2
+  name: eterm
+  ref: baserock/morph
+  repo: upstream:enlightenment/eterm
+description: Enlightenment Desktop and Window Manager
+kind: stratum
+name: enlightenment

@@ -1,0 +1,54 @@
+arch: x86_64
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+description: A system that is able to build other systems based on the 64-bit x86
+  architecture.
+kind: system
+name: devel-system-x86_64-generic
+strata:
+- morph: build-essential
+  ref: null
+  repo: null
+- morph: core
+  ref: null
+  repo: null
+- morph: foundation
+  ref: null
+  repo: null
+- morph: genivi-foundation
+  ref: null
+  repo: null
+- morph: bsp-x86_64-generic
+  ref: null
+  repo: null
+- morph: connectivity
+  ref: null
+  repo: null
+- morph: audio-bluetooth
+  ref: null
+  repo: null
+- morph: x-common
+  ref: null
+  repo: null
+- morph: x-x86_64-generic
+  ref: null
+  repo: null
+- morph: multimedia
+  ref: null
+  repo: null
+- morph: genivi
+  ref: null
+  repo: null
+- morph: genivi-x-x86_64-generic
+  ref: null
+  repo: null
+- morph: tools
+  ref: null
+  repo: null
+- morph: glanceclient
+  ref: null
+  repo: null

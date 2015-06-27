@@ -1,0 +1,51 @@
+arch: armv7b
+configuration-extensions:
+- set-hostname
+- add-config-files
+- simple-network
+- nfsboot
+- install-files
+description: A system that is able to build other systems based on the ARM highbank
+  architecture.
+kind: system
+name: devel-system-armv7b-highbank
+strata:
+- morph: build-essential
+  ref: null
+  repo: null
+- morph: core
+  ref: null
+  repo: null
+- morph: foundation
+  ref: null
+  repo: null
+- morph: genivi-foundation
+  ref: null
+  repo: null
+- morph: bsp-armv7b-highbank
+  ref: null
+  repo: null
+- morph: connectivity
+  ref: null
+  repo: null
+- morph: audio-bluetooth
+  ref: null
+  repo: null
+- morph: x-common
+  ref: null
+  repo: null
+- morph: x-armv7-versatile
+  ref: null
+  repo: null
+- morph: multimedia
+  ref: null
+  repo: null
+- morph: genivi
+  ref: null
+  repo: null
+- morph: genivi-x-armv7-versatile
+  ref: null
+  repo: null
+- morph: tools
+  ref: null
+  repo: null

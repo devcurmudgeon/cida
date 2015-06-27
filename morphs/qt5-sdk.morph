@@ -1,0 +1,16 @@
+build-depends:
+- morph: qt5-tools
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: qt-creator
+  ref: baserock/morph/2.7
+  repo: upstream:qt-creator
+- build-depends: []
+  name: snowshoe
+  ref: baserock/morph
+  repo: upstream:snowshoe
+description: Qt5 Desktop Environment, IDE and Example Apps
+kind: stratum
+name: qt5-sdk

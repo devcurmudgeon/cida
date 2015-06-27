@@ -1,0 +1,30 @@
+build-depends:
+- morph: core
+  ref: null
+  repo: null
+- morph: foundation
+  ref: null
+  repo: null
+- morph: genivi-foundation
+  ref: null
+  repo: null
+- morph: x-common
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: libxkbcommon
+  ref: baserock/morph
+  repo: upstream:xorg-lib-libxkbcommon
+- build-depends:
+  - libxkbcommon
+  name: wayland
+  ref: baserock/genivi/wayland
+  repo: upstream:wayland
+- build-depends:
+  - wayland
+  name: mesa-wayland
+  ref: baserock/genivi/baseline-armv7-versatile
+  repo: upstream:mesa
+kind: stratum
+name: wayland-armv7-versatile

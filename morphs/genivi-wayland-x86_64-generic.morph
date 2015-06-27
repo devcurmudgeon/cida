@@ -1,0 +1,24 @@
+build-depends:
+- morph: core
+  ref: null
+  repo: null
+- morph: foundation
+  ref: null
+  repo: null
+- morph: genivi-foundation
+  ref: null
+  repo: null
+- morph: genivi
+  ref: null
+  repo: null
+- morph: wayland-x86_64-generic
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: layer_management-wayland
+  ref: baserock/genivi/baseline
+  repo: upstream:layer_management
+description: Software components designed by genivi, for genivi.
+kind: stratum
+name: genivi-wayland-x86_64-generic

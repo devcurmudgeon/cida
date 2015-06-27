@@ -1,0 +1,53 @@
+build-depends:
+- morph: build-essential
+  ref: null
+  repo: null
+- morph: core
+  ref: null
+  repo: null
+- morph: foundation
+  ref: null
+  repo: null
+chunks:
+- build-depends: []
+  name: configobj
+  ref: baserock/morph
+  repo: upstream:configobj
+- build-depends: []
+  name: python-requests
+  ref: baserock/morph
+  repo: upstream:python-requests
+- build-depends: []
+  name: python-prettytable
+  ref: baserock/morph
+  repo: upstream:python-prettytable
+- build-depends: []
+  name: python-json-patch
+  ref: baserock/morph
+  repo: upstream:python-json-patch
+- build-depends:
+  - python-json-patch
+  name: python-json-pointer
+  ref: baserock/morph
+  repo: upstream:python-json-pointer
+- build-depends: []
+  name: python-cheetah
+  ref: baserock/morph
+  repo: upstream:python-cheetah
+- build-depends: []
+  name: boto
+  ref: baserock/morph
+  repo: upstream:boto
+- build-depends:
+  - boto
+  - configobj
+  - python-requests
+  - python-prettytable
+  - python-json-pointer
+  - python-cheetah
+  name: cloud-init
+  ref: baserock/morph
+  repo: upstream:cloud-init
+description: A stratum with cloudinit to fit a system in the OpenStack cloud.
+kind: stratum
+name: cloudinit-support
